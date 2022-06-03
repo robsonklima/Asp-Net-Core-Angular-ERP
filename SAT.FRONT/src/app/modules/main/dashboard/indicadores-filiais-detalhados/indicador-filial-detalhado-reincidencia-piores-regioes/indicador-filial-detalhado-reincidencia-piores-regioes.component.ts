@@ -50,13 +50,13 @@ export class IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent implemen
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaRegiao
+    const reincidenciaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaRegiao
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeRegiao);
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = reincidenciaRegiao.map(s => s.nomeRegiao);
+    const values = reincidenciaRegiao.map(s => s.percentual);
     
     this.regiaoChart = {
       series: [{ data: values }],

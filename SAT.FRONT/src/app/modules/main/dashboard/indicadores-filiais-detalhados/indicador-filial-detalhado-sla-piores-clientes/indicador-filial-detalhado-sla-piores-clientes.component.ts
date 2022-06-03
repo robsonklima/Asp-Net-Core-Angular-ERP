@@ -50,13 +50,14 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLACliente
+    const slaCliente = data.viewDashboardIndicadoresDetalhadosSLACliente
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .filter(s => s.percentual < 100)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeFantasia);
-    const values = slaRegiao.map(s => s.percentual);
+    console.log(slaCliente);    
+
+    const labels = slaCliente.map(s => s.nomeFantasia);
+    const values = slaCliente.map(s => s.percentual);
     
     this.clienteChart = {
       series: [{ data: values }],

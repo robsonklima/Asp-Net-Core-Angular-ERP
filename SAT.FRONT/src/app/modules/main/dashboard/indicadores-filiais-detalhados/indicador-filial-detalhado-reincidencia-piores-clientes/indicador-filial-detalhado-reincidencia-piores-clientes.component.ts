@@ -48,13 +48,13 @@ export class IndicadorFilialDetalhadoReincidenciaPioresClientesComponent impleme
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaCliente
+    const reincidenciaCliente = data.viewDashboardIndicadoresDetalhadosReincidenciaCliente
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeFantasia);
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = reincidenciaCliente.map(s => s.nomeFantasia);
+    const values = reincidenciaCliente.map(s => s.percentual);
     
     this.clienteChart = {
       series: [{ data: values }],

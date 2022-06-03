@@ -48,13 +48,13 @@ export class IndicadorFilialDetalhadoPendenciaPioresRegioesComponent implements 
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaRegiao
+    const pendenciaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaRegiao
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
-      .slice(0, 10);  
-    
-    const labels = slaRegiao.map(s => s.nomeRegiao);
-    const values = slaRegiao.map(s => s.percentual);
+      .slice(0, 10);          
+
+    const labels = pendenciaRegiao.map(s => s.nomeRegiao);
+    const values = pendenciaRegiao.map(s => s.percentual);
     
     this.regiaoChart = {
       series: [{ data: values }],

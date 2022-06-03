@@ -86,11 +86,11 @@ export class PendenciaFiliaisComponent extends Filterable implements OnInit, IFi
       .viewDashboardPendenciaGlobal).firstOrDefault();
     let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.PENDENCIA_FILIAIS }).toPromise())
       .viewDashboardPendenciaFiliais;
-
+    
     if (data?.length) {
       data = Enumerable.from(data).orderByDescending(ord => ord.pendencia).toArray();
       let labels = data.map(d => d.filial);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.pendencia);
+      let valoresColuna = data.map(d => d.pendencia);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;

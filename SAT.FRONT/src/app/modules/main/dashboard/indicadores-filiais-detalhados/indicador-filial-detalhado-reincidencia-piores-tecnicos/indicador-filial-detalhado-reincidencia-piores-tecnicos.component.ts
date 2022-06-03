@@ -50,13 +50,13 @@ export class IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent impleme
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaTecnico
+    const reincidenciaTecnico = data.viewDashboardIndicadoresDetalhadosReincidenciaTecnico
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeTecnico.split(" ").shift());
-    const values = slaRegiao.map(s => s.percentual);
+    const labels = reincidenciaTecnico.map(s => s.nomeTecnico.split(" ").shift());
+    const values = reincidenciaTecnico.map(s => s.percentual);
     
     this.tecnicoChart = {
       series: [{ data: values }],

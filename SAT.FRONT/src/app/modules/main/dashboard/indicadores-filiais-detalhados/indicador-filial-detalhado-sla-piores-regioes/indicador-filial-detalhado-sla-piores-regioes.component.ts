@@ -52,7 +52,6 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
 
     const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLARegiao
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .filter(s => s.percentual < 100)
       .slice(0, 10);  
     
     const labels = slaRegiao.map(s => s.nomeRegiao);

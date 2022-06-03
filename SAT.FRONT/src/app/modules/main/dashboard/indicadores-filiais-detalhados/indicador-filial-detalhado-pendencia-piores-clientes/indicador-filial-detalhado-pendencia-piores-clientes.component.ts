@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -50,13 +48,13 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente
+    const pendenciaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
-      .slice(0, 10);  
-    
-    const labels = slaCliente.map(s => s.nomeFantasia);
-    const values = [];
+      .slice(0, 10);               
+
+    const labels = pendenciaCliente.map(s => s.nomeFantasia);
+    const values = pendenciaCliente.map(s => s.percentual);
     
     this.clienteChart = {
       series: [{ data: values }],

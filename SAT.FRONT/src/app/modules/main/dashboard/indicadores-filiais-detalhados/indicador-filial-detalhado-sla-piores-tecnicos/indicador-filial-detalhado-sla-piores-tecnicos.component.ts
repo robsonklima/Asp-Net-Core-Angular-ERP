@@ -50,7 +50,6 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
 
     const slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .filter(s => s.percentual < 100)
       .slice(0, 10);  
     
     const labels = slaTecnico.map(s => s.nomeTecnico.split(" ").shift());

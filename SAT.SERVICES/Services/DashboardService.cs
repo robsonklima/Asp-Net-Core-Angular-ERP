@@ -52,10 +52,10 @@ namespace SAT.SERVICES.Services
                     viewDashboard.ViewDashboardSPA = this._dashboardRepository.ObterDadosSPA();
                     break;
                 case DashboardViewEnum.SPA_TECNICOS_MENOR_DESEMPENHO:
-                    viewDashboard.ViewDashboardSPATecnicosMenorDesempenho = this._dashboardRepository.ObterDadosSPATecnicosMenorDesempenho();
+                    viewDashboard.ViewDashboardSPATecnicosMenorDesempenho = this._dashboardRepository.ObterDadosSPATecnicosMenorDesempenho(parameters);
                     break;
                 case DashboardViewEnum.SPA_TECNICOS_MAIOR_DESEMPENHO:
-                    viewDashboard.ViewDashboardSPATecnicosMaiorDesempenho = this._dashboardRepository.ObterDadosSPATecnicosMaiorDesempenho();
+                    viewDashboard.ViewDashboardSPATecnicosMaiorDesempenho = this._dashboardRepository.ObterDadosSPATecnicosMaiorDesempenho(parameters);
                     break;
                 case DashboardViewEnum.SLA_CLIENTES:
                     viewDashboard.ViewDashboardSLAClientes = this._dashboardRepository.ObterDadosSLAClientes();

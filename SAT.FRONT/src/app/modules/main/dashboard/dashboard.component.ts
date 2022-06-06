@@ -23,6 +23,7 @@ export class DashboardComponent implements AfterViewInit {
   usuarioSessao: UsuarioSessao;
   slides: string[] = [];
   filtro: any;
+  permiteTrocarSlideAutomaticamente: boolean = true;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -42,6 +43,9 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private trocarDashboardOuSlide(): void {
+    if (!this.permiteTrocarSlideAutomaticamente)
+      return
+
     if (this.tabGroup.selectedIndex != this.tabGroup._tabs.length - 1) {
       this.tabGroup.selectedIndex = this.tabGroup.selectedIndex + 1;
     } else {

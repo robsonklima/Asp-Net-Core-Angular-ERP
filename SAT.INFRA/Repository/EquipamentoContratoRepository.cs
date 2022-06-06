@@ -22,6 +22,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(EquipamentoContrato equipamentoContrato)
         {
+
             _context.ChangeTracker.Clear();
             EquipamentoContrato equip = _context.EquipamentoContrato.SingleOrDefault(e => e.CodEquipContrato == equipamentoContrato.CodEquipContrato);
 
@@ -145,10 +146,28 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo.HasValue)
                 equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
 
+            if (!string.IsNullOrEmpty(parameters.CodPostos))
+            {
+                var locais = parameters.CodPostos.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => locais.Any(p => p == e.CodPosto.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
                 equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodRegioes))
+            {
+                var regioes = parameters.CodRegioes.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => regioes.Any(p => p == e.CodRegiao.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+            {
+                var autorizadas = parameters.CodAutorizadas.Split(',').Select(a => a.Trim());
+                equips = equips.Where(e => autorizadas.Any(p => p == e.CodAutorizada.ToString()));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodTipoEquips))

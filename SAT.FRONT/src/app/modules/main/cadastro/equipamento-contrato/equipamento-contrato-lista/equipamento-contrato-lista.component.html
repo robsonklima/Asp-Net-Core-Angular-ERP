@@ -39,8 +39,7 @@
                     <ng-container>
                         <div class="grid">
                             <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                matSort matSortDisableClear
-                                *transloco="let t">
+                                matSort matSortDisableClear *transloco="let t">
                                 <div class="md:block" [mat-sort-header]="'codEquipContrato'">
                                     {{ t('codigo') }}
                                 </div>
@@ -57,7 +56,7 @@
                                     {{ t('tipo contrato') }}
                                 </div>
                                 <div class="md:block">
-                                    {{ t('modelo') }}
+                                    {{ t('local') }}
                                 </div>
                                 <div class="md:block">
                                     {{ t('tipo') }}
@@ -96,7 +95,7 @@
                                 <div class="flex">
                                     {{ equip.codEquipContrato || t('---') }}
                                 </div>
-                                <div class="flex">
+                                <div class="flex" [matTooltip]="'Modelo: ' + equip.equipamento?.nomeEquip || t('---')">
                                     {{ equip.numSerie || t('---') }}
                                 </div>
                                 <div class="flex truncate">
@@ -108,13 +107,26 @@
                                 <div class="flex truncate">
                                     {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('---') }}
                                 </div>
-                                <div class="flex truncate" [matTooltip]="equip.equipamento?.nomeEquip || t('---')">
-                                    {{ equip.equipamento?.nomeEquip || t('---') }}
+                                <div class="flex truncate" 
+                                     [matTooltip]="
+                                                equip.localAtendimento?.endereco + ', ' +
+                                                equip.localAtendimento?.cidade?.nomeCidade + ' - ' + 
+                                                equip.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
+                                                || t('---')">
+
+                                        {{
+                                            equip.localAtendimento?.numAgencia + '/' +
+                                            equip.localAtendimento?.dcPosto + ' ' +
+                                            equip.localAtendimento?.nomeLocal
+                                            || t('---')
+                                        }}
                                 </div>
-                                <div class="flex truncate" [matTooltip]="equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---')">
+                                <div class="flex truncate"
+                                    [matTooltip]="equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---')">
                                     {{ equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---') }}
                                 </div>
-                                <div class="flex truncate" [matTooltip]="equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') ">
+                                <div class="flex truncate"
+                                    [matTooltip]="equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') ">
                                     {{ equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') }}
                                 </div>
                                 <div class="flex">
@@ -126,7 +138,8 @@
                                 <div class="flex truncate">
                                     {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('---') }}
                                 </div>
-                                <div class="truncate rounded text-white text-center" [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
+                                <div class="truncate rounded text-white text-center"
+                                    [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
                                     {{ equip.indAtivo ? 'Ativo' : 'Inativo' }}
                                 </div>
                             </div>

@@ -1,3 +1,8 @@
+import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
+import { LocalAtendimento, LocalAtendimentoParameters } from './../../../../../core/types/local-atendimento.types';
+import { Regiao } from 'app/core/types/regiao.types';
+import { FilialService } from 'app/core/services/filial.service';
+import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { TipoEquipamento, TipoEquipamentoParameters } from 'app/core/types/tipo-equipamento.types';
 import { statusConst } from '../../../../../core/types/status-types';
 import { UserService } from '../../../../../core/user/user.service';
@@ -19,6 +24,11 @@ import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.servi
 import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
 import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import Enumerable from 'linq';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
+import { AutorizadaService } from 'app/core/services/autorizada.service';
 
 
 @Component({
@@ -34,6 +44,10 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	contratos: Contrato[] = [];
 	contratoFilterCtrl: FormControl = new FormControl();
 	equipamentos: Equipamento[] = [];
+	locaisAtendimento: LocalAtendimento[] = [];
+	filiais: Filial[] = [];
+	regioes: Regiao[] = [];
+	autorizadas: Autorizada[] = [];
 	tipoEquipamentos: TipoEquipamento[] = [];
 	grupoEquipamentos: GrupoEquipamento[] = [];
 	tipoContratos: TipoContrato[] = [];
@@ -48,10 +62,14 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 		private _clienteService: ClienteService,
 		private _contratoService: ContratoService,
+		private _filialService: FilialService,
 		private _equipamentoService: EquipamentoService,
 		private _tipoEquipamentoService: TipoEquipamentoService,
 		private _grupoEquipamentoService: GrupoEquipamentoService,
 		private _tipoContratoService: TipoContratoService,
+		private _regiaoAutorizadaService: RegiaoAutorizadaService,
+		private _localAtendimentoSvc: LocalAtendimentoService,
+		private _autorizadaService: AutorizadaService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
@@ -67,6 +85,10 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.obterClientes();
 		this.obterTipoContratos();
 		this.obterEquipamentos();
+		this.obterLocaisAtendimentos();
+		this.obterFiliais();
+		this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+		this.obterAutorizadas(this.form.controls['codFiliais'].value);
 		this.obterTipoEquipamentos();
 		this.obterGrupoEquipamentos();
 		this.registrarEmitters();
@@ -79,6 +101,10 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			numSerie: [undefined],
 			codTipoContratos: [undefined],
 			codEquips: [undefined],
+			codPostos: [undefined],
+			codFiliais: [undefined],
+			codRegioes: [undefined],
+			codAutorizadas: [undefined],
 			codTipoEquips: [undefined],
 			codGrupoEquips: [undefined],
 			codContratos: [undefined]
@@ -167,6 +193,67 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.contratos = data.items;
 	}
 
+	async obterFiliais() {
+		let params: FilialParameters = {
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeFilial',
+			sortDirection: 'asc'
+		};
+
+		const data = await this._filialService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.filiais = data.items;
+	}
+
+	async obterRegioesAutorizadas(filialFilter: any = '') {
+		let params: RegiaoAutorizadaParameters = {
+			indAtivo: statusConst.ATIVO,
+			codFiliais: filialFilter,
+			pageSize: 1000
+		};
+
+		const data = await this._regiaoAutorizadaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.regioes = Enumerable.from(data.items).where(ra => ra.regiao?.indAtivo == 1).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(i => i.nomeRegiao).toArray();
+	}
+
+	async obterAutorizadas(filialFilter: any = '') {
+		let params: AutorizadaParameters = {
+			indAtivo: statusConst.ATIVO,
+			codFiliais: filialFilter,
+			pageSize: 1000
+		};
+
+		const data = await this._autorizadaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
+	}
+
+	async obterLocaisAtendimentos() {
+		let params: LocalAtendimentoParameters = {
+			indAtivo: statusConst.ATIVO,
+			codFiliais: this.form.controls['codFiliais'].value,
+			codClientes: this.form.controls['codClientes'].value,
+			codRegioes: this.form.controls['codRegioes'].value,
+			codAutorizada: this.form.controls['codAutorizadas'].value,
+			sortActive: 'nomeLocal',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
+
+		const data = await this._localAtendimentoSvc
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
+	}
+
 	limpar() {
 		super.limpar();
 
@@ -194,7 +281,20 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
+				this.obterLocaisAtendimentos();
 				this.obterContratos(this.clienteFilterCtrl.value);
+			});
+
+		this.form.controls['codFiliais'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocaisAtendimentos();
+				this.obterAutorizadas(this.form.controls['codFiliais'].value);
+				this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
 			});
 
 		this.contratoFilterCtrl.valueChanges

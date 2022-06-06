@@ -39,9 +39,7 @@
                     <ng-container>
                         <div class="grid">
                             <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                z-10 sticky top-0 grid gap-4 py-2 px-4 md:px- shadow text-xs font-semibold
-                                text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 matSort matSortDisableClear
-                                *transloco="let t">
+                                matSort matSortDisableClear *transloco="let t">
                                 <div class="md:block" [mat-sort-header]="'codEquipContrato'">
                                     {{ t('codigo') }}
                                 </div>
@@ -58,7 +56,13 @@
                                     {{ t('tipo contrato') }}
                                 </div>
                                 <div class="md:block">
-                                    {{ t('modelo') }}
+                                    {{ t('local') }}
+                                </div>
+                                <div class="md:block">
+                                    {{ t('tipo') }}
+                                </div>
+                                <div class="md:block">
+                                    {{ t('grupo') }}
                                 </div>
                                 <div class="md:block">
                                     {{ t('filial') }}
@@ -89,33 +93,53 @@
                             <div class="list-grid-contrato grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
                                 *transloco="let t">
                                 <div class="flex">
-                                    {{ equip.codEquipContrato || t('nao informado') }}
+                                    {{ equip.codEquipContrato || t('---') }}
+                                </div>
+                                <div class="flex" [matTooltip]="'Modelo: ' + equip.equipamento?.nomeEquip || t('---')">
+                                    {{ equip.numSerie || t('---') }}
+                                </div>
+                                <div class="flex truncate">
+                                    {{ equip.cliente?.nomeFantasia || t('---') }}
+                                </div>
+                                <div class="flex truncate">
+                                    {{ equip.contrato?.nomeContrato || t('---') }}
+                                </div>
+                                <div class="flex truncate">
+                                    {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('---') }}
+                                </div>
+                                <div class="flex truncate" 
+                                     [matTooltip]="
+                                                equip.localAtendimento?.endereco + ', ' +
+                                                equip.localAtendimento?.cidade?.nomeCidade + ' - ' + 
+                                                equip.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
+                                                || t('---')">
+
+                                        {{
+                                            equip.localAtendimento?.numAgencia + '/' +
+                                            equip.localAtendimento?.dcPosto + ' ' +
+                                            equip.localAtendimento?.nomeLocal
+                                            || t('---')
+                                        }}
+                                </div>
+                                <div class="flex truncate"
+                                    [matTooltip]="equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---')">
+                                    {{ equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---') }}
+                                </div>
+                                <div class="flex truncate"
+                                    [matTooltip]="equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') ">
+                                    {{ equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') }}
                                 </div>
                                 <div class="flex">
-                                    {{ equip.numSerie || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.filial?.nomeFilial || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.cliente?.nomeFantasia || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.regiao?.nomeRegiao || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.contrato?.nomeContrato || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('---') }}
                                 </div>
-                                <div class="flex truncate">
-                                    {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('nao informado') }}
-                                </div>
-                                <div class="flex truncate">
-                                    {{ equip.equipamento?.nomeEquip || t('nao informado') }}
-                                </div>
-                                <div class="flex">
-                                    {{ equip.regiaoAutorizada?.filial?.nomeFilial || t('nao informado') }}
-                                </div>
-                                <div class="flex truncate">
-                                    {{ equip.regiaoAutorizada?.regiao?.nomeRegiao || t('nao informado') }}
-                                </div>
-                                <div class="flex truncate">
-                                    {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('nao informado') }}
-                                </div>
-                                <div class="truncate rounded text-white text-center" [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
+                                <div class="truncate rounded text-white text-center"
+                                    [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
                                     {{ equip.indAtivo ? 'Ativo' : 'Inativo' }}
                                 </div>
                             </div>

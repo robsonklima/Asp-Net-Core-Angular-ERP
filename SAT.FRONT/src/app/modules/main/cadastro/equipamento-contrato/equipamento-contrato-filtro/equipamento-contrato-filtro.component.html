@@ -22,6 +22,10 @@
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
+                            'codCliente')" [value]="0">
+                            TODAS
+                        </mat-option>
                         <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                             {{ cliente.nomeFantasia }}
                         </mat-option>
@@ -57,6 +61,60 @@
                 </mat-form-field>    
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('modelo') }}</mat-label>
+                    <mat-select formControlName="codEquips" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>    
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('tipo equipamento') }}</mat-label>
+                    <mat-select formControlName="codTipoEquips" multiple="true">
+                        <mat-option *ngFor="let tipoEquip of tipoEquipamentos" [value]="tipoEquip.codTipoEquip">
+                            {{ tipoEquip.nomeTipoEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>    
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('grupo de equipamento') }}</mat-label>
+                    <mat-select formControlName="codGrupoEquips" multiple="true">
+                        <mat-option *ngFor="let grupoEquip of grupoEquipamentos" [value]="grupoEquip.codGrupoEquip">
+                            {{ grupoEquip.nomeGrupoEquip}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('nro serie') }}</mat-label>
+                    <input matInput formControlName="numSerie">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('local de atendimento') }}</mat-label>
+
+                    <mat-select formControlName="codPostos" multiple="true">
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codPostos, locaisAtendimento, 'codPosto')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let localAtendimento of locaisAtendimento"
+                            [value]="localAtendimento.codPosto">
+                            {{ localAtendimento.nomeLocal }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
                     <mat-select formControlName="indAtivo">
                         <mat-option [value]="1">
@@ -67,6 +125,46 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('filial') }}</mat-label>
+                    <mat-select formControlName="codFiliais" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
+                            'codFilial')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('regiao') }}</mat-label>
+                    <mat-select formControlName="codRegioes" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
+                            'codRegiao')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
+                            {{ regiao.nomeRegiao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('autorizada') }}</mat-label>
+                    <mat-select formControlName="codAutorizadas" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codAutorizadas, autorizadas,
+                            'codAutorizada')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
+                            {{ autorizada.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
             </div>
 
             <div class="mt-6 border-t"></div>

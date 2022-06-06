@@ -22,6 +22,7 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(EquipamentoContrato equipamentoContrato)
         {
+
             _context.ChangeTracker.Clear();
             EquipamentoContrato equip = _context.EquipamentoContrato.SingleOrDefault(e => e.CodEquipContrato == equipamentoContrato.CodEquipContrato);
 
@@ -33,9 +34,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -65,9 +66,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -145,10 +146,46 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo.HasValue)
                 equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
 
+            if (!string.IsNullOrEmpty(parameters.CodPostos))
+            {
+                var locais = parameters.CodPostos.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => locais.Any(p => p == e.CodPosto.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
                 equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodRegioes))
+            {
+                var regioes = parameters.CodRegioes.Split(',').Select(f => f.Trim());
+                equips = equips.Where(e => regioes.Any(p => p == e.CodRegiao.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+            {
+                var autorizadas = parameters.CodAutorizadas.Split(',').Select(a => a.Trim());
+                equips = equips.Where(e => autorizadas.Any(p => p == e.CodAutorizada.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodTipoEquips))
+            {
+                var tipos = parameters.CodTipoEquips.Split(',').Select(t => t.Trim());
+                equips = equips.Where(e => tipos.Any(p => p == e.TipoEquipamento.CodTipoEquip.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodEquips))
+            {
+                var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
+                equips = equips.Where(e => modelos.Any(p => p == e.Equipamento.CodEquip.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodGrupoEquips))
+            {
+                var grupo = parameters.CodGrupoEquips.Split(',').Select(g => g.Trim());
+                equips = equips.Where(e => grupo.Any(p => p == e.GrupoEquipamento.CodGrupoEquip.ToString()));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodEquipamentos))

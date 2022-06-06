@@ -33,9 +33,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -65,9 +65,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -149,6 +149,18 @@ namespace SAT.INFRA.Repository
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
                 equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodTipoEquips))
+            {
+                var tipos = parameters.CodTipoEquips.Split(',').Select(t => t.Trim());
+                equips = equips.Where(e => tipos.Any(p => p == e.TipoEquipamento.CodTipoEquip.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodGrupoEquips))
+            {
+                var grupo = parameters.CodGrupoEquips.Split(',').Select(g => g.Trim());
+                equips = equips.Where(e => grupo.Any(p => p == e.GrupoEquipamento.CodGrupoEquip.ToString()));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodEquipamentos))

@@ -12,6 +12,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule, registerLocaleData } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -119,6 +120,7 @@ registerLocaleData(ptBR);
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatTooltipModule,
+    MatSlideToggleModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatSelectModule,

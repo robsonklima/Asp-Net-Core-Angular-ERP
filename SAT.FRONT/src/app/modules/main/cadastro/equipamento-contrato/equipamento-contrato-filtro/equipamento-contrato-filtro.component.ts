@@ -17,6 +17,8 @@ import { TipoContratoService } from 'app/core/services/tipo-contrato.service';
 import { GrupoEquipamento, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
 import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
 import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
+import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
 
 
 @Component({
@@ -31,9 +33,11 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	clienteFilterCtrl: FormControl = new FormControl();
 	contratos: Contrato[] = [];
 	contratoFilterCtrl: FormControl = new FormControl();
+	equipamentos: Equipamento[] = [];
 	tipoEquipamentos: TipoEquipamento[] = [];
 	grupoEquipamentos: GrupoEquipamento[] = [];
 	tipoContratos: TipoContrato[] = [];
+	equipamentoFilterCtrl: FormControl = new FormControl();
 	tipoContratoFilterCtrl: FormControl = new FormControl();
 	tipoEquipamentoFilterCtrl: FormControl = new FormControl();
 	grupoEquipamentoFilterCtrl: FormControl = new FormControl();
@@ -44,6 +48,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 		private _clienteService: ClienteService,
 		private _contratoService: ContratoService,
+		private _equipamentoService: EquipamentoService,
 		private _tipoEquipamentoService: TipoEquipamentoService,
 		private _grupoEquipamentoService: GrupoEquipamentoService,
 		private _tipoContratoService: TipoContratoService,
@@ -61,6 +66,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	loadData(): void {
 		this.obterClientes();
 		this.obterTipoContratos();
+		this.obterEquipamentos();
 		this.obterTipoEquipamentos();
 		this.obterGrupoEquipamentos();
 		this.registrarEmitters();
@@ -70,7 +76,9 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.form = this._formBuilder.group({
 			codClientes: [undefined],
 			indAtivo: [undefined],
+			numSerie: [undefined],
 			codTipoContratos: [undefined],
+			codEquips: [undefined],
 			codTipoEquips: [undefined],
 			codGrupoEquips: [undefined],
 			codContratos: [undefined]
@@ -105,6 +113,19 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.tipoContratos = data.items;
 	}
 
+	async obterEquipamentos(filtro: string = '') {
+		let params: EquipamentoParameters = {
+			filter: filtro,
+			sortActive: 'nomeEquip',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
+		const data = await this._equipamentoService
+			.obterPorParametros(params)
+			.toPromise();
+		this.equipamentos = data.items;
+	}
+
 	async obterTipoEquipamentos(filtro: string = '') {
 		let params: TipoEquipamentoParameters = {
 			filter: filtro,
@@ -135,7 +156,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		let params: ContratoParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			codClientes: this.codClientesSelected,
+			codClientes: this.form.controls['codClientes'].value.join(','),
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -163,9 +184,17 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-				this.codClientesSelected = this.form.controls['codClientes'].value.join(',');
-				this.obterContratos();
 				this.obterClientes(this.clienteFilterCtrl.value);
+			});
+
+		this.form.controls['codClientes'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterContratos(this.clienteFilterCtrl.value);
 			});
 
 		this.contratoFilterCtrl.valueChanges
@@ -188,24 +217,14 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 				this.obterTipoContratos(this.tipoContratoFilterCtrl.value);
 			});
 
-		this.tipoEquipamentoFilterCtrl.valueChanges
+		this.equipamentoFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-				this.obterTipoEquipamentos(this.tipoEquipamentoFilterCtrl.value);
-			});
-
-		this.grupoEquipamentoFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterGrupoEquipamentos(this.grupoEquipamentoFilterCtrl.value);
+				this.obterEquipamentos(this.equipamentoFilterCtrl.value);
 			});
 	}
 

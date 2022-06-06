@@ -94,37 +94,37 @@
                             <div class="list-grid-contrato grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
                                 *transloco="let t">
                                 <div class="flex">
-                                    {{ equip.codEquipContrato || t('nao informado') }}
+                                    {{ equip.codEquipContrato || t('---') }}
                                 </div>
                                 <div class="flex">
-                                    {{ equip.numSerie || t('nao informado') }}
+                                    {{ equip.numSerie || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.cliente?.nomeFantasia || t('nao informado') }}
+                                    {{ equip.cliente?.nomeFantasia || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.contrato?.nomeContrato || t('nao informado') }}
+                                    {{ equip.contrato?.nomeContrato || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('nao informado') }}
+                                    {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('---') }}
                                 </div>
-                                <div class="flex truncate">
-                                    {{ equip.equipamento?.nomeEquip || t('nao informado') }}
+                                <div class="flex truncate" [matTooltip]="equip.equipamento?.nomeEquip || t('---')">
+                                    {{ equip.equipamento?.nomeEquip || t('---') }}
                                 </div>
-                                <div class="flex truncate">
-                                    {{ equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('nao informado') }}
+                                <div class="flex truncate" [matTooltip]="equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---')">
+                                    {{ equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---') }}
                                 </div>
-                                <div class="flex truncate">
-                                    {{ equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('nao informado') }}
+                                <div class="flex truncate" [matTooltip]="equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') ">
+                                    {{ equip.equipamento?.grupoEquipamento?.nomeGrupoEquip || t('---') }}
                                 </div>
                                 <div class="flex">
-                                    {{ equip.regiaoAutorizada?.filial?.nomeFilial || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.filial?.nomeFilial || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.regiaoAutorizada?.regiao?.nomeRegiao || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.regiao?.nomeRegiao || t('---') }}
                                 </div>
                                 <div class="flex truncate">
-                                    {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('nao informado') }}
+                                    {{ equip.regiaoAutorizada?.autorizada?.nomeFantasia || t('---') }}
                                 </div>
                                 <div class="truncate rounded text-white text-center" [class.bg-green-600]="equip.indAtivo" [class.bg-red-600]="!equip.indAtivo">
                                     {{ equip.indAtivo ? 'Ativo' : 'Inativo' }}

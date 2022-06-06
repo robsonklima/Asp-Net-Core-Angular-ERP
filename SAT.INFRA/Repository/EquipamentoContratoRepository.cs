@@ -157,6 +157,12 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(e => tipos.Any(p => p == e.TipoEquipamento.CodTipoEquip.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodEquips))
+            {
+                var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
+                equips = equips.Where(e => modelos.Any(p => p == e.Equipamento.CodEquip.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodGrupoEquips))
             {
                 var grupo = parameters.CodGrupoEquips.Split(',').Select(g => g.Trim());

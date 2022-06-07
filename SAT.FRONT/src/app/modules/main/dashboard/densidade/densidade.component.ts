@@ -46,7 +46,6 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	constructor(
 		private _dashboardService: DashboardService,
 		protected _userService: UserService,
-		private _filialService: FilialService
 	) {
 		super(_userService, 'dashboard-densidade')
 		this.usuarioSessao = JSON.parse(this._userService.userSession);
@@ -97,7 +96,9 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	private async obterTecnicos(codFilial: number = null) {
 		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
-			codFilial: codFilial || this.usuarioSessao.usuario.codFilial
+			codFilial: codFilial || this.usuarioSessao.usuario.codFilial,
+			codRegiao: this.filter?.parametros.codRegiao ,
+			codAutorizada: this.filter?.parametros.codAutorizada
 		}).toPromise();
 
 		const tecnicos = data.viewDashboardDensidadeTecnicos;

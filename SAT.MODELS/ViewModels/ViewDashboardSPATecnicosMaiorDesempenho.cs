@@ -7,5 +7,6 @@
         public string Filial { get; set; }
         public decimal? SPA { get; set; }
         public int? QtdAtendimentos { get; set; }
+        public decimal? OSMedTec { get; set; }
     }
 }

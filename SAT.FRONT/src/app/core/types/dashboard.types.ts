@@ -200,6 +200,7 @@ export class ViewDashboardSPATecnicosDesempenho {
 	filial: string;
 	spa?: number;
 	qtdAtendimentos?: number;
+	osMedTec?: number;
 }
 
 export class ViewDashboardReincidenciaTecnicosReincidentes {

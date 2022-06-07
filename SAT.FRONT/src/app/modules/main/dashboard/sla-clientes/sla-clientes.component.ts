@@ -52,6 +52,7 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
   private meta: number = 95;
   private redColor: string = "#cc0000";
   private greenColor: string = "#009900";
+  private yellowColor: string = "#ffcc00";
 
   constructor(
     private _dashboardService: DashboardService,
@@ -86,11 +87,11 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;
-      this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);
+      this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor, this.yellowColor);
     }
   }
 
-  private inicializarGrafico(labels: string[], valoresColuna: number[], valoresLinha: number[], meta: number, greenColor: string, redColor: string) {
+  private inicializarGrafico(labels: string[], valoresColuna: number[], valoresLinha: number[], meta: number, greenColor: string, redColor: string, yellowColor: string) {
     this.chartOptions = {
       series: [
         {
@@ -111,10 +112,14 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
       },
       colors: [
         function ({ value }) {
-          if (value < meta) {
-            return redColor;
-          } else {
+          if (value >= meta) {
             return greenColor;
+          } else {
+                    if (value > 90) {
+                      return yellowColor;
+                    } else {
+                      return redColor;
+                    }
           }
         }
       ],

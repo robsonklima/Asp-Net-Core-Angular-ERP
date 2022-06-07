@@ -16,8 +16,8 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardDisponibilidadeTecnicos> ObterIndicadorDisponibilidadeTecnicos();
         List<ViewDashboardDisponibilidadeTecnicosMediaGlobal> ObterIndicadorDisponibilidadeTecnicosMediaGlobal();
         List<ViewDashboardSPA> ObterDadosSPA();
-        List<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho();
-        List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho();
+        List<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho(DashboardParameters parameters);
+        List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho(DashboardParameters parameters);
         List<ViewDashboardSLAClientes> ObterDadosSLAClientes();
         List<ViewDashboardReincidenciaFiliais> ObterDadosReincidenciaFiliais();
         List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(DashboardParameters parameters);

@@ -87,13 +87,19 @@ namespace SAT.INFRA.Repository
             return this._context.ViewDashboardReincidenciaClientes.ToList();
         }
 
-        public List<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho()
+        public List<ViewDashboardSPATecnicosMenorDesempenho> ObterDadosSPATecnicosMenorDesempenho(DashboardParameters parameters)
         {
+            if (parameters.CodFilial.HasValue)
+                return this._context.ViewDashboardSPATecnicosMenorDesempenho.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
+
             return this._context.ViewDashboardSPATecnicosMenorDesempenho.ToList();
         }
 
-        public List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho()
+        public List<ViewDashboardSPATecnicosMaiorDesempenho> ObterDadosSPATecnicosMaiorDesempenho(DashboardParameters parameters)
         {
+            if (parameters.CodFilial.HasValue)
+                return this._context.ViewDashboardSPATecnicosMaiorDesempenho.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
+            
             return this._context.ViewDashboardSPATecnicosMaiorDesempenho.ToList();
         }
 

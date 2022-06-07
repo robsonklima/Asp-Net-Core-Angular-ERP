@@ -195,6 +195,7 @@ export class ViewDashboardReincidenciaClientes {
 }
 
 export class ViewDashboardSPATecnicosDesempenho {
+	codFilial?: number;
 	tecnico: string;
 	filial: string;
 	spa?: number;

@@ -1,38 +1,35 @@
-<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-    <div class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-        <div class="flex items-start justify-between">
-            <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                Mapa de Densidade
-            </div>
-            
-            <div class="ml-2 -mt-2 -mr-3">
-                <button
-                    mat-icon-button
-                    [matMenuTriggerFor]="featuresMenu"
-                    [disabled]="usuarioSessao.usuario.codFilial">
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                </button>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-densidade-filtro [sidenav]="sidenav"></app-densidade-filtro>
+    </mat-drawer>
 
-                <mat-menu class="max-h-80" #featuresMenu="matMenu">
-                    <button mat-menu-item *ngFor="let filial of filiais" (click)="selecionarFilial(filial.codFilial)">
-                        {{ filial.nomeFilial }}
+    <div *transloco="let t" class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+        <div class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex items-start justify-between">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                    Mapa de Densidade
+                </div>
+
+                <div class="ml-2 -mt-2 -mr-3">
+                    <button mat-icon-button (click)="sidenav.toggle()"
+                        [matTooltip]="t('filtros')"
+                        [disabled]="usuarioSessao.usuario.codFilial">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
-                </mat-menu>
+                </div>
             </div>
-        </div>
 
-        <div class="flex flex-col items-center mt-4">
-            <div class="w-full">
-                <div id="map" class="map" leaflet [leafletOptions]="options" [leafletMarkerCluster]="markerClusterData"
-                    (leafletMapReady)="onMapReady($event)">
+            <div class="flex flex-col items-center mt-4">
+                <div class="w-full">
+                    <div id="map" class="map" leaflet [leafletOptions]="options"
+                        [leafletMarkerCluster]="markerClusterData" (leafletMapReady)="onMapReady($event)">
 
-                    <div class="loading-shade" *ngIf="loading">
-                        <span class="text-lg text-secondary">Carregando...</span>
+                        <div class="loading-shade" *ngIf="loading">
+                            <span class="text-lg text-secondary">Carregando...</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</mat-drawer-container>

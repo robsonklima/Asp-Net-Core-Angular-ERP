@@ -4,6 +4,10 @@
     {
         public int? CodFilial { get; set; }
         public string Filial { get; set; }
+        public int? CodRegiao { get; set; }
+        public string Regiao { get; set; }
+        public int? CodAutorizada { get; set; }
+        public string Autorizada { get; set; }
         public string Equipamento { get; set; }
         public string NumSerie { get; set; }
         public string Cliente { get; set; }

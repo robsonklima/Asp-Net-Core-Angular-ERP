@@ -108,20 +108,17 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 			this.obterDados();
 		});
 
-
 		this._cdr.detectChanges();
 	}
 
 	async obterDados(filter: string = '') {
 		this.isLoading = true;
-
 		const params: EquipamentoContratoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filter
 		};
-
 		const data: EquipamentoContratoData = await this._equipamentoContratoService
 			.obterPorParametros({
 				...params,

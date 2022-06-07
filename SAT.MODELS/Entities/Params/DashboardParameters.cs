@@ -8,5 +8,7 @@ namespace SAT.MODELS.Entities.Params
         public DashboardViewEnum DashboardViewEnum { get; set; }
         public int? CodPeca { get; set; }
         public int? CodFilial { get; set; }
+        public int? CodRegiao { get; set; }
+        public int? CodAutorizada { get; set; }
     }
 }

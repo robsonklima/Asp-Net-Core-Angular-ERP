@@ -61,12 +61,22 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { PendenciaQuadrimestreFilialComponent } from './pendencia-quadrimestre-filial/pendencia-quadrimestre-filial.component';
 import { ReincidenciaQuadrimestreFilialComponent } from './reincidencia-quadrimestre-filial/reincidencia-quadrimestre-filial.component';
 import { IndicadoresFiliaisDetalhadosDialogComponent } from './indicadores-filiais-detalhados/indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { FiltroModule } from '../filtros/filtro.module';
+import { DensidadeFiltroComponent } from './densidade/densidade-filtro/densidade-filtro.component';
 registerLocaleData(ptBR);
 
 @NgModule({
   declarations: [
     DashboardComponent,
     DashboardFiltroComponent,
+    DensidadeFiltroComponent,
     DisponibilidadeBBTSRegioesComponent,
     ChamadosMaisAntigosComponent,
     IndicadoresFiliaisComponent,
@@ -107,26 +117,34 @@ registerLocaleData(ptBR);
     CommonModule,
     RouterModule.forChild(dashboardRoutes),
     LeafletModule,
-    MatButtonModule,
-    MatIconModule,
-    SharedModule,
-    TranslocoModule,
     LeafletMarkerClusterModule,
     MatButtonToggleModule,
-    MatMenuModule,
     MatTabsModule,
     MatTableModule,
     NgApexchartsModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule,
-    MatTooltipModule,
     MatSlideToggleModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatProgressBarModule,
     FuseCardModule,
-    FuseAlertModule
+    FuseAlertModule,
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    TranslocoModule,
+    SharedModule,
+    FuseHighlightModule,
+    MatInputModule,
+    MatSortModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    NgxMatSelectSearchModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatSidenavModule,
+    MatMenuModule,
+    FiltroModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

@@ -152,6 +152,18 @@ namespace SAT.INFRA.Repository
                 equips = equips.Where(e => locais.Any(p => p == e.CodPosto.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodCidades))
+            {
+                var cidades = parameters.CodCidades.Split(',').Select(c => c.Trim());
+                equips = equips.Where(e => cidades.Any(p => p == e.LocalAtendimento.Cidade.CodCidade.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodUfs))
+            {
+                var ufs = parameters.CodUfs.Split(',').Select(uf => uf.Trim());
+                equips = equips.Where(e => ufs.Any(p => p == e.LocalAtendimento.Cidade.CodUF.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());

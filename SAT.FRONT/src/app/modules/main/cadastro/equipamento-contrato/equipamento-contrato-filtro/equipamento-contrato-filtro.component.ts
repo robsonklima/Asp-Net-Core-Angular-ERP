@@ -1,3 +1,7 @@
+import { CidadeService } from 'app/core/services/cidade.service';
+import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
+import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
+import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { LocalAtendimento, LocalAtendimentoParameters } from './../../../../../core/types/local-atendimento.types';
 import { Regiao } from 'app/core/types/regiao.types';
@@ -45,6 +49,8 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	contratoFilterCtrl: FormControl = new FormControl();
 	equipamentos: Equipamento[] = [];
 	locaisAtendimento: LocalAtendimento[] = [];
+	ufs: UnidadeFederativa[] = [];
+	cidades: Cidade[] = [];
 	filiais: Filial[] = [];
 	regioes: Regiao[] = [];
 	autorizadas: Autorizada[] = [];
@@ -69,6 +75,8 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		private _tipoContratoService: TipoContratoService,
 		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		private _localAtendimentoSvc: LocalAtendimentoService,
+		private _unidadeFederativaService: UnidadeFederativaService,
+		private _cidadeService: CidadeService,
 		private _autorizadaService: AutorizadaService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
@@ -81,11 +89,13 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.loadData();
 	}
 
-	loadData(): void {
+	async loadData() {
 		this.obterClientes();
 		this.obterTipoContratos();
 		this.obterEquipamentos();
 		this.obterLocaisAtendimentos();
+		this.obterCidades(); 
+		this.obterUfs(); 
 		this.obterFiliais();
 		this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
 		this.obterAutorizadas(this.form.controls['codFiliais'].value);
@@ -107,7 +117,9 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			codAutorizadas: [undefined],
 			codTipoEquips: [undefined],
 			codGrupoEquips: [undefined],
-			codContratos: [undefined]
+			codContratos: [undefined],
+			codCidades: [undefined],
+			codUfs: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -235,6 +247,32 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
+	async obterCidades(ufFilter: any = '') {
+		let params: CidadeParameters = {
+			indAtivo: statusConst.ATIVO,
+			codUF: ufFilter,
+			pageSize: 500
+		};
+
+		const data = await this._cidadeService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.cidades = Enumerable.from(data.items).orderBy(i => i.nomeCidade).toArray();
+	}
+
+	async obterUfs() {
+		let params: UnidadeFederativaParameters = {
+			pageSize: 1000
+		};
+
+		const data = await this._unidadeFederativaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.ufs = Enumerable.from(data.items).orderBy(i => i.nomeUF).toArray();
+	}
+
 	async obterLocaisAtendimentos() {
 		let params: LocalAtendimentoParameters = {
 			indAtivo: statusConst.ATIVO,
@@ -252,15 +290,6 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.toPromise();
 
 		this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
-	}
-
-	limpar() {
-		super.limpar();
-
-		if (this.userSession?.usuario?.codFilial) {
-			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
-			this.form.controls['codFiliais'].disable();
-		}
 	}
 
 	private registrarEmitters() {
@@ -283,6 +312,16 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.subscribe(() => {
 				this.obterLocaisAtendimentos();
 				this.obterContratos(this.clienteFilterCtrl.value);
+			});
+
+		this.form.controls['codUfs'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterCidades(this.form.controls['codUfs'].value);
 			});
 
 		this.form.controls['codFiliais'].valueChanges
@@ -326,6 +365,15 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.subscribe(() => {
 				this.obterEquipamentos(this.equipamentoFilterCtrl.value);
 			});
+	}
+
+	limpar() {
+		super.limpar();
+
+		if (this.userSession?.usuario?.codFilial) {
+			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
+			this.form.controls['codFiliais'].disable();
+		}
 	}
 
 	ngOnDestroy() {

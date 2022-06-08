@@ -43,22 +43,15 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 	ngOnInit(): void {
 		this.createForm();
 		this.loadData();
-
-		this.form.controls['codFilial'].valueChanges
-		.pipe(
-			takeUntil(this._onDestroy),
-			debounceTime(700),
-			distinctUntilChanged()
-		)
-		.subscribe(() => {
-			this.obterRegioesAutorizadas(this.form.controls['codFilial'].value);
-			this.obterAutorizadas(this.form.controls['codFilial'].value);		});
 	}
 
 	async loadData() {
 		this.obterFiliais();
 		this.obterRegioesAutorizadas(this.form.controls['codFilial'].value);
 		this.obterAutorizadas(this.form.controls['codFilial'].value);
+
+		this.aoSelecionarFilial();
+
 	}
 
 	createForm(): void {
@@ -67,7 +60,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			codRegiao: [undefined],
 			codAutorizada: [undefined],
 		});
-		this.form.patchValue(this.filter);
+		this.form.patchValue(this.filter?.parametros);
 	}
 
 	async obterFiliais() {
@@ -112,12 +105,34 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
+	aoSelecionarFilial() {
+		this.form.controls['codFilial']
+			.valueChanges
+			.subscribe(() => {
+				if ((this.form.controls['codFilial'].value && this.form.controls['codFilial'].value != '')) {
+					var filialFilter: any = this.form.controls['codFilial'].value;
+
+					this.obterRegioesAutorizadas(filialFilter);
+					this.obterAutorizadas(filialFilter);
+
+					this.form.controls['codRegiao'].enable();
+					this.form.controls['codRegiao'].setValue(null);
+					this.form.controls['codAutorizada'].enable();
+				}
+				else {
+					this.form.controls['codRegiao'].disable();
+					this.form.controls['codRegiao'].setValue(null);
+					this.form.controls['codAutorizada'].disable();
+				}
+			});
+	}
+
 	limpar() {
 		super.limpar();
 
 		if (this.userSession?.usuario?.codFilial) {
-			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
-			this.form.controls['codFiliais'].disable();
+			this.form.controls['codFilial'].setValue([this.userSession.usuario.codFilial]);
+			this.form.controls['codFilial'].disable();
 		}
 	}
 

@@ -26,6 +26,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	usuarioSessao: UsuarioSessao;
 	filiais: Filial[] = [];
 	map: Map;
+	markers: any[];
 	markerClusterGroup: L.MarkerClusterGroup;
 	markerClusterData = [];
 	codFilial: number;
@@ -33,7 +34,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	autorizadas: Autorizada[] = [];
 	loading: boolean = true;
 
-	options = {
+	options: L.MapOptions = {
 		layers: [
 			tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				attribution: '&copy; OpenStreetMap'
@@ -51,7 +52,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.usuarioSessao = JSON.parse(this._userService.userSession);
 	}
 	ngAfterViewInit(): void {
-		this.selecionarFilial();
+		this.selecionarFilial(this.filter?.parametros);
 		this.registerEmitters();
 	}
 
@@ -63,7 +64,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 	onSidenavClosed(): void {
 		super.loadFilter();
-		this.selecionarFilial(this.filter?.parametros.codFilial);
+		this.selecionarFilial(this.filter?.parametros);
 	}
 
 	async onMapReady(map: Map) {
@@ -75,35 +76,36 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.loading = false;
 	}
 
-	public async selecionarFilial(codFilial: number = null) {
+	public async selecionarFilial(params = null) {
 		this.loading = true;
-
-		this.limparMapa();
-		await this.obterEquipamentosContrato(codFilial)
-		await this.obterTecnicos(codFilial);
+		
+		if (params.codFilial != null) {
+			this.limparMapa();
+		}
+		await this.obterEquipamentosContrato(params)
+		this.obterTecnicos(params);
 
 		this.loading = false;
 	}
 
 	private limparMapa() {
 		this.map.eachLayer((layer) => {
-			if (layer instanceof L.MarkerClusterGroup) {
+			if (layer instanceof L.MarkerClusterGroup || 
+				layer instanceof L.LayerGroup) {
 				this.map.removeLayer(layer);
 			}
 		})
 	}
 
-	private async obterTecnicos(codFilial: number = null) {
-		const data = await this._dashboardService.obterViewPorParametros({
+	private async obterTecnicos(params: any = null) {
+		let data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
-			codFilial: codFilial || this.usuarioSessao.usuario.codFilial,
-			codRegiao: this.filter?.parametros.codRegiao ,
-			codAutorizada: this.filter?.parametros.codAutorizada
+			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
+			codRegiao: params.codRegiao ,
+			codAutorizada: params.codAutorizada
 		}).toPromise();
 
-		const tecnicos = data.viewDashboardDensidadeTecnicos;
-
-		let markers: any[] = tecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
+		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
 			return {
 				lat: +tecnico.latitude,
 				lng: +tecnico.longitude,
@@ -117,30 +119,32 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			iconAnchor: [15, 32],
 			popupAnchor: [1, -32]
 		});
+		
+		//this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
+		let group = L.layerGroup();
 
-		this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
-
-		markers.forEach((m, i) => {
+		markers.forEach( async (m, i) => {
 			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
-
-			this.markerClusterGroup.addLayer(layer).addTo(this.map);
+			group.addLayer(layer);
 		});
 
+		group.addTo(this.map);
+		
 		this.map.fitBounds(markers);
 		this.map.invalidateSize();
 	}
 
-	private async obterEquipamentosContrato(codFilial: number = null) {
+	private async obterEquipamentosContrato(params: any = null) {
 		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
-			codFilial: codFilial ?? this.usuarioSessao.usuario.codFilial,
-			codRegiao: this.filter?.parametros.codRegiao ,
-			codAutorizada: this.filter?.parametros.codAutorizada
+			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
+			codRegiao: params.codRegiao ,
+			codAutorizada: params.codAutorizada
 		}).toPromise();
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;
 
-		let markers: any[] = densidade.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
+		this.markers = densidade.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
 			return {
 				lat: +equip.latitude,
 				lng: +equip.longitude,
@@ -157,9 +161,8 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 		this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 
-		markers.forEach((m, i) => {
+		this.markers.forEach((m, i) => {
 			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
-
 			this.markerClusterGroup.addLayer(layer).addTo(this.map);
 		});
 	}

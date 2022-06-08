@@ -184,10 +184,16 @@ namespace SAT.INFRA.Repository
 
         public List<ViewDashboardDensidadeTecnicos> ObterDadosDensidadeTecnicos(DashboardParameters parameters)
         {
-            if (parameters.CodFilial.HasValue)
-                return this._context.ViewDashboardDensidadeTecnicos.Where(d => d.CodFilial == parameters.CodFilial).ToList();
+            var query = _context.ViewDashboardDensidadeTecnicos.AsQueryable();
 
-            return this._context.ViewDashboardDensidadeTecnicos.ToList();
+            if (parameters.CodFilial.HasValue)
+                query  = query.Where(d => d.CodFilial == parameters.CodFilial);
+            if (parameters.CodRegiao.HasValue)
+                query  = query.Where(d => d.CodRegiao == parameters.CodRegiao);
+            if (parameters.CodAutorizada.HasValue)
+                query  = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
+
+            return query.ToList();
         }
 
         public List<ViewDashboardIndicadoresDetalhadosSLACliente> ObterDadosIndicadoresDetalhadosSLACliente(DashboardParameters parameters)

@@ -40,6 +40,24 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cliente') }}</mat-label>
+                    <mat-select formControlName="codClientes" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
+                        'codCliente')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                            {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 
             </div>
 

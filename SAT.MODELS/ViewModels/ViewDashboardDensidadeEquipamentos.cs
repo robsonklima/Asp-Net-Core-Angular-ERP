@@ -10,6 +10,7 @@
         public string Autorizada { get; set; }
         public string Equipamento { get; set; }
         public string NumSerie { get; set; }
+        public int? CodCliente { get; set; }
         public string Cliente { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }

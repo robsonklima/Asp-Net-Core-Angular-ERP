@@ -16,7 +16,7 @@ namespace SAT.INFRA.Repository
         {
             _context = context;
         }
-        
+
         public List<ViewDashboardIndicadoresFiliais> ObterDadosIndicadorFiliais()
         {
             return this._context.ViewDashboardIndicadoresFiliais.ToList();
@@ -80,7 +80,7 @@ namespace SAT.INFRA.Repository
         public List<ViewDashboardReincidenciaQuadrimestreFiliais> ObterDadosReincidenciaQuadrimestreFilial(DashboardParameters parameters)
         {
             return this._context.ViewDashboardReincidenciaQuadrimestreFiliais.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
-        }        
+        }
 
         public List<ViewDashboardReincidenciaClientes> ObterDadosReincidenciaClientes()
         {
@@ -99,7 +99,7 @@ namespace SAT.INFRA.Repository
         {
             if (parameters.CodFilial.HasValue)
                 return this._context.ViewDashboardSPATecnicosMaiorDesempenho.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
-            
+
             return this._context.ViewDashboardSPATecnicosMaiorDesempenho.ToList();
         }
 
@@ -178,7 +178,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(d => d.CodRegiao == parameters.CodRegiao);
             if (parameters.CodAutorizada.HasValue)
                 query = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
-
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodCliente.Value));
+            }
+            
             return query.ToList();
         }
 
@@ -187,11 +192,11 @@ namespace SAT.INFRA.Repository
             var query = _context.ViewDashboardDensidadeTecnicos.AsQueryable();
 
             if (parameters.CodFilial.HasValue)
-                query  = query.Where(d => d.CodFilial == parameters.CodFilial);
+                query = query.Where(d => d.CodFilial == parameters.CodFilial);
             if (parameters.CodRegiao.HasValue)
-                query  = query.Where(d => d.CodRegiao == parameters.CodRegiao);
+                query = query.Where(d => d.CodRegiao == parameters.CodRegiao);
             if (parameters.CodAutorizada.HasValue)
-                query  = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
+                query = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
 
             return query.ToList();
         }

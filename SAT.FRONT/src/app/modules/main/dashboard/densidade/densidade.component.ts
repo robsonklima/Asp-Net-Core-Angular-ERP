@@ -71,17 +71,15 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.loading = true;
 		this.map = map;
 
-		await this.obterEquipamentosContrato()
-		await this.obterTecnicos();
+		this.selecionarFilial(this.filter?.parametros);
+
 		this.loading = false;
 	}
 
 	public async selecionarFilial(params = null) {
 		this.loading = true;
 		
-		if (params.codFilial != null) {
-			this.limparMapa();
-		}
+		this.limparMapa();
 		await this.obterEquipamentosContrato(params)
 		this.obterTecnicos(params);
 
@@ -120,7 +118,6 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			popupAnchor: [1, -32]
 		});
 		
-		//this.markerClusterGroup = L.markerClusterGroup({ removeOutsideVisibleBounds: true });
 		let group = L.layerGroup();
 
 		markers.forEach( async (m, i) => {
@@ -138,8 +135,9 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
 			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
-			codRegiao: params.codRegiao ,
-			codAutorizada: params.codAutorizada
+			codRegiao: params.codRegiao,
+			codAutorizada: params.codAutorizada,
+			codClientes: params.codClientes
 		}).toPromise();
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;

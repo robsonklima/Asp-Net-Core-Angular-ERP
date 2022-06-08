@@ -1,10 +1,11 @@
+import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { FilialService } from 'app/core/services/filial.service';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { statusConst } from '../../../../../core/types/status-types';
 import { UserService } from '../../../../../core/user/user.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { FilterBase } from '../../../../../core/filters/filter-base';
@@ -15,6 +16,7 @@ import Enumerable from 'linq';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ClienteService } from 'app/core/services/cliente.service';
 
 
 @Component({
@@ -25,13 +27,16 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 
 	@Input() sidenav: MatSidenav;
 
+	clienteFilterCtrl: FormControl = new FormControl();
 	filiais: Filial[] = [];
 	regioes: Regiao[] = [];
+	clientes: Cliente[] = [];
 	autorizadas: Autorizada[] = [];
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _filialService: FilialService,
+		private _clienteService: ClienteService,
 		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		private _autorizadaService: AutorizadaService,
 		protected _userService: UserService,
@@ -50,7 +55,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		this.obterRegioesAutorizadas(this.form.controls['codFilial'].value);
 		this.obterAutorizadas(this.form.controls['codFilial'].value);
 
-		this.aoSelecionarFilial();
+		this.registrarEmmiters();
 
 	}
 
@@ -59,8 +64,25 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			codFilial: [undefined],
 			codRegiao: [undefined],
 			codAutorizada: [undefined],
+			codClientes: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
+	}
+
+	async obterClientes(filtro: string = '') {
+		let params: ClienteParameters = {
+			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeFantasia',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
+
+		const data = await this._clienteService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.clientes = data.items;
 	}
 
 	async obterFiliais() {
@@ -105,7 +127,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
-	aoSelecionarFilial() {
+	registrarEmmiters() {
 		this.form.controls['codFilial']
 			.valueChanges
 			.subscribe(() => {
@@ -124,6 +146,15 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 					this.form.controls['codRegiao'].setValue(null);
 					this.form.controls['codAutorizada'].disable();
 				}
+			});
+		this.clienteFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterClientes(this.clienteFilterCtrl.value);
 			});
 	}
 

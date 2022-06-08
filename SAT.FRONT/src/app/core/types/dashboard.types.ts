@@ -6,6 +6,7 @@ export interface ViewDadosDashboardParameters extends QueryStringParameters {
 	codFilial?: number;
 	codAutorizada?: number;
 	codRegiao?: number;
+	codClientes?: string;
 }
 
 export enum DashboardViewEnum {

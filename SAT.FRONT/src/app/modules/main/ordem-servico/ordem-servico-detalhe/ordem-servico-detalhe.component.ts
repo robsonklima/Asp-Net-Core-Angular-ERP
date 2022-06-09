@@ -431,9 +431,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		  .toPromise();
 	
 		this.dispBBBloqueioOS = data.items;
-
-		console.log(this.dispBBBloqueioOS);
-		
 	  }
 
 	public async desbloqueioRATBBTS() {

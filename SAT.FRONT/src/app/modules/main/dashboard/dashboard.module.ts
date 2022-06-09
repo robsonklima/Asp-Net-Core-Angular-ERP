@@ -70,6 +70,7 @@ import { FuseHighlightModule } from '@fuse/components/highlight';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../filtros/filtro.module';
 import { DensidadeFiltroComponent } from './densidade/densidade-filtro/densidade-filtro.component';
+import { IndicadoresFiliaisOpcoesComponent } from './indicadores-filiais/indicadores-filiais-opcoes/indicadores-filiais-opcoes.component';
 registerLocaleData(ptBR);
 
 @NgModule({
@@ -112,6 +113,7 @@ registerLocaleData(ptBR);
     ReincidenciaQuadrimestreFilialComponent,
     PendenciaQuadrimestreFilialComponent,
     IndicadoresFiliaisDetalhadosDialogComponent,
+    IndicadoresFiliaisOpcoesComponent,
   ],
   imports: [
     CommonModule,

@@ -34,18 +34,9 @@ export class DisponibilidadeComponent implements OnInit {
         sortActive: "dataHoraProcessamento",
         sortDirection: "asc",
       }).subscribe((data) => {
-        console.log(data);
-        
-
         this.historico.labels = data.items.filter(d => d.tipo == 'CPU').map((hist) => moment(hist.dataHoraProcessamento).format('HH:mm'));
         this.historico.cpu = data.items.filter(d => d.tipo == 'CPU').map((cpu) => cpu.emUso);
         this.historico.memory = data.items.filter(d => d.tipo == 'MEMORY').map((memoria) => Number((memoria.emUso / memoria.total * 100).toFixed(0)));
-
-        console.log(this.historico.labels);
-        console.log(this.historico.cpu);
-        console.log(this.historico.memory);
-        
-
         this.prepararDadosGraficos();
         this.loading = false;
         resolve(data);

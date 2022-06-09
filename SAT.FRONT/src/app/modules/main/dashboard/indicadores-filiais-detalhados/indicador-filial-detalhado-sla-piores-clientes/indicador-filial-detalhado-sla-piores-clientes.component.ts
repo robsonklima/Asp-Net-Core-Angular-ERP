@@ -54,8 +54,6 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .slice(0, 10);  
     
-    console.log(slaCliente);    
-
     const labels = slaCliente.map(s => s.nomeFantasia);
     const values = slaCliente.map(s => s.percentual);
     

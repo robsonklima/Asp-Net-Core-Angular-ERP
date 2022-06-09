@@ -35,7 +35,10 @@ export class FilterBase implements IFilterBaseCore {
 
     private _filtroDeUsuario: boolean = false;
 
-    constructor(protected _userService: UserService, protected _formBuilder: FormBuilder, filterName: string,
+    constructor(
+        protected _userService: UserService,
+        protected _formBuilder: FormBuilder,
+        filterName: string,
     ) {
         this.filterName = filterName;
         this.userSession = JSON.parse(this._userService.userSession);
@@ -147,23 +150,25 @@ export class FilterBase implements IFilterBaseCore {
                 }).catch(() => {
                     this._snack.exibirToast("Erro ao atualizar o filtro.", "error");
                 });
-        }
-        else {
-            this._filtroService.criar({
-            nomeFiltro: `FILTRO_${moment().format('yyyyMMDDHHmmsss')}`,
-                ...params
-            }).toPromise()
-                .then(async () => {
-                    this._snack.exibirToast("Configurações de filtro criado com sucesso!", "success");
-                    this._userService.atualizaFiltrosUsuario(this.userSession.usuario).subscribe(us => {
-                        this.userSession.usuario.filtroUsuario = us.filtroUsuario;
-                        let novoCodigo = Enumerable.from(us.filtroUsuario).orderByDescending(ord => ord.codFiltroUsuario).firstOrDefault().codFiltroUsuario;
-                        this.registerUsuarioFiltro(novoCodigo);
-                        this.aplicarForm();
+        } else {
+            const dialogRef = this._dialog.open(DialogSaveFilterComponent);
+            dialogRef.afterClosed().subscribe(async (data: any) => {
+                this._filtroService.criar({
+                    nomeFiltro: data.nomeFiltro,
+                    ...params
+                }).toPromise()
+                    .then(async () => {
+                        this._snack.exibirToast("Configurações de filtro criado com sucesso!", "success");
+                        this._userService.atualizaFiltrosUsuario(this.userSession.usuario).subscribe(us => {
+                            this.userSession.usuario.filtroUsuario = us.filtroUsuario;
+                            let novoCodigo = Enumerable.from(us.filtroUsuario).orderByDescending(ord => ord.codFiltroUsuario).firstOrDefault().codFiltroUsuario;
+                            this.registerUsuarioFiltro(novoCodigo);
+                            this.aplicarForm();
+                        });
+                    }).catch(() => {
+                        this._snack.exibirToast("Erro ao criar o filtro.", "error");
                     });
-                }).catch(() => {
-                    this._snack.exibirToast("Erro ao criar o filtro.", "error");
-                });
+            });
         }
     }
 

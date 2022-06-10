@@ -19,7 +19,20 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DispBBBloqueioOS dispBBBloqueioOS)
         {
-            throw new NotImplementedException();
+            DispBBBloqueioOS bbOs = _context.DispBBBloqueioOS.SingleOrDefault(e => e.CodDispBBBloqueioOS == dispBBBloqueioOS.CodDispBBBloqueioOS);
+
+            if (bbOs != null)
+            {
+                try
+                {
+                    _context.Entry(bbOs).CurrentValues.SetValues(dispBBBloqueioOS);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
+            }
         }
 
         public void Criar(DispBBBloqueioOS dispBBBloqueioOS)
@@ -41,13 +54,13 @@ namespace SAT.INFRA.Repository
         {
             var dispBBBloqueioOS = _context.DispBBBloqueioOS.AsQueryable();
 
-             if (parameters.CodOS.HasValue)
+            if (parameters.CodOS.HasValue)
                 dispBBBloqueioOS = dispBBBloqueioOS.Where(d => d.CodOS == parameters.CodOS);
 
-             if (parameters.IndAtivo.HasValue)
+            if (parameters.IndAtivo.HasValue)
                 dispBBBloqueioOS = dispBBBloqueioOS.Where(d => d.IndAtivo == parameters.IndAtivo);
 
-             return PagedList<DispBBBloqueioOS>.ToPagedList(dispBBBloqueioOS, parameters.PageNumber, parameters.PageSize);
+            return PagedList<DispBBBloqueioOS>.ToPagedList(dispBBBloqueioOS, parameters.PageNumber, parameters.PageSize);
 
         }
     }

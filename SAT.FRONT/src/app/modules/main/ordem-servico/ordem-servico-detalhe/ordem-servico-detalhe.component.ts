@@ -39,8 +39,7 @@ import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.s
 	animations: fuseAnimations,
 	encapsulation: ViewEncapsulation.None,
 })
-export class OrdemServicoDetalheComponent implements AfterViewInit
-{
+export class OrdemServicoDetalheComponent implements AfterViewInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
@@ -55,17 +54,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 	historico: OrdemServicoHistorico[] = [];
 	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
 
-	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
-	{
+	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum {
 		return TipoIntervencaoEnum;
 	}
 
-	public get perfilEnum(): typeof RoleEnum
-	{
+	public get perfilEnum(): typeof RoleEnum {
 		return RoleEnum;
 	}
 
-	constructor (
+	constructor(
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
 		private _osHistoricoService: OrdemServicoHistoricoService,
@@ -78,13 +75,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
 		private _dispBBBloqueioOSService: DispBBBloqueioOSService
-	)
-	{
+	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	ngAfterViewInit(): void
-	{
+	ngAfterViewInit(): void {
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
 
 		if (this.codOS) {
@@ -96,21 +91,19 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this._cdr.detectChanges();
 	}
 
-	private async obterDados()
-	{
-		this.isLoading = true;0
+	private async obterDados() {
+		this.isLoading = true; 0
 
 		await this.obterOS();
 		this.obterHistorico();
 		this.obterAgendamentos();
 		this.obterFotosRAT();
-		this.obterQtdLaudos();		
-		//this.obterDispBBBloqueioOS();		
+		this.obterQtdLaudos();
+		this.obterDispBBBloqueioOS();
 		this.isLoading = false;
 	}
 
-	private async obterOS()
-	{
+	private async obterOS() {
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
 	}
 
@@ -124,26 +117,20 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this.historico = historico.items;
 	}
 
-	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData>
-	{
-		return new Promise((resolve, reject) =>
-		{
+	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {
+		return new Promise((resolve, reject) => {
 			this._ordemServicoHistoricoSvc
 				.obterPorParametros({ codOS: codOS })
-				.subscribe((historico: OrdemServicoHistoricoData) =>
-				{
+				.subscribe((historico: OrdemServicoHistoricoData) => {
 					resolve(historico);
-				}, () =>
-				{
+				}, () => {
 					reject();
 				});
 		})
 	}
 
-	private async obterAgendamentos()
-	{
-		if (this.os.agendamentos?.length)
-		{
+	private async obterAgendamentos() {
+		if (this.os.agendamentos?.length) {
 			var agendamentos = Enumerable.from(this.os.agendamentos)
 				.orderByDescending(a => a.codAgendamento);
 
@@ -158,51 +145,42 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}
 	}
 
-	async agendar()
-	{
+	async agendar() {
 		const dialogRef = this._dialog.open(OrdemServicoAgendamentoComponent, {
 			data: {
 				codOS: this.os.codOS
 			}
 		});
 
-		dialogRef.afterClosed().subscribe(async (data: any) =>
-		{
-			if (data)
-			{
+		dialogRef.afterClosed().subscribe(async (data: any) => {
+			if (data) {
 
-				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss'))
-				{
+				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss')) {
 
 					this._snack.exibirToast('O Chamado não deve ser agendado em datas retroativas', 'error');
 					return;
 				}
 
-				this._agendamentoService.criar(data.agendamento).subscribe(async () =>
-				{
+				this._agendamentoService.criar(data.agendamento).subscribe(async () => {
 					this.os.dataHoraSolicitacao = data.agendamento.dataAgendamento;
 
-					this._ordemServicoService.atualizar(this.os).subscribe(async () =>
-					{
+					this._ordemServicoService.atualizar(this.os).subscribe(async () => {
 						this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
 						await this.criarAgendaTecnico();
 						this.obterDados();
 					},
-					error =>
-					{
+						error => {
+							this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+						});
+				},
+					() => {
 						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 					});
-				},
-				() =>
-				{
-					this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-				});
 			}
 		});
 	}
 
-	openEmailDialog()
-	{
+	openEmailDialog() {
 		const parametros = {
 			width: '600px',
 			data: { os: this.os }
@@ -211,23 +189,20 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		this._dialog.open(OrdemServicoEmailDialogComponent, parametros);
 	}
 
-	cancelar()
-	{
+	cancelar() {
 		const dialogRef = this._dialog.open(OrdemServicoCancelamentoComponent, {
 			width: '400px',
 			data: { os: this.os }
 		});
 
-		dialogRef.afterClosed().subscribe((os: any) =>
-		{
-			if (os)
-			{
+		dialogRef.afterClosed().subscribe((os: any) => {
+			if (os) {
 				this.obterDados();
 			}
 		});
 	}
 
-	public verificarPermissaoCancelamento(): boolean {		
+	public verificarPermissaoCancelamento(): boolean {
 		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA && this.os?.codStatusServico !== StatusServicoEnum.FECHADO && this.os?.codStatusServico !== StatusServicoEnum.CANCELADO)
 			return false;
 
@@ -243,18 +218,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.PV_COORDENADOR_DE_CONTRATO)
 			return true;
-			
+
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN)
 			return true;
 
 		if (this.os?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)
-			return true;	
+			return true;
 
 		return false;
 	}
 
-	async cancelarTransferencia()
-	{
+	async cancelarTransferencia() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -266,14 +240,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
 
-				this.obterHistoricoOS(this.codOS).then(async (historico) =>
-				{
+				this.obterHistoricoOS(this.codOS).then(async (historico) => {
 					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
 					if (historicoOS.length)
@@ -295,13 +266,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 					this._ordemServicoService.atualizar(obj).subscribe(
-						async () =>
-						{
+						async () => {
 							this._snack.exibirToast("Transferência cancelada com sucesso!", "success");
 							this.obterDados();
 						},
-						() =>
-						{
+						() => {
 							this._snack.exibirToast("Erro ao cancelar transferência!", "error");
 						});
 				});
@@ -309,8 +278,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		});
 	}
 
-	async reabrir()
-	{
+	async reabrir() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -322,10 +290,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
 				let obj: OrdemServico = {
 					...this.os,
 					...{
@@ -333,25 +299,23 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 						codUsuarioManut: this.userSession.usuario?.codUsuario
 					}
-				  };
-			  
-				  Object.keys(obj).forEach((key) => {
+				};
+
+				Object.keys(obj).forEach((key) => {
 					typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-				  });
-			  
-				  this._ordemServicoService.atualizar(obj).subscribe((os) =>
-				  {
+				});
+
+				this._ordemServicoService.atualizar(obj).subscribe((os) => {
 					this._snack.exibirToast("Ordem de serviço reaberta!", "success");
 					this.obterOS();
-				  });
+				});
 			}
 		});
 	}
 
-	private async obterFotosRAT()
-	{
+	private async obterFotosRAT() {
 		for (const [i, rat] of this.os.relatoriosAtendimento.entries()) {
-			this.os.relatoriosAtendimento[i].fotos = 
+			this.os.relatoriosAtendimento[i].fotos =
 				(await this._fotoService.obterPorParametros(
 					{
 						codOS: rat.codOS,
@@ -365,15 +329,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		}
 	}
 
-	private obterQtdLaudos()
-	{
+	private obterQtdLaudos() {
 		this.os.relatoriosAtendimento.forEach((rat) => {
 			this.qtdLaudos += rat.laudos.length;
 		});
 	}
 
-	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] 
-	{
+	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] {
 		let fotosFiltered: Foto[];
 
 		if (tipo === 'RAT') {
@@ -385,8 +347,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		return fotosFiltered;
 	}
 
-	private criarAgendaTecnico()
-	{
+	private criarAgendaTecnico() {
 		if (this.os.codTecnico == null) return;
 
 		const agenda: AgendaTecnico = {
@@ -399,9 +360,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 			fim: null,
 			indAgendamento: 0,
 			tipo: AgendaTecnicoTipoEnum.OS
-		  }
-	  
-		this._agendaTecnicoService.criar(agenda).subscribe(() => {});
+		}
+
+		this._agendaTecnicoService.criar(agenda).subscribe(() => { });
 	}
 
 	public async bloquearDesbloquearChamado() {
@@ -409,42 +370,52 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 
 		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
 		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
-		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+			this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
 
-		await this._ordemServicoService.atualizar(this.os).toPromise();
+			await this._ordemServicoService.atualizar(this.os).toPromise();
 		await this.obterDados();
 
 		this.isLoading = false;
 	}
 
-	private async obterDispBBBloqueioOS() {		
+	private async obterDispBBBloqueioOS() {
 		let params: DispBBBloqueioOSParameters = {
-		  indAtivo: 1,
-		  codOS: this.os.codOS
+			indAtivo: 1,
+			codOS: this.os.codOS
 		}
-	
+
 		const data = await this._dispBBBloqueioOSService
-		  .obterPorParametros(params)
-		  .toPromise();
-	
+			.obterPorParametros(params)
+			.toPromise();
+
 		this.dispBBBloqueioOS = data.items;
-	  }
+	}
 
 	public async desbloqueioRATBBTS() {
 		this.isLoading = true;
 
-		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
-		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
-		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+		const osBBBloqueio = (await this._dispBBBloqueioOSService.obterPorParametros({ codOS: this.codOS }).toPromise()).items.shift();
+		osBBBloqueio.indAtivo = 0;
 
-		await this._ordemServicoService.atualizar(this.os).toPromise();
+		this._dispBBBloqueioOSService.atualizar(osBBBloqueio).subscribe(r => {
+			this._snack.exibirToast('Desbloqueio Realizado!', 'success');
+		});
+
 		await this.obterDados();
 
 		this.isLoading = false;
 	}
 
-	isOrcamento()
-	{
+	verificaPermissaoBB() {
+		if ((this.userSession.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
+			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA)) 
+			{
+				return true;
+			}
+		return false
+	}
+
+	isOrcamento() {
 		var orcamentos = [
 			TipoIntervencaoEnum.ORCAMENTO,
 			TipoIntervencaoEnum.ORC_APROVADO,
@@ -455,15 +426,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit
 		return orcamentos.includes(this.os?.codTipoIntervencao);
 	}
 
-	getTimeFromMins(mins)
-	{
+	getTimeFromMins(mins) {
 		var h = mins / 60 | 0,
 			m = mins % 60 | 0;
 		return moment.utc().hours(h).minutes(m).format("HH:mm");
 	}
 
-	trocarTab(tab: any)
-	{
+	trocarTab(tab: any) {
 
 	}
 }

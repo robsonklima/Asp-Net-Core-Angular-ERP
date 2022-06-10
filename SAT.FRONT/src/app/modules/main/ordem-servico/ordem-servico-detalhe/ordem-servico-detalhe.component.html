@@ -103,6 +103,16 @@
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                                     Enviar por e-mail
                                 </button>
+
+                                <!-- <button mat-menu-item *ngIf="verificaPermissaoBB()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                                    Reprocessar Integração BBTS
+                                </button> -->
+
+                                <button mat-menu-item *ngIf="verificaPermissaoBB() && dispBBBloqueioOS.length" (click)="desbloqueioRATBBTS()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-open'"></mat-icon>
+                                    Desbloquear RAT BBTS
+                                </button>
                             </mat-menu>
                         </button>
                     </div>

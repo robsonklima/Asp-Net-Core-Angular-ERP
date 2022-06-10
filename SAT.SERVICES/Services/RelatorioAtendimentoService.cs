@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -9,12 +11,19 @@ namespace SAT.SERVICES.Services
 {
     public class RelatorioAtendimentoService : IRelatorioAtendimentoService
     {
+        private readonly IUsuarioService _usuarioService;
+        private readonly IHttpContextAccessor _contextAcecssor;
+        private readonly IEmailService _emailService;
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly IRelatorioAtendimentoDetalheRepository _relatorioAtendimentoDetalheRepo;
         private readonly IRelatorioAtendimentoDetalhePecaRepository _relatorioAtendimentoDetalhePecaRepo;
         private readonly ISequenciaRepository _seqRepo;
 
+
         public RelatorioAtendimentoService(
+                IUsuarioService usuarioService,
+                IHttpContextAccessor httpContextAccessor,
+                IEmailService emailService,
                 IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
                 IRelatorioAtendimentoDetalheRepository relatorioAtendimentoDetalheRepo,
                 IRelatorioAtendimentoDetalhePecaRepository relatorioAtendimentoDetalhePecaRepo,
@@ -79,6 +88,8 @@ namespace SAT.SERVICES.Services
 
         public bool Deletar(int codigo)
         {
+            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
+
             try
             {
                 var relatorio = _relatorioAtendimentoRepo.ObterPorCodigo(codigo);
@@ -104,6 +115,20 @@ namespace SAT.SERVICES.Services
                 }
 
                 _relatorioAtendimentoRepo.Deletar(codigo);
+
+                var email = new Email
+                {
+                    EmailRemetente = "equipe.sat@perto.com.br",
+                    NomeRemetente = "Sistema SAT",
+                    EmailCC = "equipe.sat@perto.com.br; supervisordss@perto.com.br",
+                    NomeCC = "Equipe SAT",
+                    EmailDestinatario = usuario.Email,
+                    NomeDestinatario = usuario.NomeUsuario,
+                    Assunto = "Atualização em massa do módulo Implantação",
+                    Corpo = $"RAT: {relatorio.NumRAT} Excluída por {usuario.NomeUsuario} na data {DateTime.Now}",
+                };
+
+                _emailService.Enviar(email);
 
                 return true;
             }

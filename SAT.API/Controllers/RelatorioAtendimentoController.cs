@@ -47,9 +47,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpDelete("{codRAT}")]
-        public void Delete(int codRAT)
+        public bool Delete(int codRAT)
         {
-            _raService.Deletar(codRAT);
+            return _raService.Deletar(codRAT);
         }
     }
 }

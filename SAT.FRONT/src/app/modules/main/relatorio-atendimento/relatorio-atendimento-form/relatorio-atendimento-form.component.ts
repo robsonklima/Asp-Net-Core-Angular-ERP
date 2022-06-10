@@ -1,3 +1,5 @@
+import { PerfilEnum } from 'app/core/types/perfil.types';
+import { DespesaParameters } from 'app/core/types/despesa.types';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
@@ -34,419 +36,415 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { AcaoEnum } from 'app/core/types/acao.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { RoleEnum } from 'app/core/user/user.types';
+import { DespesaService } from 'app/core/services/despesa.service';
 
 @Component({
-  selector: 'app-relatorio-atendimento-form',
-  templateUrl: './relatorio-atendimento-form.component.html',
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+	selector: 'app-relatorio-atendimento-form',
+	templateUrl: './relatorio-atendimento-form.component.html',
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
-  snackConfigError: MatSnackBarConfig = { duration: 2000, panelClass: 'error', verticalPosition: 'bottom', horizontalPosition: 'center' };
-  snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+	snackConfigError: MatSnackBarConfig = { duration: 2000, panelClass: 'error', verticalPosition: 'bottom', horizontalPosition: 'center' };
+	snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
-  sidenav: MatSidenav;
-  sessionData: UsuarioSessao;
-  codOS: number;
-  ordemServico: OrdemServico;
-  codRAT: number;
-  relatorioAtendimento: RelatorioAtendimento;
-  agendamentos: Agendamento;
-  form: FormGroup;
-  isAddMode: boolean;
-  tecnicosFiltro: FormControl = new FormControl();
-  statusServicoFilterCtrl: FormControl = new FormControl();
-  tecnicos: Tecnico[] = [];
-  statusServicos: StatusServico[] = [];
-  searching: boolean;
-  loading: boolean = true;
+	sidenav: MatSidenav;
+	sessionData: UsuarioSessao;
+	codOS: number;
+	ordemServico: OrdemServico;
+	codRAT: number;
+	relatorioAtendimento: RelatorioAtendimento;
+	agendamentos: Agendamento;
+	form: FormGroup;
+	isAddMode: boolean;
+	tecnicosFiltro: FormControl = new FormControl();
+	statusServicoFilterCtrl: FormControl = new FormControl();
+	tecnicos: Tecnico[] = [];
+	statusServicos: StatusServico[] = [];
+	searching: boolean;
+	loading: boolean = true;
 
-  public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum
-	{
+	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum {
 		return TipoIntervencaoEnum;
 	}
 
-  public get perfilEnum(): typeof RoleEnum
-	{
+	public get perfilEnum(): typeof RoleEnum {
 		return RoleEnum;
 	}
-  protected _onDestroy = new Subject<void>();
+	protected _onDestroy = new Subject<void>();
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
-    private _raService: RelatorioAtendimentoService,
-    private _ordemServicoService: OrdemServicoService,
-    private _fotoSvc: FotoService,
-    private _raDetalheService: RelatorioAtendimentoDetalheService,
-    private _raDetalhePecaService: RelatorioAtendimentoDetalhePecaService,
-    private _userService: UserService,
-    private _statusServicoService: StatusServicoService,
-    private _tecnicoService: TecnicoService,
-    private _matSnackBar: MatSnackBar,
-    private _router: Router,
-    private _dialog: MatDialog,
-    private _snack: CustomSnackbarService
-  ) {
-    this.sessionData = JSON.parse(this._userService.userSession);
-  }
+	constructor(
+		private _formBuilder: FormBuilder,
+		private _route: ActivatedRoute,
+		private _raService: RelatorioAtendimentoService,
+		private _ordemServicoService: OrdemServicoService,
+		private _fotoSvc: FotoService,
+		private _raDetalheService: RelatorioAtendimentoDetalheService,
+		private _raDetalhePecaService: RelatorioAtendimentoDetalhePecaService,
+		private _despesaService: DespesaService,
+		private _userService: UserService,
+		private _statusServicoService: StatusServicoService,
+		private _tecnicoService: TecnicoService,
+		private _matSnackBar: MatSnackBar,
+		private _router: Router,
+		private _dialog: MatDialog,
+		private _snack: CustomSnackbarService
+	) {
+		this.sessionData = JSON.parse(this._userService.userSession);
+	}
 
-  async ngOnInit() {
-    this.loading = true;
+	async ngOnInit() {
+		this.loading = true;
 
-    this.codOS = +this._route.snapshot.paramMap.get('codOS');
-    this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
-    this.isAddMode = !this.codRAT;
-    
-    this.inicializarForm();
+		this.codOS = +this._route.snapshot.paramMap.get('codOS');
+		this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
+		this.isAddMode = !this.codRAT;
 
-    await this.obterOrdemServico();
-    await this.obterRelatorioAtendimento();
-    await this.obterStatusServicos();
-    await this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
-    this.registrarEmitters();
-    
-    this.loading = false;
-  }
+		this.inicializarForm();
 
-  private registrarEmitters()
-  {
-    this.form.controls['data'].valueChanges.subscribe(() => {
-      this.validaDataHoraRAT();
-    });
+		await this.obterOrdemServico();
+		await this.obterRelatorioAtendimento();
+		await this.obterStatusServicos();
+		await this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
+		this.registrarEmitters();
 
-    this.form.controls['horaInicio'].valueChanges.subscribe(() => {
-      this.validaDataHoraRAT();
-    });
+		this.loading = false;
+	}
 
-    this.form.controls['horaFim'].valueChanges.subscribe(() => {
-      this.validaDataHoraRAT();
-    });
+	private registrarEmitters() {
+		this.form.controls['data'].valueChanges.subscribe(() => {
+			this.validaDataHoraRAT();
+		});
 
-    this.form.controls['codStatusServico'].valueChanges.subscribe(() => {
-      this.validaBloqueioStatus();
-    });
+		this.form.controls['horaInicio'].valueChanges.subscribe(() => {
+			this.validaDataHoraRAT();
+		});
 
-    this.tecnicosFiltro.valueChanges
-      .pipe(
-        tap(() => this.searching = true),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const data = await this._tecnicoService.obterPorParametros({
-            sortActive: 'nome',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            codFiliais: this.ordemServico?.codFilial.toString()
-          }).toPromise();
+		this.form.controls['horaFim'].valueChanges.subscribe(() => {
+			this.validaDataHoraRAT();
+		});
 
-          return data.items.slice();
-        }),
-        delay(500),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data => {
-        this.tecnicos = await data;
-      });
-  }
+		this.form.controls['codStatusServico'].valueChanges.subscribe(() => {
+			this.validaBloqueioStatus();
+		});
 
-  private async obterTecnicos(filtro: string=null)
-  {
-    this.tecnicos = (await this._tecnicoService.obterPorParametros({
-      indAtivo: statusConst.ATIVO,
-      filter: filtro,
-      sortActive: 'nome',
-      sortDirection: 'asc',
-      codFiliais: this.ordemServico?.codFilial.toString()
-    }).toPromise()).items;
-  }
+		this.tecnicosFiltro.valueChanges
+			.pipe(
+				tap(() => this.searching = true),
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				map(async query => {
+					const data = await this._tecnicoService.obterPorParametros({
+						sortActive: 'nome',
+						sortDirection: 'asc',
+						indAtivo: statusConst.ATIVO,
+						filter: query,
+						codFiliais: this.ordemServico?.codFilial.toString()
+					}).toPromise();
 
-  private async obterOrdemServico() {
-    this.ordemServico = await this._ordemServicoService
-      .obterPorCodigo(this.codOS)
-      .toPromise();
-  }
+					return data.items.slice();
+				}),
+				delay(500),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(async data => {
+				this.tecnicos = await data;
+			});
+	}
 
-  private async obterRelatorioAtendimento() {
-    if (!this.isAddMode) {
-      this.relatorioAtendimento = await this._raService
-        .obterPorCodigo(this.codRAT)
-        .toPromise();
+	private async obterTecnicos(filtro: string = null) {
+		this.tecnicos = (await this._tecnicoService.obterPorParametros({
+			indAtivo: statusConst.ATIVO,
+			filter: filtro,
+			sortActive: 'nome',
+			sortDirection: 'asc',
+			codFiliais: this.ordemServico?.codFilial.toString()
+		}).toPromise()).items;
+	}
 
-      await this.obterFotos();
+	private async obterOrdemServico() {
+		this.ordemServico = await this._ordemServicoService
+			.obterPorCodigo(this.codOS)
+			.toPromise();
+	}
 
-      this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
-      this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
-      this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
+	private async obterRelatorioAtendimento() {
+		if (!this.isAddMode) {
+			this.relatorioAtendimento = await this._raService
+				.obterPorCodigo(this.codRAT)
+				.toPromise();
 
-      var checkin = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
-        .where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
+			await this.obterFotos();
 
-      var checkout = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
-        .where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
+			this.form.controls['data'].setValue(moment(this.relatorioAtendimento.dataHoraInicio));
+			this.form.controls['horaInicio'].setValue(moment(this.relatorioAtendimento.dataHoraInicio).format('HH:mm'));
+			this.form.controls['horaFim'].setValue(moment(this.relatorioAtendimento.dataHoraSolucao).format('HH:mm'));
 
-      this.form.controls['checkin'].setValue(moment(checkin?.dataHoraCadSmartphone).format('HH:mm'));
-      this.form.controls['checkout'].setValue(moment(checkout?.dataHoraCadSmartphone).format('HH:mm'));
+			var checkin = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
+				.where(i => i.tipo == 'CHECKIN').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
 
-      this.form.patchValue(this.relatorioAtendimento);
+			var checkout = Enumerable.from(this.relatorioAtendimento.checkinsCheckouts)
+				.where(i => i.tipo == 'CHECKOUT').orderBy(i => i.codCheckInCheckOut).firstOrDefault();
 
-      if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
-        this.form.disable();
-    }
-    else {
-      this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
-      this.configuraForm();
-    }
-  }
+			this.form.controls['checkin'].setValue(moment(checkin?.dataHoraCadSmartphone).format('HH:mm'));
+			this.form.controls['checkout'].setValue(moment(checkout?.dataHoraCadSmartphone).format('HH:mm'));
 
-  private async obterStatusServicos()
-  {
-    this.statusServicos = (await this._statusServicoService.obterPorParametros({
-      indAtivo: statusConst.ATIVO,
-      pageSize: 100,
-      sortActive: 'nomeStatusServico',
-      sortDirection: 'asc'
-    }).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
-  }
+			this.form.patchValue(this.relatorioAtendimento);
 
-  private async obterFotos() {
-    const data = await this._fotoSvc.obterPorParametros({
-      numRAT: this.relatorioAtendimento.numRAT,
-      codOS: this.relatorioAtendimento.codOS
-    }).toPromise();
+			if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
+				this.form.disable();
+		}
+		else {
+			this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
+			this.configuraForm();
+		}
+	}
 
-    this.relatorioAtendimento.fotos = data.items;
-  }
+	private async obterStatusServicos() {
+		this.statusServicos = (await this._statusServicoService.obterPorParametros({
+			indAtivo: statusConst.ATIVO,
+			pageSize: 100,
+			sortActive: 'nomeStatusServico',
+			sortDirection: 'asc'
+		}).toPromise()).items.filter(o => o.codStatusServico !== statusServicoConst.CANCELADO);
+	}
 
-  private configuraForm() {
-    // Se o status for transferido, carrega o técnico
-    if (this.ordemServico?.codStatusServico == StatusServicoEnum.TRANSFERIDO && this.ordemServico?.codTecnico !== null)
-      this.form.controls['codTecnico'].setValue(this.ordemServico?.codTecnico);
-  }
+	private async obterFotos() {
+		const data = await this._fotoSvc.obterPorParametros({
+			numRAT: this.relatorioAtendimento.numRAT,
+			codOS: this.relatorioAtendimento.codOS
+		}).toPromise();
 
-  inserirDetalhe() {
-    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
+		this.relatorioAtendimento.fotos = data.items;
+	}
 
-    dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
-      if (detalhe)
-        this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
-    });
-  }
+	private configuraForm() {
+		// Se o status for transferido, carrega o técnico
+		if (this.ordemServico?.codStatusServico == StatusServicoEnum.TRANSFERIDO && this.ordemServico?.codTecnico !== null)
+			this.form.controls['codTecnico'].setValue(this.ordemServico?.codTecnico);
+	}
 
-  removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja excluir este detalhe?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
+	inserirDetalhe() {
+		const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
-        const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-          .map(function (d) { return d; })
-          .indexOf(detalhe);
+		dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
+			if (detalhe)
+				this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
+		});
+	}
 
-        this.relatorioAtendimento.relatorioAtendimentoDetalhes[i].removido = true;
-      }
-    });
-  }
+	removerDetalhe(detalhe: RelatorioAtendimentoDetalhe): void {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir este detalhe?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-  removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja excluir esta peça?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+					.map(function (d) { return d; })
+					.indexOf(detalhe);
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
-        const iDetalhe = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-          .map(function (d) { return d; })
-          .indexOf(detalhe);
+				this.relatorioAtendimento.relatorioAtendimentoDetalhes[i].removido = true;
+			}
+		});
+	}
 
-        this.relatorioAtendimento
-          .relatorioAtendimentoDetalhes[iDetalhe]
-          .relatorioAtendimentoDetalhePecas[iDetalhePeca].removido = true;
+	removerPeca(detalhe: RelatorioAtendimentoDetalhe, iDetalhePeca: number): void {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir esta peça?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-        // this._cdr.markForCheck();
-      }
-    });
-  }
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				const iDetalhe = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+					.map(function (d) { return d; })
+					.indexOf(detalhe);
 
-  inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
-    const dialogRef = this._dialog.open(RelatorioAtendimentoDetalhePecaFormComponent);
+				this.relatorioAtendimento
+					.relatorioAtendimentoDetalhes[iDetalhe]
+					.relatorioAtendimentoDetalhePecas[iDetalhePeca].removido = true;
 
-    dialogRef.afterClosed().subscribe(raDetalhePeca => {
-      if (raDetalhePeca) {
-        const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
-          .map(function (d) { return d; })
-          .indexOf(detalhe);
+				// this._cdr.markForCheck();
+			}
+		});
+	}
 
-        this.relatorioAtendimento
-          .relatorioAtendimentoDetalhes[i]
-          .relatorioAtendimentoDetalhePecas
-          .push(raDetalhePeca);
-      }
-    });
-  }
+	inserirPeca(detalhe: RelatorioAtendimentoDetalhe): void {
+		const dialogRef = this._dialog.open(RelatorioAtendimentoDetalhePecaFormComponent);
 
-  obterTotalDetalhesNaoRemovidos(): number {
-    return this.relatorioAtendimento
-      ?.relatorioAtendimentoDetalhes
-      ?.filter(d => !d.removido).length || 0;
-  }
+		dialogRef.afterClosed().subscribe(raDetalhePeca => {
+			if (raDetalhePeca) {
+				const i = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+					.map(function (d) { return d; })
+					.indexOf(detalhe);
 
-  existeDetalheSemPeca(): boolean {
-    for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
-      if ((detalhe.codAcao === AcaoEnum.PENDÊNCIA_DE_PEÇA || detalhe.codAcao === AcaoEnum.TROCA_SUBSTITUIÇÃO) && detalhe.relatorioAtendimentoDetalhePecas.filter(dp => !dp.removido).length === 0)
-        return true;
-    }
+				this.relatorioAtendimento
+					.relatorioAtendimentoDetalhes[i]
+					.relatorioAtendimentoDetalhePecas
+					.push(raDetalhePeca);
+			}
+		});
+	}
 
-    return false;
-  }
+	obterTotalDetalhesNaoRemovidos(): number {
+		return this.relatorioAtendimento
+			?.relatorioAtendimentoDetalhes
+			?.filter(d => !d.removido).length || 0;
+	}
 
-  formatarModalidadeFoto(modalidade: string): string {
-    return FotoModalidadeEnum[modalidade];
-  }
+	existeDetalheSemPeca(): boolean {
+		for (const detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+			if ((detalhe.codAcao === AcaoEnum.PENDÊNCIA_DE_PEÇA || detalhe.codAcao === AcaoEnum.TROCA_SUBSTITUIÇÃO) && detalhe.relatorioAtendimentoDetalhePecas.filter(dp => !dp.removido).length === 0)
+				return true;
+		}
 
-  removerFoto(codRATFotoSmartphone: number) {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja excluir esta foto?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
+		return false;
+	}
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
-        this._fotoSvc.deletar(codRATFotoSmartphone).subscribe(() => {
-          this.obterFotos();
-        });
-      }
-    });
-  }
+	formatarModalidadeFoto(modalidade: string): string {
+		return FotoModalidadeEnum[modalidade];
+	}
 
-  selecionarImagem(ev: any) {
-    var files = ev.target.files;
-    var file = files[0];
+	removerFoto(codRATFotoSmartphone: number) {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir esta foto?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-    if (files && file) {
-      var reader = new FileReader();
-      reader.onload = this.transformarBase64.bind(this);
-      reader.readAsBinaryString(file);
-    }
-  }
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				this._fotoSvc.deletar(codRATFotoSmartphone).subscribe(() => {
+					this.obterFotos();
+				});
+			}
+		});
+	}
 
-  private transformarBase64(readerEvt) {
-    var binaryString = readerEvt.target.result;
-    var base64textString = btoa(binaryString);
+	selecionarImagem(ev: any) {
+		var files = ev.target.files;
+		var file = files[0];
 
-    const foto: Foto = {
-      codOS: this.codOS,
-      numRAT: this.relatorioAtendimento.numRAT,
-      modalidade: 'RAT',
-      dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-      nomeFoto: moment().format('YYYYMMDDHHmmss') + "_" + this.codOS + '_' + 'RAT.jpg',
-      base64: base64textString
-    }
+		if (files && file) {
+			var reader = new FileReader();
+			reader.onload = this.transformarBase64.bind(this);
+			reader.readAsBinaryString(file);
+		}
+	}
 
-    this._fotoSvc.criar(foto).subscribe(() => {
-      this.obterFotos();
-      this._matSnackBar.open("Imagem adicionada com sucesso!", null, this.snackConfigSuccess);
-    });
-  }
+	private transformarBase64(readerEvt) {
+		var binaryString = readerEvt.target.result;
+		var base64textString = btoa(binaryString);
 
-  private inicializarForm(): void {
-    this.form = this._formBuilder.group({
-      codRAT: [{ value: undefined, disabled: true }],
-      numRAT: [undefined],
-      codTecnico: [undefined, [Validators.required]],
-      codStatusServico: [undefined, [Validators.required]],
-      nomeAcompanhante: [undefined],
-      data: [{ value: undefined, disabled: false }, [Validators.required]],
-      horaInicio: [undefined, [TimeValidator(), Validators.required]],
-      horaFim: [undefined, [TimeValidator(), Validators.required,]],
-      horarioInicioIntervalo: [undefined],
-      horarioTerminoIntervalo: [undefined],
-      checkin: [undefined],
-      checkout: [undefined],
-      obsRAT: [undefined],
-    });
-  }
+		const foto: Foto = {
+			codOS: this.codOS,
+			numRAT: this.relatorioAtendimento.numRAT,
+			modalidade: 'RAT',
+			dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+			nomeFoto: moment().format('YYYYMMDDHHmmss') + "_" + this.codOS + '_' + 'RAT.jpg',
+			base64: base64textString
+		}
 
-  private validaDataHoraRAT(): void {
-    if (!this.form.controls['horaInicio'].value || !this.form.controls['horaFim'].value) {
-      if (!this.form.controls['horaFim'].value)
-        this.form.controls['horaFim'].setErrors({ 'incorrect': true });
+		this._fotoSvc.criar(foto).subscribe(() => {
+			this.obterFotos();
+			this._matSnackBar.open("Imagem adicionada com sucesso!", null, this.snackConfigSuccess);
+		});
+	}
 
-      if (!this.form.controls['horaInicio'].value)
-        this.form.controls['horaInicio'].setErrors({ 'incorrect': true });
+	private inicializarForm(): void {
+		this.form = this._formBuilder.group({
+			codRAT: [{ value: undefined, disabled: true }],
+			numRAT: [undefined],
+			codTecnico: [undefined, [Validators.required]],
+			codStatusServico: [undefined, [Validators.required]],
+			nomeAcompanhante: [undefined],
+			data: [{ value: undefined, disabled: false }, [Validators.required]],
+			horaInicio: [undefined, [TimeValidator(), Validators.required]],
+			horaFim: [undefined, [TimeValidator(), Validators.required,]],
+			horarioInicioIntervalo: [undefined],
+			horarioTerminoIntervalo: [undefined],
+			checkin: [undefined],
+			checkout: [undefined],
+			obsRAT: [undefined],
+		});
+	}
 
-      return;
-    }
+	private validaDataHoraRAT(): void {
+		if (!this.form.controls['horaInicio'].value || !this.form.controls['horaFim'].value) {
+			if (!this.form.controls['horaFim'].value)
+				this.form.controls['horaFim'].setErrors({ 'incorrect': true });
 
-    let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
-    let horaFim = moment(this.form.controls['horaFim'].value, 'h:mm A');
+			if (!this.form.controls['horaInicio'].value)
+				this.form.controls['horaInicio'].setErrors({ 'incorrect': true });
 
-    const duracaoEmMinutos = moment.duration(horaFim.diff(horaInicio)).asMinutes();
+			return;
+		}
 
-    if (duracaoEmMinutos < 20)
-      this.form.controls['horaInicio'].setErrors({ 'periodoInvalido': true });
-    else
-      this.form.controls['horaInicio'].setErrors(null)
+		let horaInicio = moment(this.form.controls['horaInicio'].value, 'h:mm A');
+		let horaFim = moment(this.form.controls['horaFim'].value, 'h:mm A');
 
-    if (duracaoEmMinutos < 20)
-      this.form.controls['horaFim'].setErrors({ 'periodoInvalido': true });
-    else
-      this.form.controls['horaFim'].setErrors(null)
+		const duracaoEmMinutos = moment.duration(horaFim.diff(horaInicio)).asMinutes();
 
-    let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
-    let dataHoraOS = moment(this.ordemServico?.dataHoraAberturaOS);
-    let dataHoraAgendamento = moment(this.ordemServico?.dataHoraAberturaOS);
+		if (duracaoEmMinutos < 20)
+			this.form.controls['horaInicio'].setErrors({ 'periodoInvalido': true });
+		else
+			this.form.controls['horaInicio'].setErrors(null)
 
-    if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
-      this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
-    else
-      this.form.controls['data'].setErrors(null);
+		if (duracaoEmMinutos < 20)
+			this.form.controls['horaFim'].setErrors({ 'periodoInvalido': true });
+		else
+			this.form.controls['horaFim'].setErrors(null)
 
-    if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
-      this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
-    else
-      this.form.controls['data'].setErrors(null);
-  }
+		let dataHoraRAT = moment(this.form.controls['data'].value).set({ h: horaInicio.hours(), m: horaInicio.minutes() });
+		let dataHoraOS = moment(this.ordemServico?.dataHoraAberturaOS);
+		let dataHoraAgendamento = moment(this.ordemServico?.dataHoraAberturaOS);
 
-  private validaBloqueioStatus(): void {
-    let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
+		if ((dataHoraRAT < dataHoraOS) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
+			this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
+		else
+			this.form.controls['data'].setErrors(null);
 
-    if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO)
-      this.form.controls['codStatusServico'].setErrors({ 'bloqueioReincidencia': true });
-    else
-      this.form.controls['codStatusServico'].setErrors(null);
+		if ((dataHoraRAT < dataHoraAgendamento) && (this.form.controls['horaInicio'].value) && (this.form.controls['horaFim'].value))
+			this.form.controls['data'].setErrors({ 'dataRATInvalida': true });
+		else
+			this.form.controls['data'].setErrors(null);
+	}
 
-    if ((this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
-      this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
-      this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO)
-      && this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO)
-      this.form.controls['codStatusServico'].setErrors({ 'bloqueioOrcamento': true });
-  }
-  
-  public async reabrir()
-	{
+	private validaBloqueioStatus(): void {
+		let bloqueioReincidencia = this.ordemServico.indBloqueioReincidencia;
+
+		if (bloqueioReincidencia > 0 && this.form.controls['codStatusServico'].value !== statusServicoConst.TRANSFERIDO)
+			this.form.controls['codStatusServico'].setErrors({ 'bloqueioReincidencia': true });
+		else
+			this.form.controls['codStatusServico'].setErrors(null);
+
+		if ((this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORCAMENTO ||
+			this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
+			this.ordemServico?.codTipoIntervencao === TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO)
+			&& this.form.controls['codStatusServico'].value === statusServicoConst.FECHADO)
+			this.form.controls['codStatusServico'].setErrors({ 'bloqueioOrcamento': true });
+	}
+
+	public async reabrir() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
@@ -458,10 +456,8 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			}
 		});
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
 				let rat: RelatorioAtendimento = {
 					...this.relatorioAtendimento,
 					...{
@@ -469,188 +465,230 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 						codUsuarioManut: this.sessionData.usuario?.codUsuario
 					}
-				  };
-			  
-				  Object.keys(rat).forEach((key) =>
-				  {
+				};
+
+				Object.keys(rat).forEach((key) => {
 					typeof rat[key] == "boolean" ? rat[key] = +rat[key] : rat[key] = rat[key];
-				  });
-			  
-				  this._raService.atualizar(rat).subscribe((rat) =>
-				  {
+				});
+
+				this._raService.atualizar(rat).subscribe((rat) => {
 					this._snack.exibirToast("Relatório de atendimento reaberto!", "success");
 					this.obterRelatorioAtendimento();
-				  });
+				});
 			}
 		});
 	}
 
-  public async salvar() {
-    this.isAddMode ? this.criar() : this.atualizar();
-  }
+	public async excluirRat() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir este relatório de atendimento?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
-  private async criar() {
-    this.form.disable();
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {
 
-    const form: any = this.form.getRawValue();
-    const data = form.data.format('YYYY-MM-DD');
-    const horaInicio = form.horaInicio;
-    const horaFim = form.horaFim;
-    const qtdeHorasTecnicas = moment.duration(moment(horaFim).diff(moment(horaInicio))).asMinutes();
+				const data = (await this._despesaService
+					.obterPorParametros({ codRATs: this.codRAT.toString() })
+					.toPromise()).items;
 
-    let ra: RelatorioAtendimento = {
-      ...this.relatorioAtendimento,
-      ...form,
-      ...{
-        codOS: this.codOS,
-        dataHoraInicio: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraInicioValida: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraSolucao: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraSolucaoValida: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
-        qtdeHorasTecnicas: qtdeHorasTecnicas,
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.sessionData.usuario.codUsuario,
-        codUsuarioCadastro: this.sessionData.usuario.codUsuario
-      }
-    };
+				if (data.length) {
+					this._snack.exibirToast('Despesas vinculadas à RAT, exclusão não realizada', 'error');
+					return;
+				}
 
-    Object.keys(ra).forEach((key) => {
-      typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
-    });
+				this._raService.deletar(this.codRAT).subscribe(r => {
+					if (r) {
+						this._snack.exibirToast('RAT Excluída', 'success');
+						this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
 
-    const raRes = await this._raService.criar(ra).toPromise();
-    ra.codRAT = raRes.codRAT;
+					} else {
+						this._snack.exibirToast('Erro ao excluir a RAT', 'error');
+					}
+				});
+			}
+		});
+	}
 
-    for (let d of ra.relatorioAtendimentoDetalhes) {
-      d.codRAT = raRes.codRAT;
-      d.codOS = this.codOS;
-      const detalheRes = await this._raDetalheService.criar(d).toPromise();
+	public async salvar() {
+		this.isAddMode ? this.criar() : this.atualizar();
+	}
 
-      for (let dp of d.relatorioAtendimentoDetalhePecas) {
-        dp.codRATDetalhe = detalheRes.codRATDetalhe;
-        await this._raDetalhePecaService.criar(dp).toPromise();
-      }
-    }
+	private async criar() {
+		this.form.disable();
 
-    // Formata Relato Solução
-    ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
-    await this._raService.atualizar(ra).toPromise();
+		const form: any = this.form.getRawValue();
+		const data = form.data.format('YYYY-MM-DD');
+		const horaInicio = form.horaInicio;
+		const horaFim = form.horaFim;
+		const qtdeHorasTecnicas = moment.duration(moment(horaFim).diff(moment(horaInicio))).asMinutes();
 
-    // Atualizar OS
-    const os: OrdemServico = {
-      ...this.ordemServico,
-      ...{
-        codStatusServico: form.codStatusServico,
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.sessionData.usuario.codUsuario,
-      }
-    };
-    await this._ordemServicoService.atualizar(os).toPromise();
+		let ra: RelatorioAtendimento = {
+			...this.relatorioAtendimento,
+			...form,
+			...{
+				codOS: this.codOS,
+				dataHoraInicio: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
+				dataHoraInicioValida: moment(`${data} ${horaInicio}`).format('YYYY-MM-DD HH:mm:ss'),
+				dataHoraSolucao: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
+				dataHoraSolucaoValida: moment(`${data} ${horaFim}`).format('YYYY-MM-DD HH:mm:ss'),
+				qtdeHorasTecnicas: qtdeHorasTecnicas,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioCad: this.sessionData.usuario.codUsuario,
+				codUsuarioCadastro: this.sessionData.usuario.codUsuario
+			}
+		};
 
-    this._matSnackBar.open("Relatório de atendimento inserido com sucesso!", null, this.snackConfigSuccess);
-    this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
-  }
+		Object.keys(ra).forEach((key) => {
+			typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
+		});
 
-  private async atualizar() {
-    this.form.disable();
-    const form: any = this.form.getRawValue();
+		const raRes = await this._raService.criar(ra).toPromise();
+		ra.codRAT = raRes.codRAT;
 
-    var horaInicio = form.horaInicio.toString().split(":");
+		for (let d of ra.relatorioAtendimentoDetalhes) {
+			d.codRAT = raRes.codRAT;
+			d.codOS = this.codOS;
+			const detalheRes = await this._raDetalheService.criar(d).toPromise();
 
-    let ra: RelatorioAtendimento = {
-      ...this.relatorioAtendimento,
-      ...form,
-      ...{
-        dataHoraInicio: moment(form.data).set({ 'hour': horaInicio[0], 'minute': horaInicio[1] }).format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.sessionData.usuario.codUsuario
-      }
-    };
+			for (let dp of d.relatorioAtendimentoDetalhePecas) {
+				dp.codRATDetalhe = detalheRes.codRATDetalhe;
+				await this._raDetalhePecaService.criar(dp).toPromise();
+			}
+		}
 
-    Object.keys(ra).forEach((key) => {
-      typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
-    });
+		// Formata Relato Solução
+		ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
+		await this._raService.atualizar(ra).toPromise();
 
-    ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
-    await this._raService.atualizar(ra).toPromise();
+		// Atualizar OS
+		const os: OrdemServico = {
+			...this.ordemServico,
+			...{
+				codStatusServico: form.codStatusServico,
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.sessionData.usuario.codUsuario,
+			}
+		};
+		await this._ordemServicoService.atualizar(os).toPromise();
 
-    for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
-      // Remover Detalhes e Peças
-      if (detalhe.removido && detalhe.codRATDetalhe) {
-        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas)
-          await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
+		this._matSnackBar.open("Relatório de atendimento inserido com sucesso!", null, this.snackConfigSuccess);
+		this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
+	}
 
-        await this._raDetalheService.deletar(detalhe.codRATDetalhe).toPromise();
-      }
+	private async atualizar() {
+		this.form.disable();
+		const form: any = this.form.getRawValue();
 
-      // Adicionar Detalhes e Peças
-      if (!detalhe.removido && !detalhe.codRATDetalhe) {
-        detalhe.codRAT = this.relatorioAtendimento.codRAT;
-        detalhe.codOS = this.relatorioAtendimento.codOS;
-        const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
+		var horaInicio = form.horaInicio.toString().split(":");
 
-        for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
-          peca.codRATDetalhe = detalheRes.codRATDetalhe;
+		let ra: RelatorioAtendimento = {
+			...this.relatorioAtendimento,
+			...form,
+			...{
+				dataHoraInicio: moment(form.data).set({ 'hour': horaInicio[0], 'minute': horaInicio[1] }).format('YYYY-MM-DD HH:mm:ss'),
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.sessionData.usuario.codUsuario
+			}
+		};
 
-          await this._raDetalhePecaService.criar(peca).toPromise();
-        }
-      }
+		Object.keys(ra).forEach((key) => {
+			typeof ra[key] == "boolean" ? ra[key] = +ra[key] : ra[key] = ra[key];
+		});
 
-      // Adicionar Pecas
-      if (!detalhe.removido && detalhe.codRATDetalhe) {
-        for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
-          if (!dPeca.codRATDetalhePeca && !dPeca.removido) {
-            dPeca.codRATDetalhe = detalhe.codRATDetalhe;
-            await this._raDetalhePecaService.criar(dPeca).toPromise();
-          }
-          else if (dPeca.codRATDetalhePeca && dPeca.removido) {
-            await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
-          }
-        }
-      }
-    }
+		ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
+		await this._raService.atualizar(ra).toPromise();
 
-    // Atualizar OS
-    const os: OrdemServico = {
-      ...this.ordemServico,
-      ...{
-        codStatusServico: form.codStatusServico,
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.sessionData.usuario.codUsuario,
-        dataHoraFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? moment().format('YYYY-MM-DD HH:mm:ss') : null,
-        codUsuarioFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? this.sessionData.usuario.codUsuario : null
-      }
-    };
-    await this._ordemServicoService.atualizar(os).toPromise();
+		for (let detalhe of this.relatorioAtendimento.relatorioAtendimentoDetalhes) {
+			// Remover Detalhes e Peças
+			if (detalhe.removido && detalhe.codRATDetalhe) {
+				for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas)
+					await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
 
-    this._matSnackBar.open("Relatório de atendimento atualizado com sucesso!", null, this.snackConfigSuccess);
-    this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
-  }
+				await this._raDetalheService.deletar(detalhe.codRATDetalhe).toPromise();
+			}
 
-  private formatarRelatoSolucao(relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[]) {
-    let retorno = "";
+			// Adicionar Detalhes e Peças
+			if (!detalhe.removido && !detalhe.codRATDetalhe) {
+				detalhe.codRAT = this.relatorioAtendimento.codRAT;
+				detalhe.codOS = this.relatorioAtendimento.codOS;
+				const detalheRes = await this._raDetalheService.criar(detalhe).toPromise();
 
-    for (let detalhe of relatorioAtendimentoDetalhes) {
-      const maquina = detalhe.tipoServico?.codETipoServico.substring(0, 1);
-      retorno += ` ITEM: CAUSA ${maquina == "1" ? "Máquina" : "Extra-Máquina"}, ${detalhe.acao?.nomeAcao?.replace("'", "")} do(a) ${detalhe.causa?.nomeCausa?.replace("'", "")} `;
-    }
+				for (let peca of detalhe.relatorioAtendimentoDetalhePecas) {
+					peca.codRATDetalhe = detalheRes.codRATDetalhe;
 
-    return retorno;
-  }
+					await this._raDetalhePecaService.criar(peca).toPromise();
+				}
+			}
 
-  public verificarPermissaoReabertura(): boolean {
-    debugger
+			// Adicionar Pecas
+			if (!detalhe.removido && detalhe.codRATDetalhe) {
+				for (let dPeca of detalhe.relatorioAtendimentoDetalhePecas) {
+					if (!dPeca.codRATDetalhePeca && !dPeca.removido) {
+						dPeca.codRATDetalhe = detalhe.codRATDetalhe;
+						await this._raDetalhePecaService.criar(dPeca).toPromise();
+					}
+					else if (dPeca.codRATDetalhePeca && dPeca.removido) {
+						await this._raDetalhePecaService.deletar(dPeca.codRATDetalhePeca).toPromise();
+					}
+				}
+			}
+		}
 
+		// Atualizar OS
+		const os: OrdemServico = {
+			...this.ordemServico,
+			...{
+				codStatusServico: form.codStatusServico,
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.sessionData.usuario.codUsuario,
+				dataHoraFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? moment().format('YYYY-MM-DD HH:mm:ss') : null,
+				codUsuarioFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? this.sessionData.usuario.codUsuario : null
+			}
+		};
+		await this._ordemServicoService.atualizar(os).toPromise();
+
+		this._matSnackBar.open("Relatório de atendimento atualizado com sucesso!", null, this.snackConfigSuccess);
+		this._router.navigate(['ordem-servico/detalhe/' + this.codOS]);
+	}
+
+	private formatarRelatoSolucao(relatorioAtendimentoDetalhes: RelatorioAtendimentoDetalhe[]) {
+		let retorno = "";
+
+		for (let detalhe of relatorioAtendimentoDetalhes) {
+			const maquina = detalhe.tipoServico?.codETipoServico.substring(0, 1);
+			retorno += ` ITEM: CAUSA ${maquina == "1" ? "Máquina" : "Extra-Máquina"}, ${detalhe.acao?.nomeAcao?.replace("'", "")} do(a) ${detalhe.causa?.nomeCausa?.replace("'", "")} `;
+		}
+
+		return retorno;
+	}
+
+	public verificarPermissaoReabertura(): boolean {
 		if (
-            this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
-       )
+			this.ordemServico?.codStatusServico !== StatusServicoEnum.FECHADO && this.relatorioAtendimento?.codStatusServico === StatusServicoEnum.FECHADO
+		)
 			return true;
 
 		return false;
 	}
 
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
+	public verificarPermissaoExclusao(): boolean {
+		if (this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA || 
+			this.sessionData.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
+			this.sessionData.usuario.codPerfil == PerfilEnum.FILIAIS_SUPERVISOR)
+			return true;
+
+		return false;
+	}
+
+	ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 }

@@ -410,9 +410,15 @@
                     </button>                
 
                     <button
-                        class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="reabrir()"
+                        class="px-6 mr-2 bg-orange-500 text-white" mat-button type="button" (click)="reabrir()"
                         *ngIf="verificarPermissaoReabertura()">
                         {{ t('reabrir') }}
+                    </button>
+
+                    <button
+                        class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
+                        *ngIf="verificarPermissaoExclusao()">
+                        {{ t('excluir') }}
                     </button>
                 </div>
             </form>

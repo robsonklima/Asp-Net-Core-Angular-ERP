@@ -84,7 +84,6 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
     }
   }
 
-
   private async obterTecnicosAoEscolherFilial()
   {
     this.form.controls['codFilial'].valueChanges.subscribe(() =>
@@ -113,7 +112,7 @@ export class AgendaTecnicoFiltroComponent extends FilterBase implements OnInit, 
 
     this.tecnicos = data.items;
     this.regioes = Enumerable.from(data.items).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(r => r.nomeRegiao).toArray();
-    this.pas = Enumerable.from(data.items).where(ra => ra.indPA != null).select(ra => ra.indPA).distinct(r => r).orderBy(r => r).toArray();
+    this.pas = Enumerable.from(data.items).where(ra => ra.indPA != null && ra.indPA != 0).select(ra => ra.indPA).distinct(r => r).orderBy(r => r).toArray();
   }
 
   private async obterFiliais()

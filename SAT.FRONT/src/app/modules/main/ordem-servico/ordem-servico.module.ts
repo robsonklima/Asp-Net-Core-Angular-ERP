@@ -14,7 +14,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { FuseCardModule } from '@fuse/components/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -50,6 +49,7 @@ import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-fo
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
 import { OrdemServicoDetalheOrcamentoComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamento/ordem-servico-detalhe-orcamento.component';
 import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {

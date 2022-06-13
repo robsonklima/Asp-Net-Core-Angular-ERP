@@ -104,14 +104,14 @@
                                     Enviar por e-mail
                                 </button>
 
-                                <!-- <button mat-menu-item *ngIf="verificaPermissaoBB()">
+                                <button mat-menu-item *ngIf="verificaPermissaoBB()" (click)="reenvioIntegracaoBBTS()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                                     Reprocessar Integração BBTS
-                                </button> -->
+                                </button>
 
                                 <button mat-menu-item *ngIf="verificaPermissaoBB() && dispBBBloqueioOS.length" (click)="desbloqueioRATBBTS()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-open'"></mat-icon>
-                                    Desbloquear RAT BBTS
+                                    Desbloquear BBTS
                                 </button>
                             </mat-menu>
                         </button>

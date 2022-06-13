@@ -4,6 +4,7 @@ using SAT.MODELS.Helpers;
 using System;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
+using System.Linq;
 
 namespace SAT.INFRA.Repository
 {
@@ -28,7 +29,20 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            throw new NotImplementedException();
+            IntegracaoCobra cobra = _context.IntegracaoCobra.SingleOrDefault(e => e.CodOS == codigo);
+
+            if (cobra != null)
+            {
+                try
+                {
+                    _context.IntegracaoCobra.Remove(cobra);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
+            }
         }
 
         public IntegracaoCobra ObterPorCodigo(int codigo)

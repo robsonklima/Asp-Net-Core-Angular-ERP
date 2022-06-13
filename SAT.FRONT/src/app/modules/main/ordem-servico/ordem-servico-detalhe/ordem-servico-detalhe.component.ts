@@ -27,6 +27,7 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
 import { DispBBBloqueioOS, DispBBBloqueioOSParameters } from 'app/core/types/DispBBBloqueioOS.types';
 import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.service';
+import { IntegracaoCobraService } from 'app/core/services/integracao-cobra.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -74,7 +75,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _agendaTecnicoService: AgendaTecnicoService,
 		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
-		private _dispBBBloqueioOSService: DispBBBloqueioOSService
+		private _dispBBBloqueioOSService: DispBBBloqueioOSService,
+		private _integracaoCobraService: IntegracaoCobraService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -406,12 +408,25 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this.isLoading = false;
 	}
 
+	public async reenvioIntegracaoBBTS() {
+		this.isLoading = true;
+
+		this._integracaoCobraService.deletar(this.codOS).subscribe((r) => {
+			this._snack.exibirToast('Reenvio realizado!', 'success');
+		}, (error) => {
+			this._snack.exibirToast('Erro ao reenviar!', 'error');
+		}
+		);
+
+		await this.obterDados();
+		this.isLoading = false;
+	}
+
 	verificaPermissaoBB() {
 		if ((this.userSession.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
-			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA)) 
-			{
-				return true;
-			}
+			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA)) {
+			return true;
+		}
 		return false
 	}
 

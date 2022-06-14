@@ -104,7 +104,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		this.obterClientes();
 		this.obterFiliais();
 		this.obterRegioes();
-
+		
 		// Changes Observables
 		this.registrarEmitters();
 		this.validaObrigatoriedadeDosCampos();
@@ -187,16 +187,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			sortDirection: 'asc',
 			filter: filter
 		}).toPromise()).items;
-
-		this.clienteFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(500),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterClientes(this.clienteFilterCtrl.value);
-			});
 	}
 
 	private async obterFiliais() {
@@ -209,7 +199,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 	}
 
 	private async obterContratos(filter: string = '') {
-		var codCliente = this.form.controls['codCliente'].value ?? null;
+		var codCliente = this.form.controls['codEquipContrato'].value ?? null;
 
 		const params: ContratoParameters = {
 			codCliente: this.form.controls['codCliente'].value ?? null,
@@ -220,18 +210,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 		const data = await this._contratoService.obterPorParametros(params).toPromise();
 		this.contratos = data.items;
-	}
-
-	private async obterEquipamentos() {
-		var codContrato = this.form.controls['codContrato'].value ?? null;
-
-		const params: ContratoEquipamentoParameters = {
-			codContrato: codContrato,
-			pageSize: 10
-		}
-
-		const data = await this._contratoEquipamentoService.obterPorParametros(params).toPromise();
-		this.equipamentos = data.items.map(e => e.equipamento);
 	}
 
 	private async obterAutorizadas() {
@@ -277,6 +255,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 				this.obterLocais();
 				this.obterEquipamentosContrato();
 			}
+			this.form.controls['atmId'].enable();
 		});
 
 		// Obter equipamentos ao trocar local
@@ -291,13 +270,19 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			this.obterRegioes();
 		});
 
-		// Obter equipamentos ao trocar contrato
-		this.form.controls['codContrato'].valueChanges.subscribe(() => {
-			this.obterEquipamentos();
-		});
 
-		// Obter PAT ao trocar equipamento contrato
+		// Obter PAT/Contrato/Modelo ao trocar equipamento contrato
 		this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato => {
+			const eContrato = await this._equipamentoContratoService.obterPorCodigo(codEquipContrato).toPromise();
+			const contrato = await this._contratoService.obterPorCodigo(eContrato.codContrato).toPromise();
+			const equipamento = await this._equipamentoService.obterPorCodigo(eContrato.codEquip).toPromise();
+
+			this.contratos = [ contrato ];
+			this.equipamentos = [ equipamento ];
+
+			this.form.controls['codContrato'].setValue(eContrato.codContrato);
+			this.form.controls['codEquip'].setValue(eContrato.codEquip);
+
 			if (!this.isAddMode) return;
 
 			var equipContrato = Enumerable.from(this.equipamentosContrato)
@@ -313,6 +298,17 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 				this.form.controls['codAutorizada'].setValue(equipContrato?.codAutorizada);
 			}
 		});
+
+		// Obter clientes ao filtrar
+		this.clienteFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(500),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterClientes(this.clienteFilterCtrl.value);
+			});
 
 		// Obter autorizadas ao trocar filial
 		this.form.controls['codFilial'].valueChanges.subscribe(async codFilial => {
@@ -330,11 +326,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		// validar intervenção
 		this.form.controls['codTipoIntervencao'].valueChanges.subscribe(() => {
 			this.validaIntervencao();
-		});
-
-		// Obter contratos ao trocar cliente
-		this.form.controls['codCliente'].valueChanges.subscribe(() => {
-			this.obterContratos();
 		});
 
 		// Obter equipamentos contrato ao trocar cliente
@@ -355,19 +346,16 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		this.form.controls['atmId'].valueChanges.subscribe(async (codEquipContrato) => {
 			const eContrato = await this._equipamentoContratoService.obterPorCodigo(codEquipContrato).toPromise();
 			const lAtendimento = await this._localAtendimentoService.obterPorCodigo(eContrato.codPosto).toPromise();
-			const cliente = await this._clienteService.obterPorCodigo(eContrato.codCliente).toPromise();
 			const contrato = await this._contratoService.obterPorCodigo(eContrato.codContrato).toPromise();
 			const equipamento = await this._equipamentoService.obterPorCodigo(eContrato.codEquip).toPromise();
 
 			this.locais = [ lAtendimento ];
 			this.equipamentosContrato = [ eContrato ];
-			this.clientes = [ cliente ];
 			this.contratos = [ contrato ];
 			this.equipamentos = [ equipamento ];
 
 			this.form.controls['codPosto'].setValue(eContrato.codPosto);
 			this.form.controls['codEquipContrato'].setValue(eContrato.codEquipContrato);
-			this.form.controls['codCliente'].setValue(eContrato.codCliente);
 			this.form.controls['codContrato'].setValue(eContrato.codContrato);
 			this.form.controls['codEquip'].setValue(eContrato.codEquip);
 		});
@@ -467,9 +455,13 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 	}
 
 	public async obterAtmsIds(filter: string = '') {
+		var codCliente = this.form.controls['codCliente'].value ?? null;
+
 		const data = await this._equipamentoContratoService.obterPorParametros({
 			sortActive: 'numSerie',
 			sortDirection: 'asc',
+			codClientes: codCliente?.toString(),
+			indAtivo: +this.indAtivo,
 			pageSize: 50,
 			filter: filter,
 		}).toPromise();

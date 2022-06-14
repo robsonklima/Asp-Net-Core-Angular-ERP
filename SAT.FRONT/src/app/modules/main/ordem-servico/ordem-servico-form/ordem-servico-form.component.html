@@ -43,9 +43,115 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes') }}</p>
                     <p class="text-secondary">{{ t('informacoes') }}</p>
-                </div>
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                </div>          
+
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-8">
+                    <div class="sm:col-span-2 mt-8">
+                        <mat-slide-toggle formControlName="indAtivo" [(ngModel)]="indAtivo" (change)="obterEquipamentosContrato()">
+                            {{ indAtivo ? 'Equipamentos Ativos' : 'Equipamentos Inativos' }}
+                        </mat-slide-toggle>
+                    </div>
+                </div>  
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <mat-select formControlName="codCliente">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="clienteFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente?.codCliente">
+                                {{ cliente?.nomeFantasia }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>Preencher este campo</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('serie') }} ou {{ t('ATM Id') }}</mat-label>
+                        <mat-select formControlName="atmId" [disabled]="true">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="atmIdFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let equipamento of atmsIds" [value]="equipamento?.codEquipContrato">
+                                {{ equipamento?.numSerie || equipamento?.atmId }} - {{ equipamento?.cliente?.nomeFantasia }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>Preencher este campo</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('local de atendimento') }}</mat-label>
+
+                        <mat-select formControlName="codPosto" [disabled]="!locais?.length">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="locaisFiltro" [searching]="searching"
+                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let local of locais"
+                                [matTooltip]="local?.endereco + ', ' + local?.bairro + ' - ' + local?.cidade?.nomeCidade"
+                                [value]="local?.codPosto">
+                                <span class="opacity-60 text-md">
+                                    {{ local?.numAgencia }}/{{ local?.dcPosto }}
+                                </span>
+
+                                {{local?.nomeLocal }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('equipamento contrato') }}</mat-label>
+                        
+                        <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato?.length">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="equipamentosContratoFilterCtrl" [searching]="searching"
+                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
+                                [value]="equipamentoContrato?.codEquipContrato">
+                                <span class="font-semibold" [class.text-red-500]="!equipamentoContrato?.indAtivo"
+                                    [class.text-green-500]="equipamentoContrato?.indAtivo">
+                                    [N.S] {{ equipamentoContrato?.numSerie || 'N/I' }}
+                                </span>
+                            
+                                <span class="opacity-60">
+                                    {{ equipamentoContrato?.equipamento?.nomeEquip || 'N/I' }}
+                                </span>
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('contrato') }}</mat-label>
+                        <mat-select formControlName="codContrato" [disabled]="true">
+                            <mat-option *ngFor="let contrato of contratos" [value]="contrato?.codContrato">
+                                {{ contrato?.nomeContrato }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('equipamento') }}</mat-label>
+                        <mat-select formControlName="codEquip" [disabled]="true">
+                            <mat-option *ngFor="let equipamento of equipamentos" [value]="equipamento?.codEquip">
+                                {{ equipamento?.nomeEquip }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>                                       
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tipo de intervencao') }}</mat-label>
@@ -74,66 +180,6 @@
                                 {{ t('alteracao corretiva invalida') }}
                             </div>
                         </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('cliente') }}</mat-label>
-                        <mat-select formControlName="codCliente">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="clienteFilterCtrl">
-                                </ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let cliente of clientes" [value]="cliente?.codCliente">
-                                {{ cliente?.nomeFantasia }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error>Preencher este campo</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('local de atendimento') }}</mat-label>
-
-                        <mat-select formControlName="codPosto" [disabled]="!locais?.length">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="locaisFiltro" [searching]="searching"
-                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
-                                </ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let local of locais"
-                                [matTooltip]="local?.endereco + ', ' + local?.bairro + ' - ' + local?.cidade?.nomeCidade"
-                                [value]="local?.codPosto">
-                                <span class="opacity-60 text-md">
-                                    {{ local?.numAgencia }}/{{ local?.dcPosto }}
-                                </span>
-
-                                {{local?.nomeLocal }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('equipamento contrato') }}</mat-label>
-
-                        <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato?.length">
-
-                            <mat-option *ngFor="let equipamentoContrato of equipamentosContrato"
-                                [value]="equipamentoContrato?.codEquipContrato">
-                                <span class="font-semibold" [class.text-red-500]="!equipamentoContrato?.indAtivo"
-                                    [class.text-green-500]="equipamentoContrato?.indAtivo">
-                                    [N.S] {{ equipamentoContrato?.numSerie }}
-                                </span>
-
-                                <span class="opacity-60">
-                                    {{ equipamentoContrato?.equipamento?.nomeEquip }}
-                                </span>
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">

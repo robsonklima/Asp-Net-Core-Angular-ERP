@@ -75,6 +75,7 @@ export class EquipamentoContrato {
     indPAE?: any;
     indRetrofit?: any;
     dataRetrofit1?: any;
+    atmId: string;
     dataRetrofit2?: any;
     indRetrofit2?: any;
     indRetrofit3?: any;
@@ -100,6 +101,7 @@ export interface EquipamentoContratoParameters extends QueryStringParameters {
     codPosto?: number;
     indAtivo?: number;
     codFilial?: number;
+    codClientes?: string;
 };
 
 export enum PontoEstrategicoEnum {

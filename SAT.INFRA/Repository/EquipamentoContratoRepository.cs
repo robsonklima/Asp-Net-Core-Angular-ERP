@@ -114,10 +114,13 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 equips = equips.Where(e =>
                     e.NumSerie.Contains(parameters.Filter) ||
-                    e.CodEquipContrato.ToString().Contains(parameters.Filter));
+                    e.AtmId.Contains(parameters.Filter));
 
             if (parameters.CodEquipContrato.HasValue)
                 equips = equips.Where(e => e.CodEquipContrato == parameters.CodEquipContrato);
+
+            if (!string.IsNullOrWhiteSpace(parameters.AtmId))
+                equips = equips.Where(e => e.AtmId.Contains(parameters.AtmId));
 
             if (parameters.CodPosto.HasValue)
                 equips = equips.Where(e => e.CodPosto == parameters.CodPosto);

@@ -82,6 +82,7 @@ namespace SAT.MODELS.Entities
         public byte? IndMecanismo { get; set; }
         public int? CodDispBBCriticidade { get; set; }
         public DispBBCriticidade DispBBCriticidade { get; set; }
+        public string AtmId { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
         

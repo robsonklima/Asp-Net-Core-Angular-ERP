@@ -13,6 +13,7 @@ namespace SAT.MODELS.Entities
         public AgendaTecnicoTipoEnum Tipo { get; set; }
         public int IndAtivo { get; set; }
         public int? CodOS { get; set; }
+        public OrdemServico OrdemServico { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioCad { get; set; }

@@ -125,6 +125,22 @@ namespace SAT.SERVICES.Services
 
                 var inicio = DateTime.Now;
 
+                var agendaAtual = _agendaRepo
+                                    .ObterPorParametros(new AgendaTecnicoParameters{CodTecnicos = agenda.CodTecnico.ToString(), IndAtivo = 1})
+                                    .Where(a => a.Inicio >= DateTime.Now.Date && a.Inicio <= DateTime.Now.Date.AddDays(1))
+                                    .OrderByDescending(a => a.Fim);
+                if(agendaAtual.Any())
+                {
+                    if (agendaAtual.Any(a => a.OrdemServico.CodPosto.Equals(os.CodPosto)))
+                    {
+                        inicio = agendaAtual.FirstOrDefault(a => a.OrdemServico.CodPosto.Equals(os.CodPosto)).Inicio.Value; 
+                    } 
+                    else
+                    {
+                        inicio = agendaAtual.FirstOrDefault().Fim.Value.AddMinutes(30);
+                    }
+                }
+
                 if (inicioFoiInformado(agenda)) 
                     inicio = agenda.Inicio.Value;
 

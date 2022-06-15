@@ -288,7 +288,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 			this.form.controls['codContrato'].setValue(eContrato.codContrato);
 			this.form.controls['codEquip'].setValue(eContrato.codEquip);
-			this.form.controls['enderecoLocal'].setValue(eContrato.localAtendimento.endereco);
+			
+			const endereco: string = `${eContrato.localAtendimento?.endereco || 'N/I'} - ${eContrato.localAtendimento?.cidade?.nomeCidade || 'N/I'} - ${eContrato.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'N/I'}`;
+			this.form.controls['enderecoLocal'].setValue(endereco.toString());
 
 			if (!this.isAddMode) return;
 
@@ -366,7 +368,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			this.form.controls['codEquipContrato'].setValue(eContrato.codEquipContrato);
 			this.form.controls['codContrato'].setValue(eContrato.codContrato);
 			this.form.controls['codEquip'].setValue(eContrato.codEquip);
-			this.form.controls['enderecoLocal'].setValue(eContrato.localAtendimento.endereco);
+
+			const endereco: string = `${eContrato.localAtendimento?.endereco || 'N/I'} - ${eContrato.localAtendimento?.cidade?.nomeCidade || 'N/I'} - ${eContrato.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'N/I'}`;
+
+			this.form.controls['enderecoLocal'].setValue(endereco.toString());
+			
 		});
 
 		// Preencher form ao filtrar numero de série / atm id

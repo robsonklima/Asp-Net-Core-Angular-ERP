@@ -11,7 +11,7 @@ namespace SAT.SERVICES.Services
         {
             var os = _osRepo.ObterPorParametros(parameters);
 
-            var viewUnificada = _osRepo.ObterPorView(parameters);
+            var viewUnificada = _osRepo.ObterViewPorOs(os.Select(os => os.CodOS).ToArray());
 
             var osSheet = os.Select(os =>
                              new

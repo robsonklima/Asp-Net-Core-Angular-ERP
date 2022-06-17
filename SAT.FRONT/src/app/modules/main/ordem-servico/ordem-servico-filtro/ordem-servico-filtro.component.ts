@@ -30,6 +30,8 @@ import Enumerable from 'linq';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { statusConst } from 'app/core/types/status-types';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
 	selector: 'app-ordem-servico-filtro',
@@ -60,6 +62,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	tecnicoFilterCtrl: FormControl = new FormControl();
 	equipamentoCtrl: FormControl = new FormControl();
 
+	readonly separatorKeysCodes = [ENTER, COMMA] as const;
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -85,6 +88,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
 	loadData(): void {
 		this.pontosEstrategicos = PontoEstrategicoEnum;
+		this.chamadosPerto = this.filter?.parametros['codOSs'] ? this.filter?.parametros['codOSs']?.split(',') : [];
+
 		this.obterFiliais();
 		this.obterClientes();
 		this.obterTiposIntervencao();
@@ -104,7 +109,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			codTiposIntervencao: [undefined],
 			codClientes: [undefined],
 			codStatusServicos: [undefined],
-			codOS: [undefined],
+			codOSs: [undefined],
 			numOSCliente: [undefined],
 			numOSQuarteirizada: [undefined],
 			dataAberturaInicio: [undefined],
@@ -125,6 +130,39 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		});
 
 		this.form.patchValue(this.filter?.parametros);
+	}
+
+	add(event: MatChipInputEvent): void {
+		const value = (event.value || '').trim();
+		if (value) {
+			this.chamadosPerto.push(value);
+		}
+		event.chipInput!.clear();
+
+		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
+	}
+
+	paste(event: ClipboardEvent): void {	
+		event.preventDefault();
+		event.clipboardData
+			.getData('Text') 
+			.split(/;|,|\n/)
+			.forEach(value => {
+				if (value.trim()) {
+					this.chamadosPerto.push(value.trim());
+				}
+			})
+		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
+	}
+
+	remove(os: any): void {
+		const index = this.chamadosPerto.indexOf(os);
+
+		if (index >= 0) {
+			this.chamadosPerto.splice(index, 1);
+		}
+
+		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
 	}
 
 	async obterFiliais(nomeFilial: string = '') {
@@ -341,6 +379,18 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	}
 
 	registrarEmitters(): void {
+		this.form.controls['codOSs'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				if(this.chamadosPerto == null){
+					this.chamadosPerto = this.filter?.parametros['codOSs'] ? this.filter?.parametros['codOSs']?.split(',') : [];
+				}
+			});
+
 		this.clienteFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -424,7 +474,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
 	limpar() {
 		super.limpar();
-
+		this.chamadosPerto = [];
 		if (this.userSession?.usuario?.codFilial) {
 			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
 			this.form.controls['codFiliais'].disable();

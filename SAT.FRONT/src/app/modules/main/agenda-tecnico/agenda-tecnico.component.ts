@@ -346,7 +346,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
       os.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
       os.codTecnico = agendaTecnico.codTecnico;
       os.codUsuarioManut = this.userSession.usuario.codUsuario,
-        os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
+      os.codStatusServico = StatusServicoEnum.TRANSFERIDO;
 
       await this._ordemServicoSvc.atualizar(os).toPromise();
       this._snack.exibirToast(`Chamado transferido com sucesso`, 'success');

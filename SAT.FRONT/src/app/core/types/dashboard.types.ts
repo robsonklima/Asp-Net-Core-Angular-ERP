@@ -6,6 +6,9 @@ export interface ViewDadosDashboardParameters extends QueryStringParameters {
 	codFilial?: number;
 	codAutorizada?: number;
 	codRegiao?: number;
+	codFiliais?: string;
+	codRegioes?: string;
+	codAutorizadas?: string;
 	codClientes?: string;
 }
 

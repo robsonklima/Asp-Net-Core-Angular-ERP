@@ -80,8 +80,11 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.loading = true;
 		
 		this.limparMapa();
+		
 		await this.obterEquipamentosContrato(params)
-		this.obterTecnicos(params);
+		
+		if (params.exibirTecnicos)
+			this.obterTecnicos(params);
 
 		this.loading = false;
 	}
@@ -98,11 +101,12 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	private async obterTecnicos(params: any = null) {
 		let data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
-			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
-			codRegiao: params.codRegiao ,
-			codAutorizada: params.codAutorizada
+			codFiliais: params.codFiliais,
+			codRegioes: params.codRegioes,
+			codAutorizadas: params.codAutorizadas,
 		}).toPromise();
-
+		console.log(data);
+		
 		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
 			return {
 				lat: +tecnico.latitude,
@@ -135,10 +139,12 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
 			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
-			codRegiao: params.codRegiao,
-			codAutorizada: params.codAutorizada,
+			codFiliais: params.codFiliais,
+			codRegioes: params.codRegioes,
+			codAutorizadas: params.codAutorizadas,
 			codClientes: params.codClientes
 		}).toPromise();
+		console.log(data);
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;
 
@@ -146,7 +152,24 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			return {
 				lat: +equip.latitude,
 				lng: +equip.longitude,
-				toolTip: equip.numSerie
+				toolTip: `
+						<table>
+							<tbody>				
+							<tr>
+								<td>Modelo: </td>
+								<td>${equip.equipamento}</td>
+							</tr>
+							<tr>
+								<td>Série: </td>
+								<td>${equip.numSerie}</td>
+							</tr>
+							<tr>
+								<td>Cliente: </td>
+								<td>${equip.cliente}</td>
+							</tr>
+							</tbody>
+						</table>
+						`						
 			}
 		});
 

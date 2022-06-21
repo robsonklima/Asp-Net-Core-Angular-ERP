@@ -215,10 +215,12 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				(
 					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR ||
 					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_DE_SETOR ||
-					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_COORDENADOR
+					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_COORDENADOR ||
+					this.userSession.usuario.codPerfil === PerfilEnum.FILIAIS_SUPERVISOR
 				) && 
 				this.os?.codTipoIntervencao === TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO && 
-				this.os?.codStatusServico !== StatusServicoEnum.FECHADO && this.os?.codStatusServico !== StatusServicoEnum.CANCELADO
+				this.os?.codStatusServico !== StatusServicoEnum.FECHADO && 
+				this.os?.codStatusServico !== StatusServicoEnum.CANCELADO
 			)
 			return false;
 

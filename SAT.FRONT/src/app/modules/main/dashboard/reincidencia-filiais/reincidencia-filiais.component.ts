@@ -86,9 +86,16 @@ export class ReincidenciaFiliaisComponent extends Filterable implements OnInit, 
       .viewDashboardReincidenciaFiliais;
 
     if (data?.length) {
-      data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
-      let labels = data.map(d => d.filial);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
+      const mediaGlobal = Enumerable.from(data).where(d => d.filial === 'GLOBAL').toArray();
+      const filiais = Enumerable.from(data).where(d => d.filial !== 'GLOBAL').orderByDescending(ord => ord.percentual).toArray();
+
+      const reincidencia = [
+        ...mediaGlobal,
+        ...filiais
+      ];
+
+      let labels = reincidencia.map(d => d.filial);
+      let valoresColuna = reincidencia.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(() => { valoresLinha.push(this.meta); });
       this.haveData = true;

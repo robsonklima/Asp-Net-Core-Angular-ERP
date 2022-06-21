@@ -1,540 +1,558 @@
 <mat-drawer-container class="flex-auto h-full">
-  <mat-drawer-content>
-    <div class="flex flex-col flex-auto min-w-0">
-      <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between bg-card py-0 px-6 md:px-8 border-b">
-        <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
-          <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
-            <div class="flex flex-auto items-center min-w-0">
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center font-medium">
-                  <div>
-                    <a class="whitespace-nowrap text-primary-600" routerLink="/default">
-                      Home
-                    </a>
-                  </div>
+	<mat-drawer-content>
+		<div class="flex flex-col flex-auto min-w-0">
+			<div
+				class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between bg-card py-0 px-6 md:px-8 border-b">
+				<div class="flex flex-col w-full mx-auto px-6 sm:px-8">
+					<div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
+						<div class="flex flex-auto items-center min-w-0">
+							<div class="flex-1 min-w-0">
+								<div class="flex flex-wrap items-center font-medium">
+									<div>
+										<a class="whitespace-nowrap text-primary-600" routerLink="/default">
+											Home
+										</a>
+									</div>
 
-                  <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <span class="ml-1 text-secondary">Dashboard</span>
-                  </div>
+									<div class="flex items-center ml-1 whitespace-nowrap">
+										<mat-icon class="icon-size-5 text-secondary"
+											[svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+										<span class="ml-1 text-secondary">Dashboard</span>
+									</div>
 
-                  <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                    <span class="ml-1 text-secondary">{{ slides[this.tabGroup.selectedIndex] }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+									<div class="flex items-center ml-1 whitespace-nowrap">
+										<mat-icon class="icon-size-5 text-secondary"
+											[svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+										<span class="ml-1 text-secondary">{{ slides[this.tabGroup.selectedIndex]
+											}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-          <div class="right-0">
-            <mat-slide-toggle [(ngModel)]="permiteTrocarSlideAutomaticamente">
-                {{ permiteTrocarSlideAutomaticamente ? 'Alternando Slides Automaticamente' : 'Slide Fixado' }}
-            </mat-slide-toggle>
-          </div>
-        </div>
-      </div>
+				<div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+					<div class="right-0">
+						<mat-slide-toggle [(ngModel)]="permiteTrocarSlideAutomaticamente">
+							{{ permiteTrocarSlideAutomaticamente ? 'Alternando Slides Automaticamente' : 'Slide Fixado'
+							}}
+						</mat-slide-toggle>
+					</div>
+				</div>
+			</div>
 
-      <div class="flex-auto mt-4 sm:mt-6">
-        <div class="w-full mx-auto">
-          <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
-            <mat-tab *ngIf="verificarPermissaoSlide('Status Filiais')">
-              <ng-template mat-tab-label>
-                <span class="text-indigo-600">Status Filiais</span>
-              </ng-template>
+			<div class="flex-auto mt-4 sm:mt-6">
+				<div class="w-full mx-auto">
+					<mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+						<mat-tab *ngIf="verificarPermissaoSlide('Status Filiais')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Status Filiais</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid min-h-full lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col flex-auto">
-                      <app-indicadores-filiais></app-indicadores-filiais>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div
+									class="grid min-h-full lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col flex-auto">
+											<app-indicadores-filiais></app-indicadores-filiais>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Detalhado Filial')">
-              <ng-template mat-tab-label>
-                <span class="text-indigo-600">Detalhado Filial</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Detalhado Filial')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Detalhado Filial</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="w-full bg-card shadow rounded-2xl overflow-hidden p-6">
-                  <app-indicadores-filiais-detalhados></app-indicadores-filiais-detalhados>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="w-full bg-card shadow rounded-2xl overflow-hidden p-6">
+									<app-indicadores-filiais-detalhados></app-indicadores-filiais-detalhados>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Chamados Antigos')">
-              <ng-template mat-tab-label>
-                <span class="text-indigo-600">Chamados Antigos</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Chamados Antigos')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Chamados Antigos</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Chamados Mais Antigos <span class="text-secondary font-light">em Aberto</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto">
-                      <app-chamados-mais-antigos></app-chamados-mais-antigos>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Chamados Mais Antigos <span class="text-secondary font-light">em
+													Aberto</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto">
+											<app-chamados-mais-antigos></app-chamados-mais-antigos>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('BBTS Regiões')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">BBTS Resumo</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('BBTS Regiões')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">BBTS Resumo</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Resumo das Regiões Brasileiras
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto">
-                      <app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="false"></app-disponibilidade-bbts-regioes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Resumo das Regiões Brasileiras
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto">
+											<app-disponibilidade-bbts-regioes [bbtsRegiaoMulta]="false">
+											</app-disponibilidade-bbts-regioes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('BBTS Filiais')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">BBTS Disponibilidade por Filial</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('BBTS Filiais')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">BBTS Disponibilidade por Filial</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        BBTS Disponibilidade por Filial
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-bbts-filiais> </app-disponibilidade-bbts-filiais>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												BBTS Disponibilidade por Filial
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-disponibilidade-bbts-filiais> </app-disponibilidade-bbts-filiais>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('BBTS Multa Disponibilidade')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">BBTS Multa por Filial</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('BBTS Multa Disponibilidade')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">BBTS Multa por Filial</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        BBTS Multa por Filial
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto">
-                      <app-disponibilidade-bbts-multa></app-disponibilidade-bbts-multa>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												BBTS Multa por Filial
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto">
+											<app-disponibilidade-bbts-multa></app-disponibilidade-bbts-multa>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('SPA')">
-              <ng-template mat-tab-label>
-                <span class="text-green-600">SPA</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('SPA')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">SPA</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        SPA - Solução no Primeiro Atendimento
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-dashboard-spa></app-dashboard-spa>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												SPA - Solução no Primeiro Atendimento
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-dashboard-spa></app-dashboard-spa>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Desempenho Técnico')">
-              <ng-template mat-tab-label>
-                <span class="text-green-600">Desempenho Técnico</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Desempenho Técnico')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Desempenho Técnico</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos com maior desempenho <span class="text-secondary font-light">Mês Corrente</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'desc'"></app-tecnicos-desempenho-spa>
-                    </div>
-                  </div>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos com maior desempenho <span
+													class="text-secondary font-light">Mês Corrente</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-desempenho-spa [ordem]="'desc'"></app-tecnicos-desempenho-spa>
+										</div>
+									</div>
 
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos com menor desempenho <span class="text-secondary font-light">Mês Corrente</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-desempenho-spa [ordem]="'asc'"></app-tecnicos-desempenho-spa>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos com menor desempenho <span
+													class="text-secondary font-light">Mês Corrente</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-desempenho-spa [ordem]="'asc'"></app-tecnicos-desempenho-spa>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Disponibilidade Técnicos')">
-              <ng-template mat-tab-label>
-                <span class="text-green-600">Disponibilidade Técnicos</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Disponibilidade Técnicos')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Disponibilidade Técnicos</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Disponibilidade dos Técnicos
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Disponibilidade dos Técnicos
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-disponibilidade-tecnicos></app-disponibilidade-tecnicos>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('SLA Clientes')">
-              <ng-template mat-tab-label>
-                <span class="text-purple-600">SLA Clientes</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('SLA Clientes')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">SLA Clientes</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Índice de SLA por Cliente
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-sla-clientes></app-sla-clientes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Índice de SLA por Cliente
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-sla-clientes></app-sla-clientes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Filiais')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Reincidência Filiais</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Reincidência Filiais')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Reincidência Filiais</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Reincidência das Filiais
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-filiais></app-reincidencia-filiais>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Reincidência das Filiais
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-reincidencia-filiais></app-reincidencia-filiais>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Filial')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Reincidência Filial</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Reincidência Filial')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Reincidência Filial</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Reincidência Último Quadrimestre
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-quadrimestre-filial></app-reincidencia-quadrimestre-filial>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Reincidência Último Quadrimestre
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-reincidencia-quadrimestre-filial>
+											</app-reincidencia-quadrimestre-filial>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Técnicos')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Reincidência Técnicos</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Reincidência Técnicos')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Reincidência Técnicos</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Mais Reincidentes <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'desc'"></app-tecnicos-reincidentes>
-                    </div>
-                  </div>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos Mais Reincidentes <span
+													class="text-secondary font-light">Últimos 30 dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-reincidentes [ordem]="'desc'"></app-tecnicos-reincidentes>
+										</div>
+									</div>
 
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Menos Reincidentes <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-reincidentes [ordem]="'asc'"></app-tecnicos-reincidentes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos Menos Reincidentes <span
+													class="text-secondary font-light">Últimos 30 dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-reincidentes [ordem]="'asc'"></app-tecnicos-reincidentes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Reincidência Clientes')">
-              <ng-template mat-tab-label>
-                <span class="text-indigo-600">Reincidência Clientes</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Reincidência Clientes')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Reincidência Clientes</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Reincidência por Clientes
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-reincidencia-clientes></app-reincidencia-clientes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Reincidência por Clientes
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-reincidencia-clientes></app-reincidencia-clientes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Equipamentos Reincidentes')">
-              <ng-template mat-tab-label>
-                <span class="text-indigo-600">Equipamentos Reincidentes</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Equipamentos Reincidentes')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Equipamentos Reincidentes</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Equipamentos Mais Reincidentes <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Equipamentos Mais Reincidentes <span
+													class="text-secondary font-light">Últimos 30 dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-equipamentos-mais-reincidentes></app-equipamentos-mais-reincidentes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Pendência Filiais')">
-              <ng-template mat-tab-label>
-                <span class="text-blue-600">Pendência Filiais</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Pendência Filiais')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Pendência Filiais</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Pendência das Filiais
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-pendencia-filiais></app-pendencia-filiais>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Pendência das Filiais
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-pendencia-filiais></app-pendencia-filiais>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Pendência Filial')">
-              <ng-template mat-tab-label>
-                <span class="text-blue-600">Pendência Filial</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Pendência Filial')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Pendência Filial</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Pendência último Quadrimestre <span class="text-secondary font-light">da Filial</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-pendencia-quadrimestre-filial></app-pendencia-quadrimestre-filial>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Pendência último Quadrimestre <span class="text-secondary font-light">da
+													Filial</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-pendencia-quadrimestre-filial></app-pendencia-quadrimestre-filial>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Pendência Técnicos')">
-              <ng-template mat-tab-label>
-                <span class="text-blue-600">Pendência Técnicos</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Pendência Técnicos')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Pendência Técnicos</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Mais Pendentes <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'desc'"></app-tecnicos-pendentes>
-                    </div>
-                  </div>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos Mais Pendentes <span class="text-secondary font-light">Últimos
+													30 dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-pendentes [ordem]="'desc'"></app-tecnicos-pendentes>
+										</div>
+									</div>
 
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Técnicos Menos Pendentes <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-tecnicos-pendentes [ordem]="'asc'"></app-tecnicos-pendentes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Técnicos Menos Pendentes <span class="text-secondary font-light">Últimos
+													30 dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-tecnicos-pendentes [ordem]="'asc'"></app-tecnicos-pendentes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Peças Faltantes Filiais')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Peças Faltantes Filiais</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Peças Faltantes Filiais')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Peças Faltantes Filiais</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Peças Faltantes
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-pecas-faltantes-filiais> </app-pecas-faltantes-filiais>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Peças Faltantes
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-pecas-faltantes-filiais> </app-pecas-faltantes-filiais>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Peças Mais Faltantes')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">SKU Faltante</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Peças Mais Faltantes')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">SKU Faltante</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        SKU Faltante <span class="text-secondary font-light">Últimos 30 dias</span>
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-cinco-pecas-mais-faltantes></app-cinco-pecas-mais-faltantes>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												SKU Faltante <span class="text-secondary font-light">Últimos 30
+													dias</span>
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-cinco-pecas-mais-faltantes></app-cinco-pecas-mais-faltantes>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Top Peças Faltantes')">
-              <ng-template mat-tab-label>
-                <span class="text-teal-600">Top Peças Faltantes</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Top Peças Faltantes')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900">Top Peças Faltantes</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <div class="grid lg:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
-                  <div
-                    class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row items-start justify-between">
-                      <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                        Peças Faltantes Mais Críticas
-                      </div>
-                    </div>
-                    <div class="flex flex-col flex-auto mt-6">
-                      <app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-            </mat-tab>
+							<ng-template matTabContent>
+								<div class="grid lg:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
+									<div
+										class="sm:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+										<div class="flex flex-col sm:flex-row items-start justify-between">
+											<div class="text-lg font-medium tracking-tight leading-6 truncate">
+												Peças Faltantes Mais Críticas
+											</div>
+										</div>
+										<div class="flex flex-col flex-auto mt-6">
+											<app-pecas-faltantes-mais-criticas></app-pecas-faltantes-mais-criticas>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</mat-tab>
 
-            <mat-tab *ngIf="verificarPermissaoSlide('Densidade')">
-              <ng-template mat-tab-label>
-                <span class="text-pink-600">Densidade</span>
-              </ng-template>
+						<mat-tab *ngIf="verificarPermissaoSlide('Densidade')">
+							<ng-template mat-tab-label>
+								<span class="text-slate-900 mr-4">Densidade</span>
+							</ng-template>
 
-              <ng-template matTabContent>
-                <app-densidade></app-densidade>
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      </div>
-    </div>
-  </mat-drawer-content>
+							<ng-template matTabContent>
+								<app-densidade></app-densidade>
+							</ng-template>
+						</mat-tab>
+					</mat-tab-group>
+				</div>
+			</div>
+		</div>
+	</mat-drawer-content>
 </mat-drawer-container>

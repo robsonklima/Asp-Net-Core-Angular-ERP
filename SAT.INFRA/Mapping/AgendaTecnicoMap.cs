@@ -11,6 +11,13 @@ namespace SAT.INFRA.Mapping
             builder.ToTable("AgendaTecnico");
             builder.HasKey(prop => prop.CodAgendaTecnico);
             builder.Ignore(prop => prop.Data);
+
+            builder
+            .HasOne(prop => prop.OrdemServico)
+            .WithMany()
+            .HasForeignKey(prop => prop.CodOS)
+            .HasPrincipalKey(prop => prop.CodOS);
+
         }
     }
 }

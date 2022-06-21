@@ -40,6 +40,12 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodOSs))
+            {
+                int[] cods = parameters.CodOSs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(q => cods.Contains(q.CodOS));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.NumOSQuarteirizada))
                 query = query.Where(os => os.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
 

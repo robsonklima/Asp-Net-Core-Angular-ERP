@@ -77,15 +77,14 @@ namespace SAT.INFRA.Repository
             return query.AsNoTracking();
 
         }
-        public List<ViewExportacaoChamadosUnificado> ObterPorView(OrdemServicoParameters parameters)
-        {
-            var viewExportOs = _context.ViewExportacaoChamadosUnificado.Where(table => table.CodStatusServico == 1 && table.CodFilial == 4).ToList();
 
+        public List<ViewExportacaoChamadosUnificado> ObterViewPorOs(int[] osList)
+        {
             IQueryable<ViewExportacaoChamadosUnificado> query = _context.ViewExportacaoChamadosUnificado.AsQueryable();
 
-            query = AplicarFiltroPadraoView(query, parameters);
+            query = query.Where(q => osList.Contains(q.CodOS.Value) );
 
-            return PagedList<ViewExportacaoChamadosUnificado>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+            return PagedList<ViewExportacaoChamadosUnificado>.ToPagedList(query, 1 , 100000);
         }
 
         public OrdemServico ObterPorCodigo(int codigo) {

@@ -101,7 +101,11 @@ namespace SAT.INFRA.Repository
         }
         public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
-            var agendas = _context.AgendaTecnico.AsNoTracking().AsQueryable();
+            var agendas = _context
+                            .AgendaTecnico
+                                .Include(a => a.OrdemServico)
+                                .AsNoTracking()
+                                .AsQueryable();
 
             if (parameters.Inicio.HasValue && parameters.Fim.HasValue) {
                 agendas = agendas.Where(a => a.Data.Value.Date >= parameters.Inicio.Value.Date && a.Data.Value.Date <= parameters.Fim.Value.Date);

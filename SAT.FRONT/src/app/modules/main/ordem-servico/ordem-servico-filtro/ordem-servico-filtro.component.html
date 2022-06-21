@@ -243,21 +243,22 @@
                     <mat-date-range-picker #pickerSolucao></mat-date-range-picker>
                 </mat-form-field>
 
-                <!-- <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('data do cancelamento') }}</mat-label>
-                    <mat-date-range-input [rangePicker]="pickerCancelamento">
-                        <input formControlName="dataCancelamentoInicio" matStartDate placeholder="Início">
-                        <input formControlName="dataCancelamentoFim" matEndDate placeholder="Fim">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="pickerCancelamento"></mat-datepicker-toggle>
-                    <mat-date-range-picker #pickerCancelamento></mat-date-range-picker>
-                </mat-form-field> -->
-
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os perto') }}</mat-label>
-                    <input matInput formControlName="codOS" maxlength="20">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clipboard'">
-                    </mat-icon>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let os of chamadosPerto" (removed)="remove(os)">
+                            {{ os }}
+                            <button matChipRemove>
+                              <mat-icon>cancel</mat-icon>
+                            </button>
+                          </mat-chip>
+                    </mat-chip-list>
+                    <input  [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="true"
+                            (matChipInputTokenEnd)="add($event)"
+                            (paste)="paste($event)"
+                    >
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">

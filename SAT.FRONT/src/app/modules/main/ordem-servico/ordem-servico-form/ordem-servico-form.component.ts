@@ -113,6 +113,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		await this.obterOrdemServico().then(async () => {
 			this.loading = false;
 		});
+
+		this.form.controls['enderecoLocal'].disable();
+		this.form.controls['atmId'].disable();
+		this.form.controls['codEquip'].disable();
+		this.form.controls['codContrato'].disable();
 	}
 
 	private inicializarForm(): void {
@@ -146,7 +151,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			indBloqueioReincidencia: [undefined],
 			codEquip: [undefined],
 			codContrato: [undefined],
-			indAtivo: [undefined]
+			indAtivo: [undefined],
+			enderecoLocal: [undefined]
 		});
 	}
 
@@ -275,13 +281,16 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		this.form.controls['codEquipContrato'].valueChanges.subscribe(async codEquipContrato => {
 			const eContrato = await this._equipamentoContratoService.obterPorCodigo(codEquipContrato).toPromise();
 			const contrato = await this._contratoService.obterPorCodigo(eContrato.codContrato).toPromise();
-			const equipamento = await this._equipamentoService.obterPorCodigo(eContrato.codEquip).toPromise();
+			const equipamento = await this._equipamentoService.obterPorCodigo(eContrato.codEquip).toPromise();			
 
 			this.contratos = [ contrato ];
 			this.equipamentos = [ equipamento ];
 
 			this.form.controls['codContrato'].setValue(eContrato.codContrato);
 			this.form.controls['codEquip'].setValue(eContrato.codEquip);
+			
+			const endereco: string = `${eContrato.localAtendimento?.endereco || 'N/I'} - ${eContrato.localAtendimento?.cidade?.nomeCidade || 'N/I'} - ${eContrato.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'N/I'}`;
+			this.form.controls['enderecoLocal'].setValue(endereco.toString());
 
 			if (!this.isAddMode) return;
 
@@ -296,7 +305,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 				this.form.controls['codRegiao'].setValue(equipContrato?.codRegiao);
 				this.form.controls['codAutorizada'].setValue(equipContrato?.codAutorizada);
-			}
+				this.form.controls['CodFilial'].setValue(equipContrato?.codFilial);
+			}			
 		});
 
 		// Obter clientes ao filtrar
@@ -358,6 +368,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			this.form.controls['codEquipContrato'].setValue(eContrato.codEquipContrato);
 			this.form.controls['codContrato'].setValue(eContrato.codContrato);
 			this.form.controls['codEquip'].setValue(eContrato.codEquip);
+
+			const endereco: string = `${eContrato.localAtendimento?.endereco || 'N/I'} - ${eContrato.localAtendimento?.cidade?.nomeCidade || 'N/I'} - ${eContrato.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'N/I'}`;
+
+			this.form.controls['enderecoLocal'].setValue(endereco.toString());
+			
 		});
 
 		// Preencher form ao filtrar numero de série / atm id
@@ -646,6 +661,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			this._snack.exibirToast("Registro adicionado com sucesso!", "success");
 			this._router.navigate(['ordem-servico/detalhe/' + os.codOS]);
 		});
+	}
+
+	refresh(): void {
+		window.location.reload();
 	}
 
 	ngOnDestroy() {

@@ -85,7 +85,7 @@ namespace SAT.SERVICES.Services
             {
                 EmailRemetente = "equipe.sat@perto.com.br",
                 NomeRemetente = "Sistema SAT",
-                EmailCC = "equipe.sat@perto.com.br",
+                EmailCC = "equipe.sat@perto.com.br; implantacao@perto.com.br",
                 NomeCC = "Equipe SAT",
                 EmailDestinatario = usuario.Email,
                 NomeDestinatario = usuario.NomeUsuario,

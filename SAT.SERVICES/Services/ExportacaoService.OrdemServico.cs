@@ -1,6 +1,7 @@
 using System.Linq;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities.Constants;
+using System;
 
 namespace SAT.SERVICES.Services
 {
@@ -10,7 +11,7 @@ namespace SAT.SERVICES.Services
         {
             var os = _osRepo.ObterPorParametros(parameters);
 
-            var viewUnificada = _osRepo.ObterPorView(parameters);
+            var viewUnificada = _osRepo.ObterViewPorOs(os.Select(os => os.CodOS).ToArray());
 
             var osSheet = os.Select(os =>
                              new
@@ -128,7 +129,10 @@ namespace SAT.SERVICES.Services
                                                 DataHoraAberturaOS = v.DataHoraAberturaOS.HasValue ? v.DataHoraAberturaOS.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraSolicitacao = v.DataHoraSolicitacao.HasValue ? v.DataHoraSolicitacao.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraFechamento = v.DataHoraFechamento.HasValue ? v.DataHoraFechamento.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
-                                                DataAgendamento = v.DataAgendamento.HasValue ? v.DataAgendamento.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
+                                                DataHoraAgendamento = v.DataAgendamento.HasValue ? v.DataAgendamento.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
+                                                HorasOsAberta = (v.DataHoraFechamento.HasValue)  ? 
+                                                                v.DataHoraFechamento.Value.Subtract(v.DataHoraAberturaOS.Value).TotalHours : 
+                                                                DateTime.Now.Subtract(v.DataHoraAberturaOS.Value).TotalHours,
                                                 StatusSLAOS = v.StatusSLAOS ?? Constants.NENHUM_REGISTRO,
                                                 StatusOS = v.StatusOS ?? Constants.NENHUM_REGISTRO,
                                                 Intervencao = v.Intervencao ?? Constants.NENHUM_REGISTRO,
@@ -164,6 +168,8 @@ namespace SAT.SERVICES.Services
                                                 DataHoraChegada = v.DataHoraChegada.HasValue ? v.DataHoraChegada.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraInicio = v.DataHoraInicio.HasValue ? v.DataHoraInicio.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraFim = v.DataHoraFim.HasValue ? v.DataHoraFim.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
+                                                HorasTotalRAT = (v.DataHoraFim.HasValue && v.DataHoraInicio.HasValue)  ? 
+                                                                v.DataHoraFim.Value.Subtract(v.DataHoraInicio.Value).TotalHours : 0,
                                                 TempoAtendimentoMin = v.TempoAtendimentoMin.ToString() ?? Constants.NENHUM_REGISTRO,
                                                 RelatoSolucao = v.RelatoSolucao ?? Constants.NENHUM_REGISTRO,
                                                 ObsRAT = v.ObsRAT ?? Constants.NENHUM_REGISTRO,

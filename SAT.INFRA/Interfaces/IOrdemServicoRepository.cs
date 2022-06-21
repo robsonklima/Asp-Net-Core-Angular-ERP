@@ -14,6 +14,6 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
-        List<MODELS.ViewModels.ViewExportacaoChamadosUnificado> ObterPorView(OrdemServicoParameters parameters);
+        List<MODELS.ViewModels.ViewExportacaoChamadosUnificado> ObterViewPorOs(int[] osList);
     }
 }

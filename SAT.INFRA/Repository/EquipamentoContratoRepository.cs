@@ -76,6 +76,8 @@ namespace SAT.INFRA.Repository
         {
             return _context.EquipamentoContrato
                 .Include(e => e.LocalAtendimento)
+                    .ThenInclude(e => e.Cidade)
+                        .ThenInclude(e => e.UnidadeFederativa)
                 .Include(e => e.Cliente)
                 .Include(e => e.Contrato)
                 .Include(e => e.Equipamento)

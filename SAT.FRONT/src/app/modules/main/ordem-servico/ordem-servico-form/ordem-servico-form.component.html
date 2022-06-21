@@ -72,7 +72,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('serie') }} ou {{ t('ATM Id') }}</mat-label>
-                        <mat-select formControlName="atmId" [disabled]="true">
+                        <mat-select formControlName="atmId">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"
@@ -107,8 +107,8 @@
                         </mat-select>
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                    
+                    </mat-form-field>       
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento contrato') }}</mat-label>
                         
@@ -133,11 +133,16 @@
                         </mat-select>
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
+                    </mat-form-field>                            
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12" >
+                        <mat-label>{{ t('endereco') }}</mat-label>
+                        <input matInput formControlName="enderecoLocal">
+                    </mat-form-field>                    
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('contrato') }}</mat-label>
-                        <mat-select formControlName="codContrato" [disabled]="true">
+                        <mat-select formControlName="codContrato">
                             <mat-option *ngFor="let contrato of contratos" [value]="contrato?.codContrato">
                                 {{ contrato?.nomeContrato }}
                             </mat-option>
@@ -146,7 +151,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento') }}</mat-label>
-                        <mat-select formControlName="codEquip" [disabled]="true">
+                        <mat-select formControlName="codEquip">
                             <mat-option *ngFor="let equipamento of equipamentos" [value]="equipamento?.codEquip">
                                 {{ equipamento?.nomeEquip }}
                             </mat-option>
@@ -321,6 +326,11 @@
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="refresh()">
+                        <span>
+                            {{ t('limpar') }}
+                        </span>
+                    </button>                    
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}

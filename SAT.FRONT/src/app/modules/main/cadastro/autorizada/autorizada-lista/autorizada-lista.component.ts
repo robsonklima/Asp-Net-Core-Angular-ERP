@@ -94,7 +94,7 @@ export class AutorizadaListaComponent implements AfterViewInit {
 
   public async exportar() {
     this.isLoading = true;
-		window.location.href = await this._exportacaoService.exportar('Autorizada', FileMime.Excel, {});
+		await this._exportacaoService.exportar('Autorizada', FileMime.Excel, {});
     this.isLoading = false;
   }
 

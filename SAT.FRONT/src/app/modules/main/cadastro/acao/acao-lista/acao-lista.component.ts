@@ -103,7 +103,7 @@ export class AcaoListaComponent implements OnInit {
 
   public async exportar() {
     this.isLoading = true;
-		window.location.href = await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
     this.isLoading = false;
   }
 

@@ -132,7 +132,7 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 	async exportar() {
 		this.isLoading = true;
 
-		window.location.href = await this._exportacaoService.exportar('EquipamentoContrato', FileMime.Excel, this.filter?.parametros);
+		await this._exportacaoService.exportar('EquipamentoContrato', FileMime.Excel, this.filter?.parametros);
 
 		this.isLoading = false;
 	}

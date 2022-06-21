@@ -152,7 +152,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			include: OrdemServicoIncludeEnum.OS_EXPORTAR,
 		};
 
-		window.location.href = await this._exportacaoService.exportar('OrdemServico', FileMime.Excel, params);
+		await this._exportacaoService.exportar('OrdemServico', FileMime.Excel, params);
 
 		this.isLoading = false;
 	}

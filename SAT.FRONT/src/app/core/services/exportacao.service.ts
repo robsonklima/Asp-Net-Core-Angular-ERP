@@ -2,6 +2,7 @@ import { FileMime } from '../types/file.types';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { appConfig as c } from 'app/core/config/app.config';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,11 @@ export class ExportacaoService {
       this._params = params;
       const data = await this.downloadExportacao(exportacaoTipo);
       const blob = new Blob([data], {type: tipoArquivo});
-      return window.URL.createObjectURL(blob).toString();
+
+	  let excel = document.createElement("a");
+	  excel.href = window.URL.createObjectURL(blob).toString();
+	  excel.download = `${exportacaoTipo}_${moment().format('DD-MM-yyyy_HH-mm-ss')}`;
+	  excel.click()
     }
 
     downloadExportacao(exportacaoTipo : string): Promise<any> {

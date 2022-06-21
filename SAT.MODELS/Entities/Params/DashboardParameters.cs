@@ -11,5 +11,8 @@ namespace SAT.MODELS.Entities.Params
         public int? CodRegiao { get; set; }
         public int? CodAutorizada { get; set; }
         public string CodClientes{ get; set; }
+        public string CodFiliais { get; set; }
+        public string CodRegioes { get; set; }
+        public string CodAutorizadas { get; set; }
     }
 }

@@ -84,9 +84,16 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
       .viewDashboardReincidenciaClientes;
 
     if (data?.length) {
-      data = Enumerable.from(data).orderByDescending(ord => ord.percentual).toArray();
-      let labels = data.map(d => d.cliente);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
+      const mediaGlobal = Enumerable.from(data).where(d => d.cliente === 'GLOBAL').toArray();
+      const clientes = Enumerable.from(data).where(d => d.cliente !== 'GLOBAL').orderByDescending(ord => ord.percentual).toArray();
+
+      const reincidencia = [
+        ...mediaGlobal,
+        ...clientes
+      ];
+
+      let labels = reincidencia.map(d => d.cliente);
+      let valoresColuna = reincidencia.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;

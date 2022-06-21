@@ -174,16 +174,37 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodFilial.HasValue)
                 query = query.Where(d => d.CodFilial == parameters.CodFilial);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodFilial.Value));
+            }
+
             if (parameters.CodRegiao.HasValue)
                 query = query.Where(d => d.CodRegiao == parameters.CodRegiao);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodRegiao.Value));
+            }
+
             if (parameters.CodAutorizada.HasValue)
                 query = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
+            {
+                int[] cods = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodAutorizada.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
                 int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(dd => cods.Contains(dd.CodCliente.Value));
             }
-            
+
             return query.ToList();
         }
 
@@ -193,11 +214,31 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodFilial.HasValue)
                 query = query.Where(d => d.CodFilial == parameters.CodFilial);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodFilial.Value));
+            }
+
             if (parameters.CodRegiao.HasValue)
                 query = query.Where(d => d.CodRegiao == parameters.CodRegiao);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodRegiao.Value));
+            }
+
             if (parameters.CodAutorizada.HasValue)
                 query = query.Where(d => d.CodAutorizada == parameters.CodAutorizada);
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
+            {
+                int[] cods = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodAutorizada.Value));
+            }
+            
             return query.ToList();
         }
 

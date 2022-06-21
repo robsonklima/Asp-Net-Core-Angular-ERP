@@ -6,6 +6,7 @@ import { DashboardViewEnum } from "app/core/types/dashboard.types";
 import { IFilterable } from "app/core/types/filtro.types";
 import { UsuarioSessao } from "app/core/types/usuario.types";
 import { UserService } from "app/core/user/user.service";
+import Enumerable from "linq";
 import _ from "lodash";
 import {
   ApexChart,
@@ -81,9 +82,16 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
       .viewDashboardSLAClientes;
 
     if (data?.length) {
-      data = _.orderBy(data, ['percentual'], 'desc');
-      const labels = data.map(d => d.cliente);
-      let valoresColuna = data.map(d => (this.chartMax / 100) * d.percentual);
+      const mediaGlobal = Enumerable.from(data).where(d => d.cliente === 'GLOBAL').toArray();
+      const clientes = Enumerable.from(data).where(d => d.cliente !== 'GLOBAL').orderByDescending(ord => ord.percentual).toArray();
+
+      const sla = [
+        ...mediaGlobal,
+        ...clientes
+      ];
+
+      const labels = sla.map(d => d.cliente);
+      let valoresColuna = sla.map(d => (this.chartMax / 100) * d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
       this.haveData = true;

@@ -1,4 +1,6 @@
-﻿namespace SAT.MODELS.ViewModels
+﻿using System;
+
+namespace SAT.MODELS.ViewModels
 {
     public class ViewDashboardDensidadeTecnicos
     {
@@ -12,5 +14,9 @@
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string Coordenadas { get; set; }
+        public string CidadeTecnico { get; set; }
+        public string UFTecnico { get; set; }
+        public string FonePerto { get; set; }
+        public DateTime? DataAdmissao { get; set; }
     }
 }

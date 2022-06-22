@@ -47,7 +47,7 @@
 					<mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
 						<mat-tab *ngIf="verificarPermissaoSlide('Status Filiais')">
 							<ng-template mat-tab-label>
-								<span class="text-slate-900">Status Filiais</span>
+								<span class="text-slate-900">Status Filiais</span>								
 							</ng-template>
 
 							<ng-template matTabContent>
@@ -56,7 +56,7 @@
 									<div
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col flex-auto">
-											<app-indicadores-filiais></app-indicadores-filiais>
+											<app-indicadores-filiais></app-indicadores-filiais>											
 										</div>
 									</div>
 								</div>
@@ -109,7 +109,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Resumo das Regiões Brasileiras
+												Resumo das Regiões Brasileiras <span
+												class="text-secondary font-light">Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto">
@@ -123,7 +124,7 @@
 
 						<mat-tab *ngIf="verificarPermissaoSlide('BBTS Filiais')">
 							<ng-template mat-tab-label>
-								<span class="text-slate-900">BBTS Disponibilidade por Filial</span>
+								<span class="text-slate-900">BBTS Disponibilidade por Filial </span>								
 							</ng-template>
 
 							<ng-template matTabContent>
@@ -132,7 +133,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												BBTS Disponibilidade por Filial
+												BBTS Disponibilidade por Filial <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -154,7 +156,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												BBTS Multa por Filial
+												BBTS Multa por Filial <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto">
@@ -176,7 +179,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												SPA - Solução no Primeiro Atendimento
+												SPA - Solução no Primeiro Atendimento <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -234,7 +238,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Disponibilidade dos Técnicos
+												Disponibilidade dos Técnicos <span
+												class="text-secondary font-light">{{ dataAtual | date:'dd/MM/yyyy' }}</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -256,7 +261,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Índice de SLA por Cliente
+												Índice de SLA por Cliente <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -278,7 +284,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Reincidência das Filiais
+												Reincidência das Filiais <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -359,7 +366,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Reincidência por Clientes
+												Reincidência por Clientes <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -404,7 +412,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Pendência das Filiais
+												Pendência das Filiais <span 
+												class="text-secondary font-light"> Mês Corrente</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">
@@ -485,7 +494,8 @@
 										class="sm:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
 										<div class="flex flex-col sm:flex-row items-start justify-between">
 											<div class="text-lg font-medium tracking-tight leading-6 truncate">
-												Peças Faltantes
+												Peças Faltantes <span class="text-secondary font-light">Últimos 30
+													dias</span>
 											</div>
 										</div>
 										<div class="flex flex-col flex-auto mt-6">

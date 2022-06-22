@@ -6,6 +6,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { appConfig as c } from 'app/core/config/app.config';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
 export class DashboardComponent implements AfterViewInit {
   @ViewChild("tabGroup", { static: false }) tabGroup: MatTabGroup;
   usuarioSessao: UsuarioSessao;
+  dataAtual: any = moment();
   slides: string[] = [];
   filtro: any;
   permiteTrocarSlideAutomaticamente: boolean = true;

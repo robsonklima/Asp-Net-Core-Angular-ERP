@@ -18,6 +18,8 @@ import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialEnum } from 'app/core/enums/FilialEnum';
+import { Equipamento, EquipamentoFilterEnum } from 'app/core/types/equipamento.types';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
 
 
 @Component({
@@ -30,12 +32,15 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 
 	regiaoFilterCtrl: FormControl = new FormControl();
 	autorizadaFilterCtrl: FormControl = new FormControl();
+	equipamentoCtrl: FormControl = new FormControl();
 	filialFilterCtrl: FormControl = new FormControl();
 	clienteFilterCtrl: FormControl = new FormControl();
 	filiais: Filial[] = [];
 	regioes: Regiao[] = [];
 	clientes: Cliente[] = [];
 	autorizadas: Autorizada[] = [];
+	equipamentos: Equipamento[] = [];
+
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -43,6 +48,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		private _clienteService: ClienteService,
 		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		private _autorizadaService: AutorizadaService,
+		private _equipamentoService: EquipamentoService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
@@ -69,6 +75,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			codRegioes: [undefined],
 			codAutorizadas: [undefined],
 			codClientes: [undefined],
+			codEquips: [undefined],
 			exibirTecnicos: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
@@ -135,12 +142,24 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
+	async obterEquipamentos(filtro: string = '') {
+		const data = await this._equipamentoService
+			.obterPorParametros({
+				codClientes: this.form.controls['codClientes'].value,
+				filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
+				filter: filtro
+			})
+			.toPromise();
+
+		this.equipamentos = data.items;
+	}
+
 	registrarEmmiters() {
 		this.filialFilterCtrl
 			.valueChanges
 			.subscribe(() => {
 				if ((this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != '')) {
-					
+
 					this.obterRegioesAutorizadas();
 					this.obterAutorizadas();
 				}
@@ -174,6 +193,15 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			)
 			.subscribe(() => {
 				this.obterAutorizadas(this.autorizadaFilterCtrl.value);
+			});
+		this.equipamentoCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.equipamentoCtrl.value);
 			});
 	}
 

@@ -105,7 +105,6 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			codRegioes: params.codRegioes,
 			codAutorizadas: params.codAutorizadas,
 		}).toPromise();
-		console.log(data);
 		
 		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
 			return {
@@ -142,9 +141,9 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			codFiliais: params.codFiliais,
 			codRegioes: params.codRegioes,
 			codAutorizadas: params.codAutorizadas,
-			codClientes: params.codClientes
+			codClientes: params.codClientes,
+			codEquips: params.codEquips
 		}).toPromise();
-		console.log(data);
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;
 

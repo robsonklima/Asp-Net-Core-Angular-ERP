@@ -85,8 +85,6 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
 		if (this.usuarioSessao.usuario?.codFilial) {
 			this.dados = this.dados.filter(d => d.codFilial == this.usuarioSessao.usuario?.codFilial || d.codFilial == 0);
 		}
-		console.log(this.dados);
-		
 		this.loading = false;
 	}
 }

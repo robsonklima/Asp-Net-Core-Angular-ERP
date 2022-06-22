@@ -632,5 +632,8 @@
     "log": "Log",
     "excluir": "Excluir",
     "oss do equipamento": "OSs do Equipamento",
-    "novo chamado": "Novo Chamado"
+    "novo chamado": "Novo Chamado",
+    "percentual alcancado": "Percentual Alcançado",
+    "percentual faltante": "Percentual Faltante",
+    "meta": "Meta"
 }

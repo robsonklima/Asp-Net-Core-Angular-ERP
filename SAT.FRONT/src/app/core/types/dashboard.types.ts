@@ -175,6 +175,7 @@ export class ViewDashboardDisponibilidadeTecnicosMediaGlobal {
 }
 
 export class ViewDashboardSPA {
+	codFilial?: number;
 	filial: string;
 	percentual?: number;
 }

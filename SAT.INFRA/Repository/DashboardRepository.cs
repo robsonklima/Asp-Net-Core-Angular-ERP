@@ -205,6 +205,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(dd => cods.Contains(dd.CodCliente.Value));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodEquips))
+            {
+                int[] cods = parameters.CodEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dd => cods.Contains(dd.CodEquip.Value));
+            }
+
             return query.ToList();
         }
 

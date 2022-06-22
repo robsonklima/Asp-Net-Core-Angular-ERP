@@ -22,7 +22,7 @@ export class ExportacaoService {
 
 	  let excel = document.createElement("a");
 	  excel.href = window.URL.createObjectURL(blob).toString();
-	  excel.download = `${exportacaoTipo}_${moment().format('DD-MM-yyyy_HH-mm-ss')}`;
+	  excel.download = `${exportacaoTipo}_${moment().format('DD-MM-yyyy_HH-mm-ss')}.xlsx`;
 	  excel.click()
     }
 

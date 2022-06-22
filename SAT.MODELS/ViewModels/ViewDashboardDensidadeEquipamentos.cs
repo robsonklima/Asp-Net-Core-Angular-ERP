@@ -8,6 +8,7 @@
         public string Regiao { get; set; }
         public int? CodAutorizada { get; set; }
         public string Autorizada { get; set; }
+        public int? CodEquip { get; set; }
         public string Equipamento { get; set; }
         public string NumSerie { get; set; }
         public int? CodCliente { get; set; }

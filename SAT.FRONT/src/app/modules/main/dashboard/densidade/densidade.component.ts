@@ -14,6 +14,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-densidade',
@@ -99,19 +100,35 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	}
 
 	private async obterTecnicos(params: any = null) {
-		let data = await this._dashboardService.obterViewPorParametros({
+		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
 			codFiliais: params.codFiliais,
 			codRegioes: params.codRegioes,
 			codAutorizadas: params.codAutorizadas,
 		}).toPromise();
-		console.log(data);
 		
 		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
 			return {
 				lat: +tecnico.latitude,
 				lng: +tecnico.longitude,
-				toolTip: tecnico.tecnico
+				toolTip:  `
+						<table>
+							<tbody>				
+							<tr>
+								<td>${tecnico.tecnico}</td>
+							</tr>
+							<tr>
+								<td>${tecnico.fonePerto}</td>
+							</tr>
+							<tr>
+								<td>${tecnico.cidadeTecnico} - ${tecnico.ufTecnico}</td>
+							</tr>
+							<tr>
+								<td>Adimissão: ${moment(tecnico.dataAdimissao).format('DD/MM/yyyy')}</td>
+							</tr>
+							</tbody>
+						</table>
+						`				
 			}
 		});
 
@@ -142,9 +159,9 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			codFiliais: params.codFiliais,
 			codRegioes: params.codRegioes,
 			codAutorizadas: params.codAutorizadas,
-			codClientes: params.codClientes
+			codClientes: params.codClientes,
+			codEquips: params.codEquips
 		}).toPromise();
-		console.log(data);
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;
 

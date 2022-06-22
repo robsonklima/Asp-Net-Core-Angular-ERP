@@ -106,7 +106,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			codRegioes: params.codRegioes,
 			codAutorizadas: params.codAutorizadas,
 		}).toPromise();
-		
+
 		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
 			return {
 				lat: +tecnico.latitude,
@@ -124,7 +124,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 								<td>${tecnico.cidadeTecnico} - ${tecnico.ufTecnico}</td>
 							</tr>
 							<tr>
-								<td>Adimissão: ${moment(tecnico.dataAdimissao).format('DD/MM/yyyy')}</td>
+								<td>Adimissão: ${moment(tecnico.dataAdmissao).format('DD/MM/yyyy')}</td>
 							</tr>
 							</tbody>
 						</table>

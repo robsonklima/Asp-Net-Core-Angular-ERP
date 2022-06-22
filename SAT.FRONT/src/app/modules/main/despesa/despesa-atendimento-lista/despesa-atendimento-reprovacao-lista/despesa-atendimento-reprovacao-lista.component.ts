@@ -32,8 +32,7 @@ import { takeUntil, debounceTime, filter, map } from 'rxjs/operators';
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
-{
+export class DespesaAtendimentoReprovacaoListaComponent implements OnInit {
   protected _onDestroy = new Subject<void>();
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
   despesas: Despesa[] = [];
@@ -45,28 +44,25 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
   isLoading: boolean = false;
   showObservacao: boolean = false;
 
-  constructor (private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
+  constructor(private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _userSvc: UserService,
     private _changeDetectorRef: ChangeDetectorRef,
     private _despesaItemSvc: DespesaItemService,
     private _snack: CustomSnackbarService,
-    private _dialog: MatDialog)
-  {
+    private _dialog: MatDialog) {
     this.codDespesaPeriodoTecnico = +this._route.snapshot.paramMap.get('codDespesaPeriodoTecnico');
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     await this.getDespesas();
     await this.criarForm();
     await this.registerEmitters();
   }
 
-  private criarForm()
-  {
+  private criarForm() {
     this.despesaSelecionadaForm = this._formBuilder.group({
       dataInicio: [undefined],
       dataSolucao: [undefined],
@@ -83,10 +79,8 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     });
   }
 
-  private registerEmitters()
-  {
-    this.despesaSelecionadaForm.controls['indReprovado'].valueChanges.subscribe(async () =>
-    {
+  private registerEmitters() {
+    this.despesaSelecionadaForm.controls['indReprovado'].valueChanges.subscribe(async () => {
       var currentIndReprovacaoValue =
         this.despesaItemSelecionada.indReprovado == 1 ? true : false;
 
@@ -104,11 +98,9 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
         this.despesaItemSelecionada.codUsuarioManut = this.userSession.usuario.codUsuario;
 
         await this._despesaItemSvc.atualizar(this.despesaItemSelecionada)
-          .subscribe(s => 
-          {
+          .subscribe(s => {
           },
-            e =>
-            {
+            e => {
               this.despesaSelecionadaForm.controls['indReprovado'].setValue(false);
             });
       }
@@ -118,8 +110,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
       filter(query => !!query),
       takeUntil(this._onDestroy),
       debounceTime(700),
-      map(async () =>
-      {
+      map(async () => {
         var currentObsReprovacaoValue =
           this.despesaItemSelecionada.obsReprovacao;
 
@@ -138,8 +129,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     ).subscribe();
   }
 
-  async getDespesas()
-  {
+  async getDespesas() {
     this.isLoading = true;
 
     this.despesaPeriodoTecnico =
@@ -155,8 +145,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     this.isLoading = false;
   }
 
-  async toggleDetails(codDespesaItem: number)
-  {
+  async toggleDetails(codDespesaItem: number) {
     if (this.despesaItemSelecionada && this.despesaItemSelecionada.codDespesaItem === codDespesaItem)
     {
       this.closeDetails();
@@ -174,8 +163,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     this._changeDetectorRef.markForCheck();
   }
 
-  async populateForm(despesaItem: DespesaItem)
-  {
+  async populateForm(despesaItem: DespesaItem) {
     var despesa = Enumerable.from(this.despesas)
       .firstOrDefault(i => Enumerable.from(i.despesaItens)
         .contains(despesaItem));
@@ -216,13 +204,11 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
       .setValue(this.populateAddress(despesaItem.enderecoOrigem, despesaItem.bairroOrigem, despesaItem.numOrigem, despesaItem.cidadeOrigem));
   }
 
-  closeDetails(): void
-  {
+  closeDetails(): void {
     this.despesaItemSelecionada = null;
   }
 
-  private populateAddress(endereco: string, bairro: string, numero: string, cidade: Cidade): string
-  {
+  private populateAddress(endereco: string, bairro: string, numero: string, cidade: Cidade): string {
     var enderecoFormatado = "";
 
     if (endereco)
@@ -243,8 +229,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     return enderecoFormatado.toUpperCase();
   }
 
-  async aprovarPeriodoTecnico()
-  {
+  async aprovarPeriodoTecnico() {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -256,8 +241,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
         if (this.temReprovacoes())
@@ -268,12 +252,10 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
 
         this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO);
 
-        this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() =>
-        {
+        this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() => {
           this._snack.exibirToast('Período aprovado com sucesso!', 'success');
         },
-          e =>
-          {
+          e => {
             this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE']);
             this._snack.exibirToast('Erro ao aprovar período.', 'error');
           })
@@ -281,8 +263,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     });
   }
 
-  async reprovarPeriodoTecnico()
-  {
+  async reprovarPeriodoTecnico() {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -294,32 +275,22 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
-        if (!this.temReprovacoes())
-        {
-          this._snack.exibirToast('Para reprovar um periodo, uma ou mais despesas precisam ser reprovadas.', 'error');
-          return;
-        }
+        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = +DespesaPeriodoTecnicoStatusEnum.REPROVADO;
 
-        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum.REPROVADO);
-
-        this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() =>
-        {
+        this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() => {
           this._snack.exibirToast('Período reprovado com sucesso!', 'success');
-        }, e =>
-        {
-          this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE']);
+        }, e => {
+          this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = +DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
           this._snack.exibirToast('Erro ao reprovar período.', 'error');
         })
       }
     });
   }
 
-  async showInMap(despesaItem: DespesaItem)
-  {
+  async showInMap(despesaItem: DespesaItem) {
     var destino =
       this.populateAddress(despesaItem.enderecoDestino, despesaItem.bairroDestino,
         despesaItem.numDestino, despesaItem.cidadeDestino);
@@ -334,21 +305,18 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit
     windowPopup.open();
   }
 
-  private temReprovacoes(): boolean
-  {
+  private temReprovacoes(): boolean {
     return Enumerable.from(this.despesaItens).any(i => i.indReprovado == 1);
   }
 
-  isLider()
-  {
+  isLider() {
     return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER ||
       this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN ||
       this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER_DE_SETOR ||
-      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_COORDENADOR
-      ;
-  };
-  isEmAnalise()
-  {
-    return this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])
-  };
+      this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_COORDENADOR;
+  }
+
+  isEmAnalise() {
+    return this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus == parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE']);
+  }
 }

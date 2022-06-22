@@ -1,5 +1,4 @@
 import { PerfilEnum } from 'app/core/types/perfil.types';
-import { DespesaParameters } from 'app/core/types/despesa.types';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
@@ -586,13 +585,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		this.form.disable();
 		const form: any = this.form.getRawValue();
 
-		var horaInicio = form.horaInicio.toString().split(":");
+		const horaInicio = form.horaInicio.toString().split(":");
+		const horaFim = form.horaFim.toString().split(":");
 
 		let ra: RelatorioAtendimento = {
 			...this.relatorioAtendimento,
 			...form,
 			...{
 				dataHoraInicio: moment(form.data).set({ 'hour': horaInicio[0], 'minute': horaInicio[1] }).format('YYYY-MM-DD HH:mm:ss'),
+				dataHoraSolucao: moment(form.data).set({ 'hour': horaFim[0], 'minute': horaFim[1] }).format('YYYY-MM-DD HH:mm:ss'),
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioManut: this.sessionData.usuario.codUsuario
 			}

@@ -1,3 +1,4 @@
+import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
@@ -5,7 +6,7 @@ import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.heat/dist/leaflet-heat.js'
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { Autorizada } from 'app/core/types/autorizada.types';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardDensidadeEquipamentos } from 'app/core/types/dashboard.types';
@@ -15,6 +16,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import moment from 'moment';
+import { statusConst } from 'app/core/types/status-types';
+import Enumerable from 'linq';
 
 @Component({
 	selector: 'app-densidade',
@@ -47,11 +50,13 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 	constructor(
 		private _dashboardService: DashboardService,
+		private _autorizadaService: AutorizadaService,
 		protected _userService: UserService,
 	) {
 		super(_userService, 'dashboard-densidade')
 		this.usuarioSessao = JSON.parse(this._userService.userSession);
 	}
+
 	ngAfterViewInit(): void {
 		this.selecionarFilial(this.filter?.parametros);
 		this.registerEmitters();
@@ -79,11 +84,11 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 	public async selecionarFilial(params = null) {
 		this.loading = true;
-		
+
 		this.limparMapa();
-		
+
 		await this.obterEquipamentosContrato(params)
-		
+		this.obterAutorizadas();
 		if (params.exibirTecnicos)
 			this.obterTecnicos(params);
 
@@ -92,7 +97,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 	private limparMapa() {
 		this.map.eachLayer((layer) => {
-			if (layer instanceof L.MarkerClusterGroup || 
+			if (layer instanceof L.MarkerClusterGroup ||
 				layer instanceof L.LayerGroup) {
 				this.map.removeLayer(layer);
 			}
@@ -111,7 +116,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			return {
 				lat: +tecnico.latitude,
 				lng: +tecnico.longitude,
-				toolTip:  `
+				toolTip: `
 						<table>
 							<tbody>				
 							<tr>
@@ -128,7 +133,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 							</tr>
 							</tbody>
 						</table>
-						`				
+						`
 			}
 		});
 
@@ -138,16 +143,16 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			iconAnchor: [15, 32],
 			popupAnchor: [1, -32]
 		});
-		
+
 		let group = L.layerGroup();
 
-		markers.forEach( async (m, i) => {
+		markers.forEach(async (m, i) => {
 			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
 			group.addLayer(layer);
 		});
 
 		group.addTo(this.map);
-		
+
 		this.map.fitBounds(markers);
 		this.map.invalidateSize();
 	}
@@ -186,7 +191,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 							</tr>
 							</tbody>
 						</table>
-						`						
+						`
 			}
 		});
 
@@ -203,6 +208,56 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
 			this.markerClusterGroup.addLayer(layer).addTo(this.map);
 		});
+	}
+
+	private async obterAutorizadas() {
+		let params: AutorizadaParameters = {
+			indAtivo: statusConst.ATIVO,
+			// codFiliais: filialFilter,
+			pageSize: 1000
+		};
+		const data = await this._autorizadaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		let markers: any[] = data.items.filter(t => t.latitude != null && t.longitude != null && this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((autorizada: any) => {
+			return {
+				lat: +autorizada.latitude,
+				lng: +autorizada.longitude,
+				toolTip: `
+							<table>
+								<tbody>				
+								<tr>
+									<td>${autorizada.razaoSocial}</td>
+								</tr>						
+								<tr>
+									<td>${autorizada.nomeFantasia}</td>
+								</tr>						
+								</tbody>
+							</table>
+							`
+			}
+		});
+
+		var icon = new L.Icon({
+			iconUrl: 'assets/icons/building.png',
+			iconSize: [32, 32],
+			iconAnchor: [15, 32],
+			popupAnchor: [1, -32]
+		});
+
+		let group = L.layerGroup();
+
+		markers.forEach(async (m, i) => {
+			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
+			group.addLayer(layer);
+		});
+
+		group.addTo(this.map);
+
+		this.map.fitBounds(markers);
+		this.map.invalidateSize();
+
 	}
 
 	private isFloat(n) {

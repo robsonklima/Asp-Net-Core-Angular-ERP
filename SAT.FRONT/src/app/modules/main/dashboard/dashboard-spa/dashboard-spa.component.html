@@ -1,10 +1,4 @@
 <div *transloco="let t">
-    <!-- <div *ngIf="!loading" class="items-center justify-center h-90">
-        <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
-            [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
-            [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
-            [title]="chartOptions.title"></apx-chart>
-    </div> -->
     <div *ngIf="!loading">
         <div [ngClass]="usuarioSessao.usuario?.codFilial ? 'grid grid-cols-2 gap-6' : 'grid grid-cols-3 gap-4' ">
             <div *ngFor="let item of dados">

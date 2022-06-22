@@ -88,7 +88,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.limparMapa();
 
 		await this.obterEquipamentosContrato(params)
-		this.obterAutorizadas();
+		this.obterAutorizadas(params);
 		if (params.exibirTecnicos)
 			this.obterTecnicos(params);
 
@@ -210,14 +210,14 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		});
 	}
 
-	private async obterAutorizadas() {
-		let params: AutorizadaParameters = {
+	private async obterAutorizadas(params: any = null) {
+		let autorizadaParams: AutorizadaParameters = {
 			indAtivo: statusConst.ATIVO,
-			// codFiliais: filialFilter,
+			codFiliais: params.codFiliais,
 			pageSize: 1000
 		};
 		const data = await this._autorizadaService
-			.obterPorParametros(params)
+			.obterPorParametros(autorizadaParams)
 			.toPromise();
 
 		let markers: any[] = data.items.filter(t => t.latitude != null && t.longitude != null && this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((autorizada: any) => {

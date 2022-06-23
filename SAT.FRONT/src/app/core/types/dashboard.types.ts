@@ -183,6 +183,7 @@ export class ViewDashboardSPA {
 export class ViewDashboardSLAClientes {
 	cliente: string;
 	percentual?: number;
+	meta?: string;
 }
 
 export class ViewDashboardReincidenciaFiliais {

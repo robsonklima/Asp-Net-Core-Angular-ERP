@@ -436,8 +436,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	}
 
 	verificaPermissaoBB() {
-		if ((this.userSession.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
-			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA)) {
+		if (((this.userSession.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
+			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA) &&
+			this.os?.codCliente == 1)) {
 			return true;
 		}
 		return false

@@ -4,5 +4,6 @@
     {
         public string Cliente { get; set; }
         public decimal? Percentual { get; set; }
+        public string Meta { get; set; }
     }
 }

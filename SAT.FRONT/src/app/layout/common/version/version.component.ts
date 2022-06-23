@@ -36,15 +36,42 @@ export class VersionComponent implements OnInit, OnDestroy {
                     sortDirection: 'desc',
                     pageSize: 1
                 }).subscribe((versao) => {
-                    if (versao.items.shift().nome !== this.versao) {
-                        this.atualizar();
+                    const necessitaAtualizar = this.necessitaAtualizar(versao.items.shift()?.nome, this.versao);
+
+                    if (necessitaAtualizar) {
+                        this.solicitarAtualizacao();
                         this._cdr.markForCheck();
                     }
                 });
             });
     }
 
-    atualizar() {
+    necessitaAtualizar(currentVersion: string, copiedVersion: string): boolean {
+        const current = currentVersion.split('.');
+        const copy = copiedVersion.split('.');
+
+        if (current.length == 3 && copy.length == 3) {
+            const mainCurrent = +current[0];
+            const secondCurrent = +current[1];
+            const thirdCurrent = +current[2];
+            const mainCopied = +copy[0];
+            const secondCopied = +copy[1];
+            const thirdCopied = +copy[2];
+
+            if (mainCurrent > mainCopied)
+                return true;
+
+            if (secondCurrent > secondCopied)
+                return true;
+
+            if (thirdCurrent > thirdCopied)
+                return true;
+        }
+
+        return false;
+    }
+
+    solicitarAtualizacao() {
         const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Nova Versão',

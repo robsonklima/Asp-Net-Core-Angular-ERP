@@ -619,7 +619,7 @@
     "excluir": "Delete",
     "oss do equipamento": "SOs equipment",
     "novo chamado": "New Service Order",
-    "percentual alcancado": "Percentage Achieved",
-    "percentual faltante": "Missing Percentage",
+    "percentual fora": "Percentage Out",
+    "percentual dentro": "Percentage Within",
     "meta": "Goal"
 }

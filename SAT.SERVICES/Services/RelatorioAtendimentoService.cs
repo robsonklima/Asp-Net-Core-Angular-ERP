@@ -33,6 +33,9 @@ namespace SAT.SERVICES.Services
             _relatorioAtendimentoDetalheRepo = relatorioAtendimentoDetalheRepo;
             _relatorioAtendimentoDetalhePecaRepo = relatorioAtendimentoDetalhePecaRepo;
             _seqRepo = seqRepo;
+            _emailService = emailService;
+            _contextAcecssor = httpContextAccessor;
+            _usuarioService = usuarioService;
         }
 
         public ListViewModel ObterPorParametros(RelatorioAtendimentoParameters parameters)

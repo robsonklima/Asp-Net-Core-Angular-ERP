@@ -14,8 +14,8 @@
                     <apx-chart
                     [series]="[100.00 - item.percentual, item.percentual]"
                     [chart]=" {width: 350, type: 'pie'}"
-                    [labels]="[ t('percentual faltante') , t('percentual alcancado')]"
-                    [colors]="[grayColor, item.percentual >= 95 ? greenColor : item.percentual >= 90 ? yellowColor :  redColor]"
+                    [labels]="[ t('percentual fora') , t('percentual dentro')]"
+                    [colors]="[grayColor, item.percentual >= item.meta ? greenColor : redColor]"
                     ></apx-chart>
                 </div>
             </div>

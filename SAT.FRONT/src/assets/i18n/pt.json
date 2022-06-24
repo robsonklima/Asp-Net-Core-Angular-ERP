@@ -633,7 +633,7 @@
     "excluir": "Excluir",
     "oss do equipamento": "OSs do Equipamento",
     "novo chamado": "Novo Chamado",
-    "percentual alcancado": "Percentual Alcançado",
-    "percentual faltante": "Percentual Faltante",
+    "percentual fora": "Percentual Fora",
+    "percentual dentro": "Percentual Dentro",
     "meta": "Meta"
 }

@@ -17,13 +17,16 @@
     </div>
 
     <mbsc-eventcalendar class="h-180" [options]="calendarOptions" [data]="events" [resources]="resources"
-        [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate">
+        [resourceTemplate]="resourceTemplate" [scheduleEventTemplate]="eventTemplate" >
     </mbsc-eventcalendar>
 
     <mbsc-popup class="md-tooltip" #popup [anchor]="anchor" [options]="popupOptions">
         <div class="text-center p-2" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
             <div class="md-tooltip-header">
-                <span class="md-tooltip-name-age font-bold">{{ info }}</span>
+                <span class="md-tooltip-name-age font-bold">{{ info }}</span> 
+                <button style="z-index: 1;" matTooltip="Copiar Informação" (click)="copy(info)" *ngIf="verificaExibicao(info)">
+                    <mat-icon [svgIcon]="'heroicons_solid:clipboard-copy'"></mat-icon>
+                </button>
                 <br>
                 <span class="md-tooltip-time font-bold">{{ time }}</span>
 

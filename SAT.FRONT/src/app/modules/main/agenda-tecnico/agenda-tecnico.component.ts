@@ -384,6 +384,21 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 		this.tooltip.open();
 	}
 
+	copy(data: any = ''){
+		navigator.clipboard.writeText(data);
+		this._snack.exibirToast('Informação Copiada');
+	}
+
+	verificaExibicao(info: any){
+		if(info.includes('PONTO') || 
+			info.includes('FIM EXPEDIENTE') || 
+			info.includes('INTERVALO')){
+				return false;
+		}	
+		
+		return true;
+	}
+
 	private limparListas() {
 		this.recursos = [];
 		this.resources = [];

@@ -159,13 +159,13 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
 
   configurarFiliais()
   {
-    this.form.controls['codFiliais']
+    this.form.controls['codFilial']
       .valueChanges
       .subscribe(() => 
       {
-        if (this.form.controls['codFiliais'].value != '' && this.form.controls['codFiliais'].value != null)
+        if (this.form.controls['codFilial'].value != '' && this.form.controls['codFilial'].value != null)
         {
-          this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+          this.obterRegioesAutorizadas(this.form.controls['codFilial'].value);
           this.obterLocaisAtendimentos();
         }
         else
@@ -177,11 +177,11 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
 
     if (this.userSession?.usuario?.codFilial)
     {
-      this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
-      this.form.controls['codFiliais'].disable();
+      this.form.controls['codFilial'].setValue(this.userSession.usuario.codFilial);
+      this.form.controls['codFilial'].disable();
     }
 
-    this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
+    this.obterRegioesAutorizadas(this.form.controls['codFilial'].value);
     this.obterLocaisAtendimentos();
   }
 
@@ -228,8 +228,8 @@ export class AgendaTecnicoChamadosFiltroComponent extends FilterBase implements 
 
     if (this.userSession?.usuario?.codFilial)
     {
-      this.form.controls['codFiliais'].setValue(this.userSession.usuario.codFilial);
-      this.form.controls['codFiliais'].disable();
+      this.form.controls['codFilial'].setValue(this.userSession.usuario.codFilial);
+      this.form.controls['codFilial'].disable();
     }
   }
 

@@ -172,11 +172,16 @@ namespace SAT.SERVICES.Services
                     inicio = DateTime.Now.AddDays(1).Date.Add(new TimeSpan(8, 0, 0));
                     fim = inicio.AddMinutes(tempoMedioAtendimento);
                 }
-
+                
                 var agendamento = os.Agendamentos?.LastOrDefault()?.DataAgendamento;
                 if (agendamento != null) {
                     inicio = agendamento.Value;
                     fim = agendamento.Value.AddMinutes(tempoMedioAtendimento);
+                }
+
+                if (fim.Subtract(inicio).TotalHours > 8.00)
+                {
+                    fim = inicio.AddHours(8);
                 }
 
                 agenda.Inicio = inicio;

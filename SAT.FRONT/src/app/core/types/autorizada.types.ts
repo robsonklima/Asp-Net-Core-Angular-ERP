@@ -41,5 +41,6 @@ export interface AutorizadaParameters extends QueryStringParameters {
     codAutorizada?: number;
     codFilial?: number;
     codFiliais?: string;
+    codAutorizadas?: string;
     indAtivo?: number;
 };

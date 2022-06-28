@@ -95,14 +95,16 @@ namespace SAT.INFRA.Repository
             if (parameters.CodAutorizada.HasValue)
                 autorizadas = autorizadas.Where(a => a.CodAutorizada == parameters.CodAutorizada);
 
-            if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
-                autorizadas = autorizadas
-                    .Where(a => parameters.CodAutorizadas.Contains(a.CodAutorizada.ToString()));
-
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 autorizadas = autorizadas.Where(os => cods.Contains(os.CodFilial));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+            {
+                int[] cods = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                autorizadas = autorizadas.Where(os => cods.Contains(os.CodAutorizada.Value));
             }
 
             if (parameters.CodFilial.HasValue)

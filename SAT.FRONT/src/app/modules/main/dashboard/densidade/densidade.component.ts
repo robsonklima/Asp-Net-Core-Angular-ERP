@@ -170,6 +170,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 		const densidade = data.viewDashboardDensidadeEquipamentos;
 
+
 		this.markers = densidade.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
 			return {
 				lat: +equip.latitude,
@@ -214,6 +215,7 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		let autorizadaParams: AutorizadaParameters = {
 			indAtivo: statusConst.ATIVO,
 			codFiliais: params.codFiliais,
+			codAutorizadas: params.codAutorizadas,
 			pageSize: 1000
 		};
 		const data = await this._autorizadaService

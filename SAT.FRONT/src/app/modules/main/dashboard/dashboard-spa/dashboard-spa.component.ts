@@ -13,6 +13,7 @@ import {
 	ApexNonAxisChartSeries,
 	ApexResponsive
 } from "ng-apexcharts";
+import Enumerable from 'linq';
 
 export type ChartOptions = {
 	series: ApexNonAxisChartSeries;
@@ -38,7 +39,7 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
 	public greenColor: string = "#009900";
 	public yellowColor: string = "#ffcc00";
 	public grayColor: string = "#546E7A";
-  
+
 	responsiveOptions = [
 		{
 			breakpoint: 480,
@@ -78,10 +79,16 @@ export class DashboardSpaComponent extends Filterable implements OnInit, IFilter
 
 	public async carregarGrafico() {
 		this.loading = true;
-		
-		this.dados = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.SPA }).toPromise())
-			.viewDashboardSPA;
-		
+
+		let orderData = Enumerable.from((await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.SPA }).toPromise())
+			.viewDashboardSPA).orderBy(i => i.percentual);;
+
+		this.dados = [
+			...orderData.where(data => data.filial == 'GLOBAL'),
+			...orderData.where(data => data.filial != 'GLOBAL')
+		];
+
+
 		if (this.usuarioSessao.usuario?.codFilial) {
 			this.dados = this.dados.filter(d => d.codFilial == this.usuarioSessao.usuario?.codFilial || d.codFilial == 0);
 		}

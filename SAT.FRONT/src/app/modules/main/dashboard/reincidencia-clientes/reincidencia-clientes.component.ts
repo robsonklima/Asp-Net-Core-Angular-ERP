@@ -1,3 +1,4 @@
+import { ViewDashboardReincidenciaClientes } from './../../../../core/types/dashboard.types';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
@@ -8,189 +9,102 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import {
-  ApexChart,
-  ApexAxisChartSeries,
-  ChartComponent,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexYAxis,
-  ApexLegend,
-  ApexGrid,
-  ApexStates,
-  ApexXAxis,
-  ApexStroke
+	ApexChart,
+	ApexAxisChartSeries,
+	ChartComponent,
+	ApexDataLabels,
+	ApexPlotOptions,
+	ApexYAxis,
+	ApexLegend,
+	ApexGrid,
+	ApexStates,
+	ApexXAxis,
+	ApexStroke
 } from "ng-apexcharts";
 
 export type ChartOptions =
-  {
-    series: ApexAxisChartSeries;
-    chart: ApexChart;
-    dataLabels: ApexDataLabels;
-    plotOptions: ApexPlotOptions;
-    yaxis: ApexYAxis | ApexYAxis[];
-    xaxis: ApexXAxis;
-    grid: ApexGrid;
-    colors: any[];
-    legend: ApexLegend;
-    states: ApexStates;
-    title: any;
-    stroke: ApexStroke;
-    labels: string[];
-  };
+	{
+		series: ApexAxisChartSeries;
+		chart: ApexChart;
+		dataLabels: ApexDataLabels;
+		plotOptions: ApexPlotOptions;
+		yaxis: ApexYAxis | ApexYAxis[];
+		xaxis: ApexXAxis;
+		grid: ApexGrid;
+		colors: any[];
+		legend: ApexLegend;
+		states: ApexStates;
+		title: any;
+		stroke: ApexStroke;
+		labels: string[];
+	};
 
 @Component({
-  selector: 'app-reincidencia-clientes',
-  templateUrl: './reincidencia-clientes.component.html'
+	selector: 'app-reincidencia-clientes',
+	templateUrl: './reincidencia-clientes.component.html'
 })
 export class ReincidenciaClientesComponent extends Filterable implements OnInit, IFilterable {
-  @Input() sidenav: MatSidenav;
-  @ViewChild("chart") chart: ChartComponent;
+	@Input() sidenav: MatSidenav;
+	@ViewChild("chart") chart: ChartComponent;
 
-  public loading: boolean;
-  public haveData: boolean;
-  public usuarioSessao: UsuarioSessao;
-  public chartOptions: Partial<ChartOptions>;
+	public usuarioSessao: UsuarioSessao;
+	public chartOptions: Partial<ChartOptions>;
+	public loading: boolean;
+	public haveData: boolean;
+	public dados: ViewDashboardReincidenciaClientes[];
+	public redColor: string = "#cc0000";
+	public greenColor: string = "#009900";
+	public yellowColor: string = "#ffcc00";
+	public grayColor: string = "#546E7A";
 
-  private chartMax: number = 40;
-  private meta: number = 35;
-  private redColor: string = "#cc0000";
-  private greenColor: string = "#009900";
+	responsiveOptions = [
+		{
+			breakpoint: 480,
+			options: {
+				chart: {
+					width: 200
+				},
+				legend: {
+					position: "bottom"
+				}
+			}
+		}
+	]
 
-  constructor(private _dashboardService: DashboardService,
-    protected _userService: UserService) {
-    super(_userService, 'dashboard-filtro');
-    this.usuarioSessao = JSON.parse(this._userService.userSession);
-  }
+	constructor(
+		private _dashboardService: DashboardService,
+		protected _userService: UserService
+	) {
+		super(_userService, 'dashboard-filtro');
+		this.usuarioSessao = JSON.parse(this._userService.userSession);
+	}
+	ngOnInit(): void {
+		this.carregarGrafico();
+		this.registerEmitters();
+	}
 
-  ngOnInit(): void {
-    this.carregarGrafico();
-    this.registerEmitters();
-  }
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.carregarGrafico();
+		})
+	}
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.carregarGrafico();
-    })
-  }
+	loadFilter(): void {
+		super.loadFilter();
+	}
 
-  loadFilter(): void {
-    super.loadFilter();
-  }
+	public async carregarGrafico() {
+		this.loading = true;
 
-  public async carregarGrafico() {
-    this.loading = true;
-    let data = (await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_CLIENTES }).toPromise())
-      .viewDashboardReincidenciaClientes;
+		let orderData = Enumerable.from((await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.REINCIDENCIA_CLIENTES }).toPromise())
+			.viewDashboardReincidenciaClientes).orderByDescending(i => i.percentual);
 
-    if (data?.length) {
-      const mediaGlobal = Enumerable.from(data).where(d => d.cliente === 'GLOBAL').toArray();
-      const clientes = Enumerable.from(data).where(d => d.cliente !== 'GLOBAL').orderByDescending(ord => ord.percentual).toArray();
+		this.dados = [
+			...orderData.where(data => data.cliente == 'GLOBAL'),
+			...orderData.where(data => data.cliente != 'GLOBAL')
+		];
 
-      const reincidencia = [
-        ...mediaGlobal,
-        ...clientes
-      ];
-
-      let labels = reincidencia.map(d => d.cliente);
-      let valoresColuna = reincidencia.map(d => (this.chartMax / 100) * d.percentual);
-      let valoresLinha: number[] = [];
-      valoresColuna.forEach(element => { valoresLinha.push(this.meta); });
-      this.haveData = true;
-      this.inicializarGrafico(labels, valoresColuna, valoresLinha, this.meta, this.greenColor, this.redColor);
-    }
-  }
-
-  private inicializarGrafico(labels: string[], valoresColuna: number[], valoresLinha: number[], meta: number, greenColor: string, redColor: string) {
-    this.chartOptions = {
-      series: [
-        {
-          name: "Percentual",
-          type: "column",
-          data: valoresColuna
-        },
-        {
-          name: "Meta de Reincidência",
-          type: "line",
-          data: valoresLinha,
-          color: redColor
-        }
-      ],
-      dataLabels:
-      {
-        enabled: false
-      },
-      title: {
-        text: '* Meta de Reincidência deve ser menor ou igual a ' + meta + '%'
-      },
-      colors: [
-        function ({ value }) {
-          if (value < meta) {
-            return greenColor;
-          } else {
-            return redColor;
-          }
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "line",
-        toolbar: {
-          tools: {
-            download: true,
-            selection: false,
-            zoom: false,
-            zoomin: false,
-            zoomout: false,
-            pan: false,
-            reset: false
-          }
-        }
-      },
-      stroke: {
-        width: [0, 2]
-      },
-      grid:
-      {
-        show: true
-      },
-      states:
-      {
-        active:
-        {
-          filter:
-          {
-            type: "none"
-          }
-        }
-      },
-      xaxis:
-      {
-        categories: labels,
-        labels:
-        {
-          trim: true,
-          style:
-          {
-            //colors: this.greenColor,
-            fontSize: "8px"
-          }
-        }
-      },
-      yaxis:
-      {
-        max: this.chartMax,
-        min: 0,
-        tickAmount: 8,
-        labels:
-        {
-          formatter: (value) => {
-            return (value + "%").replace('.', ',');
-          }
-        }
-      }
-    };
-
-    this.loading = false;
-  }
+		this.loading = false;
+	}
 }

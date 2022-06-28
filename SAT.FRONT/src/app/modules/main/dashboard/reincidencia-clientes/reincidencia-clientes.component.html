@@ -1,17 +1,31 @@
-<div>
-    <div *ngIf="!loading" class="items-center justify-center h-90">
-        <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
-            [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
-            [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
-            [title]="chartOptions.title">
-        </apx-chart>
-
-        <div class="w-full text-right text-md mt-4 mr-2 text-blue-500" *ngIf="!loading">
-            <a href="http://satdbprod/Reports/report/Reports/INDICADORES%20DI%C3%81RIOS-%C3%8DNDICE%20DE%20REINCID%C3%8ANCIA-CLIENTE" target="_blank">Relatório Reporting</a>
+<div *transloco="let t">
+    <div *ngIf="!loading">
+        <div [ngClass]="usuarioSessao.usuario?.codFilial ? 'grid grid-cols-2 gap-6' : 'grid grid-cols-3 gap-4' ">
+            <div *ngFor="let item of dados">
+                <div class="rounded border-2 p-2">
+                    <div class="grid grid-cols-2">
+                        <div class="text-center	">
+                            {{ item.cliente }}
+                        </div>
+                        <div class="text-right">
+                            {{ t('meta') }}: < 35%
+                        </div>
+                    </div>
+                    <apx-chart
+                    [series]="[100 - item.percentual, item.percentual]"
+                    [chart]=" {width: 380, type: 'pie'}"
+                    [labels]="[ t('percentual fora') , t('percentual dentro')]"
+                    [colors]="[grayColor, item.percentual <= 35 ? greenColor : redColor]"
+                    [responsive]="responsiveOptions "
+                    ></apx-chart>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div *ngIf="loading" class="flex flex-col flex-auto items-center justify-center min-h-72 bg-gray-100">
-        <mat-progress-spinner [diameter]="36" [mode]="'indeterminate'"></mat-progress-spinner>
+    <div class="flex justify-center items-center bg-gray-50 min-h-60" *ngIf="loading">
+        <div class="text-center">
+            <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
     </div>
 </div>

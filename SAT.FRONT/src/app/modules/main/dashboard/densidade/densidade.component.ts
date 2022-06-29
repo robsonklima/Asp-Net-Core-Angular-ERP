@@ -87,8 +87,10 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 
 		this.limparMapa();
 
-		await this.obterEquipamentosContrato(params)
-		this.obterAutorizadas(params);
+		if (params.exibirEquipamentos)
+			await this.obterEquipamentosContrato(params)
+		if (params.exibirAutorizadas)
+			this.obterAutorizadas(params);
 		if (params.exibirTecnicos)
 			this.obterTecnicos(params);
 

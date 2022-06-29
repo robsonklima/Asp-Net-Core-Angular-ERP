@@ -76,7 +76,9 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			codAutorizadas: [undefined],
 			codClientes: [undefined],
 			codEquips: [undefined],
-			exibirTecnicos: [undefined]
+			exibirTecnicos: [undefined],
+			exibirEquipamentos: [undefined],
+			exibirAutorizadas: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

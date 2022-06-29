@@ -5,5 +5,6 @@ using SAT.MODELS.Helpers;
 namespace SAT.INFRA.Interfaces {
     public interface ITicketRepository {
         PagedList<Ticket> ObterPorParametros(TicketParameters parameters);
+        Ticket ObterPorCodigo(int codTicket);
     }
 }

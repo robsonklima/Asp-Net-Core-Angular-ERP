@@ -621,5 +621,7 @@
     "novo chamado": "New Service Order",
     "percentual fora": "Percentage Out",
     "percentual dentro": "Percentage Within",
-    "meta": "Goal"
+    "meta": "Goal",
+    "tickets": "Tickets",
+    "ticket": "Ticket"
 }

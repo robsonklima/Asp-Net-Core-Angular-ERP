@@ -300,6 +300,7 @@ namespace SAT.API
             services.AddTransient<ICheckinCheckoutService, CheckinCheckoutService>();            
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<IDispBBBloqueioOSService, DispBBBloqueioOSService>();
+            services.AddTransient<ITicketService, TicketService>();
 
             // Utils Services
             services.AddSingleton<ILoggerService, LoggerService>();

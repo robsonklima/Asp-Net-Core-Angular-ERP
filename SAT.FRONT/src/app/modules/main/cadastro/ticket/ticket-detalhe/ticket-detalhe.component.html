@@ -1,0 +1,523 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer-content>
+        <div class="flex flex-col flex-auto min-w-0">
+            <div class="bg-card">
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/ticket">
+                                            {{ t('tickets') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('ticket') }}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <h6
+                                        class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+                                        {{ codTicket }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+                            <button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
+                                [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
+                                [routerLink]="['/relatorio-atendimento/form/' + codOS]">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button
+                                [color]="'primary'"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
+                                [matTooltip]="t('editar')" matTooltipPosition="above"
+                                [routerLink]="['/ordem-servico/form/' + codOS]">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button
+                                [color]="'primary'"
+                                [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
+                                [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded text-indigo-700 bg-white" mat-flat-button
+                                *ngIf="os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
+                                os?.codStatusServico === 7 || isLoading" [matTooltip]="t('transferir')"
+                                matTooltipPosition="above" (click)="sidenav.toggle()">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:share'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
+                                *ngIf="os?.codStatusServico == 8" [matTooltip]="t('cancelar transferencia')"
+                                [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </button>
+                        </div>
+
+                        <button class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
+                            [matMenuTriggerFor]="menu" *transloco="let t" [disabled]="isLoading">
+                            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+
+                            <mat-menu #menu>
+                                <button mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                                    {{ t('imprimir') }}
+                                </button>
+
+                                <button mat-menu-item (click)="cancelar()"
+                                    [disabled]="verificarPermissaoCancelamento()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
+                                    {{ t('cancelar') }}
+                                </button>
+
+                                <button mat-menu-item (click)="bloquearDesbloquearChamado()">
+                                    <mat-icon class="icon-size-5"
+                                    [class.text-red-600]="!os?.indBloqueioReincidencia"
+                                    [class.text-green-600]="os?.indBloqueioReincidencia"
+                                    [svgIcon]="os?.indBloqueioReincidencia ? 'heroicons_solid:lock-openned' : 'heroicons_solid:lock-closed'"></mat-icon>
+                                    {{ os?.indBloqueioReincidencia ? 'Desbloquear' : 'Bloquear' }}
+                                </button>
+
+                                <button mat-menu-item (click)="reabrir()"
+                                    *ngIf="verificarPermissaoReabertura()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
+                                    {{ t('reabrir') }}
+                                </button>
+
+                                <button mat-menu-item (click)="openEmailDialog()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                    Enviar por e-mail
+                                </button>
+
+                                <button mat-menu-item *ngIf="verificaPermissaoBB()" (click)="reenvioIntegracaoBBTS()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                                    Reprocessar Integração BBTS
+                                </button>
+
+                                <button mat-menu-item *ngIf="verificaPermissaoBB() && dispBBBloqueioOS.length" (click)="desbloqueioRATBBTS()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-open'"></mat-icon>
+                                    Desbloquear BBTS
+                                </button>
+                            </mat-menu>
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+                <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
+                    <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                        <!-- DETALHES DA OS -->
+                        <mat-tab label="{{ t('detalhes') }}">
+                            <ng-template matTabContent>
+                                <!-- <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
+                                    <fuse-card
+                                        class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
+
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('abertura') }}</div>
+                                                <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.usuarioCadastro">
+                                                <div class="text-secondary">{{ t('aberto por') }}</div>
+                                                <div>
+                                                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Não informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('aberto por') }}</div>
+                                                <div>
+                                                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('nome solicitante') }}</div>
+                                                <div>
+                                                    {{ os?.nomeSolicitante || 'Não Informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                                <div class="text-secondary">{{ t('telefone solicitante') }}</div>
+                                                <div>
+                                                    {{ os?.telefoneSolicitante || 'Não Informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="ultimoAgendamento">
+                                                <div class="text-secondary">{{ t('agendamento') }}</div>
+                                                <div>
+                                                    <span class="text-md w-2/5"
+                                                        matTooltipPosition="right" matTooltipClass="tool-tip"
+                                                        [matTooltip]="histAgendamento">
+                                                        {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os cliente') }}</div>
+                                                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os quarteirizada') }}</div>
+                                                <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.tecnico?.nome">
+                                                <div class="text-secondary">{{ t('tecnico') }}</div>
+                                                <div>{{ os?.tecnico?.nome | titlecase }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
+                                                <div>
+                                                    <span
+                                                        class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1">
+                                                        {{ os?.tipoIntervencao?.nomTipoIntervencao }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('status de servico') }}</div>
+                                                <div>
+                                                    <span
+                                                        class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1"
+                                                        [style.background-color]="os?.statusServico?.corFundo"
+                                                        [style.color]="os?.statusServico?.corFonte">
+                                                        {{ os?.statusServico?.nomeStatusServico }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3" *ngIf="os?.codStatusServico === 3">
+                                                <div class="text-secondary">{{ t('fechamento') }}</div>
+                                                <div>{{ os?.dataHoraFechamento | date:'dd/MM/yyyy HH:mm' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('os cliente') }}</div>
+                                                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('cliente') }}</div>
+                                                <div>{{ os?.cliente?.nomeFantasia || '--' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('reincidencia') }}</div>
+                                                <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('sugestao') }}</div>
+                                                <div>{{ os?.sugestaoOS || 'Não Informado' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('exige laudo') }}</div>
+                                                <div>{{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('defeito') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.defeitoRelatado }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8" *ngIf="os?.motivoCancelamento">
+                                            <div class="text-lg font-medium">{{ t('motivo cancelamento') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t text-justify" *ngIf="os?.motivoCancelamento">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.motivoCancelamento }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('observacao') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t text-justify">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>{{ os?.observacaoCliente || 'Não Informado' }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
+                                        </div>
+                                        <div class="flex mt-2 border-t text-justify">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+
+                                    <fuse-card
+                                        class="flex flex-col flex-auto col-span-3 p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}
+                                        </div>
+
+                                        <div class="flex mt-4">
+                                            <div class="pt-2">
+                                                <ng-container>
+                                                    <div>
+                                                        {{ os?.cliente?.nomeFantasia }} -
+                                                        {{ (os?.localAtendimento?.nomeLocal || t('nao informado')) }}
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('agencia') }}</div>
+                                                <div>{{ os?.localAtendimento?.numAgencia || '--' }}/{{
+                                                    os?.localAtendimento?.dcPosto || '--' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('equipamento') }}</div>
+                                                <div>
+                                                    <span class="cursor-help"
+                                                        [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
+                                                        matTooltipPosition="above">
+                                                        {{ os?.equipamento?.nomeEquip ||
+                                                        os?.equipamentoContrato?.equipamento?.nomeEquip || '--' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('serie') }}</div>
+                                                <div>
+                                                    <span>
+                                                        {{ os?.equipamentoContrato?.numSerie || t('nao informado') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('serie cliente') }}</div>
+                                                <div>
+                                                    <span>
+                                                        {{ os?.equipamentoContrato?.numSerieCliente || t('nao informado') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('sla') }}</div>
+                                                <div>
+                                                    <span class="cursor-help"
+                                                        [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
+                                                        matTooltipPosition="above">
+                                                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não Informado' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
+                                                <div class="text-secondary">{{ t('fim sla') }}</div>
+                                                <div>
+                                                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length -
+                                                    1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('contrato') }}</div>
+                                                <div>
+                                                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('filial') }}</div>
+                                                <div>{{ os?.filial?.nomeFilial || 'Não Informado'}}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('autorizada') }}</div>
+                                                <div>{{ os?.autorizada?.nomeFantasia || 'Não Informado'}}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('regiao') }}</div>
+                                                <div>{{ os?.regiao?.nomeRegiao || 'Não Informado'}}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('distancia da pat') }}</div>
+                                                <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Necessário Agendamento com Carro Forte</div>
+                                                <div>{{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">Atendimento Sábado, Domingo e Feriado</div>
+                                                <div>{{ os?.equipamentoContrato?.pontoEstrategico == 2 ? 'Sim' : 'Não' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8" *ngIf="os?.chamado">
+                                            <div class="text-lg font-medium">POS</div>
+                                        </div>
+
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="os?.chamado">
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('estabelecimento') }}</div>
+                                                <div>
+                                                    {{ os?.numAgenciaBanco }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('rede') }}</div>
+                                                <div>
+                                                    {{ os?.redeEquipamento }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('terminal') }}</div>
+                                                <div>
+                                                    {{ os?.numTerminal }}
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('defeito') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.defeitoPOS?.nomeDefeitoPOS }}
+
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('tipo de comunicacao') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.tipoComunicacaoTela.toString() }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('versao') }}</div>
+                                                <div>
+                                                    {{ os?.numAgenciaNI }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('data-autenticacao') }}</div>
+                                                <div *ngIf="os?.chamado?.chamadoDadosAdicionais?.autenticacao">
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.autenticacao | date:'dd/MM/yyyy HH:mm' }}
+                                                </div>
+                                                <div *ngIf="!os?.chamado?.chamadoDadosAdicionais?.autenticacao">
+                                                    {{ 'Não Informado'}}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('simcard') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.simCard || 'Não Informado' }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('operadora telefonia') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.operadoraTelefonia?.nomeOperadoraTelefonia }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('ddd') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.ddd || 'Não Informado' }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('numero') }}</div>
+                                                <div>
+                                                    {{ os?.chamado?.chamadoDadosAdicionais?.numero || 'Não Informado' }}
+                                                </div>
+                                            </div>                                                                                                                         
+                                        </div>
+
+                                        <div class="flex items-center justify-between mt-8">
+                                            <div class="text-lg font-medium">{{ t('endereco') }}</div>
+                                        </div>
+
+                                        <div class="flex mt-2 border-t">
+                                            <div class="py-3">
+                                                <ng-container>
+                                                    <div>
+                                                        <span>Logradouro:</span>
+                                                        {{ os?.localAtendimento?.endereco || 'Não Informado' }}
+                                                    </div>
+
+                                                    <div>
+                                                        <span>Cidade:</span>
+                                                        {{ os?.localAtendimento?.cidade?.nomeCidade || 'Não Informado' }}
+                                                    </div>
+
+                                                    <div>
+                                                        <span>UF:</span>
+                                                        {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'Não Informado' }}
+                                                    </div>
+                                                        
+                                                    <div>
+                                                        <span>CEP:</span>
+                                                        {{ os?.localAtendimento?.cep || 'Não Informado' }}
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </fuse-card>
+                                </div> -->
+                            </ng-template>
+                        </mat-tab>                       
+                    </mat-tab-group> 
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

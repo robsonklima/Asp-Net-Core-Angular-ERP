@@ -88,28 +88,40 @@
                     </mat-select>
                 </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                <mat-label>{{ t('equipamento') }}</mat-label>
-                <mat-select formControlName="codEquips" multiple="true">
-                    <mat-option>
-                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoCtrl">
-                        </ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option class="mat-primary fill"
-                        (click)="selectAll(form.controls.codEquips, equipamentos, 'codEquip')" [value]="0">
-                        TODOS
-                    </mat-option>
-                    <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
-                        {{ equip.nomeEquip }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('equipamento') }}</mat-label>
+                    <mat-select formControlName="codEquips" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codEquips, equipamentos, 'codEquip')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
             <div class="flex items-center justify-start px-8 pt-2 relative">
-                <mat-checkbox formControlName="exibirTecnicos" [color]="'primary'"> 
+                <mat-checkbox formControlName="exibirTecnicos" [color]="'primary'">
                     Exibir Técnicos
+                </mat-checkbox>
+            </div>
+
+            <div class="flex items-center justify-start px-8 pt-2 relative">
+                <mat-checkbox formControlName="exibirEquipamentos" [color]="'primary'">
+                    Exibir Equipamentos
+                </mat-checkbox>
+            </div>
+
+            <div class="flex items-center justify-start px-8 pt-2 relative">
+                <mat-checkbox formControlName="exibirAutorizadas" [color]="'primary'">
+                    Exibir Autorizadas
                 </mat-checkbox>
             </div>
 

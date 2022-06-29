@@ -57,6 +57,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	filialFilterCtrl: FormControl = new FormControl();
 	regiaoFilterCtrl: FormControl = new FormControl();
 	autorizadaFilterCtrl: FormControl = new FormControl();
+	localAtendimentoFilterCtrl: FormControl = new FormControl();
 	statusServicoFilterCtrl: FormControl = new FormControl();
 	tipoIntervencaoFilterCtrl: FormControl = new FormControl();
 	tecnicoFilterCtrl: FormControl = new FormControl();
@@ -324,10 +325,10 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		this.pas = Enumerable.from(data.items).select(ra => ra.pa).distinct(r => r).orderBy(i => i).toArray();
 	}
 
-	async obterAutorizadas(filialFilter: any) {
+	async obterAutorizadas(autorizadaFilter: any) {
 		let params: AutorizadaParameters = {
 			indAtivo: statusConst.ATIVO,
-			codFiliais: filialFilter,
+			codFiliais: autorizadaFilter,
 			filter: this.autorizadaFilterCtrl.value,
 			pageSize: 1000
 		};
@@ -339,7 +340,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
-	async obterLocaisAtendimentos() {
+	async obterLocaisAtendimentos(localFiltro: string = '') {
 		var filialFilter = this.form.controls['codFiliais'].value;
 		var clienteFilter = this.form.controls['codClientes'].value;
 		var regiaoFilter = this.form.controls['codRegioes'].value;
@@ -353,7 +354,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			codAutorizada: autorizadaFilter,
 			sortActive: 'nomeLocal',
 			sortDirection: 'asc',
-			pageSize: 1000
+			pageSize: 1000,
+			filter: localFiltro
 		};
 
 		const data = await this._localAtendimentoSvc
@@ -378,7 +380,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		this.statusServicos = data.items;
 	}
 
-	registrarEmitters(): void {
+	async registrarEmitters() {
 		this.form.controls['codOSs'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -399,6 +401,16 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			)
 			.subscribe(() => {
 				this.obterClientes(this.clienteFilterCtrl.value);
+			});
+
+		this.localAtendimentoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
 			});
 
 		this.filialFilterCtrl.valueChanges

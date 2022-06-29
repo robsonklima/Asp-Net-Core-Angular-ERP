@@ -91,7 +91,7 @@
                         <mat-label>{{ t('sla') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codSLA" [disabled]="!slas.length">
-                            <mat-option *ngFor="let sla of slas" [value]="sla.codSLA">
+                            <mat-option *ngFor="let sla of slas" [value]="sla.codSLA" [matTooltip]="sla.descSLA">
                                 {{ sla.nomeSLA }}
                             </mat-option>
                         </mat-select>

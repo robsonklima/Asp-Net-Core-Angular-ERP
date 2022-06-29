@@ -59,7 +59,8 @@ export class DespesaCreditoCreditarDialogComponent
     const dialogRef = this._matDialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
-        message: `Deseja CREDITAR o valor de ${this.despesaCreditosCartaoListView.combustivel.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${this.despesaCreditosCartaoListView.tecnico}?`,
+        message: `Deseja CREDITAR o valor de ${this.despesaCreditosCartaoListView.combustivel
+            .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${this.despesaCreditosCartaoListView.tecnico}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'

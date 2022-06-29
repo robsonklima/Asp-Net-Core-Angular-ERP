@@ -14,7 +14,7 @@
                     <apx-chart
                     [series]="[100 - item.percentual, item.percentual]"
                     [chart]=" {width: usuarioSessao.usuario?.codFilial ? 500 : 380, type: 'pie'}"
-                    [labels]="[ t('percentual faltante') , t('percentual alcancado')]"
+                    [labels]="[ t('percentual fora') , t('percentual dentro')]"
                     [colors]="[grayColor, item.percentual >= 85 ? greenColor : redColor]"
                     [responsive]="responsiveOptions "
                     ></apx-chart>

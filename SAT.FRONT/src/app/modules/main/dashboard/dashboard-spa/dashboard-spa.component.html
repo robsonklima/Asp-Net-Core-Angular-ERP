@@ -1,26 +1,9 @@
-<div *transloco="let t">
-    <div *ngIf="!loading">
-        <div [ngClass]="usuarioSessao.usuario?.codFilial ? 'grid grid-cols-2 gap-6' : 'grid grid-cols-3 gap-4' ">
-            <div *ngFor="let item of dados">
-                <div class="rounded border-2 p-2">
-                    <div class="grid grid-cols-2">
-                        <div class="text-center	">
-                            {{ item.filial }}
-                        </div>
-                        <div class="text-right">
-                            {{ t('meta') }}: {{ item.meta ? item.meta : 85}} %
-                        </div>
-                    </div>
-                    <apx-chart
-                    [series]="[100 - item.percentual, item.percentual]"
-                    [chart]=" {width: usuarioSessao.usuario?.codFilial ? 500 : 380, type: 'pie'}"
-                    [labels]="[ t('percentual fora') , t('percentual dentro')]"
-                    [colors]="[grayColor, item.percentual >= 85 ? greenColor : redColor]"
-                    [responsive]="responsiveOptions "
-                    ></apx-chart>
-                </div>
-            </div>
-        </div>
+<div>
+    <div *ngIf="!loading" class="items-center justify-center h-90">
+        <apx-chart *ngIf="!loading && haveData" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [labels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
+            [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [colors]="chartOptions.colors"
+            [title]="chartOptions.title"></apx-chart>
     </div>
 
     <div class="flex justify-center items-center bg-gray-50 min-h-60" *ngIf="loading">

@@ -16,6 +16,11 @@ namespace SAT.SERVICES.Services
         {
             _ticketRepo = ticketRepo;
         }
+        
+        public Ticket ObterPorCodigo(int codigo)
+        {
+            return _ticketRepo.ObterPorCodigo(codigo);
+        }
 
         public ListViewModel ObterPorParametros(TicketParameters parameters)
         {
@@ -34,10 +39,7 @@ namespace SAT.SERVICES.Services
 
             return lista;
         }
-        Ticket ObterPorCodigo(int codigo)
-        {
-            return _ticketRepo.ObterPorCodigo(codigo);
-        }
+     
 
         // public Ticket Criar(Ticket ticket)
         // {
@@ -66,7 +68,5 @@ namespace SAT.SERVICES.Services
         // {
         //     throw new System.NotImplementedException();
         // }
-
-        
     }
 }

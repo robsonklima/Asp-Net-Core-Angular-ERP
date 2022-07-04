@@ -248,7 +248,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			if (this.locais !== null && !this.locais.filter(i => i.codPosto == this.ordemServico?.codPosto))
 				this.locais.push(this.ordemServico?.localAtendimento);
 			else {
-				this.locais = [];
 				this.locais.push(this.ordemServico?.localAtendimento);
 			}
 		}

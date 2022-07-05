@@ -247,6 +247,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t =>
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
+                    t.Equipamento.NomeEquip.Contains(parameters.Filter) ||
                     t.NumOSCliente.Contains(parameters.Filter));
             }
 

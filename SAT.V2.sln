@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAT.SERVICES", "SAT.SERVICE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAT.INFRA", "SAT.INFRA\SAT.INFRA.csproj", "{3AC48E41-2804-4E76-A3B2-2C578865891A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAT.TASKS", "SAT.TASKS\SAT.TASKS.csproj", "{1CAB7890-15EC-4840-9D99-24D2BD8D8C9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +35,10 @@ Global
 		{3AC48E41-2804-4E76-A3B2-2C578865891A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AC48E41-2804-4E76-A3B2-2C578865891A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AC48E41-2804-4E76-A3B2-2C578865891A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F47C7982-4B7F-4968-8C8F-4B245D8ACFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F47C7982-4B7F-4968-8C8F-4B245D8ACFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F47C7982-4B7F-4968-8C8F-4B245D8ACFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F47C7982-4B7F-4968-8C8F-4B245D8ACFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CAB7890-15EC-4840-9D99-24D2BD8D8C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CAB7890-15EC-4840-9D99-24D2BD8D8C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CAB7890-15EC-4840-9D99-24D2BD8D8C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CAB7890-15EC-4840-9D99-24D2BD8D8C9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

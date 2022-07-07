@@ -61,6 +61,8 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 	}
 
 	async loadData() {
+		this.obterClientes();
+		this.obterEquipamentos();
 		this.obterFiliais();
 		this.obterRegioesAutorizadas();
 		this.obterAutorizadas();

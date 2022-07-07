@@ -568,10 +568,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
 		];
 
-		// lider só pode criar autorização deslocamento
-		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) && novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {
+		// lider só pode criar autorização deslocamento	
+		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) 
+			&& novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {			
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
-		}
+		}		
 
 		// só RPV pode alterar para corretiva
 		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado)) {

@@ -258,6 +258,8 @@ public class ConfigurationIOC
         builder.RegisterType<ClientePecaGenericaService>().As<IClientePecaGenericaService>();
         builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();            
         builder.RegisterType<SmsService>().As<ISmsService>();
+        builder.RegisterType<TicketService>().As<ITicketService>();
+
         #endregion
 
         #region Utils Services

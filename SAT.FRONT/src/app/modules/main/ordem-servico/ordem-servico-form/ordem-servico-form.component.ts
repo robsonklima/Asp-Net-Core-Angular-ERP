@@ -185,6 +185,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		}).toPromise()).items;
 	}
 
+	public obterTiposIntervencaoPorPerfil(): TipoIntervencao[] {
+		return this.tiposIntervencao;
+	}
+
 	private async obterClientes(filter: string = '') {
 		this.clientes = (await this._clienteService.obterPorParametros({
 			indAtivo: statusConst.ATIVO,
@@ -248,7 +252,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			if (this.locais !== null && !this.locais.filter(i => i.codPosto == this.ordemServico?.codPosto))
 				this.locais.push(this.ordemServico?.localAtendimento);
 			else {
-				this.locais = [];
 				this.locais.push(this.ordemServico?.localAtendimento);
 			}
 		}
@@ -531,7 +534,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			RoleEnum.FILIAIS_SUPERVISOR,
 			RoleEnum.FILIAL_COORDENADOR,
 			RoleEnum.FILIAL_LIDER,
-			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO
+			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO,
+			RoleEnum.PV_COORDENADOR_DE_CONTRATO
 		];
 
 		var podemAlterarOrcamentoFilial = [
@@ -543,16 +547,18 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			RoleEnum.FILIAIS_SUPERVISOR,
 			RoleEnum.FILIAL_COORDENADOR,
 			RoleEnum.FILIAL_LIDER,
-			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO
+			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO,
+			RoleEnum.PV_COORDENADOR_DE_CONTRATO
 		];
 
 		var perfisPodemAlterarCorretiva = [
 			RoleEnum.ADMIN,
-			RoleEnum.PV_COORDENADOR_DE_CONTRATO
+			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
 		];
 
 		var perfisPodemApenasCriarAutorizacaoDeslocamento = [
-			RoleEnum.FILIAL_LIDER
+			RoleEnum.FILIAL_LIDER,
+			RoleEnum.FILIAL_COORDENADOR
 		];
 
 		var intervencoesDeOrcamento = [
@@ -569,10 +575,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
 		];
 
-		// lider só pode criar autorização deslocamento
-		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) && novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {
+		// filial só pode criar autorização deslocamento	
+		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) 
+			&& novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {			
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
-		}
+		}		
 
 		// só RPV pode alterar para corretiva
 		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado)) {
@@ -588,9 +595,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			if (!podemAlterarOrcamentoFilial.includes(perfilUsuarioLogado))
 				this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
 		}
-
-		this.form.controls['codTipoIntervencao'].setErrors(null);
 	}
+
+	
 
 	validaObrigatoriedadeDosCampos() {
 		this.form.get('codTipoIntervencao').valueChanges.subscribe(val => {

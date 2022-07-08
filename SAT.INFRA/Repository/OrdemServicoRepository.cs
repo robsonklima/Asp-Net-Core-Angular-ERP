@@ -88,7 +88,7 @@ namespace SAT.INFRA.Repository
         }
 
         public OrdemServico ObterPorCodigo(int codigo) {
-            return _context.OrdemServico
+			return _context.OrdemServico
                 .Include(os => os.Chamado!)
                     .ThenInclude(ch => ch.OperadoraTelefonia)
                     .DefaultIfEmpty()
@@ -175,8 +175,9 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(a => a.LaudoStatus)
                 .Include(os => os.OrdensServicoRelatorioInstalacao!)
                     .DefaultIfEmpty()
-                .Include(os => os.Orcamentos)
-                    .ThenInclude(orc => orc.OrcamentoMotivo)
+                .Include(os => os.Orcamentos!)
+                    .ThenInclude(orc => orc.OrcamentoMotivo!)
+                    .DefaultIfEmpty()
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
         }

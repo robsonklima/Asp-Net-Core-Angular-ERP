@@ -16,7 +16,7 @@ namespace SAT.SERVICES.Services
         {
             _ticketRepo = ticketRepo;
         }
-
+        
         public Ticket ObterPorCodigo(int codigo)
         {
             return _ticketRepo.ObterPorCodigo(codigo);
@@ -40,6 +40,7 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
+     
 
         // public Ticket Criar(Ticket ticket)
         // {

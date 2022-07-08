@@ -1,14 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { MatSidenav } from '@angular/material/sidenav';
-import { StatusServico } from 'app/core/types/status-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { OrdemServicoHistorico } from 'app/core/types/ordem-servico-historico.types';
 import { fuseAnimations } from '@fuse/animations';
-import { DispBBBloqueioOS } from 'app/core/types/DispBBBloqueioOS.types';
 import { TicketService } from 'app/core/services/ticket.service';
+import { Ticket, TicketAtendimento, TicketAtendimentoData, TicketAtendimentoParameters } from 'app/core/types/ticket.types';
+import moment from 'moment';
+import { TicketAtendimentoService } from 'app/core/services/ticket-atendimento.service';
 
 @Component({
 	selector: 'app-ticket-detalhe',
@@ -19,23 +18,20 @@ import { TicketService } from 'app/core/services/ticket.service';
 export class TicketDetalheComponent implements AfterViewInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codTicket: number;
-	os: OrdemServico;
-	statusServico: StatusServico;
-	perfis: any;
+	ticket: Ticket;
 	userSession: UsuarioSessao;
-	qtdFotos: number = 0;
-	qtdLaudos: number = 0;
-	ultimoAgendamento: string;
-	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
-	historico: OrdemServicoHistorico[] = [];
-	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
+	ticketAtendimento: TicketAtendimentoData;
+	statusAguardando: number = 4;
 
 	constructor(
 		private _route: ActivatedRoute,
 		private _userService: UserService,
 		private _ticketService: TicketService,
-		private _cdr: ChangeDetectorRef	) {
+		private _ticketAtendimentoService: TicketAtendimentoService,
+		private _cdr: ChangeDetectorRef	
+		) 
+	{
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
@@ -53,8 +49,32 @@ export class TicketDetalheComponent implements AfterViewInit {
 	private async obterDados() {
 		this.isLoading = true;
 			
-		this._ticketService.obterPorCodigo(this.codTicket);
+		this.ticket = await this._ticketService.obterPorCodigo(this.codTicket).toPromise();
+
+		this.ticketAtendimento = await this._ticketAtendimentoService.obterPorParametros({codTicket: this.codTicket	}).toPromise();
+
+		console.log(this.ticketAtendimento);
 
 		this.isLoading = false;
+	}
+
+	async iniciarAtendimento(){
+		let tick: Ticket = {
+			codTicket: this.codTicket,		
+			codStatus: 1,			
+			usuarioManut: this.userSession?.usuario?.codUsuario,
+			dataManut: moment().toDate()
+		}	
+
+		await this._ticketService.atualizar(
+			{
+				...this.ticket,
+				...tick
+			}
+
+			).subscribe(r => {
+			
+		});
+		
 	}
 }

@@ -7,7 +7,7 @@ namespace SAT.SERVICES.Interfaces
     public  interface ITicketService
     {
         ListViewModel ObterPorParametros(TicketParameters parameters);
-
         Ticket ObterPorCodigo(int codigo);
+        Ticket Atualizar(Ticket ticket);
     }
 }

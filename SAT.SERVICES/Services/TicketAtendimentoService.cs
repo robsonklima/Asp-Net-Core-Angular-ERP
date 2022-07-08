@@ -6,25 +6,25 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class TicketService : ITicketService
+    public class TicketAtendimentoService : ITicketAtendimentoService 
     {
-        private readonly ITicketRepository _ticketRepo;
+        private readonly ITicketAtendimentoRepository _ticketAtendimentoRepo;
 
-        public TicketService(
-            ITicketRepository ticketRepo
+        public TicketAtendimentoService(
+            ITicketAtendimentoRepository ticketAtendimentoRepo
         )
         {
-            _ticketRepo = ticketRepo;
+            _ticketAtendimentoRepo = ticketAtendimentoRepo;
         }
 
-        public Ticket ObterPorCodigo(int codigo)
+        public TicketAtendimento ObterPorCodigo(int codigo)
         {
-            return _ticketRepo.ObterPorCodigo(codigo);
+            return _ticketAtendimentoRepo.ObterPorCodigo(codigo);
         }
 
-        public ListViewModel ObterPorParametros(TicketParameters parameters)
+        public ListViewModel ObterPorParametros(TicketAtendimentoParameters parameters)
         {
-            var tickets = _ticketRepo.ObterPorParametros(parameters);
+            var tickets = _ticketAtendimentoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
@@ -40,7 +40,6 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-
         // public Ticket Criar(Ticket ticket)
         // {
         //     // _ticketRepo.Criar(ticket);
@@ -55,12 +54,14 @@ namespace SAT.SERVICES.Services
         // }
 
 
-        public Ticket Atualizar(Ticket ticket)
-        {
-
-            _ticketRepo.Atualizar(ticket);
-            return ticket;
-        }
+        // public void Atualizar(Ticket ticket)
+        // {
+        //     // var equip = _ticketRepo.ObterPorCodigo(ticket.);
+        //     // ticket.CodTipoEquip = equip.CodTipoEquip;
+        //     // ticket.CodGrupoEquip = equip.CodGrupoEquip;
+        //     // _equipamentoContratoRepo.Atualizar(equipamentoContrato);
+        //     return null;
+        // }
 
         // public Ticket Criar(EquipamentoContrato equipamentoContrato)
         // {

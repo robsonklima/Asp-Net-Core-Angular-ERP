@@ -623,5 +623,8 @@
     "percentual dentro": "Percentage Within",
     "meta": "Goal",
     "tickets": "Tickets",
-    "ticket": "Ticket"
+    "ticket": "Ticket",
+    "titulo": "Title",
+    "classificacao": "Classification",
+    "prioridade": "Priority"
 }

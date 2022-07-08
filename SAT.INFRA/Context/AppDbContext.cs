@@ -210,6 +210,7 @@ namespace SAT.INFRA.Context
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
+        public DbSet<TicketAtendimento> TicketAtendimento { get; set; }
         public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         

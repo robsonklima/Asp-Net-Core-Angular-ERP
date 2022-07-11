@@ -65,7 +65,7 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.AUTORIZADA:
 					GerarPlanilhaAutorizada(parameters);
-					break;					
+					break;			
 
 				default:
 					break;
@@ -80,7 +80,8 @@ namespace SAT.SERVICES.Services
 
 			byte[] file = File.ReadAllBytes(FilePath);
 			return new FileContentResult(file, "application/octet-stream");
-		}		
+		}
+
 		private void FormatSheet(IXLCells row, IXLWorksheet sheet)
 		{
 			row.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);

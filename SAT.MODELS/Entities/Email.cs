@@ -9,6 +9,7 @@ namespace SAT.MODELS.Entities
         public string EmailDestinatario { get; set; }
         public string NomeDestinatario { get; set; }
         public string Assunto { get; set; }
+        public string Descricao { get; set; }
         public string Corpo { get; set; }
     }
 }

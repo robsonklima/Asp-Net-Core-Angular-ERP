@@ -141,6 +141,7 @@ public class ConfigurationIOC
         builder.RegisterType<ImportacaoConfiguracaoRepository>().As<IImportacaoConfiguracaoRepository>();
         builder.RegisterType<CheckinCheckoutRepository>().As<ICheckinCheckoutRepository>();
         builder.RegisterType<TicketRepository>().As<ITicketRepository>();
+        builder.RegisterType<SatTaskRepository>().As<ISatTaskRepository>();
         #endregion
 
         #region Services
@@ -257,6 +258,7 @@ public class ConfigurationIOC
         builder.RegisterType<ClientePecaService>().As<IClientePecaService>();
         builder.RegisterType<ClientePecaGenericaService>().As<IClientePecaGenericaService>();
         builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();            
+        builder.RegisterType<SatTaskService>().As<ISatTaskService>();
         builder.RegisterType<SmsService>().As<ISmsService>();
         #endregion
 

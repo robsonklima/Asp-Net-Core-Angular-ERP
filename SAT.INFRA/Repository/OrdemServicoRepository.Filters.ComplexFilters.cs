@@ -118,11 +118,11 @@ namespace SAT.INFRA.Repository
                             let ultimaRat = c.RelatoriosAtendimento.OrderByDescending(or => or.CodRAT).FirstOrDefault()
 
                             // &&
-                            // Considera chamados abertos no per�odo.
+                            // Considera chamados abertos no periodo.
                             where (c.DataHoraAberturaOS >= primeiroDiaMes && c.DataHoraAberturaOS <= ultimoDiaMes)
                                    ||
 
-                                   //Considera data da pr�xima janela no per�odo(Antiga regra de agendamento).
+                                   //Considera data da proxima janela no periodo(Antiga regra de agendamento).
                                    (proxDiaUtil >= primeiroDiaMes && proxDiaUtil <= ultimoDiaMes
                                     && (ultimaRat == null || (ultimaRat != null && ultimaRat.DataHoraSolucao > proxDiaUtil))
                                    )

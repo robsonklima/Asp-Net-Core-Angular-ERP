@@ -12,27 +12,27 @@ namespace SAT.API.Controllers
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
-    public class TicketController : ControllerBase
+    public class TicketAtendimentoController : ControllerBase
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketAtendimentoService _ticketAtendimentoService;
 
-        public TicketController(
-            ITicketService ticketService
+        public TicketAtendimentoController(
+            ITicketAtendimentoService ticketAtendimentoService
         )
         {
-            _ticketService = ticketService;
+            _ticketAtendimentoService = ticketAtendimentoService;
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] TicketParameters parameters)
+        public ListViewModel Get([FromQuery] TicketAtendimentoParameters parameters)
         {
-            return _ticketService.ObterPorParametros(parameters);
+            return _ticketAtendimentoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{codTicket}")]
-        public Ticket Get(int codTicket)
+        [HttpGet("{codTicketAtendimento}")]
+        public TicketAtendimento Get(int codTicketAtendimento)
         {
-            return _ticketService.ObterPorCodigo(codTicket);
+            return _ticketAtendimentoService.ObterPorCodigo(codTicketAtendimento);
         }
 
         // [HttpPost]
@@ -41,11 +41,11 @@ namespace SAT.API.Controllers
         //     return _equipamentoContratoService.Criar(equipamentoContrato);
         // }
 
-        [HttpPut]
-        public void Put([FromBody] Ticket ticket)
-        {
-            _ticketService.Atualizar(ticket);
-        }
+        // [HttpPut]
+        // public void Put([FromBody] EquipamentoContrato equipamentoContrato)
+        // {
+        //     _equipamentoContratoService.Atualizar(equipamentoContrato);
+        // }
 
         // [HttpDelete("{codEquipContrato}")]
         // public void Delete(int codEquipContrato)

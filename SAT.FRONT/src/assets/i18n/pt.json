@@ -638,5 +638,9 @@
     "meta": "Meta",
     "tickets": "Tickets",
     "ticket": "Ticket",
-    "titulo": "Titulo"
+    "titulo": "Titulo",
+    "classificacao": "Classificação",
+    "prioridade": "Prioridade",
+    "atendimento": "Atendimento"
+
 }

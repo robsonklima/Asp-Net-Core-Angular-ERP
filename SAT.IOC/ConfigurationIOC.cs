@@ -260,6 +260,8 @@ public class ConfigurationIOC
         builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();            
         builder.RegisterType<SatTaskService>().As<ISatTaskService>();
         builder.RegisterType<SmsService>().As<ISmsService>();
+        builder.RegisterType<TicketService>().As<ITicketService>();
+
         #endregion
 
         #region Utils Services

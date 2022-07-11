@@ -28,6 +28,7 @@ import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
 import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FuseCardModule } from '@fuse/components/card';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -68,6 +69,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSidenavModule,
     MatMenuModule,
     FiltroModule,
+    FuseCardModule
   ]
 })
 export class TicketModule { }

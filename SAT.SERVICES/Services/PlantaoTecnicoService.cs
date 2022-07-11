@@ -73,18 +73,20 @@ namespace SAT.SERVICES.Services
 
         public void ProcessarTask()
         {
-            var task = _satTaskService.ObterPorParametros(new SatTaskParameters() {
+            SatTask task = (SatTask)_satTaskService.ObterPorParametros(new SatTaskParameters() {
                 CodSatTaskTipo = (int)SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL,
                 SortActive = "DataHoraProcessamento",
-                SortDirection = "DESC"
+                SortDirection = "DESC",
+                PageSize = 1
             }).Items.FirstOrDefault();
 
-            var is14Horas = (int)DateTime.Now.Hour == 12;
+            var is14Horas = (int)DateTime.Now.Hour == 14;
             var isSexta = (int)DateTime.Now.DayOfWeek == 5;
             var isSabado = (int)DateTime.Now.DayOfWeek == 6;
             var isDomingo = (int)DateTime.Now.DayOfWeek == 0;
+            var isProcessadoHoje = DateTime.Now.Date == task?.DataHoraProcessamento.Date;
 
-            if (isSabado || isDomingo || !is14Horas)
+            if (isSabado || isDomingo || !is14Horas || isProcessadoHoje)
                 return;
 
             var plantoes = _plantaoTecnicoRepo.ObterPorParametros(new PlantaoTecnicoParameters() {

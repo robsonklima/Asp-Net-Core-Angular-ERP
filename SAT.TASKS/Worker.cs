@@ -30,7 +30,7 @@ public partial class Worker : BackgroundService
                 _logger.Error(ex.Message);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
         }
     }
 }

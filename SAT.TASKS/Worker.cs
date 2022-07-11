@@ -1,6 +1,5 @@
 
 using NLog;
-using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.TASKS;

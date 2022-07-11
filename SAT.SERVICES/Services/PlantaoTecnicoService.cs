@@ -115,7 +115,7 @@ namespace SAT.SERVICES.Services
                 Dia = p.DataPlantao.ToString("ddd", new CultureInfo("pr-BR")).ToUpper()
             }).ToList();
 
-            string html = EmailHelper.Converter<PlantaoTecnicoEmailDetalhado>(tabelaDetalhada, "DSS - Técnicos de Sobreaviso",
+            string html = EmailHelper.ConverterParaHtml<PlantaoTecnicoEmailDetalhado>(tabelaDetalhada, "DSS - Técnicos de Sobreaviso",
                 "Segue abaixo os técnicos plantonistas, de sobreaviso para este final de semana/feriado.");
 
             var tabelaResumida = plantoes.GroupBy(p => p.Tecnico.Filial.NomeFilial)
@@ -126,7 +126,7 @@ namespace SAT.SERVICES.Services
                 })
                 .OrderBy(p => p.Filial).ToList();
 
-            html += EmailHelper.Converter<PlantaoTecnicoEmailResumido>(tabelaResumida, "Resumo",
+            html += EmailHelper.ConverterParaHtml<PlantaoTecnicoEmailResumido>(tabelaResumida, "Resumo",
                 "Segue abaixo o resumo da quantidade de plantões por filial.");
 
             Email email = new() {

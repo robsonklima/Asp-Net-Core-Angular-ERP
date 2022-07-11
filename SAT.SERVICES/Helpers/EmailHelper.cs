@@ -9,7 +9,7 @@ namespace SAT.SERVICES.Helpers {
         private EmailHelper()
         {}
         
-        public static string Converter<T>(List<T> list, string titulo="E-mail automático SAT 2.0", string descricao="Este é um e-mail automático enviado pelo SAT 2.0")
+        public static string ConverterParaHtml<T>(List<T> list, string titulo="E-mail automático SAT 2.0", string descricao="Este é um e-mail automático enviado pelo SAT 2.0")
         {
             DataTable table = Criar<T>();
             Type entityType = typeof(T);

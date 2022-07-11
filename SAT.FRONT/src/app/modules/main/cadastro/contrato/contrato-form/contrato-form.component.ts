@@ -156,6 +156,7 @@ export class ContratoFormComponent implements OnInit {
 				dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario?.codUsuario,
+				mtbfnominal: 70
 			}
 		};
 

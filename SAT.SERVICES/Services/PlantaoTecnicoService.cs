@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -71,6 +69,7 @@ namespace SAT.SERVICES.Services
             return _plantaoTecnicoRepo.ObterPorCodigo(codigo);
         }
 
+        /* Envia e-mail com os plantões registrados para feriados e fins de semana */
         public void ProcessarTask()
         {
             SatTask task = (SatTask)_satTaskService.ObterPorParametros(new SatTaskParameters() {
@@ -89,7 +88,7 @@ namespace SAT.SERVICES.Services
             if (isSabado || isDomingo || !is14Horas || isProcessadoHoje)
                 return;
 
-            var plantoes = _plantaoTecnicoRepo.ObterPorParametros(new PlantaoTecnicoParameters() {
+            var plantoes = _plantaoTecnicoRepo.ObterPorParametros( new PlantaoTecnicoParameters {
                 DataPlantaoInicio = DateTime.Now,
                 DataPlantaoFim = DateTime.Now.AddDays(isSexta ? 4 : 1),
                 IndAtivo = 1
@@ -121,11 +120,7 @@ namespace SAT.SERVICES.Services
                 "Segue abaixo os técnicos plantonistas, de sobreaviso para este final de semana/feriado.");
 
             var tabelaResumida = plantoes.GroupBy(p => p.Tecnico.Filial.NomeFilial)
-                .Select(p => new PlantaoTecnicoEmailResumido
-                {
-                    Filial = p.Key,
-                    Qtd = p.Count()
-                })
+                .Select(p => new PlantaoTecnicoEmailResumido { Filial = p.Key, Qtd = p.Count() })
                 .OrderBy(p => p.Filial).ToList();
 
             html += EmailHelper.ConverterParaHtml<PlantaoTecnicoEmailResumido>(tabelaResumida, "Resumo",

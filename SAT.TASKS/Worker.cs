@@ -3,14 +3,19 @@ using NLog;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.TASKS;
-public class Worker : BackgroundService
+public partial class Worker : BackgroundService
 {
     private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-    private readonly IEquipamentoContratoService _eqService;
+    private readonly IPlantaoTecnicoService _plantaoTecnicoService;
+    private readonly ISatTaskService _satTaskService;
 
     public Worker(
-        IEquipamentoContratoService eqService) =>
-        (_eqService) = (eqService);
+        IPlantaoTecnicoService plantaoTecnicoService,
+        ISatTaskService satTaskService
+    ) {
+        _plantaoTecnicoService = plantaoTecnicoService;
+        _satTaskService = satTaskService;
+    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -18,15 +23,14 @@ public class Worker : BackgroundService
         {
             try
             {
-                var equip = _eqService.ObterPorCodigo(493530);
-                _logger.Warn("Equipamento Encontrado: " + equip.Equipamento.NomeEquip);
+                _plantaoTecnicoService.ProcessarTask();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                _logger.Error("Caiu no Catch: " + ex.Message);
+                _logger.Error(ex.Message);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 }

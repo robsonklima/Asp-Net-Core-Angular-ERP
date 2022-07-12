@@ -86,7 +86,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<PlantaoTecnico> ObterPorParametros(PlantaoTecnicoParameters parameters)
         {
-            var perfis = _context.PlantaoTecnico
+            var query = _context.PlantaoTecnico
                 .Include(p => p.PlantaoRegioes)
                     .ThenInclude(t => t.Regiao)
                 .Include(p => p.PlantaoClientes)
@@ -102,33 +102,46 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(r => r.Regiao)
                 .Include(p => p.Tecnico)
                     .ThenInclude(t => t.Usuario)
+                .Include(p => p.Tecnico)
+                    .ThenInclude(t => t.Filial)
+                .Include(p => p.Tecnico)
+                    .ThenInclude(t => t.Regiao)
                 .AsQueryable();
+
+            if (parameters.CodTecnico != null)
+            {
+                query = query.Where(p => p.CodTecnico == parameters.CodTecnico);
+            }
+
+            if (parameters.IndAtivo != null)
+            {
+                query = query.Where(p => p.Tecnico.IndAtivo == parameters.IndAtivo);
+                query = query.Where(p => p.Tecnico.Usuario.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.Nome != null)
+            {
+                query = query.Where(p => p.Tecnico.Nome == parameters.Nome);
+            }
+
+            if (parameters.DataPlantaoInicio.HasValue && parameters.DataPlantaoFim.HasValue)
+                query = query.Where(p => p.DataPlantao.Date >= parameters.DataPlantaoInicio.Value.Date && p.DataPlantao.Date <= parameters.DataPlantaoFim.Value.Date);
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
 
             if (parameters.Filter != null)
             {
-                perfis = perfis.Where(
+                query = query.Where(
                     p =>
                     p.CodPlantaoTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     p.Tecnico.Nome.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
-            if (parameters.CodTecnico != null)
-            {
-                perfis = perfis.Where(p => p.CodTecnico == parameters.CodTecnico);
-            }
-
-            if (parameters.Nome != null)
-            {
-                perfis = perfis.Where(p => p.Tecnico.Nome == parameters.Nome);
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                perfis = perfis.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
-            }
-
-            return PagedList<PlantaoTecnico>.ToPagedList(perfis, parameters.PageNumber, parameters.PageSize);
+            return PagedList<PlantaoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

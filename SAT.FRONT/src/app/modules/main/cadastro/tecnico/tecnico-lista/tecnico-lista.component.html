@@ -18,8 +18,8 @@
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
 
-            <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
-                [routerLink]="['/tecnico/form']">
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}"
+                (click)="exportar()">
                 <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
             </button>
 
@@ -98,7 +98,7 @@
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        [pageSize]="50" [pageSizeOptions]="[50, 100, 150, 200]" [showFirstLastButtons]="true"
                         (page)="paginar()">
                     </mat-paginator>
                 </ng-container>

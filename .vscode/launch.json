@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/SAT.API/bin/Debug/net5.0/SAT.API.dll",
+            "program": "${workspaceFolder}/SAT.API/bin/Debug/net6.0/SAT.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/SAT.API",
             "stopAtEntry": false,

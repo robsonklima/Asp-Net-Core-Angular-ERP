@@ -43,5 +43,11 @@ namespace SAT.API.Controllers
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.AUTORIZADA);
         }        
+
+        [HttpGet("Tecnico")]
+        public IActionResult ExportarTecnico([FromQuery] TecnicoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.TECNICO);
+        }        
     }
 }

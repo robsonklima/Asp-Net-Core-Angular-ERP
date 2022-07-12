@@ -71,7 +71,7 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.Filial.AsNoTracking().AsQueryable();
 
-            query = AplicarIncludes(query, parameters.Include);
+            // query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 

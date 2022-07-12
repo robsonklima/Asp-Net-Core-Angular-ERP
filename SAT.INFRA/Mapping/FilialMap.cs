@@ -14,11 +14,11 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasKey(prop => prop.CodFilial);
 
-            builder
-                .HasOne(prop => prop.Cidade)
-                .WithMany()
-                .HasForeignKey("CodCidade")
-                .HasPrincipalKey("CodCidade");
+            // builder
+            //     .HasOne(prop => prop.Cidade)
+            //     .WithMany()
+            //     .HasForeignKey("CodCidade")
+            //     .HasPrincipalKey("CodCidade");
 
             builder
                 .HasOne(prop => prop.FilialAnalista)

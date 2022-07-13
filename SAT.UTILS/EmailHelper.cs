@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 
-namespace SAT.SERVICES.Helpers {
+namespace SAT.UTILS {
     public class EmailHelper
     {
         private EmailHelper()

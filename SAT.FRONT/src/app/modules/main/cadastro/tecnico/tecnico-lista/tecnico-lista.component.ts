@@ -20,7 +20,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 		/* language=SCSS */
 		`
       .list-grid-ge {
-          grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
+          grid-template-columns: 72px auto 5% 10% 10% 60px 60px;
           
           /* @screen sm {
               grid-template-columns: 72px auto 5% 10% 10% 48px 42px;

@@ -185,7 +185,7 @@ namespace SAT.UTILS {
                 <body style='background-color:#F4F4F4;'>
                     <center>
 
-                        <!--[if gte mso 9]><table width='980' cellpadding='0' cellspacing='0'><tr><td>
+                        <!--[if gte mso 9]><table width='{table.Columns.Count * 88}' cellpadding='0' cellspacing='0'><tr><td>
                                     <![endif]-->
                     <table class='full-container' cellpadding='0' cellspacing='0' border='0' width='100%' style='width:calc(100%);max-width:calc(600px);margin: 0 auto;'>
                         <tr>

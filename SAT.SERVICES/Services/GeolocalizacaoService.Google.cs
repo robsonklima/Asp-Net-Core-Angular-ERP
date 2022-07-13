@@ -78,20 +78,19 @@ namespace SAT.SERVICES.Services
                 {
                     var conteudo = await response.Content.ReadAsStringAsync();
                     GoogleDistanceMatrix model = Newtonsoft.Json.JsonConvert.DeserializeObject<GoogleDistanceMatrix>(conteudo);
+                    Geolocalizacao geo =  new Geolocalizacao
+                    {
+                        EnderecoOrigem = model.origin_addresses?.First(),
+                        EnderecoDestino = model.destination_addresses?.First(),
+                        Distancia = model.rows?.First()?.elements?.First()?.distance?.value,
+                        Duracao = model.rows?.First()?.elements?.First()?.duration?.value
+                    };
 
-                    // return new Geolocalizacao
-                    // {
-                    //     EnderecoCEP = parameters.EnderecoCEP,
-                    //     EnderecoOrigem = model?.route?.locations?.FirstOrDefault()?.street,
-                    //     CidadeOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea5,
-                    //     EstadoOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea3,
-                    //     Distancia = model?.route?.distance * 1.60934,
-                    //     Duracao = model?.route?.time
-                    // };
+                    return geo;
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw new Exception($"Erro ao consultar serviço de API do Google", ex);;
                 }
             }
 

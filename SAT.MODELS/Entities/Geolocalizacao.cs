@@ -13,6 +13,7 @@
         public string EstadoOrigem { get; set; }
         public string Endereco { get; set; }
         public string EnderecoOrigem { get; set; }
+        public string EnderecoDestino { get; set; }
         public string Pais { get; set; }
         public string NumeroOrigem { get; set; }
         public string Numero { get; set; }

@@ -83,7 +83,7 @@ namespace SAT.MODELS.Entities
     {
         public Distance distance { get; set; }
         public Duration duration { get; set; }
-        public int status { get; set; }
+        public string status { get; set; }
     }
 
     public class Row

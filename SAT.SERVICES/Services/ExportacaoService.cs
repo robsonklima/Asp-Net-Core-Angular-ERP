@@ -68,7 +68,11 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.AUTORIZADA:
 					GerarPlanilhaAutorizada(parameters);
-					break;			
+					break;		
+
+				case ExportacaoTipoEnum.TECNICO:
+					GerarPlanilhaTecnico(parameters);
+					break;					
 
 				default:
 					break;

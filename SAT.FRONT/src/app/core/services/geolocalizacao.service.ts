@@ -31,7 +31,6 @@ export class GeolocalizacaoService
   obterDistancia(parameters: GeolocalizacaoParameters): Observable<Geolocalizacao>
   {
     let params = new HttpParams();
-    parameters.geolocalizacaoServiceEnum = GeolocalizacaoServiceEnum.NOMINATIM;
 
     Object.keys(parameters).forEach(key =>
     {

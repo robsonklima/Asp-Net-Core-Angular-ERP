@@ -30,7 +30,7 @@ namespace SAT.SERVICES.Services
             switch (parameters.GeolocalizacaoServiceEnum)
             {
                 case GeolocalizacaoServiceEnum.GOOGLE:
-                    return null;
+                    return await GoogleRouteService(parameters);
                 case GeolocalizacaoServiceEnum.NOMINATIM:
                     return await NominatimRouteService(parameters);
                 case GeolocalizacaoServiceEnum.VIACEP:

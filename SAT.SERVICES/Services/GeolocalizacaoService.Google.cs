@@ -60,5 +60,42 @@ namespace SAT.SERVICES.Services
 
             return null;
         }
+
+        public async Task<Geolocalizacao> GoogleRouteService(GeolocalizacaoParameters parameters)
+        {
+            var latDestino = parameters.LatitudeDestino.Replace(',', '.');
+            var longDestino = parameters.LongitudeDestino.Replace(',', '.');
+            var latOrigem = parameters.LatitudeOrigem.Replace(',', '.');
+            var longOrigem = parameters.LongitudeOrigem.Replace(',', '.');
+
+            var url = $"https://maps.googleapis.com/maps/api/distancematrix/json?origins={latOrigem},{longOrigem}&destinations={latDestino},{longDestino}&mode=auto&language=en-EN&key={Constants.GOOGLE_API_KEY}";
+            var response =
+                await new HttpClient().GetAsync(url);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                try
+                {
+                    var conteudo = await response.Content.ReadAsStringAsync();
+                    GoogleDistanceMatrix model = Newtonsoft.Json.JsonConvert.DeserializeObject<GoogleDistanceMatrix>(conteudo);
+
+                    // return new Geolocalizacao
+                    // {
+                    //     EnderecoCEP = parameters.EnderecoCEP,
+                    //     EnderecoOrigem = model?.route?.locations?.FirstOrDefault()?.street,
+                    //     CidadeOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea5,
+                    //     EstadoOrigem = model?.route?.locations?.FirstOrDefault()?.adminArea3,
+                    //     Distancia = model?.route?.distance * 1.60934,
+                    //     Duracao = model?.route?.time
+                    // };
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            return null;
+        }
     }
 }

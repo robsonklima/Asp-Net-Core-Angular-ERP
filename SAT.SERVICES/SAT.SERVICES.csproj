@@ -14,5 +14,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SAT.INFRA\SAT.INFRA.csproj" />
 		<ProjectReference Include="..\SAT.MODELS\SAT.MODELS.csproj" />
+		<ProjectReference Include="..\SAT.UTILS\SAT.UTILS.csproj" />
 	</ItemGroup>
 </Project>

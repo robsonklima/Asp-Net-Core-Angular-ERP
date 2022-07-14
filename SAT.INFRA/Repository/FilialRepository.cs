@@ -61,9 +61,10 @@ namespace SAT.INFRA.Repository
         public Filial ObterPorCodigo(int codigo)
         {
             return _context.Filial
-                .Include(i => i.Cidade)
-                    .ThenInclude(i => i.UnidadeFederativa)
-                         .ThenInclude(i => i.Pais)
+                .Include(i => i.Cidade!)
+                    .ThenInclude(i => i.UnidadeFederativa!)
+                         .ThenInclude(i => i.Pais!)
+                         .DefaultIfEmpty()
                 .FirstOrDefault(f => f.CodFilial == codigo);
         }
 
@@ -71,7 +72,7 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.Filial.AsNoTracking().AsQueryable();
 
-            // query = AplicarIncludes(query, parameters.Include);
+            query = AplicarIncludes(query, parameters.Include);
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 

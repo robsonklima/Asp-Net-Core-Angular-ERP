@@ -14,7 +14,8 @@ namespace SAT.INFRA.Repository
             {
                 case FilialIncludeEnum.FILIAL_ORDENS_SERVICO:
                     query = query
-                             .Include(i => i.Cidade)
+                             .Include(i => i.Cidade!)
+                                .DefaultIfEmpty()
                              .Include(i => i.Cidade.UnidadeFederativa)
                              .Include(i => i.OrdensServico)
                                  .ThenInclude(os => os.EquipamentoContrato)
@@ -22,7 +23,8 @@ namespace SAT.INFRA.Repository
                     break;
                 default:
                     query = query
-                            .Include(i => i.Cidade)
+                            .Include(i => i.Cidade!)
+                                .DefaultIfEmpty()
                             .Include(i => i.Cidade.UnidadeFederativa);
                     break;
             }

@@ -133,18 +133,21 @@ public class ConfigurationIOC
         builder.RegisterType<EquipamentoModuloRepository>().As<IEquipamentoModuloRepository>();
         builder.RegisterType<ClientePecaRepository>().As<IClientePecaRepository>();
         builder.RegisterType<ClientePecaGenericaRepository>().As<IClientePecaGenericaRepository>();
-        builder.RegisterType<ImportacaoService>().As<IImportacaoService>();
-        builder.RegisterType<ImportacaoConfiguracaoService>().As<IImportacaoConfiguracaoService>();
-        builder.RegisterType<ImportacaoTipoService>().As<IImportacaoTipoService>();
-        builder.RegisterType<ExportacaoService>().As<IExportacaoService>();
         builder.RegisterType<ImportacaoTipoRepository>().As<IImportacaoTipoRepository>();
         builder.RegisterType<ImportacaoConfiguracaoRepository>().As<IImportacaoConfiguracaoRepository>();
         builder.RegisterType<CheckinCheckoutRepository>().As<ICheckinCheckoutRepository>();
         builder.RegisterType<TicketRepository>().As<ITicketRepository>();
         builder.RegisterType<SatTaskRepository>().As<ISatTaskRepository>();
+        builder.RegisterType<DispBBBloqueioOSRepository>().As<IDispBBBloqueioOSRepository>();
+        builder.RegisterType<InstalacaoNFVendaRepository>().As<IInstalacaoNFVendaRepository>();
         #endregion
 
         #region Services
+        builder.RegisterType<ImportacaoService>().As<IImportacaoService>();
+        builder.RegisterType<ImportacaoConfiguracaoService>().As<IImportacaoConfiguracaoService>();
+        builder.RegisterType<ImportacaoTipoService>().As<IImportacaoTipoService>();
+        builder.RegisterType<ExportacaoService>().As<IExportacaoService>();
+        builder.RegisterType<DispBBBloqueioOSService>().As<IDispBBBloqueioOSService>();
         builder.RegisterType<AcaoService>().As<IAcaoService>();
         builder.RegisterType<AcordoNivelServicoService>().As<IAcordoNivelServicoService>();
         builder.RegisterType<AutorizadaService>().As<IAutorizadaService>();

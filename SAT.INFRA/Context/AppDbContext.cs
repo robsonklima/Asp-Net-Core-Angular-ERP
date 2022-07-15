@@ -215,6 +215,7 @@ namespace SAT.INFRA.Context
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         public DbSet<SatTask> SatTask { get; set; }
         public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
+        public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -350,6 +351,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
             modelBuilder.Entity<SatTask>(new SatTaskMap().Configure);
             modelBuilder.Entity<SatTaskTipo>(new SatTaskTipoMap().Configure);
+            modelBuilder.Entity<ViewDespesaImpressaoItem>(new ViewDespesaImpressaoItemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

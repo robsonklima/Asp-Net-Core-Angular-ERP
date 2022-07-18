@@ -23,8 +23,9 @@
 									<div class="flex items-center ml-1 whitespace-nowrap">
 										<mat-icon class="icon-size-5 text-secondary"
 											[svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-										<span class="ml-1 text-secondary">{{ slides[this.tabGroup.selectedIndex]
-											}}</span>
+										<span class="ml-1 text-secondary">
+											{{ slides[this.tabGroup.selectedIndex]}}
+										</span>
 									</div>
 								</div>
 							</div>
@@ -34,10 +35,11 @@
 
 				<div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 					<div class="right-0">
-						<mat-slide-toggle [(ngModel)]="permiteTrocarSlideAutomaticamente">
-							{{ permiteTrocarSlideAutomaticamente ? 'Alternando Slides Automaticamente' : 'Slide Fixado'
-							}}
-						</mat-slide-toggle>
+						<span class="mt-0">
+							{{ permiteTrocarSlideAutomaticamente ? 'Alternando Slides Automaticamente' : 'Slide Fixado' }}
+						</span>
+
+						<mat-slide-toggle [(ngModel)]="permiteTrocarSlideAutomaticamente"></mat-slide-toggle>
 					</div>
 				</div>
 			</div>

@@ -132,7 +132,6 @@ namespace SAT.SERVICES.Services
                         PageSize = 1,
                         SortActive = "Fim",
                         SortDirection = "DESC",
-                        Tipo = AgendaTecnicoTipoEnum.OS,
                         IndAtivo = 1
                     }).FirstOrDefault();
                     

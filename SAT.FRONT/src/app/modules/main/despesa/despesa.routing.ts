@@ -1,3 +1,4 @@
+import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 import { Route } from "@angular/router";
 import { DespesaAdiantamentoFormComponent } from "./despesa-adiantamento-form/despesa-adiantamento-form.component";
 import { DespesaAdiantamentoListaComponent } from "./despesa-adiantamento-lista/despesa-adiantamento-lista.component";
@@ -123,5 +124,12 @@ export const despesaRoutes: Route[] = [
     {
         path: 'adiantamento-solicitacao',
         component: DespesaAdiantamentoSolicitacaoComponent
+    },
+    {
+        path: 'despesa-relatorio-impressao/:codDespesaPeriodoTecnico',
+        component: DespesaAtendimentoRelatorioImpressaoComponent,
+        data: {
+            layout: 'empty'
+        },
     }
 ];

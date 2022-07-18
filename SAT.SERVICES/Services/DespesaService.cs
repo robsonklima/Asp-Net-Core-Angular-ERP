@@ -3,6 +3,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -28,6 +29,11 @@ namespace SAT.SERVICES.Services
         public void Deletar(int codigo)
         {
             _despesaRepo.Deletar(codigo);
+        }
+
+        public List<ViewDespesaImpressaoItem> Impressao(DespesaParameters parameters)
+        {
+            return _despesaRepo.Impressao(parameters);
         }
 
         public Despesa ObterPorCodigo(int codigo)

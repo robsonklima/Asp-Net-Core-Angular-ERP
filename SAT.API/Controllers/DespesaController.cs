@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
@@ -39,5 +40,9 @@ namespace SAT.API.Controllers
         [HttpDelete("{codDespesa}")]
         public void Delete(int codDespesa) =>
             _despesaService.Deletar(codDespesa);
+
+        [HttpGet("Impressao")]
+        public List<ViewDespesaImpressaoItem> Impressao([FromQuery] DespesaParameters parameters) =>
+            _despesaService.Impressao(parameters);
     }
 }

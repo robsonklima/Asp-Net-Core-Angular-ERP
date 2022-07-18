@@ -3,43 +3,43 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Ticket, TicketData, TicketParameters } from '../types/ticket.types';
+import { Ticket, TicketData, TicketParameters, TicketStatus, TicketStatusData, TicketStatusParameters } from '../types/ticket.types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService {
+export class TicketStatusService {
   constructor(private http: HttpClient) {}
 
-  obterPorParametros(parameters: TicketParameters): Observable<TicketData> {
+  obterPorParametros(parameters: TicketStatusParameters): Observable<TicketStatusData> {
     let params = new HttpParams();
     
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
 
-    return this.http.get(`${c.api}/Ticket`, { params: params }).pipe(
-      map((data: TicketData) => data)
+    return this.http.get(`${c.api}/TicketStatus`, { params: params }).pipe(
+      map((data: TicketStatusData) => data)
     )
   }
 
-  obterPorCodigo(codTicket: number): Observable<Ticket> {
-    const url = `${c.api}/Ticket/${codTicket}`;
-    return this.http.get<Ticket>(url).pipe(
+  obterPorCodigo(codStatus: number): Observable<TicketStatus> {
+    const url = `${c.api}/TicketStatus/${codStatus}`;
+    return this.http.get<TicketStatus>(url).pipe(
       map((obj) => obj)
     );  
 }
 
-  criar(ticket: Ticket): Observable<Ticket> {
-    return this.http.post<Ticket>(`${c.api}/Ticket`, 
-      ticket).pipe(
+  criar(ticketStatus: TicketStatus): Observable<TicketStatus> {
+    return this.http.post<TicketStatus>(`${c.api}/TicketStatus`, 
+      ticketStatus).pipe(
       map((obj) => obj)
     );
   }
 
-  atualizar(ticket: Ticket): Observable<Ticket> {
-    const url = `${c.api}/Ticket`;
-    return this.http.put<Ticket>(url, ticket).pipe(
+  atualizar(ticketStatus: TicketStatus): Observable<TicketStatus> {
+    const url = `${c.api}/TicketStatus`;
+    return this.http.put<TicketStatus>(url, ticketStatus).pipe(
       map((obj) => obj)
     );
   }

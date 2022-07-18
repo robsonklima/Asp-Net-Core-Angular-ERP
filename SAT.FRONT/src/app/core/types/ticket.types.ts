@@ -9,6 +9,19 @@ export interface TicketAtendimentoData extends Meta {
     items: TicketAtendimento[];
 };
 
+export interface TicketModuloData extends Meta {
+	items: TicketModulo[];
+    codModulo: number;
+    descricao: string;
+    };
+
+export interface TicketStatusData extends Meta {
+    items: TicketStatus[];
+    codStatus: number;
+    descricao: string;
+    
+};
+
 export interface TicketParameters extends QueryStringParameters {
     codUsuario?: string;
 };
@@ -17,6 +30,15 @@ export interface TicketAtendimentoParameters extends QueryStringParameters {
     usuarioAtend?: string;
     codTicket?: number;
 };
+
+export interface TicketModuloParameters extends QueryStringParameters{
+    codModulo: number;
+};
+
+export interface TicketStatusParameters extends QueryStringParameters{
+    codStatus: number;
+};
+
 
 export class Ticket {
     codTicket: number;

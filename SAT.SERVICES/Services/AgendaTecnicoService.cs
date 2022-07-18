@@ -108,7 +108,7 @@ namespace SAT.SERVICES.Services
 
         public AgendaTecnico Atualizar(AgendaTecnico agenda)
         {
-            removerHistorico(agenda);
+            InativarHistorico(agenda);
             _agendaRepo.Atualizar(agenda);
             return agenda;
         }
@@ -117,42 +117,25 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-                removerHistorico(agenda);
+                InativarHistorico(agenda);
 
                 var os = _osRepo.ObterPorCodigo(agenda.CodOS.Value);
                 var tempoMedioAtendimento = ObterTempoMedioAtendimento(agenda.CodTecnico.Value, os.CodTipoIntervencao);
-                var historicoAgenda = _agendaRepo.ObterPorOS(agenda.CodOS.Value);
-
                 var inicio = DateTime.Now;
-
-                // var chamadosTecnico = _agendaRepo
-                //                     .ObterPorParametros(new AgendaTecnicoParameters{CodTecnicos = agenda.CodTecnico.ToString(), IndAtivo = 1})
-                //                     .Where(a => a.Inicio >= DateTime.Now.Date && a.Inicio <= DateTime.Now.Date.AddDays(1))
-                //                     .OrderByDescending(a => a.Fim);
-           
-                // if(chamadosTecnico.Count() > 0)
-                // {
-                //     if (chamadosTecnico.Any(a => a.OrdemServico.CodPosto == os.CodPosto))
-                //     {
-                //         inicio = chamadosTecnico
-                //             .FirstOrDefault(a => a.OrdemServico.CodPosto.Equals(os.CodPosto)).Inicio.Value; 
-                //     } 
-                //     else
-                //     {
-                //         inicio = chamadosTecnico
-                //             .FirstOrDefault().Fim.Value.AddMinutes(30);
-                //     }
-                // }
 
                 if (inicioFoiInformado(agenda)) 
                     inicio = agenda.Inicio.Value;
 
                 if (!inicioFoiInformado(agenda)) {
-                    var ultimaAgenda = historicoAgenda
-                        .Where(a => a.IndAtivo == 1 && a.Tipo == AgendaTecnicoTipoEnum.OS)
-                        .OrderByDescending(a => a.Inicio)
-                        .FirstOrDefault();
-
+                    var ultimaAgenda = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters {
+                        CodTecnicos = agenda.CodTecnico.ToString(),
+                        PageSize = 1,
+                        SortActive = "Fim",
+                        SortDirection = "DESC",
+                        Tipo = AgendaTecnicoTipoEnum.OS,
+                        IndAtivo = 1
+                    }).FirstOrDefault();
+                    
                     if (ultimaAgenda != null) 
                         if (ultimaAgenda.Fim > DateTime.Now) 
                             inicio = ultimaAgenda.Fim.Value.AddHours(1);
@@ -276,7 +259,7 @@ namespace SAT.SERVICES.Services
             return 60;
         }
 
-        private void removerHistorico(AgendaTecnico agenda) {
+        private void InativarHistorico(AgendaTecnico agenda) {
             if (agenda?.CodOS == null) 
                 return;
 

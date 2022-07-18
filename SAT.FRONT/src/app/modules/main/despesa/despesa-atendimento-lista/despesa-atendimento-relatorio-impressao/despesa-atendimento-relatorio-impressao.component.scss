@@ -1,17 +1,96 @@
 .add-button {
-    position: fixed;
-    z-index: 9999;
-    bottom: 75px;
-    right: 140px;
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
-    background: #1976D2;
-    border: none;
-    outline: none;
-    color: #FFF;
-    font-size: 36px;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: .3s;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	position: fixed;
+	z-index: 9999;
+	bottom: 75px;
+	right: 140px;
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	background: #1976D2;
+	border: none;
+	outline: none;
+	color: #FFF;
+	font-size: 36px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	transition: .3s;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.back-button {
+	position: fixed;
+	z-index: 9999;
+	bottom: 75px;
+	right: 210px;
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	background: #1976D2;
+	border: none;
+	outline: none;
+	color: #FFF;
+	font-size: 36px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	transition: .3s;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* Styles go here */
+
+.page-header,
+.page-header-space {
+	height: 80px;
+}
+
+.page-footer,
+.page-footer-space {
+	height: 240px;
+}
+
+.page-footer {
+	font-size: 8px;
+	position: fixed;
+	bottom: 0;
+	height: 240px;
+	width: 100%;
+	border-top: 1px solid black;
+	/* for demo */
+	background: lightgray;
+	/* for demo */
+}
+
+.page-header {
+	position: fixed;
+	top: 0mm;
+	width: 100%;
+	border-bottom: 1px solid black;
+	/* for demo */
+	background: lightgray;
+	/* for demo */
+}
+
+.page {
+	page-break-after: always;
+	width: 100%;
+}
+
+@page {
+	margin: 15mm
+}
+
+@media print {
+	thead {
+		display: table-header-group;
+	}
+
+	tfoot {
+		display: table-footer-group;
+	}
+
+	button {
+		display: none;
+	}
+
+	body {
+		margin: 0;
+	}	
 }

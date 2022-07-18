@@ -138,6 +138,8 @@ public class ConfigurationIOC
         builder.RegisterType<CheckinCheckoutRepository>().As<ICheckinCheckoutRepository>();
         builder.RegisterType<TicketRepository>().As<ITicketRepository>();
         builder.RegisterType<TicketAtendimentoRepository>().As<ITicketAtendimentoRepository>();
+        builder.RegisterType<TicketPrioridadeRepository>().As<ITicketPrioridadeRepository>();
+        builder.RegisterType<TicketClassificacaoRepository>().As<ITicketClassificacaoRepository>();
         builder.RegisterType<SatTaskRepository>().As<ISatTaskRepository>();
         builder.RegisterType<DispBBBloqueioOSRepository>().As<IDispBBBloqueioOSRepository>();
         builder.RegisterType<InstalacaoNFVendaRepository>().As<IInstalacaoNFVendaRepository>();
@@ -266,6 +268,8 @@ public class ConfigurationIOC
         builder.RegisterType<SmsService>().As<ISmsService>();
         builder.RegisterType<TicketService>().As<ITicketService>();
         builder.RegisterType<TicketAtendimentoService>().As<ITicketAtendimentoService>();
+        builder.RegisterType<TicketPrioridadeService>().As<ITicketPrioridadeService>();
+        builder.RegisterType<TicketClassificacaoService>().As<ITicketClassificacaoService>();
 
         #endregion
 

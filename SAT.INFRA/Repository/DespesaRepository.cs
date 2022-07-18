@@ -42,8 +42,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.ViewDespesaImpressaoItem
                 .Where(i => i.CodTecnico == Int16.Parse(parameters.CodTecnico))
-                .Where(i => i.CodDespesaPeriodo == parameters.CodDespesaPeriodo)
-                .ToList();
+                .Where(i => i.CodDespesaPeriodo == parameters.CodDespesaPeriodo.Value).ToList();
         }
 
         public Despesa ObterPorCodigo(int codigo)

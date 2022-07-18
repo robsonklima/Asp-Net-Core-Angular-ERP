@@ -12,6 +12,5 @@ namespace SAT.INFRA.Interfaces
         List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters);
         AgendaTecnico Atualizar(AgendaTecnico agenda);
         AgendaTecnico ObterPorCodigo(int codigo);
-        List<AgendaTecnico> ObterPorOS(int codOS);
     }
 }

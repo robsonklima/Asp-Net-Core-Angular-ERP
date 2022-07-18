@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaParameters, DespesaData, Despesa } from '../types/despesa.types';
+import { DespesaParameters, DespesaData, Despesa, ViewDespesaImpressaoItem } from '../types/despesa.types';
 
 @Injectable({
     providedIn: 'root'
@@ -53,5 +53,20 @@ export class DespesaService
         return this.http.delete<Despesa>(
             `${c.api}/Despesa/${codDespesa}`)
             .pipe(map((obj) => obj));
+    }
+
+    impressao(parameters: DespesaParameters): Observable<ViewDespesaImpressaoItem[]>
+    {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null)
+                params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(
+            `${c.api}/Despesa/Impressao`, { params: params })
+            .pipe(map((data: ViewDespesaImpressaoItem[]) => data));
     }
 }

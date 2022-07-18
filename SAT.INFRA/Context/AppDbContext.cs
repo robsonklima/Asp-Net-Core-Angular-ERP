@@ -213,10 +213,13 @@ namespace SAT.INFRA.Context
         public DbSet<TicketModulo> TicketModulo { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
         public DbSet<TicketAtendimento> TicketAtendimento { get; set; }
+        public DbSet<TicketPrioridade> TicketPrioridade { get; set; }
+        public DbSet<TicketClassificacao> TicketClassificacao { get; set; }
         public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         public DbSet<SatTask> SatTask { get; set; }
         public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
+        public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -352,6 +355,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
             modelBuilder.Entity<SatTask>(new SatTaskMap().Configure);
             modelBuilder.Entity<SatTaskTipo>(new SatTaskTipoMap().Configure);
+            modelBuilder.Entity<ViewDespesaImpressaoItem>(new ViewDespesaImpressaoItemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

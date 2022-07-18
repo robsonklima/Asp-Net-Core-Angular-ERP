@@ -33,6 +33,33 @@ export interface DespesaParameters extends QueryStringParameters
     codRATs?: string;
 };
 
+export interface ViewDespesaImpressaoItem {
+    codDespesaItem: number;
+    codOS: number;
+    codRAT: number;
+    numRAT: string;
+    codDespesaPeriodoTecnico: number;
+    valorKM: number;
+    dataHoraSolucao: string;
+    diaSemana: string;
+    obs: string;
+    kmPercorrido: number;
+    numNF: string;
+    despesaValor: number;
+    codDespesaTipo: number;
+    nomeTipo: string;
+    enderecoOrigem: string;
+    enderecoDestino: string;
+    numBanco: string;
+    localOrigem: string;
+    localDestino: string;
+    horaInicio: string;
+    horaFim: string;
+    codDespesaItemAlerta: number;
+    codTecnico: number;
+    codDespesaPeriodo: number;
+}
+
 export interface DespesaItem
 {
     codDespesaItem?: number;

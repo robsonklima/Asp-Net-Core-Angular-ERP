@@ -47,7 +47,8 @@ export class IndicadoresFiliaisComponent implements OnInit {
     private _http: HttpClient,
     private _dialog: MatDialog,
     private _snack: CustomSnackbarService,
-    private _dashboardService: DashboardService
+    private _dashboardService: DashboardService,
+    private _router: Router
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -72,8 +73,11 @@ export class IndicadoresFiliaisComponent implements OnInit {
           layer.on('click', (e) => {
             const uf = e.target.feature.properties.UF_05;
 
-            if (!component.usuarioSessao.usuario.codFilial)
-              component.onIndicadoresDetalhados(uf);
+            if (!component.usuarioSessao.usuario.codFilial) {
+              const filial = component.filiais.filter(f => f.nomeFilial === "F" + uf).shift();
+              const url = '/dashboard/indicadores-filiais-detalhados/' + filial?.codFilial;
+              component._router.navigate([ url ]);
+            }
           });
 
           layer.on('mouseover', function () {

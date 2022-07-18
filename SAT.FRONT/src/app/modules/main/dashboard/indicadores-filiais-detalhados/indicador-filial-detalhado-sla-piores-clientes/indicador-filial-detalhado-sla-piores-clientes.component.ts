@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -56,6 +54,7 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
     
     const labels = slaCliente.map(s => s.nomeFantasia);
     const values = slaCliente.map(s => s.percentual);
+    const colors = slaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
     
     this.clienteChart = {
       series: [{ data: values }],
@@ -70,6 +69,7 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
           }
         }
       },
+      colors: colors,
       dataLabels: {
         enabled: true,
         textAnchor: "start",

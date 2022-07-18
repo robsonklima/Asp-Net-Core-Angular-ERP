@@ -1,17 +1,68 @@
-<div class="flex-auto">
-    <div class="grid lg:grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-4 w-full min-w-0" >
-        <app-indicador-filial-detalhado-sla-piores-clientes [codFilial]="codFilial"></app-indicador-filial-detalhado-sla-piores-clientes>
-        <app-indicador-filial-detalhado-sla-piores-regioes [codFilial]="codFilial"></app-indicador-filial-detalhado-sla-piores-regioes>
-        <app-indicador-filial-detalhado-sla-piores-tecnicos [codFilial]="codFilial"></app-indicador-filial-detalhado-sla-piores-tecnicos>
-        <div class="col-span-2 min-h-80">
-            <app-indicador-filial-detalhado-chamados-antigos [codFilial]="codFilial"></app-indicador-filial-detalhado-chamados-antigos>
+<div class="flex flex-col flex-auto min-w-0 bg-white">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between bg-card py-0 px-6 md:px-8 border-b">
+        <div class="flex flex-col w-full mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4">
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center font-medium">
+                            <div>
+                                <a class="whitespace-nowrap text-primary-600" routerLink="/default">
+                                    Home
+                                </a>
+                            </div>
+
+                            <div class="flex items-center ml-1 whitespace-nowrap">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                <span class="ml-1 text-secondary">
+                                    <a class="whitespace-nowrap text-primary-600" routerLink="/dashboard">
+                                        Dashboard
+                                    </a>
+                                </span>
+                            </div>
+
+                            <div class="flex items-center ml-1 whitespace-nowrap">
+                                <mat-icon class="icon-size-5 text-secondary"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                <span class="ml-1 text-secondary">
+                                    {{ filial?.nomeFilial }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <app-indicador-filial-detalhado-performance [codFilial]="codFilial"></app-indicador-filial-detalhado-performance>
-        <app-indicador-filial-detalhado-pendencia-piores-clientes [codFilial]="codFilial"></app-indicador-filial-detalhado-pendencia-piores-clientes>
-        <app-indicador-filial-detalhado-pendencia-piores-regioes [codFilial]="codFilial"></app-indicador-filial-detalhado-pendencia-piores-regioes>
-        <app-indicador-filial-detalhado-pendencia-piores-tecnicos [codFilial]="codFilial"></app-indicador-filial-detalhado-pendencia-piores-tecnicos>
-        <app-indicador-filial-detalhado-reincidencia-piores-clientes [codFilial]="codFilial"></app-indicador-filial-detalhado-reincidencia-piores-clientes>
-        <app-indicador-filial-detalhado-reincidencia-piores-regioes [codFilial]="codFilial"></app-indicador-filial-detalhado-reincidencia-piores-regioes>
-        <app-indicador-filial-detalhado-reincidencia-piores-tecnicos [codFilial]="codFilial"></app-indicador-filial-detalhado-reincidencia-piores-tecnicos>
+    </div>
+
+    <div class="flex-auto m-6 sm:mt-6">
+        <div class="w-full mx-auto">
+            <div class="grid lg:grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-4 w-full min-w-0">
+                <app-indicador-filial-detalhado-sla-piores-clientes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-sla-piores-clientes>
+                <app-indicador-filial-detalhado-sla-piores-regioes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-sla-piores-regioes>
+                <app-indicador-filial-detalhado-sla-piores-tecnicos [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-sla-piores-tecnicos>
+                <div class="col-span-2 min-h-80">
+                    <app-indicador-filial-detalhado-chamados-antigos [codFilial]="codFilial">
+                    </app-indicador-filial-detalhado-chamados-antigos>
+                </div>
+                <app-indicador-filial-detalhado-performance [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-performance>
+                <app-indicador-filial-detalhado-pendencia-piores-clientes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-pendencia-piores-clientes>
+                <app-indicador-filial-detalhado-pendencia-piores-regioes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-pendencia-piores-regioes>
+                <app-indicador-filial-detalhado-pendencia-piores-tecnicos [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-pendencia-piores-tecnicos>
+                <app-indicador-filial-detalhado-reincidencia-piores-clientes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-reincidencia-piores-clientes>
+                <app-indicador-filial-detalhado-reincidencia-piores-regioes [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-reincidencia-piores-regioes>
+                <app-indicador-filial-detalhado-reincidencia-piores-tecnicos [codFilial]="codFilial">
+                </app-indicador-filial-detalhado-reincidencia-piores-tecnicos>
+            </div>
+        </div>
     </div>
 </div>

@@ -7,6 +7,8 @@ using System;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using SAT.MODELS.ViewModels;
 
 namespace SAT.INFRA.Repository
 {
@@ -34,6 +36,13 @@ namespace SAT.INFRA.Repository
         public void Deletar(int codigo)
         {
             throw new NotImplementedException();
+        }
+
+        public List<ViewDespesaImpressaoItem> Impressao(DespesaParameters parameters)
+        {
+            return _context.ViewDespesaImpressaoItem
+                .Where(i => i.CodTecnico == Int16.Parse(parameters.CodTecnico))
+                .Where(i => i.CodDespesaPeriodo == parameters.CodDespesaPeriodo.Value).ToList();
         }
 
         public Despesa ObterPorCodigo(int codigo)

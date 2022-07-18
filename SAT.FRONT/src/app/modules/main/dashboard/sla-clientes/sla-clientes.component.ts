@@ -50,7 +50,7 @@ export class SlaClientesComponent extends Filterable implements OnInit, IFiltera
 		this.loading = true;
 
 		let orderData = Enumerable.from((await this._dashboardService.obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.SLA_CLIENTES }).toPromise())
-			.viewDashboardSLAClientes).orderBy(i => i.percentual);
+			.viewDashboardSLAClientes);
 
 		this.pieData = [
 			...orderData.where(data => data.cliente == 'GLOBAL'),

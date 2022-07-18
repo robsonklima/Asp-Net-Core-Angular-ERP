@@ -2,7 +2,6 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using System;
@@ -58,17 +57,6 @@ namespace SAT.INFRA.Repository
             var agendas = _context.AgendaTecnico.AsQueryable();
 
             return agendas.SingleOrDefault(a => a.CodAgendaTecnico == codigo);
-        }
-
-        public List<AgendaTecnico> ObterPorOS(int codOS)
-        {
-            var agendas = _context.AgendaTecnico.AsQueryable();
-
-            if (codOS > 0) {
-                agendas = agendas.Where(a => a.CodOS == codOS);
-            }
-
-            return agendas.ToList();
         }
 
         public List<ViewAgendaTecnicoEvento> ObterViewPorParametros(AgendaTecnicoParameters parameters)

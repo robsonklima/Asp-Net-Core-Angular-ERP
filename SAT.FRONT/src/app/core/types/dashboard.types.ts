@@ -181,6 +181,7 @@ export class ViewDashboardSPA {
 }
 
 export class ViewDashboardSLAClientes {
+	indice: number;
 	cliente: string;
 	percentual?: number;
 	meta?: string;

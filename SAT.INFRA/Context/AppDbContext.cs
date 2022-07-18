@@ -211,6 +211,8 @@ namespace SAT.INFRA.Context
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketAtendimento> TicketAtendimento { get; set; }
+        public DbSet<TicketPrioridade> TicketPrioridade { get; set; }
+        public DbSet<TicketClassificacao> TicketClassificacao { get; set; }
         public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         public DbSet<SatTask> SatTask { get; set; }

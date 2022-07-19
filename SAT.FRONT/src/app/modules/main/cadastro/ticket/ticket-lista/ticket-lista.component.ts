@@ -15,7 +15,7 @@ import { TicketService } from 'app/core/services/ticket.service';
 import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
 
 @Component({
-	selector: 'app-equipamento-contrato-lista',
+	selector: 'app-ticket-lista',
 	templateUrl: './ticket-lista.component.html',
 	styles: [
 		/* language=SCSS */

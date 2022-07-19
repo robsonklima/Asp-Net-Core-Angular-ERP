@@ -34,6 +34,22 @@ namespace SAT.INFRA.Repository
             {
                 query = query.Where(t => t.CodUsuario == parameters.CodUsuario);
             }
+            if (parameters.CodModulo.HasValue)
+            {
+                query = query.Where(t => t.CodModulo == parameters.CodModulo);
+            }
+            if (parameters.CodStatus.HasValue)
+            {
+                query = query.Where(t => t.CodStatus == parameters.CodStatus);
+            }
+            if (parameters.CodPrioridade.HasValue)
+            {
+                query = query.Where(t => t.CodPrioridade == parameters.CodPrioridade);
+            }
+            if (parameters.CodClassificacao.HasValue)
+            {
+                query = query.Where(t => t.CodClassificacao == parameters.CodClassificacao);
+            }
 
             return PagedList<Ticket>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

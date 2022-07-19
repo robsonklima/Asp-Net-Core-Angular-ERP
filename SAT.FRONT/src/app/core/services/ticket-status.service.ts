@@ -14,9 +14,6 @@ export class TicketStatusService {
   obterPorParametros(parameters: TicketStatusParameters): Observable<TicketStatusData> {
     let params = new HttpParams();
     
-    Object.keys(parameters).forEach(key => {
-      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
-    });
 
     return this.http.get(`${c.api}/TicketStatus`, { params: params }).pipe(
       map((data: TicketStatusData) => data)

@@ -31,8 +31,7 @@ export class TicketService {
 }
 
   criar(ticket: Ticket): Observable<Ticket> {
-    return this.http.post<Ticket>(`${c.api}/Ticket`, 
-      ticket).pipe(
+    return this.http.post<Ticket>(`${c.api}/Ticket`, ticket).pipe(
       map((obj) => obj)
     );
   }

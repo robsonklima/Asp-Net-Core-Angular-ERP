@@ -11,7 +11,8 @@ import {
   ApexYAxis,
   ApexXAxis,
   ApexPlotOptions,
-  ApexTooltip
+  ApexTooltip,
+  ApexLegend
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -26,6 +27,7 @@ export type ChartOptions = {
   colors: string[];
   title: ApexTitleSubtitle;
   subtitle: ApexTitleSubtitle;
+  legend: ApexLegend
 };
 
 @Component({
@@ -52,35 +54,44 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
       .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
       .filter(s => s.percentual > 0)
       .slice(0, 10);               
-
-    const labels = pendenciaCliente.map(s => s.nomeFantasia);
-    const values = pendenciaCliente.map(s => s.percentual);
     
+    const labels = pendenciaCliente.map(s => s.nomeFantasia.trim());
+    const values = pendenciaCliente.map(s => s.percentual);    
+    const colors = pendenciaCliente.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
+
     this.clienteChart = {
-      series: [{ data: values }],
+      series: [
+        {
+          data: values
+        }
+      ],
       chart: { type: "bar", height: 320, toolbar: { show: false }},
       plotOptions: {
         bar: {
           barHeight: "100%",
-          distributed: false,
+          distributed: true,
           horizontal: true,
           dataLabels: {
             position: "bottom"
           }
-        }
+        },
+      },
+      colors: colors,
+      legend: {
+        show: false
       },
       dataLabels: {
         enabled: true,
         textAnchor: "start",
         style: {
-          colors: ["#fff"]
+          colors: ["#212121"]
         },
         formatter: function(val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,
         dropShadow: {
-          enabled: true
+          enabled: false
         }
       },
       stroke: {
@@ -88,12 +99,15 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
         colors: ["#fff"]
       },
       xaxis: {
-        categories: labels
+        categories: labels,
+        labels: {
+          show: true
+        },
       },
       yaxis: {
         labels: {
-          show: false
-        }
+          show: false,
+        },
       },
       tooltip: {
         theme: "dark",
@@ -107,8 +121,8 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
             }
           }
         }
-      }
-    };
+      },
+    };      
 
     this.loading = false;
   }

@@ -48,5 +48,8 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardIndicadoresDetalhadosReincidenciaCliente> ObterDadosIndicadoresDetalhadosReincidenciaCliente(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosPerformance> ObterDadosIndicadoresDetalhadosPerformance(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosSPACliente> ObterDadosIndicadoresDetalhadosSPACliente(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosSPARegiao> ObterDadosIndicadoresDetalhadosSPARegiao(DashboardParameters parameters);
+        List<ViewDashboardIndicadoresDetalhadosSPATecnico> ObterDadosIndicadoresDetalhadosSPATecnico(DashboardParameters parameters);        
     }
 }

@@ -46,5 +46,8 @@ namespace SAT.MODELS.ViewModels
         public List<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao> ViewDashboardIndicadoresDetalhadosReincidenciaRegiao { get; set; }
         public List<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
         public List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; }
+        public List<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }        
     }
 }

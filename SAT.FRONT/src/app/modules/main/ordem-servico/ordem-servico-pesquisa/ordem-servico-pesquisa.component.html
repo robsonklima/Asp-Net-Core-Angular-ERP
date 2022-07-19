@@ -84,6 +84,16 @@
                             matInput>
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-date-range-input [rangePicker]="pickerFechamento">
+                            <input formControlName="dataFechamentoInicio" matStartDate placeholder="Data">
+                            <input formControlName="dataFechamentoFim" matEndDate placeholder="Fechamento">
+                        </mat-date-range-input>
+                        <mat-hint>Início – Fim</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
+                        <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
+                    </mat-form-field>
+
                     <div class="sm:col-span-1">
                         <button
                             class="mr-2"

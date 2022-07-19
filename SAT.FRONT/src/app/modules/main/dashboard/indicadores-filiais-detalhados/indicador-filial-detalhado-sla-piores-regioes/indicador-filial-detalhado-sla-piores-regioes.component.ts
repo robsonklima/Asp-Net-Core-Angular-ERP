@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -13,7 +11,8 @@ import {
   ApexYAxis,
   ApexXAxis,
   ApexPlotOptions,
-  ApexTooltip
+  ApexTooltip,
+  ApexLegend
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -28,6 +27,7 @@ export type ChartOptions = {
   colors: string[];
   title: ApexTitleSubtitle;
   subtitle: ApexTitleSubtitle;
+  legend: ApexLegend
 };
 
 @Component({
@@ -54,34 +54,43 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeRegiao);
-    const values = slaRegiao.map(s => s.percentual);
-    
+    const labels = slaRegiao.map(s => s.nomeRegiao.trim());
+    const values = slaRegiao.map(s => s.percentual);    
+    const colors = slaRegiao.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+
     this.regiaoChart = {
-      series: [{ data: values }],
+      series: [
+        {
+          data: values
+        }
+      ],
       chart: { type: "bar", height: 320, toolbar: { show: false }},
       plotOptions: {
         bar: {
           barHeight: "100%",
-          distributed: false,
+          distributed: true,
           horizontal: true,
           dataLabels: {
             position: "bottom"
           }
-        }
+        },
+      },
+      colors: colors,
+      legend: {
+        show: false
       },
       dataLabels: {
         enabled: true,
         textAnchor: "start",
         style: {
-          colors: ["#fff"]
+          colors: ["#212121"]
         },
         formatter: function(val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,
         dropShadow: {
-          enabled: true
+          enabled: false
         }
       },
       stroke: {
@@ -89,12 +98,15 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
         colors: ["#fff"]
       },
       xaxis: {
-        categories: labels
+        categories: labels,
+        labels: {
+          show: true
+        },
       },
       yaxis: {
         labels: {
-          show: false
-        }
+          show: false,
+        },
       },
       tooltip: {
         theme: "dark",
@@ -108,9 +120,9 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
             }
           }
         }
-      }
+      },
     };
 
     this.loading = false;
-  }
+  }  
 }

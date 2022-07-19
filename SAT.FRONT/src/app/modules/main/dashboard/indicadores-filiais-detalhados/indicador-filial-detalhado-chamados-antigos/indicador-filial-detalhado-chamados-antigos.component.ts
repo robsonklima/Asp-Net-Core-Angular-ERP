@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum, ViewDashboardIndicadoresDetalhadosChamadosAntigos } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 
 @Component({

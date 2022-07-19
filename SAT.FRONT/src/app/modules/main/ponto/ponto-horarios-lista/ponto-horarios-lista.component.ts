@@ -238,21 +238,21 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   }
 
   private verificarNovoPontoPeriodoUsuarioStatus(): number {
-    const datas = this.dataSourceData;
+    const datas = this.dataSourceData.items.filter(d => moment(d.dataRegistro) >= moment(this.usuario.dataAdmissao));
 
-    if (datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.INCONSISTENTE).length) {
+    if (datas.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.INCONSISTENTE).length) {
       return pontoPeriodoUsuarioStatusConst.INCONSISTENTE;
     }
 
-    if (datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.AGUARDANDO_CONFERENCIA).length) {
+    if (datas.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.AGUARDANDO_CONFERENCIA).length) {
       return pontoPeriodoUsuarioStatusConst.AGUARDANDO_CONFERENCIA;
     }
 
-    if (datas.items.length === datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.SEM_REGISTRO).length) {
+    if (datas.length === datas.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.SEM_REGISTRO).length) {
       return pontoPeriodoUsuarioStatusConst.SEM_REGISTRO;
     }
 
-    if (datas.items.length === datas.items.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.CONFERIDO).length) {
+    if (datas.length === datas.filter(d => d.codPontoUsuarioDataStatus === pontoPeriodoUsuarioStatusConst.CONFERIDO).length) {
       return pontoPeriodoUsuarioStatusConst.CONFERIDO;
     }
 

@@ -30,12 +30,11 @@ export class TicketService {
     );  
 }
 
-//   criar(equipamentoContrato: EquipamentoContrato): Observable<EquipamentoContrato> {
-//     return this.http.post<EquipamentoContrato>(`${c.api}/EquipamentoContrato`, 
-//       equipamentoContrato).pipe(
-//       map((obj) => obj)
-//     );
-//   }
+  criar(ticket: Ticket): Observable<Ticket> {
+    return this.http.post<Ticket>(`${c.api}/Ticket`, ticket).pipe(
+      map((obj) => obj)
+    );
+  }
 
   atualizar(ticket: Ticket): Observable<Ticket> {
     const url = `${c.api}/Ticket`;

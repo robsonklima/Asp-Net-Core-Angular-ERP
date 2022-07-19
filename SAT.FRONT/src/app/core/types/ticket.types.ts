@@ -9,6 +9,33 @@ export interface TicketAtendimentoData extends Meta {
     items: TicketAtendimento[];
 };
 
+export interface TicketModuloData extends Meta {
+	items: TicketModulo[];
+    codModulo: number;
+    descricao: string;
+    };
+
+export interface TicketStatusData extends Meta {
+    items: TicketStatus[];
+    codStatus: number;
+    descricao: string;
+    
+};
+
+export interface TicketClassificacaoData extends Meta {
+    items: TicketClassificacao[];
+    codStatus: number;
+    descricao: string;
+    
+};
+
+export interface TicketPrioridadeData extends Meta {
+    items: TicketPrioridade[];
+    codStatus: number;
+    descricao: string;
+    
+};
+
 export interface TicketParameters extends QueryStringParameters {
     codUsuario?: string;
 };
@@ -16,6 +43,22 @@ export interface TicketParameters extends QueryStringParameters {
 export interface TicketAtendimentoParameters extends QueryStringParameters {
     usuarioAtend?: string;
     codTicket?: number;
+};
+
+export interface TicketModuloParameters extends QueryStringParameters{
+    codModulo: number;
+};
+
+export interface TicketStatusParameters extends QueryStringParameters{
+    codStatus: number;
+};
+
+export interface TicketClassificacaoParameters extends QueryStringParameters{
+    codClassificacao: number;
+};
+
+export interface TicketPrioridadeParameters extends QueryStringParameters{
+    codClassificacao: number;
 };
 
 export class Ticket {
@@ -46,10 +89,12 @@ export class TicketModulo {
 export class TicketClassificacao {
     codClassificacao: number;
     descricao: string;
+	items: TicketClassificacao[];
 }
 export class TicketPrioridade {
     codPrioridade: number;
     descricao: string;
+	items: TicketPrioridade[];
 }
 export class TicketStatus {
     codStatus: number;

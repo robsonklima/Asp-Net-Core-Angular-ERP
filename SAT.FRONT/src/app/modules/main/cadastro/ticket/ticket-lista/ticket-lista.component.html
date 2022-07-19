@@ -1,6 +1,6 @@
 <mat-drawer-container class="flex-auto h-full">
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <app-equipamento-contrato-filtro [sidenav]="sidenav"></app-equipamento-contrato-filtro>
+        <app-ticket-filtro [sidenav]="sidenav"></app-ticket-filtro>
     </mat-drawer>
 
     <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
@@ -20,7 +20,7 @@
                 </mat-form-field>
 
                 <button class="ml-4" mat-icon-button matTooltip="{{ t('novo') }}"
-                    [routerLink]="['/equipamento-contrato/form']">
+                    [routerLink]="['/ticket/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
                 <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">

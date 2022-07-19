@@ -137,6 +137,8 @@ public class ConfigurationIOC
         builder.RegisterType<ImportacaoConfiguracaoRepository>().As<IImportacaoConfiguracaoRepository>();
         builder.RegisterType<CheckinCheckoutRepository>().As<ICheckinCheckoutRepository>();
         builder.RegisterType<TicketRepository>().As<ITicketRepository>();
+        builder.RegisterType<TicketModuloRepository>().As<ITicketModuloRepository>();
+        builder.RegisterType<TicketStatusRepository>().As<ITicketStatusRepository>();
         builder.RegisterType<TicketAtendimentoRepository>().As<ITicketAtendimentoRepository>();
         builder.RegisterType<TicketPrioridadeRepository>().As<ITicketPrioridadeRepository>();
         builder.RegisterType<TicketClassificacaoRepository>().As<ITicketClassificacaoRepository>();
@@ -267,6 +269,8 @@ public class ConfigurationIOC
         builder.RegisterType<SatTaskService>().As<ISatTaskService>();
         builder.RegisterType<SmsService>().As<ISmsService>();
         builder.RegisterType<TicketService>().As<ITicketService>();
+        builder.RegisterType<TicketModuloService>().As<ITicketModuloService>();
+        builder.RegisterType<TicketStatusService>().As<ITicketStatusService>();
         builder.RegisterType<TicketAtendimentoService>().As<ITicketAtendimentoService>();
         builder.RegisterType<TicketPrioridadeService>().As<ITicketPrioridadeService>();
         builder.RegisterType<TicketClassificacaoService>().As<ITicketClassificacaoService>();

@@ -3,25 +3,25 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { TicketPrioridade, TicketPrioridadeData, TicketPrioridadeParameters } from '../types/ticket.types';
+import { TicketClassificacao, TicketClassificacaoData, TicketClassificacaoParameters} from '../types/ticket.types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TicketPrioridadeService {
+export class TicketClassificacaoService {
   constructor(private http: HttpClient) {}
 
-  obterPorParametros(parameters: TicketPrioridadeParameters): Observable<TicketPrioridadeData> {
+  obterPorParametros(parameters: TicketClassificacaoParameters): Observable<TicketClassificacaoData> {
     let params = new HttpParams();
-    
-    return this.http.get(`${c.api}/TicketPrioridade`, { params: params }).pipe(
-      map((data: TicketPrioridadeData) => data)
+
+    return this.http.get(`${c.api}/TicketClassificacao`, { params: params }).pipe(
+      map((data: TicketClassificacaoData) => data)
     )
   }
 
-  obterPorCodigo(codPrioridade: number): Observable<TicketPrioridade> {
-    const url = `${c.api}/TicketPrioridade/${codPrioridade}`;
-    return this.http.get<TicketPrioridade>(url).pipe(
+  obterPorCodigo(codClassificacao: number): Observable<TicketClassificacao> {
+    const url = `${c.api}/TicketClassificacao/${codClassificacao}`;
+    return this.http.get<TicketClassificacao>(url).pipe(
       map((obj) => obj)
     );  
 }
@@ -33,9 +33,9 @@ export class TicketPrioridadeService {
 //     );
 //   }
 
-  atualizar(ticketPrioridade: TicketPrioridade): Observable<TicketPrioridade> {
-    const url = `${c.api}/TicketPrioridade`;
-    return this.http.put<TicketPrioridade>(url, ticketPrioridade).pipe(
+  atualizar(ticketClassificacao: TicketClassificacao): Observable<TicketClassificacao> {
+    const url = `${c.api}/TicketClassificacao`;
+    return this.http.put<TicketClassificacao>(url, ticketClassificacao).pipe(
       map((obj) => obj)
     );
   }

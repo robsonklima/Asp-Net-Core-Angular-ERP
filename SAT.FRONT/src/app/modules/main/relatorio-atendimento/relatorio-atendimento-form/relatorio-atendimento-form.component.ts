@@ -92,6 +92,23 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		this.sessionData = JSON.parse(this._userService.userSession);
 	}
 
+	validaEdicao() {
+		if (this.ordemServico?.codStatusServico === 3 ||
+			this.ordemServico?.codStatusServico === 2) {
+
+			if (this.ordemServico?.codCliente == 1 &&
+				(this.sessionData?.usuario?.codPerfil == 29 ||
+					this.sessionData?.usuario?.codPerfil == 3)) {
+
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	async ngOnInit() {
 		this.loading = true;
 
@@ -191,7 +208,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			this.form.patchValue(this.relatorioAtendimento);
 
 			if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
-				this.form.disable();
+
+				if (this.ordemServico?.codCliente == 1 &&
+					(this.sessionData?.usuario?.codPerfil == 29 ||
+					this.sessionData?.usuario?.codPerfil == 3)) {
+
+					return;
+				}
+
+			this.form.disable();
 		}
 		else {
 			this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;
@@ -680,7 +705,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	}
 
 	public verificarPermissaoExclusao(): boolean {
-		if (this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA || 
+		if (this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA ||
 			this.sessionData.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
 			this.sessionData.usuario.codPerfil == PerfilEnum.FILIAIS_SUPERVISOR)
 			return true;

@@ -523,7 +523,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 	private validaIntervencao(): void {
 		let perfilUsuarioLogado = this.userSession.usuario?.perfil?.codPerfil;
-		let novoTipoIntervencao = this.form.controls['codTipoIntervencao'].value;
+		let novoTipoIntervencao = this.form.controls['codTipoIntervencao'].value;		
 
 		var podemAlterarOrcamento = [
 			RoleEnum.ADMIN,
@@ -581,7 +581,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 		// filial só pode criar autorização deslocamento	
 		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado) 
-			&& novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO) {			
+			&& novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO
+			&& this.isAddMode) {
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
 		}		
 

@@ -147,6 +147,15 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS:
                     viewDashboard.ViewDashboardIndicadoresDetalhadosChamadosAntigos = this._dashboardRepository.ObterDadosIndicadoresDetalhadosChamadosAntigos(parameters);
                     break;
+                case DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSPACliente = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSPACliente(parameters);
+                    break;                    
+                case DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSPATecnico = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSPATecnico(parameters);
+                    break;
+                case DashboardViewEnum.INDICADORES_DETALHADOS_SPA_REGIAO:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosSPARegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSPARegiao(parameters);
+                    break;
 
                 default:
                     break;

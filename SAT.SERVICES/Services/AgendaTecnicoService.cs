@@ -132,12 +132,12 @@ namespace SAT.SERVICES.Services
                         PageSize = 1,
                         SortActive = "Fim",
                         SortDirection = "DESC",
-                        IndAtivo = 1
+                        IndAtivo = 1,
+                        Inicio = DateTime.Now
                     }).FirstOrDefault();
                     
-                    if (ultimaAgenda != null) 
-                        if (ultimaAgenda.Fim > DateTime.Now) 
-                            inicio = ultimaAgenda.Fim.Value.AddHours(1);
+                    if (ultimaAgenda?.Fim > DateTime.Now) 
+                        inicio = ultimaAgenda.Fim.Value.AddHours(1);
                 }
                 
                 if (estaNoIntervalo(inicio))

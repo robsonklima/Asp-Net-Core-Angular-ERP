@@ -1,0 +1,42 @@
+<div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto overflow-hidden" *ngIf="!loading">
+    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="flex items-start justify-between">
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">SPA Regiões</div>
+            <div class="ml-2 -mt-2 -mr-3">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="summaryMenu">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                </button>
+                <mat-menu #summaryMenu="matMenu">
+                    <button mat-menu-item (click)="carregarDados('DESC')">Crescente</button>
+                    <button mat-menu-item (click)="carregarDados('ASC')">Decrescente</button>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="flex flex-col items-center mt-2">
+            <apx-chart
+                [series]="regiaoChart.series"
+                [chart]="regiaoChart.chart"
+                [legend]="regiaoChart.legend"
+                [dataLabels]="regiaoChart.dataLabels"
+                [stroke]="regiaoChart.stroke"
+                [colors]="regiaoChart.colors"
+                [title]="regiaoChart.title"
+                [subtitle]="regiaoChart.subtitle"
+                [plotOptions]="regiaoChart.plotOptions"
+                [yaxis]="regiaoChart.yaxis"
+                [xaxis]="regiaoChart.xaxis"
+                [tooltip]="regiaoChart.tooltip"
+            ></apx-chart>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-center items-center min-h-72" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

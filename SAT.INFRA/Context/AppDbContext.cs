@@ -220,6 +220,9 @@ namespace SAT.INFRA.Context
         public DbSet<SatTask> SatTask { get; set; }
         public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; }        
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -321,6 +324,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosReincidenciaRegiao>(new ViewDashboardIndicadoresDetalhadosReincidenciaRegiaoMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosPerformance>(new ViewDashboardIndicadoresDetalhadosPerformanceMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosChamadosAntigos>(new ViewDashboardIndicadoresDetalhadosChamadosAntigosMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPACliente>(new ViewDashboardIndicadoresDetalhadosSPAClienteMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPARegiao>(new ViewDashboardIndicadoresDetalhadosSPARegiaoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPATecnico>(new ViewDashboardIndicadoresDetalhadosSPATecnicoMap().Configure);                   
             modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);

@@ -64,11 +64,9 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6" >
                         <mat-label>{{ t('status de servico') }}</mat-label>
-
-                        <mat-select formControlName="codStatusServico"
-                            [disabled]="!statusServicos.length || this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
+                        <mat-select formControlName="codStatusServico">
                             <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
                                 {{ status.nomeStatusServico }}
                             </mat-option>
@@ -295,8 +293,7 @@
 
                                                     <div *ngIf="ordemServico.tipoIntervencao.codTipoIntervencao !== 18">
                                                         <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
-                                                            (click)="removerPeca(detalhe, i)" [disabled]="this.ordemServico?.codStatusServico === 3
-                                                            || this.ordemServico?.codStatusServico === 2">
+                                                            (click)="removerPeca(detalhe, i)" [disabled]="validaEdicao()">
                                                             <mat-icon class="icon-size-5"
                                                                 [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                                         </button>
@@ -332,20 +329,15 @@
                     <div class="flex justify-end p-8"
                         *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
                         <button class="px-4 mr-2" type="button" mat-button (click)="inserirDetalhe()"
-                            [matTooltip]="t('adicionar detalhe')" [disabled]="this.ordemServico?.codStatusServico === 3
-                            || this.ordemServico?.codStatusServico === 2">
+                            [matTooltip]="t('adicionar detalhe')" [disabled]="validaEdicao()">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         </button>
                         <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
-                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) ||
-                            this.ordemServico?.codStatusServico === 3
-                            || this.ordemServico?.codStatusServico === 2" [matTooltip]="t('adicionar peca')"
+                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()" [matTooltip]="t('adicionar peca')"
                             (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'" [disabled]="!detalhesList.selectedOptions.selected.length ||
-                            this.ordemServico?.codStatusServico === 3
-                            || this.ordemServico?.codStatusServico === 2" [matTooltip]="t('remover detalhe')"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'" [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()" [matTooltip]="t('remover detalhe')"
                             (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>

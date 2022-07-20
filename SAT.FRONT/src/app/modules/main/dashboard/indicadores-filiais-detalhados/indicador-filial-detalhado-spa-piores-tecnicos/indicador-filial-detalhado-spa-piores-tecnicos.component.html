@@ -1,0 +1,32 @@
+<div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto bg-card overflow-hidden" *ngIf="!loading">
+    <div class="text-lg font-semibold leading-tight ml-6">
+        SPA <span class="text-secondary font-light">Técnicos</span>
+    </div>
+
+    <div class="text-secondary text-sm ml-6 mt-1">SPAs</div>
+
+    <div>
+        <div class="items-center w-full justify-center -mt-4 pr-4">
+            <apx-chart
+                [series]="tecnicoChart.series"
+                [chart]="tecnicoChart.chart"
+                [legend]="tecnicoChart.legend"
+                [dataLabels]="tecnicoChart.dataLabels"
+                [stroke]="tecnicoChart.stroke"
+                [colors]="tecnicoChart.colors"
+                [title]="tecnicoChart.title"
+                [subtitle]="tecnicoChart.subtitle"
+                [plotOptions]="tecnicoChart.plotOptions"
+                [yaxis]="tecnicoChart.yaxis"
+                [xaxis]="tecnicoChart.xaxis"
+                [tooltip]="tecnicoChart.tooltip"
+            ></apx-chart>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-center items-center min-h-72" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

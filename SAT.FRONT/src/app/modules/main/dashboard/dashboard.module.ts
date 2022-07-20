@@ -71,6 +71,11 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../filtros/filtro.module';
 import { DensidadeFiltroComponent } from './densidade/densidade-filtro/densidade-filtro.component';
 import { IndicadoresFiliaisOpcoesComponent } from './indicadores-filiais/indicadores-filiais-opcoes/indicadores-filiais-opcoes.component';
+import { IndicadorFilialDetalhadoProdutividadePioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-produtividade-piores-tecnicos/indicador-filial-detalhado-produtividade-piores-tecnicos.component';
+import { IndicadorFilialDetalhadoProdutividadeMelhoresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-produtividade-melhores-tecnicos/indicador-filial-detalhado-produtividade-melhores-tecnicos.component';
+import { IndicadorFilialDetalhadoSpaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-tecnicos/indicador-filial-detalhado-spa-piores-tecnicos.component';
+import { IndicadorFilialDetalhadoSpaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-regioes/indicador-filial-detalhado-spa-piores-regioes.component';
+import { IndicadorFilialDetalhadoSpaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-clientes/indicador-filial-detalhado-spa-piores-clientes.component';
 registerLocaleData(ptBR);
 
 @NgModule({
@@ -114,6 +119,11 @@ registerLocaleData(ptBR);
     PendenciaQuadrimestreFilialComponent,
     IndicadoresFiliaisDetalhadosDialogComponent,
     IndicadoresFiliaisOpcoesComponent,
+    IndicadorFilialDetalhadoProdutividadePioresTecnicosComponent,
+    IndicadorFilialDetalhadoProdutividadeMelhoresTecnicosComponent,
+    IndicadorFilialDetalhadoSpaPioresTecnicosComponent,
+    IndicadorFilialDetalhadoSpaPioresRegioesComponent,
+    IndicadorFilialDetalhadoSpaPioresClientesComponent,
   ],
   imports: [
     CommonModule,

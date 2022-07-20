@@ -19,4 +19,6 @@ export interface DefeitoComponenteData extends Meta {
 
 export interface DefeitoComponenteParameters extends QueryStringParameters {
     codECausa?: string;
+    codCausas?: string;
+    codDefeitos?: string;
 };

@@ -21,11 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DefeitoCausaFormComponent } from './defeito-causa-form/defeito-causa-form.component';
 import { DefeitoCausaListaComponent } from './defeito-causa-lista/defeito-causa-lista.component';
 import { defeitoCausaRoutes } from './defeito-causa.routing';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { DefeitoCausaFiltroComponent } from './defeito-causa-filtro/defeito-causa-filtro.component';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     DefeitoCausaListaComponent,
-    DefeitoCausaFormComponent
+    DefeitoCausaFormComponent,
+    DefeitoCausaFiltroComponent 
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,9 @@ import { defeitoCausaRoutes } from './defeito-causa.routing';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatSidenavModule,
+    MatMenuModule,
+    FiltroModule
   ]
 })
 export class DefeitoCausaModule { }

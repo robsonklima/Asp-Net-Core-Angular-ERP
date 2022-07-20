@@ -641,6 +641,10 @@
     "titulo": "Titulo",
     "classificacao": "Classificação",
     "prioridade": "Prioridade",
-    "atendimento": "Atendimento"
+    "atendimento": "Atendimento",
+    "nome defeito": "Nome Defeito",
+    "nome causa": "Nome Causa",
+    "selecionado": "Selecionado"
+
 
 }

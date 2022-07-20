@@ -42,9 +42,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -73,9 +73,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -107,6 +107,18 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.CodECausa))
             {
                 defeitoComponente = defeitoComponente.Where(w => w.CodECausa == parameters.CodECausa);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodDefeitos))
+            {
+                int[] cods = parameters.CodDefeitos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                defeitoComponente = defeitoComponente.Where(dc => cods.Contains(dc.CodDefeito));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodCausas))
+            {
+                int[] cods = parameters.CodCausas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                defeitoComponente = defeitoComponente.Where(dc => cods.Contains(dc.Causa.CodCausa));
             }
 
             return PagedList<DefeitoComponente>.ToPagedList(defeitoComponente, parameters.PageNumber, parameters.PageSize);

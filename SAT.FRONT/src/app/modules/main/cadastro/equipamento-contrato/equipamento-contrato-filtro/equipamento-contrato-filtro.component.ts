@@ -49,6 +49,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	contratoFilterCtrl: FormControl = new FormControl();
 	equipamentos: Equipamento[] = [];
 	locaisAtendimento: LocalAtendimento[] = [];
+	localAtendimentoFilterCtrl: FormControl = new FormControl();
 	ufs: UnidadeFederativa[] = [];
 	cidades: Cidade[] = [];
 	filiais: Filial[] = [];
@@ -273,13 +274,14 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.ufs = Enumerable.from(data.items).orderBy(i => i.nomeUF).toArray();
 	}
 
-	async obterLocaisAtendimentos() {
+	async obterLocaisAtendimentos(filtro: string = '') {
 		let params: LocalAtendimentoParameters = {
 			indAtivo: statusConst.ATIVO,
 			codFiliais: this.form.controls['codFiliais'].value,
 			codClientes: this.form.controls['codClientes'].value,
 			codRegioes: this.form.controls['codRegioes'].value,
 			codAutorizada: this.form.controls['codAutorizadas'].value,
+			filter: filtro,
 			sortActive: 'nomeLocal',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -344,6 +346,16 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			)
 			.subscribe(() => {
 				this.obterContratos(this.contratoFilterCtrl.value);
+			});
+
+		this.localAtendimentoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
 			});
 
 		this.tipoContratoFilterCtrl.valueChanges

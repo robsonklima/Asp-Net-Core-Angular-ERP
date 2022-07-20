@@ -27,6 +27,7 @@
             <form [formGroup]="form" (keyup)="monitorarDigitacaoForm($event)" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="grid sm:grid-cols-12 lg:gap-x-6 md:gap-x-2 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [formControlName]="'codOS'"
@@ -37,7 +38,8 @@
                             matInput>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('os cliente') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [placeholder]="t('os cliente')"
@@ -46,7 +48,8 @@
                             matInput>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('rat') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [placeholder]="t('relatorio de atendimento')"
@@ -58,6 +61,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('agencia') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [placeholder]="t('agencia')"
@@ -67,6 +71,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('serie') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [placeholder]="t('serie')"
@@ -76,6 +81,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os quarteirizada') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
                             [placeholder]="t('os quarteirizada')"
@@ -84,9 +90,19 @@
                             matInput>
                     </mat-form-field>
 
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('data de fechamento') }}</mat-label>
+                        <mat-date-range-input [rangePicker]="pickerFechamento">
+                            <input formControlName="dataFechamentoInicio" matStartDate placeholder="Início">
+                            <input formControlName="dataFechamentoFim" matEndDate placeholder="Fim">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="pickerFechamento"></mat-datepicker-toggle>
+                        <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
+                    </mat-form-field>
+
                     <div class="sm:col-span-1">
                         <button
-                            class="mr-2"
+                            class="mr-2 mt-6"
                             (click)="pesquisar()"
                             [color]="'primary'"
                             type="button"

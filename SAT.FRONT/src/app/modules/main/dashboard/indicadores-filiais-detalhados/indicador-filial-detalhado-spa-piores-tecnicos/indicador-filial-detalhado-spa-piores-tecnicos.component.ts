@@ -31,10 +31,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-sla-piores-tecnicos',
-  templateUrl: './indicador-filial-detalhado-sla-piores-tecnicos.component.html'
+  selector: 'app-indicador-filial-detalhado-spa-piores-tecnicos',
+  templateUrl: './indicador-filial-detalhado-spa-piores-tecnicos.component.html',
 })
-export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnInit {
+export class IndicadorFilialDetalhadoSpaPioresTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
   @Input() codFilial;
@@ -46,17 +46,17 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
 
   async ngOnInit() {
     const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
+        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO,
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico
+    const spaTecnico = data.viewDashboardIndicadoresDetalhadosSPATecnico
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .slice(0, 10);  
     
-    const labels = slaTecnico.map(s => s.nomeTecnico.trim());
-    const values = slaTecnico.map(s => s.percentual);    
-    const colors = slaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = spaTecnico.map(s => s.nomeTecnico.trim());
+    const values = spaTecnico.map(s => s.percentual);    
+    const colors = spaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
     
     this.tecnicoChart = {
         series: [

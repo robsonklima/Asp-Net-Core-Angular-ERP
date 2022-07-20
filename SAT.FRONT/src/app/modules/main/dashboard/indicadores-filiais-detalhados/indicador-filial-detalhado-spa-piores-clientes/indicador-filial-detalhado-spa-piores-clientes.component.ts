@@ -31,12 +31,12 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-sla-piores-regioes',
-  templateUrl: './indicador-filial-detalhado-sla-piores-regioes.component.html'
+  selector: 'app-indicador-filial-detalhado-spa-piores-clientes',
+  templateUrl: './indicador-filial-detalhado-spa-piores-clientes.component.html',
 })
-export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit {
+export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public regiaoChart: Partial<ChartOptions>;
+  public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
 
@@ -44,21 +44,21 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
     private _dashboardService: DashboardService
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit() {    
     const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_REGIAO,
+        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE,
         codFilial: this.codFilial
       }).toPromise();
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLARegiao
+    const spaCliente = data.viewDashboardIndicadoresDetalhadosSPACliente
       .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
       .slice(0, 10);  
     
-    const labels = slaRegiao.map(s => s.nomeRegiao.trim());
-    const values = slaRegiao.map(s => s.percentual);    
-    const colors = slaRegiao.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = spaCliente.map(s => s.nomeFantasia.trim());
+    const values = spaCliente.map(s => s.percentual);
+    const colors = spaCliente.map(s => s.percentual < 85 ? '#F44336' : '#4CAF50');
 
-    this.regiaoChart = {
+    this.clienteChart = {
       series: [
         {
           data: values
@@ -124,5 +124,5 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
     };
 
     this.loading = false;
-  }  
+  }
 }

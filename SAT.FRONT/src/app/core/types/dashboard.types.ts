@@ -55,7 +55,10 @@ export enum DashboardViewEnum {
 	INDICADORES_DETALHADOS_PERFORMANCE,
 	INDICADORES_DETALHADOS_CHAMADOS_ANTIGOS,
 	REINCIDENCIA_QUADRIMESTRE_FILIAIS,
-	PENDENCIA_QUADRIMESTRE_FILIAIS
+	PENDENCIA_QUADRIMESTRE_FILIAIS,
+	INDICADORES_DETALHADOS_SPA_CLIENTE,
+	INDICADORES_DETALHADOS_SPA_TECNICO,
+	INDICADORES_DETALHADOS_SPA_REGIAO,
 }
 
 export class ViewDadosDashboard {
@@ -101,6 +104,9 @@ export class ViewDadosDashboard {
 	viewDashboardIndicadoresDetalhadosChamadosAntigos: ViewDashboardIndicadoresDetalhadosChamadosAntigos[] = [];
 	viewDashboardReincidenciaQuadrimestreFiliais: ViewDashboardReincidenciaQuadrimestreFiliais[] = [];
 	viewDashboardPendenciaQuadrimestreFiliais: ViewDashboardPendenciaQuadrimestreFiliais[] = [];
+	viewDashboardIndicadoresDetalhadosSPACliente: ViewDashboardIndicadoresDetalhadosSPACliente[] = [];
+	viewDashboardIndicadoresDetalhadosSPARegiao: ViewDashboardIndicadoresDetalhadosSPARegiao[] = [];
+	viewDashboardIndicadoresDetalhadosSPATecnico: ViewDashboardIndicadoresDetalhadosSPATecnico[] = [];	
 }
 
 export class ViewDashboardIndicadoresFiliais {
@@ -413,6 +419,36 @@ export interface ViewDashboardIndicadoresDetalhadosChamadosAntigos {
     codOS: number;
     dataAbertura: string;
     intervencao: string;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSPACliente {
+	codFilial: number;
+	filial: string;
+	nomeFantasia: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSPARegiao {
+	codFilial: number;
+	filial: string;
+	nomeRegiao: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
+}
+
+export class ViewDashboardIndicadoresDetalhadosSPATecnico {
+	codFilial: number;
+	filial: string;
+	nomeTecnico: string;
+	dentro: number;
+	fora: number;
+	totalGeral: number;
+	percentual: number;
 }
 
 export enum ViewDashboardIndicadoresDetalhadosPerformanceTipoEnum {

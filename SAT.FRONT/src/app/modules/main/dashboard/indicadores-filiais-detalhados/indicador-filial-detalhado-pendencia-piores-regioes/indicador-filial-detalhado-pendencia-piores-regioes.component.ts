@@ -11,7 +11,8 @@ import {
   ApexYAxis,
   ApexXAxis,
   ApexPlotOptions,
-  ApexTooltip
+  ApexTooltip,
+  ApexLegend
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -26,6 +27,7 @@ export type ChartOptions = {
   colors: string[];
   title: ApexTitleSubtitle;
   subtitle: ApexTitleSubtitle;
+  legend: ApexLegend
 };
 
 @Component({
@@ -53,62 +55,74 @@ export class IndicadorFilialDetalhadoPendenciaPioresRegioesComponent implements 
       .filter(s => s.percentual > 0)
       .slice(0, 10);          
 
-    const labels = pendenciaRegiao.map(s => s.nomeRegiao);
-    const values = pendenciaRegiao.map(s => s.percentual);
-    
-    this.regiaoChart = {
-      series: [{ data: values }],
-      chart: { type: "bar", height: 320, toolbar: { show: false }},
-      plotOptions: {
-        bar: {
-          barHeight: "100%",
-          distributed: false,
-          horizontal: true,
-          dataLabels: {
-            position: "bottom"
+      const labels = pendenciaRegiao.map(s => s.nomeRegiao.trim());
+      const values = pendenciaRegiao.map(s => s.percentual);    
+      const colors = pendenciaRegiao.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
+  
+      this.regiaoChart = {
+        series: [
+          {
+            data: values
           }
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        textAnchor: "start",
-        style: {
+        ],
+        chart: { type: "bar", height: 320, toolbar: { show: false }},
+        plotOptions: {
+          bar: {
+            barHeight: "100%",
+            distributed: true,
+            horizontal: true,
+            dataLabels: {
+              position: "bottom"
+            }
+          },
+        },
+        colors: colors,
+        legend: {
+          show: false
+        },
+        dataLabels: {
+          enabled: true,
+          textAnchor: "start",
+          style: {
+            colors: ["#212121"]
+          },
+          formatter: function(val, opt) {
+            return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
+          },
+          offsetX: 0,
+          dropShadow: {
+            enabled: false
+          }
+        },
+        stroke: {
+          width: 1,
           colors: ["#fff"]
         },
-        formatter: function(val, opt) {
-          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
+        xaxis: {
+          categories: labels,
+          labels: {
+            show: true
+          },
         },
-        offsetX: 0,
-        dropShadow: {
-          enabled: true
-        }
-      },
-      stroke: {
-        width: 1,
-        colors: ["#fff"]
-      },
-      xaxis: {
-        categories: labels
-      },
-      yaxis: {
-        labels: {
-          show: false
-        }
-      },
-      tooltip: {
-        theme: "dark",
-        x: {
-          show: false
+        yaxis: {
+          labels: {
+            show: false,
+          },
         },
-        y: {
-          title: {
-            formatter: () => {
-              return "";
+        tooltip: {
+          theme: "dark",
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: () => {
+                return "";
+              }
             }
           }
-        }
-      }
-    };
+        },
+      };            
 
     this.loading = false;
   }

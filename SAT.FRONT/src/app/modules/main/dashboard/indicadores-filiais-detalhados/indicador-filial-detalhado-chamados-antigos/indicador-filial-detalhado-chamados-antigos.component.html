@@ -1,11 +1,9 @@
-<div class="lg:col-span-2 md:col-span-2 flex flex-col bg-card overflow-hidden" *ngIf="!loading">
-  <div class="text-lg font-semibold leading-tight">
-    Chamados
+<div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+  <div class="flex items-start justify-between">
+      <div class="text-lg font-medium tracking-tight leading-6 truncate">Chamados Mais Antigos</div>
   </div>
 
-  <div class="text-secondary text-sm mt-1">Mais Antigos</div>
-
-  <div class="items-center w-full justify-center mt-1.5">
+  <div class="flex flex-col items-center mt-4" *ngIf="!loading">
     <table class="w-full table-auto text-xs font-medium tracking-tight" *ngIf="!loading && chamados.length">
       <thead class="text-center">
         <tr>
@@ -34,10 +32,10 @@
       Nenhum dados encontrado! Tente novamente em alguns instantes.
     </div>
   </div>
-</div>
 
-<div class="flex justify-center items-center min-h-72" *ngIf="loading">
-  <div class="text-center">
-    <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
+  <div class="flex justify-center items-center" *ngIf="loading">
+      <div class="text-center">
+          <mat-progress-spinner [diameter]="40" [mode]="'indeterminate'"></mat-progress-spinner>
+      </div>
   </div>
 </div>

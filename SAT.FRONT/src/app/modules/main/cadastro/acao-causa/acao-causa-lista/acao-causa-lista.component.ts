@@ -1,10 +1,15 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { AcaoComponenteService } from 'app/core/services/acao-componente.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { AcaoComponente, AcaoComponenteData } from 'app/core/types/acao-componente.types';
 import { AcaoParameters } from 'app/core/types/acao.types';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
@@ -36,24 +41,49 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class AcaoCausaListaComponent {
+export class AcaoCausaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: AcaoComponenteData;
   isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
   userSession: UserSession;
+  
 
   constructor(
     private _acaoComponenteService: AcaoComponenteService,
+    private __exportacaoService: ExportacaoService,
     private _cdr: ChangeDetectorRef,
-    private _userService: UserService
+    protected _userService: UserService
   ) {
+    super(_userService, 'acao-causa')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+
+
+
   async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
+   
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -90,7 +120,14 @@ export class AcaoCausaListaComponent {
       filter: filtro
     }
 
-    const data = await this._acaoComponenteService.obterPorParametros(parametros).toPromise();
+
+    const data = await this._acaoComponenteService.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
+    console.log(data)
+
+
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
@@ -102,6 +139,12 @@ export class AcaoCausaListaComponent {
 
   buscaSelecionado(dados: AcaoComponente) {
     return dados.selecionado == 1 ? 'Sim' : "Não";
+  }
+
+  public async exportar() {
+    this.isLoading = true;
+		await this.__exportacaoService.exportar('Acao-Causa', FileMime.Excel, this.filter?.parametros);
+    this.isLoading = false;
   }
 
   paginar() {

@@ -29,7 +29,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     .list-grid-u {
       grid-template-columns: 142px 80px 50% 25% 42px;
       
-      /* @screen sm {
+      @screen sm {
           grid-template-columns: 142px 80px 50% 25% 42px;
       }
   
@@ -39,7 +39,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   
       @screen lg {
           grid-template-columns: 142px 80px 50% 25% 42px;
-      } */
+      }
   }
     `
   ],

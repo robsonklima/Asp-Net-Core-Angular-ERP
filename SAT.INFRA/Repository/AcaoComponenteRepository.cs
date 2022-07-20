@@ -102,10 +102,35 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodECausas))
+            {
+                string[] cods = parameters.CodECausas.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                acaoComponente = acaoComponente.Where(dc => cods.Contains(dc.CodECausa));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodEAcoes))
+            {
+                string[] cods = parameters.CodEAcoes.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                acaoComponente = acaoComponente.Where(dc => cods.Contains(dc.Acao.CodEAcao));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NomeCausas))
+            {
+                string[] cods = parameters.NomeCausas.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                acaoComponente = acaoComponente.Where(dc => cods.Contains(dc.Causa.NomeCausa ));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NomeAcoes))
+            {
+                string[] cods = parameters.NomeAcoes.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                acaoComponente = acaoComponente.Where(dc => cods.Contains(dc.Acao.NomeAcao));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodECausa))
             {
                 acaoComponente = acaoComponente.Where(w => w.CodECausa == parameters.CodECausa);
             }
+
 
             return PagedList<AcaoComponente>.ToPagedList(acaoComponente, parameters.PageNumber, parameters.PageSize);
         }

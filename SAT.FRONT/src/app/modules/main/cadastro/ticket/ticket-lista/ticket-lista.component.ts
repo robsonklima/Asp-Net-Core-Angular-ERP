@@ -15,7 +15,7 @@ import { TicketService } from 'app/core/services/ticket.service';
 import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
 
 @Component({
-	selector: 'app-equipamento-contrato-lista',
+	selector: 'app-ticket-lista',
 	templateUrl: './ticket-lista.component.html',
 	styles: [
 		/* language=SCSS */
@@ -120,16 +120,17 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filter,
+	
 		};
 
 		this.tickets = await this._ticketService
 			.obterPorParametros({
 				...params,
-				//...this.filter?.parametros
+				...this.filter?.parametros
 			})
 			.toPromise();
-
-			console.log(this.tickets);
+				
+			//console.log();
 			
 
 		this.isLoading = false;

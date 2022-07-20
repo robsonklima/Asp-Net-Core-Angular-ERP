@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { AcaoService } from 'app/core/services/acao.service';
@@ -8,8 +9,16 @@ import { AcaoData, AcaoParameters } from 'app/core/types/acao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+
 
 @Component({
   selector: 'app-acao-lista',
@@ -37,25 +46,46 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class AcaoListaComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+export class AcaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  
+  @ViewChild('sidenav') sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: AcaoData;
   isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
   userSession: UserSession;
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private _acaoService: AcaoService,
     private _cdr: ChangeDetectorRef,
     private _exportacaoService: ExportacaoService,
-    private _userService: UserService
+    protected _userService: UserService
   ) {
-    this.userSession = JSON.parse(this._userService.userSession);
+    super(_userService, 'acao')
+	  //this.userSession = JSON.parse(this._userService.userSession);
   }
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
 
   async ngAfterViewInit() {
     this.obterDados();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -95,7 +125,10 @@ export class AcaoListaComponent implements OnInit {
       filter: filtro
     }
 
-    const data = await this._acaoService.obterPorParametros(parametros).toPromise();
+    const data: AcaoData = await this._acaoService.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
@@ -110,4 +143,8 @@ export class AcaoListaComponent implements OnInit {
   paginar() {
     this.obterDados();
   }
+  ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 }

@@ -21,11 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AcaoCausaFormComponent } from './acao-causa-form/acao-causa-form.component';
 import { AcaoCausaListaComponent } from './acao-causa-lista/acao-causa-lista.component';
 import { acaoCausaRoutes } from './acao-causa.routing';
+import { AcaoCausaFiltroComponent } from './acao-causa-filtro/acao-causa-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     AcaoCausaListaComponent,
-    AcaoCausaFormComponent
+    AcaoCausaFormComponent,
+    AcaoCausaFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,9 @@ import { acaoCausaRoutes } from './acao-causa.routing';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class AcaoCausaModule { }

@@ -23,7 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { TicketFiltroComponent } from './ticekt-filtro/ticket-filtro.component';
+import { TicketFiltroComponent } from './ticket-filtro/ticket-filtro.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
 import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';

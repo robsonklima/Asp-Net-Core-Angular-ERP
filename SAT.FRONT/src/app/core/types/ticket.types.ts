@@ -11,28 +11,21 @@ export interface TicketAtendimentoData extends Meta {
 
 export interface TicketModuloData extends Meta {
 	items: TicketModulo[];
-    codModulo: number;
-    descricao: string;
-    };
+     };
 
 export interface TicketStatusData extends Meta {
     items: TicketStatus[];
-    codStatus: number;
-    descricao: string;
-    
+   
 };
 
 export interface TicketClassificacaoData extends Meta {
     items: TicketClassificacao[];
-    codStatus: number;
-    descricao: string;
+
     
 };
 
 export interface TicketPrioridadeData extends Meta {
     items: TicketPrioridade[];
-    codStatus: number;
-    descricao: string;
     
 };
 

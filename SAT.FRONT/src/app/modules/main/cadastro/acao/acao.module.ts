@@ -21,10 +21,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { acaoRoutes } from './acao.routing';
 import { AcaoListaComponent } from './acao-lista/acao-lista.component';
 import { AcaoFormComponent } from './acao-form/acao-form.component';
+import { FormsModule } from '@angular/forms';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { AcaoFiltroComponent } from './acao-filtro/acao-filtro.component';
+import { FiltroModule } from '../../filtros/filtro.module';
+
+
+
+
+
 
 @NgModule({
   declarations: [
     AcaoListaComponent,
+    AcaoFiltroComponent,
    AcaoFormComponent
   ],
   imports: [
@@ -34,6 +44,7 @@ import { AcaoFormComponent } from './acao-form/acao-form.component';
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,
@@ -46,6 +57,8 @@ import { AcaoFormComponent } from './acao-form/acao-form.component';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
+    FormsModule,
+    FiltroModule,
     MatMenuModule
   ]
 })

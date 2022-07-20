@@ -643,8 +643,12 @@
     "prioridade": "Prioridade",
     "atendimento": "Atendimento",
     "nome defeito": "Nome Defeito",
-    "nome causa": "Nome Causa",
-    "selecionado": "Selecionado"
+    "nome causa": "Causa",
+    "selecionado": "Selecionado",
+    "uf": "UF",
+    "codigo causa": "Código Causa",
+    "codigo acao": "Código Ação",
+    "nome acao": "Ação"
 
 
 }

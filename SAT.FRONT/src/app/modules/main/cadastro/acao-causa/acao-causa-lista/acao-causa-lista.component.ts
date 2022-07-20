@@ -125,7 +125,7 @@ export class AcaoCausaListaComponent extends Filterable implements AfterViewInit
       ...parametros,
       ...this.filter?.parametros
     }).toPromise();
-    console.log(data)
+    
 
 
     this.dataSourceData = data;

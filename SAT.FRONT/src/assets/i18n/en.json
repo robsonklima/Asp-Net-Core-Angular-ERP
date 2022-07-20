@@ -626,5 +626,10 @@
     "ticket": "Ticket",
     "titulo": "Title",
     "classificacao": "Classification",
-    "prioridade": "Priority"
+    "prioridade": "Priority",
+    "uf":"UF",
+    "codigo causa": "Cause Code",
+    "codigo acao": "Action Code",
+    "nome acao": "Action",
+    "nome causa": "Cause"
 }

@@ -15,6 +15,8 @@ namespace SAT.SERVICES.Services
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
+            var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count());
+
             importacao.ImportacaoLinhas
                                     .Where(line =>
                                             !string.IsNullOrEmpty(
@@ -49,7 +51,9 @@ namespace SAT.SERVICES.Services
                                         {
                                             var equip = _equipamentoContratoRepo.ObterPorCodigo(os.CodEquipContrato.Value);
                                             
-                                            os.CodOS = _sequenciaRepo.ObterContador("OS");
+                                            os.CodOS = reservaContador;
+                                            reservaContador++;
+                                            
                                             os.CodStatusServico = Constants.STATUS_SERVICO_ABERTO;
                                             os.IndStatusEnvioReincidencia = 1;
                                             os.CodCliente = equip.CodCliente;

@@ -3,5 +3,6 @@
     public interface ISequenciaRepository
     {
         int ObterContador(string tabela);
+        int AtualizaContadorOS(int total);
     }
 }

@@ -29,5 +29,19 @@ namespace SAT.INFRA.Repository
 
             return sequencia.Contador;
         }
+
+        public int AtualizaContadorOS(int total)
+        {
+            _context.ChangeTracker.Clear();
+            var sequencia = _context.Sequencia.FirstOrDefault(s => s.Tabela == "OS");
+
+            var inicial = sequencia.Contador;
+
+            sequencia.Contador = sequencia.Contador + total + 10;
+
+            _context.SaveChanges();
+
+            return inicial;
+        }
     }
 }

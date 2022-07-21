@@ -7,5 +7,8 @@ namespace SAT.MODELS.Entities.Params
         public int? CodCidade { get; set; }
         public int? IndAtivo { get; set; }
         public int? CodUF { get; set; }
+        public string CodFiliais { get; set; }
+        public string CodUFs { get; set; }
+
     }
 }

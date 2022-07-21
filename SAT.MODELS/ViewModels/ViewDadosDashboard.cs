@@ -49,5 +49,6 @@ namespace SAT.MODELS.ViewModels
         public List<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
         public List<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; }
         public List<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }        
+        public List<ViewDashboardIndicadoresDetalhadosProdutividade> ViewDashboardIndicadoresDetalhadosProdutividade { get; set; }                
     }
 }

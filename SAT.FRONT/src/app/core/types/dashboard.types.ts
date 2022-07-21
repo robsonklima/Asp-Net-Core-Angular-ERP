@@ -59,6 +59,7 @@ export enum DashboardViewEnum {
 	INDICADORES_DETALHADOS_SPA_CLIENTE,
 	INDICADORES_DETALHADOS_SPA_TECNICO,
 	INDICADORES_DETALHADOS_SPA_REGIAO,
+	INDICADORES_DETALHADOS_PRODUTIVIDADE,
 }
 
 export class ViewDadosDashboard {
@@ -107,6 +108,7 @@ export class ViewDadosDashboard {
 	viewDashboardIndicadoresDetalhadosSPACliente: ViewDashboardIndicadoresDetalhadosSPACliente[] = [];
 	viewDashboardIndicadoresDetalhadosSPARegiao: ViewDashboardIndicadoresDetalhadosSPARegiao[] = [];
 	viewDashboardIndicadoresDetalhadosSPATecnico: ViewDashboardIndicadoresDetalhadosSPATecnico[] = [];	
+	viewDashboardIndicadoresDetalhadosProdutividade: ViewDashboardIndicadoresDetalhadosProdutividade[] = [];	
 }
 
 export class ViewDashboardIndicadoresFiliais {
@@ -448,6 +450,13 @@ export class ViewDashboardIndicadoresDetalhadosSPATecnico {
 	dentro: number;
 	fora: number;
 	totalGeral: number;
+	percentual: number;
+}
+
+export class ViewDashboardIndicadoresDetalhadosProdutividade {
+	codFilial: number;
+	filial: string;	
+	tecnico: string;
 	percentual: number;
 }
 

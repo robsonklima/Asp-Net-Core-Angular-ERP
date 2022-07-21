@@ -50,6 +50,8 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ObterDadosIndicadoresDetalhadosChamadosAntigos(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosSPACliente> ObterDadosIndicadoresDetalhadosSPACliente(DashboardParameters parameters);
         List<ViewDashboardIndicadoresDetalhadosSPARegiao> ObterDadosIndicadoresDetalhadosSPARegiao(DashboardParameters parameters);
-        List<ViewDashboardIndicadoresDetalhadosSPATecnico> ObterDadosIndicadoresDetalhadosSPATecnico(DashboardParameters parameters);        
+        List<ViewDashboardIndicadoresDetalhadosSPATecnico> ObterDadosIndicadoresDetalhadosSPATecnico(DashboardParameters parameters);    
+        List<ViewDashboardIndicadoresDetalhadosProdutividade> ObterDadosIndicadoresDetalhadosProdutividade(DashboardParameters parameters);           
+
     }
 }

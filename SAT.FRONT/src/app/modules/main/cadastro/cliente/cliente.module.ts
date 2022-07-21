@@ -22,6 +22,9 @@ import { ClienteFormComponent } from './cliente-form/cliente-form.component';
 import { clienteRoutes } from './cliente.routing';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ClienteFiltroComponent } from './cliente-filtro/cliente-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     ClienteListaComponent,
-    ClienteFormComponent
+    ClienteFormComponent,
+    ClienteFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +58,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatDatepickerModule,
     MatMenuModule,
+    FiltroModule,
+    MatSidenavModule,
     MatTooltipModule
   ]
 })

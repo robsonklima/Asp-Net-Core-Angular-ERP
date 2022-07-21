@@ -156,6 +156,9 @@ namespace SAT.SERVICES.Services
                 case DashboardViewEnum.INDICADORES_DETALHADOS_SPA_REGIAO:
                     viewDashboard.ViewDashboardIndicadoresDetalhadosSPARegiao = this._dashboardRepository.ObterDadosIndicadoresDetalhadosSPARegiao(parameters);
                     break;
+                case DashboardViewEnum.INDICADORES_DETALHADOS_PRODUTIVIDADE:
+                    viewDashboard.ViewDashboardIndicadoresDetalhadosProdutividade = this._dashboardRepository.ObterDadosIndicadoresDetalhadosProdutividade(parameters);
+                    break;                    
 
                 default:
                     break;

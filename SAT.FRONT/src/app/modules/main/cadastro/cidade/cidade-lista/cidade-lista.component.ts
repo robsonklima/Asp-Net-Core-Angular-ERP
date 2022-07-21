@@ -1,9 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { CidadeService } from 'app/core/services/cidade.service';
-import { Cidade, CidadeData } from 'app/core/types/cidade.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { Cidade, CidadeData, CidadeParameters } from 'app/core/types/cidade.types';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -35,9 +41,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   animations: fuseAnimations
 })
 
-export class CidadeListaComponent implements AfterViewInit {
+export class CidadeListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: CidadeData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -45,10 +52,36 @@ export class CidadeListaComponent implements AfterViewInit {
   userSession: UserSession;
 
   constructor(
+    protected _userService: UserService,
+    private _exportacaoService:ExportacaoService,
     private _cdr: ChangeDetectorRef,
-    private _cidadeService: CidadeService) { }
+    private _cidadeService: CidadeService
+    ) 
+    {
+      super(_userService, 'cidade')
+      this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+  
 
   ngAfterViewInit(): void {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -76,22 +109,35 @@ export class CidadeListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  obterDados(): void {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
-    this._cidadeService.obterPorParametros({
+    const parametros: CidadeParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active,
-      sortDirection: this.sort.direction,
+      sortActive:this.sort.active,
+      sortDirection: 'asc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    }).subscribe((data: CidadeData) => {
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    });
+      filter: filtro
+    }
+
+    const data: CidadeData = await this._cidadeService.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
+
+
 
   paginar() {
     this.obterDados();
   }
+
+  public async exportar() {
+    this.isLoading = true;
+		await this._exportacaoService.exportar('Cidade', FileMime.Excel, this.filter?.parametros);
+    this.isLoading = false;
+  }
+
 }

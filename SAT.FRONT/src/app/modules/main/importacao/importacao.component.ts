@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Importacao } from './../../../core/types/importacao.types';
 import { Component, AfterViewInit } from '@angular/core';
 import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-configuracao.service';
-import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service copy';
+import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service';
 import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 import { ImportacaoService } from 'app/core/services/importacao.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -36,7 +36,7 @@ export class ImportacaoComponent implements AfterViewInit {
 	}
 
 	async obterDados() {
-		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({}).toPromise()).items
+		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({indAtivo: 1}).toPromise()).items
 	}
 
 	async configura(codImportacaoTipo: number, dados: any = null) {

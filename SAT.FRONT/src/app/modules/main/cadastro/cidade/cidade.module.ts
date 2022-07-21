@@ -1,7 +1,6 @@
 import { CidadeFormComponent } from './cidade-form/cidade-form.component';
 import { CidadeListaComponent } from './cidade-lista/cidade-lista.component';
 import { cidadeRoutes } from './cidade.routing';
-
 import { ListFormModule } from 'app/shared/listForm.module';
 import { NgModule } from '@angular/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -21,11 +20,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { CidadeFiltroComponent } from './cidade-filtro/cidade-filtro.component';
 
 @NgModule({
   declarations: [
     CidadeFormComponent,
-    CidadeListaComponent
+    CidadeListaComponent,
+    CidadeFiltroComponent
   ],
   imports: [
     ListFormModule.configureRoutes(cidadeRoutes),
@@ -45,7 +48,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 

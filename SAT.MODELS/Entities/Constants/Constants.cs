@@ -21,6 +21,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
 
         // Status de Serviço
+        public static int STATUS_SERVICO_ABERTO = 1;
         public static int TRANFERIDO = 8;
         public static int CANCELADO = 2;
         public static int AGUARDANDO_CONTATO_COM_CLIENTE = 14;

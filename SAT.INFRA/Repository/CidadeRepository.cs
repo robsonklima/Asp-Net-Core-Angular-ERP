@@ -7,6 +7,8 @@ using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using System;
+
 
 namespace SAT.INFRA.Repository
 {
@@ -91,6 +93,18 @@ namespace SAT.INFRA.Repository
                     s.CodCidade.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                cidades = cidades.Where(dc => cods.Contains(dc.Filial.CodFilial));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodUFs))
+            {
+                int[] cods = parameters.CodUFs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                cidades = cidades.Where(dc => cods.Contains(dc.UnidadeFederativa.CodUF));
+            }
 
             if (parameters.CodCidade.HasValue)
                 cidades = cidades.Where(c => c.CodCidade == parameters.CodCidade);
@@ -102,7 +116,9 @@ namespace SAT.INFRA.Repository
                 cidades = cidades.Where(c => c.CodUF == parameters.CodUF);
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
-                cidades = cidades.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+                 cidades = cidades.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+
 
             return PagedList<Cidade>.ToPagedList(cidades, parameters.PageNumber, parameters.PageSize);
         }

@@ -17,7 +17,7 @@
                 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
-                    <mat-select formControlName="filiais" multiple="true">
+                    <mat-select formControlName="codFiliais" multiple="true">
 
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -30,7 +30,7 @@
                             TODAS
                         </mat-option>
 
-                        <mat-option *ngFor="let filial of filiais" [value]="filial.nomeFilial">
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
                             {{ filial.nomeFilial }}
                         </mat-option>
                     </mat-select>
@@ -38,7 +38,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('uf') }}</mat-label>
-                    <mat-select formControlName="ufs" multiple="true">
+                    <mat-select formControlName="codUFs" multiple="true">
 
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -51,7 +51,7 @@
                             TODAS
                         </mat-option>
 
-                        <mat-option *ngFor="let uf of ufs" [value]="uf.nomeUF ">
+                        <mat-option *ngFor="let uf of ufs" [value]="uf.codUF ">
                             {{ uf.nomeUF }}
                         </mat-option>
                     </mat-select>

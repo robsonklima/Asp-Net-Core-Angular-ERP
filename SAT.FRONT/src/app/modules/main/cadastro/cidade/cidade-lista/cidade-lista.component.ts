@@ -113,7 +113,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
     this.isLoading = true;
     const parametros: CidadeParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'codCidade',
+      sortActive:this.sort.active,
       sortDirection: 'asc',
       pageSize: this.paginator?.pageSize,
       filter: filtro
@@ -127,46 +127,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
     this.isLoading = false;
     this._cdr.detectChanges();
   }
-  /* obterDados(): void {
-    this.isLoading = true;
-    this._cidadeService.obterPorParametros({
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active,
-      sortDirection: this.sort.direction,
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val,
-      
-    }).subscribe((data: CidadeData) => {
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    });
 
-  } */
-/* 
-  async obterFiltro(filtro: string = '') {
-    this.isLoading = true;
-
-    const parametros: CidadeParameters = {
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'Cidade',
-      sortDirection: 'asc',
-      pageSize: this.paginator?.pageSize,
-      filter: filtro
-    }
-
-
-    const data = await this._cidadeService.obterPorParametros({
-      ...parametros,
-      ...this.filter?.parametros
-    }).toPromise();
-    
-
-
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  } */
 
 
   paginar() {

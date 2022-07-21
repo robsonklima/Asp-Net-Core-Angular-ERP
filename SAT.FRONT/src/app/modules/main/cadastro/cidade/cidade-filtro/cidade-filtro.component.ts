@@ -49,8 +49,8 @@ export class CidadeFiltroComponent extends FilterBase implements OnInit, IFilter
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
-			 filiais:[undefined],
-			 ufs:[undefined],
+			 codFiliais:[undefined],
+			 codUFs:[undefined],
 			 indAtivo: [undefined],
 			 
 			

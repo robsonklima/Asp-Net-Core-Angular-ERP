@@ -94,16 +94,16 @@ namespace SAT.INFRA.Repository
                     s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             
-            if (!string.IsNullOrWhiteSpace(parameters.NomeFiliais))
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
             {
-                string[] cods = parameters.NomeFiliais.Split(",").Select(a => a.Trim()).Distinct().ToArray();
-                cidades = cidades.Where(dc => cods.Contains(dc.Filial.NomeFilial));
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                cidades = cidades.Where(dc => cods.Contains(dc.Filial.CodFilial));
             }
             
-            if (!string.IsNullOrWhiteSpace(parameters.NomeUFs))
+            if (!string.IsNullOrWhiteSpace(parameters.CodUFs))
             {
-                string[] cods = parameters.NomeUFs.Split(",").Select(a => a.Trim()).Distinct().ToArray();
-                cidades = cidades.Where(dc => cods.Contains(dc.UnidadeFederativa.NomeUF));
+                int[] cods = parameters.CodUFs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                cidades = cidades.Where(dc => cods.Contains(dc.UnidadeFederativa.CodUF));
             }
 
             if (parameters.CodCidade.HasValue)

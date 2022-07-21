@@ -13,7 +13,6 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { MatDialog } from '@angular/material/dialog';
-import { IndicadoresFiliaisDetalhadosDialogComponent } from '../indicadores-filiais-detalhados/indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
 import { IndicadoresFiliaisOpcoesComponent } from './indicadores-filiais-opcoes/indicadores-filiais-opcoes.component';
 
 @Component({
@@ -145,22 +144,14 @@ export class IndicadoresFiliaisComponent implements OnInit {
           if (data) {   
             const filial = this.filiais.filter(f => f.nomeFilial === data).shift();
             
-            this._dialog.open(IndicadoresFiliaisDetalhadosDialogComponent, {
-              data: {
-                codFilial: filial.codFilial
-              }
-            });
+            
           }
         });
   
         return;
       }
 
-      this._dialog.open(IndicadoresFiliaisDetalhadosDialogComponent, {
-        data: {
-          codFilial: filial.codFilial
-        }
-      });
+      
     }
     else {
       this._snack.exibirToast("Não encontramos a filial selecionada", "warning");

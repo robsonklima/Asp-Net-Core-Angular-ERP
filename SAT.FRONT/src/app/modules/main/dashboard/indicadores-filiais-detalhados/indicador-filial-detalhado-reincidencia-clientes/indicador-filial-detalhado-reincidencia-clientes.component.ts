@@ -31,15 +31,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-reincidencia-piores-clientes',
-  templateUrl: './indicador-filial-detalhado-reincidencia-piores-clientes.component.html'
+  selector: 'app-indicador-filial-detalhado-reincidencia-clientes',
+  templateUrl: './indicador-filial-detalhado-reincidencia-clientes.component.html'
 })
-export class IndicadorFilialDetalhadoReincidenciaPioresClientesComponent implements OnInit {
+export class IndicadorFilialDetalhadoReincidenciaClientesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
-  ordemCrescente: boolean = true;
+  ordemCrescente: boolean = false;
 
   constructor(
     private _dashboardService: DashboardService
@@ -61,11 +61,11 @@ export class IndicadorFilialDetalhadoReincidenciaPioresClientesComponent impleme
 
     if (this.ordemCrescente)
       reincidenciaCliente = reincidenciaCliente
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
       reincidenciaCliente = reincidenciaCliente
-        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
     const labels = reincidenciaCliente.map(s => s.nomeFantasia.trim());

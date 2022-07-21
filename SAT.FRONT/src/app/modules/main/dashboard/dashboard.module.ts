@@ -47,20 +47,19 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { IndicadoresFiliaisDetalhadosComponent } from './indicadores-filiais-detalhados/indicadores-filiais-detalhados.component';
 import { IndicadorFilialDetalhadoPerformanceComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-performance/indicador-filial-detalhado-performance.component';
 import { IndicadorFilialDetalhadoChamadosAntigosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-chamados-antigos/indicador-filial-detalhado-chamados-antigos.component';
-import { IndicadorFilialDetalhadoSlaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-regioes/indicador-filial-detalhado-sla-piores-regioes.component';
+import { IndicadorFilialDetalhadoSlaRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-regioes/indicador-filial-detalhado-sla-regioes.component';
 import { FuseCardModule } from '@fuse/components/card';
-import { IndicadorFilialDetalhadoSlaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-clientes/indicador-filial-detalhado-sla-piores-clientes.component';
-import { IndicadorFilialDetalhadoSlaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-piores-tecnicos/indicador-filial-detalhado-sla-piores-tecnicos.component';
-import { IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-tecnicos/indicador-filial-detalhado-pendencia-piores-tecnicos.component';
-import { IndicadorFilialDetalhadoPendenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-clientes/indicador-filial-detalhado-pendencia-piores-clientes.component';
-import { IndicadorFilialDetalhadoPendenciaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-piores-regioes/indicador-filial-detalhado-pendencia-piores-regioes.component';
-import { IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-regioes/indicador-filial-detalhado-reincidencia-piores-regioes.component';
-import { IndicadorFilialDetalhadoReincidenciaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-clientes/indicador-filial-detalhado-reincidencia-piores-clientes.component';
-import { IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-piores-tecnicos/indicador-filial-detalhado-reincidencia-piores-tecnicos.component';
+import { IndicadorFilialDetalhadoSlaClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-clientes/indicador-filial-detalhado-sla-clientes.component';
+import { IndicadorFilialDetalhadoSlaTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-sla-tecnicos/indicador-filial-detalhado-sla-tecnicos.component';
+import { IndicadorFilialDetalhadoPendenciaTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-tecnicos/indicador-filial-detalhado-pendencia-tecnicos.component';
+import { IndicadorFilialDetalhadoPendenciaClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-clientes/indicador-filial-detalhado-pendencia-clientes.component';
+import { IndicadorFilialDetalhadoPendenciaRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-pendencia-regioes/indicador-filial-detalhado-pendencia-regioes.component';
+import { IndicadorFilialDetalhadoReincidenciaRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-regioes/indicador-filial-detalhado-reincidencia-regioes.component';
+import { IndicadorFilialDetalhadoReincidenciaClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-clientes/indicador-filial-detalhado-reincidencia-clientes.component';
+import { IndicadorFilialDetalhadoReincidenciaTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-reincidencia-tecnicos/indicador-filial-detalhado-reincidencia-tecnicos.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { PendenciaQuadrimestreFilialComponent } from './pendencia-quadrimestre-filial/pendencia-quadrimestre-filial.component';
 import { ReincidenciaQuadrimestreFilialComponent } from './reincidencia-quadrimestre-filial/reincidencia-quadrimestre-filial.component';
-import { IndicadoresFiliaisDetalhadosDialogComponent } from './indicadores-filiais-detalhados/indicadores-filiais-detalhados-dialog/indicadores-filiais-detalhados-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -71,11 +70,10 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../filtros/filtro.module';
 import { DensidadeFiltroComponent } from './densidade/densidade-filtro/densidade-filtro.component';
 import { IndicadoresFiliaisOpcoesComponent } from './indicadores-filiais/indicadores-filiais-opcoes/indicadores-filiais-opcoes.component';
-import { IndicadorFilialDetalhadoProdutividadePioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-produtividade-piores-tecnicos/indicador-filial-detalhado-produtividade-piores-tecnicos.component';
-import { IndicadorFilialDetalhadoProdutividadeMelhoresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-produtividade-melhores-tecnicos/indicador-filial-detalhado-produtividade-melhores-tecnicos.component';
-import { IndicadorFilialDetalhadoSpaPioresTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-tecnicos/indicador-filial-detalhado-spa-piores-tecnicos.component';
-import { IndicadorFilialDetalhadoSpaPioresRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-regioes/indicador-filial-detalhado-spa-piores-regioes.component';
-import { IndicadorFilialDetalhadoSpaPioresClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-piores-clientes/indicador-filial-detalhado-spa-piores-clientes.component';
+import { IndicadorFilialDetalhadoProdutividadeTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-produtividade-tecnicos/indicador-filial-detalhado-produtividade-tecnicos.component';
+import { IndicadorFilialDetalhadoSpaTecnicosComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-tecnicos/indicador-filial-detalhado-spa-tecnicos.component';
+import { IndicadorFilialDetalhadoSpaRegioesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-regioes/indicador-filial-detalhado-spa-regioes.component';
+import { IndicadorFilialDetalhadoSpaClientesComponent } from './indicadores-filiais-detalhados/indicador-filial-detalhado-spa-clientes/indicador-filial-detalhado-spa-clientes.component';
 registerLocaleData(ptBR);
 
 @NgModule({
@@ -106,24 +104,22 @@ registerLocaleData(ptBR);
     IndicadoresFiliaisDetalhadosComponent,
     IndicadorFilialDetalhadoPerformanceComponent,
     IndicadorFilialDetalhadoChamadosAntigosComponent,
-    IndicadorFilialDetalhadoSlaPioresRegioesComponent,
-    IndicadorFilialDetalhadoSlaPioresClientesComponent,
-    IndicadorFilialDetalhadoSlaPioresTecnicosComponent,
-    IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent,
-    IndicadorFilialDetalhadoPendenciaPioresClientesComponent,
-    IndicadorFilialDetalhadoPendenciaPioresRegioesComponent,
-    IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent,
-    IndicadorFilialDetalhadoReincidenciaPioresClientesComponent,
-    IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent,
+    IndicadorFilialDetalhadoSlaRegioesComponent,
+    IndicadorFilialDetalhadoSlaClientesComponent,
+    IndicadorFilialDetalhadoSlaTecnicosComponent,
+    IndicadorFilialDetalhadoPendenciaTecnicosComponent,
+    IndicadorFilialDetalhadoPendenciaClientesComponent,
+    IndicadorFilialDetalhadoPendenciaRegioesComponent,
+    IndicadorFilialDetalhadoReincidenciaRegioesComponent,
+    IndicadorFilialDetalhadoReincidenciaClientesComponent,
+    IndicadorFilialDetalhadoReincidenciaTecnicosComponent,
     ReincidenciaQuadrimestreFilialComponent,
     PendenciaQuadrimestreFilialComponent,
-    IndicadoresFiliaisDetalhadosDialogComponent,
     IndicadoresFiliaisOpcoesComponent,
-    IndicadorFilialDetalhadoProdutividadePioresTecnicosComponent,
-    IndicadorFilialDetalhadoProdutividadeMelhoresTecnicosComponent,
-    IndicadorFilialDetalhadoSpaPioresTecnicosComponent,
-    IndicadorFilialDetalhadoSpaPioresRegioesComponent,
-    IndicadorFilialDetalhadoSpaPioresClientesComponent,
+    IndicadorFilialDetalhadoProdutividadeTecnicosComponent,
+    IndicadorFilialDetalhadoSpaTecnicosComponent,
+    IndicadorFilialDetalhadoSpaRegioesComponent,
+    IndicadorFilialDetalhadoSpaClientesComponent,
   ],
   imports: [
     CommonModule,

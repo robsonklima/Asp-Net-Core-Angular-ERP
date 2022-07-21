@@ -31,12 +31,12 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-sla-piores-tecnicos',
-  templateUrl: './indicador-filial-detalhado-sla-piores-tecnicos.component.html'
+  selector: 'app-indicador-filial-detalhado-spa-clientes',
+  templateUrl: './indicador-filial-detalhado-spa-clientes.component.html',
 })
-export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnInit {
+export class IndicadorFilialDetalhadoSpaClientesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public tecnicoChart: Partial<ChartOptions>;
+  public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
   ordemCrescente: boolean = true;
@@ -48,30 +48,31 @@ export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnIni
   async ngOnInit() {
     this.carregarDados();
   }
+
   public async carregarDados(reordenar: boolean = false) {
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE,
       codFilial: this.codFilial
     }).toPromise();
 
-    let slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico;
+    let spaCliente = data.viewDashboardIndicadoresDetalhadosSPACliente;
 
     if (this.ordemCrescente)
-      slaTecnico = slaTecnico
+      spaCliente = spaCliente
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
-      slaTecnico = slaTecnico
+      spaCliente = spaCliente
         .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
-    const labels = slaTecnico.map(s => s.nomeTecnico.trim());
-    const values = slaTecnico.map(s => s.percentual);
-    const colors = slaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = spaCliente.map(s => s.nomeFantasia.trim());
+    const values = spaCliente.map(s => s.percentual);
+    const colors = spaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
-    this.tecnicoChart = {
+    this.clienteChart = {
       series: [
         {
           data: values

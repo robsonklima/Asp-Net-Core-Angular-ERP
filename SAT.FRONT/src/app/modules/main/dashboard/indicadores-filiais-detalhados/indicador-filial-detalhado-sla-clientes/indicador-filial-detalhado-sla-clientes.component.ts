@@ -31,10 +31,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-pendencia-piores-clientes',
-  templateUrl: './indicador-filial-detalhado-pendencia-piores-clientes.component.html'
+  selector: 'app-indicador-filial-detalhado-sla-clientes',
+  templateUrl: './indicador-filial-detalhado-sla-clientes.component.html'
 })
-export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements OnInit {
+export class IndicadorFilialDetalhadoSlaClientesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
@@ -53,24 +53,24 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_CLIENTE,
       codFilial: this.codFilial
     }).toPromise();
 
-    let pendenciaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente;
+    let slaCliente = data.viewDashboardIndicadoresDetalhadosSLACliente;
 
     if (this.ordemCrescente)
-      pendenciaCliente = pendenciaCliente
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-        .slice(0, 10);
-    else
-      pendenciaCliente = pendenciaCliente
+      slaCliente = slaCliente
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
+    else
+      slaCliente = slaCliente
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
 
-    const labels = pendenciaCliente.map(s => s.nomeFantasia.trim());
-    const values = pendenciaCliente.map(s => s.percentual);
-    const colors = pendenciaCliente.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
+    const labels = slaCliente.map(s => s.nomeFantasia.trim());
+    const values = slaCliente.map(s => s.percentual);
+    const colors = slaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
     this.clienteChart = {
       series: [

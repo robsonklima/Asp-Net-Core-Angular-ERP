@@ -31,10 +31,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-sla-piores-regioes',
-  templateUrl: './indicador-filial-detalhado-sla-piores-regioes.component.html'
+  selector: 'app-indicador-filial-detalhado-sla-regioes',
+  templateUrl: './indicador-filial-detalhado-sla-regioes.component.html'
 })
-export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit {
+export class IndicadorFilialDetalhadoSlaRegioesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public regiaoChart: Partial<ChartOptions>;
   loading: boolean = true;

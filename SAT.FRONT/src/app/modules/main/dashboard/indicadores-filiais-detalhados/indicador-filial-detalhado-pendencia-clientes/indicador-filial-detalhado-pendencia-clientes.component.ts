@@ -31,15 +31,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-spa-piores-regioes',
-  templateUrl: './indicador-filial-detalhado-spa-piores-regioes.component.html',
+  selector: 'app-indicador-filial-detalhado-pendencia-clientes',
+  templateUrl: './indicador-filial-detalhado-pendencia-clientes.component.html'
 })
-export class IndicadorFilialDetalhadoSpaPioresRegioesComponent implements OnInit {
+export class IndicadorFilialDetalhadoPendenciaClientesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public regiaoChart: Partial<ChartOptions>;
+  public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
-  ordemCrescente: boolean = true;
+  ordemCrescente: boolean = false;
 
   constructor(
     private _dashboardService: DashboardService
@@ -53,26 +53,26 @@ export class IndicadorFilialDetalhadoSpaPioresRegioesComponent implements OnInit
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_REGIAO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
       codFilial: this.codFilial
     }).toPromise();
 
-    let spaRegiao = data.viewDashboardIndicadoresDetalhadosSPARegiao;
+    let pendenciaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente;
 
     if (this.ordemCrescente)
-      spaRegiao = spaRegiao
+      pendenciaCliente = pendenciaCliente
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
-      spaRegiao = spaRegiao
+      pendenciaCliente = pendenciaCliente
         .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
-    const labels = spaRegiao.map(s => s.nomeRegiao.trim());
-    const values = spaRegiao.map(s => s.percentual);
-    const colors = spaRegiao.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = pendenciaCliente.map(s => s.nomeFantasia.trim());
+    const values = pendenciaCliente.map(s => s.percentual);
+    const colors = pendenciaCliente.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
 
-    this.regiaoChart = {
+    this.clienteChart = {
       series: [
         {
           data: values

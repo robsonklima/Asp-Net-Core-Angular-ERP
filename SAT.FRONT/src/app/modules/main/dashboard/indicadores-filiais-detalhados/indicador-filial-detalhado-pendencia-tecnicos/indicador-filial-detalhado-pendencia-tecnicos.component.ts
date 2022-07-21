@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -31,15 +33,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-sla-piores-clientes',
-  templateUrl: './indicador-filial-detalhado-sla-piores-clientes.component.html'
+  selector: 'app-indicador-filial-detalhado-pendencia-tecnicos',
+  templateUrl: './indicador-filial-detalhado-pendencia-tecnicos.component.html'
 })
-export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnInit {
+export class IndicadorFilialDetalhadoPendenciaTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public clienteChart: Partial<ChartOptions>;
+  public tecnicoChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
-  ordemCrescente: boolean = true;
+  ordemCrescente: boolean = false;
 
   constructor(
     private _dashboardService: DashboardService
@@ -53,26 +55,26 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_CLIENTE,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_TECNICO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let slaCliente = data.viewDashboardIndicadoresDetalhadosSLACliente;
+    let pendenciaTecnico = data.viewDashboardIndicadoresDetalhadosPendenciaTecnico;
 
     if (this.ordemCrescente)
-      slaCliente = slaCliente
+      pendenciaTecnico = pendenciaTecnico
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
-      slaCliente = slaCliente
+      pendenciaTecnico = pendenciaTecnico
         .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
-    const labels = slaCliente.map(s => s.nomeFantasia.trim());
-    const values = slaCliente.map(s => s.percentual);
-    const colors = slaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = pendenciaTecnico.map(s => s.nomeTecnico.trim());
+    const values = pendenciaTecnico.map(s => s.percentual);
+    const colors = pendenciaTecnico.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
 
-    this.clienteChart = {
+    this.tecnicoChart = {
       series: [
         {
           data: values

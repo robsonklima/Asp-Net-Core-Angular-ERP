@@ -31,14 +31,14 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-pendencia-piores-regioes',
-  templateUrl: './indicador-filial-detalhado-pendencia-piores-regioes.component.html'
+  selector: 'app-indicador-filial-detalhado-produtividade-tecnicos',
+  templateUrl: './indicador-filial-detalhado-produtividade-tecnicos.component.html',
 })
-export class IndicadorFilialDetalhadoPendenciaPioresRegioesComponent implements OnInit {
+export class IndicadorFilialDetalhadoProdutividadeTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public regiaoChart: Partial<ChartOptions>;
-  @Input() codFilial;
+  public tecnicoChart: Partial<ChartOptions>;
   loading: boolean = true;
+  @Input() codFilial;
   ordemCrescente: boolean = true;
 
   constructor(
@@ -53,26 +53,26 @@ export class IndicadorFilialDetalhadoPendenciaPioresRegioesComponent implements 
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_REGIAO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PRODUTIVIDADE,
       codFilial: this.codFilial
     }).toPromise();
 
-    let pendenciaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaRegiao;
+    let produtividadeTecnico = data.viewDashboardIndicadoresDetalhadosProdutividade;
 
     if (this.ordemCrescente)
-      pendenciaRegiao = pendenciaRegiao
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-        .slice(0, 10);
-    else
-      pendenciaRegiao = pendenciaRegiao
+      produtividadeTecnico = produtividadeTecnico
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
+    else
+      produtividadeTecnico = produtividadeTecnico
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
 
-    const labels = pendenciaRegiao.map(s => s.nomeRegiao.trim());
-    const values = pendenciaRegiao.map(s => s.percentual);
-    const colors = pendenciaRegiao.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
+    const labels = produtividadeTecnico.map(s => s.tecnico.trim());
+    const values = produtividadeTecnico.map(s => s.percentual);
+    const colors = produtividadeTecnico.map(s => s.percentual < 3 ? '#F44336' : '#4CAF50');
 
-    this.regiaoChart = {
+    this.tecnicoChart = {
       series: [
         {
           data: values

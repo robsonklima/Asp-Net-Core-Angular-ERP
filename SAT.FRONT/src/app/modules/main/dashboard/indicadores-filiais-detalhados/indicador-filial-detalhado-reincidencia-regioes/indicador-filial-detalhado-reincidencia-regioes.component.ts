@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -31,15 +33,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-spa-piores-tecnicos',
-  templateUrl: './indicador-filial-detalhado-spa-piores-tecnicos.component.html',
+  selector: 'app-indicador-filial-detalhado-reincidencia-regioes',
+  templateUrl: './indicador-filial-detalhado-reincidencia-regioes.component.html'
 })
-export class IndicadorFilialDetalhadoSpaPioresTecnicosComponent implements OnInit {
+export class IndicadorFilialDetalhadoReincidenciaRegioesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public tecnicoChart: Partial<ChartOptions>;
-  loading: boolean = true;
+  public regiaoChart: Partial<ChartOptions>;
   @Input() codFilial;
-  ordemCrescente: boolean = true;
+  loading: boolean = true;
+  ordemCrescente: boolean = false;
 
   constructor(
     private _dashboardService: DashboardService
@@ -53,26 +55,26 @@ export class IndicadorFilialDetalhadoSpaPioresTecnicosComponent implements OnIni
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let spaTecnico = data.viewDashboardIndicadoresDetalhadosSPATecnico;
+    let reincidenciaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaRegiao;
 
     if (this.ordemCrescente)
-      spaTecnico = spaTecnico
+      reincidenciaRegiao = reincidenciaRegiao
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
-      spaTecnico = spaTecnico
+      reincidenciaRegiao = reincidenciaRegiao
         .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
-    const labels = spaTecnico.map(s => s.nomeTecnico.trim());
-    const values = spaTecnico.map(s => s.percentual);
-    const colors = spaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = reincidenciaRegiao.map(s => s.nomeRegiao.trim());
+    const values = reincidenciaRegiao.map(s => s.percentual);
+    const colors = reincidenciaRegiao.map(s => s.percentual > 35 ? '#F44336' : '#4CAF50');
 
-    this.tecnicoChart = {
+    this.regiaoChart = {
       series: [
         {
           data: values

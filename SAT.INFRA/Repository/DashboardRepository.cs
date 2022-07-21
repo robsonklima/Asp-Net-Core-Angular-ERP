@@ -317,5 +317,10 @@ namespace SAT.INFRA.Repository
         {
             return this._context.ViewDashboardIndicadoresDetalhadosSPATecnico.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
         }        
+
+        public List<ViewDashboardIndicadoresDetalhadosProdutividade> ObterDadosIndicadoresDetalhadosProdutividade(DashboardParameters parameters)
+        {
+            return this._context.ViewDashboardIndicadoresDetalhadosProdutividade.Where(cod => cod.CodFilial == parameters.CodFilial).ToList();
+        }         
     }
 }

@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -33,15 +31,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-pendencia-piores-tecnicos',
-  templateUrl: './indicador-filial-detalhado-pendencia-piores-tecnicos.component.html'
+  selector: 'app-indicador-filial-detalhado-pendencia-regioes',
+  templateUrl: './indicador-filial-detalhado-pendencia-regioes.component.html'
 })
-export class IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent implements OnInit {
+export class IndicadorFilialDetalhadoPendenciaRegioesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public tecnicoChart: Partial<ChartOptions>;
-  loading: boolean = true;
+  public regiaoChart: Partial<ChartOptions>;
   @Input() codFilial;
-  ordemCrescente: boolean = true;
+  loading: boolean = true;
+  ordemCrescente: boolean = false;
 
   constructor(
     private _dashboardService: DashboardService
@@ -55,26 +53,26 @@ export class IndicadorFilialDetalhadoPendenciaPioresTecnicosComponent implements
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_TECNICO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_REGIAO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let pendenciaTecnico = data.viewDashboardIndicadoresDetalhadosPendenciaTecnico;
+    let pendenciaRegiao = data.viewDashboardIndicadoresDetalhadosPendenciaRegiao;
 
     if (this.ordemCrescente)
-      pendenciaTecnico = pendenciaTecnico
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-        .slice(0, 10);
-    else
-      pendenciaTecnico = pendenciaTecnico
+      pendenciaRegiao = pendenciaRegiao
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
+    else
+      pendenciaRegiao = pendenciaRegiao
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
 
-    const labels = pendenciaTecnico.map(s => s.nomeTecnico.trim());
-    const values = pendenciaTecnico.map(s => s.percentual);
-    const colors = pendenciaTecnico.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
+    const labels = pendenciaRegiao.map(s => s.nomeRegiao.trim());
+    const values = pendenciaRegiao.map(s => s.percentual);
+    const colors = pendenciaRegiao.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
 
-    this.tecnicoChart = {
+    this.regiaoChart = {
       series: [
         {
           data: values

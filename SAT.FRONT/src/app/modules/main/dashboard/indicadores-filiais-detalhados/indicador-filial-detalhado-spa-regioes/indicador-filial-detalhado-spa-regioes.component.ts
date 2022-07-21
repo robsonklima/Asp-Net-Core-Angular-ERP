@@ -31,12 +31,12 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-spa-piores-clientes',
-  templateUrl: './indicador-filial-detalhado-spa-piores-clientes.component.html',
+  selector: 'app-indicador-filial-detalhado-spa-regioes',
+  templateUrl: './indicador-filial-detalhado-spa-regioes.component.html',
 })
-export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnInit {
+export class IndicadorFilialDetalhadoSpaRegioesComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public clienteChart: Partial<ChartOptions>;
+  public regiaoChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
   ordemCrescente: boolean = true;
@@ -53,26 +53,26 @@ export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnIni
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_REGIAO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let spaCliente = data.viewDashboardIndicadoresDetalhadosSPACliente;
+    let spaRegiao = data.viewDashboardIndicadoresDetalhadosSPARegiao;
 
     if (this.ordemCrescente)
-      spaCliente = spaCliente
+      spaRegiao = spaRegiao
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
     else
-      spaCliente = spaCliente
+      spaRegiao = spaRegiao
         .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
         .slice(0, 10);
 
-    const labels = spaCliente.map(s => s.nomeFantasia.trim());
-    const values = spaCliente.map(s => s.percentual);
-    const colors = spaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+    const labels = spaRegiao.map(s => s.nomeRegiao.trim());
+    const values = spaRegiao.map(s => s.percentual);
+    const colors = spaRegiao.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
-    this.clienteChart = {
+    this.regiaoChart = {
       series: [
         {
           data: values

@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from 'app/core/services/dashboard.service';
 import { DashboardViewEnum } from 'app/core/types/dashboard.types';
-import { UserService } from 'app/core/user/user.service';
-import { UserSession } from 'app/core/user/user.types';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -33,14 +31,14 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-reincidencia-piores-regioes',
-  templateUrl: './indicador-filial-detalhado-reincidencia-piores-regioes.component.html'
+  selector: 'app-indicador-filial-detalhado-sla-tecnicos',
+  templateUrl: './indicador-filial-detalhado-sla-tecnicos.component.html'
 })
-export class IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent implements OnInit {
+export class IndicadorFilialDetalhadoSlaTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
-  public regiaoChart: Partial<ChartOptions>;
-  @Input() codFilial;
+  public tecnicoChart: Partial<ChartOptions>;
   loading: boolean = true;
+  @Input() codFilial;
   ordemCrescente: boolean = true;
 
   constructor(
@@ -50,31 +48,30 @@ export class IndicadorFilialDetalhadoReincidenciaPioresRegioesComponent implemen
   async ngOnInit() {
     this.carregarDados();
   }
-
   public async carregarDados(reordenar: boolean = false) {
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_REGIAO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let reincidenciaRegiao = data.viewDashboardIndicadoresDetalhadosReincidenciaRegiao;
+    let slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico;
 
     if (this.ordemCrescente)
-      reincidenciaRegiao = reincidenciaRegiao
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-        .slice(0, 10);
-    else
-      reincidenciaRegiao = reincidenciaRegiao
+      slaTecnico = slaTecnico
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
+    else
+      slaTecnico = slaTecnico
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
 
-    const labels = reincidenciaRegiao.map(s => s.nomeRegiao.trim());
-    const values = reincidenciaRegiao.map(s => s.percentual);
-    const colors = reincidenciaRegiao.map(s => s.percentual > 35 ? '#F44336' : '#4CAF50');
+    const labels = slaTecnico.map(s => s.nomeTecnico.trim());
+    const values = slaTecnico.map(s => s.percentual);
+    const colors = slaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
-    this.regiaoChart = {
+    this.tecnicoChart = {
       series: [
         {
           data: values

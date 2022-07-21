@@ -31,10 +31,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-indicador-filial-detalhado-reincidencia-piores-tecnicos',
-  templateUrl: './indicador-filial-detalhado-reincidencia-piores-tecnicos.component.html'
+  selector: 'app-indicador-filial-detalhado-spa-tecnicos',
+  templateUrl: './indicador-filial-detalhado-spa-tecnicos.component.html',
 })
-export class IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent implements OnInit {
+export class IndicadorFilialDetalhadoSpaTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
   loading: boolean = true;
@@ -53,24 +53,24 @@ export class IndicadorFilialDetalhadoReincidenciaPioresTecnicosComponent impleme
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({
-      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_REINCIDENCIA_TECNICO,
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO,
       codFilial: this.codFilial
     }).toPromise();
 
-    let reincidenciaTecnico = data.viewDashboardIndicadoresDetalhadosReincidenciaTecnico;
+    let spaTecnico = data.viewDashboardIndicadoresDetalhadosSPATecnico;
 
     if (this.ordemCrescente)
-      reincidenciaTecnico = reincidenciaTecnico
-        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-        .slice(0, 10);
-    else
-      reincidenciaTecnico = reincidenciaTecnico
+      spaTecnico = spaTecnico
         .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
         .slice(0, 10);
+    else
+      spaTecnico = spaTecnico
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
 
-    const labels = reincidenciaTecnico.map(s => s.nomeTecnico.trim());
-    const values = reincidenciaTecnico.map(s => s.percentual);
-    const colors = reincidenciaTecnico.map(s => s.percentual > 35 ? '#F44336' : '#4CAF50');
+    const labels = spaTecnico.map(s => s.nomeTecnico.trim());
+    const values = spaTecnico.map(s => s.percentual);
+    const colors = spaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
     this.tecnicoChart = {
       series: [

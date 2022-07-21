@@ -71,6 +71,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(i => i.NomeTipo.Contains(parameters.NomeTipo));
             }
 
+            if (parameters.IndAtivo.HasValue)
+            {
+                query = query.Where(i => i.IndAtivo ==  parameters.IndAtivo.Value);
+            }
+
             return PagedList<ImportacaoTipo>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
 
             if (sequencia == null)
             {
-                throw new Exception();
+                throw new Exception("Sequência não encontrada para esta tabela");
             }
 
             sequencia.Contador = sequencia.Contador + 1;

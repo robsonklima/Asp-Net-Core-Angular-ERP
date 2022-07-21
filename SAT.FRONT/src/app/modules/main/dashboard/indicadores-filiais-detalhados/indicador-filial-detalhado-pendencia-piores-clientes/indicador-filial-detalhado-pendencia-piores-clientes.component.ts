@@ -39,24 +39,37 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
+  ordemCrescente: boolean = true;
 
   constructor(
     private _dashboardService: DashboardService
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
-        codFilial: this.codFilial
-      }).toPromise();
+    this.carregarDados();
+  }
 
-    const pendenciaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente
-      .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-      .filter(s => s.percentual > 0)
-      .slice(0, 10);               
-    
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
+
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_PENDENCIA_CLIENTE,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let pendenciaCliente = data.viewDashboardIndicadoresDetalhadosPendenciaCliente;
+
+    if (this.ordemCrescente)
+      pendenciaCliente = pendenciaCliente
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      pendenciaCliente = pendenciaCliente
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
     const labels = pendenciaCliente.map(s => s.nomeFantasia.trim());
-    const values = pendenciaCliente.map(s => s.percentual);    
+    const values = pendenciaCliente.map(s => s.percentual);
     const colors = pendenciaCliente.map(s => s.percentual > 5 ? '#F44336' : '#4CAF50');
 
     this.clienteChart = {
@@ -65,7 +78,7 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
           data: values
         }
       ],
-      chart: { type: "bar", height: 320, toolbar: { show: false }},
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
       plotOptions: {
         bar: {
           barHeight: "100%",
@@ -86,7 +99,7 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
         style: {
           colors: ["#212121"]
         },
-        formatter: function(val, opt) {
+        formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,
@@ -122,7 +135,7 @@ export class IndicadorFilialDetalhadoPendenciaPioresClientesComponent implements
           }
         }
       },
-    };      
+    };
 
     this.loading = false;
   }

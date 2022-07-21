@@ -39,24 +39,38 @@ export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnIni
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
+  ordemCrescente: boolean = true;
 
   constructor(
     private _dashboardService: DashboardService
-  ) {}
+  ) { }
 
-  async ngOnInit() {    
-    const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE,
-        codFilial: this.codFilial
-      }).toPromise();
+  async ngOnInit() {
+    this.carregarDados();
+  }
 
-    const spaCliente = data.viewDashboardIndicadoresDetalhadosSPACliente
-      .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .slice(0, 10);  
-    
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
+
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_CLIENTE,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let spaCliente = data.viewDashboardIndicadoresDetalhadosSPACliente;
+
+    if (this.ordemCrescente)
+      spaCliente = spaCliente
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      spaCliente = spaCliente
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
     const labels = spaCliente.map(s => s.nomeFantasia.trim());
     const values = spaCliente.map(s => s.percentual);
-    const colors = spaCliente.map(s => s.percentual < 85 ? '#F44336' : '#4CAF50');
+    const colors = spaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
     this.clienteChart = {
       series: [
@@ -64,7 +78,7 @@ export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnIni
           data: values
         }
       ],
-      chart: { type: "bar", height: 320, toolbar: { show: false }},
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
       plotOptions: {
         bar: {
           barHeight: "100%",
@@ -85,7 +99,7 @@ export class IndicadorFilialDetalhadoSpaPioresClientesComponent implements OnIni
         style: {
           colors: ["#212121"]
         },
-        formatter: function(val, opt) {
+        formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,

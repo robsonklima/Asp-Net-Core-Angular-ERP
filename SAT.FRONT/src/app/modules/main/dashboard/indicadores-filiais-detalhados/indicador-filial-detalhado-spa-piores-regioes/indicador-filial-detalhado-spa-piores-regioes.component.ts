@@ -49,7 +49,7 @@ export class IndicadorFilialDetalhadoSpaPioresRegioesComponent implements OnInit
     this.carregarDados();
   }
 
-  public async carregarDados(reordenar: boolean=false) {
+  public async carregarDados(reordenar: boolean = false) {
     if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
     const data = await this._dashboardService.obterViewPorParametros({

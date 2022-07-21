@@ -15,5 +15,6 @@ namespace SAT.MODELS.Entities.Params
         public string PAS { get; set; }
         public string CodTecnicos { get; set; }
         public int? IndFerias { get; set; }
+        public int? IndPonto { get; set; }
     }
 }

@@ -39,21 +39,35 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
   public clienteChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
+  ordemCrescente: boolean = true;
 
   constructor(
     private _dashboardService: DashboardService
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_CLIENTE,
-        codFilial: this.codFilial
-      }).toPromise();
+    this.carregarDados();
+  }
 
-    const slaCliente = data.viewDashboardIndicadoresDetalhadosSLACliente
-      .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .slice(0, 10);  
-    
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
+
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_CLIENTE,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let slaCliente = data.viewDashboardIndicadoresDetalhadosSLACliente;
+
+    if (this.ordemCrescente)
+      slaCliente = slaCliente
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      slaCliente = slaCliente
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
     const labels = slaCliente.map(s => s.nomeFantasia.trim());
     const values = slaCliente.map(s => s.percentual);
     const colors = slaCliente.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
@@ -64,7 +78,7 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
           data: values
         }
       ],
-      chart: { type: "bar", height: 320, toolbar: { show: false }},
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
       plotOptions: {
         bar: {
           barHeight: "100%",
@@ -85,7 +99,7 @@ export class IndicadorFilialDetalhadoSlaPioresClientesComponent implements OnIni
         style: {
           colors: ["#212121"]
         },
-        formatter: function(val, opt) {
+        formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,

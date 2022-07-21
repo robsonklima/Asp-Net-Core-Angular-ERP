@@ -39,23 +39,37 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
   public regiaoChart: Partial<ChartOptions>;
   loading: boolean = true;
   @Input() codFilial;
+  ordemCrescente: boolean = true;
 
   constructor(
     private _dashboardService: DashboardService
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_REGIAO,
-        codFilial: this.codFilial
-      }).toPromise();
+    this.carregarDados();
+  }
 
-    const slaRegiao = data.viewDashboardIndicadoresDetalhadosSLARegiao
-      .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .slice(0, 10);  
-    
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
+
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_REGIAO,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let slaRegiao = data.viewDashboardIndicadoresDetalhadosSLARegiao;
+
+    if (this.ordemCrescente)
+      slaRegiao = slaRegiao
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      slaRegiao = slaRegiao
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
     const labels = slaRegiao.map(s => s.nomeRegiao.trim());
-    const values = slaRegiao.map(s => s.percentual);    
+    const values = slaRegiao.map(s => s.percentual);
     const colors = slaRegiao.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
 
     this.regiaoChart = {
@@ -64,7 +78,7 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
           data: values
         }
       ],
-      chart: { type: "bar", height: 320, toolbar: { show: false }},
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
       plotOptions: {
         bar: {
           barHeight: "100%",
@@ -85,7 +99,7 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
         style: {
           colors: ["#212121"]
         },
-        formatter: function(val, opt) {
+        formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
         },
         offsetX: 0,
@@ -124,5 +138,5 @@ export class IndicadorFilialDetalhadoSlaPioresRegioesComponent implements OnInit
     };
 
     this.loading = false;
-  }  
+  }
 }

@@ -37,91 +37,104 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoSlaPioresTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
-  @Input() codFilial;
   loading: boolean = true;
+  @Input() codFilial;
+  ordemCrescente: boolean = true;
 
   constructor(
     private _dashboardService: DashboardService
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    const data = await this._dashboardService.obterViewPorParametros({ 
-        dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
-        codFilial: this.codFilial
-      }).toPromise();
+    this.carregarDados();
+  }
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
 
-    const slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico
-      .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-      .slice(0, 10);  
-    
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SLA_TECNICO,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let slaTecnico = data.viewDashboardIndicadoresDetalhadosSLATecnico;
+
+    if (this.ordemCrescente)
+      slaTecnico = slaTecnico
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      slaTecnico = slaTecnico
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
     const labels = slaTecnico.map(s => s.nomeTecnico.trim());
-    const values = slaTecnico.map(s => s.percentual);    
+    const values = slaTecnico.map(s => s.percentual);
     const colors = slaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
-    
+
     this.tecnicoChart = {
-        series: [
-          {
-            data: values
+      series: [
+        {
+          data: values
+        }
+      ],
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
+      plotOptions: {
+        bar: {
+          barHeight: "100%",
+          distributed: true,
+          horizontal: true,
+          dataLabels: {
+            position: "bottom"
           }
-        ],
-        chart: { type: "bar", height: 320, toolbar: { show: false }},
-        plotOptions: {
-          bar: {
-            barHeight: "100%",
-            distributed: true,
-            horizontal: true,
-            dataLabels: {
-              position: "bottom"
-            }
-          },
         },
-        colors: colors,
-        legend: {
+      },
+      colors: colors,
+      legend: {
+        show: false
+      },
+      dataLabels: {
+        enabled: true,
+        textAnchor: "start",
+        style: {
+          colors: ["#212121"]
+        },
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
+        },
+        offsetX: 0,
+        dropShadow: {
+          enabled: false
+        }
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"]
+      },
+      xaxis: {
+        categories: labels,
+        labels: {
+          show: true
+        },
+      },
+      yaxis: {
+        labels: {
+          show: false,
+        },
+      },
+      tooltip: {
+        theme: "dark",
+        x: {
           show: false
         },
-        dataLabels: {
-          enabled: true,
-          textAnchor: "start",
-          style: {
-            colors: ["#212121"]
-          },
-          formatter: function(val, opt) {
-            return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
-          },
-          offsetX: 0,
-          dropShadow: {
-            enabled: false
-          }
-        },
-        stroke: {
-          width: 1,
-          colors: ["#fff"]
-        },
-        xaxis: {
-          categories: labels,
-          labels: {
-            show: true
-          },
-        },
-        yaxis: {
-          labels: {
-            show: false,
-          },
-        },
-        tooltip: {
-          theme: "dark",
-          x: {
-            show: false
-          },
-          y: {
-            title: {
-              formatter: () => {
-                return "";
-              }
+        y: {
+          title: {
+            formatter: () => {
+              return "";
             }
           }
-        },
-      };
+        }
+      },
+    };
 
     this.loading = false;
   }

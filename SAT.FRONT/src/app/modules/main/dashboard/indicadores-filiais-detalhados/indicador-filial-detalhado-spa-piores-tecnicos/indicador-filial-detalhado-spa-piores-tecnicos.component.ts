@@ -37,107 +37,106 @@ export type ChartOptions = {
 export class IndicadorFilialDetalhadoSpaPioresTecnicosComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public tecnicoChart: Partial<ChartOptions>;
-      loading: boolean = true;
-      @Input() codFilial;
-      ordemCrescente: boolean = true;
-    
-      constructor(
-        private _dashboardService: DashboardService
-      ) { }
-    
-      async ngOnInit() {
-        this.carregarDados();
-      }
-    
-      public async carregarDados(reordenar: boolean=false) {
-        if (reordenar) this.ordemCrescente = !this.ordemCrescente;
-    
-        const data = await this._dashboardService.obterViewPorParametros({
-          dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO,
-          codFilial: this.codFilial
-        }).toPromise();
-    
-        let spaTecnico = data.viewDashboardIndicadoresDetalhadosSPATecnico;
-    
-        if (this.ordemCrescente)
-          spaTecnico = spaTecnico
-            .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
-            .slice(0, 10);
-        else
-          spaTecnico = spaTecnico
-            .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
-            .slice(0, 10);
-    
-        const labels = spaTecnico.map(s => s.nomeTecnico.trim());
-        const values = spaTecnico.map(s => s.percentual);
-        const colors = spaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
-    
-        this.tecnicoChart = {
-          series: [
-            {
-              data: values
-            }
-          ],
-          chart: { type: "bar", height: 320, toolbar: { show: false } },
-          plotOptions: {
-            bar: {
-              barHeight: "100%",
-              distributed: true,
-              horizontal: true,
-              dataLabels: {
-                position: "bottom"
-              }
-            },
-          },
-          colors: colors,
-          legend: {
-            show: false
-          },
+  loading: boolean = true;
+  @Input() codFilial;
+  ordemCrescente: boolean = true;
+
+  constructor(
+    private _dashboardService: DashboardService
+  ) { }
+
+  async ngOnInit() {
+    this.carregarDados();
+  }
+
+  public async carregarDados(reordenar: boolean = false) {
+    if (reordenar) this.ordemCrescente = !this.ordemCrescente;
+
+    const data = await this._dashboardService.obterViewPorParametros({
+      dashboardViewEnum: DashboardViewEnum.INDICADORES_DETALHADOS_SPA_TECNICO,
+      codFilial: this.codFilial
+    }).toPromise();
+
+    let spaTecnico = data.viewDashboardIndicadoresDetalhadosSPATecnico;
+
+    if (this.ordemCrescente)
+      spaTecnico = spaTecnico
+        .sort((a, b) => (a.percentual > b.percentual) ? 1 : -1)
+        .slice(0, 10);
+    else
+      spaTecnico = spaTecnico
+        .sort((a, b) => (a.percentual < b.percentual) ? 1 : -1)
+        .slice(0, 10);
+
+    const labels = spaTecnico.map(s => s.nomeTecnico.trim());
+    const values = spaTecnico.map(s => s.percentual);
+    const colors = spaTecnico.map(s => s.percentual < 95 ? '#F44336' : '#4CAF50');
+
+    this.tecnicoChart = {
+      series: [
+        {
+          data: values
+        }
+      ],
+      chart: { type: "bar", height: 320, toolbar: { show: false } },
+      plotOptions: {
+        bar: {
+          barHeight: "100%",
+          distributed: true,
+          horizontal: true,
           dataLabels: {
-            enabled: true,
-            textAnchor: "start",
-            style: {
-              colors: ["#212121"]
-            },
-            formatter: function (val, opt) {
-              return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
-            },
-            offsetX: 0,
-            dropShadow: {
-              enabled: false
+            position: "bottom"
+          }
+        },
+      },
+      colors: colors,
+      legend: {
+        show: false
+      },
+      dataLabels: {
+        enabled: true,
+        textAnchor: "start",
+        style: {
+          colors: ["#212121"]
+        },
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%";
+        },
+        offsetX: 0,
+        dropShadow: {
+          enabled: false
+        }
+      },
+      stroke: {
+        width: 1,
+        colors: ["#fff"]
+      },
+      xaxis: {
+        categories: labels,
+        labels: {
+          show: true
+        },
+      },
+      yaxis: {
+        labels: {
+          show: false,
+        },
+      },
+      tooltip: {
+        theme: "dark",
+        x: {
+          show: false
+        },
+        y: {
+          title: {
+            formatter: () => {
+              return "";
             }
-          },
-          stroke: {
-            width: 1,
-            colors: ["#fff"]
-          },
-          xaxis: {
-            categories: labels,
-            labels: {
-              show: true
-            },
-          },
-          yaxis: {
-            labels: {
-              show: false,
-            },
-          },
-          tooltip: {
-            theme: "dark",
-            x: {
-              show: false
-            },
-            y: {
-              title: {
-                formatter: () => {
-                  return "";
-                }
-              }
-            }
-          },
-        };
-    
-        this.loading = false;
-      }
-    }
-    
+          }
+        }
+      },
+    };
+
+    this.loading = false;
+  }
+}

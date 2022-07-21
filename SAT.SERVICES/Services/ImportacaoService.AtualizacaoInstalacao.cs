@@ -12,8 +12,6 @@ namespace SAT.SERVICES.Services
     public partial class ImportacaoService : IImportacaoService
     {
         public List<string> Mensagem = new List<string>();
-
-
         private Importacao AtualizacaoInstalacao(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);

@@ -87,7 +87,7 @@ namespace SAT.INFRA.Repository
                 .Include(e => e.RegiaoAutorizada.Filial)
                 .Include(e => e.RegiaoAutorizada.Autorizada)
                 .Include(e => e.RegiaoAutorizada.Regiao)
-                .SingleOrDefault(e => e.CodEquipContrato == codigo);
+                .FirstOrDefault(e => e.CodEquipContrato == codigo);
         }
 
         public PagedList<EquipamentoContrato> ObterPorParametros(EquipamentoContratoParameters parameters)

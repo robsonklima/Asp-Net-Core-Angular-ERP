@@ -29,6 +29,7 @@ export interface ImportacaoTipoData {
 export interface ImportacaoTipoParameters {
     codImportacaoTipo?: number;
     nomeTipo?: string;
+    indAtivo?: number;
 }
 
 export interface ImportacaoConfiguracaoParameters extends QueryStringParameters {

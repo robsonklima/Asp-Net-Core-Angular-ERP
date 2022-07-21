@@ -100,8 +100,8 @@ export class ImportacaoComponent implements AfterViewInit {
 			let dados: any[] = r.importacaoLinhas.filter(line => line.erro == 1);
 			dados.length > 0 
 					//? this._snack.exibirAlerta('Implantação concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes' ) 
-					? this._snack.exibirToast('Implantação concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
-					: this._snack.exibirToast('Atualização realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
+					? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
+					: this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
 		});
 	}
 }

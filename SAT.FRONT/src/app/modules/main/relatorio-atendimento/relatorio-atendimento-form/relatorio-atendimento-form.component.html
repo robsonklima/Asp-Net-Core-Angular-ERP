@@ -390,15 +390,13 @@
                         {{ t('voltar') }}
                     </button>
 
-                    <button class="px-6" mat-button [color]="'primary'"
+                    <button class="px-6 mr-4" mat-button [color]="'primary'"
                         [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid"
                         *ngIf="relatorioAtendimento.codStatusServico !== 3 && relatorioAtendimento.codStatusServico !== 2 && ordemServico.codStatusServico !== 3 && ordemServico.codStatusServico !== 2"
                         (click)="salvar()">
-                        <span *ngIf="!form.disabled">
+                        <span>
                             {{ t('salvar') }}
                         </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
                     </button>                
 
                     <button

@@ -1,9 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { DefeitoService } from 'app/core/services/defeito.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { DefeitoData, DefeitoParameters } from 'app/core/types/defeito.types';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
@@ -35,9 +40,11 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class DefeitoListaComponent implements OnInit {
+export class DefeitoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: DefeitoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -46,12 +53,31 @@ export class DefeitoListaComponent implements OnInit {
   constructor(
     private _defeitoService: DefeitoService,
     private _cdr: ChangeDetectorRef,
-    private _userService: UserService
+    private _exportacaoService: ExportacaoService,
+    protected _userService: UserService
   ) {
+    super(_userService, 'defeito')
     this.userSession = JSON.parse(this._userService.userSession);
   }
+  
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
 
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+    if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
   async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -92,7 +118,10 @@ export class DefeitoListaComponent implements OnInit {
       filter: filtro
     }
 
-    const data = await this._defeitoService.obterPorParametros(parametros).toPromise();
+    const data: DefeitoData = await this._defeitoService.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
@@ -101,4 +130,11 @@ export class DefeitoListaComponent implements OnInit {
   paginar() {
     this.obterDados();
   }
+
+  public async exportar() {
+    this.isLoading = true;
+		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+    this.isLoading = false;
+  }
+  
 }

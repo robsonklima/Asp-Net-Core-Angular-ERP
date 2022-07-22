@@ -207,16 +207,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
 			this.form.patchValue(this.relatorioAtendimento);
 
-			if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2)
-
-				if (this.ordemServico?.codCliente == 1 &&
-					(this.sessionData?.usuario?.codPerfil == 29 ||
-					this.sessionData?.usuario?.codPerfil == 3)) {
-
+			if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2) {
+				if (this.ordemServico?.codCliente == 1 && (this.sessionData?.usuario?.codPerfil == 29 || this.sessionData?.usuario?.codPerfil == 3)) 
 					return;
-				}
 
-			this.form.disable();
+				this.form.disable();
+			}
 		}
 		else {
 			this.relatorioAtendimento = { relatorioAtendimentoDetalhes: [] } as RelatorioAtendimento;

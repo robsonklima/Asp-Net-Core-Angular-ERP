@@ -22,6 +22,9 @@ import { equipamentoRoutes } from './equipamento.routing';
 import { EquipamentoFormComponent } from './equipamento-form/equipamento-form.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { EquipamentoFiltroComponent } from './equipamento-filtro/equipamento-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     EquipamentoListaComponent,
-    EquipamentoFormComponent
+    EquipamentoFormComponent,
+    EquipamentoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatDatepickerModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class EquipamentoModule { }

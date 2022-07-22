@@ -100,8 +100,6 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			codOS: form.codOS,
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
-			dataFechamentoFim: form.dataFechamentoFim ? new Date(form.dataFechamentoFim).toISOString() : '',
-			dataFechamentoInicio: form.dataFechamentoInicio ? new Date(form.dataFechamentoInicio).toISOString() : '',
 			numSerie: form.numSerie,
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {

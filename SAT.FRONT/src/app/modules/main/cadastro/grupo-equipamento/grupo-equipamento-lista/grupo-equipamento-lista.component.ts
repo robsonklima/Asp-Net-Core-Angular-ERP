@@ -112,8 +112,7 @@ export class GrupoEquipamentoListaComponent extends Filterable implements AfterV
     
     const params: GrupoEquipamentoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-    //  sortActive: this.sort?.active || 'nomeGrupoEquip',
-    sortActive: this.sort?.active,
+      sortActive: this.sort?.active,
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
       filter: filtro

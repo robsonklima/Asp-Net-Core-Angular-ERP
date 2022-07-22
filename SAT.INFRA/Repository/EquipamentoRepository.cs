@@ -89,6 +89,18 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodTipoEquips))
+            {
+                int[] cods = parameters.CodTipoEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equips = equips.Where(dc => cods.Contains(dc.TipoEquipamento.CodTipoEquip.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodGrupoEquips))
+            {
+                int[] cods = parameters.CodGrupoEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equips = equips.Where(dc => cods.Contains(dc.GrupoEquipamento.CodGrupoEquip.Value));
+            }
+
             return PagedList<Equipamento>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }
     }

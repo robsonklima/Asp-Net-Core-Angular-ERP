@@ -21,11 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { grupoEquipamentoRoutes } from './grupo-equipamento.routing';
 import { GrupoEquipamentoFormComponent } from './grupo-equipamento-form/grupo-equipamento-form.component';
 import { GrupoEquipamentoListaComponent } from './grupo-equipamento-lista/grupo-equipamento-lista.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { GrupoEquipamentoFiltroComponent } from './grupo-equipamento-filtro/grupo-equipamento-filtro.component';
 
 @NgModule({
   declarations: [
     GrupoEquipamentoListaComponent,
-    GrupoEquipamentoFormComponent
+    GrupoEquipamentoFormComponent,
+    GrupoEquipamentoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,9 @@ import { GrupoEquipamentoListaComponent } from './grupo-equipamento-lista/grupo-
     MatSelectModule,
     MatDatepickerModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class GrupoEquipamentoModule { }

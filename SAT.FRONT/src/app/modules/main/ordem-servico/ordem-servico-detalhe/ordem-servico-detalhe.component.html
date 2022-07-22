@@ -568,65 +568,78 @@
 
                                             <div class="relative flex flex-auto">
                                                 <ng-container>
-                                                    <div class="flex flex-shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-green-400">
+                                                    <div *ngIf="!hist?.tipo" class="flex flex-shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-green-400">
                                                         <mat-icon
                                                             class="icon-size-5 text-white"
                                                             [svgIcon]="'heroicons_solid:refresh'">
+                                                        </mat-icon>
+                                                    </div>
+
+                                                    <div *ngIf="hist?.tipo" class="flex flex-shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-orange-400">
+                                                        <mat-icon
+                                                            class="icon-size-5 text-white"
+                                                            [svgIcon]="'heroicons_solid:location-marker'">
                                                         </mat-icon>
                                                     </div>
                                                 </ng-container>
         
                                                 <div class="flex flex-col flex-auto items-start">
                                                     <ng-container>
-                                                        <div
-                                                            [innerHTML]="hist?.statusServico?.nomeStatusServico"></div>
+                                                        <div *ngIf="hist?.statusServico?.nomeStatusServico" [innerHTML]="hist?.statusServico?.nomeStatusServico"></div>
+                                                        <div *ngIf="hist?.tipo" [innerHTML]="hist?.tipo"></div>
                                                     </ng-container>
 
                                                     <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.tipoIntervencao?.nomTipoIntervencao">
                                                             Intervenção: {{ hist.tipoIntervencao?.nomTipoIntervencao }}
                                                         </div>
                                                     </div>
 
                                                     <div *ngIf="hist.tecnico?.nome" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.tecnico?.nome">
                                                             Técnico: {{ hist.tecnico?.nome }}
                                                         </div>
                                                     </div>
 
                                                     <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.cliente?.nomeFantasia">
                                                             Cliente: {{ hist.cliente?.nomeFantasia }}
                                                         </div>
                                                     </div>
 
                                                     <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.localAtendimento?.nomeLocal">
                                                             Local: {{ hist.localAtendimento?.nomeLocal }}
                                                         </div>
                                                     </div>
 
                                                     <div *ngIf="hist.equipamentoContrato?.numSerie" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.equipamentoContrato?.numSerie">
                                                             Série: {{ hist.equipamentoContrato?.numSerie }}
                                                         </div>
                                                     </div>
 
                                                     <div *ngIf="hist.autorizada?.nomeFantasia" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
-                                                            Autoriada: {{ hist.autorizada?.nomeFantasia }}
+                                                        <div class="text-secondary" *ngIf="hist.autorizada?.nomeFantasia">
+                                                            Autorizada: {{ hist.autorizada?.nomeFantasia }}
                                                         </div>
                                                     </div>
 
                                                     <div *ngIf="hist.usuario?.nomeUsuario" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary">
+                                                        <div class="text-secondary" *ngIf="hist.usuario?.nomeUsuario">
                                                             Usuário: {{ hist.usuario?.nomeUsuario }}
                                                         </div>
                                                     </div>
 
                                                     <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
                                                         <div class="text-secondary">
-                                                            Atualizado em: {{ hist.dataHoraCad | date:'dd/MM/yy HH:mm' }}
+                                                            <span *ngIf="hist.dataHoraCad && !hist.dataHoraCadSmartphone">
+                                                                Atualizado em: {{ hist.dataHoraCad | date:'dd/MM/yy HH:mm:ss' }}
+                                                            </span>
+
+                                                            <span *ngIf="hist.dataHoraCadSmartphone">
+                                                                Atualizado em: {{ hist.dataHoraCadSmartphone | date:'dd/MM/yy HH:mm:ss' }}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>

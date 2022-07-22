@@ -28,6 +28,8 @@ import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecn
 import { DispBBBloqueioOS, DispBBBloqueioOSParameters } from 'app/core/types/DispBBBloqueioOS.types';
 import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.service';
 import { IntegracaoCobraService } from 'app/core/services/integracao-cobra.service';
+import { CheckinCheckoutService } from 'app/core/services/checkin-checout.service';
+import { CheckinCheckout } from 'app/core/types/checkin-checkout.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -52,8 +54,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	ultimoAgendamento: string;
 	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
-	historico: OrdemServicoHistorico[] = [];
+	historico: any[] = [];
 	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
+	checkinsCheckouts: CheckinCheckout[] = [];
 
 	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum {
 		return TipoIntervencaoEnum;
@@ -76,7 +79,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
 		private _fotoService: FotoService,
 		private _dispBBBloqueioOSService: DispBBBloqueioOSService,
-		private _integracaoCobraService: IntegracaoCobraService
+		private _integracaoCobraService: IntegracaoCobraService,
+		private _checkinCheckoutService: CheckinCheckoutService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -98,6 +102,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 		await this.obterOS();
 		this.obterHistorico();
+		this.obterCheckinsECheckouts();
 		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
@@ -116,7 +121,20 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			sortActive: 'dataHoraCad'
 		}).toPromise();
 
-		this.historico = historico.items;
+		this.historico.push.apply(this.historico, historico.items);
+	}
+
+	private async obterCheckinsECheckouts() {
+		const cks = await this._checkinCheckoutService.obterPorParametros({
+			codOS: this.codOS,
+			sortDirection: 'asc',
+			sortActive: 'dataHoraCad'
+		}).toPromise();
+
+		this.historico.concat();
+		this.historico.push.apply(this.historico, cks.items);
+		this.historico = this.historico
+			.sort((a, b) => (moment(a.dataHoraCadSmartphone || a.dataHoraCad) > moment(b.dataHoraCadSmartphone || b.dataHoraCad)) ? 1 : -1);
 	}
 
 	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {

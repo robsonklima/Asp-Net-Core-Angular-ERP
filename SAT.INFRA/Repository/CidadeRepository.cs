@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System;
 
 
+
 namespace SAT.INFRA.Repository
 {
     public class CidadeRepository : ICidadeRepository
@@ -98,13 +99,13 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 cidades = cidades.Where(dc => cods.Contains(dc.Filial.CodFilial));
-            }
+            };
             
             if (!string.IsNullOrWhiteSpace(parameters.CodUFs))
             {
                 int[] cods = parameters.CodUFs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 cidades = cidades.Where(dc => cods.Contains(dc.UnidadeFederativa.CodUF));
-            }
+            };
 
             if (parameters.CodCidade.HasValue)
                 cidades = cidades.Where(c => c.CodCidade == parameters.CodCidade);

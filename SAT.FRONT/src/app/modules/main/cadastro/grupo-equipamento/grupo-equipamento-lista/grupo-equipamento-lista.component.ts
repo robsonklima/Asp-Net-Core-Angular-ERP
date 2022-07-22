@@ -1,8 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { GrupoEquipamentoService } from 'app/core/services/grupo-equipamento.service';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { GrupoEquipamento, GrupoEquipamentoData, GrupoEquipamentoParameters } from 'app/core/types/grupo-equipamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -35,9 +40,11 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class GrupoEquipamentoListaComponent implements AfterViewInit {
+export class GrupoEquipamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: GrupoEquipamentoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -47,12 +54,32 @@ export class GrupoEquipamentoListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _grupoEquipamentoService: GrupoEquipamentoService,
-    private _userService: UserService
+    private _exportacaoService: ExportacaoService,
+    protected _userService: UserService
   ) {
+    super(_userService, 'grupo-equipamento')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+
   ngAfterViewInit(): void {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -80,24 +107,32 @@ export class GrupoEquipamentoListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
     
     const params: GrupoEquipamentoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'nomeGrupoEquip',
+    //  sortActive: this.sort?.active || 'nomeGrupoEquip',
+    sortActive: this.sort?.active,
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
+      filter: filtro
     };
 
-    const data = await this._grupoEquipamentoService
-      .obterPorParametros(params)
-      .toPromise();
-
+    const data: GrupoEquipamentoData = await this._grupoEquipamentoService.obterPorParametros({
+      ...params,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+
+  }
+
+  public async exportar() {
+    this.isLoading = true;
+		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+    this.isLoading = false;
   }
 
   paginar() {

@@ -21,11 +21,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { DefeitoFiltroComponent } from './defeito-filtro/defeito-filtro.component';
 
 @NgModule({
   declarations: [
     DefeitoListaComponent,
-    DefeitoFormComponent
+    DefeitoFormComponent,
+    DefeitoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +50,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class DefeitoModule { }

@@ -59,6 +59,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
 			StatusServicoEnum.PECA_FALTANTE,
 			StatusServicoEnum.PECAS_PENDENTES,
 			StatusServicoEnum.PECA_SEPARADA,
+			StatusServicoEnum.CANCELADO_COM_ATENDIMENTO,
 			StatusServicoEnum.CANCELADO
 		].join(',');
 

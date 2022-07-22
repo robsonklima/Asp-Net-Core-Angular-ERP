@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { EquipamentoModuloFormComponent } from './equipamento-modulo-form/equipamento-modulo-form.component';
 import { EquipamentoModuloListaComponent } from './equipamento-modulo-lista/equipamento-modulo-lista.component';
 
-export const defeitoCausaRoutes: Route[] = [
+export const equipamentoModuloRoutes: Route[] = [
     {
         path: '',
         pathMatch: 'full',

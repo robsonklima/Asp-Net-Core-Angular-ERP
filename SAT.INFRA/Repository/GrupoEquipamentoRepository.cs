@@ -96,6 +96,12 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodTipoEquip.HasValue)
                 grupos = grupos.Where(g => g.CodTipoEquip == parameters.CodTipoEquip);
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodTipoEquips))
+            {
+                int[] cods = parameters.CodTipoEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                grupos = grupos.Where(dc => cods.Contains(dc.TipoEquipamento.CodTipoEquip.Value));
+            }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
             {

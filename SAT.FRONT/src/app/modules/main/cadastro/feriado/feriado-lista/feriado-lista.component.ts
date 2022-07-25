@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { FeriadoService } from 'app/core/services/feriado.service';
-import { FeriadoData } from 'app/core/types/feriado.types';
+import { FeriadoData, FeriadoParameters } from 'app/core/types/feriado.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
@@ -62,9 +62,9 @@ export class FeriadoListaComponent extends Filterable implements AfterViewInit, 
         })
     }
 
-    async ngAfterViewInit(): {
-    this.registerEmitters();
-this.obterDados();
+    async ngAfterViewInit() {
+        this.registerEmitters();
+        this.obterDados();
 
 if (this.sort && this.paginator) {
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -104,7 +104,7 @@ this._cdr.detectChanges();
         },
         ...this.filter?.parametros
     }
-    const data = await this._feriadoModuloService.obterPorParametros(parametros).toPromise();
+    const data = await this._feriadoService.obterPorParametros(parametros).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();

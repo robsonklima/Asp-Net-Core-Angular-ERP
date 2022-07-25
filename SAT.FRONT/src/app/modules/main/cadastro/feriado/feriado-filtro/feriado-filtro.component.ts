@@ -1,4 +1,3 @@
-import { TipoEquipamento, TipoEquipamentoParameters } from 'app/core/types/tipo-equipamento.types';
 import { UserService } from '../../../../../core/user/user.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
@@ -7,33 +6,41 @@ import { Subject } from 'rxjs';
 import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
-import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { Feriado, FeriadoParameters } from 'app/core/types/feriado.types';
+import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
+import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
+import { FeriadoService } from 'app/core/services/feriado.service';
+import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
+import { CidadeService } from 'app/core/services/cidade.service';
+import Enumerable from 'linq';
+import { statusConst } from 'app/core/types/status-types';
 
 
 @Component({
-	selector: 'app-feriado-modulo-filtro',
+	selector: 'app-feriado-filtro',
 	templateUrl: './feriado-filtro.component.html'
 })
 export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
 
 	@Input() sidenav: MatSidenav;
 
-	equipamentos: Equipamento[] = [];
-	tipoEquipamentos: TipoEquipamento[] = [];
-	equipamentoFilterCtrl: FormControl = new FormControl();
-	tipoEquipamentoFilterCtrl: FormControl = new FormControl();
+	feriados: Feriado[] = [];
+	feriadoFilterCtrl: FormControl = new FormControl();
+	cidades: Cidade[] = [];
+	ufs: UnidadeFederativa[] = [];
+	
+	
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 
-		private _equipamentoService: EquipamentoService,
-		private _tipoEquipamentoService: TipoEquipamentoService,
+		private _feriadoService: FeriadoService,
+		private _unidadeFederativaService: UnidadeFederativaService,
+		private _cidadeService: CidadeService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
-		super(_userService, _formBuilder, 'equipamento-modulo');
+		super(_userService, _formBuilder, 'feriado');
 	}
 
 	ngOnInit(): void {
@@ -42,67 +49,83 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 	}
 
 	async loadData() {
-		this.obterEquipamentos();
-		this.obterTipoEquipamentos();
+		this.obterFeriados();
+		this.obterCidades(); 
+		this.obterUfs(); 
 		this.registrarEmitters();
 	}
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			indAtivo: [undefined],
-			codEquips: [undefined],
-			codTipoEquips: [undefined]
+			feriados: [undefined],
+			codCidades: [undefined],
+			codUfs: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
 
 
-	async obterEquipamentos(filtro: string = '') {
-		let params: EquipamentoParameters = {
+	async obterFeriados(filtro: string = '') {
+		let params: FeriadoParameters = {
 			filter: filtro,
-			sortActive: 'nomeEquip',
+			sortActive: 'nomeFeriado',
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
-		const data = await this._equipamentoService
+		const data = await this._feriadoService
 			.obterPorParametros(params)
 			.toPromise();
-		this.equipamentos = data.items;
+		this.feriados = data.items;
 	}
 
-	async obterTipoEquipamentos(filtro: string = '') {
-		let params: TipoEquipamentoParameters = {
-			filter: filtro,
-			sortActive: 'nomeTipoEquip',
-			sortDirection: 'asc',
-			pageSize: 1000
+	async obterCidades(ufFilter: any = '') {
+		let params: CidadeParameters = {
+			indAtivo: statusConst.ATIVO,
+			codUF: ufFilter,
+			pageSize: 500
 		};
-		const data = await this._tipoEquipamentoService
+
+		const data = await this._cidadeService
 			.obterPorParametros(params)
 			.toPromise();
-		this.tipoEquipamentos = data.items;
+
+		this.cidades = Enumerable.from(data.items).orderBy(i => i.nomeCidade).toArray();
 	}
+
+	async obterUfs() {
+		let params: UnidadeFederativaParameters = {
+			pageSize: 1000
+		};
+
+		const data = await this._unidadeFederativaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.ufs = Enumerable.from(data.items).orderBy(i => i.nomeUF).toArray();
+	}
+
 
 	private registrarEmitters() {
 
-		this.equipamentoFilterCtrl.valueChanges
+		this.feriadoFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-				this.obterEquipamentos(this.equipamentoFilterCtrl.value);
+				this.obterFeriados(this.feriadoFilterCtrl.value);
 			});
 
-		this.tipoEquipamentoFilterCtrl.valueChanges
+		this.form.controls['codUfs'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-				this.obterTipoEquipamentos(this.tipoEquipamentoFilterCtrl.value);
+				this.obterCidades(this.form.controls['codUfs'].value);
 			});
 	}
 

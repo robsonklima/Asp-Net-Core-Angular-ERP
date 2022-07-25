@@ -15,45 +15,31 @@
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('nome feriado') }}</mat-label>
-                    <mat-select formControlName="codFeriado" multiple="true">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="feriadoFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFeriados, feriados,
-                            'codFeriado')" [value]="0">
+                    <mat-label>{{ t('cidade') }}</mat-label>
+                    <mat-select formControlName="codCidades" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades,
+                            'codCidade')" [value]="0">
                             TODAS
                         </mat-option>
-                       <mat-option *ngFor="let feriado of feriados" [value]="feriado.codFeriado">
-                            {{ feriado.nomeFeriado }}
+                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                            {{ cidade.nomeCidade }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('unidade federativa') }}</mat-label>
+                    <mat-select formControlName="codUfs" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUfs, ufs,
+                            'codUF')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
+                            {{ uf.siglaUF }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
-               <!-- <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('modelo') }}</mat-label>
-                    <mat-select formControlName="codEquips" multiple="true">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equipamentos,
-                            'codEquip')" [value]="0">
-                            TODAS
-                        </mat-option>
-
-                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
-                            {{ equip.nomeEquip }}
-                        </mat-option>
-
-                    </mat-select>
-                </mat-form-field> -->
-               
             </div>
 
             <div class="mt-6 border-t"></div>
@@ -67,7 +53,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'equipamento-modulo'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'feriado'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

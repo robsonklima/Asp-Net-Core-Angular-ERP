@@ -22,6 +22,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClienteBancadaListaComponent } from './cliente-bancada-lista/cliente-bancada-lista.component';
 import { ClienteBancadaFormComponent } from './cliente-bancada-form/cliente-bancada-form.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { ClienteBancadaFiltroComponent } from './cliente-bancada-filtro/cliente-bancada-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     ClienteBancadaListaComponent,
-    ClienteBancadaFormComponent
+    ClienteBancadaFormComponent,
+    ClienteBancadaFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatDatepickerModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class ClienteBancadaModule { }

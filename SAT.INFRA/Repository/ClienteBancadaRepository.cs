@@ -60,7 +60,7 @@ namespace SAT.INFRA.Repository
         public PagedList<ClienteBancada> ObterPorParametros(ClienteBancadaParameters parameters)
         {
             IQueryable<ClienteBancada> clientBancadas = _context.ClienteBancada
-               .Include(i => i.Cidade)
+                .Include(i => i.Cidade)
                      .ThenInclude(i => i.UnidadeFederativa)
                       .ThenInclude(i => i.Pais)
                 .AsQueryable();
@@ -73,6 +73,18 @@ namespace SAT.INFRA.Repository
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 clientBancadas = clientBancadas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodCidades))
+            {
+                int[] cods = parameters.CodCidades.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                clientBancadas = clientBancadas.Where(dc => cods.Contains(dc.Cidade.CodCidade));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodClienteBancadas))
+            {
+                int[] cods = parameters.CodClienteBancadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                clientBancadas = clientBancadas.Where(dc => cods.Contains(dc.CodClienteBancada));
             }
 
             return PagedList<ClienteBancada>.ToPagedList(clientBancadas, parameters.PageNumber, parameters.PageSize);

@@ -30,6 +30,10 @@
                         </div>
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'Ir para OS'" [routerLink]="['/ordem-servico/detalhe/' + os?.codOS]">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard-copy'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
                                 [matTooltip]="'Enviar e-mail'" [routerLink]="['/orcamento/impressao/' + codOrc]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>

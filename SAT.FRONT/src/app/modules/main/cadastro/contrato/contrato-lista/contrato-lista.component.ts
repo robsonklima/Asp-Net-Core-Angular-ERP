@@ -12,6 +12,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { FileMime } from 'app/core/types/file.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 
 @Component({
     selector: 'app-contrato-lista',
@@ -48,32 +49,31 @@ export class ContratoListaComponent extends Filterable implements AfterViewInit,
     constructor(
         private _cdr: ChangeDetectorRef,
         private _contratoService: ContratoService,
+        private _exportacaoService: ExportacaoService,
         protected _userService: UserService,
     ) {
 
         super(_userService, 'contrato');
     }
 
+
     registerEmitters(): void {
-
-        this.sidenav.closedStart.subscribe(() =>
-        {
-            this.onSidenavClosed();
-            this.obterContratos();
-        })
-
-        if (this.sort && this.paginator) {
-
-            this.sort.disableClear = true;
-            this._cdr.markForCheck();
-
-            this.sort.sortChange.subscribe(() => {
-                this.paginator.pageIndex = 0;
-                this.onSortChanged();
-                this.obterContratos();
-            });
+        this.sidenav.closedStart.subscribe(() => {
+                this.onSidenavClosed();
+                this.obterDados();
+            })
+      }
+    
+      loadFilter(): void {
+            super.loadFilter();
         }
-    }
+    
+        onSidenavClosed(): void {
+            if (this.paginator) this.paginator.pageIndex = 0;
+            this.loadFilter();
+            this.obterDados();
+        }
+    
 
     ngOnInit(): void {
     }
@@ -118,18 +118,33 @@ export class ContratoListaComponent extends Filterable implements AfterViewInit,
         this.dataSourceData = data;
         this.isLoading = false;
     }
+
+    async obterDados(filtro: string = '') {
+        this.isLoading = true;
+    
+        const params: ContratoParameters = {
+          pageNumber: this.paginator?.pageIndex + 1,
+          sortActive: this.sort?.active,
+          sortDirection: this.sort?.direction || 'asc',
+          pageSize: this.paginator?.pageSize,
+          filter: filtro
+        };
+    
+        const data: ContratoData = await this._contratoService.obterPorParametros({
+          ...params,
+          ...this.filter?.parametros
+        }).toPromise();
+        this.dataSourceData = data;
+        this.isLoading = false;
+        this._cdr.detectChanges();
+      }
     
 
-    public async exportar() {
+      public async exportar() {
         this.isLoading = true;
-        const params: ContratoParameters = {
-            sortDirection: 'desc',
-            pageSize: 100000,
-        };
-
-
+            await this._exportacaoService.exportar('Contrato', FileMime.Excel, {});
         this.isLoading = false;
-    }
+      }
 
     paginar() {
         this.onPaginationChanged()

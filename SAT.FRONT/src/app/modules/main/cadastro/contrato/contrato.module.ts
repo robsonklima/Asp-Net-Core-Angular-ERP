@@ -45,6 +45,7 @@ import { ContratoSlaComponent } from './contrato-sla/contrato-sla.component';
 import { ContratoFiltroComponent } from './contrato-filtro/contrato-filtro.component';
 import { ContratoEquipamentosComponent } from './contrato-equipamentos/contrato-equipamentos.component';
 import { ContratoClientePecaComponent } from './contrato-cliente-peca/contrato-cliente-peca.component';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -100,7 +101,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		MatListModule,
 		MatStepperModule,
 		FuseAlertModule,
-		MatProgressSpinnerModule
+		MatProgressSpinnerModule,   
+		FiltroModule,
+		MatSidenavModule
+		
 	]
 })
 export class ContratoModule { }

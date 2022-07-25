@@ -1,22 +1,26 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { FeriadoService } from 'app/core/services/feriado.service';
 import { FeriadoData } from 'app/core/types/feriado.types';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-feriado-lista',
-  templateUrl: './feriado-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
+    selector: 'app-feriado-lista',
+    templateUrl: './feriado-lista.component.html',
+    styles: [
+        /* language=SCSS */
+        `
       .list-grid-u {
-          grid-template-columns: 25% 25% 25% 25% ;
+          grid-template-columns: 25% 25% 25% auto;
           
-          @screen sm {
+          /* @screen sm {
               grid-template-columns: 25% 25% 25% 25% ;
           }
       
@@ -26,69 +30,96 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       
           @screen lg {
               grid-template-columns: 25% 25% 25% 25% ;
-          }
+          } */
       }
     `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+    ],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
-export class FeriadoListaComponent implements AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
-  dataSourceData: FeriadoData;
-  isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+export class FeriadoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 
-  constructor(
-    private _cdr: ChangeDetectorRef,
-    private _feriadoService: FeriadoService
-  ) { }
+    @ViewChild('sidenav') public sidenav: MatSidenav;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
+    dataSourceData: FeriadoData;
+    isLoading: boolean = false;
+    @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 
-  ngAfterViewInit(): void {
-    this.obterDados();
+    constructor(
+        protected _userService: UserService,
+        private _cdr: ChangeDetectorRef,
+        private _feriadoService: FeriadoService
+    ) {
+        super(_userService, 'feriado')
+        this.userSession = JSON.parse(this._userService.userSession);
+    }
 
-    if (this.sort && this.paginator) {
-      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+    registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+            this.onSidenavClosed();
+            this.obterDados();
+        })
+    }
+
+    async ngAfterViewInit(): {
+    this.registerEmitters();
+this.obterDados();
+
+if (this.sort && this.paginator) {
+    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
         map((event: any) => {
-          return event.target.value;
+            return event.target.value;
         })
         , debounceTime(700)
         , distinctUntilChanged()
-      ).subscribe((text: string) => {
+    ).subscribe((text: string) => {
         this.paginator.pageIndex = 0;
         this.searchInputControl.nativeElement.val = text;
         this.obterDados();
-      });
+    });
 
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
+    this.sort.disableClear = true;
+    this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() => {
+    this.sort.sortChange.subscribe(() => {
         this.paginator.pageIndex = 0;
         this.obterDados();
-      });
-    }
+    });
+}
 
-    this._cdr.detectChanges();
+this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
 
-    this.dataSourceData = await this._feriadoService.obterPorParametros({
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'data',
-      sortDirection: this.sort?.direction || 'desc',
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    }).toPromise();
-
+    const parametros: FeriadoParameters = {
+        ...{
+            pageNumber: this.paginator?.pageIndex + 1,
+            sortActive: this.sort?.active || 'data',
+            sortDirection: this.sort?.direction || 'desc',
+            pageSize: this.paginator?.pageSize,
+            filter: filtro
+        },
+        ...this.filter?.parametros
+    }
+    const data = await this._feriadoModuloService.obterPorParametros(parametros).toPromise();
+    this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
-  }
+}
 
-  paginar() {
+
+
+//   this.dataSourceData = await this._feriadoService.obterPorParametros({
+//       }).toPromise();
+
+//   this.isLoading = false;
+//   this._cdr.detectChanges();
+// }
+
+paginar() {
     this.obterDados();
-  }
+}
 }

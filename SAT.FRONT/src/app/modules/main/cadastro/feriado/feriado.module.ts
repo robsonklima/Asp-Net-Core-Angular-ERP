@@ -22,6 +22,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { feriadoRoutes } from './feriado.routing';
 import { FeriadoFormComponent } from './feriado-form/feriado-form.component';
 import { FeriadoListaComponent } from './feriado-lista/feriado-lista.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { FeriadoFiltroComponent } from './feriado-filtro/feriado-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     FeriadoListaComponent,
-    FeriadoFormComponent
+    FeriadoFormComponent,
+    FeriadoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    FiltroModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,

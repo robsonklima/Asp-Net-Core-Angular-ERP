@@ -22,7 +22,7 @@ import { EquipamentoModuloFormComponent } from './equipamento-modulo-form/equipa
 import { EquipamentoModuloListaComponent } from './equipamento-modulo-lista/equipamento-modulo-lista.component';
 import { equipamentoModuloRoutes } from './equipamento-modulo.routing';
 import { EquipamentoModuloFiltroComponent } from './equipamento-modulo-filtro/equipamento-modulo-filtro.component';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({

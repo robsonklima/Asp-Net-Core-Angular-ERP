@@ -54,7 +54,7 @@ export class EquipamentoModuloListaComponent extends Filterable implements After
     private _equipamentoModuloService: EquipamentoModuloService,
     private _cdr: ChangeDetectorRef
   ) {
-    super(_userService, 'equipamento-modulo')
+    super(_userService, 'feriado')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 

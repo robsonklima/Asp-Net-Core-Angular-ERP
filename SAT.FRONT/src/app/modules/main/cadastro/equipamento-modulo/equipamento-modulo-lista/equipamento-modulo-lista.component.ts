@@ -1,14 +1,16 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { EquipamentoModuloService } from 'app/core/services/equipamento-modulo.service';
-import { EquipamentoModuloData } from 'app/core/types/equipamento-modulo.types';
-import { DefeitoParameters } from 'app/core/types/defeito.types';
+import { EquipamentoModuloData, EquipamentoModuloParameters } from 'app/core/types/equipamento-modulo.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-equipamento-modulo-lista',
@@ -17,9 +19,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
     .list-grid-u {
-      grid-template-columns: 142px 20% 40% 20%;
+      grid-template-columns: 142px auto 40% 20%;
       
-      @screen sm {
+      /* @screen sm {
           grid-template-columns: 142px 20% 40% 20%;
       }
   
@@ -29,30 +31,42 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   
       @screen lg {
           grid-template-columns: 142px 20% 40% 20%;
-      }
+      } */
   }
     `
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class EquipamentoModuloListaComponent {
+export class EquipamentoModuloListaComponent extends Filterable implements AfterViewInit, IFilterable {
+
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: EquipamentoModuloData;
   isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+
   userSession: UserSession;
 
   constructor(
+    protected _userService: UserService,
     private _equipamentoModuloService: EquipamentoModuloService,
-    private _cdr: ChangeDetectorRef,
-    private _userService: UserService
+    private _cdr: ChangeDetectorRef
   ) {
+    super(_userService, 'equipamento-modulo')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
   async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -82,21 +96,24 @@ export class EquipamentoModuloListaComponent {
   async obterDados(filtro: string = '') {
     this.isLoading = true;
 
-    const parametros: DefeitoParameters = {
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'codEquip',
-      sortDirection: 'asc',
-      pageSize: this.paginator?.pageSize,
-      filter: filtro
+    const parametros: EquipamentoModuloParameters = {
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: 'codEquip',
+        sortDirection: 'asc',
+        pageSize: this.paginator?.pageSize,
+        filter: filtro
+      },
+      ...this.filter?.parametros
     }
 
     const data = await this._equipamentoModuloService.obterPorParametros(parametros).toPromise();
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  }
+      this.dataSourceData = data;
+      this.isLoading = false;
+      this._cdr.detectChanges();
+    }
 
-  paginar() {
-    this.obterDados();
+    paginar() {
+      this.obterDados();
+    }
   }
-}

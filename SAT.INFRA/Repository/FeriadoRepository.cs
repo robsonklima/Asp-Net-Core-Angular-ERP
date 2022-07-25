@@ -74,15 +74,27 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodFeriado != null)
-            {
-                feriados = feriados.Where(f => f.CodFeriado == parameters.CodFeriado);
-            }
+            //  if (!string.IsNullOrWhiteSpace(parameters.CodFeriado))
+            // {
+            //     int[] cods = parameters.CodTipoEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+            //     equipamentoModulo = equipamentoModulo.Where(dc => cods.Contains(dc.Equipamento.CodTipoEquip));
+            // }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                feriados = feriados.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
-            }
+            //  if (!string.IsNullOrWhiteSpace(parameters.CodEquips))
+            // {
+            //     int[] cods = parameters.CodEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+            //     equipamentoModulo = equipamentoModulo.Where(dc => cods.Contains(dc.Equipamento.CodEquip));
+            // }
+
+            // if (parameters.CodFeriado != null)
+            // {
+            //     feriados = feriados.Where(f => f.CodFeriado == parameters.CodFeriado);
+            // }
+
+            // if (parameters.SortActive != null && parameters.SortDirection != null)
+            // {
+            //     feriados = feriados.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            // }
 
             return PagedList<Feriado>.ToPagedList(feriados, parameters.PageNumber, parameters.PageSize);
         }

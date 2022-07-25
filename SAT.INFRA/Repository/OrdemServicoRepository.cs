@@ -176,6 +176,8 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.OrdensServicoRelatorioInstalacao!)
                     .DefaultIfEmpty()
                 .Include(os => os.Orcamentos!)
+                .DefaultIfEmpty()
+                .Include(os => os.Orcamentos!)
                     .ThenInclude(orc => orc.OrcamentoMotivo!)
                     .DefaultIfEmpty()
                 .AsNoTracking()

@@ -109,10 +109,25 @@ namespace SAT.INFRA.Repository
                 equipamentoModulo = equipamentoModulo.Where(w => w.CodECausa == parameters.CodECausa);
             }
 
-            if (parameters.CodEquip.HasValue)
+            // if (parameters.CodEquips.HasValue)
+            // {
+            //     equipamentoModulo = equipamentoModulo.Where(w => w.CodEquip == parameters.CodEquip);
+            // }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodTipoEquips))
             {
-                equipamentoModulo = equipamentoModulo.Where(w => w.CodEquip == parameters.CodEquip);
+                int[] cods = parameters.CodTipoEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equipamentoModulo = equipamentoModulo.Where(dc => cods.Contains(dc.Equipamento.CodTipoEquip));
             }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodEquips))
+            {
+                int[] cods = parameters.CodEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                equipamentoModulo = equipamentoModulo.Where(dc => cods.Contains(dc.Equipamento.CodEquip));
+            }
+
+            if (parameters.IndAtivo.HasValue)
+                equipamentoModulo = equipamentoModulo.Where(e => e.IndAtivo == parameters.IndAtivo);
 
             return PagedList<EquipamentoModulo>.ToPagedList(equipamentoModulo, parameters.PageNumber, parameters.PageSize);
         }

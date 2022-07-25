@@ -11,53 +11,49 @@
         </div>
     </div>
 
-
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-4 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('cliente') }}</mat-label>
-                    <mat-select formControlName="CodClientes" multiple="true">
-
+                    <mat-label>{{ t('tipo equipamento') }}</mat-label>
+                    <mat-select formControlName="codTipoEquips" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoEquipamentoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodTipoEquips, clientes,
-                            'codCliente')" [value]="0">
+                        
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTipoEquips, tipoEquipamentos,
+                            'codTipoEquip')" [value]="0">
                             TODAS
                         </mat-option>
-
-                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente ">
-                            {{ cliente.razaoSocial }}
+                       <mat-option *ngFor="let tipoEquip of tipoEquipamentos" [value]="tipoEquip.codTipoEquip">
+                            {{ tipoEquip.nomeTipoEquip }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('tipo') }}</mat-label>
-                    <mat-select formControlName="CodTipoContratos" multiple="true">
-
+               <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('modelo') }}</mat-label>
+                    <mat-select formControlName="codEquips" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoFilterCtrl">
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodTipoContratos, tipos,
-                            'codTipoContrato')" [value]="0">
+                        
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equipamentos,
+                            'codEquip')" [value]="0">
                             TODAS
                         </mat-option>
 
-                        <mat-option *ngFor="let tipo of tipos" [value]="tipo.codTipoContrato ">
-                            {{ tipo.nomeTipoContrato }}
+                        <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
                         </mat-option>
+
                     </mat-select>
                 </mat-form-field>
-
+               
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
                     <mat-select formControlName="indAtivo">
@@ -69,7 +65,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
 
 
             </div>
@@ -85,7 +80,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'contrato'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'equipamento-modulo'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

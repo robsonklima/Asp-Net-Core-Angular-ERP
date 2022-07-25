@@ -6,7 +6,6 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DefeitoComponenteService } from 'app/core/services/defeito-componente.service';
 import { DefeitoComponente, DefeitoComponenteData, DefeitoComponenteParameters } from 'app/core/types/defeito-componente.types';
-import { DefeitoParameters } from 'app/core/types/defeito.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';

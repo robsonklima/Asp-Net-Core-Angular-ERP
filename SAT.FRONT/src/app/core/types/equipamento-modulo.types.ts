@@ -23,5 +23,6 @@ export interface EquipamentoModuloData extends Meta {
 
 export interface EquipamentoModuloParameters extends QueryStringParameters {
     codEquip?: number;
+    codTipoEquip?: number;
     indAtivo?: number;
 };

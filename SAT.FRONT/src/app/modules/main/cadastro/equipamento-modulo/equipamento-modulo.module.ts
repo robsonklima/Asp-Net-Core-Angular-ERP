@@ -20,19 +20,24 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EquipamentoModuloFormComponent } from './equipamento-modulo-form/equipamento-modulo-form.component';
 import { EquipamentoModuloListaComponent } from './equipamento-modulo-lista/equipamento-modulo-lista.component';
-import { defeitoCausaRoutes } from './equipamento-modulo.routing';
+import { equipamentoModuloRoutes } from './equipamento-modulo.routing';
+import { EquipamentoModuloFiltroComponent } from './equipamento-modulo-filtro/equipamento-modulo-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     EquipamentoModuloListaComponent,
-    EquipamentoModuloFormComponent
+    EquipamentoModuloFormComponent,
+    EquipamentoModuloFiltroComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(defeitoCausaRoutes),
+    RouterModule.forChild(equipamentoModuloRoutes),
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,
@@ -41,6 +46,7 @@ import { defeitoCausaRoutes } from './equipamento-modulo.routing';
     FuseHighlightModule,
     NgxMatSelectSearchModule,
     MatProgressBarModule,
+    FiltroModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatSelectModule,

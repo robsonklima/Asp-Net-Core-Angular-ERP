@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PecaParameters, PecaStatus } from 'app/core/types/peca.types';
@@ -6,6 +6,13 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ClientePecaGenericaData, ClientePecaGenericaParameters } from 'app/core/types/cliente-peca-generica.types';
 import { ClientePecaGenericaService } from 'app/core/services/cliente-peca-generica.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { UserService } from 'app/core/user/user.service';
+import { ClientePecaData } from 'app/core/types/cliente-peca.types';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
   selector: 'app-cliente-peca-generica-lista',
@@ -31,10 +38,11 @@ import { ClientePecaGenericaService } from 'app/core/services/cliente-peca-gener
     `
   ],
 })
-export class ClientePecaGenericaListaComponent implements OnInit {
+export class ClientePecaGenericaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+    @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: ClientePecaGenericaData;
   byteArray;
   isLoading: boolean = false;
@@ -42,12 +50,34 @@ export class ClientePecaGenericaListaComponent implements OnInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _clientePecaService: ClientePecaGenericaService
-  ) { }
+    private _clientePecaService: ClientePecaGenericaService,
+    private _exportacaoService: ExportacaoService,
+    protected _userService: UserService,
+  ) { 
+    super(_userService, 'cliente-peca-generica');
+  }
 
+  registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+                this.onSidenavClosed();
+                this.obterDados();
+            })
+      }
+    
+      loadFilter(): void {
+            super.loadFilter();
+        }
+    
+        onSidenavClosed(): void {
+            if (this.paginator) this.paginator.pageIndex = 0;
+            this.loadFilter();
+            this.obterDados();
+        }
+    
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
+    this.registerEmitters();
     this.obterDados();
     this.obterStatus();
 
@@ -76,21 +106,25 @@ export class ClientePecaGenericaListaComponent implements OnInit {
     this._cdr.detectChanges();
   }
 
-  public async obterDados() {
+  public async obterDados(filtro: string = '') {
     this.isLoading = true;
 
     const params: ClientePecaGenericaParameters =
     {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'codClientePecaGenerica',
+      sortActive: this.sort?.active,
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
+      filter: filtro
     }
 
-    this.dataSourceData = await this._clientePecaService.obterPorParametros(params).toPromise();
-    this.isLoading = false;
-    this._cdr.detectChanges();
+    const data: ClientePecaGenericaData = await this._clientePecaService.obterPorParametros({
+          ...params,
+          ...this.filter?.parametros
+        }).toPromise();
+        this.dataSourceData = data;
+        this.isLoading = false;
+        this._cdr.detectChanges();
   }
 
   private async obterStatus(): Promise<void> {
@@ -101,15 +135,10 @@ export class ClientePecaGenericaListaComponent implements OnInit {
   }
 
   public async exportar() {
-    this.isLoading = true;
-
-    const params: PecaParameters =
-    {
-      sortDirection: 'desc',
-      pageSize: 1000
-    }
-    this.isLoading = false;
-  }
+        this.isLoading = true;
+            await this._exportacaoService.exportar('ClientePecaGenerica', FileMime.Excel, {});
+        this.isLoading = false;
+      }
 
   public paginar() { this.obterDados(); }
 }

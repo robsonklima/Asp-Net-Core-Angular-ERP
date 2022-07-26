@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PecaParameters, PecaStatus } from 'app/core/types/peca.types';
@@ -6,6 +6,12 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ClientePecaService } from 'app/core/services/cliente-peca.service';
 import { ClientePecaData, ClientePecaParameters } from 'app/core/types/cliente-peca.types';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
+import { UserService } from 'app/core/user/user.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
   selector: 'app-cliente-peca-lista',
@@ -31,10 +37,11 @@ import { ClientePecaData, ClientePecaParameters } from 'app/core/types/cliente-p
     `
   ],
 })
-export class ClientePecaListaComponent implements OnInit {
+export class ClientePecaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+    @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: ClientePecaData;
   byteArray;
   isLoading: boolean = false;
@@ -42,11 +49,32 @@ export class ClientePecaListaComponent implements OnInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _clientePecaService: ClientePecaService) { }
+    private _clientePecaService: ClientePecaService,
+    private _exportacaoService: ExportacaoService,
+    protected _userService: UserService
+    ) { super(_userService, 'cliente-peca'); }
+
+    registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+                this.onSidenavClosed();
+                this.obterDados();
+            })
+      }
+    
+      loadFilter(): void {
+            super.loadFilter();
+        }
+    
+        onSidenavClosed(): void {
+            if (this.paginator) this.paginator.pageIndex = 0;
+            this.loadFilter();
+            this.obterDados();
+        }
 
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
+    this.registerEmitters();
     this.obterDados();
     this.obterStatus();
 
@@ -75,21 +103,25 @@ export class ClientePecaListaComponent implements OnInit {
     this._cdr.detectChanges();
   }
 
-  public async obterDados() {
+  public async obterDados(filtro: string = '') {
     this.isLoading = true;
 
     const params: ClientePecaParameters =
     {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'codClientePeca',
+      sortActive: this.sort?.active,
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
+      filter: filtro
     }
 
-    this.dataSourceData = await this._clientePecaService.obterPorParametros(params).toPromise();
-    this.isLoading = false;
-    this._cdr.detectChanges();
+    const data: ClientePecaData = await this._clientePecaService.obterPorParametros({
+          ...params,
+          ...this.filter?.parametros
+        }).toPromise();
+        this.dataSourceData = data;
+        this.isLoading = false;
+        this._cdr.detectChanges();
   }
 
   private async obterStatus(): Promise<void> {
@@ -100,15 +132,10 @@ export class ClientePecaListaComponent implements OnInit {
   }
 
   public async exportar() {
-    this.isLoading = true;
-
-    const params: PecaParameters =
-    {
-      sortDirection: 'desc',
-      pageSize: 1000
-    }
-    this.isLoading = false;
-  }
+        this.isLoading = true;
+            await this._exportacaoService.exportar('ClientePeca', FileMime.Excel, {});
+        this.isLoading = false;
+      }
 
   public paginar() { this.obterDados(); }
 }

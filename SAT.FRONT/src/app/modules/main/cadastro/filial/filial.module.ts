@@ -22,6 +22,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FilialFormComponent } from './filial-form/filial-form.component';
 import { FilialListaComponent } from './filial-lista/filial-lista.component';
+import { FilialFiltroComponent } from './filial-filtro/filial-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     FilialListaComponent,
-    FilialFormComponent
+    FilialFormComponent,
+    FilialFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    FiltroModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,

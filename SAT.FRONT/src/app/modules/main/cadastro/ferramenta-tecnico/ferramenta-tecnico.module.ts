@@ -21,11 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ferramentaTecnicoRoutes } from './ferramenta-tecnico.routing';
 import { FerramentaTecnicoListaComponent } from './ferramenta-tecnico-lista/ferramenta-tecnico-lista.component';
 import { FerramentaTecnicoFormComponent } from './ferramenta-tecnico-form/ferramenta-tecnico-form.component';
+import { FerramentaTecnicoFiltroComponent } from './ferramenta-tecnico-filtro/ferramenta-tecnico-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     FerramentaTecnicoListaComponent,
-    FerramentaTecnicoFormComponent
+    FerramentaTecnicoFormComponent,
+    FerramentaTecnicoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +37,8 @@ import { FerramentaTecnicoFormComponent } from './ferramenta-tecnico-form/ferram
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    FiltroModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,

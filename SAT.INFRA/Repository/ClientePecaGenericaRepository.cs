@@ -119,6 +119,12 @@ namespace SAT.INFRA.Repository
         {
             var query = this.ObterQuery(parameters);
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodPecaStatus))
+            {
+                int[] cods = parameters.CodPecaStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.Peca.PecaStatus.CodPecaStatus));
+            }
+
             return PagedList<ClientePecaGenerica>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

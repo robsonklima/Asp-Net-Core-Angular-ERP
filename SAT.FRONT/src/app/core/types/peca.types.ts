@@ -48,11 +48,23 @@ export interface PecaData extends Meta
     items: Peca[];
 };
 
+export interface PecaStatusData extends Meta 
+{
+    items: PecaStatus[];
+};
+
 export interface PecaParameters extends QueryStringParameters 
 {
     codPeca?: string;
     include?: PecaIncludeEnum;
     codMagnus?: string;
+};
+
+export interface PecaStatusParameters extends QueryStringParameters 
+{
+    codPecaStatus?: string;
+    include?: PecaIncludeEnum;
+    
 };
 
 export enum PecaStatus

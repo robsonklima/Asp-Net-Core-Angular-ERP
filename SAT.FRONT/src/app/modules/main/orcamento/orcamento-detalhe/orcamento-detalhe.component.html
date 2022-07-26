@@ -34,7 +34,7 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard-copy'"></mat-icon>
                             </button>
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
-                                [matTooltip]="'Enviar e-mail'" [routerLink]="['/orcamento/impressao/' + codOrc]">
+                                [matTooltip]="'imprimir'" [routerLink]="['/orcamento/impressao/' + codOrc]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
@@ -160,8 +160,10 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
                                     </app-orcamento-detalhe-local>
+
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalFaturamento">
                                     </app-orcamento-detalhe-local>
+                                    
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalEnvioNF">
                                     </app-orcamento-detalhe-local>
                                 </div>

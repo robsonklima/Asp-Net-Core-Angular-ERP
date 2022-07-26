@@ -1,8 +1,14 @@
- <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
-     <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
+<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
+    <div class="flex items-center justify-between mt-2">
+        <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
+        <button mat-icon-button matTooltip="Ir para Locais Faturamento" [routerLink]="'/orcamento/faturamento/form/'+ dadosLocal.codLocalEnvioNFFaturamento" *ngIf="dadosLocal.tipo == 1">
+            <mat-icon class="icon-size-5 text-right" [svgIcon]="'heroicons_solid:clipboard-list'">
+            </mat-icon>
+        </button>
+    </div>
 
-     <form [formGroup]="form" class="flex flex-col overflow-hidden">
-        <div class="grid grid-cols-4 sm:grid-cols-4 gap-x-6 flex-col flex-auto overflow-hidden">
+    <form [formGroup]="form" class="flex flex-col overflow-hidden">
+        <div class="grid grid-cols-4 sm:grid-cols-4 gap-x-6 flex-col flex-auto overflow-hidden" *ngIf="dadosLocal.tipo == 3">
 
             <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-4">
                 <mat-label>{{ t('local de atendimento') }}</mat-label>
@@ -43,12 +49,12 @@
                 <mat-label>{{ t('inscricao estadual') }}</mat-label>
                 <input matInput formControlName="inscricaoEstadual">
             </mat-form-field>
-            
+
             <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
                 <mat-label>{{ t('responsavel') }}</mat-label>
                 <input matInput formControlName="responsavel">
             </mat-form-field>
-            
+
             <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
                 <mat-label>{{ t('email') }}</mat-label>
                 <input matInput formControlName="email">
@@ -99,5 +105,70 @@
                 <input matInput formControlName="nroSerie">
             </mat-form-field>
         </div>
+
+        <div class="grid grid-cols-4 sm:grid-cols-4 gap-x-6 flex-col flex-auto overflow-hidden"
+            *ngIf="dadosLocal.tipo != 3">
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-4">
+                <mat-label>{{ t('razao social') }}</mat-label>
+                <input matInput formControlName="razaoSocial">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('endereco') }}</mat-label>
+                <input matInput formControlName="endereco">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-1">
+                <mat-label>{{ t('numero') }}</mat-label>
+                <input matInput formControlName="numero">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-1">
+                <mat-label>{{ t('uf') }}</mat-label>
+                <input matInput formControlName="uf">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('bairro') }}</mat-label>
+                <input matInput formControlName="bairro">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('cidade') }}</mat-label>
+                <input matInput formControlName="cidade">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('complemento') }}</mat-label>
+                <input matInput formControlName="complemento">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('cep') }}</mat-label>
+                <input matInput formControlName="cep">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('inscricao estadual') }}</mat-label>
+                <input matInput formControlName="inscricaoEstadual">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('responsavel') }}</mat-label>
+                <input matInput formControlName="responsavel">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('email') }}</mat-label>
+                <input matInput formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
+                <mat-label>{{ t('fone') }}</mat-label>
+                <input matInput formControlName="fone">
+            </mat-form-field>
+
+        </div>
     </form>
- </fuse-card>
+</fuse-card>

@@ -9,5 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public string CodMagnus { get; set; }
         public PecaIncludeEnum Include { get; set; }
         public PecaFilterEnum FilterType { get; set; }
+        public string CodPecaStatus { get; set; }
     }
 }

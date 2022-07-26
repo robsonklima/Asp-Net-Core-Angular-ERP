@@ -150,6 +150,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 	private obterLocais() {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
 			razaoSocial: this.os?.cliente?.razaoSocial,
 			cnpj: this.os?.cliente?.cnpj,
 			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
@@ -167,6 +168,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 		this.dadosLocalEnvioNF = {
 			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
 			razaoSocial: this.os?.cliente?.razaoSocial,
 			cnpj: this.os?.cliente?.cnpj,
 			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
@@ -184,6 +186,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 		this.dadosLocalAtendimento = {
 			tipo: OrcamentoDadosLocalEnum.ATENDIMENTO,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
 			nroContrato: this.os?.equipamentoContrato?.contrato?.nroContrato,
 			nomeLocal: this.os?.localAtendimento?.nomeLocal,
 			oscliente: this.os?.numOSCliente,
@@ -197,7 +200,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 			uf: this.os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF,
 			modelo: this.os?.equipamento?.nomeEquip,
 			nroSerie: this.os?.equipamentoContrato?.numSerie,
-			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao
+			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao,
+			cnpj: this.os?.cliente?.cnpj,
 		}
 	}
 

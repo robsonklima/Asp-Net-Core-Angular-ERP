@@ -123,6 +123,7 @@ public class ConfigurationIOC
         builder.RegisterType<FormaPagamentoRepository>().As<IFormaPagamentoRepository>();
         builder.RegisterType<MoedaRepository>().As<IMoedaRepository>();
         builder.RegisterType<PecaListaRepository>().As<IPecaListaRepository>();
+        builder.RegisterType<PecaStatusRepository>().As<IPecaStatusRepository>();
         builder.RegisterType<TipoFreteRepository>().As<ITipoFreteRepository>();
         builder.RegisterType<ClienteBancadaRepository>().As<IClienteBancadaRepository>();
         builder.RegisterType<FerramentaTecnicoRepository>().As<IFerramentaTecnicoRepository>();
@@ -175,6 +176,7 @@ public class ConfigurationIOC
         builder.RegisterType<MotivoAgendamentoService>().As<IMotivoAgendamentoService>();
         builder.RegisterType<PaisService>().As<IPaisService>();
         builder.RegisterType<PecaService>().As<IPecaService>();
+        builder.RegisterType<PecaStatusService>().As<IPecaStatusService>();
         builder.RegisterType<FilialService>().As<IFilialService>();
         builder.RegisterType<PerfilService>().As<IPerfilService>();
         builder.RegisterType<RegiaoAutorizadaService>().As<IRegiaoAutorizadaService>();

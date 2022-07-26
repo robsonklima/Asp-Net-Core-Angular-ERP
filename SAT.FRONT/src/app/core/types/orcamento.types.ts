@@ -230,6 +230,7 @@ export enum OrcamentoDadosLocalEnum
 
 export interface OrcamentoDadosLocal
 {
+    codLocalEnvioNFFaturamento: number;
     tipo: OrcamentoDadosLocalEnum;
     razaoSocial?: string;
     endereco?: string;

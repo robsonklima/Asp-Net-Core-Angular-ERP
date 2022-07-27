@@ -14,6 +14,7 @@ namespace SAT.MODELS.Enums
         CLIENTEPECAGENERICA,
         CLIENTEBANCADA,
         CONTRATO,
-        DEFEITO
+        DEFEITO,
+        EQUIPAMENTO
     }
 }

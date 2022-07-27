@@ -78,7 +78,13 @@ namespace SAT.API.Controllers
         public IActionResult ExportarClienteBancada([FromQuery] ClienteBancadaParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTEBANCADA);
-        }               
+        }
+
+        [HttpGet("Contrato")]
+        public IActionResult ExportarContrato([FromQuery] ContratoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CONTRATO);
+        }                       
 
         [HttpGet("Tecnico")]
         public IActionResult ExportarTecnico([FromQuery] TecnicoParameters parameters)

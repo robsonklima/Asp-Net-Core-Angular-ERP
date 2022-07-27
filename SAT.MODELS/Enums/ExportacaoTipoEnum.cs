@@ -9,6 +9,7 @@ namespace SAT.MODELS.Enums
         TECNICO,
         ACAO_COMPONENTE,
         CIDADE,
-        CLIENTE
+        CLIENTE,
+        CLIENTEPECA
     }
 }

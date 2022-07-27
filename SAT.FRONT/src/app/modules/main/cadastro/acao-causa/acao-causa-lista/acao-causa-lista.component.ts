@@ -143,7 +143,7 @@ export class AcaoCausaListaComponent extends Filterable implements AfterViewInit
 
   public async exportar() {
     this.isLoading = true;
-		await this.__exportacaoService.exportar('Acao-Causa', FileMime.Excel, this.filter?.parametros);
+		await this.__exportacaoService.exportar('AcaoCausa', FileMime.Excel, this.filter?.parametros);
     this.isLoading = false;
   }
 

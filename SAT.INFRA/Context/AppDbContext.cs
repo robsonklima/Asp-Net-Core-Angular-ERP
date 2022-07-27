@@ -52,6 +52,7 @@ namespace SAT.INFRA.Context
         public DbSet<UnidadeFederativa> UnidadeFederativa { get; set; }
         public DbSet<Cidade> Cidade { get; set; }
         public DbSet<Peca> Peca { get; set; }
+        public DbSet<PecaStatus> PecaStatus { get; set; }
         public DbSet<Transportadora> Transportadora { get; set; }
         public DbSet<Feriado> Feriado { get; set; }
         public DbSet<Causa> Causa { get; set; }

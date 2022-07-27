@@ -11,31 +11,28 @@
         </div>
     </div>
 
+
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('cidade') }}</mat-label>
-                    <mat-select formControlName="codCidades" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades,
-                            'codCidade')" [value]="0">
-                            TODAS
-                        </mat-option>
-                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
-                            {{ cidade.nomeCidade }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+            <div class="grid sm:grid-cols-4 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('unidade federativa') }}</mat-label>
-                    <mat-select formControlName="codUfs" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUfs, ufs,
-                            'codUF')" [value]="0">
+                    <mat-label>{{ t('status') }}</mat-label>
+                    <mat-select formControlName="CodPecaStatus" multiple="true">
+
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="statusFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodPecaStatus, status,
+                            'codPecaStatus')" [value]="0">
                             TODAS
                         </mat-option>
-                        <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
-                            {{ uf.siglaUF }}
+
+                        <mat-option *ngFor="let stat of status" [value]="stat.codPecaStatus ">
+                            {{ stat.nomeStatus }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -53,7 +50,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'feriado'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'cliente-peca-generica'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

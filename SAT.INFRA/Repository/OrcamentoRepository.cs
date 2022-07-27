@@ -38,7 +38,16 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codOrc)
         {
-            Orcamento orcamento = _context.Orcamento.FirstOrDefault(p => p.CodOrc == codOrc);
+            Orcamento orcamento = _context
+                                    .Orcamento
+                                        .Include(p => p.OrcamentoMotivo)
+                                        .Include(p => p.Materiais)
+                                        .Include(p => p.MaoDeObra)
+                                        .Include(p => p.OutrosServicos)
+                                        .Include(p => p.Descontos)
+                                        .Include(p => p.OrcamentoStatus)
+                                        .Include(p => p.OrcamentoDeslocamento)
+                                        .FirstOrDefault(p => p.CodOrc == codOrc);
 
             if (orcamento != null)
             {

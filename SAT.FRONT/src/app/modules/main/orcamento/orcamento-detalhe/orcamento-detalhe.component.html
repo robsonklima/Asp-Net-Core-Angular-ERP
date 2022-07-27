@@ -30,12 +30,20 @@
                         </div>
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
-                                [matTooltip]="'Enviar e-mail'" [routerLink]="['/orcamento/impressao/' + codOrc]">
+                                [matTooltip]="'Ir para OS'" [routerLink]="['/ordem-servico/detalhe/' + os?.codOS]">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard-copy'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'imprimir'" [routerLink]="['/orcamento/impressao/' + codOrc]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
                                 [matTooltip]="'Enviar e-mail'" (click)="enviarEmail()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'Excluir'" (click)="excluir()" *ngIf="userSession?.usuario?.codPerfil == 100 || userSession?.usuario?.codPerfil == 3">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                             </button>
                         </div>
                     </div>
@@ -152,8 +160,10 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full min-w-0">
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
                                     </app-orcamento-detalhe-local>
+
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalFaturamento">
                                     </app-orcamento-detalhe-local>
+                                    
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalEnvioNF">
                                     </app-orcamento-detalhe-local>
                                 </div>

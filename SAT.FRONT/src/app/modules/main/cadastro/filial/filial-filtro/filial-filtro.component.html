@@ -15,27 +15,32 @@
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('cidade') }}</mat-label>
-                    <mat-select formControlName="codCidades" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades,
-                            'codCidade')" [value]="0">
+                    <mat-label>{{ t('nome filial') }}</mat-label>
+                    <mat-select formControlName="codFiliais" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="filialFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
+                            'codFilial')" [value]="0">
                             TODAS
                         </mat-option>
-                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
-                            {{ cidade.nomeCidade }}
+                       <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('unidade federativa') }}</mat-label>
-                    <mat-select formControlName="codUfs" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUfs, ufs,
-                            'codUF')" [value]="0">
-                            TODAS
+                    <mat-label>{{ t('ativo') }}</mat-label>
+                    <mat-select formControlName="indAtivo">
+                        <mat-option [value]="1">
+                            Sim
                         </mat-option>
-                        <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
-                            {{ uf.siglaUF }}
+                        <mat-option [value]="0">
+                            Não
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -53,7 +58,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'feriado'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'filial'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

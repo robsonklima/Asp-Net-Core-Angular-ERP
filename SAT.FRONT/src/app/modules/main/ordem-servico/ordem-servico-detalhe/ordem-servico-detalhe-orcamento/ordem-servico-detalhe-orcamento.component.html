@@ -19,31 +19,20 @@
                             <div class="list-grid-orcamentos sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div> {{ t("numero") }} </div>
+                                <div> {{ t("os") }} </div>
                                 <div> {{ t("motivo") }} </div>
                                 <div> {{ t("valor desconto") }} </div>
                                 <div> {{ t("valor total") }} </div>
-                                <div> {{ t("acoes") }} </div>
                             </div>
                             <ng-container *ngFor="let orcamento of orcamentos">
-                                <div
-                                    class="list-grid-orcamentos grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
+                                <a  [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc"
+                                    class="list-grid-orcamentos grid items-center h-11 p-gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
                                     <div> {{ orcamento?.numero }} </div>
+                                    <div> {{ orcamento?.codigoOrdemServico }} </div>
                                     <div> {{ orcamento?.orcamentoMotivo?.descricao }} </div>
                                     <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}</div>
                                     <div> {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }} </div>
-                                    <div>
-                                        <button class="bg-transparent" [matTooltip]="'Imprimir orçamento'"
-                                            [routerLink]="'/orcamento/impressao/' + orcamento?.codOrc">
-                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:printer'">
-                                            </mat-icon>
-                                        </button>
-                                        <button class="bg-transparent" [matTooltip]="'Editar orcamento'"
-                                            [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc">
-                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
-                                            </mat-icon>
-                                        </button>
-                                    </div>
-                                </div>
+                                </a>
                             </ng-container>
                         </div>
                         <div

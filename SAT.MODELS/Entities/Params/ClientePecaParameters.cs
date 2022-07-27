@@ -10,5 +10,8 @@ namespace SAT.MODELS.Entities.Params
         public int? CodContrato { get; set; }
         public PecaIncludeEnum Include { get; set; }
         public PecaFilterEnum FilterType { get; set; }
+        public string CodPecaStatus { get; set; }
+        public string CodClientes { get; set; }
+        public string CodContratos { get; set; }
     }
 }

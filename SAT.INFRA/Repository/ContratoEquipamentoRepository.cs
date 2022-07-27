@@ -105,6 +105,12 @@ namespace SAT.INFRA.Repository
                 contratoEquipamentos = contratoEquipamentos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodContratos))
+            {
+                var cods = parameters.CodContratos.Split(',').Select(a => int.Parse(a.Trim()));
+                contratoEquipamentos = contratoEquipamentos.Where(e => cods.Contains(e.CodContrato));
+            }
+
             return PagedList<ContratoEquipamento>.ToPagedList(contratoEquipamentos, parameters.PageNumber, parameters.PageSize);
         }
     }

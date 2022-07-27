@@ -21,6 +21,7 @@ namespace SAT.SERVICES.Services
 		private readonly IAutorizadaRepository _autorizadaRepo;
 		private readonly ITecnicoRepository _tecnicoRepo;
 		private readonly ICidadeRepository _cidadeRepo;
+		private readonly IClienteRepository _clienteRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
@@ -29,7 +30,8 @@ namespace SAT.SERVICES.Services
 			IAcaoComponenteRepository acaoComponenteRepo,
 			IAutorizadaRepository autorizadaRepo,
 			ITecnicoRepository tecnicoRepo,
-			ICidadeRepository cidadeRepo
+			ICidadeRepository cidadeRepo,
+			IClienteRepository clienteRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -39,6 +41,7 @@ namespace SAT.SERVICES.Services
 			_autorizadaRepo = autorizadaRepo;
 			_cidadeRepo = cidadeRepo;
 			_tecnicoRepo = tecnicoRepo;
+			_clienteRepo = clienteRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -86,6 +89,10 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.TECNICO:
 					GerarPlanilhaTecnico(parameters);
+					break;					
+
+				case ExportacaoTipoEnum.CLIENTE:
+					GerarPlanilhaCliente(parameters);
 					break;					
 
 				default:

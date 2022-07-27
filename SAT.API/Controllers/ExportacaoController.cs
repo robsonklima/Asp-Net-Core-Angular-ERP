@@ -104,6 +104,12 @@ namespace SAT.API.Controllers
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.GRUPOEQUIPAMENTO);
         }      
         
+        [HttpGet("TipoEquipamento")]
+        public IActionResult ExportarTipoEquipamento([FromQuery] TipoEquipamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.TIPOEQUIPAMENTO);
+        }   
+
         [HttpGet("Tecnico")]
         public IActionResult ExportarTecnico([FromQuery] TecnicoParameters parameters)
         {

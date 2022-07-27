@@ -20,6 +20,10 @@ namespace SAT.SERVICES.Services
 		private readonly IAcaoComponenteRepository _acaoComponenteRepo;
 		private readonly IAutorizadaRepository _autorizadaRepo;
 		private readonly ITecnicoRepository _tecnicoRepo;
+		private readonly ICidadeRepository _cidadeRepo;
+		private readonly IClienteRepository _clienteRepo;
+		private readonly IClientePecaRepository _clientePecaRepo;
+		private readonly IClientePecaGenericaRepository _clientePecaGenericaRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
@@ -27,7 +31,11 @@ namespace SAT.SERVICES.Services
 			IAcaoRepository acaoRepo,
 			IAcaoComponenteRepository acaoComponenteRepo,
 			IAutorizadaRepository autorizadaRepo,
-			ITecnicoRepository tecnicoRepo
+			ITecnicoRepository tecnicoRepo,
+			ICidadeRepository cidadeRepo,
+			IClienteRepository clienteRepo,
+			IClientePecaRepository clientePecaRepo,
+			IClientePecaGenericaRepository clientePecaGenericaRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -35,7 +43,11 @@ namespace SAT.SERVICES.Services
 			_acaoRepo = acaoRepo;
 			_acaoComponenteRepo = acaoComponenteRepo;
 			_autorizadaRepo = autorizadaRepo;
+			_cidadeRepo = cidadeRepo;
 			_tecnicoRepo = tecnicoRepo;
+			_clienteRepo = clienteRepo;
+			_clientePecaRepo = clientePecaRepo;
+			_clientePecaGenericaRepo = clientePecaGenericaRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -77,9 +89,25 @@ namespace SAT.SERVICES.Services
 					GerarPlanilhaAutorizada(parameters);
 					break;		
 
+				case ExportacaoTipoEnum.CIDADE:
+					GerarPlanilhaCidade(parameters);
+					break;		
+
 				case ExportacaoTipoEnum.TECNICO:
 					GerarPlanilhaTecnico(parameters);
 					break;					
+
+				case ExportacaoTipoEnum.CLIENTE:
+					GerarPlanilhaCliente(parameters);
+					break;				
+				
+				case ExportacaoTipoEnum.CLIENTEPECA:
+					GerarPlanilhaClientePeca(parameters);
+					break;										
+				
+				case ExportacaoTipoEnum.CLIENTEPECAGENERICA:
+					GerarPlanilhaClientePecaGenerica(parameters);
+					break;	
 
 				default:
 					break;

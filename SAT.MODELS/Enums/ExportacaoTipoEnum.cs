@@ -7,6 +7,10 @@ namespace SAT.MODELS.Enums
         ACAO,
         AUTORIZADA,
         TECNICO,
-        ACAO_COMPONENTE
+        ACAO_COMPONENTE,
+        CIDADE,
+        CLIENTE,
+        CLIENTEPECA,
+        CLIENTEPECAGENERICA
     }
 }

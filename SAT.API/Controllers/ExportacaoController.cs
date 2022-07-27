@@ -48,6 +48,30 @@ namespace SAT.API.Controllers
         public IActionResult ExportarAutorizada([FromQuery] AutorizadaParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.AUTORIZADA);
+        }
+
+        [HttpGet("Cidade")]
+        public IActionResult ExportarCidade([FromQuery] CidadeParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CIDADE);
+        }        
+
+        [HttpGet("Cliente")]
+        public IActionResult ExportarCliente([FromQuery] ClienteParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTE);
+        }        
+
+        [HttpGet("ClientePeca")]
+        public IActionResult ExportarClientePeca([FromQuery] ClientePecaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTEPECA);
+        }        
+
+        [HttpGet("ClientePecaGenerica")]
+        public IActionResult ExportarClientePecaGenerica([FromQuery] ClientePecaGenericaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTEPECAGENERICA);
         }        
 
         [HttpGet("Tecnico")]

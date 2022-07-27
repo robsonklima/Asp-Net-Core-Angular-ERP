@@ -11,6 +11,7 @@ namespace SAT.MODELS.Enums
         CIDADE,
         CLIENTE,
         CLIENTEPECA,
-        CLIENTEPECAGENERICA
+        CLIENTEPECAGENERICA,
+        CLIENTEBANCADA
     }
 }

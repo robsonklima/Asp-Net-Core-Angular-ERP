@@ -219,6 +219,14 @@ export interface OrcamentoData extends Meta
 export interface OrcamentoParameters extends QueryStringParameters
 {
     codStatusServicos?: string;
+    codFiliais?: string;
+    codClientes?: string;
+    codTiposIntervencao?: string;
+    codEquipContrato?: number;   
+    codigoOrdemServico?: number;
+    numOSCliente?: string;
+    numOSQuarteirizada?: string;
+    numSerie?: string;
 };
 
 export enum OrcamentoDadosLocalEnum

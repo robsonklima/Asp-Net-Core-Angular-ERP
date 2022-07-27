@@ -15,6 +15,7 @@ namespace SAT.MODELS.Enums
         CLIENTEBANCADA,
         CONTRATO,
         DEFEITO,
-        EQUIPAMENTO
+        EQUIPAMENTO,
+        GRUPOEQUIPAMENTO
     }
 }

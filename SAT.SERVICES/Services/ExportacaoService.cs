@@ -28,6 +28,7 @@ namespace SAT.SERVICES.Services
 		private readonly IContratoRepository _contratoRepo;
 		private readonly IDefeitoRepository _defeitoRepo;
 		private readonly IEquipamentoRepository _equipamentoRepo;
+		private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
@@ -43,7 +44,8 @@ namespace SAT.SERVICES.Services
 			IClienteBancadaRepository clienteBancadaRepo,
 			IContratoRepository contratoRepo,
 			IDefeitoRepository defeitoRepo,
-			IEquipamentoRepository equipamentoRepo
+			IEquipamentoRepository equipamentoRepo,
+			IGrupoEquipamentoRepository grupoEquipamentoRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -60,6 +62,7 @@ namespace SAT.SERVICES.Services
 			_contratoRepo = contratoRepo;
 			_defeitoRepo = defeitoRepo;
 			_equipamentoRepo = equipamentoRepo;
+			_grupoEquipamentoRepo = grupoEquipamentoRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -136,6 +139,10 @@ namespace SAT.SERVICES.Services
 				case ExportacaoTipoEnum.EQUIPAMENTO:
 					GerarPlanilhaEquipamento(parameters);
 					break;		
+
+				case ExportacaoTipoEnum.GRUPOEQUIPAMENTO:
+					GerarPlanilhaGrupoEquipamento(parameters);
+					break;							
 
 
 				default:

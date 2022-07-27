@@ -130,7 +130,7 @@ export class GrupoEquipamentoListaComponent extends Filterable implements AfterV
 
   public async exportar() {
     this.isLoading = true;
-		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+		await this._exportacaoService.exportar('GrupoEquipamento', FileMime.Excel, {});
     this.isLoading = false;
   }
 

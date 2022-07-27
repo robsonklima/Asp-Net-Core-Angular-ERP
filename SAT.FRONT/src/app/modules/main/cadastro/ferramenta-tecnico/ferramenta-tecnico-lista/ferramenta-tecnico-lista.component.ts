@@ -1,10 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { FerramentaTecnicoService } from 'app/core/services/ferramenta-tecnico.service';
-import { AcaoParameters } from 'app/core/types/acao.types';
 import { FerramentaTecnicoData, FerramentaTecnicoParameters } from 'app/core/types/ferramenta-tecnico.types';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -18,7 +21,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     .list-grid-u {
       grid-template-columns: 50% 25% ;
       
-      @screen sm {
+      /* @screen sm {
           grid-template-columns: 50% 25% ;
       }
   
@@ -28,27 +31,40 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   
       @screen lg {
           grid-template-columns: 50% 25% ;
-      }
+      } */
   }
     `
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class FerramentaTecnicoListaComponent implements OnInit {
+export class FerramentaTecnicoListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: FerramentaTecnicoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   userSession: UserSession;
 
   constructor(
+    protected _userService: UserService,
     private _ferramentaTecnicoService: FerramentaTecnicoService,
     private _cdr: ChangeDetectorRef
-  ) { }
+  ) {
+    super(_userService, 'ferramenta-tecnico')
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
 
   async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -82,14 +98,16 @@ export class FerramentaTecnicoListaComponent implements OnInit {
   async obterDados(filtro: string = '') {
     this.isLoading = true;
     const parametros: FerramentaTecnicoParameters = {
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'nome',
-      sortDirection: 'asc',
-      pageSize: this.paginator?.pageSize,
-      filter: filtro,
-      indAtivo: 1
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: 'nome',
+        sortDirection: 'asc',
+        pageSize: this.paginator?.pageSize,
+        filter: filtro,
+        indAtivo: 1
+      },
+      ...this.filter?.parametros
     }
-
     const data = await this._ferramentaTecnicoService.obterPorParametros(parametros).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;

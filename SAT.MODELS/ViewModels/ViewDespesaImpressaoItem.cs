@@ -15,7 +15,7 @@ namespace SAT.MODELS.ViewModels
         public string Obs { get; set; }
         public int? KmPercorrido { get; set; }
         public decimal? KmPrevisto { get; set; }
-        public string? NumNF { get; set; }
+        public string NumNF { get; set; }
         public decimal DespesaValor { get; set; }
         public int CodDespesaTipo { get; set; }
         public string NomeTipo { get; set; }

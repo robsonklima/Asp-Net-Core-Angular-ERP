@@ -134,6 +134,24 @@ namespace SAT.INFRA.Repository
         {
             var query = this.ObterQuery(parameters);
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodPecaStatus))
+            {
+                int[] cods = parameters.CodPecaStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.Peca.PecaStatus.CodPecaStatus));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodContratos))
+            {
+                int[] cods = parameters.CodContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.Contrato.CodContrato));
+            }
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.Cliente.CodCliente));
+            }                        
+
             return PagedList<ClientePeca>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

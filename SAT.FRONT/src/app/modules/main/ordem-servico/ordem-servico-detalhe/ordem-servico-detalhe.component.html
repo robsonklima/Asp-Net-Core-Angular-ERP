@@ -1018,9 +1018,9 @@
                         </mat-tab>
 
                         <!-- ORCAMENTOS -->
-                        <mat-tab [disabled]="true">
+                        <mat-tab [disabled]="!os?.orcamentos?.length">
                             <ng-template matTabLabel>
-                                <span [class.opacity-50]="true">
+                                <span>
                                     {{ t('orcamentos') }}
                                 </span>
                             </ng-template>

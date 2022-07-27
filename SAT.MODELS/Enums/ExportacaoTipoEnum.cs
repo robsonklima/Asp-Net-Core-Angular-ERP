@@ -6,6 +6,8 @@ namespace SAT.MODELS.Enums
         EQUIPAMENTO_CONTRATO,
         ACAO,
         AUTORIZADA,
-        TECNICO
+        TECNICO,
+        ACAO_COMPONENTE,
+        CIDADE
     }
 }

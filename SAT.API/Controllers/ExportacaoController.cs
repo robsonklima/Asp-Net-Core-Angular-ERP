@@ -38,10 +38,22 @@ namespace SAT.API.Controllers
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ACAO);
         }
 
+        [HttpGet("AcaoCausa")]
+        public IActionResult ExportarAcaoCausa([FromQuery] AcaoComponenteParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.ACAO_COMPONENTE);
+        }
+
         [HttpGet("Autorizada")]
         public IActionResult ExportarAutorizada([FromQuery] AutorizadaParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.AUTORIZADA);
+        }
+
+        [HttpGet("Cidade")]
+        public IActionResult ExportarCidade([FromQuery] CidadeParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CIDADE);
         }        
 
         [HttpGet("Tecnico")]

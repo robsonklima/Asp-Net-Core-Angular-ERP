@@ -33,6 +33,8 @@ import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.typ
 import Enumerable from 'linq';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
+import { ContratoEquipamento, ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
+import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 
 
 @Component({
@@ -46,6 +48,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	clientes: Cliente[] = [];
 	clienteFilterCtrl: FormControl = new FormControl();
 	contratos: Contrato[] = [];
+	contratosEquipamento: ContratoEquipamento[] = [];
 	contratoFilterCtrl: FormControl = new FormControl();
 	equipamentos: Equipamento[] = [];
 	locaisAtendimento: LocalAtendimento[] = [];
@@ -69,6 +72,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 		private _clienteService: ClienteService,
 		private _contratoService: ContratoService,
+		private _contratoEquipamentoService: ContratoEquipamentoService,
 		private _filialService: FilialService,
 		private _equipamentoService: EquipamentoService,
 		private _tipoEquipamentoService: TipoEquipamentoService,
@@ -203,8 +207,25 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		const data = await this._contratoService
 			.obterPorParametros(params)
 			.toPromise();
+
 		this.contratos = data.items;
 	}
+
+	async obterContratosEquipamento(filtro: string = '') {
+		let params: ContratoEquipamentoParameters = {
+			filter: filtro,
+			codContratos: this.form.controls['codContratos'].value.join(','),
+			sortActive: 'nomeContrato',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
+		const data = await this._contratoEquipamentoService
+			.obterPorParametros(params)
+			.toPromise();
+			
+		this.contratosEquipamento = data.items;
+	}
+
 
 	async obterFiliais() {
 		let params: FilialParameters = {
@@ -314,6 +335,18 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.subscribe(() => {
 				this.obterLocaisAtendimentos();
 				this.obterContratos(this.clienteFilterCtrl.value);
+				this.obterEquipamentos();
+			});
+
+			this.form.controls['codContratos'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(async () => {
+				await this.obterContratosEquipamento();
+				this.obterModelosPorContrato();
 			});
 
 		this.form.controls['codUfs'].valueChanges
@@ -377,6 +410,14 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.subscribe(() => {
 				this.obterEquipamentos(this.equipamentoFilterCtrl.value);
 			});
+	}
+	obterModelosPorContrato() {
+		this.equipamentos = [];
+		console.log(this.contratosEquipamento);
+		
+		this.contratosEquipamento.forEach(ce => {
+			this.equipamentos.push(ce.equipamento);
+		});
 	}
 
 	limpar() {

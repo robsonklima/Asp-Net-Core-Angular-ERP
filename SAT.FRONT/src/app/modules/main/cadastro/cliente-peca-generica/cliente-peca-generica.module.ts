@@ -22,6 +22,9 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { clientePecagenericaRoutes as clientePecaGenericaRoutes } from './cliente-peca-generica.routing';
+import { ClientePecaGenericaFiltroComponent } from './cliente-peca-generica-filtro/cliente-peca-generica-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     ClientePecaGenericaListaComponent,
-    ClientePecaGenericaFormComponent
+    ClientePecaGenericaFormComponent,
+    ClientePecaGenericaFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +59,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatDatepickerModule,
     MatMenuModule,
     MatTooltipModule,
-    NgxMaskModule
+    NgxMaskModule,
+    FiltroModule,
+		MatSidenavModule
   ]
 })
 export class ClientePecaGenericaModule { }

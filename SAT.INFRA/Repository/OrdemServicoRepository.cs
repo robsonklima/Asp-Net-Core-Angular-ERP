@@ -173,16 +173,11 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Laudos)
                         .ThenInclude(a => a.LaudoStatus)
-                .Include(os => os.OrdensServicoRelatorioInstalacao!)
-                    .DefaultIfEmpty()
-                .Include(os => os.Orcamentos!)
-                .DefaultIfEmpty()
-                .Include(os => os.Orcamentos!)
-                    .ThenInclude(orc => orc.OrcamentoMotivo!)
-                    .DefaultIfEmpty()
+                .Include(os => os.OrdensServicoRelatorioInstalacao)
+                .Include(os => os.Orcamentos)
+                    .ThenInclude(orc => orc.OrcamentoMotivo)
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
         }
-
     }
 }

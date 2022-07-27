@@ -13,6 +13,7 @@ namespace SAT.MODELS.Enums
         CLIENTEPECA,
         CLIENTEPECAGENERICA,
         CLIENTEBANCADA,
-        CONTRATO
+        CONTRATO,
+        DEFEITO
     }
 }

@@ -25,8 +25,8 @@ namespace SAT.SERVICES.Services
 		private readonly IClientePecaRepository _clientePecaRepo;
 		private readonly IClientePecaGenericaRepository _clientePecaGenericaRepo;
 		private readonly IClienteBancadaRepository _clienteBancadaRepo;
-
 		private readonly IContratoRepository _contratoRepo;
+		private readonly IDefeitoRepository _defeitoRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
@@ -40,7 +40,8 @@ namespace SAT.SERVICES.Services
 			IClientePecaRepository clientePecaRepo,
 			IClientePecaGenericaRepository clientePecaGenericaRepo,
 			IClienteBancadaRepository clienteBancadaRepo,
-			IContratoRepository contratoRepo
+			IContratoRepository contratoRepo,
+			IDefeitoRepository defeitoRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -55,6 +56,7 @@ namespace SAT.SERVICES.Services
 			_clientePecaGenericaRepo = clientePecaGenericaRepo;
 			_clienteBancadaRepo = clienteBancadaRepo;
 			_contratoRepo = contratoRepo;
+			_defeitoRepo = defeitoRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -122,6 +124,10 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.CONTRATO:
 					GerarPlanilhaContrato(parameters);
+					break;		
+					
+				case ExportacaoTipoEnum.DEFEITO:
+					GerarPlanilhaDefeito(parameters);
 					break;		
 
 

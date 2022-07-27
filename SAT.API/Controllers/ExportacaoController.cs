@@ -86,6 +86,12 @@ namespace SAT.API.Controllers
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CONTRATO);
         }                       
 
+        [HttpGet("Defeito")]
+        public IActionResult ExportarDefeito([FromQuery] DefeitoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.DEFEITO);
+        }           
+
         [HttpGet("Tecnico")]
         public IActionResult ExportarTecnico([FromQuery] TecnicoParameters parameters)
         {

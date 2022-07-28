@@ -8,17 +8,22 @@
 
 <div class="page-header min-w-screen" style="text-align: center" *transloco="let t">
     <div class="flex items-start justify-between">
+        
         <div class="grid grid-cols-3 gap-x-4">
+            <img src="../../../../../../assets/images/logo/logo.png"> 
             <div class="text-lg tracking-tight">
+                
                 {{ "Relatório de Despesas" | uppercase }}
             </div>
             <div class="text-lg tracking-tight">
                 {{ t('de') + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataInicio | date:'dd/MM/yyyy')
                 + " " + (t('ate') | lowercase) + " " + (despesaPeriodoTecnico?.despesaPeriodo?.dataFim |
                 date:'dd/MM/yyyy') }}
+    
             </div>
         </div>
     </div>
+    
     <div class="inline-block text-left">
         <div class="min-w-screen p-2" *ngIf="!isLoading">
             <div style=" font-size: 8px !important;">
@@ -136,7 +141,6 @@
         </div>
     </div>
 </div>
-
 <table>
     <thead>
         <tr>

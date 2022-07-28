@@ -34,11 +34,17 @@
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+img {
+	width: 40px;
+	height: 40px;
+	object-fit: fill;
+  }
+
 /* Styles go here */
 
 .page-header,
 .page-header-space {
-	height: 80px;
+	height: 90px;
 }
 
 .page-footer,

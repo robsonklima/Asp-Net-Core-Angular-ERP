@@ -3,16 +3,16 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalAtendimento } from "./local-atendimento.types";
 
 export interface LocalEnvioNFFaturamentoVinculado {
-    codLocalEnvioNFFaturamento: number;
+    codLocalEnvioNFFaturamento?: number;
     codPosto: number;
     codContrato: number;
-    indAdicionado: number | null;
+    indAdicionado?: number | null;
     codUsuarioCad: string;
     dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string | null;
-    contrato: Contrato;
-    localAtendimento: LocalAtendimento;
+    codUsuarioManut?: string;
+    dataHoraManut?: string | null;
+    contrato?: Contrato;
+    localAtendimento?: LocalAtendimento;
 }
 
 export interface LocalEnvioNFFaturamentoVinculadoData extends Meta
@@ -22,5 +22,6 @@ export interface LocalEnvioNFFaturamentoVinculadoData extends Meta
 
 export interface LocalEnvioNFFaturamentoVinculadoParameters extends QueryStringParameters
 {
-    
+    codLocalEnvioNFFaturamento?: number;
+    codContrato?: number;
 };

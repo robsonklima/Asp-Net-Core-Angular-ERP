@@ -47,10 +47,10 @@ namespace SAT.API.Controllers
             _localEnvioNFFaturamentoVinculadoService.Atualizar(localEnvioNFFaturamentoVinculado);
         }
 
-        [HttpDelete("{CodLocalEnvioNffaturamento}")]
-        public void Delete(int CodLocalEnvioNffaturamento)
+        [HttpDelete("{CodLocalEnvioNffaturamento}/{codPosto}/{codContrato}")]
+        public void Delete(int codLocalEnvioNFFaturamento, int codPosto, int codContrato)
         {
-            _localEnvioNFFaturamentoVinculadoService.Deletar(CodLocalEnvioNffaturamento);
+            _localEnvioNFFaturamentoVinculadoService.Deletar(codLocalEnvioNFFaturamento, codPosto, codContrato);
         }
     }
 }

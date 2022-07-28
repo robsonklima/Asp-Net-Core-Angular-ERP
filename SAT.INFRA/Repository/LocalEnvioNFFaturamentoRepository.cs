@@ -81,6 +81,7 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.CidadeFaturamento)
                     .ThenInclude(c => c.UnidadeFederativa)
                 .Include(l => l.LocaisVinculados)
+                    .ThenInclude(l => l.LocalAtendimento)
                 .FirstOrDefault(f => f.CodLocalEnvioNFFaturamento == codigo);
         }
 
@@ -94,6 +95,7 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.CidadeFaturamento)        
                     .ThenInclude(c => c.UnidadeFederativa)        
                 .Include(l => l.LocaisVinculados)
+                    .ThenInclude(l => l.LocalAtendimento)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))

@@ -52,9 +52,13 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codLocalEnvioNFFaturamento, int codPosto, int codContrato)
         {
-            var localEnvioNFFaturamentoVinculado = _context.LocalEnvioNFFaturamentoVinculado.SingleOrDefault(l => l.CodPosto == codigo);
+            LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado = _context
+                                                                                    .LocalEnvioNFFaturamentoVinculado
+                                                                                        .FirstOrDefault(f => f.CodContrato == codContrato && 
+                                                                                                            f.CodLocalEnvioNFFaturamento == codLocalEnvioNFFaturamento && 
+                                                                                                            f.CodPosto == codPosto);
 
             if (localEnvioNFFaturamentoVinculado != null)
             {
@@ -80,13 +84,24 @@ namespace SAT.INFRA.Repository
         public PagedList<LocalEnvioNFFaturamentoVinculado> ObterPorParametros(LocalEnvioNFFaturamentoVinculadoParameters parameters)
         {
             var locais = _context.LocalEnvioNFFaturamentoVinculado
-                .AsQueryable();
+                                    .Include(l => l.LocalAtendimento)
+                                    .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
                     l =>
                     l.CodPosto.ToString().Contains(parameters.Filter)
                 );
+
+            if (parameters.CodContrato.HasValue)
+                locais = locais.Where(
+                    l =>
+                    l.CodContrato == parameters.CodContrato.Value);
+
+            if (parameters.CodLocalEnvioNFFaturamento.HasValue)
+                locais = locais.Where(
+                    l =>
+                    l.CodLocalEnvioNFFaturamento == parameters.CodLocalEnvioNFFaturamento.Value);
 
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))

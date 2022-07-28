@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(LocalEnvioNFFaturamentoVinculadoParameters parameters);
         LocalEnvioNFFaturamentoVinculado Criar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
-        void Deletar(int codigo);
+        void Deletar(int codLocalEnvioNFFaturamento, int codPosto, int codContrato);
         void Atualizar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
         LocalEnvioNFFaturamentoVinculado ObterPorCodigo(int codLocalEnvioNFFaturamento, int codPosto, int codContrato);
     }

@@ -63,11 +63,12 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 	}
 
 	obterDados(): void {
+
 		this.isLoading = true;
 		this._localEnvioNFFaturamentoService.obterPorParametros({
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active,
-			sortDirection: this.sort.direction,
+			sortActive: 'codLocalEnvioNFFaturamento',
+			sortDirection: 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: this.searchInputControl.nativeElement.val
 		}).subscribe((data: LocalEnvioNFFaturamentoData) => {

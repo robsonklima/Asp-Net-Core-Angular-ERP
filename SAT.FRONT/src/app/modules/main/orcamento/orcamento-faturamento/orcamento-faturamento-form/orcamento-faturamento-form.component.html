@@ -4,8 +4,6 @@
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
                     <span class="ml-1 text-secondary">
                         {{ isAddMode ? t('novo') : t('atualizando') }}
                     </span>
@@ -26,7 +24,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 p-6 sm:p-10">
+    <div class="grid grid-cols-2 gap-4 p-6 sm:p-10" *ngIf="!isLoading">
         <div class="max-w-3xl">
             <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
                 <div
@@ -270,7 +268,7 @@
             </form>
         </div>
 
-        <div class="max-w-3xl">
+        <div class="max-w-3xl" *ngIf="!isAddMode">
             <form class="flex flex-col bg-card shadow rounded overflow-hidden " [formGroup]="form">
                 <div
                     class="grid grid-cols-2 gap-4 content-between items-stretch bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -278,7 +276,6 @@
                         <span class="text-lg font-medium">{{ t('vincular locais') }}</span>
                     </div>
                 </div>
-
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden minh-full">
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
@@ -303,18 +300,15 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-
                 <div class="grid min-h-500">
-
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">{{ t('locais vinculados') }}</p>
                     </div>
-
-                    <div >
+                    <div  *transloco="let t">
                         <div class="mb-10">
                             <ng-container>
                                 <div class="list-grid-locais-faturamento sticky z-10 top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                                    matSort matSortDisableClear *transloco="let t">
+                                    matSort matSortDisableClear>
                                     <div>
                                         {{ t("codigo") }}
                                     </div>
@@ -328,10 +322,8 @@
                                         {{ t("acao") }}
                                     </div>
                                 </div>
-
                                 <ng-container *ngFor="let local of localEnvioNFFaturamentoVinculado">
-                                    <div class="list-grid-locais-faturamento grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100"
-                                        *transloco="let t">
+                                    <div class="list-grid-locais-faturamento grid items-center h-11 pt-2 gap-4 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">
                                         <div>
                                             {{ local.codLocalEnvioNFFaturamento }}
                                         </div>

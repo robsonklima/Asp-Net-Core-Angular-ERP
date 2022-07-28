@@ -636,5 +636,7 @@
     "pedido": "Order",
     "gerar": "Generate",
     "percentual ajuste": "Change Percent",
+    "vincular locais": "Link Locations",
+    "locais vinculados": "Linked Locations",
     "defeito componente": "Component Defect"
 }

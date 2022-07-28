@@ -633,6 +633,8 @@
     "nome acao": "Action",
     "nome causa": "Cause",
     "codmagnus": "Magnus Code",
+    "pedido": "Order",
+    "gerar": "Generate",
     "percentual ajuste": "Change Percent",
     "defeito componente": "Component Defect"
 }

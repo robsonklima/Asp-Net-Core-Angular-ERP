@@ -72,7 +72,43 @@ namespace SAT.API.Controllers
         public IActionResult ExportarClientePecaGenerica([FromQuery] ClientePecaGenericaParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTEPECAGENERICA);
-        }        
+        } 
+        
+        [HttpGet("ClienteBancada")]
+        public IActionResult ExportarClienteBancada([FromQuery] ClienteBancadaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CLIENTEBANCADA);
+        }
+
+        [HttpGet("Contrato")]
+        public IActionResult ExportarContrato([FromQuery] ContratoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.CONTRATO);
+        }                       
+
+        [HttpGet("Defeito")]
+        public IActionResult ExportarDefeito([FromQuery] DefeitoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.DEFEITO);
+        }           
+
+        [HttpGet("Equipamento")]
+        public IActionResult ExportarEquipamento([FromQuery] EquipamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTO);
+        }      
+        
+        [HttpGet("GrupoEquipamento")]
+        public IActionResult ExportarGrupoEquipamento([FromQuery] GrupoEquipamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.GRUPOEQUIPAMENTO);
+        }      
+        
+        [HttpGet("TipoEquipamento")]
+        public IActionResult ExportarTipoEquipamento([FromQuery] TipoEquipamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.TIPOEQUIPAMENTO);
+        }   
 
         [HttpGet("Tecnico")]
         public IActionResult ExportarTecnico([FromQuery] TecnicoParameters parameters)

@@ -24,6 +24,12 @@ namespace SAT.SERVICES.Services
 		private readonly IClienteRepository _clienteRepo;
 		private readonly IClientePecaRepository _clientePecaRepo;
 		private readonly IClientePecaGenericaRepository _clientePecaGenericaRepo;
+		private readonly IClienteBancadaRepository _clienteBancadaRepo;
+		private readonly IContratoRepository _contratoRepo;
+		private readonly IDefeitoRepository _defeitoRepo;
+		private readonly IEquipamentoRepository _equipamentoRepo;
+		private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
+		private readonly ITipoEquipamentoRepository _tipoEquipamentoRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
@@ -35,7 +41,13 @@ namespace SAT.SERVICES.Services
 			ICidadeRepository cidadeRepo,
 			IClienteRepository clienteRepo,
 			IClientePecaRepository clientePecaRepo,
-			IClientePecaGenericaRepository clientePecaGenericaRepo
+			IClientePecaGenericaRepository clientePecaGenericaRepo,
+			IClienteBancadaRepository clienteBancadaRepo,
+			IContratoRepository contratoRepo,
+			IDefeitoRepository defeitoRepo,
+			IEquipamentoRepository equipamentoRepo,
+			IGrupoEquipamentoRepository grupoEquipamentoRepo,
+			ITipoEquipamentoRepository tipoEquipamentoRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -48,6 +60,12 @@ namespace SAT.SERVICES.Services
 			_clienteRepo = clienteRepo;
 			_clientePecaRepo = clientePecaRepo;
 			_clientePecaGenericaRepo = clientePecaGenericaRepo;
+			_clienteBancadaRepo = clienteBancadaRepo;
+			_contratoRepo = contratoRepo;
+			_defeitoRepo = defeitoRepo;
+			_equipamentoRepo = equipamentoRepo;
+			_grupoEquipamentoRepo = grupoEquipamentoRepo;
+			_tipoEquipamentoRepo = tipoEquipamentoRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -107,7 +125,32 @@ namespace SAT.SERVICES.Services
 				
 				case ExportacaoTipoEnum.CLIENTEPECAGENERICA:
 					GerarPlanilhaClientePecaGenerica(parameters);
-					break;	
+					break;
+
+				case ExportacaoTipoEnum.CLIENTEBANCADA:
+					GerarPlanilhaClienteBancada(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.CONTRATO:
+					GerarPlanilhaContrato(parameters);
+					break;		
+					
+				case ExportacaoTipoEnum.DEFEITO:
+					GerarPlanilhaDefeito(parameters);
+					break;		
+				
+				case ExportacaoTipoEnum.EQUIPAMENTO:
+					GerarPlanilhaEquipamento(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.GRUPOEQUIPAMENTO:
+					GerarPlanilhaGrupoEquipamento(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.TIPOEQUIPAMENTO:
+					GerarPlanilhaTipoEquipamento(parameters);
+					break;												
+
 
 				default:
 					break;

@@ -634,5 +634,7 @@
     "nome causa": "Cause",
     "codmagnus": "Magnus Code",
     "pedido": "Order",
-    "gerar": "Generate"
+    "gerar": "Generate",
+    "percentual ajuste": "Change Percent",
+    "defeito componente": "Component Defect"
 }

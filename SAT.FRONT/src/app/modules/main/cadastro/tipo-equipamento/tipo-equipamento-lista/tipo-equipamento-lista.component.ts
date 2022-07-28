@@ -2,7 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, Vie
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { TipoEquipamentoService } from 'app/core/services/tipo-equipamento.service';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { TipoEquipamento, TipoEquipamentoData, TipoEquipamentoParameters } from 'app/core/types/tipo-equipamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -35,9 +39,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class TipoEquipamentoListaComponent implements AfterViewInit {
+export class TipoEquipamentoListaComponent  extends Filterable implements AfterViewInit, IFilterable {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort)  sort: MatSort;
   dataSourceData: TipoEquipamentoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -46,14 +50,34 @@ export class TipoEquipamentoListaComponent implements AfterViewInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _grupoEquipamentoService: TipoEquipamentoService,
-    private _userService: UserService
+    private _tipoEquipamentoService: TipoEquipamentoService,
+    private _exportacaoService: ExportacaoService,
+    protected _userService: UserService
   ) {
+    super(_userService, 'tipo-equipamento')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+
   ngAfterViewInit(): void {
     this.obterDados();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -80,24 +104,31 @@ export class TipoEquipamentoListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
     
     const params: TipoEquipamentoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'nomeTipoEquip',
+      sortActive: this.sort?.active,
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
+      filter: filtro
     };
 
-    const data = await this._grupoEquipamentoService
-      .obterPorParametros(params)
-      .toPromise();
-
+    const data: TipoEquipamentoData = await this._tipoEquipamentoService.obterPorParametros({
+      ...params,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+
+  }
+	
+  public async exportar() {
+    this.isLoading = true;
+		await this._exportacaoService.exportar('TipoEquipamento', FileMime.Excel, {});
+    this.isLoading = false;
   }
 
   paginar() {

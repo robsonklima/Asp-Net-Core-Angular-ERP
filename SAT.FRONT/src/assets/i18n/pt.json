@@ -651,5 +651,7 @@
     "nome acao": "Ação",
     "codmagnus": "Código Magnus",
     "pedido": "Pedido",
-    "gerar": "Gerar"
+    "gerar": "Gerar",
+    "percentual ajuste": "Percentual de Ajuste",
+    "defeito componente": "Defeito Componente"
 }

@@ -125,7 +125,7 @@ export class EquipamentoListaComponent extends Filterable implements AfterViewIn
 
   public async exportar() {
     this.isLoading = true;
-		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+		await this._exportacaoService.exportar('Equipamento', FileMime.Excel, {});
     this.isLoading = false;
   }
 

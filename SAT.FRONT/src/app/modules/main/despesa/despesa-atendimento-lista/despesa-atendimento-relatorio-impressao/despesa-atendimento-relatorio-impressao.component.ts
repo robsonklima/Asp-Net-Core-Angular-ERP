@@ -31,16 +31,12 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 	despesasView: ViewDespesaImpressaoItem[]; 
 
 	constructor(
-		// @Inject(MAT_DIALOG_DATA) private data: any,
 		private _route: ActivatedRoute,
 		private _despesaService: DespesaService,
 		private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
 		private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
-		private _ordemServicoSvc: OrdemServicoService) {
-
-		// if (data)
-		// 	this.codDespesaPeriodoTecnico = data.codDespesaPeriodoTecnico;
-
+		private _ordemServicoSvc: OrdemServicoService
+	) {
 		this.codDespesaPeriodoTecnico = +this._route.snapshot.paramMap.get('codDespesaPeriodoTecnico');
 	}
 

@@ -22,11 +22,16 @@ import { FormasPagamentoFormComponent } from './formas-pagamento-form/formas-pag
 import { FormasPagamentoListaComponent } from './formas-pagamento-lista/formas-pagamento-lista.component';
 import { formasPagamentoRoutes } from './formas-pagamento.routing';
 import { NgxMaskModule } from 'ngx-mask';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { FormasPagamentoFiltroComponent } from './formas-pagamento-filtro/formas-pagamento-filtro.component';
 
 @NgModule({
   declarations: [
     FormasPagamentoFormComponent,
-    FormasPagamentoListaComponent
+    FormasPagamentoListaComponent,
+    FormasPagamentoFiltroComponent
+
   ],
   imports: [
     CommonModule,
@@ -34,6 +39,8 @@ import { NgxMaskModule } from 'ngx-mask';
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    FiltroModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,

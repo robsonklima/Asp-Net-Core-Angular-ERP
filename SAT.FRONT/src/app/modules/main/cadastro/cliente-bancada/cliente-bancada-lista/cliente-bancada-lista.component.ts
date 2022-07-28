@@ -127,7 +127,7 @@ registerEmitters(): void {
 
   public async exportar() {
     this.isLoading = true;
-		await this._exportacaoService.exportar('Cliente-Bancada', FileMime.Excel, {});
+		await this._exportacaoService.exportar('ClienteBancada', FileMime.Excel, {});
     this.isLoading = false;
   }
 

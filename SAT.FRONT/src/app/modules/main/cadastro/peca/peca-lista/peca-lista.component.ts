@@ -1,11 +1,16 @@
 import { FileMime } from './../../../../../core/types/file.types';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PecaService } from 'app/core/services/peca.service';
 import { PecaData, PecaParameters, PecaStatus } from 'app/core/types/peca.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-peca-lista',
@@ -16,7 +21,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       .list-grid-ge {
           grid-template-columns: 15% auto 15%;
           
-          @screen sm {
+          /* @screen sm {
               grid-template-columns: 15% auto 15%;
           }
       
@@ -26,30 +31,44 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       
           @screen lg {
               grid-template-columns: 15% auto 15%;
-          }
+          } */
       }
     `
   ],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
-export class PecaListaComponent implements OnInit 
+export class PecaListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable 
 {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: PecaData;
   byteArray;
   isLoading: boolean = false;
   pecaStatus: string[] = [];
   
   constructor(
+    protected _userService: UserService,
     private _cdr: ChangeDetectorRef, 
     private _pecaService: PecaService,
-    ) { }
+    ) {
+      super(_userService, 'peca')
+      this.userSession = JSON.parse(this._userService.userSession);
+     }
 
   ngOnInit(): void { }
 
-  ngAfterViewInit(): void 
-  {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+  ngAfterViewInit(): void {
+    this.registerEmitters();
     this.obterDados();
     this.obterStatus();
 
@@ -79,18 +98,23 @@ export class PecaListaComponent implements OnInit
     this._cdr.detectChanges();
   }
 
-  public async obterDados() 
+  public async obterDados(filtro: string = '') 
   {
     this.isLoading = true;
 
     const params: PecaParameters = 
     {
+      ...{
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'codPeca',
       sortDirection: this.sort?.direction || 'desc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    }
+      filter: filtro
+    },
+    ...this.filter?.parametros
+    }    
+    console.log(this.filter?.parametros);
+    
 
     this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
     this.isLoading = false;

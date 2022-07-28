@@ -17,22 +17,55 @@ namespace SAT.SERVICES.Services
 		private readonly IOrdemServicoRepository _osRepo;
 		private readonly IEquipamentoContratoRepository _ecRepo;
         private readonly IAcaoRepository _acaoRepo;
+		private readonly IAcaoComponenteRepository _acaoComponenteRepo;
 		private readonly IAutorizadaRepository _autorizadaRepo;
 		private readonly ITecnicoRepository _tecnicoRepo;
+		private readonly ICidadeRepository _cidadeRepo;
+		private readonly IClienteRepository _clienteRepo;
+		private readonly IClientePecaRepository _clientePecaRepo;
+		private readonly IClientePecaGenericaRepository _clientePecaGenericaRepo;
+		private readonly IClienteBancadaRepository _clienteBancadaRepo;
+		private readonly IContratoRepository _contratoRepo;
+		private readonly IDefeitoRepository _defeitoRepo;
+		private readonly IEquipamentoRepository _equipamentoRepo;
+		private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
+		private readonly ITipoEquipamentoRepository _tipoEquipamentoRepo;
 
         public ExportacaoService(
 			IOrdemServicoRepository osRepo, 
 			IEquipamentoContratoRepository ecRepo,
 			IAcaoRepository acaoRepo,
+			IAcaoComponenteRepository acaoComponenteRepo,
 			IAutorizadaRepository autorizadaRepo,
-			ITecnicoRepository tecnicoRepo
+			ITecnicoRepository tecnicoRepo,
+			ICidadeRepository cidadeRepo,
+			IClienteRepository clienteRepo,
+			IClientePecaRepository clientePecaRepo,
+			IClientePecaGenericaRepository clientePecaGenericaRepo,
+			IClienteBancadaRepository clienteBancadaRepo,
+			IContratoRepository contratoRepo,
+			IDefeitoRepository defeitoRepo,
+			IEquipamentoRepository equipamentoRepo,
+			IGrupoEquipamentoRepository grupoEquipamentoRepo,
+			ITipoEquipamentoRepository tipoEquipamentoRepo
 		)
 		{
 			_osRepo = osRepo;
 			_ecRepo = ecRepo;
 			_acaoRepo = acaoRepo;
+			_acaoComponenteRepo = acaoComponenteRepo;
 			_autorizadaRepo = autorizadaRepo;
+			_cidadeRepo = cidadeRepo;
 			_tecnicoRepo = tecnicoRepo;
+			_clienteRepo = clienteRepo;
+			_clientePecaRepo = clientePecaRepo;
+			_clientePecaGenericaRepo = clientePecaGenericaRepo;
+			_clienteBancadaRepo = clienteBancadaRepo;
+			_contratoRepo = contratoRepo;
+			_defeitoRepo = defeitoRepo;
+			_equipamentoRepo = equipamentoRepo;
+			_grupoEquipamentoRepo = grupoEquipamentoRepo;
+			_tipoEquipamentoRepo = tipoEquipamentoRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -65,14 +98,59 @@ namespace SAT.SERVICES.Services
 				case ExportacaoTipoEnum.ACAO:
 					GerarPlanilhaAcao(parameters);
 					break;
+				
+				case ExportacaoTipoEnum.ACAO_COMPONENTE:
+					GerarPlanilhaAcaoComponente(parameters);
+					break;
 
 				case ExportacaoTipoEnum.AUTORIZADA:
 					GerarPlanilhaAutorizada(parameters);
 					break;		
 
+				case ExportacaoTipoEnum.CIDADE:
+					GerarPlanilhaCidade(parameters);
+					break;		
+
 				case ExportacaoTipoEnum.TECNICO:
 					GerarPlanilhaTecnico(parameters);
 					break;					
+
+				case ExportacaoTipoEnum.CLIENTE:
+					GerarPlanilhaCliente(parameters);
+					break;				
+				
+				case ExportacaoTipoEnum.CLIENTEPECA:
+					GerarPlanilhaClientePeca(parameters);
+					break;										
+				
+				case ExportacaoTipoEnum.CLIENTEPECAGENERICA:
+					GerarPlanilhaClientePecaGenerica(parameters);
+					break;
+
+				case ExportacaoTipoEnum.CLIENTEBANCADA:
+					GerarPlanilhaClienteBancada(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.CONTRATO:
+					GerarPlanilhaContrato(parameters);
+					break;		
+					
+				case ExportacaoTipoEnum.DEFEITO:
+					GerarPlanilhaDefeito(parameters);
+					break;		
+				
+				case ExportacaoTipoEnum.EQUIPAMENTO:
+					GerarPlanilhaEquipamento(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.GRUPOEQUIPAMENTO:
+					GerarPlanilhaGrupoEquipamento(parameters);
+					break;		
+
+				case ExportacaoTipoEnum.TIPOEQUIPAMENTO:
+					GerarPlanilhaTipoEquipamento(parameters);
+					break;												
+
 
 				default:
 					break;

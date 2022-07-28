@@ -133,7 +133,7 @@ export class DefeitoListaComponent extends Filterable implements AfterViewInit, 
 
   public async exportar() {
     this.isLoading = true;
-		await this._exportacaoService.exportar('Acao', FileMime.Excel, {});
+		await this._exportacaoService.exportar('Defeito', FileMime.Excel, {});
     this.isLoading = false;
   }
   

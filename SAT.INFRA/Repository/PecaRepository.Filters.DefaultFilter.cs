@@ -20,9 +20,9 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (!string.IsNullOrEmpty(parameters.CodPeca))
+            if (!string.IsNullOrEmpty(parameters.CodPecas))
             {
-                int[] split = parameters.CodPeca.Split(",").Select(s => int.Parse(s)).ToArray();
+                int[] split = parameters.CodPecas.Split(",").Select(s => int.Parse(s)).ToArray();
                 query = query.Where(p => split.Any(s => s.Equals(p.CodPeca)));
             }
 

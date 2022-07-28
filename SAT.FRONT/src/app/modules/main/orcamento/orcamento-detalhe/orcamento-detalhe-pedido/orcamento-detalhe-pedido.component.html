@@ -1,0 +1,25 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-t-lg">
+        <div class="flex items-center">
+            <span class="text-lg font-medium">{{ t('pedido') }}</span>
+        </div>
+        <div class="flex place-content-end">
+            <button mat-button [color]="'primary'">
+                {{ t('gerar') }}
+            </button>
+        </div>
+    </div>
+    <div class="flex-auto" *ngIf="!isLoading">
+        <div>
+            <div>
+                <div class="overflow-hidden sm:overflow-y-auto">
+                    <ng-container>
+                        <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-b-lg h-40">
+                            
+                        </div>                        
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

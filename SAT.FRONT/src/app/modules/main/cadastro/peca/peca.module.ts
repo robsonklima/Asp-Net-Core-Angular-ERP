@@ -22,6 +22,9 @@ import { SharedModule } from 'app/shared/shared.module';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { PecaFiltroComponent } from './peca-filtro/peca-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     PecaListaComponent,
-    PecaFormComponent
+    PecaFormComponent,
+    PecaFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSidenavModule,
+    FiltroModule,
     MatButtonModule,
     SharedModule,
     TranslocoModule,

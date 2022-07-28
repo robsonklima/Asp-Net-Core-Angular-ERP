@@ -19,6 +19,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string IIS_LOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\IIS\";
         public static string VONAGE_KEY = @"eab57cf8";
         public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
+        public static string INTEGRACAO_FINANCEIRO_API_URL = "'http://perto31.perto.com.br/FaturamentoApi/api/";
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;

@@ -55,7 +55,25 @@ namespace SAT.INFRA.Repository
 
         public PagedList<FormaPagamento> ObterPorParametros(FormaPagamentoParameters parameters)
         {
-            IQueryable<FormaPagamento> formasPagamento = _context.FormaPagamento.AsQueryable();
+           // IQueryable<FormaPagamento> formasPagamento = _context.FormaPagamento.AsQueryable();
+            var formasPagamento = _context.FormaPagamento
+                .DefaultIfEmpty()
+                .AsQueryable();
+
+            if (parameters.Filter != null)
+            {
+                formasPagamento = formasPagamento.Where(
+                            f =>
+                            f.CodFormaPagto.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                            f.DescFormaPagto.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodFormasPagto))
+            {
+                int[] cods = parameters.CodFormasPagto.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                formasPagamento = formasPagamento.Where(dc => cods.Contains(dc.CodFormaPagto));
+            }
 
             if (parameters.IndAtivo != null)
             {

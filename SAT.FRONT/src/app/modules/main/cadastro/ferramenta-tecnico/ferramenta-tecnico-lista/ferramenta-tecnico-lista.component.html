@@ -60,7 +60,7 @@
                       {{ ferr.nome | titlecase }}
                     </div>
                     <div class="truncate">
-                      {{ ferr.status}}
+                      {{ ferr.status ? 'Ativo' : 'Inativo'}}
                     </div>
                   </div>
                 </a>

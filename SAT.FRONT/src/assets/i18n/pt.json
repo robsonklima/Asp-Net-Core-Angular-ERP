@@ -649,7 +649,7 @@
     "codigo causa": "Código Causa",
     "codigo acao": "Código Ação",
     "nome acao": "Ação",
-    "codmagnus": "Código Magnus"
-
-
+    "codmagnus": "Código Magnus",
+    "percentual ajuste": "Percentual de Ajuste",
+    "defeito componente": "Defeito Componente"
 }

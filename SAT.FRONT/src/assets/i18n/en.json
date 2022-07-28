@@ -632,5 +632,7 @@
     "codigo acao": "Action Code",
     "nome acao": "Action",
     "nome causa": "Cause",
-    "codmagnus": "Magnus Code"
+    "codmagnus": "Magnus Code",
+    "percentual ajuste": "Change Percent",
+    "defeito componente": "Component Defect"
 }

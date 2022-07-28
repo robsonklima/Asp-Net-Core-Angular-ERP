@@ -1,8 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { LocalAtendimentoData, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -18,7 +21,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       .list-grid-la {
           grid-template-columns: 72px 72px 56px auto 112px 112px 112px 112px 42px;
           
-          @screen sm {
+          /* @screen sm {
               grid-template-columns: 72px 72px 56px auto 112px 112px 112px 112px 42px;
           }
       
@@ -28,16 +31,17 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       
           @screen lg {
               grid-template-columns: 72px 72px 56px auto 112px 112px 112px 112px 42px;
-          }
+          } */
       }
     `
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class LocalAtendimentoListaComponent implements AfterViewInit {
+export class LocalAtendimentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: LocalAtendimentoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -46,12 +50,21 @@ export class LocalAtendimentoListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _localAtendimentoService: LocalAtendimentoService,
-    private _userService: UserService
+    protected _userService: UserService
   ) {
+    super(_userService, 'local-atendimento')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
   async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();    
 
     if (this.sort && this.paginator) {
@@ -79,16 +92,19 @@ export class LocalAtendimentoListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
     
     const params: LocalAtendimentoParameters = {
+      ...{
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: this.sort?.active || 'nomeLocal',
       sortDirection: this.sort?.direction || 'asc',
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    };
+      filter: filtro
+    },
+    ...this.filter?.parametros
+  }
 
     const data = await this._localAtendimentoService
       .obterPorParametros(params)

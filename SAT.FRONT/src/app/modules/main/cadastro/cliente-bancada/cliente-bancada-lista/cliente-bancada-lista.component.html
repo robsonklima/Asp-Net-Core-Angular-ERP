@@ -39,8 +39,8 @@
             <ng-container>
                 <ng-container>
                     <div class="grid" *transloco="let t">
-                        <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                            matSort matSortDisableClear *transloco="let t">
+                        <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        matSort matSortDisableClear *transloco="let t">
                             <div class="md:block" [mat-sort-header]="'nomeCliente'">
                                 {{ t('cliente') }}
                             </div>
@@ -79,11 +79,11 @@
                     </div>
 
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
-                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
-                        (page)="paginar()">
-                    </mat-paginator>
+                    class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                    [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                    [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                    (page)="paginar()">
+                </mat-paginator>
                 </ng-container>
             </ng-container>
         </div>

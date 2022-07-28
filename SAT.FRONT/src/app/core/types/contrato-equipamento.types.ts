@@ -49,6 +49,7 @@ export interface ContratoEquipamentoData extends Meta {
 
 export interface ContratoEquipamentoParameters extends QueryStringParameters {
     codContrato?: number;
+    codContratos?: string;
     codGrupoEquip?: number;
     codTipoEquip?: number;
     codEquip?: number;

@@ -132,6 +132,39 @@ namespace SAT.INFRA.Repository
                 query = query.Where(orc => statusServicos.Any(f => f == orc.OrdemServico.CodStatusServico.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.codClientes))
+            {
+                var clientes = parameters.codClientes.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => clientes.Any(f => f == orc.OrdemServico.CodCliente.ToString()));
+            }    
+
+            if (!string.IsNullOrEmpty(parameters.codFiliais))
+            {
+                var filiais = parameters.codFiliais.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => filiais.Any(f => f == orc.OrdemServico.CodFilial.ToString()));
+            }                       
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
+            {
+                int[] tiposIntervencao = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(orc => tiposIntervencao.Contains(orc.OrdemServico.TipoIntervencao.CodTipoIntervencao.Value));
+            }            
+
+            if (parameters.CodEquipContrato.HasValue)
+                query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.CodEquipContrato == parameters.CodEquipContrato);
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
+                query = query.Where(orc => orc.OrdemServico.NumOSCliente == parameters.NumOSCliente);
+
+            if (parameters.CodigoOrdemServico.HasValue)
+               query = query.Where(orc => orc.CodigoOrdemServico == parameters.CodigoOrdemServico);
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumOSQuarteirizada))
+                query = query.Where(orc => orc.OrdemServico.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
+                query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());                
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

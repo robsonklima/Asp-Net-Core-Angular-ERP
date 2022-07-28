@@ -37,14 +37,13 @@ namespace SAT.SERVICES.Services
 
         public LocalEnvioNFFaturamentoVinculado Criar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado)
         {
-            localEnvioNFFaturamentoVinculado.CodLocalEnvioNFFaturamento = _seqRepo.ObterContador("LocalEnvioNFFaturamentoVinculado");
             _localRepo.Criar(localEnvioNFFaturamentoVinculado);
             return localEnvioNFFaturamentoVinculado;
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codLocalEnvioNFFaturamento, int codPosto, int codContrato)
         {
-            _localRepo.Deletar(codigo);
+            _localRepo.Deletar(codLocalEnvioNFFaturamento, codPosto, codContrato);
         }
 
         public void Atualizar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado)

@@ -1,3 +1,4 @@
+import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,21 +18,39 @@ import { statusConst } from 'app/core/types/status-types';
 import { debounceTime, distinctUntilChanged, takeUntil, timeInterval } from 'rxjs/operators';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
+import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
+import Enumerable from 'linq';
+import { LocalEnvioNFFaturamentoVinculadoService } from 'app/core/services/local-envio-nf-faturamento-vinculado.service';
+import { LocalEnvioNFFaturamentoVinculado } from 'app/core/types/local-envio-nf-faturamento-vinculado.types';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-orcamento-faturamento-form',
-	templateUrl: './orcamento-faturamento-form.component.html'
+	templateUrl: './orcamento-faturamento-form.component.html',
+	styles: [`
+		.list-grid-locais-faturamento {
+            grid-template-columns: 80px auto 100px 50px;
+            
+            @screen sm {
+                grid-template-columns: 80px auto 100px 50px;
+            }
+        }
+	`]
 })
 export class OrcamentoFaturamentoFormComponent implements OnInit {
 	codLocalEnvioNFFaturamento: number;
 	localEnvioNFFaturamento: LocalEnvioNFFaturamento;
+	localEnvioNFFaturamentoVinculado: LocalEnvioNFFaturamentoVinculado[];
 	clientes: Cliente[] = [];
 	contratos: Contrato[] = [];
 	isAddMode: boolean;
 	form: FormGroup;
+	locaisAtendimento: LocalAtendimento[];
 	userSession: UsuarioSessao;
 	clienteFilterCtrl: FormControl = new FormControl();
 	contratoFilterCtrl: FormControl = new FormControl();
+	localAtendimentoFilterCtrl: FormControl = new FormControl();
+
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -40,10 +59,12 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		private _route: ActivatedRoute,
 		private _userService: UserService,
 		private _localEnvioNFFaturamentoService: LocalEnvioNFFaturamentoService,
+		private _localEnvioNFFaturamentoVinculadoService: LocalEnvioNFFaturamentoVinculadoService,
 		private _clienteService: ClienteService,
 		private _contratoService: ContratoService,
 		private _location: Location,
-		private _geolocalizacaoService: GeolocalizacaoService
+		private _geolocalizacaoService: GeolocalizacaoService,
+		private _localAtendimentoSvc: LocalAtendimentoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -64,6 +85,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			],
 			codCliente: [undefined, Validators.required],
 			codContrato: [undefined, Validators.required],
+			codPosto: [undefined, Validators.required],
 			cepFaturamento: ['', Validators.required],
 			enderecoFaturamento: [undefined, Validators.required],
 			complementoFaturamento: [undefined],
@@ -95,16 +117,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		});
 
 		if (!this.isAddMode) {
-			this._localEnvioNFFaturamentoService.obterPorCodigo(this.codLocalEnvioNFFaturamento)
-				.pipe(first())
-				.subscribe(data => {
-					this.registrarEmitters();
-					this.obterClientes(data.cliente.nomeFantasia);
-					this.obterContratos(data.contrato.nomeContrato);
-					this.localEnvioNFFaturamento = data;
-					this.form.patchValue(data);
-					this.form.controls['codContrato'].setValue(data.contrato.codContrato)
-				});
+			this.obterLocalEnvioNFFaturamento();
 		}
 	}
 
@@ -146,6 +159,66 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		});
 	}
 
+	async excluirLocal(local: any = null) {
+
+		this._localEnvioNFFaturamentoVinculadoService
+			.deletar(local.codLocalEnvioNFFaturamento, local.codPosto, local.codContrato)
+			.subscribe(() => {
+				this._snack.exibirToast('Local desvinculado', 'success');
+				this.obterLocalEnvioNFFaturamento();
+
+			});
+	}
+
+	salvarLocalEnvioNf(localEnvioNf: any) {
+
+		let novoLocal: LocalEnvioNFFaturamentoVinculado = {
+			codLocalEnvioNFFaturamento: this.codLocalEnvioNFFaturamento,
+			codPosto: localEnvioNf.codPosto,
+			codContrato: this.form.controls['codContrato'].value,
+			codUsuarioCad: this.userSession?.usuario?.codUsuario,
+			dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+		}
+
+		this._localEnvioNFFaturamentoVinculadoService
+			.criar(novoLocal)
+			.subscribe(() => {
+				this._snack.exibirToast('Local vinculado', 'success');
+				this.obterLocalEnvioNFFaturamento();
+
+			});
+	}
+
+	private async obterLocalEnvioNFFaturamento() {
+
+		console.log(this.codLocalEnvioNFFaturamento);
+
+		this._localEnvioNFFaturamentoService.obterPorCodigo(this.codLocalEnvioNFFaturamento)
+			.pipe(first())
+			.subscribe(data => {
+
+				this.registrarEmitters();
+				this.obterClientes(data.cliente.nomeFantasia);
+				this.obterContratos(data.contrato.nomeContrato);
+				this.localEnvioNFFaturamento = data;
+				this.form.patchValue(data);
+				this.form.controls['codContrato'].setValue(data.contrato.codContrato)
+				this.obterLocaisAtendimentos();
+				this.obterLocaisEnvioNFFaturamentoVinculado(data.contrato.codContrato);
+			});
+	}
+	async obterLocaisEnvioNFFaturamentoVinculado(codContrato: number) {
+
+		this._localEnvioNFFaturamentoVinculadoService
+			.obterPorParametros({ codLocalEnvioNFFaturamento: this.codLocalEnvioNFFaturamento, codContrato: codContrato })
+			.subscribe(data => {
+				this.localEnvioNFFaturamentoVinculado = data.items;
+			});
+
+
+
+	}
+
 	private async obterClientes(filtro: string = '') {
 		const params: ClienteParameters = {
 			sortActive: 'nomeFantasia',
@@ -169,12 +242,25 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			filter: filtro,
 			pageSize: 1000
 		}
-
 		const data = await this._contratoService.obterPorParametros(params).toPromise();
-
-		console.log(data);
-
 		this.contratos = data.items;
+	}
+
+	async obterLocaisAtendimentos(localFiltro: string = '') {
+
+		let params: LocalAtendimentoParameters = {
+			indAtivo: statusConst.ATIVO,
+			codClientes: this.form.controls['codCliente'].value,
+			sortActive: 'nomeLocal',
+			sortDirection: 'asc',
+			pageSize: 1000,
+			filter: localFiltro
+		};
+
+		const data = await this._localAtendimentoSvc
+			.obterPorParametros(params)
+			.toPromise();
+		this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
 	}
 
 	registrarEmitters() {
@@ -199,7 +285,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				if (!this.isAddMode) {
 					this.obterContratos(this.localEnvioNFFaturamento.contrato.nomeContrato);
 				}
-				else{
+				else {
 					this.obterContratos();
 				}
 			});
@@ -212,6 +298,16 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			)
 			.subscribe(() => {
 				this.obterContratos(this.contratoFilterCtrl.value);
+			});
+
+		this.localAtendimentoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
 			});
 
 		this.form.controls['cepFaturamento'].valueChanges

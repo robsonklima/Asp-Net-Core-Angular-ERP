@@ -10,9 +10,7 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("LocalEnvioNFFaturamentoVinculado");
             
-            builder.HasKey(prop => prop.CodLocalEnvioNFFaturamento);
-            builder.HasKey(prop => prop.CodPosto);
-            builder.HasKey(prop => prop.CodContrato);
+            builder.HasKey(prop =>  new { prop.CodLocalEnvioNFFaturamento, prop.CodContrato, prop.CodPosto });
 
             builder
                 .HasOne(p => p.LocalAtendimento)
@@ -20,11 +18,11 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey<LocalEnvioNFFaturamentoVinculado>("CodPosto")
                 .HasPrincipalKey<LocalAtendimento>("CodPosto");
 
-            builder
-                .HasOne(p => p.Contrato)
-                .WithOne()
-                .HasForeignKey<LocalEnvioNFFaturamentoVinculado>("CodContrato")
-                .HasPrincipalKey<Contrato>("CodContrato");
-        }
+        //     builder
+        //         .HasOne(p => p.Contrato)
+        //         .WithOne()
+        //         .HasForeignKey<LocalEnvioNFFaturamentoVinculado>("CodContrato")
+        //         .HasPrincipalKey<Contrato>("CodContrato");
+         }
     }
 }

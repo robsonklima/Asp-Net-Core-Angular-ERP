@@ -8,7 +8,7 @@ namespace SAT.INFRA.Interfaces
     {
         void Criar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
         PagedList<LocalEnvioNFFaturamentoVinculado> ObterPorParametros(LocalEnvioNFFaturamentoVinculadoParameters parameters);
-        void Deletar(int codigo);
+        void Deletar(int codLocalEnvioNFFaturamento, int codPosto, int codContrato);
         void Atualizar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado);
         LocalEnvioNFFaturamentoVinculado ObterPorCodigo(int codLocalEnvioNFFaturamento, int codPosto, int codContrato);
     }

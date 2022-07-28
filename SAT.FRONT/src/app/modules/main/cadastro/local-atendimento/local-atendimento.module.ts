@@ -20,11 +20,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { LocalAtendimentoListaComponent } from './local-atendimento-lista/local-atendimento-lista.component';
 import { LocalAtendimentoFormComponent } from './local-atendimento-form/local-atendimento-form.component';
 import { localAtendimentoRoutes } from './local-atendimento.routing';
+import { LocalAtendimentoFiltroComponent } from './local-atendimento-filtro/local-atendimento-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     LocalAtendimentoFormComponent,
-    LocalAtendimentoListaComponent
+    LocalAtendimentoListaComponent,
+    LocalAtendimentoFiltroComponent
   ],
   imports: [
     ListFormModule.configureRoutes(localAtendimentoRoutes),
@@ -32,6 +36,8 @@ import { localAtendimentoRoutes } from './local-atendimento.routing';
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

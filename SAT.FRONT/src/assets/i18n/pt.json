@@ -653,6 +653,8 @@
     "pedido": "Pedido",
     "gerar": "Gerar",
     "percentual ajuste": "Percentual de Ajuste",
-    "defeito componente": "Defeito Componente",
-    "agendamentos" : "Agendamentos"
+    "agendamentos" : "Agendamentos",
+    "vincular locais": "Vincular Locais",
+    "locais vinculados": "Locais Vinculados",
+    "defeito componente": "Defeito Componente"
 }

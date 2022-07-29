@@ -287,3 +287,10 @@ export enum OrcamentoFormaDescontoEnum
     PERCENTUAL = "Percentual",
     VALOR = "Valor"
 }
+
+export enum OrcamentoTipoIntervencao
+{
+    ORCAMENTO_APROVADO = 17,
+    ORCAMENTO = 5,
+    ORCAMENTO_REPROVADO = 18,
+}

@@ -636,6 +636,8 @@
     "pedido": "Order",
     "gerar": "Generate",
     "percentual ajuste": "Change Percent",
-    "defeito componente": "Component Defect",
-    "agendamentos" : "Schedules"
+    "agendamentos" : "Schedules",
+    "vincular locais": "Link Locations",
+    "locais vinculados": "Linked Locations",
+    "defeito componente": "Component Defect"
 }

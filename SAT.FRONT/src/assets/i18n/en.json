@@ -636,5 +636,6 @@
     "pedido": "Order",
     "gerar": "Generate",
     "percentual ajuste": "Change Percent",
-    "defeito componente": "Component Defect"
+    "defeito componente": "Component Defect",
+    "agendamentos" : "Schedules"
 }

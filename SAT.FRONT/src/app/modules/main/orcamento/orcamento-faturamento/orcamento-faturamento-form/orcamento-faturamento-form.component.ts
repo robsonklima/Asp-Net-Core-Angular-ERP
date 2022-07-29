@@ -45,6 +45,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	contratos: Contrato[] = [];
 	isAddMode: boolean;
 	form: FormGroup;
+	isLoading: boolean;
 	locaisAtendimento: LocalAtendimento[];
 	userSession: UsuarioSessao;
 	clienteFilterCtrl: FormControl = new FormControl();
@@ -69,7 +70,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	async ngOnInit() {
+	ngOnInit() {
+		this.isLoading = true;
 		this.codLocalEnvioNFFaturamento = +this._route.snapshot.paramMap.get('codLocalEnvioNFFaturamento');
 		this.isAddMode = !this.codLocalEnvioNFFaturamento;
 
@@ -119,6 +121,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		if (!this.isAddMode) {
 			this.obterLocalEnvioNFFaturamento();
 		}
+
+		this.isLoading = false;
 	}
 
 	salvar(): void {

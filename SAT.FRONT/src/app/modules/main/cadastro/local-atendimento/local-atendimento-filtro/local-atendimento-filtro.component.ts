@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { UsuarioService } from 'app/core/services/usuario.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ClienteService } from 'app/core/services/cliente.service';

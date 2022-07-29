@@ -126,9 +126,14 @@
                                                 <div class="flex items-center truncate">
                                                     {{ orc?.ordemServico?.localAtendimento?.nomeLocal }}
                                                 </div>
-
                                                 <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.tipoIntervencao?.nomTipoIntervencao }}
+                                                    <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
+                                                        'background-color': obterCorFundoIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao), 
+                                                        'color': obterCorFonteIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+                                                    }">
+
+                                                        {{ orc?.ordemServico?.tipoIntervencao?.nomTipoIntervencao }}
+                                                    </span>
                                                 </div>
 
                                                 <div class="text-left">

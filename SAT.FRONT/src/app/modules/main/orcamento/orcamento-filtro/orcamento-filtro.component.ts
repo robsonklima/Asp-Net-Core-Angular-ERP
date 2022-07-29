@@ -11,6 +11,8 @@ import { IFilterBase } from 'app/core/types/filtro.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
+import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
+import { TipoIntervencao, TipoIntervencaoParameters } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
   selector: 'app-orcamento-filtro',
@@ -21,6 +23,7 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
   statusServicos: StatusServico[] = [];
   filiais: Filial[] = [];
   clientes: Cliente[] = [];
+  tiposIntervencao: TipoIntervencao[] = [];
   
   constructor(
     protected _userService: UserService,
@@ -28,6 +31,7 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
     private _statusServicoService: StatusServicoService,
 		private _filialService: FilialService,
 		private _clienteService: ClienteService,
+    private _tipoIntervencaoService: TipoIntervencaoService
 
   ) {
     super(_userService, _formBuilder, 'orcamento');
@@ -43,6 +47,7 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
       codStatusServicos: [undefined],
       codFiliais: [undefined],
       codClientes: [undefined],
+      codTiposIntervencao: [undefined],
     });
     this.form.patchValue(this.filter?.parametros);
   }  
@@ -51,6 +56,7 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
     this.obterStatusServicos();
     this.obterClientes();
     this.obterFiliais();
+    this.obterTiposIntervencao();
   }
 
   async obterStatusServicos() {
@@ -96,6 +102,21 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
 
 		this.clientes = data.items;
 	}  
+
+  async obterTiposIntervencao(filtro: string = '') {
+		let params: TipoIntervencaoParameters = {
+      filter: filtro,
+			indAtivo: 1,
+			sortActive: 'nomTipoIntervencao',
+			sortDirection: 'asc'
+		}
+
+		const data = await this._tipoIntervencaoService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.tiposIntervencao = data.items;
+	}
 
 }
 

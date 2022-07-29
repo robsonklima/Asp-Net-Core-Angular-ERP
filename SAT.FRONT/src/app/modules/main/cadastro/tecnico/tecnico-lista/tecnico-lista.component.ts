@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { FileMime } from 'app/core/types/file.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
 	selector: 'app-tecnico-lista',
@@ -40,6 +41,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 	animations: fuseAnimations
 })
 export class TecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+	@ViewChild('sidenav') public sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: TecnicoData;
@@ -55,12 +57,17 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 		protected _userService: UserService
 	) {
 		super(_userService, 'tecnico')
+		this.userSession = JSON.parse(this._userService.userSession);
 	}
 	registerEmitters(): void {
-		throw new Error('Method not implemented.');
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		  })
 	}
 
-	ngAfterViewInit(): void {
+	async ngAfterViewInit() {
+		this.registerEmitters();
 		this.obterDados();
 
 		if (this.sort && this.paginator) {
@@ -88,16 +95,19 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 		this._cdr.detectChanges();
 	}
 
-	async obterDados() {
+	async obterDados(filtro: string = '') {
 		this.isLoading = true;
 
 		const params: TecnicoParameters = {
+			...{
 			pageNumber: this.paginator?.pageIndex + 1,
 			sortActive: this.sort?.active || 'nome',
 			sortDirection: this.sort?.direction || 'asc',
 			pageSize: this.paginator?.pageSize,
-			filter: this.searchInputControl.nativeElement.val
-		};
+			filter: filtro
+		},
+		...this.filter?.parametros
+	  }
 
 		const data = await this._tecnicoService
 			.obterPorParametros(params)

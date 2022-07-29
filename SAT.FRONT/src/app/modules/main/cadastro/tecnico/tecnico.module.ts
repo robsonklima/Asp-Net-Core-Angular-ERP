@@ -22,6 +22,9 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { TecnicoFiltroComponent } from './tecnico-filtro/tecnico-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     TecnicoListaComponent,
-    TecnicoFormComponent
+    TecnicoFormComponent,
+    TecnicoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

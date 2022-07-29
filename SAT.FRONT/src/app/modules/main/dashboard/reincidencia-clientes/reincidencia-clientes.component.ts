@@ -55,7 +55,9 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
 	public redColor: string = "#cc0000";
 	public greenColor: string = "#009900";
 	public yellowColor: string = "#ffcc00";
-	public grayColor: string = "#546E7A";
+	public grayColor: string = "#808080";
+	public lightGreyColor: string = "#D3D3D3";
+
 
 	responsiveOptions = [
 		{
@@ -66,10 +68,16 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
 				},
 				legend: {
 					position: "bottom"
-				}
+				},
+				fill: {
+					type: 'gradient',
+				  },
+			
 			}
 		}
 	]
+
+
 
 	constructor(
 		private _dashboardService: DashboardService,
@@ -107,4 +115,9 @@ export class ReincidenciaClientesComponent extends Filterable implements OnInit,
 
 		this.loading = false;
 	}
+	
+
+
+
+
 }

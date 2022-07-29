@@ -223,10 +223,12 @@ export interface OrcamentoParameters extends QueryStringParameters
     codClientes?: string;
     codTiposIntervencao?: string;
     codEquipContrato?: number;   
+    numRAT?: string;
     codigoOrdemServico?: number;
     numOSCliente?: string;
     numOSQuarteirizada?: string;
     numSerie?: string;
+    numero?: string;
 };
 
 export enum OrcamentoDadosLocalEnum

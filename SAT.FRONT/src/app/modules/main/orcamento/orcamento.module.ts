@@ -52,6 +52,7 @@ import { OrcamentoFaturamentoComponent } from './orcamento-faturamento/orcamento
 import { OrcamentoFaturamentoFormComponent } from './orcamento-faturamento/orcamento-faturamento-form/orcamento-faturamento-form.component';
 import { OrcamentoFaturamentoListaComponent } from './orcamento-faturamento/orcamento-faturamento-lista/orcamento-faturamento-lista.component';
 import { OrcamentoDetalhePedidoComponent } from './orcamento-detalhe/orcamento-detalhe-pedido/orcamento-detalhe-pedido.component';
+import { OrcamentoPesquisaComponent } from "./orcamento-pesquisa/orcamento-pesquisa.component";
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -78,6 +79,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoFaturamentoFormComponent,
         OrcamentoFaturamentoListaComponent,
         OrcamentoDetalhePedidoComponent,
+        OrcamentoPesquisaComponent,
     ],
     imports: [
         CommonModule,

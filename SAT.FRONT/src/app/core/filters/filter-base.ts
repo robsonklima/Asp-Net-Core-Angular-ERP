@@ -85,14 +85,14 @@ export class FilterBase implements IFilterBaseCore {
         return Enumerable.from(this.userSession.usuario.filtroUsuario).where(w => w.componenteFiltro == this.filterName).toArray();
     }
 
-    aplicar(): void {
-        if (this._filtroDeUsuario) {
-            this.onAplicar.emit(this);
-        }
-        else {
-            this.aplicarForm();
-        }
-    }
+    aplicar(salvar: boolean=true): void {
+        if (this._filtroDeUsuario && salvar == true) {
+                this.onAplicar.emit(this);
+            }
+            else {
+                    this.aplicarForm();
+                 }
+       }
 
     aplicarForm() {
         const form: any = this.form.getRawValue();

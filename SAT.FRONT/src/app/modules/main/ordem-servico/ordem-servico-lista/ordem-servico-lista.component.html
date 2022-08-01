@@ -22,7 +22,7 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-5" mat-icon-button matTooltip="{{ t('novo') }}"
+                    <button *ngIf="this.validaAbreOS" class="ml-5" mat-icon-button matTooltip="{{ t('novo') }}"
                         [routerLink]="['/ordem-servico/form']">
                         <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>

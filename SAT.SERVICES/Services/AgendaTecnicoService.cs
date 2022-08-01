@@ -133,7 +133,8 @@ namespace SAT.SERVICES.Services
                         SortActive = "Fim",
                         SortDirection = "DESC",
                         IndAtivo = 1,
-                        Inicio = DateTime.Now
+                        Inicio = DateTime.Now,
+                        Fim = DateTime.Now
                     }).FirstOrDefault();
                     
                     if (ultimaAgenda?.Fim > DateTime.Now) 

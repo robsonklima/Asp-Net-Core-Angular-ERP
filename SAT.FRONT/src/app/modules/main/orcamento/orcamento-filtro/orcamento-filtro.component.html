@@ -65,7 +65,14 @@
                             {{ tipoIntervencao.nomTipoIntervencao }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>                 
+                </mat-form-field>           
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('nro serie') }}</mat-label>
+                    <input matInput formControlName="numSerie">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>
                                  
             </div>
             

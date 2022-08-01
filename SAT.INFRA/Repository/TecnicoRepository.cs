@@ -78,15 +78,11 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Tecnico> ObterPorParametros(TecnicoParameters parameters)
         {
-           // IQueryable<Tecnico> query = this.ObterQuery(parameters);
-
            var tecnicos = _context.Tecnico
                 .Include(t => t.Filial)
                 .Include(t => t.Cidade)
                 .Include(t => t.TipoRota)
                 .AsQueryable();
-
-
 
              if (parameters.Filter != null)
             {
@@ -107,8 +103,6 @@ namespace SAT.INFRA.Repository
             {
                 tecnicos = tecnicos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-
-
 
             if (parameters.IndAtivo.HasValue)
                 tecnicos = tecnicos.Where(e => e.IndAtivo == parameters.IndAtivo);

@@ -17,7 +17,7 @@ import { UserService } from 'app/core/user/user.service';
   templateUrl: './regiao-lista.component.html',
   styles: [`
     .list-grid {
-      grid-template-columns: 72px auto 32px;
+      grid-template-columns: 72px auto 60px;
       
       /* @screen sm {
           grid-template-columns: 72px auto 32px;

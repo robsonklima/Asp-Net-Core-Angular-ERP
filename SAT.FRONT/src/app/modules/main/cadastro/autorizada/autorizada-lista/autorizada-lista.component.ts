@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Autorizada, AutorizadaData } from 'app/core/types/autorizada.types';
+import { Autorizada, AutorizadaData, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,6 +9,10 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { FileMime } from 'app/core/types/file.types';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-autorizada-lista',
@@ -17,7 +21,7 @@ import { ExportacaoService } from 'app/core/services/exportacao.service';
     .list-grid-autorizada {
       grid-template-columns: 72px auto 72px 72px;
       
-      @screen sm {
+      /* @screen sm {
           grid-template-columns: 72px auto 72px 72px;
       }
 
@@ -27,16 +31,17 @@ import { ExportacaoService } from 'app/core/services/exportacao.service';
 
       @screen lg {
           grid-template-columns: 72px auto 72px 72px;
-      }
+      } */
     }  
   `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
 
-export class AutorizadaListaComponent implements AfterViewInit {
+export class AutorizadaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: AutorizadaData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -47,9 +52,22 @@ export class AutorizadaListaComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef,
     private _autorizadaService: AutorizadaService,
     private _exportacaoService: ExportacaoService,
-  ) { }
+    protected _userService: UserService
+  ) {
+    super(_userService, 'autorizada')
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
-  ngAfterViewInit(): void {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+
+  async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -77,24 +95,31 @@ export class AutorizadaListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  obterDados(): void {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
-    this._autorizadaService.obterPorParametros({
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active,
-      sortDirection: this.sort.direction,
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    }).subscribe((data: AutorizadaData) => {
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    });
+
+    const params: AutorizadaParameters = {
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: this.sort?.active || 'razaoSocial',
+        sortDirection: this.sort?.direction || 'asc',
+        pageSize: this.paginator?.pageSize,
+        filter: filtro
+      },
+      ...this.filter?.parametros
+    }
+    const data = await this._autorizadaService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
 
   public async exportar() {
     this.isLoading = true;
-		await this._exportacaoService.exportar('Autorizada', FileMime.Excel, {});
+    await this._exportacaoService.exportar('Autorizada', FileMime.Excel, {});
     this.isLoading = false;
   }
 

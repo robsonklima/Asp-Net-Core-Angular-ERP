@@ -6,10 +6,14 @@ import { fuseAnimations } from '@fuse/animations';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
-import { RegiaoAutorizada, RegiaoAutorizadaData } from 'app/core/types/regiao-autorizada.types';
+import { RegiaoAutorizada, RegiaoAutorizadaData, RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable, IFilterBase } from 'app/core/types/filtro.types';
+import { MatSidenav } from '@angular/material/sidenav';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-regiao-autorizada-lista',
@@ -18,7 +22,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
     .regiao-autorizada-list-grid {
       grid-template-columns: 68px auto 146px 146px 146px 32px 56px;
       
-      @screen sm {
+      /* @screen sm {
           grid-template-columns: 68px auto 146px 146px 146px 32px 56px;
       }
 
@@ -28,16 +32,17 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 
       @screen lg {
           grid-template-columns: 68px auto 146px 146px 146px 72px 56px;
-      }
+      } */
     }  
   `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
 
-export class RegiaoAutorizadaListaComponent implements AfterViewInit {
+export class RegiaoAutorizadaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: RegiaoAutorizadaData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -48,10 +53,22 @@ export class RegiaoAutorizadaListaComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _dialog: MatDialog,
-    private _snack: CustomSnackbarService
-  ) { }
+    private _snack: CustomSnackbarService,
+    protected _userService: UserService
+  ) {
+    super(_userService, 'regiao-autorizada')
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
-  ngAfterViewInit(): void {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+  async ngAfterViewInit() {
+    this.registerEmitters();
     this.obterDados();
 
     if (this.sort && this.paginator) {
@@ -79,37 +96,43 @@ export class RegiaoAutorizadaListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  obterDados(): void {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
-    this._regiaoAutorizadaService.obterPorParametros({
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active,
-      sortDirection: this.sort.direction,
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    }).subscribe((data: RegiaoAutorizadaData) => {
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    });
+
+    const params: RegiaoAutorizadaParameters = {
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: this.sort?.active,
+        sortDirection: this.sort?.direction || 'asc',
+        pageSize: this.paginator?.pageSize,
+        filter: filtro
+      },
+      ...this.filter?.parametros
+    }
+    const data = await this._regiaoAutorizadaService
+      .obterPorParametros(params)
+      .toPromise();
+
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
+
   }
 
   remover(ra: RegiaoAutorizada) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: `Deseja remover a região autorizada?`,
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
+      data: {
+        titulo: 'Confirmação',
+        message: `Deseja remover a região autorizada?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
-		{
-			if (confirmacao)
-			{
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
         this.isLoading = true;
         this._regiaoAutorizadaService
           .deletar(ra.codRegiao, ra.codAutorizada, ra.codFilial)

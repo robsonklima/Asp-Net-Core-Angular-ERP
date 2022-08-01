@@ -53,19 +53,27 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>         
-                
+
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('tipo intervencao') }}</mat-label>
-                    <mat-select formControlName="codClientes" multiple="true">
-                        <mat-option  class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
-                        'codCliente')" [value]="0">
+                    <mat-label>{{ t('tipo de intervencao') }}</mat-label>
+                    <mat-select formControlName="codTiposIntervencao" multiple="true">
+                        <mat-option  class="mat-primary fill" (click)="selectAll(form.controls.codTiposIntervencao, tiposIntervencao,
+                        'codTipoIntervencao')" [value]="0">
                             TODAS
                         </mat-option>
-                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
-                            {{ cliente.nomeFantasia }}
+                        <mat-option *ngFor="let tipoIntervencao of tiposIntervencao" [value]="tipoIntervencao.codTipoIntervencao">
+                            {{ tipoIntervencao.nomTipoIntervencao }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>                  
+                </mat-form-field>           
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('nro serie') }}</mat-label>
+                    <input matInput formControlName="numSerie">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>
+                                 
             </div>
             
             <div class="mt-6 border-t"></div>

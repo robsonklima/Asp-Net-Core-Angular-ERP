@@ -145,7 +145,7 @@ namespace SAT.SERVICES.Services
                 Assunto = assunto,
                 NomeDestinatario = Constants.EQUIPE_SAT_EMAIL, //Constants.SISTEMA_NOME,
                 EmailRemetente = Constants.EQUIPE_SAT_EMAIL,
-                EmailDestinatario = Constants.EQUIPE_SAT_EMAIL, //andre.figueiredo@perto.com.br;ivan.medina@perto.com.br;cesar.bessa@perto.com.br;claudio.meurer@digicon.com.br;silvana.ribeiro@perto.com.br
+                EmailDestinatario = "andre.figueiredo@perto.com.br;ivan.medina@perto.com.br;cesar.bessa@perto.com.br;claudio.meurer@digicon.com.br;silvana.ribeiro@perto.com.br",
                 Corpo = html
             };
 

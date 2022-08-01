@@ -57,7 +57,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	historico: any[] = [];
 	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
 	checkinsCheckouts: CheckinCheckout[] = [];
-	validaCliente:boolean = this._userService.isCustomer;
+	perfilCliente: boolean;
 
 	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum {
 		return TipoIntervencaoEnum;
@@ -88,6 +88,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 	ngAfterViewInit(): void {
 		this.codOS = +this._route.snapshot.paramMap.get('codOS');
+		this.perfilCliente = this._userService.isCustomer;
 
 		if (this.codOS) {
 			this.obterDados();

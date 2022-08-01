@@ -60,7 +60,6 @@ export class UserService {
     return false;
   }
 
-
   get(): Observable<User> {
     return JSON.parse(this.userSession).usuario;
   }

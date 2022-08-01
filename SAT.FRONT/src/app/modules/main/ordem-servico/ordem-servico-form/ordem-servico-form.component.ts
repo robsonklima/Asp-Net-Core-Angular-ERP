@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
-import { forkJoin, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
@@ -16,7 +16,7 @@ import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cliente } from 'app/core/types/cliente.types';
 import { Filial } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
-import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
@@ -28,12 +28,11 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
 import { statusConst } from 'app/core/types/status-types';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { Equipamento } from 'app/core/types/equipamento.types';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
-import { ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
 
 @Component({
 	selector: 'app-ordem-servico-form',
@@ -85,8 +84,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		private _autorizadaService: AutorizadaService,
 		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		private _contratoService: ContratoService,
-		private _equipamentoService: EquipamentoService,
-		private _contratoEquipamentoService: ContratoEquipamentoService
+		private _equipamentoService: EquipamentoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -195,6 +193,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			pageSize: 500,
 			sortActive: 'nomeFantasia',
 			sortDirection: 'asc',
+			codCliente: this.userSession?.usuario?.codCliente,
 			filter: filter
 		}).toPromise()).items;
 	}

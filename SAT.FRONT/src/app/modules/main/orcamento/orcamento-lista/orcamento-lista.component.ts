@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './orcamento-lista.component.html',
 	styles: [`
         .list-grid-orcamentos {
-            grid-template-columns: 48px 72px 48px 80px 118px 118px auto 250px 30px 70px 200px 100px 100px;
+            grid-template-columns: 48px 72px 48px 80px 118px 118px auto 130px 60px 130px 100px 150px 100px;
             
             /* @screen md {
               grid-template-columns: 48px 72px 48px 80px 118px 72px auto 148px 48px 120px;

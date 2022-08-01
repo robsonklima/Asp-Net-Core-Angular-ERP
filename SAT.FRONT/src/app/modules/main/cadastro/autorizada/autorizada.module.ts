@@ -22,6 +22,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FuseHighlightModule } from '@fuse/components/highlight';
+import { AutorizadaFiltroComponent } from './autorizada-filtro/autorizada-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     AutorizadaListaComponent,
-    AutorizadaFormComponent      
+    AutorizadaFormComponent,
+    AutorizadaFiltroComponent      
   ],
   imports: [
     SharedModule,
@@ -43,6 +47,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

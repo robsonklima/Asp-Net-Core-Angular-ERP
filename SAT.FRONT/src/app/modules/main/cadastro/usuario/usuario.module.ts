@@ -22,6 +22,9 @@ import { UsuarioFormComponent } from './usuario-form/usuario-form.component';
 import { usuarioRoutes } from './usuario.routing';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UsuarioFiltroComponent } from './usuario-filtro/usuario-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -32,7 +35,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     UsuarioListaComponent,
-    UsuarioFormComponent
+    UsuarioFormComponent,
+    UsuarioFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

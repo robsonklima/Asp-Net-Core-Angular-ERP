@@ -349,6 +349,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 	private async obterFotosRAT() {
 		for (const [i, rat] of this.os.relatoriosAtendimento.entries()) {
+			if (!rat.numRAT || !rat.codOS) return;
+
 			this.os.relatoriosAtendimento[i].fotos =
 				(await this._fotoService.obterPorParametros(
 					{

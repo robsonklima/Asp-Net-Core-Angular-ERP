@@ -49,6 +49,8 @@ export class OrdemServicoImpressaoComponent implements OnInit
 
   private async obterFotos()
   {
+    if (!this.codOS) return;
+
     this.fotosLaudos = (await this._fotoService.obterPorParametros(
       {
         codOS: this.codOS

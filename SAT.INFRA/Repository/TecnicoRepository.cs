@@ -78,15 +78,16 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Tecnico> ObterPorParametros(TecnicoParameters parameters)
         {
-           // IQueryable<Tecnico> query = this.ObterQuery(parameters);
-
-           var tecnicos = _context.Tecnico
+            var tecnicos = this.ObterQuery(parameters)
                 .Include(t => t.Filial)
                 .Include(t => t.Autorizada)
                 .Include(t => t.Regiao)
                 .AsQueryable();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c6ce3cc26863d7de9ce565996021458fdffa3d13
              if (parameters.Filter != null)
             {
                 tecnicos = tecnicos.Where(
@@ -100,6 +101,7 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodFilial.Value));
+<<<<<<< HEAD
             }
 
              if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
@@ -112,14 +114,14 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodRegiao.Value));
+=======
+>>>>>>> c6ce3cc26863d7de9ce565996021458fdffa3d13
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 tecnicos = tecnicos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-
-
 
             if (parameters.IndAtivo.HasValue)
                 tecnicos = tecnicos.Where(e => e.IndAtivo == parameters.IndAtivo);

@@ -11,6 +11,7 @@ import { Perfil, PerfilData, PerfilParameters } from '../types/perfil.types';
 export class PerfilService {
   constructor(private http: HttpClient) { }
 
+ 
   obterPorParametros(parameters: PerfilParameters): Observable<PerfilData> {
     let params = new HttpParams();
 

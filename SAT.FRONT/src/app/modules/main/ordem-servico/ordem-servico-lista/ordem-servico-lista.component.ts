@@ -47,6 +47,9 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	@ViewChild(MatSort) sort: MatSort;
+	validaCliente:boolean = this._userService.isCustomer;
+	validaAbreOS:boolean = this._userService.isOpenOS;
+	//validaCliente:boolean = false;
 
 	dataSourceData: OrdemServicoData;
 	selectedItem: OrdemServico | null = null;
@@ -102,7 +105,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
 	async obterOrdensServico(filter: string = '') {
 		this.isLoading = true;
-
+		
 		const params: OrdemServicoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
 			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
@@ -281,3 +284,5 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		this.selectedItem = null;
 	}
 }
+
+

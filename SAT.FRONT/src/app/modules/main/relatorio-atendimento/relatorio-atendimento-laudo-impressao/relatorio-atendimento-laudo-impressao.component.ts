@@ -67,8 +67,11 @@ export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
 
   private async obterRAT()
   {
-    this.rat = (await this._ratService.obterPorCodigo(this.codRAT).toPromise());
-    this.fotos = (await this._fotoService.obterPorParametros({ numRAT: this.rat.numRAT, codOS: this.codOS }).toPromise())?.items;
+    if (this.codRAT) return
+      this.rat = (await this._ratService.obterPorCodigo(this.codRAT).toPromise());
+
+    if (this.rat?.numRAT && this.codOS)
+      this.fotos = (await this._fotoService.obterPorParametros({ numRAT: this.rat.numRAT, codOS: this.codOS }).toPromise())?.items;
   }
 
   print()

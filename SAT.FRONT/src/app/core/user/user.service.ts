@@ -42,7 +42,18 @@ export class UserService {
         user.codPerfil == PerfilEnum.CLIENTE_BÁSICO ||
         user.codPerfil == PerfilEnum.CLIENTE_CORREIOS ||
         user.codPerfil == PerfilEnum.CLIENTE_PEÇAS_EXPORTAÇÃO ||
-        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA) {
+        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA
+        ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  get isOpenOS(): boolean {
+    var session = JSON.parse(localStorage.getItem('userSession'));
+    var user = session.usuario.perfil;
+    if (user.indAbreChamado == 1) {
       return true;
     }
 

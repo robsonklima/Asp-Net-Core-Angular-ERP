@@ -9,17 +9,15 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { AgendamentoService } from 'app/core/services/agendamento.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
-import moment from 'moment';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import Enumerable from 'linq';
 import { RoleEnum } from 'app/core/user/user.types';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
 import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { FotoService } from 'app/core/services/foto.service';
-import { OrdemServicoHistorico, OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
+import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 import { fuseAnimations } from '@fuse/animations';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
@@ -30,6 +28,8 @@ import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.s
 import { IntegracaoCobraService } from 'app/core/services/integracao-cobra.service';
 import { CheckinCheckoutService } from 'app/core/services/checkin-checout.service';
 import { CheckinCheckout } from 'app/core/types/checkin-checkout.types';
+import moment from 'moment';
+import Enumerable from 'linq';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',

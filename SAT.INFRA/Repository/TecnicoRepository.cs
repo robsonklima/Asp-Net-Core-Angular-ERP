@@ -78,7 +78,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Tecnico> ObterPorParametros(TecnicoParameters parameters)
         {
-           var tecnicos = _context.Tecnico
+            var tecnicos = this.ObterQuery(parameters)
                 .Include(t => t.Filial)
                 .Include(t => t.Cidade)
                 .Include(t => t.TipoRota)

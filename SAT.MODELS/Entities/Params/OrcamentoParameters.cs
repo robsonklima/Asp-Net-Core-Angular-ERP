@@ -13,5 +13,7 @@ namespace SAT.MODELS.Entities.Params
         public string NumOSCliente { get; set; }
         public string NumOSQuarteirizada { get; set; }
         public string NumSerie { get; set; }
+        public string Numero { get; set; }
+        public string NumRAT { get; set; }
     }
 }

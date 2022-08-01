@@ -13,7 +13,9 @@
                     </div>
                     <apx-chart
                     [series]="[100.00 - item.percentual, item.percentual]"
-                    [chart]=" {width: 350, type: 'pie'}"
+                    [chart]=" {width: 340, type: 'donut'}"
+                    [fill] = "{ type:'gradient'}"
+                    [dataLabels]="{style:{colors:['#FFFFF0']}}"
                     [labels]="[ t('percentual fora') , t('percentual dentro')]"
                     [colors]="[grayColor, item.percentual >= item.meta ? greenColor : redColor]"
                     ></apx-chart>

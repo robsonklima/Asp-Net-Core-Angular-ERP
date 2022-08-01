@@ -1,0 +1,205 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent" *transloco="let t">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                        {{ t('orcamentos') }}
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-2">
+                <h6
+                    class="text-2xl md:text-2xl font-extrabold tracking-tight leading-4 sm:leading-6 truncate">
+                    {{ t('pesquisa avancada') }}
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto">
+        <div class="w-full relative">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <form [formGroup]="form" (keyup)="monitorarDigitacaoForm($event)" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 lg:gap-x-6 md:gap-x-2 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [formControlName]="'codOS'"
+                            [placeholder]="t('chamado')"
+                            mask="0000000000"
+                            [showMaskTyped]="false" 
+                            [dropSpecialCharacters]="true"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('os cliente') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [placeholder]="t('os cliente')"
+                            [formControlName]="'numOSCliente'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os quarteirizada') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [placeholder]="t('os quarteirizada')"
+                            [formControlName]="'numOSQuarteirizada'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>                    
+
+                    <!-- <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('agencia') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [placeholder]="t('agencia')"
+                            [formControlName]="'numAgencia'"
+                            maxlength="5"
+                            matInput>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('rat') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [placeholder]="t('relatorio de atendimento')"
+                            [formControlName]="'numRAT'"
+                            mask="AAAAAAAAAA"
+                            [showMaskTyped]="false" 
+                            [dropSpecialCharacters]="true"
+                            matInput>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('orcamento') }}</mat-label>
+                        <input
+                            [autocomplete]="'off'"
+                            [placeholder]="t('numero orcamento')"
+                            [formControlName]="'numOrc'"
+                            maxlength="20"
+                            matInput>
+                    </mat-form-field>
+
+                    <div class="sm:col-span-1">
+                        <button
+                            class="mr-2 mt-6"
+                            (click)="pesquisar()"
+                            [color]="'primary'"
+                            type="button"
+                            mat-flat-button>
+                            {{ t('pesquisar') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="w-full bg-card" [hidden]="!dataSourceData?.items?.length">
+            <div class="flex flex-auto">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid-pesquisa z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+        
+                                    <div [mat-sort-header]="'codRegiao'">
+                                        {{ t('numero') }}
+                                    </div>
+
+                                    <div [mat-sort-header]="'dataAberturaOS'">
+                                        {{ t('data orcamento') }}
+                                    </div>
+
+                                    <div>
+                                        Status
+                                    </div>
+
+                                    <div>
+                                        Intervenção
+                                    </div>
+
+                                    <div>
+                                        Local
+                                    </div>
+
+                                    <div>
+                                        Cliente
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let orc of dataSourceData?.items">
+                                    <a [routerLink]="['/orcamento/detalhe/' + orc.codOrc]">
+                                        <div class="list-grid-pesquisa grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div>
+                                                {{ orc.numero }}
+                                            </div>
+
+                                            <div>
+                                                {{ orc.dataCadastro | date:'dd/MM HH:mm' }}
+                                            </div>
+
+                                            <div>
+                                                <span class="py-1 px-2 rounded" [ngStyle]="{
+                                                    'background-color': orc.statusServico?.corFundo, 
+                                                    'color': orc.statusServico?.corFonte }">
+                                                    {{ orc.ordemServico.statusServico?.nomeStatusServico }}
+                                                </span>
+                                            </div>
+
+                                            <div>
+                                                <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
+                                                    'background-color': obterCorFundoIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao), 
+                                                    'color': obterCorFonteIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+                                                }">
+                                                  {{ orc.ordemServico.tipoIntervencao?.codETipoIntervencao }}
+                                                </span>
+                                            </div>
+
+                                            <div>
+                                                {{ (orc.ordemServico.localAtendimento?.nomeLocal || t('nao informado')) | titlecase }}
+                                            </div>
+
+                                            <div>
+                                                {{ orc.ordemServico.cliente?.nomeFantasia || t('nao informado') }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="!dataSourceData?.items.length">
+                                    <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100" *transloco="let t">
+                                        <div class="hidden truncate">
+                                            {{ t('nenhum registro encontrado') }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            
+                            <mat-paginator
+                                class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                                [pageSize]="10"
+                                [pageSizeOptions]="[10]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ import { OrcamentoFaturamentoFormComponent } from './orcamento-faturamento/orcam
 import { OrcamentoFaturamentoListaComponent } from './orcamento-faturamento/orcamento-faturamento-lista/orcamento-faturamento-lista.component';
 import { OrcamentoImpressaoComponent } from './orcamento-impressao/orcamento-impressao.component';
 import { OrcamentoListaComponent } from './orcamento-lista/orcamento-lista.component';
+import { OrcamentoPesquisaComponent } from './orcamento-pesquisa/orcamento-pesquisa.component';
 
 export const orcamentoRoutes: Route[] = [
     {
@@ -14,6 +15,10 @@ export const orcamentoRoutes: Route[] = [
     {
         path: 'lista',
         component: OrcamentoListaComponent
+    },
+    {
+        path: 'pesquisa',
+        component: OrcamentoPesquisaComponent 
     },
     {
         path: 'detalhe/:codOrc',

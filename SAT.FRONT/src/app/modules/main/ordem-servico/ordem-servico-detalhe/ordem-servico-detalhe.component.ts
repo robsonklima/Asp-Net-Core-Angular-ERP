@@ -99,7 +99,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 	private async obterDados() {
 		this.isLoading = true; 0
-
 		await this.obterOS();
 		this.obterHistorico();
 		this.obterCheckinsECheckouts();

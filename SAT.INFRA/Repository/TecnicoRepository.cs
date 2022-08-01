@@ -84,10 +84,6 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Regiao)
                 .AsQueryable();
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c6ce3cc26863d7de9ce565996021458fdffa3d13
              if (parameters.Filter != null)
             {
                 tecnicos = tecnicos.Where(
@@ -101,7 +97,7 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodFilial.Value));
-<<<<<<< HEAD
+
             }
 
              if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
@@ -114,8 +110,6 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodRegiao.Value));
-=======
->>>>>>> c6ce3cc26863d7de9ce565996021458fdffa3d13
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

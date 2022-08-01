@@ -26,9 +26,15 @@ namespace SAT.INFRA.Repository
                 query = query.Where(f => f.CodFilial == parameters.CodFilial);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CodFilial));
+            }
+
             if (parameters.CodFiliais != null)
             {
-                string[] paramsSplit = parameters.CodFiliais.Split(',');//.Select(s => int.Parse(s.Trim())).Distinct().ToArray();
+                string[] paramsSplit = parameters.CodFiliais.Split(',');
 
                 paramsSplit = paramsSplit.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 var condicoes = string.Empty;
@@ -45,8 +51,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(f => f.IndAtivo == parameters.IndAtivo);
             }
 
-            query = query.Where(f => f.CodFilial != Constants.PERTO_INDIA);
-
             if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
             {
                 query.Include(i => i.Cidade)
@@ -54,6 +58,8 @@ namespace SAT.INFRA.Repository
 
                 query = query.Where(f => f.Cidade.UnidadeFederativa.SiglaUF == parameters.SiglaUF);
             }
+
+            query = query.Where(f => f.CodFilial != Constants.PERTO_INDIA);
 
             return query;
         }

@@ -1,4 +1,3 @@
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ContratoEquipamento } from './../../../../../../core/types/contrato-equipamento.types';
 import { ContratoEquipamentoDataService } from './../../../../../../core/services/contrato-equipamento-data.service';
@@ -16,7 +15,6 @@ import moment from 'moment';
 import { Subject } from 'rxjs';
 import { ContratoEquipamentoData } from 'app/core/types/contrato-equipamento-data.types';
 import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-contrato-modelo-form',

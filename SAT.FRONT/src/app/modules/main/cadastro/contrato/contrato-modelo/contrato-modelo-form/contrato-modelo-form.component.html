@@ -58,6 +58,10 @@
                             </mat-option>
                             <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip" matTooltip="{{modelo.nomeEquip }}" matTooltipPosition="right">
                                 <span>{{ modelo.nomeEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.tipoEquipamento.codETipoEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.grupoEquipamento.codEGrupoEquip }}</span>
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

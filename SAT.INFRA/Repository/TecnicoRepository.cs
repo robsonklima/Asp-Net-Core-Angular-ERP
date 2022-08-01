@@ -80,8 +80,8 @@ namespace SAT.INFRA.Repository
         {
             var tecnicos = this.ObterQuery(parameters)
                 .Include(t => t.Filial)
-                .Include(t => t.Cidade)
-                .Include(t => t.TipoRota)
+                .Include(t => t.Autorizada)
+                .Include(t => t.Regiao)
                 .AsQueryable();
 
              if (parameters.Filter != null)
@@ -97,6 +97,19 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodFilial.Value));
+
+            }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
+            {
+                int[] cods = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodAutorizada.Value));
+            }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
+            {
+                int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodRegiao.Value));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

@@ -1,7 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -17,7 +20,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       .list-grid-u {
           grid-template-columns: 142px auto 25% 25% 42px;
           
-          @screen sm {
+          /* @screen sm {
               grid-template-columns: 142px auto 25% 25% 42px;
           }
       
@@ -27,16 +30,17 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       
           @screen lg {
               grid-template-columns: 142px auto 25% 25% 42px;
-          }
+          } */
       }
     `
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class UsuarioListaComponent implements AfterViewInit {
+export class UsuarioListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: UsuarioData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
@@ -45,13 +49,22 @@ export class UsuarioListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _usuarioService: UserService,
-    private _userService: UserService
+    protected _userService: UserService
   ) {
+    super(_userService, 'usuario')
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngAfterViewInit(): void {
-    this.obterDados();
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+  async ngAfterViewInit() {
+    this.registerEmitters();
+    this.obterDados();    
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -78,18 +91,21 @@ export class UsuarioListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
-    
-    const params: UsuarioParameters = {
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'nomeUsuario',
-      sortDirection: this.sort?.direction || 'asc',
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
-    };
 
-    const data = await this._userService
+    const params: UsuarioParameters = {
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: this.sort?.active || 'nomeUsuario',
+        sortDirection: this.sort?.direction || 'asc',
+        pageSize: this.paginator?.pageSize,
+        filter: filtro
+      },
+      ...this.filter?.parametros
+    }
+
+    const data = await this._usuarioService
       .obterPorParametros(params)
       .toPromise();
 

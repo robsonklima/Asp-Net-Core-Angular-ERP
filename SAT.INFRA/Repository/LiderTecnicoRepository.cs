@@ -63,6 +63,22 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Tecnico)
                 .AsQueryable();
 
+            if (parameters.Filter != null)
+            {
+                lidTecnico = lidTecnico.Where(
+                            l =>
+                            l.CodLiderTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                            l.CodUsuarioLider.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodUsuarioLideres))
+            {
+                string[] cods = parameters.CodUsuarioLideres.Split(",").Select(a => a.Trim()).ToArray();
+                lidTecnico = lidTecnico.Where(dc => cods.Contains(dc.CodUsuarioLider));
+            }
+
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 lidTecnico = lidTecnico.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

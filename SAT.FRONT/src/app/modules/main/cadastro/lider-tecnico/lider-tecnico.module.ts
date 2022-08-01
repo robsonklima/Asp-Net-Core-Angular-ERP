@@ -21,11 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { liderTecnicoRoutes } from './lider-tecnico.routing';
 import { LiderTecnicoListaComponent } from './lider-tecnico-lista/lider-tecnico-lista.component';
 import { LiderTecnicoFormComponent } from './lider-tecnico-form/lider-tecnico-form.component';
+import { LiderTecnicoFiltroComponent } from './lider-tecnico-filtro/lider-tecnico-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     LiderTecnicoListaComponent,
-    LiderTecnicoFormComponent
+    LiderTecnicoFormComponent,
+    LiderTecnicoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { LiderTecnicoFormComponent } from './lider-tecnico-form/lider-tecnico-fo
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

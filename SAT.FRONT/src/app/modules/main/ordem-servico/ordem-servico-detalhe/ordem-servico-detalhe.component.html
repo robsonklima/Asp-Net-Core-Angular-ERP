@@ -33,14 +33,14 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-                            <button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button
+                            <button *ngIf="!this.validaCliente" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/form/' + codOS]">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button
+                            <button *ngIf="!this.validaCliente" class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button
                                 [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
@@ -48,7 +48,7 @@
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button
+                            <button *ngIf="!this.validaCliente" class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button
                                 [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
@@ -56,36 +56,36 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded text-indigo-700 bg-white" mat-flat-button
-                                *ngIf="os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
+                                *ngIf="!this.validaCliente && os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
                                 os?.codStatusServico === 7 || isLoading" [matTooltip]="t('transferir')"
                                 matTooltipPosition="above" (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
-                                *ngIf="os?.codStatusServico == 8" [matTooltip]="t('cancelar transferencia')"
+                            <button  class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
+                                *ngIf="os?.codStatusServico == 8 && !this.validaCliente" [matTooltip]="t('cancelar transferencia')"
                                 [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
-                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                <mat-icon class="icon-size-6"[svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
                             </button>
                         </div>
 
-                        <button class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
-                            [matMenuTriggerFor]="menu" *transloco="let t" [disabled]="isLoading">
+                        <button *ngIf="!this.validaCliente" class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
+                            [matMenuTriggerFor]="menu" transloco="let t" [disabled]="isLoading">
                             <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
-                            <mat-menu #menu>
-                                <button mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">
+                            <mat-menu  #menu>
+                                <button *ngIf="!this.validaCliente" mat-menu-item [routerLink]="['/ordem-servico/impressao/' + codOS]">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                                     {{ t('imprimir') }}
                                 </button>
 
-                                <button mat-menu-item (click)="cancelar()"
+                                <button *ngIf="!this.validaCliente" mat-menu-item (click)="cancelar()"
                                     [disabled]="verificarPermissaoCancelamento()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
                                     {{ t('cancelar') }}
                                 </button>
 
-                                <button mat-menu-item (click)="bloquearDesbloquearChamado()">
+                                <button *ngIf="!this.validaCliente" mat-menu-item (click)="bloquearDesbloquearChamado()">
                                     <mat-icon class="icon-size-5"
                                     [class.text-red-600]="!os?.indBloqueioReincidencia"
                                     [class.text-green-600]="os?.indBloqueioReincidencia"
@@ -99,7 +99,7 @@
                                     {{ t('reabrir') }}
                                 </button>
 
-                                <button mat-menu-item (click)="openEmailDialog()">
+                                <button *ngIf="!this.validaCliente" mat-menu-item (click)="openEmailDialog()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                                     Enviar por e-mail
                                 </button>
@@ -521,7 +521,7 @@
                         </mat-tab>
 
                         <!-- ALERTAS -->
-                        <mat-tab [disabled]="!os?.alertas?.length">
+                        <mat-tab [disabled]="!os?.alertas?.length" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.alertas?.length">
                                     {{ t('alertas') }}
@@ -546,7 +546,7 @@
                         </mat-tab>
 
                         <!-- ATUALIZACOES -->
-                        <mat-tab [disabled]="!historico?.length">
+                        <mat-tab [disabled]="!historico?.length" *ngIf="!this.validaCliente" >
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!historico?.length">
                                     {{ t('log') }}
@@ -651,7 +651,7 @@
                         </mat-tab>
 
                         <!-- RELATORIOS DE ATENDIMENTO -->
-                        <mat-tab [disabled]="!os?.relatoriosAtendimento?.length">
+                        <mat-tab [disabled]="!os?.relatoriosAtendimento?.length" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.relatoriosAtendimento?.length">
                                     {{ t('relatorios') }}
@@ -794,7 +794,7 @@
                         </mat-tab>
 
                         <!-- FOTOS -->
-                        <mat-tab [disabled]="!qtdFotos">
+                        <mat-tab [disabled]="!qtdFotos" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!qtdFotos">
                                     {{ t('fotos') }}
@@ -846,7 +846,7 @@
                         </mat-tab>
 
                         <!-- LAUDOS -->
-                        <mat-tab [disabled]="!qtdLaudos">
+                        <mat-tab [disabled]="!qtdLaudos" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!qtdLaudos">
                                     {{ t('laudos') }}
@@ -1001,10 +1001,7 @@
                         </mat-tab>
                         
                         <!-- EQUIPAMENTO -->
-                        <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE &&
-                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO &&
-                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_BASICO_S_ABERTURA &&
-                                   userSession.usuario.perfil?.codPerfil !== perfilEnum.CLIENTE_CORREIOS">
+                        <mat-tab [disabled]="!os?.codEquipContrato" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span>
                                     {{ t('oss do equipamento') }}
@@ -1018,7 +1015,7 @@
                         </mat-tab>
 
                         <!-- ORCAMENTOS -->
-                        <mat-tab [disabled]="!os?.orcamentos?.length">
+                        <mat-tab [disabled]="!os?.orcamentos?.length" *ngIf="!this.validaCliente">
                             <ng-template matTabLabel>
                                 <span>
                                     {{ t('orcamentos') }}

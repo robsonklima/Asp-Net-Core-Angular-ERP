@@ -57,6 +57,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	historico: any[] = [];
 	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
 	checkinsCheckouts: CheckinCheckout[] = [];
+	validaCliente:boolean = this._userService.isCustomer;
 
 	public get tipoIntervencaoEnum(): typeof TipoIntervencaoEnum {
 		return TipoIntervencaoEnum;

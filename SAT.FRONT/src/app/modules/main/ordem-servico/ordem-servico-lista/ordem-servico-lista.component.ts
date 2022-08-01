@@ -48,7 +48,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
 	@ViewChild(MatSort) sort: MatSort;
 	validaCliente:boolean = this._userService.isCustomer;
-	//validaCliente:boolean = true;
+	validaAbreOS:boolean = this._userService.isOpenOS;
+	//validaCliente:boolean = false;
 
 	dataSourceData: OrdemServicoData;
 	selectedItem: OrdemServico | null = null;

@@ -100,7 +100,7 @@ namespace SAT.INFRA.Repository
            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodTecnico.Value));
+                tecnicos = tecnicos.Where(dc => cods.Contains(dc.CodFilial.Value));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

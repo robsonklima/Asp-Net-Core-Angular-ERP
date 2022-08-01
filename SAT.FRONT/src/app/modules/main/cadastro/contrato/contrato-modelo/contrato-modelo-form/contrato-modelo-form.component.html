@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 
-                <div class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-5">
                         <mat-label>{{ t('modelo') }}</mat-label>
                         <mat-select formControlName="codEquip" #modeloSelect>
@@ -58,6 +58,10 @@
                             </mat-option>
                             <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip" matTooltip="{{modelo.nomeEquip }}" matTooltipPosition="right">
                                 <span>{{ modelo.nomeEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.tipoEquipamento.codETipoEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.grupoEquipamento.codEGrupoEquip }}</span>
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

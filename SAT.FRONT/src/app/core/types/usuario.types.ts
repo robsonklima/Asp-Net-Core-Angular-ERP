@@ -81,6 +81,7 @@ export interface UsuarioParameters extends QueryStringParameters {
     nomeUsuario?: string;
     email?: string;
     codPerfil?: number;
+    codCargos?: number;
     codFilial?: number;
     indAtivo?: number;
     codTecnico?: number;

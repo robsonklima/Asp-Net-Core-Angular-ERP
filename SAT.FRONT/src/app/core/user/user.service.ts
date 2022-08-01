@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario, UsuarioData, UsuarioParameters, UsuariosLogados } from '../types/usuario.types';
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
+import { PerfilEnum } from '../types/perfil.types';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,34 @@ export class UserService {
 
   get user$(): Observable<User> {
     return this._user.asObservable();
+  }
+
+  get isCustomer(): boolean {
+    var session = JSON.parse(localStorage.getItem('userSession'));
+    var user = session.usuario;
+    if (user.codPerfil == PerfilEnum.CLIENTE ||
+        user.codPerfil == PerfilEnum.CLIENTE_BASICO_BIOMETRIA ||
+        user.codPerfil == PerfilEnum.CLIENTE_BASICO_C_RESTRICOES ||
+        user.codPerfil == PerfilEnum.CLIENTE_BASICO_S_ABERTURA ||
+        user.codPerfil == PerfilEnum.CLIENTE_BÁSICO ||
+        user.codPerfil == PerfilEnum.CLIENTE_CORREIOS ||
+        user.codPerfil == PerfilEnum.CLIENTE_PEÇAS_EXPORTAÇÃO ||
+        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA
+        ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  get isOpenOS(): boolean {
+    var session = JSON.parse(localStorage.getItem('userSession'));
+    var user = session.usuario.perfil;
+    if (user.indAbreChamado == 1) {
+      return true;
+    }
+
+    return false;
   }
 
   get(): Observable<User> {

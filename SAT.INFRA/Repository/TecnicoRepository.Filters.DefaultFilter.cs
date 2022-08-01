@@ -70,6 +70,24 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.CodTecnico != null && tecs.Contains(t.CodTecnico.Value));
             }
 
+           if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CodFilial.Value));
+            }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodAutorizadas))
+            {
+                int[] cods = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CodAutorizada.Value));
+            }
+
+             if (!string.IsNullOrWhiteSpace(parameters.CodRegioes))
+            {
+                int[] cods = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CodRegiao.Value));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodStatusServicos))
             {
                 int[] codigosStatusServico = parameters.CodStatusServicos.Split(',').Select(a => int.Parse(a.Trim())).Distinct().ToArray();

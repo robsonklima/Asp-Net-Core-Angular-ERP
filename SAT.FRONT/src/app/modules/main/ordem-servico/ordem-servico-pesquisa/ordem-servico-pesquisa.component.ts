@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import _ from 'lodash';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -39,6 +41,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 	form: FormGroup;
 	dataSourceData: OrdemServicoData;
 	isLoading: boolean = false;
+	userSession: UserSession;
 	private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 	constructor(
@@ -46,8 +49,11 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 		private _snack: CustomSnackbarService,
 		private _cdr: ChangeDetectorRef,
 		private _osSvc: OrdemServicoService,
-		private _router: Router
-	) { }
+		private _router: Router,
+		private _userService: UserService
+	) {
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
 	ngOnInit(): void {
 		this.form = this._formBuilder.group({
@@ -101,6 +107,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
 			numSerie: form.numSerie,
+			codClientes: this.userSession?.usuario?.codCliente,
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {
 				this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);

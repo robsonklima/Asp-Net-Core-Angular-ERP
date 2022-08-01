@@ -14,7 +14,26 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cargo') }}</mat-label>
+                    <mat-select formControlName="codCargos" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="cargoFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCargos, cargos,
+                            'codFilial')" [value]="0">
+                            TODAS
+                        </mat-option>
+                       <mat-option *ngFor="let cargo of cargos" [value]="cargo.codCargo">
+                            {{ cargo.nomeCargo}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
                     <mat-select formControlName="indAtivo">
@@ -26,8 +45,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
-
+            
 
             </div>
 
@@ -35,10 +53,6 @@
 
             <div class="flex items-center justify-start px-8 py-3 relative">
                 <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
-                    {{ t('salvar') }}
-                </button>
-
-                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'secundary'">
                     {{ t('aplicar') }}
                 </button>
 
@@ -46,7 +60,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'cliente'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'usuario'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

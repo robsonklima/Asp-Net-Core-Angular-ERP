@@ -73,9 +73,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Peca> ObterPorParametros(PecaParameters parameters)
         {
-            //var pecas = this.ObterQuery(parameters);
-
-            var pecas = _context.Peca
+            var pecas = this.ObterQuery(parameters)
                 .DefaultIfEmpty()
                 .AsQueryable();
 

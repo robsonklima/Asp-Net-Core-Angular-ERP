@@ -21,11 +21,15 @@ import { FuseHighlightModule } from '@fuse/components/highlight';
 import { RegiaoAutorizadaListaComponent } from './regiao-autorizada-lista/regiao-autorizada-lista.component';
 import { regiaoAutorizadaRoutes } from './regiao-autorizada.routing';
 import { RegiaoAutorizadaFormComponent } from './regiao-autorizada-form/regiao-autorizada-form.component';
+import { RegiaoAutorizadaFiltroComponent } from './regiao-autorizada-filtro/regiao-autorizada-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     RegiaoAutorizadaListaComponent,
-    RegiaoAutorizadaFormComponent
+    RegiaoAutorizadaFormComponent,
+    RegiaoAutorizadaFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { RegiaoAutorizadaFormComponent } from './regiao-autorizada-form/regiao-a
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

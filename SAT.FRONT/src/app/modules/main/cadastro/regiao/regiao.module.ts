@@ -21,11 +21,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RegiaoFiltroComponent } from './regiao-filtro/regiao-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltroModule } from '../../filtros/filtro.module';
 
 @NgModule({
   declarations: [
     RegiaoListaComponent,
-    RegiaoFormComponent
+    RegiaoFormComponent,
+    RegiaoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatSidenavModule,
+    FiltroModule,
     SharedModule,
     TranslocoModule,
     MatSortModule,

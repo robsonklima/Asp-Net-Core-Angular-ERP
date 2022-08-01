@@ -14,8 +14,7 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
                     <mat-select formControlName="indAtivo">
                         <mat-option [value]="1">
@@ -26,8 +25,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
-
 
             </div>
 
@@ -35,10 +32,6 @@
 
             <div class="flex items-center justify-start px-8 py-3 relative">
                 <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
-                    {{ t('salvar') }}
-                </button>
-
-                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'secundary'">
                     {{ t('aplicar') }}
                 </button>
 
@@ -46,7 +39,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'cliente'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'regiao'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

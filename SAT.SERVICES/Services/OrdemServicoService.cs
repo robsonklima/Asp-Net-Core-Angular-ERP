@@ -1,3 +1,4 @@
+using System.Linq;
 using Newtonsoft.Json;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;

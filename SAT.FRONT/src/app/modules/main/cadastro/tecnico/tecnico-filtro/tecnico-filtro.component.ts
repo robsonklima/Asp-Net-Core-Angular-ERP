@@ -28,7 +28,7 @@ export class TecnicoFiltroComponent extends FilterBase implements OnInit, IFilte
 	autorizadaFilterCtrl: FormControl = new FormControl();
 	regioes: Regiao[] = [];
 	regiaoFilterCtrl: FormControl = new FormControl();
-	
+
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -103,8 +103,6 @@ export class TecnicoFiltroComponent extends FilterBase implements OnInit, IFilte
 		this.regioes = data.items;
 	}
 
-
-
 	private registrarEmitters() {
 
 		this.filialFilterCtrl.valueChanges
@@ -136,7 +134,7 @@ export class TecnicoFiltroComponent extends FilterBase implements OnInit, IFilte
 			.subscribe(() => {
 				this.obterRegioes(this.regiaoFilterCtrl.value);
 			});
-	
+
 	}
 
 	ngOnDestroy() {

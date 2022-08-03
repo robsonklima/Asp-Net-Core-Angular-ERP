@@ -119,6 +119,12 @@ namespace SAT.API.Controllers
         public IActionResult ExportarDefeitoComponente([FromQuery] DefeitoComponenteParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.DEFEITOCOMPONENTE);
+        }       
+
+        [HttpGet("EquipamentoModulo")]
+        public IActionResult ExportarEquipamentoModulo([FromQuery] EquipamentoModuloParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTOMODULO);
         }        
     }
 }

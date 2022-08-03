@@ -18,8 +18,7 @@
         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
       </mat-form-field>
 
-      <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
-        [routerLink]="['/equipamento-modulo/form']">
+      <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
         <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
       </button>
 

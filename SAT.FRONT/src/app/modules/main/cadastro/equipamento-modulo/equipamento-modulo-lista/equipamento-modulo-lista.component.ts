@@ -11,6 +11,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
   selector: 'app-equipamento-modulo-lista',
@@ -52,7 +54,8 @@ export class EquipamentoModuloListaComponent extends Filterable implements After
   constructor(
     protected _userService: UserService,
     private _equipamentoModuloService: EquipamentoModuloService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'equipamento-modulo')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -108,12 +111,21 @@ export class EquipamentoModuloListaComponent extends Filterable implements After
     }
 
     const data = await this._equipamentoModuloService.obterPorParametros(parametros).toPromise();
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
-    }
-
-    paginar() {
-      this.obterDados();
-    }
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('EquipamentoModulo', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
+  }
+
+
+  paginar() {
+    this.obterDados();
+  }
+}

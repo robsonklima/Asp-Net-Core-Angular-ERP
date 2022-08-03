@@ -15,7 +15,9 @@ namespace SAT.INFRA.Repository
                 case TecnicoIncludeEnum.TECNICO_ORDENS_SERVICO:
                     query = query
                          .Include(t => t.Filial)
-                         .Include(t => t.Usuario);
+                         .Include(t => t.Usuario)
+                         .Include(t => t.Autorizada)
+                         .Include(t => t.Regiao);
                     break;
                 default:
                     query = query

@@ -301,6 +301,10 @@
                     {{ t('salvar') }}
                 </button>
 
+                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('aplicar') }}
+                </button>
+
                 <button side (click)="limpar()" color="warn" mat-button>
                     {{ t('limpar') }}
                 </button>

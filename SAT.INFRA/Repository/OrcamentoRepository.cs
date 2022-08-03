@@ -91,6 +91,7 @@ namespace SAT.INFRA.Repository
                 .Include(p => p.OutrosServicos)
                 .Include(p => p.Descontos)
                 .Include(p => p.OrcamentoStatus)
+                .Include(p => p.OrcamentosFaturamento)
                 .Include(p => p.OrcamentoDeslocamento)
                 .FirstOrDefault(p => p.CodOrc == codigo);
         }
@@ -98,6 +99,8 @@ namespace SAT.INFRA.Repository
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
             var query = _context.Orcamento
+                .Include(p => p.OrcamentosFaturamento!)
+                    .DefaultIfEmpty()
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)

@@ -71,7 +71,6 @@ namespace SAT.SERVICES.Services
             return _plantaoTecnicoRepo.ObterPorCodigo(codigo);
         }
 
-        /* Envia e-mail com os plantões registrados para feriados e fins de semana */
         public void ProcessarTaskEmailsSobreaviso()
         {
             _satTaskService.Criar(new SatTask()

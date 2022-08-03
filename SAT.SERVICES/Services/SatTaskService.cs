@@ -68,14 +68,12 @@ namespace SAT.SERVICES.Services
             var is14Horas = (int)DateTime.Now.Hour == 14;
             var is23Horas = (int)DateTime.Now.Hour == 23;
             var isSexta = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
-            var isSabado = DateTime.Now.DayOfWeek == DayOfWeek.Saturday;
-            var isDomingo = DateTime.Now.DayOfWeek == DayOfWeek.Sunday;
             var isProcessadoHoje = DateTime.Now.Date == task?.DataHoraProcessamento.Date;
 
             switch (tipo)
             {
                 case(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL):
-                    return !isSabado && !isDomingo && is14Horas && !isProcessadoHoje;
+                    return is14Horas && !isProcessadoHoje && isSexta;
                 case(SatTaskTipoEnum.INTEGRACAO_FINANCEIRO):
                     return false;
                 case(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT):

@@ -30,6 +30,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataEnvioAprovacao { get; set; }
         public DateTime? DataAprovacaoCliente { get; set; }
         public virtual LocalEnvioNFFaturamento LocalEnvioNFFaturamento { get; set; }
+        public virtual OrcamentosFaturamento OrcamentosFaturamento { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }
         public virtual OrcamentoMotivo OrcamentoMotivo { get; set; }
         public virtual List<OrcamentoMaterial> Materiais { get; set; }

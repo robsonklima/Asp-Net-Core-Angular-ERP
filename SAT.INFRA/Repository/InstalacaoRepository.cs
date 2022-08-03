@@ -108,8 +108,6 @@ namespace SAT.INFRA.Repository
                 instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
-            //var a = instalacoes.ToQueryString();
-
             return PagedList<Instalacao>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
         }
     }

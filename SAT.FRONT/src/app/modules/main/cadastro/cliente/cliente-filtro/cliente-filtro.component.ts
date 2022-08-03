@@ -69,5 +69,6 @@ export class ClienteFiltroComponent extends FilterBase implements OnInit, IFilte
 	ngOnDestroy() {
 		this._onDestroy.next();
 		this._onDestroy.complete();
+		
 	}
 }

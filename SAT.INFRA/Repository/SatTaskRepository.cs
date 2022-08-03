@@ -56,9 +56,8 @@ namespace SAT.INFRA.Repository
             var query = _context.SatTask.AsQueryable();
 
             if (parameters.CodSatTaskTipo.HasValue) {
-                
+                query = query.Where(t => t.codSatTaskTipo == parameters.CodSatTaskTipo);
             }
-                
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

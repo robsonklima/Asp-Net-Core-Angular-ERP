@@ -27,6 +27,7 @@ namespace SAT.SERVICES.Services
 		private readonly IClienteBancadaRepository _clienteBancadaRepo;
 		private readonly IContratoRepository _contratoRepo;
 		private readonly IDefeitoRepository _defeitoRepo;
+		private readonly IDefeitoComponenteRepository _defeitoComponenteRepo;
 		private readonly IEquipamentoRepository _equipamentoRepo;
 		private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
 		private readonly ITipoEquipamentoRepository _tipoEquipamentoRepo;
@@ -47,7 +48,8 @@ namespace SAT.SERVICES.Services
 			IDefeitoRepository defeitoRepo,
 			IEquipamentoRepository equipamentoRepo,
 			IGrupoEquipamentoRepository grupoEquipamentoRepo,
-			ITipoEquipamentoRepository tipoEquipamentoRepo
+			ITipoEquipamentoRepository tipoEquipamentoRepo,
+			IDefeitoComponenteRepository defeitoComponenteRepo
 		)
 		{
 			_osRepo = osRepo;
@@ -66,6 +68,7 @@ namespace SAT.SERVICES.Services
 			_equipamentoRepo = equipamentoRepo;
 			_grupoEquipamentoRepo = grupoEquipamentoRepo;
 			_tipoEquipamentoRepo = tipoEquipamentoRepo;
+			_defeitoComponenteRepo = defeitoComponenteRepo;
 			FilePath = GenerateFilePath();
 		}
 
@@ -149,8 +152,11 @@ namespace SAT.SERVICES.Services
 
 				case ExportacaoTipoEnum.TIPOEQUIPAMENTO:
 					GerarPlanilhaTipoEquipamento(parameters);
-					break;												
+					break;								
 
+				case ExportacaoTipoEnum.DEFEITOCOMPONENTE:
+					GerarPlanilhaDefeitoComponente(parameters);
+					break;												
 
 				default:
 					break;

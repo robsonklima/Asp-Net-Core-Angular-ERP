@@ -72,8 +72,14 @@ namespace SAT.SERVICES.Services
         }
 
         /* Envia e-mail com os plantões registrados para feriados e fins de semana */
-        public void ProcessarTask()
+        public void ProcessarTaskEmailsSobreaviso()
         {
+            _satTaskService.Criar(new SatTask()
+            {
+                codSatTaskTipo = (int)SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL,
+                DataHoraProcessamento = DateTime.Now
+            });
+
             SatTask task = (SatTask)_satTaskService.ObterPorParametros(new SatTaskParameters()
             {
                 CodSatTaskTipo = (int)SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL,
@@ -82,15 +88,7 @@ namespace SAT.SERVICES.Services
                 PageSize = 1
             }).Items.FirstOrDefault();
 
-            var is14Horas = (int)DateTime.Now.Hour == 14;
             var isSexta = DateTime.Now.DayOfWeek == DayOfWeek.Friday;
-            var isSabado = (int)DateTime.Now.DayOfWeek == 6;
-            var isDomingo = (int)DateTime.Now.DayOfWeek == 0;
-            var isProcessadoHoje = DateTime.Now.Date == task?.DataHoraProcessamento.Date;
-
-            if (isSabado || isDomingo || !is14Horas || isProcessadoHoje)
-                return;
-
             var plantoes = _plantaoTecnicoRepo.ObterPorParametros(new PlantaoTecnicoParameters
             {
                 DataPlantaoInicio = DateTime.Now,
@@ -143,20 +141,14 @@ namespace SAT.SERVICES.Services
             Email email = new()
             {
                 Assunto = assunto,
-                NomeDestinatario = Constants.EQUIPE_SAT_EMAIL, //Constants.SISTEMA_NOME,
+                NomeDestinatario = Constants.EQUIPE_SAT_EMAIL,
                 EmailRemetente = Constants.EQUIPE_SAT_EMAIL,
                 EmailDestinatario = "andre.figueiredo@perto.com.br;ivan.medina@perto.com.br;cesar.bessa@perto.com.br;claudio.meurer@digicon.com.br;silvana.ribeiro@perto.com.br",
                 Corpo = html
             };
 
             _emailService.Enviar(email);
-            _logger.Info($"E-mail enviado às: {DateTime.Now}");
-
-            _satTaskService.Criar(new SatTask()
-            {
-                codSatTaskTipo = (int)SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL,
-                DataHoraProcessamento = DateTime.Now
-            });
+            _logger.Info($"E-mail Plantão Técnicos enviado às: {DateTime.Now}");
         }
     }
 }

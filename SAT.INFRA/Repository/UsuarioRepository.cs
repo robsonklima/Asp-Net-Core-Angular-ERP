@@ -155,7 +155,6 @@ namespace SAT.INFRA.Repository
                     .Include(u => u.PontosPeriodoUsuario
                         .Where(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo))
                             .ThenInclude(p => p.PontoPeriodoUsuarioStatus);
-
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.PAS))

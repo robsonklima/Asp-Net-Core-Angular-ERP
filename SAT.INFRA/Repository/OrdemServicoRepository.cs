@@ -136,6 +136,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                 .Include(os => os.PrazosAtendimento)
                 .Include(os => os.Agendamentos)
+                    .ThenInclude(a => a.MotivoAgendamento)
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.ProtocolosSTN)
                 .Include(os => os.RelatoriosAtendimento)

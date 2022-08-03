@@ -30,6 +30,7 @@ import { CheckinCheckoutService } from 'app/core/services/checkin-checout.servic
 import { CheckinCheckout } from 'app/core/types/checkin-checkout.types';
 import moment from 'moment';
 import Enumerable from 'linq';
+import { Agendamento } from 'app/core/types/agendamento.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -52,7 +53,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	qtdFotos: number = 0;
 	qtdLaudos: number = 0;
 	ultimoAgendamento: string;
-	histAgendamento: string = 'Agendamentos: \n';
 	isLoading: boolean = false;
 	historico: any[] = [];
 	dispBBBloqueioOS: DispBBBloqueioOS[] = [];
@@ -104,7 +104,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		await this.obterOS();
 		this.obterHistorico();
 		this.obterCheckinsECheckouts();
-		this.obterAgendamentos();
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
 		this.obterDispBBBloqueioOS();
@@ -148,22 +147,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 					reject();
 				});
 		})
-	}
-
-	private async obterAgendamentos() {
-		if (this.os.agendamentos?.length) {
-			var agendamentos = Enumerable.from(this.os.agendamentos)
-				.orderByDescending(a => a.codAgendamento);
-
-			this.histAgendamento += agendamentos
-				.select(e => moment(e.dataAgendamento)
-					.format('DD/MM HH:mm'))
-				.toJoinedString(", \n");
-
-			this.ultimoAgendamento = agendamentos
-				.select(a => a.dataAgendamento)
-				.first();
-		}
 	}
 
 	async agendar() {
@@ -454,6 +437,27 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 		await this.obterDados();
 		this.isLoading = false;
+	}
+
+	public removerAgendamento(agendamento: Agendamento) {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja remover este agendamento?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao) {
+				this._agendamentoService.deletar(agendamento.codAgendamento).subscribe(() => {
+					this.obterOS();
+				});
+			}
+		});
 	}
 
 	verificaPermissaoBB() {

@@ -17,6 +17,7 @@ namespace SAT.MODELS.Enums
         DEFEITO,
         EQUIPAMENTO,
         GRUPOEQUIPAMENTO,
-        TIPOEQUIPAMENTO
+        TIPOEQUIPAMENTO,
+        DEFEITOCOMPONENTE
     }
 }

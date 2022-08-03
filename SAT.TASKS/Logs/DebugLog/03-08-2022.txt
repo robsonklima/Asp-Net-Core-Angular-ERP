@@ -5,3 +5,4 @@
  thread[1] SAT.SERVICES.Services.LoggerService (INFO): Correção de intervalo do RAT 56526356-E - OTAVIO FERNANDO DA COSTA executada com sucesso!. 
  thread[1] SAT.SERVICES.Services.LoggerService (INFO): Correção de intervalo do RAT 56526365-E - OTAVIO FERNANDO DA COSTA executada com sucesso!. 
  thread[1] SAT.SERVICES.Services.LoggerService (INFO): Correção de intervalo do RAT executado com sucesso!. 
+ thread[1] SAT.SERVICES.Services.LoggerService (INFO): Correção de intervalo do RAT executado com sucesso!. 

@@ -79,7 +79,7 @@ namespace SAT.SERVICES.Services
                 case(SatTaskTipoEnum.INTEGRACAO_FINANCEIRO):
                     return false;
                 case(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT):
-                    return !isProcessadoHoje;
+                    return !isProcessadoHoje && is23Horas;
                 default:
                     return false;
             }

@@ -15,7 +15,7 @@ namespace SAT.SERVICES.Services {
                                 Posto = la.DCPosto ?? Constants.NENHUM_REGISTRO,
                                 NomeLocal = la.NomeLocal ?? Constants.NENHUM_REGISTRO,
                                 Clilente = la.Cliente?.NomeFantasia ?? Constants.NENHUM_REGISTRO,
-                                Filial = la.Filial.NomeFilial ?? Constants.NENHUM_REGISTRO,
+                                Filial = la.Filial?.NomeFilial ?? Constants.NENHUM_REGISTRO,
                                 Ativo = la.IndAtivo == 1 ? "SIM" : "NÃO",
                        
                             });

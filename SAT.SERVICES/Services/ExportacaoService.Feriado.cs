@@ -13,8 +13,8 @@ namespace SAT.SERVICES.Services {
                             {
                                 NomeFeriado = f.NomeFeriado?? Constants.NENHUM_REGISTRO,
                                 //Data = f.Data.HasValue ? f.Data.Value.ToString("dd/MM/yyyy") : Constants.NENHUM_REGISTRO,
-                                Uf = f.UnidadeFederativa.NomeUF?? Constants.NENHUM_REGISTRO,
-                                Cidade = f.Cidade.NomeCidade?? Constants.NENHUM_REGISTRO,
+                                Uf = f.UnidadeFederativa?.NomeUF?? Constants.NENHUM_REGISTRO,
+                                Cidade = f.Cidade?.NomeCidade?? Constants.NENHUM_REGISTRO,
                        
                             });
 

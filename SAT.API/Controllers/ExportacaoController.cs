@@ -126,5 +126,35 @@ namespace SAT.API.Controllers
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTOMODULO);
         }        
+
+        [HttpGet("Feriado")]
+        public IActionResult ExportarFeriado([FromQuery] FeriadoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FERIADO);
+        }   
+
+        [HttpGet("FerramentaTecnico")]
+        public IActionResult ExportarFerramentaTecnico([FromQuery] FerramentaTecnicoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FERRAMENTATECNICO);
+        }        
+
+        [HttpGet("Filial")]
+        public IActionResult ExportarFilial([FromQuery] FilialParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FILIAL);
+        }        
+
+        [HttpGet("FormaPagamento")]
+        public IActionResult ExportarFormaPagamento([FromQuery] FormaPagamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FORMAPAGAMENTO);
+        }
+
+        [HttpGet("LiderTecnico")]
+        public IActionResult ExportarLiderTecnico([FromQuery] LiderTecnicoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.LIDERTECNICO);
+        }        
     }
 }

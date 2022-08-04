@@ -23,8 +23,7 @@
         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
       </button>
 
-      <button class="ml-4" *transloco="let t" [disabled]="true" mat-icon-button matTooltip="{{ t('exportar') }}"
-        [routerLink]="['/ferramenta-tecnico/form']">
+      <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
         <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
       </button>
 

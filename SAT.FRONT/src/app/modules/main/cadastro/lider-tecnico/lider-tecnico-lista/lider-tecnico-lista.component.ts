@@ -4,8 +4,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { LiderTecnicoService } from 'app/core/services/lider-tecnico.service';
-import { AcaoParameters } from 'app/core/types/acao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { LiderTecnicoData, LiderTecnicoParameters } from 'app/core/types/lider-tecnico.types';
 import { UserService } from 'app/core/user/user.service';
@@ -51,7 +52,8 @@ export class LiderTecnicoListaComponent extends Filterable implements OnInit, Af
   constructor(
     protected _userService: UserService,
     private _liderTecnicoService: LiderTecnicoService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'lider-tecnico')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -113,6 +115,14 @@ export class LiderTecnicoListaComponent extends Filterable implements OnInit, Af
     this.isLoading = false;
     this._cdr.detectChanges();
   }
+
+  async exportar(){
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('LiderTecnico', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
+}
 
   paginar() {
     this.obterDados();

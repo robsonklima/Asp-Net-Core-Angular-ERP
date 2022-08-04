@@ -4,7 +4,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FormaPagamentoService } from 'app/core/services/forma-pagamento.service';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { FormaPagamentoData, FormaPagamentoParameters } from 'app/core/types/forma-pagamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -48,7 +50,8 @@ export class FormasPagamentoListaComponent extends Filterable implements AfterVi
   constructor(
     protected _userService: UserService,
     private _formasPagamentoService: FormaPagamentoService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'formas-pagamento')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -108,6 +111,14 @@ export class FormasPagamentoListaComponent extends Filterable implements AfterVi
     this.isLoading = false;
     this._cdr.detectChanges();
   }
+
+  async exportar(){
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('FormaPagamento', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
+}
 
   paginar() {
     this.obterDados();

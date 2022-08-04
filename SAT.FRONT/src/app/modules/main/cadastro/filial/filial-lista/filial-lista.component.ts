@@ -4,7 +4,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { FileMime } from 'app/core/types/file.types';
 import { FilialData, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
@@ -48,7 +50,8 @@ export class FilialListaComponent extends Filterable implements AfterViewInit, I
   constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _filialService: FilialService
+    private _filialService: FilialService,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'filial')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -61,7 +64,7 @@ export class FilialListaComponent extends Filterable implements AfterViewInit, I
     })
   }
 
-  ngAfterViewInit(): void { 
+  ngAfterViewInit(): void {
     this.registerEmitters();
     this.obterDados();
 
@@ -104,19 +107,27 @@ export class FilialListaComponent extends Filterable implements AfterViewInit, I
       },
       ...this.filter?.parametros
     }
-    
+
     //}).toPromise();
     const data = await this._filialService.obterPorParametros(parametros).toPromise();
-      this.dataSourceData = data;
-      this.isLoading = false;
-      this._cdr.detectChanges();
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
 
 
-      // this.isLoading = false;
-      // this._cdr.detectChanges();
-    }
-
-    paginar() {
-      this.obterDados();
-    }
+    // this.isLoading = false;
+    // this._cdr.detectChanges();
   }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('Filial', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
+  }
+
+  paginar() {
+    this.obterDados();
+  }
+}

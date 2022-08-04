@@ -169,18 +169,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3"
-                                                *ngIf="ultimoAgendamento">
-                                                <div class="text-secondary">{{ t('agendamento') }}</div>
-                                                <div>
-                                                    <span class="text-md w-2/5"
-                                                        matTooltipPosition="right" matTooltipClass="tool-tip"
-                                                        [matTooltip]="histAgendamento">
-                                                        {{ ultimoAgendamento | date:'dd/MM/yyyy HH:mm' }}
-                                                    </span>
-                                                </div>
-                                            </div>
-
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('os cliente') }}</div>
                                                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
@@ -517,6 +505,47 @@
                                         </div>
                                     </fuse-card>
                                 </div>
+                            </ng-template>
+                        </mat-tab>
+
+                        <!-- AGENDAMENTOS -->
+                        <mat-tab [disabled]="!os?.agendamentos?.length" *ngIf="!perfilCliente">
+                            <ng-template matTabLabel>
+                                <span [class.opacity-50]="!os?.agendamentos?.length">
+                                    {{ t('agendamentos') }}
+                                    <span class="bg-purple-600 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                        *ngIf="os?.agendamentos?.length">
+                                        {{ os?.agendamentos?.length }}
+                                    </span>
+                                </span>
+                            </ng-template>
+
+                            <ng-template matTabContent>
+                                <fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/5 mb-4"
+                                    *ngFor="let agendamento of os?.agendamentos">
+                                    <div class="flex items-center justify-between mt-5">
+                                        <div class="text-xl font-medium">{{ agendamento?.motivoAgendamento?.descricaoMotivo }}</div>
+
+                                        <div *ngIf="userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 75 || userSession.usuario.codPerfil == 29">
+                                            <button mat-icon-button matTooltip="Remover" (click)="removerAgendamento(agendamento)">
+                                                <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col mt-4 divide-y font-medium">
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Data</div>
+                                            <div>{{ agendamento?.dataAgendamento | date:'dd/MM/yyyy HH:mm' }}</div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">Usuário</div>
+                                            <div>{{ agendamento?.codUsuarioAgendamento }}</div>
+                                        </div>
+                                    </div>
+                                </fuse-card>
                             </ng-template>
                         </mat-tab>
 
@@ -1017,7 +1046,7 @@
                         <!-- ORCAMENTOS -->
                         <mat-tab [disabled]="!os?.orcamentos?.length" *ngIf="!this.perfilCliente">
                             <ng-template matTabLabel>
-                                <span>
+                                <span [class.opacity-50]="!os?.orcamentos?.length">
                                     {{ t('orcamentos') }}
                                 </span>
                             </ng-template>

@@ -119,6 +119,71 @@ namespace SAT.API.Controllers
         public IActionResult ExportarDefeitoComponente([FromQuery] DefeitoComponenteParameters parameters)
         {
 			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.DEFEITOCOMPONENTE);
+        }       
+
+        [HttpGet("EquipamentoModulo")]
+        public IActionResult ExportarEquipamentoModulo([FromQuery] EquipamentoModuloParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.EQUIPAMENTOMODULO);
+        }        
+
+        [HttpGet("Feriado")]
+        public IActionResult ExportarFeriado([FromQuery] FeriadoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FERIADO);
+        }   
+
+        [HttpGet("FerramentaTecnico")]
+        public IActionResult ExportarFerramentaTecnico([FromQuery] FerramentaTecnicoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FERRAMENTATECNICO);
+        }        
+
+        [HttpGet("Filial")]
+        public IActionResult ExportarFilial([FromQuery] FilialParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FILIAL);
+        }        
+
+        [HttpGet("FormaPagamento")]
+        public IActionResult ExportarFormaPagamento([FromQuery] FormaPagamentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.FORMAPAGAMENTO);
+        }
+
+        [HttpGet("LiderTecnico")]
+        public IActionResult ExportarLiderTecnico([FromQuery] LiderTecnicoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.LIDERTECNICO);
+        }        
+
+        [HttpGet("LocalAtendimento")]
+        public IActionResult ExportarLocalAtendimento([FromQuery] LocalAtendimentoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.LOCALATENDIMENTO);
+        }        
+
+        [HttpGet("Peca")]
+        public IActionResult ExportarPeca([FromQuery] PecaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.PECA);
+        }        
+        [HttpGet("Usuario")]
+        public IActionResult ExportarUsuario([FromQuery] UsuarioParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.USUARIO);
+        }        
+
+        [HttpGet("Regiao")]
+        public IActionResult ExportarRegiao([FromQuery] RegiaoParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.REGIAO);
+        }    
+
+        [HttpGet("RegiaoAutorizada")]
+        public IActionResult ExportarRegiaoAutorizada([FromQuery] RegiaoAutorizadaParameters parameters)
+        {
+			return _exService.Exportar(parameters, ExportacaoFormatoEnum.EXCEL, ExportacaoTipoEnum.REGIAOAUTORIZADA);
         }        
     }
 }

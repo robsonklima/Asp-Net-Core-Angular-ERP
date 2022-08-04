@@ -4,8 +4,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FerramentaTecnicoService } from 'app/core/services/ferramenta-tecnico.service';
 import { FerramentaTecnicoData, FerramentaTecnicoParameters } from 'app/core/types/ferramenta-tecnico.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -50,7 +52,8 @@ export class FerramentaTecnicoListaComponent extends Filterable implements OnIni
   constructor(
     protected _userService: UserService,
     private _ferramentaTecnicoService: FerramentaTecnicoService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'ferramenta-tecnico')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -112,6 +115,14 @@ export class FerramentaTecnicoListaComponent extends Filterable implements OnIni
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('FerramentaTecnico', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
   }
 
   paginar() {

@@ -11,6 +11,7 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 
 @Component({
   selector: 'app-peca-lista',
@@ -53,6 +54,8 @@ export class PecaListaComponent extends Filterable implements OnInit, AfterViewI
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef, 
     private _pecaService: PecaService,
+    private _exportacaoService: ExportacaoService
+
     ) {
       super(_userService, 'peca')
       this.userSession = JSON.parse(this._userService.userSession);
@@ -129,15 +132,23 @@ export class PecaListaComponent extends Filterable implements OnInit, AfterViewI
       this.pecaStatus.push(tr));
   }
 
-  public async exportar()
-  {      
-    this.isLoading = true;
+  // public async exportar()
+  // {      
+  //   this.isLoading = true;
     
-    const params: PecaParameters = 
-    {
-      sortDirection: 'desc',
-      pageSize: 1000
-    }
+  //   const params: PecaParameters = 
+  //   {
+  //     sortDirection: 'desc',
+  //     pageSize: 1000
+  //   }
+
+  //   this.isLoading = false;
+  // }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('Peca', FileMime.Excel, this.filter?.parametros);
 
     this.isLoading = false;
   }

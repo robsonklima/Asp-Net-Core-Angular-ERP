@@ -4,8 +4,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FeriadoService } from 'app/core/services/feriado.service';
 import { FeriadoData, FeriadoParameters } from 'app/core/types/feriado.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
@@ -49,7 +51,8 @@ export class FeriadoListaComponent extends Filterable implements AfterViewInit, 
     constructor(
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
-        private _feriadoService: FeriadoService
+        private _feriadoService: FeriadoService,
+        private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'feriado')
         this.userSession = JSON.parse(this._userService.userSession);
@@ -109,15 +112,13 @@ this._cdr.detectChanges();
     this.isLoading = false;
     this._cdr.detectChanges();
 }
+async exportar(){
+    this.isLoading = true;
 
+    await this._exportacaoService.exportar('Feriado', FileMime.Excel, this.filter?.parametros);
 
-
-//   this.dataSourceData = await this._feriadoService.obterPorParametros({
-//       }).toPromise();
-
-//   this.isLoading = false;
-//   this._cdr.detectChanges();
-// }
+    this.isLoading = false;
+}
 
 paginar() {
     this.obterDados();

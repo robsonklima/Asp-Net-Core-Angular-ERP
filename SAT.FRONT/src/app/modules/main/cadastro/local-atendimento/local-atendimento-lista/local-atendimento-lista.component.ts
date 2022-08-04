@@ -4,7 +4,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { LocalAtendimentoData, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -50,7 +52,8 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
   constructor(
     private _cdr: ChangeDetectorRef,
     private _localAtendimentoService: LocalAtendimentoService,
-    protected _userService: UserService
+    protected _userService: UserService,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'local-atendimento')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -113,6 +116,14 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('LocalAtendimento', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
   }
 
   paginar() {

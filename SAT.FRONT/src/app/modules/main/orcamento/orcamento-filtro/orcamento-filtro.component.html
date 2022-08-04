@@ -73,7 +73,41 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
                     </mat-icon>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('os') }}</mat-label>
+                    <input matInput formControlName="codigoOrdemServico">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>     
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('os cliente') }}</mat-label>
+                    <input matInput formControlName="numOSCliente">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>             
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data orcamento') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerData">
+                        <input formControlName="dataInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerData></mat-date-range-picker>
+                </mat-form-field>
                                  
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('data de abertura') }}</mat-label>
+                    <mat-date-range-input [rangePicker]="pickerAbertura">
+                        <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
+                        <input formControlName="dataAberturaFim" matEndDate placeholder="Fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="pickerAbertura"></mat-datepicker-toggle>
+                    <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
+                </mat-form-field>
+
             </div>
             
             <div class="mt-6 border-t"></div>

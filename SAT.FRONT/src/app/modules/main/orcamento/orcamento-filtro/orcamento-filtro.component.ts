@@ -49,10 +49,16 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
       codClientes: [undefined],
       codTiposIntervencao: [undefined],
       numSerie: [undefined],
+      codigoOrdemServico: [undefined],
+      numOSCliente: [undefined],
+      dataInicio: [undefined],
+      dataFim: [undefined],
+			dataAberturaInicio: [undefined],
+			dataAberturaFim: [undefined],      
     });
     this.form.patchValue(this.filter?.parametros);
   }  
-
+SS
   loadData(): void {
     this.obterStatusServicos();
     this.obterClientes();

@@ -167,6 +167,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(orc => orc.Data.HasValue && orc.Data.Value.Date >= parameters.DataInicio.Value.Date
                     && orc.Data.Value.Date <= parameters.DataFim.Value.Date);                
 
+            if (parameters.DataAberturaInicio.HasValue && parameters.DataAberturaFim.HasValue)
+                query = query.Where(orc => orc.OrdemServico.DataHoraAberturaOS.HasValue && orc.OrdemServico.DataHoraAberturaOS.Value.Date >= parameters.DataAberturaInicio.Value.Date
+                    && orc.OrdemServico.DataHoraAberturaOS.Value.Date <= parameters.DataAberturaFim.Value.Date);
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

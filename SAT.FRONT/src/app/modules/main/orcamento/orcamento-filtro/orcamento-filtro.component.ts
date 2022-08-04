@@ -53,6 +53,8 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
       numOSCliente: [undefined],
       dataInicio: [undefined],
       dataFim: [undefined],
+			dataAberturaInicio: [undefined],
+			dataAberturaFim: [undefined],      
     });
     this.form.patchValue(this.filter?.parametros);
   }  

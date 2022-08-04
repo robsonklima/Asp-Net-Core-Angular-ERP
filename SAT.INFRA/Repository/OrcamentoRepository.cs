@@ -99,7 +99,7 @@ namespace SAT.INFRA.Repository
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
             var query = _context.Orcamento
-                .Include(p => p.OrcamentosFaturamento!)
+                .Include(o => o.OrcamentosFaturamento!)
                     .DefaultIfEmpty()
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
@@ -152,6 +152,11 @@ namespace SAT.INFRA.Repository
             {
                 int[] tiposIntervencao = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(orc => tiposIntervencao.Contains(orc.OrdemServico.TipoIntervencao.CodTipoIntervencao.Value));
+            }      
+
+            if (parameters.IsFaturamento)
+            {
+                query = query.Where(orc => orc.OrdemServico.CodStatusServico == 3 && orc.OrdemServico.CodTipoIntervencao == 17 );
             }            
 
             if (parameters.CodEquipContrato.HasValue)

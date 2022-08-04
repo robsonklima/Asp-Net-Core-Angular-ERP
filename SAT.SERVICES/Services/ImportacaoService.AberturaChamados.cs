@@ -15,7 +15,7 @@ namespace SAT.SERVICES.Services
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
-            var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count());
+            var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count()) + 1;
 
             importacao.ImportacaoLinhas
                                     .Where(line =>

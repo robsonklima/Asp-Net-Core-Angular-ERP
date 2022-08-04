@@ -657,5 +657,11 @@
     "vincular locais": "Vincular Locais",
     "locais vinculados": "Locais Vinculados",
     "defeito componente": "Defeito Componente",
-    "lider": "Lider"
+    "lider": "Lider",
+    "emissao": "Emissão",
+    "financeiro": "Financeiro",
+    "faturado": "Faturado",
+    "faturar": "Faturar",
+    "numero nota fiscal": "Número nota fiscal",
+    "descricao nota fiscal": "Descrição nota fiscal"
 }

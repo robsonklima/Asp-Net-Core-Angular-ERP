@@ -1,3 +1,4 @@
+import { OrcamentosFaturamento } from './../../../../../../core/types/orcamento.types';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,13 +14,14 @@ import { fromEvent, Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
 import { OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
+import Enumerable from 'linq';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
 	templateUrl: './orcamento-financeiro-faturamento-lista.component.html',
 	styles: [`
     .list-grid-financeiro-faturamentos {
-      grid-template-columns: 200px 70px 70px 100px 100px auto 100px 100px 70px;
+      grid-template-columns: 200px 70px 70px 100px 100px auto 130px 100px 70px 100px;
       
       /* @screen sm {
           grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
@@ -100,19 +102,45 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filtro,
-			codClientes: '68'
+			isFaturamento: true,
 		};
 
-		const data: OrcamentoData = await this._orcamentoSvc
+		let data: OrcamentoData = await this._orcamentoSvc
 			.obterPorParametros({
 				...params,
 			})
 			.toPromise();
+		
+		// data.items = Enumerable.from(data.items).where(orc => orc.ordemServico.codTipoIntervencao == 17 && orc.ordemServico.codStatusServico == 3 ).toArray();
 
 		console.log(data);
 		
 		this.dataSourceData = data;
 		this.isLoading = false;
+	}
+
+	faturar(orc: any){
+		console.log(orc);
+
+		let orcamentoFaturamento: OrcamentosFaturamento = {
+			codOrcamento: 0,
+			codClienteBancada: '1',
+			codFilial: 1,
+			numOSPerto: 1,
+			numOrcamento: '',
+			descricaoNotaFiscal: '',
+			valorPeca: '',
+			qtdePeca: 1,
+			valorServico: '',
+			numNF: 1,
+			dataEmissaoNF: '',
+			indFaturado: 1,
+			indRegistroDanfe: '0',
+			caminhoDanfe: '',
+			codUsuarioCad: '',
+			dataHoraCad: ''
+		}
+		
 	}
 
 	paginar() {

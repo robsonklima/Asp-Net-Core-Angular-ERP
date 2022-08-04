@@ -6,7 +6,7 @@
         </div>
 
         <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('Faturamento') }}</div>
-        
+
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
@@ -21,84 +21,99 @@
                 <ng-container>
                     <div class="grid" *transloco="let t">
                         <div class="list-grid-financeiro-faturamentos z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
-                            matSort matSortDisableClear *transloco="let t">        
+                            matSort matSortDisableClear *transloco="let t">
                             <div>
                                 {{ t('cliente') }}
                             </div>
-        
+
                             <div>
                                 {{ t('filial') }}
                             </div>
-        
+
                             <div>
                                 {{ t('os perto') }}
                             </div>
-        
+
                             <div>
                                 {{ t('os cliente') }}
                             </div>
-        
+
                             <div>
                                 {{ t('orcamento') }}
                             </div>
-        
+
                             <div>
                                 {{ t('descricao nota fiscal') }}
                             </div>
-        
+
                             <div>
                                 {{ t('numero nota fiscal') }}
-                            </div>                            
-        
+                            </div>
+
                             <div>
                                 {{ t('emissao') }}
-                            </div>                            
-        
-                            <div>
+                            </div>
+
+                            <div class="text-center" >
                                 {{ t('faturado') }}
-                            </div>                            
+                            </div>
+
+                            <div class="text-center">
+                                {{ t('acao') }}
+                            </div>
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let orc of dataSourceData?.items">
-                                <div class="list-grid-financeiro-faturamentos grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100">        
-                                    <div class="truncate">                                       
-                                        {{ orc.ordemServico.cliente?.nomeFantasia || 'Não Informado' }}
+                                <div
+                                    class="list-grid-financeiro-faturamentos grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100">
+                                    <div class="truncate">
+                                        {{ orc.ordemServico.cliente?.nomeFantasia || '---' }}
                                     </div>
-        
-                                    <div class="truncate">                                       
-                                        {{ orc.filial?.nomeFilial || 'Não Informado' }}
-                                    </div>                                   
-        
-                                    <div class="truncate">                                       
+
+                                    <div class="truncate">
+                                        {{ orc.numero.substring(0,3) || '---' }}
+                                    </div>
+
+                                    <div class="truncate">
                                         {{ orc.ordemServico?.codOS }}
                                     </div>
-        
-                                    <div class="truncate">                                       
+
+                                    <div class="truncate">
                                         {{ orc.ordemServico?.numOSCliente }}
                                     </div>
-        
-                                    <div class="truncate">                                       
+
+                                    <div class="truncate">
                                         {{ orc.numero }}
                                     </div>
-                                    
-                                    <div class="truncate">                                       
-                                        {{ orc?.orcamentosFaturamento?.descricao }}
-                                    </div>        
-        
-                                    <div class="truncate">                                       
-                                        {{ orc.orcamentosFaturamento?.numNF }}
+
+                                    <div class="truncate">
+                                        {{ orc?.orcamentosFaturamento?.descricaoNotaFiscal }}
                                     </div>
-        
-                                    <div class="truncate">                                       
-                                        {{ orc.orcamentosFaturamento?.dataEmissaoNF }}
-                                    </div>                       
+
+                                    <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        true }" [contentEditable]="true" [textContent]="orc.orcamentosFaturamento?.numNF"
+                                        (input)="orc.numNF = $event.target.innerText">
+                                    </div>
+
+                                    <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        true }" [contentEditable]="true" [textContent]="orc.orcamentosFaturamento?.dataEmissaoNF"
+                                        (input)="orc.dataEmissaoNF = $event.target.innerText"
+                                        data-mask="0000-00-00">
+                                    </div>
 
                                     <div class="truncate rounded text-white text-center"
-                                     [class.bg-green-600]="orc.orcamentosFaturamento?.indFaturado" 
-                                     [class.bg-red-600]="!orc.orcamentosFaturamento?.indFaturado">                                       
-                                        {{ orc.orcamentosFaturamento?.indFaturado  ? 'SIM' : 'NÃO' }}
-                                    </div>                               
+                                        [class.bg-green-600]="orc.orcamentosFaturamento?.indFaturado"
+                                        [class.bg-red-600]="!orc.orcamentosFaturamento?.indFaturado">
+                                        {{ orc.orcamentosFaturamento?.indFaturado ? 'SIM' : 'NÃO' }}
+                                    </div>
+
+                                    <div class="truncate text-center">
+                                        <button class="bg-transparent " [matTooltip]="t('faturar')" (click)="faturar(orc)">
+                                            <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_outline:newspaper'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
                             </ng-container>
                         </ng-container>

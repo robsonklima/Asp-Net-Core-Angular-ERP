@@ -1,3 +1,4 @@
+import { OrdemServico } from './ordem-servico.types';
 import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalEnvioNFFaturamento } from "./local-envio-nf-faturamento.types";
@@ -35,6 +36,7 @@ export interface Orcamento
     maoDeObra?: OrcamentoMaoDeObra;
     outrosServicos?: OrcamentoOutroServico[];
     descontos?: OrcamentoDesconto[];
+    ordemServico?: OrdemServico;
     orcamentoStatus?: OrcamentoStatus;
     orcamentoDeslocamento?: OrcamentoDeslocamento;
     orcamentoISS?: OrcamentoISS;
@@ -216,6 +218,32 @@ export interface OrcamentoData extends Meta
     items: Orcamento[];
 };
 
+export interface OrcamentosFaturamentoData extends Meta
+{
+    items: OrcamentosFaturamento[];
+};
+
+export interface OrcamentosFaturamento extends Meta
+{
+    codOrcamentoFaturamento?: number;
+    codOrcamento?: number;
+    codClienteBancada: string;
+    codFilial?: number;
+    numOSPerto?: number;
+    numOrcamento: string;
+    descricaoNotaFiscal: string;
+    valorPeca: string;
+    qtdePeca?: number;
+    valorServico: string;
+    numNF?: number;
+    dataEmissaoNF: string;
+    indFaturado?: number;
+    indRegistroDanfe: string;
+    caminhoDanfe: string;
+    codUsuarioCad: string;
+    dataHoraCad: string;
+};
+
 export interface OrcamentoParameters extends QueryStringParameters
 {
     codStatusServicos?: string;
@@ -229,6 +257,7 @@ export interface OrcamentoParameters extends QueryStringParameters
     numOSQuarteirizada?: string;
     numSerie?: string;
     numero?: string;
+    isFaturamento?: boolean;
 };
 
 export enum OrcamentoDadosLocalEnum

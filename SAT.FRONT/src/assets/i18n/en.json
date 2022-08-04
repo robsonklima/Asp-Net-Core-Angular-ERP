@@ -639,5 +639,11 @@
     "agendamentos" : "Schedules",
     "vincular locais": "Link Locations",
     "locais vinculados": "Linked Locations",
-    "defeito componente": "Component Defect"
+    "defeito componente": "Component Defect",
+    "emissao": "Emission",
+    "financeiro": "Financial",
+    "faturado": "Billed",
+    "faturar": "Invoice",
+    "numero nota fiscal": "Invoice number",
+    "descricao nota fiscal": "Invoice description"
 }

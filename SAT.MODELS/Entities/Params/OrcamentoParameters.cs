@@ -15,5 +15,6 @@ namespace SAT.MODELS.Entities.Params
         public string NumSerie { get; set; }
         public string Numero { get; set; }
         public string NumRAT { get; set; }
+        public bool IsFaturamento { get; set; }
     }
 }

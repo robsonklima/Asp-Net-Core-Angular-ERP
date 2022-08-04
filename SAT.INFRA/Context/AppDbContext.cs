@@ -131,6 +131,7 @@ namespace SAT.INFRA.Context
         public DbSet<UsuarioDispositivo> UsuarioDispositivo { get; set; }
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
         public DbSet<Orcamento> Orcamento { get; set; }
+        public DbSet<OrcamentosFaturamento> OrcamentosFaturamento { get; set; }
         public DbSet<OrcamentoMaterial> OrcamentoMaterial { get; set; }
         public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
         public DbSet<OrcamentoDesconto> OrcamentoDesconto { get; set; }

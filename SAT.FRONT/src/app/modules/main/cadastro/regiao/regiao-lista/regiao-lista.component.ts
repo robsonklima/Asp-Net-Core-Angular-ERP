@@ -11,6 +11,8 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
   selector: 'app-regiao-lista',
@@ -49,7 +51,8 @@ export class RegiaoListaComponent extends Filterable implements AfterViewInit, I
   constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _regiaoService: RegiaoService
+    private _regiaoService: RegiaoService,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'regiao')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -114,6 +117,14 @@ export class RegiaoListaComponent extends Filterable implements AfterViewInit, I
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('Regiao', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
   }
 
 paginar() {

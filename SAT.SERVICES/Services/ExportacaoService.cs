@@ -223,6 +223,17 @@ namespace SAT.SERVICES.Services
                 GerarPlanilhaPeca(parameters);
                 break;
 
+            case ExportacaoTipoEnum.USUARIO:
+                GerarPlanilhaUsuario(parameters);
+                break;
+
+            case ExportacaoTipoEnum.REGIAO:
+                GerarPlanilhaRegiao(parameters);
+                break;
+            case ExportacaoTipoEnum.REGIAOAUTORIZADA:
+                GerarPlanilhaRegiaoAutorizada(parameters);
+                break;
+
             default:
                 break;
         }

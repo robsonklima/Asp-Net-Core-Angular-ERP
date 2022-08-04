@@ -12,7 +12,7 @@ namespace SAT.SERVICES.Services {
                             new 
                             {
                                 Nome = fp.DescFormaPagto ?? Constants.NENHUM_REGISTRO,
-                                PercAjuste = fp.PercAjuste, Constants.NENHUM_REGISTRO,
+                                PercAjuste = fp.PercAjuste,
                                 Ativo = fp.IndAtivo == 1 ? "SIM" : "NÃO",
                        
                             });

@@ -14,6 +14,8 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable, IFilterBase } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { FileMime } from 'app/core/types/file.types';
 
 @Component({
   selector: 'app-regiao-autorizada-lista',
@@ -54,7 +56,8 @@ export class RegiaoAutorizadaListaComponent extends Filterable implements AfterV
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _dialog: MatDialog,
     private _snack: CustomSnackbarService,
-    protected _userService: UserService
+    protected _userService: UserService,
+    private _exportacaoService: ExportacaoService
   ) {
     super(_userService, 'regiao-autorizada')
     this.userSession = JSON.parse(this._userService.userSession);
@@ -146,6 +149,14 @@ export class RegiaoAutorizadaListaComponent extends Filterable implements AfterV
           });
       }
     });
+  }
+
+  async exportar() {
+    this.isLoading = true;
+
+    await this._exportacaoService.exportar('RegiaoAutorizada', FileMime.Excel, this.filter?.parametros);
+
+    this.isLoading = false;
   }
 
   paginar() {

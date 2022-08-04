@@ -154,23 +154,18 @@ namespace SAT.INFRA.Repository
                 query = query.Where(orc => tiposIntervencao.Contains(orc.OrdemServico.TipoIntervencao.CodTipoIntervencao.Value));
             }            
 
-            if (parameters.CodEquipContrato.HasValue)
-                query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.CodEquipContrato == parameters.CodEquipContrato);
-
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(orc => orc.OrdemServico.NumOSCliente == parameters.NumOSCliente);
-
-            if (!string.IsNullOrWhiteSpace(parameters.NumRAT))
-                query = query.Where(orc => orc.OrdemServico.RelatoriosAtendimento.All(rat => rat.NumRAT == parameters.NumRAT));
 
             if (parameters.CodigoOrdemServico.HasValue)
                query = query.Where(orc => orc.CodigoOrdemServico == parameters.CodigoOrdemServico);
 
-            if (!string.IsNullOrWhiteSpace(parameters.NumOSQuarteirizada))
-                query = query.Where(orc => orc.OrdemServico.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
-
             if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
                 query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());                
+
+            if (parameters.DataInicio.HasValue && parameters.DataFim.HasValue)
+                query = query.Where(orc => orc.Data.HasValue && orc.Data.Value.Date >= parameters.DataInicio.Value.Date
+                    && orc.Data.Value.Date <= parameters.DataFim.Value.Date);                
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
@@ -178,6 +173,6 @@ namespace SAT.INFRA.Repository
             }
 
             return PagedList<Orcamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
-        }
+    }
     }
 }

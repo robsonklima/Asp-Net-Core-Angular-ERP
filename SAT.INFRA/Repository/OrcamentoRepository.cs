@@ -131,6 +131,10 @@ namespace SAT.INFRA.Repository
                     p.Numero.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
+            
+            if (parameters.CodigoOrdemServico.HasValue)
+               query = query.Where(orc => orc.OrdemServico.CodOS == parameters.CodigoOrdemServico);
+            
 
             if (!string.IsNullOrEmpty(parameters.codStatusServicos))
             {
@@ -163,9 +167,6 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(orc => orc.OrdemServico.NumOSCliente == parameters.NumOSCliente);
-
-            if (parameters.CodigoOrdemServico.HasValue)
-               query = query.Where(orc => orc.CodigoOrdemServico == parameters.CodigoOrdemServico);
 
             if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
                 query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());                

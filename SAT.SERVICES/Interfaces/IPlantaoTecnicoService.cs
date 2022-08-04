@@ -11,6 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(PlantaoTecnico plantao);
         PlantaoTecnico ObterPorCodigo(int codigo);
-        void ProcessarTask();
+        void ProcessarTaskEmailsSobreaviso();
     }
 }

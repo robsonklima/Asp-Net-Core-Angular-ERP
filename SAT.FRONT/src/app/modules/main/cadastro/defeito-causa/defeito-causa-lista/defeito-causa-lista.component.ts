@@ -5,7 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DefeitoComponenteService } from 'app/core/services/defeito-componente.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { DefeitoComponente, DefeitoComponenteData, DefeitoComponenteParameters } from 'app/core/types/defeito-componente.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -52,8 +54,8 @@ export class DefeitoCausaListaComponent extends Filterable implements AfterViewI
     constructor(
         protected _userService: UserService,
         private _defeitoComponenteService: DefeitoComponenteService,
-        private _cdr: ChangeDetectorRef
-        
+        private _cdr: ChangeDetectorRef,
+        private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'defeito-causa')
         this.userSession = JSON.parse(this._userService.userSession);
@@ -125,6 +127,14 @@ export class DefeitoCausaListaComponent extends Filterable implements AfterViewI
 
     buscaSelecionado(dados: DefeitoComponente) {
         return dados.selecionado == 1 ? 'Sim' : "Não";
+    }
+
+    async exportar(){
+        this.isLoading = true;
+
+		await this._exportacaoService.exportar('DefeitoComponente', FileMime.Excel, this.filter?.parametros);
+
+		this.isLoading = false;
     }
 
     paginar() {

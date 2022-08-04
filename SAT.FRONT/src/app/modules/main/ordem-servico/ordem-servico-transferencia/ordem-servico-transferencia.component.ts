@@ -27,6 +27,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
   tecnicos: Tecnico[];
   isLoading: boolean;
   sessionData: UsuarioSessao;
+  somenteMinhaFilial: boolean = true;
 
   constructor(
     private _tecnicoService: TecnicoService,
@@ -55,7 +56,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
       indAtivo: statusConst.ATIVO,
       sortActive: 'nome',
       sortDirection: 'asc',
-      codFiliais: this.os.codFilial.toString() || this.sessionData?.usuario?.filial?.codFilial?.toString(),
+      codFiliais: !this.somenteMinhaFilial ? undefined : this.os.codFilial.toString() || this.sessionData?.usuario?.filial?.codFilial?.toString(),
       filter: this.searchInputControl.nativeElement.val,
       pageSize: 20
     }

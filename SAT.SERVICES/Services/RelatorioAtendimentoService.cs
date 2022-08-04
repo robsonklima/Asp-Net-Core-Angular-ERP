@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
@@ -11,23 +12,25 @@ namespace SAT.SERVICES.Services
 {
     public class RelatorioAtendimentoService : IRelatorioAtendimentoService
     {
-        private readonly IUsuarioService _usuarioService;
         private readonly IHttpContextAccessor _contextAcecssor;
+        private readonly IUsuarioRepository _usuarioRepo;
         private readonly IEmailService _emailService;
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly IRelatorioAtendimentoDetalheRepository _relatorioAtendimentoDetalheRepo;
         private readonly IRelatorioAtendimentoDetalhePecaRepository _relatorioAtendimentoDetalhePecaRepo;
         private readonly ISequenciaRepository _seqRepo;
 
-
         public RelatorioAtendimentoService(
-                IUsuarioService usuarioService,
+                IUsuarioRepository usuarioRepository,
                 IHttpContextAccessor httpContextAccessor,
                 IEmailService emailService,
                 IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
                 IRelatorioAtendimentoDetalheRepository relatorioAtendimentoDetalheRepo,
                 IRelatorioAtendimentoDetalhePecaRepository relatorioAtendimentoDetalhePecaRepo,
-                ISequenciaRepository seqRepo)
+                IPontoUsuarioRepository pontoUsuarioRepository,
+                ISatTaskRepository satTaskRepo,
+                ISequenciaRepository seqRepo
+        )
         {
             _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
             _relatorioAtendimentoDetalheRepo = relatorioAtendimentoDetalheRepo;
@@ -35,7 +38,7 @@ namespace SAT.SERVICES.Services
             _seqRepo = seqRepo;
             _emailService = emailService;
             _contextAcecssor = httpContextAccessor;
-            _usuarioService = usuarioService;
+            _usuarioRepo = usuarioRepository;
         }
 
         public ListViewModel ObterPorParametros(RelatorioAtendimentoParameters parameters)
@@ -91,7 +94,7 @@ namespace SAT.SERVICES.Services
 
         public bool Deletar(int codigo)
         {
-            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
+            var usuario = _usuarioRepo.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
             try
             {

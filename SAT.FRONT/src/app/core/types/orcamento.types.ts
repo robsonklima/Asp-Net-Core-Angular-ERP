@@ -218,6 +218,11 @@ export interface OrcamentoData extends Meta
     items: Orcamento[];
 };
 
+export interface OrcamentosFaturamentoParameters extends Meta
+{
+    codOrcamento?: number;
+};
+
 export interface OrcamentosFaturamentoData extends Meta
 {
     items: OrcamentosFaturamento[];

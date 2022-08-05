@@ -55,6 +55,10 @@
             <div class="mt-6 border-t"></div>
             <div class="flex items-center justify-start px-8 py-5">
                 <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('salvar') }}
+                </button>
+
+                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
 

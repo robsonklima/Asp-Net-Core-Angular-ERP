@@ -32,6 +32,10 @@
 
             <div class="flex items-center justify-start px-8 py-3 relative">
                 <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('salvar') }}
+                </button>
+
+                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
 

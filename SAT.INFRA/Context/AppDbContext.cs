@@ -64,6 +64,7 @@ namespace SAT.INFRA.Context
         public DbSet<Localizacao> Localizacao { get; set; }
         public DbSet<ContratoEquipamento> ContratoEquipamento { get; set; }
         public DbSet<ContratoSLA> ContratoSLA { get; set; }
+        public DbSet<ContratoServico> ContratoServico { get; set; }
         public DbSet<AgendaTecnico> AgendaTecnico { get; set; }
         public DbSet<DispBBCalcEquipamentoContrato> DispBBCalcEquipamentoContrato { get; set; }
         public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
@@ -234,6 +235,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Sequencia>(new SequenciaMap().Configure);
             modelBuilder.Entity<ContratoEquipamento>(new ContratoEquipamentoMap().Configure);
             modelBuilder.Entity<ContratoSLA>(new ContratoSLAMap().Configure);
+            modelBuilder.Entity<ContratoServico>(new ContratoServicoMap().Configure);
             modelBuilder.Entity<AgendaTecnico>(new AgendaTecnicoMap().Configure);
             modelBuilder.Entity<DespesaPeriodoTecnico>(new DespesaPeriodoTecnicoMap().Configure);
             modelBuilder.Entity<TicketLogPedidoCredito>(new TicketLogPedidoCreditoMap().Configure);

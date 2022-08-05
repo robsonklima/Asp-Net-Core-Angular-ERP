@@ -21,5 +21,6 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManutencao_DEL { get; set; }
         public string DataHoraManutencao_DEL { get; set; }
         public TipoServico TipoServico { get; set; }
+        public Contrato Contrato { get; set; }
     }
 }

@@ -57,6 +57,7 @@ public class ConfigurationIOC
         builder.RegisterType<ContratoEquipamentoRepository>().As<IContratoEquipamentoRepository>();
         builder.RegisterType<ContratoEquipamentoDataRepository>().As<IContratoEquipamentoDataRepository>();
         builder.RegisterType<ContratoSLARepository>().As<IContratoSLARepository>();
+        builder.RegisterType<ContratoServicoRepository>().As<IContratoServicoRepository>();
         builder.RegisterType<ContratoReajusteRepository>().As<IContratoReajusteRepository>();
         builder.RegisterType<ContratoReajusteRepository>().As<IContratoReajusteRepository>();
         builder.RegisterType<AgendaTecnicoRepository>().As<IAgendaTecnicoRepository>();
@@ -164,6 +165,7 @@ public class ConfigurationIOC
         builder.RegisterType<ContratoEquipamentoDataService>().As<IContratoEquipamentoDataService>();
         builder.RegisterType<ContratoService>().As<IContratoService>();
         builder.RegisterType<ContratoSLAService>().As<IContratoSLAService>();
+        builder.RegisterType<ContratoServicoService>().As<IContratoServicoService>();
         builder.RegisterType<ContratoReajusteService>().As<IContratoReajusteService>();
         builder.RegisterType<DefeitoService>().As<IDefeitoService>();
         builder.RegisterType<DespesaCartaoCombustivelService>().As<IDespesaCartaoCombustivelService>();

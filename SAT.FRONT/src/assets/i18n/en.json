@@ -646,5 +646,6 @@
     "faturar": "Invoice",
     "numero nota fiscal": "Invoice number",
     "descricao nota fiscal": "Invoice description",
-    "lista de servicos" : "Service List"
+    "lista de servicos" : "Service List",
+    "tipo servico": "Service Type"
 }

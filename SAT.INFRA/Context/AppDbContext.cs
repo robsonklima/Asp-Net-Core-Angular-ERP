@@ -178,6 +178,10 @@ namespace SAT.INFRA.Context
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         public DbSet<SatTask> SatTask { get; set; }
         public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
+        public DbSet<OrcDadosBancarios> OrcDadosBancarios { get; set; }
+        public DbSet<OrcFormaPagamento> OrcFormaPagamento { get; set; }
+        public DbSet<ContratoPedidoConf> ContratoPedidoConf { get; set; }
+        public DbSet<PosVenda> PosVenda { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -373,6 +377,10 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
             modelBuilder.Entity<SatTask>(new SatTaskMap().Configure);
             modelBuilder.Entity<SatTaskTipo>(new SatTaskTipoMap().Configure);
+            modelBuilder.Entity<ContratoPedidoConf>(new ContratoPedidoConfMap().Configure);
+            modelBuilder.Entity<OrcFormaPagamento>(new OrcFormaPagamentoMap().Configure);
+            modelBuilder.Entity<OrcDadosBancarios>(new OrcDadosBancariosMap().Configure);
+            modelBuilder.Entity<PosVenda>(new PosVendaMap().Configure);
             modelBuilder.Entity<ViewDespesaImpressaoItem>(new ViewDespesaImpressaoItemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

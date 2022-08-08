@@ -4,12 +4,7 @@ namespace SAT.SERVICES.Services
 {
     public class IntegracaoFinanceiroService : IIntegracaoFinanceiroService
     {
-        public IntegracaoFinanceiroService(
-
-        )
-        {
-
-        }
+        public IntegracaoFinanceiroService() { }
 
         public void Executar()
         {

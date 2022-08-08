@@ -663,5 +663,7 @@
     "faturado": "Faturado",
     "faturar": "Faturar",
     "numero nota fiscal": "Número nota fiscal",
-    "descricao nota fiscal": "Descrição nota fiscal"
+    "descricao nota fiscal": "Descrição nota fiscal",
+    "lista de servicos" : "Lista de Serviços",
+    "tipo servico": "Tipo Serviço"
 }

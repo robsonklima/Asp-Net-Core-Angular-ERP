@@ -62,6 +62,7 @@ export class Contrato
     contratoEquipamento: ContratoEquipamento;
     contratoServico: ContratoServico[];
     tipoContrato: TipoContrato;
+    indPedido: number;
 }
 
 export interface ContratoData extends Meta

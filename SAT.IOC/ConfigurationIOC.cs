@@ -2,7 +2,6 @@
 using Autofac;
 using SAT.INFRA.Interfaces;
 using SAT.INFRA.Repository;
-using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using SAT.SERVICES.Services;
 
@@ -13,7 +12,6 @@ public class ConfigurationIOC
     public static void Load(ContainerBuilder builder)
     {
         #region Repositories
-
         builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
@@ -147,6 +145,7 @@ public class ConfigurationIOC
         builder.RegisterType<SatTaskRepository>().As<ISatTaskRepository>();
         builder.RegisterType<DispBBBloqueioOSRepository>().As<IDispBBBloqueioOSRepository>();
         builder.RegisterType<InstalacaoNFVendaRepository>().As<IInstalacaoNFVendaRepository>();
+        builder.RegisterType<IntegracaoFinanceiroRepository>().As<IIntegracaoFinanceiroRepository>();
         #endregion
 
         #region Services
@@ -278,7 +277,7 @@ public class ConfigurationIOC
         builder.RegisterType<TicketAtendimentoService>().As<ITicketAtendimentoService>();
         builder.RegisterType<TicketPrioridadeService>().As<ITicketPrioridadeService>();
         builder.RegisterType<TicketClassificacaoService>().As<ITicketClassificacaoService>();
-
+        builder.RegisterType<IntegracaoFinanceiroService>().As<IIntegracaoFinanceiroService>();
         #endregion
 
         #region Utils Services

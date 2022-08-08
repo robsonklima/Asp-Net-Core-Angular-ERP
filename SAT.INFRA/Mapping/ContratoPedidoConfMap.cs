@@ -4,12 +4,12 @@ using SAT.MODELS.Entities;
 
 namespace SAT.INFRA.Mapping
 {
-    public class ContratoPedidoConfMap : IEntityTypeConfiguration<ContratoPedidoConf>
+    public class ContratoConfMap : IEntityTypeConfiguration<ContratoConf>
     {
-        public void Configure(EntityTypeBuilder<ContratoPedidoConf> builder)
+        public void Configure(EntityTypeBuilder<ContratoConf> builder)
         {
-            builder.ToTable("ContratoPedidoConf");
-            builder.HasKey(i => i.CodContratoPedidoConf);
+            builder.ToTable("ContratoConf");
+            builder.HasKey(i => i.CodContratoConf);
         }
     }
 }

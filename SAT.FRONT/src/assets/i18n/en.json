@@ -645,5 +645,6 @@
     "faturado": "Billed",
     "faturar": "Invoice",
     "numero nota fiscal": "Invoice number",
-    "descricao nota fiscal": "Invoice description"
+    "descricao nota fiscal": "Invoice description",
+    "lista de servicos" : "Service List"
 }

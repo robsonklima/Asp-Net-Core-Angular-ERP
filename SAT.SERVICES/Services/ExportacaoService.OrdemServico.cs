@@ -150,6 +150,7 @@ namespace SAT.SERVICES.Services
                                                 Cidade = v.Cidade ?? Constants.NENHUM_REGISTRO,
                                                 SiglaUF = v.SiglaUF ?? Constants.NENHUM_REGISTRO,
                                                 Pais = v.Pais ?? Constants.NENHUM_REGISTRO,
+                                                Contrato = v.NroContrato ?? Constants.NENHUM_REGISTRO,
                                                 Equipamento = v.Equipamento ?? Constants.NENHUM_REGISTRO,
                                                 NumSerie = v.NumSerie ?? Constants.NENHUM_REGISTRO,
                                                 NumSerieCliente = v.NumSerieCliente ?? Constants.NENHUM_REGISTRO,

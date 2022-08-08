@@ -43,6 +43,7 @@ namespace SAT.MODELS.ViewModels
         public int? CodTipoEquip { get; set; }
         public int? CodEquipContrato { get; set; }
         public int? CodContrato { get; set; }
+        public string NroContrato { get; set; }
         public string NumSerie { get; set; }
         public int? NumReincidencia { get; set; }
         public string NumSerieCliente { get; set; }

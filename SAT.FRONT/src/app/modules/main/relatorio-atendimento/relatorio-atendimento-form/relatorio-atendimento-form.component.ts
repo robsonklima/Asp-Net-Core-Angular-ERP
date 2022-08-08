@@ -297,8 +297,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 				this.relatorioAtendimento
 					.relatorioAtendimentoDetalhes[iDetalhe]
 					.relatorioAtendimentoDetalhePecas[iDetalhePeca].removido = true;
-
-				// this._cdr.markForCheck();
 			}
 		});
 	}

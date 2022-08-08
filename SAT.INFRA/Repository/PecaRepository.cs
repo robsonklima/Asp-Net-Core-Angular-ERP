@@ -73,36 +73,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Peca> ObterPorParametros(PecaParameters parameters)
         {
-            var pecas = this.ObterQuery(parameters)
-                .DefaultIfEmpty()
-                .AsQueryable();
-
-            if (parameters.Filter != null)
-            {
-                pecas = pecas.Where(
-                            p =>
-                            p.CodPeca.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                            p.NomePeca.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)||
-                            p.CodPecaStatus.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
-            }
-
-             if (!string.IsNullOrWhiteSpace(parameters.CodPecas))
-            {
-                int[] cods = parameters.CodPecas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                pecas = pecas.Where(p => cods.Contains(p.CodPeca));
-            }
-
-            if (!string.IsNullOrWhiteSpace(parameters.CodPecaStatus))
-            {
-                int[] cods = parameters.CodPecaStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                pecas = pecas.Where(p => cods.Contains(p.PecaStatus.CodPecaStatus));
-            }
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-            {
-                pecas = pecas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
-            }
+            var pecas = this.ObterQuery(parameters).AsQueryable();
 
             return PagedList<Peca>.ToPagedList(pecas, parameters.PageNumber, parameters.PageSize);
         }

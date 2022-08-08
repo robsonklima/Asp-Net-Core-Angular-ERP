@@ -149,6 +149,42 @@ namespace SAT.INFRA.Context
         public DbSet<LocalEnvioNFFaturamentoVinculado> LocalEnvioNFFaturamentoVinculado { get; set; }
         public DbSet<Cargo> Cargo { get; set; }
         public DbSet<UsuarioSeguranca> UsuarioSeguranca { get; set; }
+        public DbSet<FormaPagamento> FormaPagamento { get; set; }
+        public DbSet<Moeda> Moeda { get; set; }
+        public DbSet<PecaLista> PecaLista { get; set; }
+        public DbSet<TipoFrete> TipoFrete { get; set; }
+        public DbSet<AcordoNivelServicoLegado> AcordoNivelServicoLegado { get; set; }
+        public DbSet<ClienteBancada> ClienteBancada { get; set; }
+        public DbSet<BancadaLista> BancadaLista { get; set; }
+        public DbSet<FerramentaTecnico> FerramentaTecnico { get; set; }
+        public DbSet<LiderTecnico> LiderTecnico { get; set; }
+        public DbSet<AcaoComponente> AcaoComponente { get; set; }
+        public DbSet<DefeitoComponente> DefeitoComponente { get; set; }
+        public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
+        public DbSet<ClientePeca> ClientePeca { get; set; }
+        public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
+        public DbSet<ViewAgendaTecnicoEvento> ViewAgendaTecnicoEvento { get; set; }
+        public DbSet<ViewTecnicoTempoAtendimento> ViewTecnicoTempoAtendimento { get; set; }
+		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
+        public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
+        public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
+        public DbSet<TicketModulo> TicketModulo { get; set; }
+        public DbSet<TicketStatus> TicketStatus { get; set; }
+        public DbSet<TicketAtendimento> TicketAtendimento { get; set; }
+        public DbSet<TicketPrioridade> TicketPrioridade { get; set; }
+        public DbSet<TicketClassificacao> TicketClassificacao { get; set; }
+        public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
+        public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
+        public DbSet<SatTask> SatTask { get; set; }
+        public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
+
+        // Views
+        public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; } 
+        public DbSet<ViewDashboardIndicadoresDetalhadosProdutividade> ViewDashboardIndicadoresDetalhadosProdutividade { get; set; } 
         public DbSet<ViewDashboardIndicadoresFiliais> ViewDashboardIndicadoresFiliais { get; set; }
         public DbSet<ViewDashboardChamadosMaisAntigosCorretivas> ViewDashboardChamadosMaisAntigosCorretivas { get; set; }
         public DbSet<ViewDashboardChamadosMaisAntigosOrcamentos> ViewDashboardChamadosMaisAntigosOrcamentos { get; set; }
@@ -193,40 +229,8 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
         public DbSet<ViewExportacaoChamadosUnificado> ViewExportacaoChamadosUnificado { get; set; }
-        public DbSet<FormaPagamento> FormaPagamento { get; set; }
-        public DbSet<Moeda> Moeda { get; set; }
-        public DbSet<PecaLista> PecaLista { get; set; }
-        public DbSet<TipoFrete> TipoFrete { get; set; }
-        public DbSet<AcordoNivelServicoLegado> AcordoNivelServicoLegado { get; set; }
-        public DbSet<ClienteBancada> ClienteBancada { get; set; }
-        public DbSet<BancadaLista> BancadaLista { get; set; }
-        public DbSet<FerramentaTecnico> FerramentaTecnico { get; set; }
-        public DbSet<LiderTecnico> LiderTecnico { get; set; }
-        public DbSet<AcaoComponente> AcaoComponente { get; set; }
-        public DbSet<DefeitoComponente> DefeitoComponente { get; set; }
-        public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
-        public DbSet<ClientePeca> ClientePeca { get; set; }
-        public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
-        public DbSet<ViewAgendaTecnicoEvento> ViewAgendaTecnicoEvento { get; set; }
-        public DbSet<ViewTecnicoTempoAtendimento> ViewTecnicoTempoAtendimento { get; set; }
-		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
-        public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
-        public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
-        public DbSet<Ticket> Ticket { get; set; }
-        public DbSet<TicketModulo> TicketModulo { get; set; }
-        public DbSet<TicketStatus> TicketStatus { get; set; }
-        public DbSet<TicketAtendimento> TicketAtendimento { get; set; }
-        public DbSet<TicketPrioridade> TicketPrioridade { get; set; }
-        public DbSet<TicketClassificacao> TicketClassificacao { get; set; }
-        public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
-        public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
-        public DbSet<SatTask> SatTask { get; set; }
-        public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
-        public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
-        public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
-        public DbSet<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }
-        public DbSet<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; } 
-        public DbSet<ViewDashboardIndicadoresDetalhadosProdutividade> ViewDashboardIndicadoresDetalhadosProdutividade { get; set; } 
+        public DbSet<ViewIntegracaoFinanceiroOrcamento> ViewIntegracaoFinanceiroOrcamento { get; set; }
+        public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -334,6 +338,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPATecnico>(new ViewDashboardIndicadoresDetalhadosSPATecnicoMap().Configure);    
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosProdutividade>(new ViewDashboardIndicadoresDetalhadosProdutividadeMap().Configure);                            
             modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
+            modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamento>(new ViewIntegracaoFinanceiroOrcamentoMap().Configure);
+            modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamentoItem>(new ViewIntegracaoFinanceiroOrcamentoItemMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);

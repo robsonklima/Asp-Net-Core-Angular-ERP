@@ -395,7 +395,7 @@
                     </div>
 
                     <!-- Material a ser utilizado -->
-                    <div class="grid grid-cols-12 gap-x-1 mt-3" *ngIf="orcamento?.materiais?.length > 0">
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
                         <div class="text-xl col-span-12 text-left font-medium mb-2">
                             {{ 'Material a ser utilizado' | uppercase }}</div>
 
@@ -403,7 +403,7 @@
                             <div class="col-span-1 ">
                                 Código
                             </div>
-                            <div class="col-span-3">
+                            <div class="col-span-2">
                                 Descrição
                             </div>
                             <div class="col-span-1 text-center">
@@ -412,19 +412,19 @@
                             <div class="col-span-1 text-right">
                                 Unitário
                             </div>
-                            <div class="col-span-1 text-right">
-                                Desconto
+                            <div class="col-span-2 text-right">
+                                Desconto a base de troca*
                             </div>
                             <div class="col-span-1 text-right">
                                 Total
                             </div>
                         </div>
 
-                        <div class="col-span-12 border grid grid-cols-8" *ngFor="let m of orcamento?.materiais">
+                        <div class="col-span-12 border grid grid-cols-8" *ngFor="let m of orcamento?.materiais" >
                             <div class="col-span-1">
                                 {{ m?.codigoMagnus }}
                             </div>
-                            <div class="col-span-3">
+                            <div class="col-span-2">
                                 {{ m?.descricao }}
                             </div>
                             <div class="col-span-1 text-center">
@@ -433,11 +433,16 @@
                             <div class="col-span-1 text-right">
                                 {{ m?.valorUnitario | currency:'BRL':'symbol-narrow' }}
                             </div>
-                            <div class="col-span-1 text-right">
+                            <div class="col-span-2 text-right">
                                 {{ m?.valorDesconto  ?? 0  | currency:'BRL':'symbol-narrow'}}
                             </div>
                             <div class="col-span-1 text-right">
                                 {{ m?.valorTotal | currency:'BRL':'symbol-narrow'}}
+                            </div>
+                        </div>
+                        <div class="col-span-12 border grid grid-cols-8" *ngIf="!orcamento?.materiais?.length">
+                            <div class="col-span-12 text-center">
+                                Nenhum material cadastrado neste orçamento
                             </div>
                         </div>
                     </div>
@@ -483,14 +488,7 @@
                         <div class="h-0	col-span-6 self-center text-right">
                             {{ orcamento?.orcamentoDeslocamento?.valorUnitarioKmRodado | currency:'BRL':'symbol-narrow' }}
                         </div>
-                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                        <div class="h-0	col-span-4 text-lg font-medium">Hora em Deslocamento</div>
-                        <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	col-span-6 self-center text-right">
-                            {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }}
-                        </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0	col-span-4 text-lg font-medium">KM</div>
@@ -499,6 +497,7 @@
                         <div class="h-0	col-span-6 self-center text-right">
                             {{ orcamento?.orcamentoDeslocamento?.quantidadeKm }}
                         </div>
+
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0	col-span-4 text-lg font-medium">Percurso</div>
@@ -507,14 +506,7 @@
                         <div class="h-0	col-span-6 self-center text-right">
                             Ida e volta
                         </div>
-                        <div class="h-4 col-span-12 my-2 border-b"></div>
 
-                        <div class="h-0	col-span-5 text-lg font-medium">Qtd 1h a cada 65km rodados</div>
-                        <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	self-center text-right"></div>
-                        <div class="h-0	col-span-5 self-center text-right">
-                            {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
-                        </div>
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0	col-span-4 text-lg font-medium">Total KM Rodado</div>
@@ -523,6 +515,25 @@
                         <div class="h-0	col-span-6 self-center text-right">
                             {{ orcamento?.orcamentoDeslocamento?.valorTotalKmRodado | currency:'BRL':'symbol-narrow' }}
                         </div>
+
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                        <div class="h-0	col-span-4 text-lg font-medium">Hora em Deslocamento</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-6 self-center text-right">
+                            {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }}
+                        </div>
+
+                        <div class="h-4 col-span-12 my-2 border-b"></div>
+                        
+                        <div class="h-0	col-span-5 text-lg font-medium">Qtd 1h a cada 65km rodados</div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	self-center text-right"></div>
+                        <div class="h-0	col-span-5 self-center text-right">
+                            {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
+                        </div>
+                        
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="h-0	col-span-4 text-lg font-medium">Total KM Deslocamento</div>
@@ -535,7 +546,7 @@
                     </div>
 
                     <!-- Outros serviços -->
-                    <div class="grid grid-cols-12 gap-x-1 mt-3" *ngIf="orcamento?.outrosServicos?.length > 0">
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
                         <div class="text-xl col-span-12 text-left font-medium mb-2">
                             {{ 'Outros serviços' | uppercase }}</div>
 
@@ -568,10 +579,16 @@
                                 {{ s?.valorTotal | currency:'BRL':'symbol-narrow'}}
                             </div>
                         </div>
+
+                        <div class="col-span-12 border grid grid-cols-8"  *ngIf="!orcamento?.outrosServicos?.length">
+                            <div class="col-span-12 text-center">
+                                Nenhum serviço adicional cadastrado neste orçamento
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Descontos -->
-                    <div class="grid grid-cols-12 gap-x-1 mt-3" *ngIf="orcamento?.descontos?.length > 0">
+                    <div class="grid grid-cols-12 gap-x-1 mt-3">
                         <div class="text-xl col-span-12 text-left font-medium mb-2">
                             {{ 'Descontos' | uppercase }}</div>
 
@@ -596,6 +613,12 @@
                             </div>
                             <div class="col-span-2 text-right">
                                 {{ d?.valorTotal | currency:'BRL':'symbol-narrow'}}
+                            </div>
+                        </div>
+
+                        <div class="col-span-12 border grid grid-cols-8" *ngIf="!orcamento?.descontos?.length">
+                            <div class="col-span-12 text-center">
+                                Nenhum desconto encontraro para este orçamento
                             </div>
                         </div>
                     </div>
@@ -644,10 +667,13 @@
                         <div class="h-4 col-span-12 my-2 border-b"></div>
 
                         <div class="col-span-12 text-lg font-medium">
-                            <div class="col-span-12 self-center font-light text-base text-justify">
+                            <div class="col-span-12 self-center font-light text-base text-justify text-xs">
                                 Os valores deste orçamento são apenas uma previsão. O efetivo faturamento será efetuado
                                 de acordo com os serviços executados e comprovados em Relatórios Técnicos, assinados
                                 pelo cliente.</div>
+                            <div class="col-span-12 my-2 border-b text-xs"></div>
+                            <div class="col-span-12 self-center font-light text-base text-justify">
+                                *O valor de desconto a base de troca está condicionado ao recolhimento da peça substituída</div>
                             <div class="col-span-12 my-2 border-b"></div>
                         </div>
                     </div>

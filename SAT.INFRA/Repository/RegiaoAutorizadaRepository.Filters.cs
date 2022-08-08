@@ -19,7 +19,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(r => r.CodAutorizada == parameters.CodAutorizada);
             }
 
-
             if (parameters.IndAtivo != null)
             {
                 query = query.Where(r => r.IndAtivo == parameters.IndAtivo);

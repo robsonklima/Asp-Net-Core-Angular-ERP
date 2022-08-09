@@ -209,7 +209,7 @@
                         <mat-tab label="{{ t('pedido') }}">
                             <ng-template matTabContent>
                                 <div class="w-full">
-                                    <app-orcamento-detalhe-pedido [codOrc]="orcamento?.codOrc">
+                                    <app-orcamento-detalhe-pedido [codOrc]="orcamento?.codOrc" [materiais]="orcamento?.materiais">
                                     </app-orcamento-detalhe-pedido>
                                 </div>
                             </ng-template>

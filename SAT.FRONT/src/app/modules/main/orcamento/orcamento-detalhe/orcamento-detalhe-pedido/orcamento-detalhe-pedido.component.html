@@ -5,7 +5,7 @@
         </div>
         <div class="flex place-content-end">
             <button mat-button [color]="'primary'">
-                {{ t('gerar') }}
+                {{ t('salvar') }}
             </button>
         </div>
     </div>
@@ -14,9 +14,32 @@
             <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-b-lg h-40">
-                            
-                        </div>                        
+                        <form>
+                            <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto px-6 pb-6 bg-card shadow rounded overflow-hidden">
+                                <mat-form-field class="fuse-mat-dense w-5/12">
+                                    <mat-label>{{ t('numero pedido') }}</mat-label>
+                                    <input matInput formControlName="numDiasSubstEquip">
+                                </mat-form-field>
+
+                                <mat-form-field class="fuse-mat-textarea fuse-mat-dense w-5/12">
+                                    <mat-label>{{ t('detalhe pedido') }}</mat-label>
+                                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'">
+                                    </mat-icon>
+                                    <textarea matInput formControlName="objetoContrato" [rows]="6"
+                                        maxlength="2000"></textarea>
+                                </mat-form-field>
+
+                                <div class="w-5/12">
+                                    <mat-label>{{ t('itens pedido') }}</mat-label>
+                                    <div cdkDropList class="example-list mt-2 w-full" (cdkDropListDropped)="drop($event)"
+                                    [cdkDropListSortPredicate]="sortPredicate">
+                                        <div class="example-box" *ngFor="let material of materiais; let i = index" [cdkDragData]="material" cdkDrag>
+                                            {{ i + 1 }} -  {{material.codigoMagnus + ' - ' + material.descricao }} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </ng-container>
                 </div>
             </div>

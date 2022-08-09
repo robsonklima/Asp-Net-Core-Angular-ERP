@@ -36,6 +36,7 @@ namespace SAT.MODELS.ViewModels {
         public string Agencia { get; set; }
         public string Conta { get; set; }
         public string TextoNota { get; set; }
+        public decimal ValorTotal { get; set; }
         public List<ViewIntegracaoFinanceiroOrcamentoItem> Itens { get; set; }
     }
 }

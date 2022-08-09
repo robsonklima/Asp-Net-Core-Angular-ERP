@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
                         CodStatusServico = (int)StatusServicoEnum.FECHADO,
                         CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
                         TipoFaturamento = (TipoFaturamentoOrcEnum)tipo,
-                        DataFechamento = DateTime.Now
+                        AnoFechamento = DateTime.Now
                     })
                     .ToList();
 
@@ -69,9 +69,15 @@ namespace SAT.SERVICES.Services
                 var retorno = JsonConvert.DeserializeObject<IntegracaoFinanceiroRetorno>(response.Content.ReadAsStringAsync()?.Result);
 
                 if (retorno.Sucesso) {
-                    LoggerService.LogInfo($"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com sucesso!");
+                    _integracaoFinanceiroRepo.SalvarRetorno(new OrcIntegracaoFinanceiro {
+                        CodOrc = orcamento.CodOrc,
+                        DataHoraCad = DateTime.Now
+                    });
+
+                    LoggerService.LogInfo($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com sucesso!");
                 } else {
-                    LoggerService.LogError($"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com erro! {retorno.MensagemErro}");
+                    LoggerService.LogError($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com erro!
+                        {retorno.MensagemErro} {JsonConvert.SerializeObject(orcamento)}");
                 }
             }
             catch (Exception ex)

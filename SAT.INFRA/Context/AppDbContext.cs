@@ -182,6 +182,7 @@ namespace SAT.INFRA.Context
         public DbSet<OrcFormaPagamento> OrcFormaPagamento { get; set; }
         public DbSet<ContratoConf> ContratoConf { get; set; }
         public DbSet<PosVenda> PosVenda { get; set; }
+        public DbSet<OrcIntegracaoFinanceiro> OrcIntegracaoFinanceiro { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -381,6 +382,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrcFormaPagamento>(new OrcFormaPagamentoMap().Configure);
             modelBuilder.Entity<OrcDadosBancarios>(new OrcDadosBancariosMap().Configure);
             modelBuilder.Entity<PosVenda>(new PosVendaMap().Configure);
+            modelBuilder.Entity<OrcIntegracaoFinanceiro>(new OrcIntegracaoFinanceiroMap().Configure);
             modelBuilder.Entity<ViewDespesaImpressaoItem>(new ViewDespesaImpressaoItemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

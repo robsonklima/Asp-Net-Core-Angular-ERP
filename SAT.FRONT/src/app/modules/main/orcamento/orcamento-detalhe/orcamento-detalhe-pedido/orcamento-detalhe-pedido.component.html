@@ -4,7 +4,7 @@
             <span class="text-lg font-medium">{{ t('pedido') }}</span>
         </div>
         <div class="flex place-content-end">
-            <button mat-button [color]="'primary'">
+            <button mat-button [color]="'primary'" (click)="salvarPedido()">
                 {{ t('salvar') }}
             </button>
         </div>
@@ -31,8 +31,7 @@
 
                                 <div class="w-5/12">
                                     <mat-label>{{ t('itens pedido') }}</mat-label>
-                                    <div cdkDropList class="example-list mt-2 w-full" (cdkDropListDropped)="drop($event)"
-                                    [cdkDropListSortPredicate]="sortPredicate">
+                                    <div cdkDropList class="example-list mt-2 w-full" (cdkDropListDropped)="drop($event)">
                                         <div class="example-box" *ngFor="let material of materiais; let i = index" [cdkDragData]="material" cdkDrag>
                                             {{ i + 1 }} -  {{material.codigoMagnus + ' - ' + material.descricao }} 
                                         </div>

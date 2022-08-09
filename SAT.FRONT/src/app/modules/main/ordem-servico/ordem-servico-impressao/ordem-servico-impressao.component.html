@@ -249,6 +249,20 @@
                                         {{ (rat?.dataHoraInicio | date:'dd/MM/YY HH:mm') || "---" }}</div>
                                     <div class="h-4 col-span-12 my-2 border-b"></div>
 
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('inicio intervalo') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ rat?.horarioInicioIntervalo ? rat?.horarioInicioIntervalo : '---' }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
+                                    <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino intervalo') }}</div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 self-center text-right"></div>
+                                    <div class="h-0 col-span-6 self-center text-right">
+                                        {{ rat?.horarioTerminoIntervalo ? rat?.horarioTerminoIntervalo : "---" }}</div>
+                                    <div class="h-4 col-span-12 my-2 border-b"></div>
+
                                     <div class="h-0 col-span-4 text-lg font-medium">{{ t('termino') }}</div>
                                     <div class="h-0 self-center text-right"></div>
                                     <div class="h-0 self-center text-right"></div>

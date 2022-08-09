@@ -9,15 +9,18 @@ public partial class Worker : BackgroundService
     private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
     private readonly IPlantaoTecnicoService _plantaoTecnicoService;
     private readonly IPontoUsuarioService _pontoUsuarioService;
+    private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
     private readonly ISatTaskService _satTaskService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
         IPontoUsuarioService pontoUsuarioService,
+        IIntegracaoFinanceiroService integracaoFinanceiroService,
         ISatTaskService satTaskService
     ) {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
+        _integracaoFinanceiroService = integracaoFinanceiroService;
         _satTaskService = satTaskService;
     }
 
@@ -27,13 +30,13 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                    _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
-
+                _integracaoFinanceiroService.Executar();                
             }
             catch (Exception ex)
             {

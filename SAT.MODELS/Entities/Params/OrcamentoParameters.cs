@@ -17,6 +17,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public DateTime? DataAberturaInicio { get; set; }
-        public DateTime? DataAberturaFim { get; set; }        
+        public DateTime? DataAberturaFim { get; set; }   
     }
 }

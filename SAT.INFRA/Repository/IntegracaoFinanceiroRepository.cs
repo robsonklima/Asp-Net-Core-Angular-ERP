@@ -31,10 +31,13 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTipoIntervencao.HasValue)
                 orcamentos = orcamentos.Where(o => o.CodTipoIntervencao == parameters.CodTipoIntervencao);
 
+            if (parameters.DataFechamento != DateTime.MinValue)
+                orcamentos = orcamentos.Where(o => o.DataHoraFechamento.Date == parameters.DataFechamento.Date);
+
             return orcamentos;
         }
 
-        public IEnumerable<ViewIntegracaoFinanceiroOrcamentoItem> ObterOrcamentosItens(IntegracaoFinanceiroParameters parameters)
+        public IEnumerable<ViewIntegracaoFinanceiroOrcamentoItem> ObterOrcamentoItens(IntegracaoFinanceiroParameters parameters)
         {
             var itens = _context.ViewIntegracaoFinanceiroOrcamentoItem
                 .AsQueryable();

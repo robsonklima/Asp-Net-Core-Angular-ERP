@@ -30,13 +30,13 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                    _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
-                _integracaoFinanceiroService.Executar();                
+                _integracaoFinanceiroService.ExecutarAsync();                
             }
             catch (Exception ex)
             {

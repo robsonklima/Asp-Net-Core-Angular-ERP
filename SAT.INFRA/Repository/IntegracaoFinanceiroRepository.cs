@@ -34,6 +34,9 @@ namespace SAT.INFRA.Repository
             if (parameters.DataFechamento != DateTime.MinValue)
                 orcamentos = orcamentos.Where(o => o.DataHoraFechamento.Date == parameters.DataFechamento.Date);
 
+            if (parameters.TipoFaturamento != null)
+                orcamentos = orcamentos.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
+
             return orcamentos;
         }
 
@@ -45,7 +48,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodOrc.HasValue)
                 itens = itens.Where(i => i.CodOrc == parameters.CodOrc);
 
-            itens = itens.Where(i => i.TipoFaturamento == (int)parameters.TipoFaturamento);
+            if (parameters.TipoFaturamento != null)
+                itens = itens.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
+
             itens = itens.OrderBy(i => i.SeqItemPedido);
 
             return itens;

@@ -9,6 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public int? CodTipoIntervencao { get; set; }
         public int? CodStatusServico { get; set; }
         public DateTime DataFechamento { get; set; }
-        public TipoFaturamentoOrcEnum TipoFaturamento { get; set; }
+        public TipoFaturamentoOrcEnum? TipoFaturamento { get; set; }
     }
 }

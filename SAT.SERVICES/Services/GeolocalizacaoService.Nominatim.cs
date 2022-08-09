@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SAT.SERVICES.Services
 {
@@ -22,7 +23,7 @@ namespace SAT.SERVICES.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var conteudo = await response.Content.ReadAsStringAsync();
-                model = Newtonsoft.Json.JsonConvert.DeserializeObject<NominatimGeolocation[]>(conteudo);
+                model = JsonConvert.DeserializeObject<NominatimGeolocation[]>(conteudo);
 
                 var result = model.Where(m => m.address.country == "Brazil").FirstOrDefault();
 

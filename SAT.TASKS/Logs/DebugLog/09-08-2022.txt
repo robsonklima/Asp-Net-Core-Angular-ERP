@@ -1,0 +1,4 @@
+ thread[3] SAT.SERVICES.Services.LoggerService (ERROR): Integração Financeiro: Orçamento 79367 integrado com erro! Valor Total do Orçamento não informada. | Valor Total do Item do Orçamento não informada.. 
+ thread[3] SAT.SERVICES.Services.LoggerService (ERROR): Integração Financeiro: Orçamento 79714 integrado com erro! Valor Total do Orçamento não informada. | Valor Total do Item do Orçamento não informada.. 
+ thread[3] SAT.SERVICES.Services.LoggerService (ERROR): Integração Financeiro: Orçamento 79770 integrado com erro! Valor Total do Orçamento não informada. | Valor Total do Item do Orçamento não informada.. 
+ thread[16] SAT.SERVICES.Services.LoggerService (ERROR): Integração Financeiro: Orçamento 79714 integrado com erro! Valor Total do Orçamento não informada. | Valor Total do Item do Orçamento não informada.. 

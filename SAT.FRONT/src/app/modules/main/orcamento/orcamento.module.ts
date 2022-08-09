@@ -54,6 +54,7 @@ import { OrcamentoFaturamentoListaComponent } from './orcamento-faturamento/orca
 import { OrcamentoDetalhePedidoComponent } from './orcamento-detalhe/orcamento-detalhe-pedido/orcamento-detalhe-pedido.component';
 import { OrcamentoPesquisaComponent } from "./orcamento-pesquisa/orcamento-pesquisa.component";
 import { OrcamentoFinanceiroFaturamentoListaComponent } from "./orcamento-financeiro/orcamento-financeiro-faturamento/orcamento-financeiro-faturamento-lista/orcamento-financeiro-faturamento-lista.component";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -91,6 +92,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         MatChipsModule,
         MatDatepickerModule,
         MatDividerModule,
+        DragDropModule,
         MatMomentDateModule,
         FuseHighlightModule,
         MatButtonModule,

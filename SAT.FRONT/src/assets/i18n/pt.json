@@ -665,5 +665,8 @@
     "numero nota fiscal": "Número nota fiscal",
     "descricao nota fiscal": "Descrição nota fiscal",
     "lista de servicos" : "Lista de Serviços",
-    "tipo servico": "Tipo Serviço"
+    "tipo servico": "Tipo Serviço",
+    "numero pedido": "Número do pedido",
+    "detalhe pedido": "Detalhe do Pedido",
+    "itens pedido": "Itens do Pedido"
 }

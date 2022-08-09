@@ -647,5 +647,8 @@
     "numero nota fiscal": "Invoice number",
     "descricao nota fiscal": "Invoice description",
     "lista de servicos" : "Service List",
-    "tipo servico": "Service Type"
+    "tipo servico": "Service Type",
+    "numero pedido": "Order number",
+    "detalhe pedido": "Order detail",
+    "itens pedido": "Order items"
 }

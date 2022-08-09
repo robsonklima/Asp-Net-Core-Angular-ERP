@@ -7,6 +7,6 @@ namespace SAT.INFRA.Interfaces
     public interface IIntegracaoFinanceiroRepository
     {
         IEnumerable<ViewIntegracaoFinanceiroOrcamento> ObterOrcamentos(IntegracaoFinanceiroParameters parameters);
-        IEnumerable<ViewIntegracaoFinanceiroOrcamentoItem> ObterOrcamentosItens(IntegracaoFinanceiroParameters parameters);
+        IEnumerable<ViewIntegracaoFinanceiroOrcamentoItem> ObterOrcamentoItens(IntegracaoFinanceiroParameters parameters);
     }
 }

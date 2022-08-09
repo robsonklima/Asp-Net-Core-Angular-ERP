@@ -1,5 +1,10 @@
+import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
 import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
+import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
+import { OrcamentoService } from 'app/core/services/orcamento.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import Enumerable from 'linq';
 
 @Component({
 	selector: 'app-orcamento-detalhe-pedido',
@@ -57,14 +62,46 @@ import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
 })
 export class OrcamentoDetalhePedidoComponent implements OnInit {
 	@Input() codOrc: number;
-	@Input() materiais: any;
+	@Input() materiais: OrcamentoMaterial[];
 
 
 	isLoading: boolean;
 
-	constructor() { }
+	constructor(
+		private _snack: MatSnackBar,
+		private _orcMaterialService: OrcamentoMaterialService,
+		private _orcService: OrcamentoService
+		) { 
+
+		}
 
 	ngOnInit(): void {
+		this.materiais = Enumerable.from(this.materiais).orderBy(mat => mat.seqItemPedido).toArray();
+	}
+
+	salvarPedido(){
+		this.atualizarOrcamentoMaterial();
+		this.atualizarOrcamento();
+	}
+
+	atualizarOrcamentoMaterial(){
+		this.materiais.forEach((mat,index) => {
+
+			mat.seqItemPedido = index + 1;
+
+			this._orcMaterialService.atualizar(mat).subscribe(m =>
+				{
+				  this._orcService.atualizarTotalizacao(m.codOrc);
+				  this._snack.open('Material atualizado com sucesso.').afterDismissed().toPromise();
+				},
+				  e =>
+				  {
+					this._snack.open('Erro ao atualizar o material.', null).afterDismissed().toPromise();
+				  });
+		});
+	}
+
+	atualizarOrcamento(){
 
 	}
 
@@ -75,6 +112,4 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 	sortPredicate(index: number, item: CdkDrag<number>) {
 		return (index + 1) % 2 === item.data % 2;
 	}
-
-
 }

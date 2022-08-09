@@ -120,6 +120,7 @@ export interface OrcamentoMaterial
     usuarioCadastro: string;
     valorIpi: number;
     valorUnitarioFinanceiro: number;
+    seqItemPedido?: number;
     peca?: Peca;
 }
 

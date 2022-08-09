@@ -17,6 +17,7 @@ namespace SAT.MODELS.Entities
         public string UsuarioCadastro { get; set; }
         public decimal? ValorIpi { get; set; }
         public decimal? ValorUnitarioFinanceiro { get; set; }
+        public int? SeqItemPedido { get; set; }
         public virtual Peca Peca { get; set; }
     }
 }

@@ -283,7 +283,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
-      pageSize: 50
+      
     }
 
     const data = await this._clienteService.obterPorParametros(params).toPromise();
@@ -296,7 +296,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
-      pageSize: 50
+      
     }
 
     const data = await this._filialService.obterPorParametros(params).toPromise();
@@ -310,7 +310,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
       codFilial: this.form.controls['codFilial'].value,
-      pageSize: 50
+     
     }
 
     const data = await this._autorizadaService.obterPorParametros(params).toPromise();
@@ -323,8 +323,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
 
     const data = await this._regiaoAutorizadaService.obterPorParametros({
       codAutorizada: codAutorizada,
-      pageSize: 100
-    }).toPromise();
+         }).toPromise();
 
     this.regioes = data.items
       .filter(ra => ra.codAutorizada === codAutorizada)

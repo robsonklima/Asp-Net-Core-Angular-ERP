@@ -202,7 +202,11 @@
                                                 </th>
                                                 <th
                                                     class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    KM
+                                                    KM PREVISTO
+                                                </th>
+                                                <th
+                                                    class="text-center font-semibold font-mono border-r border-b border-t">
+                                                    KM PERCORRIDO
                                                 </th>
                                                 <th
                                                     class="text-center font-semibold font-mono border-r border-b border-t">
@@ -246,6 +250,9 @@
                                                 </td>
                                                 <td class="text-center  font-mono border-r border-b border-t">
                                                     {{ despesa.horaFim }}
+                                                </td>
+                                                <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido < despesa.kmPrevisto ? 'bold' : 'normal'}">
+                                                    {{ despesa.kmPrevisto }}
                                                 </td>
                                                 <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido > despesa.kmPrevisto ? 'bold' : 'normal'}">
                                                     {{ despesa.kmPercorrido }}

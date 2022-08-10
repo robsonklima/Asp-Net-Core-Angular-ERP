@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using SAT.MODELS.ViewModels;
 using System.Linq;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Entities;
 
 namespace SAT.INFRA.Repository
 {
@@ -34,6 +35,12 @@ namespace SAT.INFRA.Repository
             if (parameters.DataFechamento != DateTime.MinValue)
                 orcamentos = orcamentos.Where(o => o.DataHoraFechamento.Date == parameters.DataFechamento.Date);
 
+            if (parameters.AnoFechamento != DateTime.MinValue)
+                orcamentos = orcamentos.Where(o => o.DataHoraFechamento.Year == parameters.AnoFechamento.Year);
+
+            if (parameters.TipoFaturamento != null)
+                orcamentos = orcamentos.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
+
             return orcamentos;
         }
 
@@ -45,10 +52,25 @@ namespace SAT.INFRA.Repository
             if (parameters.CodOrc.HasValue)
                 itens = itens.Where(i => i.CodOrc == parameters.CodOrc);
 
-            itens = itens.Where(i => i.TipoFaturamento == (int)parameters.TipoFaturamento);
+            if (parameters.TipoFaturamento != null)
+                itens = itens.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
+
             itens = itens.OrderBy(i => i.SeqItemPedido);
 
             return itens;
+        }
+
+        public void SalvarRetorno(OrcIntegracaoFinanceiro orcIntegracaoFinanceiro)
+        {
+            try
+            {
+                _context.Add(orcIntegracaoFinanceiro);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
         }
     }
 }

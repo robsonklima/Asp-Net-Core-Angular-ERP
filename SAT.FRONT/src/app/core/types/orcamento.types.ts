@@ -40,6 +40,8 @@ export interface Orcamento
     orcamentoStatus?: OrcamentoStatus;
     orcamentoDeslocamento?: OrcamentoDeslocamento;
     orcamentoISS?: OrcamentoISS;
+    numPedido?: string;
+    obsPedido?: string;
 }
 
 export interface OrcamentoMotivo

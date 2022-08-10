@@ -14,19 +14,18 @@
             <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <form>
+                        <form [formGroup]="form">
                             <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto px-6 pb-6 bg-card shadow rounded overflow-hidden">
                                 <mat-form-field class="fuse-mat-dense w-5/12">
                                     <mat-label>{{ t('numero pedido') }}</mat-label>
-                                    <input matInput formControlName="numDiasSubstEquip">
+                                    <input [maxlength]="50" matInput formControlName="numPedido">
                                 </mat-form-field>
 
                                 <mat-form-field class="fuse-mat-textarea fuse-mat-dense w-5/12">
                                     <mat-label>{{ t('detalhe pedido') }}</mat-label>
                                     <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'">
                                     </mat-icon>
-                                    <textarea matInput formControlName="objetoContrato" [rows]="6"
-                                        maxlength="2000"></textarea>
+                                    <textarea matInput [maxlength]="500" formControlName="obsPedido" [rows]="6"></textarea>
                                 </mat-form-field>
 
                                 <div class="w-5/12">

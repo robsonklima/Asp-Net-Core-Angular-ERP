@@ -1,10 +1,12 @@
-import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoMaterial } from 'app/core/types/orcamento.types';
 import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
 import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Enumerable from 'linq';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-orcamento-detalhe-pedido',
@@ -62,13 +64,15 @@ import Enumerable from 'linq';
 })
 export class OrcamentoDetalhePedidoComponent implements OnInit {
 	@Input() codOrc: number;
-	@Input() materiais: OrcamentoMaterial[];
+	@Input() orcamento: Orcamento;
 
-
+	materiais: OrcamentoMaterial[];
 	isLoading: boolean;
+	form: FormGroup;
 
 	constructor(
-		private _snack: MatSnackBar,
+		private _formBuilder: FormBuilder,
+		private _snack: CustomSnackbarService,
 		private _orcMaterialService: OrcamentoMaterialService,
 		private _orcService: OrcamentoService
 		) { 
@@ -76,7 +80,8 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		}
 
 	ngOnInit(): void {
-		this.materiais = Enumerable.from(this.materiais).orderBy(mat => mat.seqItemPedido).toArray();
+		this.materiais = Enumerable.from(this.orcamento.materiais).orderBy(mat => mat.seqItemPedido).toArray();
+		this.inicializaForm();
 	}
 
 	salvarPedido(){
@@ -92,16 +97,33 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 			this._orcMaterialService.atualizar(mat).subscribe(m =>
 				{
 				  this._orcService.atualizarTotalizacao(m.codOrc);
-				  this._snack.open('Material atualizado com sucesso.').afterDismissed().toPromise();
+				  this._snack.exibirToast('Material atualizado com sucesso.');
 				},
 				  e =>
 				  {
-					this._snack.open('Erro ao atualizar o material.', null).afterDismissed().toPromise();
+					this._snack.exibirToast('Erro ao atualizar o material.');
 				  });
 		});
 	}
 
+	private inicializaForm() {
+		this.form = this._formBuilder.group({
+		  numPedido: [undefined, [Validators.required, Validators.maxLength(50)]],
+		  obsPedido: [undefined, [Validators.required, Validators.maxLength(200)]]
+		});
+
+		this.form.patchValue(this.orcamento);
+	  }
+
 	atualizarOrcamento(){
+		const form = this.form.getRawValue();
+		
+		this.orcamento.numPedido = form.numPedido;
+		this.orcamento.obsPedido = form.obsPedido;
+	
+		this._orcService.atualizar(this.orcamento).subscribe(() => {
+			this._snack.exibirToast('Orcamento atualizado com sucesso.');
+		});
 
 	}
 

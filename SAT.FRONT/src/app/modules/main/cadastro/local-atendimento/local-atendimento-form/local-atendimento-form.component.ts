@@ -212,13 +212,13 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       latitude: [
         {
           value: undefined,
-          disabled: true,
+          disabled: false,
         }, Validators.required
       ],
       longitude: [
         {
           value: undefined,
-          disabled: true,
+          disabled: false,
         }, Validators.required
       ],
       indAtivo: [undefined]

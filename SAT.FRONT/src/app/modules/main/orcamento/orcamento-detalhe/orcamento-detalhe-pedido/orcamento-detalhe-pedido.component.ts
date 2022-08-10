@@ -74,7 +74,7 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		private _formBuilder: FormBuilder,
 		private _snack: CustomSnackbarService,
 		private _orcMaterialService: OrcamentoMaterialService,
-		private _orcService: OrcamentoService
+		private _orcamentoService: OrcamentoService
 		) { 
 
 		}
@@ -84,9 +84,18 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		this.inicializaForm();
 	}
 
+	private inicializaForm() {
+		this.form = this._formBuilder.group({
+		  numPedido: [undefined, [Validators.required]],
+		  obsPedido: [undefined, [Validators.required]]
+		});
+
+		this.form.patchValue(this.orcamento);
+	  }
+
 	salvarPedido(){
-		this.atualizarOrcamentoMaterial();
 		this.atualizarOrcamento();
+		this.atualizarOrcamentoMaterial();
 	}
 
 	atualizarOrcamentoMaterial(){
@@ -96,7 +105,6 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 
 			this._orcMaterialService.atualizar(mat).subscribe(m =>
 				{
-				  this._orcService.atualizarTotalizacao(m.codOrc);
 				  this._snack.exibirToast('Material atualizado com sucesso.');
 				},
 				  e =>
@@ -106,14 +114,7 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		});
 	}
 
-	private inicializaForm() {
-		this.form = this._formBuilder.group({
-		  numPedido: [undefined, [Validators.required, Validators.maxLength(50)]],
-		  obsPedido: [undefined, [Validators.required, Validators.maxLength(200)]]
-		});
 
-		this.form.patchValue(this.orcamento);
-	  }
 
 	atualizarOrcamento(){
 		const form = this.form.getRawValue();
@@ -121,7 +122,7 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		this.orcamento.numPedido = form.numPedido;
 		this.orcamento.obsPedido = form.obsPedido;
 	
-		this._orcService.atualizar(this.orcamento).subscribe(() => {
+		this._orcamentoService.atualizar(this.orcamento).subscribe(() => {
 			this._snack.exibirToast('Orcamento atualizado com sucesso.');
 		});
 

@@ -355,6 +355,7 @@
     "ate": "Até",
     "valor total": "Valor Total",
     "valor": "Valor",
+    "valores": "Valores",
     "restituicao à empresa": "Restituição a Empresa",
     "restituicao": "Restituição",
     "gastos excedentes": "Gastos Excedentes",
@@ -668,5 +669,6 @@
     "tipo servico": "Tipo Serviço",
     "numero pedido": "Número do pedido",
     "detalhe pedido": "Detalhe do Pedido",
-    "itens pedido": "Itens do Pedido"
+    "itens pedido": "Itens do Pedido",
+    "valor desconto a base de troca": "Valor desconto a base de troca"
 }

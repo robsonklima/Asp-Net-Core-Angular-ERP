@@ -598,6 +598,7 @@
     "valor ipi": "IPI Value",
     "valor substituicao": "Replace Value",
     "valor base troca": "Base Change Value",
+    "valores": "Values",
     "regiões autorizadas": "Region Licenced",
     "necessário agendamento com carro forte": "Required Appointment with Armored Car",
     "atendimento sábado, domingo e feriado": "Saturday, Sunday and Holiday Service",
@@ -650,5 +651,6 @@
     "tipo servico": "Service Type",
     "numero pedido": "Order number",
     "detalhe pedido": "Order detail",
-    "itens pedido": "Order items"
+    "itens pedido": "Order items",
+    "valor desconto a base de troca": "Discount value on trade base"
 }

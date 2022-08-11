@@ -94,14 +94,15 @@
 
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('responsavel perto') }}</mat-label>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
-                        </mat-icon>                       
-                        <input matInput formControlName="nomeResponsavelPerto" maxlength="25">
-                        <mat-error>{{t('preencher campo')}}</mat-error>
-
-                    </mat-form-field>
+                        <mat-select formControlName="codPosVenda">
+                            <mat-option *ngFor="let posVenda of posVendas" [value]="posVenda.codPosVenda" >
+                                {{ posVenda.nome }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>    
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('data contrato') }}</mat-label>

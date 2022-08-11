@@ -58,7 +58,10 @@ namespace SAT.MODELS.Entities
         public decimal? PercReajuste { get; set; }
         public byte? IndPermitePecaEspecifica { get; set; }
         public string SemCobertura { get; set; }
-        public ContratoConf Configuracao { get; set; }
+        public int? CodFormaPagamento { get; set; }
+        public int? CodOrcDadosBancarios { get; set; }
+        public int? CodPosVenda { get; set; }
+        public int? IndPedido { get; set; }
         public virtual List<InstalacaoLote> Lotes { get; set; }
         public virtual ContratoEquipamento ContratoEquipamento { get; set; }
         public virtual List<ContratoServico> ContratoServico { get; set; }

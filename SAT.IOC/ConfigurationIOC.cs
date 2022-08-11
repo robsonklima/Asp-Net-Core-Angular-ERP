@@ -146,6 +146,8 @@ public class ConfigurationIOC
         builder.RegisterType<DispBBBloqueioOSRepository>().As<IDispBBBloqueioOSRepository>();
         builder.RegisterType<InstalacaoNFVendaRepository>().As<IInstalacaoNFVendaRepository>();
         builder.RegisterType<IntegracaoFinanceiroRepository>().As<IIntegracaoFinanceiroRepository>();
+        builder.RegisterType<PosVendaRepository>().As<IPosVendaRepository>();
+        builder.RegisterType<OrcFormaPagamentoRepository>().As<IOrcFormaPagamentoRepository>();
         #endregion
 
         #region Services
@@ -278,6 +280,8 @@ public class ConfigurationIOC
         builder.RegisterType<TicketPrioridadeService>().As<ITicketPrioridadeService>();
         builder.RegisterType<TicketClassificacaoService>().As<ITicketClassificacaoService>();
         builder.RegisterType<IntegracaoFinanceiroService>().As<IIntegracaoFinanceiroService>();
+        builder.RegisterType<PosVendaService>().As<IPosVendaService>();
+        builder.RegisterType<OrcFormaPagamentoService>().As<IOrcFormaPagamentoService>();
         #endregion
 
         #region Utils Services

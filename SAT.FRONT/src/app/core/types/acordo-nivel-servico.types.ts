@@ -23,4 +23,7 @@ export interface AcordoNivelServicoData extends Meta {
   items: AcordoNivelServico[];
 };
 
-export interface AcordoNivelServicoParameters extends QueryStringParameters { };
+export interface AcordoNivelServicoParameters extends QueryStringParameters {
+  codSLA?: number;
+  nomeSLA?: string;
+};

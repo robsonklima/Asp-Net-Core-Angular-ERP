@@ -27,10 +27,10 @@ namespace SAT.API.Controllers
             return _contratoServicoService.ObterPorParametros(parameters);
         }
         
-        [HttpGet("{codContrato}/{codContratoServico}")]
-        public ContratoServico Get(int codContrato, int codContratoServico)
+        [HttpGet("{CodContratoServico}")]
+        public ContratoServico Get(int codContratoServico)
         {
-            return _contratoServicoService.ObterPorCodigo(codContrato,codContratoServico);
+            return _contratoServicoService.ObterPorCodigo(codContratoServico);
         }
 
         [HttpPost]
@@ -45,10 +45,10 @@ namespace SAT.API.Controllers
             _contratoServicoService.Atualizar(contratoServico);
         }
 
-        [HttpDelete("{codContrato}/{codContratoServico}")]
-        public void Delete(int codContrato,int codContratoServico)
+        [HttpDelete("{CodContratoServico}")]
+        public void Delete(int codContratoServico)
         {
-            _contratoServicoService.Deletar(codContrato, codContratoServico);
+            _contratoServicoService.Deletar(codContratoServico);
         }
     }
 }

@@ -46,6 +46,8 @@ import { ContratoFiltroComponent } from './contrato-filtro/contrato-filtro.compo
 import { ContratoEquipamentosComponent } from './contrato-equipamentos/contrato-equipamentos.component';
 import { ContratoClientePecaComponent } from './contrato-cliente-peca/contrato-cliente-peca.component';
 import { FiltroModule } from '../../filtros/filtro.module';
+import { ContratoServicoListaComponent } from './contrato-servico/contrato-servico-lista/contrato-servico-lista.component';
+import { ContratoServicoFormComponent } from './contrato-servico/contrato-servico-form/contrato-servico-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
 	return {
@@ -59,6 +61,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 		ContratoFormComponent,
 		ContratoFormLayoutComponent,
 		ContratoModeloListaComponent,
+		ContratoServicoListaComponent,
+		ContratoServicoFormComponent,
 		ContratoModeloFormComponent,
 		ContratoSlaComponent,
 		ContratoFiltroComponent,

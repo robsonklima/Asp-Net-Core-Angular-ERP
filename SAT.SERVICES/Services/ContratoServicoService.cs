@@ -9,10 +9,15 @@ namespace SAT.SERVICES.Services
     public class ContratoServicoService : IContratoServicoService
     {
         private readonly IContratoServicoRepository _contratoServicoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public ContratoServicoService(IContratoServicoRepository contratoServicoRepo)
+        public ContratoServicoService(
+            IContratoServicoRepository contratoServicoRepo,
+            ISequenciaRepository sequenciaRepo
+        ) 
         {
             _contratoServicoRepo = contratoServicoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public void Atualizar(ContratoServico contratoServico)
@@ -22,17 +27,19 @@ namespace SAT.SERVICES.Services
 
         public void Criar(ContratoServico contratoServico)
         {
+            contratoServico.CodContratoServico = _sequenciaRepo.ObterContador("ContratoServico");
+            
             _contratoServicoRepo.Criar(contratoServico);
         }
 
-        public void Deletar(int codContrato, int codContratoServico)
+        public void Deletar(int codContratoServico)
         {
-            _contratoServicoRepo.Deletar(codContrato,codContratoServico);
+            _contratoServicoRepo.Deletar(codContratoServico);
         }
 
-        public ContratoServico ObterPorCodigo(int codContrato, int codContratoServico)
+        public ContratoServico ObterPorCodigo(int codContratoServico)
         {
-            return _contratoServicoRepo.ObterPorCodigo(codContrato, codContratoServico);
+            return _contratoServicoRepo.ObterPorCodigo(codContratoServico);
         }
 
         public ListViewModel ObterPorParametros(ContratoServicoParameters parameters)

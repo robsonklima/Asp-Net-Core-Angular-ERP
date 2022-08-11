@@ -196,7 +196,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       site: [undefined],
       fone: [undefined],
       descTurno: [undefined],
-      distanciaKmPatRes: [undefined],
+      distanciaKmPatRes: [undefined, Validators.required],
       observacao: [undefined],
       numeroEnd: [undefined, Validators.required],
       cnpjFaturamento: [undefined],

@@ -21,8 +21,7 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             ContratoServico ce = _context.ContratoServico
-                                                .FirstOrDefault(ce => ce.CodContrato == contratoServico.CodContrato
-                                                                        && ce.CodServico == contratoServico.CodServico);
+                .FirstOrDefault(ce => ce.CodContrato == contratoServico.CodContrato && ce.CodEquip == contratoServico.CodEquip);
             try
             {
                 if (ce != null)
@@ -50,10 +49,10 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Deletar(int codContrato, int codContratoServico)
+        public void Deletar(int codContratoServico)
         {
             ContratoServico ce = _context.ContratoServico
-                                            .FirstOrDefault(d => d.CodContrato == codContrato && d.CodContratoServico == codContratoServico);
+                .FirstOrDefault(d => d.CodContratoServico == codContratoServico);
 
             if (ce != null)
             {
@@ -62,13 +61,11 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public ContratoServico ObterPorCodigo(int codContrato, int codContratoServico)
+        public ContratoServico ObterPorCodigo(int codContratoServico)
         {
             try
             {
-                return _context.ContratoServico
-                                    .SingleOrDefault(ce => ce.CodContrato == codContrato
-                                                        && ce.CodContratoServico == codContratoServico);
+                return _context.ContratoServico.SingleOrDefault(ce => ce.CodContratoServico == codContratoServico);
             }
             catch (System.Exception)
             {
@@ -78,17 +75,53 @@ namespace SAT.INFRA.Repository
 
         public PagedList<ContratoServico> ObterPorParametros(ContratoServicoParameters parameters)
         {
-            var contratoServico = _context.ContratoServico
-                .Include(c => c.Contrato)
+            var contratoServicos = _context.ContratoServico
+                .Include(c => c.Equipamento)
+                    .ThenInclude(e => e.TipoEquipamento)
+                .Include(c => c.Equipamento)
+                    .ThenInclude(e => e.GrupoEquipamento)
+                .Include(c => c.TipoServico)
+                .Include(c => c.AcordoNivelServico)
+                .AsNoTracking()
                 .AsQueryable();
 
             if (parameters.CodContrato != null)
             {
-                contratoServico = contratoServico.Where(a => a.CodContrato == parameters.CodContrato);
+                contratoServicos = contratoServicos.Where(a => a.CodContrato == parameters.CodContrato);
             }
 
+            if (parameters.CodTipoEquip != null)
+            {
+                contratoServicos = contratoServicos.Where(a => a.CodTipoEquip == parameters.CodTipoEquip);
+            }
 
-            return PagedList<ContratoServico>.ToPagedList(contratoServico, parameters.PageNumber, parameters.PageSize);
+            if (parameters.CodGrupoEquip != null)
+            {
+                contratoServicos = contratoServicos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);
+            }
+
+            if (parameters.CodEquip != null)
+            {
+                contratoServicos = contratoServicos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);
+            }
+
+            if (parameters.CodServico != null)
+            {
+                contratoServicos = contratoServicos.Where(a => a.CodServico == parameters.CodServico);
+            }
+
+            if (parameters.CodSLA != null)
+            {
+                contratoServicos = contratoServicos.Where(a => a.CodSLA == parameters.CodSLA);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodContratos))
+            {
+                var cods = parameters.CodContratos.Split(',').Select(a => int.Parse(a.Trim()));
+                contratoServicos = contratoServicos.Where(e => cods.Contains(e.CodContrato));
+            }
+
+            return PagedList<ContratoServico>.ToPagedList(contratoServicos, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace SAT.SERVICES.Interfaces
     public interface IContratoServicoService
     {
         ListViewModel ObterPorParametros(ContratoServicoParameters parameters);
-        ContratoServico ObterPorCodigo(int codigoContrato, int codContratoServico);
+        ContratoServico ObterPorCodigo(int codContratoServico);
         void Criar(ContratoServico contratoServico);
-        void Deletar(int codigoContrato, int codigoContratoServico);
+        void Deletar(int codigoContratoServico);
         void Atualizar(ContratoServico contratoServico);
 
     }

@@ -25,6 +25,7 @@ export interface EquipamentoParameters extends QueryStringParameters
     codGrupo?: number;
     codTipo?: number;
     codClientes?: string;
+    codEquip?: number;
     filter?: any;
     filterType?: EquipamentoFilterEnum;
 };

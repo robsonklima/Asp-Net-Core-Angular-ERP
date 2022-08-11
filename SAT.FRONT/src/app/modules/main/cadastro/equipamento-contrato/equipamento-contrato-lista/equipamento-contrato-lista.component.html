@@ -78,6 +78,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <mat-paginator [hidden]="!dataSourceData?.items?.length"
                             class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                             [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
@@ -107,19 +108,17 @@
                                 <div class="flex truncate">
                                     {{ equip.contrato?.tipoContrato.nomeTipoContrato || t('---') }}
                                 </div>
-                                <div class="flex truncate" 
-                                     [matTooltip]="
-                                                equip.localAtendimento?.endereco + ', ' +
-                                                equip.localAtendimento?.cidade?.nomeCidade + ' - ' + 
-                                                equip.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
-                                                || t('---')">
-
-                                        {{
-                                            equip.localAtendimento?.numAgencia + '/' +
-                                            equip.localAtendimento?.dcPosto + ' ' +
-                                            equip.localAtendimento?.nomeLocal
-                                            || t('---')
-                                        }}
+                                <div class="flex truncate" [matTooltip]="
+                                    equip.localAtendimento?.endereco + ', ' +
+                                    equip.localAtendimento?.cidade?.nomeCidade + ' - ' + 
+                                    equip.localAtendimento?.cidade?.unidadeFederativa?.siglaUF
+                                || t('---')">
+                                    {{
+                                        equip.localAtendimento?.numAgencia + '/' +
+                                        equip.localAtendimento?.dcPosto + ' ' +
+                                        equip.localAtendimento?.nomeLocal
+                                        || t('---')
+                                    }}
                                 </div>
                                 <div class="flex truncate"
                                     [matTooltip]="equip.equipamento?.tipoEquipamento?.nomeTipoEquip || t('---')">

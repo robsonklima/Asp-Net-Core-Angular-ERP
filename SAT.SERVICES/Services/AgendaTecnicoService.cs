@@ -127,7 +127,7 @@ namespace SAT.SERVICES.Services
                     inicio = agenda.Inicio.Value;
 
                 if (!inicioFoiInformado(agenda)) {
-                    var ultimaAgenda = _agendaRepo.ObterPorParametros(new AgendaTecnicoParameters {
+                    var ultimaAgenda = _agendaRepo.ObterViewPorParametros(new AgendaTecnicoParameters {
                         CodTecnicos = agenda.CodTecnico.ToString(),
                         PageSize = 1,
                         SortActive = "Fim",

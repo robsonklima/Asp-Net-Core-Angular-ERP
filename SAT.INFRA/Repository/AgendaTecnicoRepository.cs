@@ -87,6 +87,7 @@ namespace SAT.INFRA.Repository
 
             return agendas.ToList();
         }
+        
         public List<AgendaTecnico> ObterPorParametros(AgendaTecnicoParameters parameters)
         {
             var agendas = _context.AgendaTecnico
@@ -105,6 +106,12 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo != null) {
                 agendas = agendas.Where(a => a.IndAtivo == parameters.IndAtivo);
             }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            {
+                string[] tecnicos = parameters.CodTecnicos.Split(",");
+                agendas = agendas.Where(a => tecnicos.Contains(a.CodTecnico.ToString()));
+            }   
 
             return agendas.ToList();
         }

@@ -58,7 +58,7 @@ namespace SAT.MODELS.Entities
         public decimal? PercReajuste { get; set; }
         public byte? IndPermitePecaEspecifica { get; set; }
         public string SemCobertura { get; set; }
-        public int? CodFormaPagamento { get; set; }
+        public int? CodOrcFormaPagamento { get; set; }
         public int? CodOrcDadosBancarios { get; set; }
         public int? CodPosVenda { get; set; }
         public int? IndPedido { get; set; }

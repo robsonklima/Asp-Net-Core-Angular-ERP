@@ -22,6 +22,8 @@ import { OrcFormaPagamento } from 'app/core/types/orcamento-forma-pagamento.type
 import { PosVenda } from 'app/core/types/pos-venda.types';
 import { PosVendaService } from 'app/core/services/pos-venda.service';
 import { OrcFormaPagamentoService } from 'app/core/services/orcamento-forma-pagamento.service';
+import { OrcDadosBancarios } from 'app/core/types/orcamento-dados-bancarios.types';
+import { OrcDadosBancariosService } from 'app/core/services/orcamento-dados-bancarios.service';
 
 @Component({
 	selector: 'app-contrato-form',
@@ -46,6 +48,7 @@ export class ContratoFormComponent implements OnInit {
 	clienteFilterCtrl: FormControl = new FormControl();
 	posVendas: PosVenda[] = [];
 	orcFormasPagamento: OrcFormaPagamento[] = [];
+	orcDadosBancarios: OrcDadosBancarios[] = [];
 
 	constructor(
 		private _formBuilder: FormBuilder,
@@ -60,6 +63,7 @@ export class ContratoFormComponent implements OnInit {
 		private _tipoIndiceReajusteService: TipoIndiceReajusteService,
 		private _posVendaService: PosVendaService,
 		private _orcFormaPagamentoService: OrcFormaPagamentoService,
+		private _orcDadosBancariosService: OrcDadosBancariosService,
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -81,6 +85,7 @@ export class ContratoFormComponent implements OnInit {
 		this.tipoReajuste = (await this._tipoIndiceReajusteService.obterPorParametros({}).toPromise()).items;
 		this.posVendas = (await this._posVendaService.obterPorParametros({}).toPromise()).items;
 		this.orcFormasPagamento = (await this._orcFormaPagamentoService.obterPorParametros({}).toPromise()).items;
+		this.orcDadosBancarios = (await this._orcDadosBancariosService.obterPorParametros({}).toPromise()).items;
 		this.contratoReajuste = (await this._contratoReajusteService
 			.obterPorParametros({ codContrato: this.codContrato, indAtivo: 1 })
 			.toPromise()).items.pop();
@@ -218,6 +223,8 @@ export class ContratoFormComponent implements OnInit {
 			numDiasSubstEquip: [undefined],
 			codPosVenda: [undefined],
 			codOrcFormaPagamento: [undefined],
+			codOrcDadosBancarios: [undefined],
+			indPedido: [undefined],
 		});
 	}
 

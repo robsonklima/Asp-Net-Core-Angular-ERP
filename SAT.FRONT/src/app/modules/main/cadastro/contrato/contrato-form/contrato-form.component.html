@@ -40,7 +40,6 @@
                     <p class="text-lg font-medium">{{ t('informacoes') }}</p>
                 </div>
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
                         <mat-select formControlName="codCliente">
@@ -65,7 +64,6 @@
                         <mat-label>{{ t('numero-contrato') }}</mat-label>
                         <input matInput formControlName="nroContrato">
                         <mat-error>{{t('preencher campo')}}</mat-error>
-
                     </mat-form-field>
 
                     <!-- Se for usar o Contrato Pai mudar o col-span para 3 -->
@@ -91,18 +89,7 @@
                         </mat-icon>
                         <input matInput formControlName="nomeResponsavelCliente" maxlength="25">
                         <mat-error>{{t('preencher campo')}}</mat-error>
-
                     </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('responsavel perto') }}</mat-label>
-                        <mat-select formControlName="codPosVenda">
-                            <mat-option *ngFor="let posVenda of posVendas" [value]="posVenda.codPosVenda" >
-                                {{ posVenda.nome }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>    
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('data contrato') }}</mat-label>
@@ -174,15 +161,8 @@
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('forma pagamento') }}</mat-label>
-                        <mat-select formControlName="codOrcFormaPagamento">
-                            <mat-option *ngFor="let orcFormaPagamento of orcFormasPagamento" [value]="orcFormaPagamento.codOrcFormaPagamento" >
-                                {{ orcFormaPagamento.nome }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>                      
+                    <div class="col-span-6">
+                    </div>
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('objeto contrato') }}</mat-label>
@@ -198,6 +178,47 @@
                             maxlength="2000"></textarea>                        
                     </mat-form-field>
                 </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('financeiro') }}</p>
+                </div>
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">                
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('responsavel perto') }}</mat-label>
+                        <mat-select formControlName="codPosVenda">
+                            <mat-option *ngFor="let posVenda of posVendas" [value]="posVenda.codPosVenda" >
+                                {{ posVenda.nome }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>    
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('forma pagamento') }}</mat-label>
+                        <mat-select formControlName="codOrcFormaPagamento">
+                            <mat-option *ngFor="let orcFormaPagamento of orcFormasPagamento" [value]="orcFormaPagamento.codOrcFormaPagamento" >
+                                {{ orcFormaPagamento.nome }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>   
+                    
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('dados bancarios') }}</mat-label>
+                        <mat-select formControlName="codOrcDadosBancarios">
+                            <mat-option *ngFor="let orcDadosBancarios of orcDadosBancarios" [value]="orcDadosBancarios.codOrcDadosBancarios" >
+                                {{ orcDadosBancarios.banco + ' - AG: ' + orcDadosBancarios.agencia + ' CC: ' + orcDadosBancarios.conta }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field> 
+                    
+                    <div class="fuse-mat-dense sm:col-span-3 py-8">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indPedido'">
+                            {{ t('pedido obrigatorio') }}
+                        </mat-checkbox>
+                    </div>
+                </div>                 
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
                     <p class="text-lg font-medium">{{ t('opcoes') }}</p>

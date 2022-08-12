@@ -44,11 +44,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 	oldItem: any;
 	isEditing: boolean;
 	form: FormGroup;
-
 	dadosLocalFaturamento: OrcamentoDadosLocal;
 	dadosLocalEnvioNF: OrcamentoDadosLocal;
 	dadosLocalAtendimento: OrcamentoDadosLocal;
-
 	public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
 	constructor(

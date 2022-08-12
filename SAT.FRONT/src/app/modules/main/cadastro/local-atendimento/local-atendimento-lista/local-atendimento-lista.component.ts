@@ -101,7 +101,7 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
     const params: LocalAtendimentoParameters = {
       ...{
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'nomeLocal',
+      sortActive: this.sort?.active || 'nomeLocal' || 'numAgencia',
       sortDirection: this.sort?.direction || 'asc',
       pageSize: this.paginator?.pageSize,
       filter: filtro

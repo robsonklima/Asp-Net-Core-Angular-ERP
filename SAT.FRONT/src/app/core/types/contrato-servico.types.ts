@@ -5,12 +5,16 @@ import { Equipamento } from "./equipamento.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { GrupoEquipamento } from "./grupo-equipamento.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
+import { TipoServico } from "./tipo-servico.types";
 
 export class ContratoServico {
+    codContratoServico: number;
     codContrato: number;
     contrato?: Contrato;
+    codServico: number;
+    tipoServico: TipoServico;
     codSLA: number;
-    sla?: AcordoNivelServico;
+    contratoSLA?: AcordoNivelServico;
     codTipoEquip: number;
     tipoEquipamento?: TipoEquipamento;
     codGrupoEquip: number;
@@ -19,13 +23,13 @@ export class ContratoServico {
     equipamento?: Equipamento;
     valor: number;
     codUsuarioCad: string;
-    dataHoraCad: Date;
+    dataHoraCad: string;
     codUsuarioManut?: any;
-    dataHoraManut?: any;
-    codUsuarioCad_DEL: string;
-    dataHoraCad_DEL: Date;
+    dataHoraManut?:  string;
+    codUsuarioCad_DEL?: string;
+    dataHoraCad_DEL?: string;
     codUsuarioManut_DEL?: any;
-    dataHoraManut_DEL?: any;
+    dataHoraManut_DEL?: string;
 
 
 }

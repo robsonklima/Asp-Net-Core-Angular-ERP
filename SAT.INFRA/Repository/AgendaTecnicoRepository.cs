@@ -107,6 +107,12 @@ namespace SAT.INFRA.Repository
                 agendas = agendas.Where(a => a.IndAtivo == parameters.IndAtivo);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodTecnicos))
+            {
+                string[] tecnicos = parameters.CodTecnicos.Split(",");
+                agendas = agendas.Where(a => tecnicos.Contains(a.CodTecnico.ToString()));
+            }   
+
             return agendas.ToList();
         }
     }

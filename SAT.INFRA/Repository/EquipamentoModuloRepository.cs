@@ -96,11 +96,16 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Filter != null)
             {
-                equipamentoModulo = equipamentoModulo.Where(
-                    c =>
-                    c.Equipamento.NomeEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    c.Causa.CodECausa.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    c.Equipamento.DescEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                 equipamentoModulo = equipamentoModulo.Where(
+                //     c =>
+                //     c.Equipamento.NomeEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                //     c.Causa.CodECausa.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                //     c.Equipamento.DescEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    em =>
+                    em.Equipamento.NomeEquip.Contains(parameters.Filter)||
+                    em.Causa.CodECausa.Contains(parameters.Filter) ||
+                    em.Equipamento.DescEquip.Contains(parameters.Filter)
+
                 );
             }
 

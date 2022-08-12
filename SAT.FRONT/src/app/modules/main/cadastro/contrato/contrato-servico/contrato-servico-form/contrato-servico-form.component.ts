@@ -212,6 +212,7 @@ export class ContratoServicoFormComponent implements OnInit {
 
 		this._contratoServicoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+			this._router.navigate(['contrato/' + this.codContrato + '/contrato-servico']);
 		});
 
 	}
@@ -234,7 +235,7 @@ export class ContratoServicoFormComponent implements OnInit {
 
 		this._contratoServicoService.criar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro adicionado com sucesso!", "success");
-			this._router.navigate(['contrato/' + this.codContrato]);
+			this._router.navigate(['contrato/' + this.codContrato + '/contrato-servico']);
 		});
 	}
 

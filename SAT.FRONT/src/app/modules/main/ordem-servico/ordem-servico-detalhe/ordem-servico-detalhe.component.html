@@ -805,16 +805,18 @@
                                                 <div class="text-lg font-medium">Peças</div>
                                             </div>
                                             <div class="mt-4 border-b font-medium grid grid-flow-row grid-cols-8 p-1">
-                                                <div class="col-span-2">Cód.Magnus</div>
-                                                <div class="col-span-5">Nome</div>
-                                                <div class="text-right">Quantidade</div>
+                                                <div class="col-span-1">Cód.Magnus</div>
+                                                <div class="col-span-4">Nome</div>
+                                                <div class="col-span-1">Quantidade</div>
+                                                <div class="col-span-2">Status Peça</div>
                                             </div>
                                             <div class="text-secondary border-b grid grid-flow-row grid-cols-8 p-1"
                                                 *ngFor=" let peca of
                                             detalhe.relatorioAtendimentoDetalhePecas;">
-                                                <div class="col-span-2">{{ peca?.peca?.codMagnus }}</div>
-                                                <div class="col-span-5">{{ peca?.peca?.nomePeca | uppercase }}</div>
-                                                <div class="text-right"> {{ peca?.qtdePecas }} </div>
+                                                <div class="col-span-1">{{ peca?.peca?.codMagnus }}</div>
+                                                <div class="col-span-4">{{ peca?.peca?.nomePeca | uppercase }}</div>
+                                                <div class="col-span-1"> {{ peca?.qtdePecas }} </div>
+                                                <div class="col-span-2"> {{ peca?.descStatus || "PEÇA PENDENTE" | uppercase  }}</div>
                                             </div>
                                         </div>
                                     </div>

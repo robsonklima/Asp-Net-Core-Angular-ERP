@@ -221,9 +221,9 @@ export class ContratoFormComponent implements OnInit {
 			valTotalContrato: [undefined, Validators.required],
 			indPermitePecaEspecifica: [undefined],
 			numDiasSubstEquip: [undefined],
-			codPosVenda: [undefined],
-			codOrcFormaPagamento: [undefined],
-			codOrcDadosBancarios: [undefined],
+			codPosVenda: [undefined, Validators.required],
+			codOrcFormaPagamento: [undefined, Validators.required],
+			codOrcDadosBancarios: [undefined, Validators.required],
 			indPedido: [undefined],
 		});
 	}

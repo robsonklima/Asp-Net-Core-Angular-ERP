@@ -68,12 +68,11 @@ namespace SAT.INFRA.Repository
             if (parameters.Filter != null)
             {
                 feriados = feriados.Where(
-                            f =>
-                            f.CodFeriado.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                            f.NomeFeriado.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                );
+                    f =>
+                    f.CodFeriado.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    f.NomeFeriado.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    f.Cidade.NomeCidade.Contains(parameters.Filter));
             }
-
 
             if (parameters.CodFeriado != null)
             {
@@ -99,16 +98,6 @@ namespace SAT.INFRA.Repository
             return PagedList<Feriado>.ToPagedList(feriados, parameters.PageNumber, parameters.PageSize);
         }
 
-        /// <summary>
-        /// Calcula os dias não uteis em um período
-        /// </summary>
-        /// <param name="dataInicio"></param>
-        /// <param name="dataFim"></param>
-        /// <param name="contabilizarSabado"></param>
-        /// <param name="contabilizarDomingo"></param>
-        /// <param name="contabilizarFeriados"></param>
-        /// <param name="codCidade"></param>
-        /// <returns></returns>
         public int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
         {
             List<DateTime> feriadosNoAno = new();

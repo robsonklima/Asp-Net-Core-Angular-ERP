@@ -46,7 +46,7 @@ export class FerramentaTecnicoListaComponent extends Filterable implements OnIni
   @ViewChild(MatSort) sort: MatSort;
   dataSourceData: FerramentaTecnicoData;
   isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
   userSession: UserSession;
 
   constructor(
@@ -80,7 +80,7 @@ export class FerramentaTecnicoListaComponent extends Filterable implements OnIni
       ).subscribe((text: string) => {
         this.paginator.pageIndex = 0;
         this.searchInputControl.nativeElement.val = text;
-        this.obterDados();
+        this.obterDados(text);
       });
 
       this.sort.disableClear = true;

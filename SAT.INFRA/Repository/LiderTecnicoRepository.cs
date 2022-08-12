@@ -68,7 +68,8 @@ namespace SAT.INFRA.Repository
                 lidTecnico = lidTecnico.Where(
                             l =>
                             l.CodLiderTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                            l.CodUsuarioLider.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                            l.CodUsuarioLider.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                            l.Tecnico.Nome.Contains(parameters.Filter)
                 );
             }
 

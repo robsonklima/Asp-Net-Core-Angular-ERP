@@ -19,6 +19,7 @@ namespace SAT.SERVICES.Services
     public class IntegracaoFinanceiroService : IIntegracaoFinanceiroService
     {
         private IIntegracaoFinanceiroRepository _integracaoFinanceiroRepo;
+        private string _token;
 
         public IntegracaoFinanceiroService(
             IIntegracaoFinanceiroRepository integracaoFinanceiroRepo
@@ -28,9 +29,11 @@ namespace SAT.SERVICES.Services
 
         public async void ExecutarAsync()
         {
-            var tiposFaturamento = Enum.GetValues(typeof(TipoFaturamentoOrcEnum));
+            _token = await ObterTokenAsync();
 
-            foreach (var tipo in tiposFaturamento)  
+            var a = ObterDadosAsync();
+
+            foreach (var tipo in Enum.GetValues(typeof(TipoFaturamentoOrcEnum)))  
             {
                 var orcamentos = _integracaoFinanceiroRepo
                     .ObterOrcamentos(new IntegracaoFinanceiroParameters { 
@@ -59,9 +62,8 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-                var token = await ObterTokenAsync();
                 HttpClient client = new();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
                 var jsonString = JsonConvert.SerializeObject(orcamento);
                 HttpResponseMessage response = await client
                     .PostAsync(Constants.INTEGRACAO_FINANCEIRO_API_URL + "/FaturamentoApi/api/orcamento/CadastraOrcamento", 
@@ -84,6 +86,16 @@ namespace SAT.SERVICES.Services
             {
                 throw new Exception("Erro ao enviar orçamento Integração Financeiro" + ex.Message);
             }
+        }
+
+        private async Task<string> ObterDadosAsync() {
+            HttpClient client = new();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            HttpResponseMessage response = await client
+                .GetAsync(Constants.INTEGRACAO_FINANCEIRO_API_URL + "/FaturamentoApi/api/orcamento/ConsultarOrcamento/21113"); 
+            var retorno = JsonConvert.DeserializeObject<IntegracaoFinanceiroRetorno>(response.Content.ReadAsStringAsync()?.Result);
+
+            return string.Empty;
         }
 
         private async Task<string> ObterTokenAsync() {

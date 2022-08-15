@@ -79,7 +79,12 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
 		this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
 		this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
+		this.inicializarForm();
+		this.obterLocais();
+		this.isLoading = false;
+	}
 
+	private inicializarForm() {
 		this.form = this._formBuilder.group({
 			codOrcMotivo: this.orcamento.orcamentoMotivo.codOrcMotivo,
 			detalhe: this.orcamento.detalhe,
@@ -140,9 +145,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 				}
 			],
 		});
-
-		this.obterLocais();
-		this.isLoading = false;
 	}
 
 	private obterLocais() {
@@ -238,7 +240,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	excluir() {
-
         const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
             data: {
                 titulo: 'Confirmação',
@@ -260,8 +261,34 @@ export class OrcamentoDetalheComponent implements OnInit {
 				});
             }
         });
-
 	}	
+
+	faturar() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data: {
+                titulo: 'Confirmação',
+                message: 'Deseja faturar este orçamento?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+				this.orcamento.indFaturamento = 1;
+				this.orcamento.dataHoraFaturamento = moment().format('yyyy-MM-DD HH:mm:ss');
+				this.orcamento.codUsuarioFaturamento = this.userSession.usuario.codUsuario;
+
+				this._orcamentoService.atualizar(this.orcamento).subscribe(() => {
+					this._snack.exibirToast('Orçamento Faturado com Sucesso','success');
+				}, error => {
+					this._snack.exibirToast(error?.error?.message || error?.message,'error');
+				});
+            }
+        });
+	}
 
 	isEqual(): boolean {
 		return _.isEqual(this.orcamento, this.oldItem);

@@ -6,6 +6,7 @@ using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -20,14 +21,22 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(Orcamento orcamento)
         {
-            _context.ChangeTracker.Clear();
-            Orcamento p = _context.Orcamento.FirstOrDefault(p => p.CodOrc == orcamento.CodOrc);
-
-            if (p != null)
+            try
             {
-                _context.Entry(p).CurrentValues.SetValues(orcamento);
-                _context.SaveChanges();
+                _context.ChangeTracker.Clear();
+                Orcamento orc = _context.Orcamento.FirstOrDefault(orc => orc.CodOrc == orcamento.CodOrc);
+
+                if (orc != null)
+                {
+                    _context.Entry(orc).CurrentValues.SetValues(orcamento);
+                    _context.SaveChanges();
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public void Criar(Orcamento orcamento)
@@ -39,15 +48,15 @@ namespace SAT.INFRA.Repository
         public void Deletar(int codOrc)
         {
             Orcamento orcamento = _context
-                                    .Orcamento
-                                        .Include(p => p.OrcamentoMotivo)
-                                        .Include(p => p.Materiais)
-                                        .Include(p => p.MaoDeObra)
-                                        .Include(p => p.OutrosServicos)
-                                        .Include(p => p.Descontos)
-                                        .Include(p => p.OrcamentoStatus)
-                                        .Include(p => p.OrcamentoDeslocamento)
-                                        .FirstOrDefault(p => p.CodOrc == codOrc);
+                .Orcamento
+                    .Include(p => p.OrcamentoMotivo)
+                    .Include(p => p.Materiais)
+                    .Include(p => p.MaoDeObra)
+                    .Include(p => p.OutrosServicos)
+                    .Include(p => p.Descontos)
+                    .Include(p => p.OrcamentoStatus)
+                    .Include(p => p.OrcamentoDeslocamento)
+                    .FirstOrDefault(p => p.CodOrc == codOrc);
 
             if (orcamento != null)
             {

@@ -42,6 +42,9 @@ export interface Orcamento
     orcamentoISS?: OrcamentoISS;
     numPedido?: string;
     obsPedido?: string;
+    indFaturamento?: number;
+    dataHoraFaturamento?: string;
+    codUsuarioFaturamento?: string;
 }
 
 export interface OrcamentoMotivo

@@ -31,6 +31,9 @@ namespace SAT.MODELS.Entities
         public DateTime? DataAprovacaoCliente { get; set; }
         public string NumPedido { get; set; }
         public string ObsPedido { get; set; }
+        public byte? IndFaturamento { get; set; }
+        public DateTime? DataHoraFaturamento { get; set; }
+        public string CodUsuarioFaturamento { get; set; }
         public virtual LocalEnvioNFFaturamento LocalEnvioNFFaturamento { get; set; }
         public virtual OrcamentosFaturamento OrcamentosFaturamento { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }

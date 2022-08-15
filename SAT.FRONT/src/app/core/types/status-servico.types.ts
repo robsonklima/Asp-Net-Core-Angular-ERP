@@ -30,5 +30,6 @@ export const statusServicoConst = {
 	FECHADO: 3,
 	CANCELADO: 2,
 	PECAS_PENDENTES: 7,
-	TRANSFERIDO: 8
+	TRANSFERIDO: 8,
+	ORCAMENTO: 4
 }

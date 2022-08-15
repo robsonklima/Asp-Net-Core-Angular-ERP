@@ -51,6 +51,11 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'Reabrir OS'" (click)="clonarOS()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                            </button>
+
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
                                 [matTooltip]="'Excluir'" (click)="excluir()" *ngIf="userSession?.usuario?.codPerfil == 100 || userSession?.usuario?.codPerfil == 3">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                             </button>

@@ -81,7 +81,6 @@ namespace SAT.MODELS.Entities.Constants
         public const int CLIENTE_BANPARA = 426;
         public const int CLIENTE_SAQUE_PAGUE =	434	;
 
-
         // Modelos
         public static int POS = 85;
         public static int POS_2020 = 107;
@@ -175,5 +174,8 @@ namespace SAT.MODELS.Entities.Constants
                 { "NfVenda", "CodInstalNFVenda" },
                 { "NfVendaData", "CodInstalNFVenda" }
             };
+
+        // Tecnicos
+        public static int TECNICO_SISTEMA = 2329;
     }
 }

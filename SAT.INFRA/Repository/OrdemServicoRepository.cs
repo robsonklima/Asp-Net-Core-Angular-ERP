@@ -27,10 +27,11 @@ namespace SAT.INFRA.Repository
             return this._feriadoRepository.CalculaDiasNaoUteis(dataInicio, dataFim, contabilizarSabado, contabilizarDomingo, contabilizarFeriados, codCidade);
         }
 
-        public void Criar(OrdemServico ordemServico)
+        public OrdemServico Criar(OrdemServico ordemServico)
         {
             _context.Add(ordemServico);
             _context.SaveChanges();
+            return ordemServico;
         }
 
         public void Atualizar(OrdemServico ordemServico)

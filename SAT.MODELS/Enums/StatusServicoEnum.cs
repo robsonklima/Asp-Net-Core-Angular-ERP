@@ -5,7 +5,7 @@ namespace SAT.MODELS.Enums
         ABERTO = 1,
         CANCELADO = 2,
         FECHADO = 3,
-        INSTALACAO = 4,
+        ORCAMENTO = 4,
         PARCIAL = 5,
         PECAS_LIBERADAS = 6,
         PECAS_PENDENTES = 7,
@@ -15,6 +15,6 @@ namespace SAT.MODELS.Enums
         PECA_SEPARADA = 11,
         AGUARDANDO_CONTATO_COM_CLIENTE = 14,
         AGUARDANDO_DECLARACAO = 15,
-        CANCELADO_COM_ATENDIMENTO = 16
+        CANCELADO_COM_ATENDIMENTO = 16,
     }
 }

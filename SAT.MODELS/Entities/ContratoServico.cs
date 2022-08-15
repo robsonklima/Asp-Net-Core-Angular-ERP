@@ -8,8 +8,6 @@ namespace SAT.MODELS.Entities
     {
         public int CodContratoServico { get; set; }
         public int CodContrato { get; set; }
-    //    [ForeignKey("CodContrato")]
-    //    public Contrato Contrato { get; set; }
         public int CodServico { get; set; }
         [ForeignKey("CodServico")]
         public TipoServico TipoServico { get; set; }

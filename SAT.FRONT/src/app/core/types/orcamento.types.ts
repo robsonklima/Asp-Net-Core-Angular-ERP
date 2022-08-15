@@ -306,6 +306,17 @@ export interface OrcamentoDadosLocal
     nroSerie?: string;
 }
 
+export interface OrcamentoAprovacao {
+    codOrc: number;
+    motivo: string;
+    nome: string;
+    email: string;
+    departamento: string;
+    telefone: string;
+    ramal: string;
+    isAprovado: boolean;
+}
+
 export enum OrcamentoTipoOutroServicoEnum
 {
     ABERTURA_COFRE = "Abertura de cofre",

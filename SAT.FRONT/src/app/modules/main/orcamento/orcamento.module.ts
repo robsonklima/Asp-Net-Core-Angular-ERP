@@ -82,7 +82,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoFaturamentoListaComponent,
         OrcamentoDetalhePedidoComponent,
         OrcamentoPesquisaComponent,
-        OrcamentoFinanceiroFaturamentoListaComponent 
+        OrcamentoFinanceiroFaturamentoListaComponent
     ],
     imports: [
         CommonModule,

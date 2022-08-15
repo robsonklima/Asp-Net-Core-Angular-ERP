@@ -16,7 +16,7 @@ import { authSignupRoutes } from 'app/modules/auth/sign-up/sign-up.routing';
     declarations: [
         AuthSignUpComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(authSignupRoutes),
         MatButtonModule,
         MatCheckboxModule,

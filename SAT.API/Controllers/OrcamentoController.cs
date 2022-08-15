@@ -50,5 +50,12 @@ namespace SAT.API.Controllers
         {
             _orcamentoService.Deletar(codOrcamento);
         }
+
+        [AllowAnonymous]
+        [HttpPost("AprovacaoCliente")]
+        public OrcamentoAprovacao Post([FromBody] OrcamentoAprovacao aprovacao)
+        {
+            return _orcamentoService.Aprovar(aprovacao);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         Orcamento Atualizar(Orcamento orcamento);
         Orcamento ObterPorCodigo(int codigo);
+        OrcamentoAprovacao Aprovar(OrcamentoAprovacao aprovacao);
     }
 }

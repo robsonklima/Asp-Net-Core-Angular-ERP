@@ -9,7 +9,7 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<OrcamentoFaturamento> builder)
         {
             builder
-                .ToTable("OrcamentoFaturamento");
+                .ToTable("OrcamentosFaturamento");
 
             builder
                 .HasKey(i => i.CodOrcamentoFaturamento);

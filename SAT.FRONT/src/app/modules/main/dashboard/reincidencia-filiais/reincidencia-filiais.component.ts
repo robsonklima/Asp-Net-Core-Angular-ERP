@@ -95,7 +95,7 @@ export class ReincidenciaFiliaisComponent extends Filterable implements OnInit, 
       ];
 
       let labels = reincidencia.map(d => d.filial);
-      let valoresColuna = reincidencia.map(d => (this.chartMax / 100) * d.percentual);
+      let valoresColuna = reincidencia.map(d => d.percentual);
       let valoresLinha: number[] = [];
       valoresColuna.forEach(() => { valoresLinha.push(this.meta); });
       this.haveData = true;

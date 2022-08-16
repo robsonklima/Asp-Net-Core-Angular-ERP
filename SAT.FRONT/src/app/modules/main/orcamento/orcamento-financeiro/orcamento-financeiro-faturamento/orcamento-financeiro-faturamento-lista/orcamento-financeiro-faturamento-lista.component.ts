@@ -1,20 +1,14 @@
-import { OrcamentosFaturamento } from './../../../../../../core/types/orcamento.types';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { LocalEnvioNFFaturamentoService } from 'app/core/services/local-envio-nf-faturamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { LocalEnvioNFFaturamento, LocalEnvioNFFaturamentoData } from 'app/core/types/local-envio-nf-faturamento.types';
-import { UserSession } from 'app/core/user/user.types';
-import { fromEvent, Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
-import { OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
+import { OrcamentoData, OrcamentoFaturamento, OrcamentoParameters } from 'app/core/types/orcamento.types';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
-import Enumerable from 'linq';
+import { Subject } from 'rxjs';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
@@ -61,28 +55,6 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	ngAfterViewInit(): void {
 		this.obterOrcamentos();
 		this.registerEmitters();
-
-		// fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-		// 	map((event: any) => {
-		// 		return event.target.value;
-		// 	})
-		// 	, debounceTime(1000)
-		// 	, distinctUntilChanged()
-		// ).subscribe((text: string) => {
-		// 	this.paginator.pageIndex = 0;
-		// 	this.obterOrcamentos(text);
-		// });
-
-		// if (this.sort && this.paginator) {
-		// 	this.sort.disableClear = true;
-		// 	this._cdr.markForCheck();
-
-		// 	this.sort.sortChange.subscribe(() => {
-		// 		this.onSortChanged();
-		// 		this.obterOrcamentos();
-		// 	});
-		// }
-
 		this._cdr.detectChanges();
 	}
 
@@ -111,18 +83,12 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			})
 			.toPromise();
 		
-		// data.items = Enumerable.from(data.items).where(orc => orc.ordemServico.codTipoIntervencao == 17 && orc.ordemServico.codStatusServico == 3 ).toArray();
-
-		console.log(data);
-		
 		this.dataSourceData = data;
 		this.isLoading = false;
 	}
 
 	faturar(orc: any){
-		console.log(orc);
-
-		let orcamentoFaturamento: OrcamentosFaturamento = {
+		let orcamentoFaturamento: OrcamentoFaturamento = {
 			codOrcamento: 0,
 			codClienteBancada: '1',
 			codFilial: 1,
@@ -140,7 +106,6 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			codUsuarioCad: '',
 			dataHoraCad: ''
 		}
-		
 	}
 
 	paginar() {

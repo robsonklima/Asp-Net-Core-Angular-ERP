@@ -22,6 +22,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { FileMime } from 'app/core/types/file.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { environment } from 'environments/environment';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -217,15 +218,15 @@ export class OrcamentoDetalheComponent implements OnInit {
 				conteudoEmail: `
 					Prezado Cliente,
 					<br>
-					<br>
 					A PERTO encaminha no anexo orçamento para sua apreciação, solicitamos gentilmente acessar o link abaixo, para aprovação ou reprovação.
+					<br>
 					Alertamos ao prazo de validade do mesmo, constante no rodapé do orçamento, findo este prazo e não obtido retorno será considerado reprovado e o chamado fechado.
 					<br>
-					<br>
 					No caso de aprovação a Nota Fiscal Fatura será emitida e encaminhada conforme os dados abaixo, caso seja necessário alteração por favor comunicar o setor de orçamentos da PERTO.
-					Clique Aqui para Aprovar ou Reprovar este orçamento !!!
-					Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!
-
+					<br>
+					<a href="${environment.clientUrl}/#/orcamento-aprovacao/${this.codOrc}">CLIQUE AQUI</a> para Aprovar ou Reprovar este orçamento !!!
+					<br>
+					Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!					
 				`,
 				nomeRemetente: 'DSS ORÇAMENTOS',
 				emailRemetente: 'dss.orcamentos@perto.com.br',

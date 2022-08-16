@@ -46,6 +46,8 @@ namespace SAT.INFRA.Context
         public DbSet<DespesaCartaoCombustivel> DespesaCartaoCombustivel { get; set; }
         public DbSet<Autorizada> Autorizada { get; set; }
         public DbSet<Auditoria> Auditoria { get; set; }
+        public DbSet<AuditoriaStatus> AuditoriaStatus { get; set; }
+        public DbSet<AuditoriaFoto> AuditoriaFoto { get; set; }
         public DbSet<AcordoNivelServico> AcordoNivelServico { get; set; }
         public DbSet<Navegacao> Navegacao { get; set; }
         public DbSet<NavegacaoConfiguracao> NavegacaoConfiguracao { get; set; }
@@ -388,6 +390,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<AuditoriaVeiculo>(new AuditoriaVeiculoMap().Configure);
             modelBuilder.Entity<AuditoriaVeiculoAcessorio>(new AuditoriaVeiculoAcessorioMap().Configure);
             modelBuilder.Entity<AuditoriaVeiculoTanque>(new AuditoriaVeiculoTanqueMap().Configure);
+            modelBuilder.Entity<AuditoriaStatus>(new AuditoriaStatusMap().Configure);
             modelBuilder.Entity<OrcamentoFaturamento>(new OrcamentoFaturamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

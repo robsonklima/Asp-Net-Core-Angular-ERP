@@ -32,6 +32,7 @@ public class ConfigurationIOC
         builder.RegisterType<TipoServicoRepository>().As<ITipoServicoRepository>();
         builder.RegisterType<RegiaoRepository>().As<IRegiaoRepository>();
         builder.RegisterType<AutorizadaRepository>().As<IAutorizadaRepository>();
+        builder.RegisterType<AuditoriaRepository>().As<IAuditoriaRepository>();
         builder.RegisterType<PerfilRepository>().As<IPerfilRepository>();
         builder.RegisterType<PaisRepository>().As<IPaisRepository>();
         builder.RegisterType<CidadeRepository>().As<ICidadeRepository>();
@@ -160,6 +161,7 @@ public class ConfigurationIOC
         builder.RegisterType<AcaoService>().As<IAcaoService>();
         builder.RegisterType<AcordoNivelServicoService>().As<IAcordoNivelServicoService>();
         builder.RegisterType<AutorizadaService>().As<IAutorizadaService>();
+        builder.RegisterType<AuditoriaService>().As<IAuditoriaService>();
         builder.RegisterType<CausaService>().As<ICausaService>();
         builder.RegisterType<CidadeService>().As<ICidadeService>();
         builder.RegisterType<ClienteService>().As<IClienteService>();

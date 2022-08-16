@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -9,10 +10,13 @@ namespace SAT.MODELS.Entities
             [Key]
 	        public int CodAuditoria { get; set; }
 	        public string CodUsuario { get; set; }
+            [ForeignKey("CodUsuario")]
 	        public int? CodAuditoriaVeiculo { get; set; }
+            [ForeignKey("CodAuditoriaVeiculo")]
 	        public DateTime? DataHoraRetiradaVeiculo { get; set; }
 	        public DateTime DataHoraCad { get; set; }
 	        public int CodAuditoriaStatus { get; set; }
+            [ForeignKey("CodAuditoriaStatus")]
 	        public int? TotalMesesEmUso { get; set; }
 	        public double? ValorCombustivel { get; set; }
 	        public DateTime? DataRetiradaVeiculo { get; set; }

@@ -111,7 +111,6 @@ namespace SAT.SERVICES.Services
 
         private void ObterOrcamentosPendentesFinanceiro() {
             var orcamentos = _orcamentoRepo.ObterPorParametros(new OrcamentoParameters {
-                IsFaturamento = 1,
                 
             });
         }

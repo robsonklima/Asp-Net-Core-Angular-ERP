@@ -17,6 +17,8 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(OrcamentoFaturamentoParameters parameters)
         {
+
+            
             var orcamentos = _orcamentoFaturamentoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel

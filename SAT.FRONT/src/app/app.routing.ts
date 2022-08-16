@@ -23,7 +23,8 @@ export const appRoutes: Route[] = [
             { path: 'esqueceu-senha', loadChildren: () => import('app/modules/auth/esqueceu-senha/esqueceu-senha.module').then(m => m.EsqueceuSenhaModule) },
             { path: 'confirmacao-nova-senha', loadChildren: () => import('app/modules/auth/confirmacao-nova-senha/confirmacao-nova-senha.module').then(m => m.ConfirmacaoNovaSenhaModule) },
             { path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule) },
-            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) }
+            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule) },
+            { path: 'orcamento-aprovacao', loadChildren: () => import('app/modules/guest/orcamento-aprovacao/orcamento-aprovacao.module').then(m => m.OrcamentoAprovacaoModule) }
         ]
     },
 
@@ -110,7 +111,6 @@ export const appRoutes: Route[] = [
             { path: 'tecnico-plantao', loadChildren: () => import('app/modules/main/tecnico-plantao/tecnico-plantao.module').then(m => m.TecnicoPlantaoModule) },
             { path: 'importacao', loadChildren: () => import('app/modules/main/importacao/importacao.module').then(m => m.ImportacaoModule) },
             { path: 'ticket', loadChildren: () => import('app/modules/main/cadastro/ticket/ticket.module').then(m => m.TicketModule) },
-
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

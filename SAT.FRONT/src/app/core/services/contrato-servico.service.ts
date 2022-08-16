@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { ContratoServico } from '../types/contrato.types';
-import { ContratoServicoData, ContratoServicoParameters } from '../types/contrato-servico.types';
+import { ContratoServico, ContratoServicoData, ContratoServicoParameters } from '../types/contrato-servico.types';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +23,13 @@ export class ContratoServicoService {
     )
   }
 
+  obterPorCodigo(codContratoServico: number): Observable<ContratoServico> {
+    const url = `${c.api}/ContratoServico/${codContratoServico}`;
+    return this.http.get<ContratoServico>(url).pipe(
+      map((obj) => obj)
+    );
+  }
+  
   criar(contratoServico: ContratoServico): Observable<ContratoServico> {
     return this.http.post<ContratoServico>(`${c.api}/ContratoServico`, contratoServico).pipe(
       map((obj) => obj)
@@ -38,8 +44,8 @@ export class ContratoServicoService {
     );
   }
 
-  deletar(codContrato: number, codContratoServico: number): Observable<ContratoServico> {
-    const url = `${c.api}/ContratoServico/${codContrato}/${codContratoServico}`;
+  deletar(codContratoServico: number): Observable<ContratoServico> {
+    const url = `${c.api}/ContratoServico/${codContratoServico}`;
 
     return this.http.delete<ContratoServico>(url).pipe(
       map((obj) => obj)

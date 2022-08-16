@@ -44,5 +44,5 @@ export const orcamentoRoutes: Route[] = [
     {
         path: 'financeiro/faturamento',
         component: OrcamentoFinanceiroFaturamentoListaComponent
-    },      
+    },     
 ];

@@ -113,6 +113,7 @@ namespace SAT.INFRA.Repository
                 {
                     locais = locais.Where(
                         l =>
+                        l.Cliente.NomeFantasia.Contains(parameters.Filter) ||
                         l.CodPosto.ToString().Contains(parameters.Filter) ||
                         l.NomeLocal.Contains(parameters.Filter) ||
                         l.DCPosto.Contains(parameters.Filter) ||

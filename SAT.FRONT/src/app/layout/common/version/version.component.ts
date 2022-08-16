@@ -28,7 +28,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 
     async ngOnInit()
     {
-        interval(30 * 60 * 1000)
+        interval(60 * 60 * 1000)
             .pipe(startWith(0))
             .subscribe(() => {
                  this._versaoService.obterPorParametros({ 
@@ -39,8 +39,8 @@ export class VersionComponent implements OnInit, OnDestroy {
                     const necessitaAtualizar = this.necessitaAtualizar(versao.items.shift()?.nome, this.versao);
 
                     if (necessitaAtualizar) {
-                        this.solicitarAtualizacao();
-                        this._cdr.markForCheck();
+                        //this.solicitarAtualizacao();
+                        //this._cdr.markForCheck();
                     }
                 });
             });

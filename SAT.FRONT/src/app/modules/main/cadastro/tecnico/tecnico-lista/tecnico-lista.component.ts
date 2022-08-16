@@ -47,7 +47,7 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: TecnicoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	selectedItem: Tecnico | null = null;
 	userSession: UserSession;
 
@@ -81,7 +81,7 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

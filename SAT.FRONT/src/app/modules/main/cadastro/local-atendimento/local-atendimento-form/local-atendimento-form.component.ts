@@ -196,7 +196,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       site: [undefined],
       fone: [undefined],
       descTurno: [undefined],
-      distanciaKmPatRes: [undefined],
+      distanciaKmPatRes: [undefined, Validators.required],
       observacao: [undefined],
       numeroEnd: [undefined, Validators.required],
       cnpjFaturamento: [undefined],
@@ -344,10 +344,8 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       {
         const res = data;
 
-        this.form.controls['endereco'].setValue(res.endereco);
         this.form.controls['latitude'].setValue(res.latitude);
         this.form.controls['longitude'].setValue(res.longitude);
-        this.form.controls['bairro'].setValue(res.bairro);
 
         this._cidadeService.obterCidades(null, res.cidade).then(c =>
         {

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoParameters, OrcamentoData, Orcamento } from '../types/orcamento.types';
+import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao } from '../types/orcamento.types';
 import { OrcamentoBuilder } from '../builders/implementations/orcamento.builder';
 
 @Injectable({
@@ -66,5 +66,12 @@ export class OrcamentoService
             orc = this._builder.calculaTotalizacao(orc);
             this.atualizar(orc).toPromise();
         });
+    }
+
+    aprovar(aprovacao: OrcamentoAprovacao): Observable<OrcamentoAprovacao>
+    {
+        return this.http.post<OrcamentoAprovacao>(`${c.api}/Orcamento/AprovacaoCliente`, aprovacao).pipe(
+            map((obj) => obj)
+        );
     }
 }

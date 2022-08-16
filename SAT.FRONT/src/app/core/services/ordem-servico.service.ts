@@ -44,6 +44,13 @@ export class OrdemServicoService
     );
   }
 
+  clonar(ordemServico: OrdemServico): Observable<OrdemServico>
+  {
+    return this.http.post<OrdemServico>(`${c.api}/OrdemServico/Clonar`, ordemServico).pipe(
+      map((obj) => obj)
+    );
+  }
+
   atualizar(ordemServico: OrdemServico): Observable<OrdemServico>
   {
     const url = `${c.api}/OrdemServico`;

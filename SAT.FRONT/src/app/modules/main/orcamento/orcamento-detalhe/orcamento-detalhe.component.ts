@@ -47,11 +47,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 	oldItem: any;
 	isEditing: boolean;
 	form: FormGroup;
-
 	dadosLocalFaturamento: OrcamentoDadosLocal;
 	dadosLocalEnvioNF: OrcamentoDadosLocal;
 	dadosLocalAtendimento: OrcamentoDadosLocal;
-
 	public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
 	constructor(
@@ -85,7 +83,12 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
 		this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
 		this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
+		this.inicializarForm();
+		this.obterLocais();
+		this.isLoading = false;
+	}
 
+	private inicializarForm() {
 		this.form = this._formBuilder.group({
 			codOrcMotivo: this.orcamento.orcamentoMotivo.codOrcMotivo,
 			detalhe: this.orcamento.detalhe,
@@ -146,9 +149,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 				}
 			],
 		});
-
-		this.obterLocais();
-		this.isLoading = false;
 	}
 
 	private obterLocais() {
@@ -315,6 +315,62 @@ export class OrcamentoDetalheComponent implements OnInit {
 			}
 		});
 
+	}
+
+	faturar() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data: {
+                titulo: 'Confirmação',
+                message: 'Deseja faturar este orçamento?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+				this.orcamento.indFaturamento = 1;
+				this.orcamento.dataHoraFaturamento = moment().format('yyyy-MM-DD HH:mm:ss');
+				this.orcamento.codUsuarioFaturamento = this.userSession.usuario.codUsuario;
+
+				this._orcamentoService.atualizar(this.orcamento).subscribe(() => {
+					this._snack.exibirToast('Orçamento Faturado com Sucesso','success');
+				}, error => {
+					this._snack.exibirToast(error?.error?.message || error?.message,'error');
+				});
+            }
+        });
+	}
+
+	clonarOS() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data: {
+                titulo: 'Confirmação',
+                message: 'Deseja reabrir a OS?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+				this.isLoading = true;
+
+				this._osService.clonar(this.os).subscribe((os: OrdemServico) => {
+					this._snack.exibirAlerta(`OS ${os.codOS} clonada com sucesso!`);
+
+					this.isLoading = false;
+				}, e => {
+					this._snack.exibirToast(`Erro ao clonar a OS ${ this.os.codOS }!`);
+
+					this.isLoading = false;
+				});
+            }
+        });
 	}
 
 	isEqual(): boolean {

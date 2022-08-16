@@ -18,8 +18,12 @@ import { ContratoReajuste } from 'app/core/types/contrato-reajuste.types';
 import { ContratoReajusteService } from 'app/core/services/contrato-reajuste.service';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { statusConst } from 'app/core/types/status-types';
-
-
+import { OrcFormaPagamento } from 'app/core/types/orcamento-forma-pagamento.types';
+import { PosVenda } from 'app/core/types/pos-venda.types';
+import { PosVendaService } from 'app/core/services/pos-venda.service';
+import { OrcFormaPagamentoService } from 'app/core/services/orcamento-forma-pagamento.service';
+import { OrcDadosBancarios } from 'app/core/types/orcamento-dados-bancarios.types';
+import { OrcDadosBancariosService } from 'app/core/services/orcamento-dados-bancarios.service';
 
 @Component({
 	selector: 'app-contrato-form',
@@ -42,6 +46,9 @@ export class ContratoFormComponent implements OnInit {
 	tipoContrato: TipoContrato[];
 	tipoReajuste: TipoIndiceReajuste[];
 	clienteFilterCtrl: FormControl = new FormControl();
+	posVendas: PosVenda[] = [];
+	orcFormasPagamento: OrcFormaPagamento[] = [];
+	orcDadosBancarios: OrcDadosBancarios[] = [];
 
 	constructor(
 		private _formBuilder: FormBuilder,
@@ -54,6 +61,9 @@ export class ContratoFormComponent implements OnInit {
 		private _clienteService: ClienteService,
 		private _tipoContratoService: TipoContratoService,
 		private _tipoIndiceReajusteService: TipoIndiceReajusteService,
+		private _posVendaService: PosVendaService,
+		private _orcFormaPagamentoService: OrcFormaPagamentoService,
+		private _orcDadosBancariosService: OrcDadosBancariosService,
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -70,10 +80,12 @@ export class ContratoFormComponent implements OnInit {
 		this.isLoading= false;
 	}
 
-
 	private async obterDados() {
 		this.tipoContrato = (await this._tipoContratoService.obterPorParametros({}).toPromise()).items;
 		this.tipoReajuste = (await this._tipoIndiceReajusteService.obterPorParametros({}).toPromise()).items;
+		this.posVendas = (await this._posVendaService.obterPorParametros({}).toPromise()).items;
+		this.orcFormasPagamento = (await this._orcFormaPagamentoService.obterPorParametros({}).toPromise()).items;
+		this.orcDadosBancarios = (await this._orcDadosBancariosService.obterPorParametros({}).toPromise()).items;
 		this.contratoReajuste = (await this._contratoReajusteService
 			.obterPorParametros({ codContrato: this.codContrato, indAtivo: 1 })
 			.toPromise()).items.pop();
@@ -208,8 +220,11 @@ export class ContratoFormComponent implements OnInit {
 			semCobertura: [undefined],
 			valTotalContrato: [undefined, Validators.required],
 			indPermitePecaEspecifica: [undefined],
-			numDiasSubstEquip: [undefined]
-
+			numDiasSubstEquip: [undefined],
+			codPosVenda: [undefined, Validators.required],
+			codOrcFormaPagamento: [undefined, Validators.required],
+			codOrcDadosBancarios: [undefined, Validators.required],
+			indPedido: [undefined],
 		});
 	}
 

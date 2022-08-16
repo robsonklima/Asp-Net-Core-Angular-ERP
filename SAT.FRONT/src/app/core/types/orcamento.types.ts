@@ -42,6 +42,9 @@ export interface Orcamento
     orcamentoISS?: OrcamentoISS;
     numPedido?: string;
     obsPedido?: string;
+    indFaturamento?: number;
+    dataHoraFaturamento?: string;
+    codUsuarioFaturamento?: string;
 }
 
 export interface OrcamentoMotivo
@@ -301,6 +304,17 @@ export interface OrcamentoDadosLocal
     motivoOrcamento?: string;
     agencia?: string;
     nroSerie?: string;
+}
+
+export interface OrcamentoAprovacao {
+    codOrc: number;
+    motivo: string;
+    nome: string;
+    email: string;
+    departamento: string;
+    telefone: string;
+    ramal: string;
+    isAprovado: boolean;
 }
 
 export enum OrcamentoTipoOutroServicoEnum

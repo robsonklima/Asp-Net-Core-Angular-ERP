@@ -58,11 +58,14 @@ export class Contrato
     percReajuste: number;
     indPermitePecaEspecifica: number;
     semCobertura: string;
+    codFormaPagamento: number;
+    codOrcDadosBancarios: number;
+    codPosVenda: number;
+    indPedido: number;    
     lotes: InstalacaoLote[];
     contratoEquipamento: ContratoEquipamento;
     contratoServico: ContratoServico[];
     tipoContrato: TipoContrato;
-    indPedido: number;
 }
 
 export interface ContratoData extends Meta
@@ -92,10 +95,10 @@ export interface ContratoServico
     valor: number;
     codUsuarioCad: string;
     dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-    codUsuarioCadastroDel: string;
-    dataHoraCadastroDel: string;
-    codUsuarioManutencaoDel: string;
-    dataHoraManutencaoDel: string;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
+    codUsuarioCadastroDel?: string;
+    dataHoraCadastroDel?: string;
+    codUsuarioManutencaoDel?: string;
+    dataHoraManutencaoDel?: string;
 }

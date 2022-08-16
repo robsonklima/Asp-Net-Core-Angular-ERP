@@ -7,10 +7,8 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodEquip { get; set; }
         public string CodClientes { get; set; }
-        public EquipamentoFilterEnum? FilterType { get; set; }
         public string CodGrupoEquips { get; set; }
         public string CodTipoEquips { get; set; }
-
-
+        public EquipamentoFilterEnum? FilterType { get; set; }
     }
 }

@@ -670,5 +670,7 @@
     "numero pedido": "Número do pedido",
     "detalhe pedido": "Detalhe do Pedido",
     "itens pedido": "Itens do Pedido",
-    "valor desconto a base de troca": "Valor desconto a base de troca"
+    "valor desconto a base de troca": "Valor desconto a base de troca",
+    "dados bancarios": "Dados Bancários",
+    "pedido obrigatorio": "Pedido Obrigatório"
 }

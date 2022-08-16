@@ -55,7 +55,18 @@ namespace SAT.INFRA.Repository
 
         public PagedList<FerramentaTecnico> ObterPorParametros(FerramentaTecnicoParameters parameters)
         {
+
             IQueryable<FerramentaTecnico> ferrTecnicos = _context.FerramentaTecnico.AsQueryable();
+
+            if (parameters.Filter != null)
+            {
+                ferrTecnicos = ferrTecnicos.Where(
+                            ft =>
+                            ft.Nome.Contains(parameters.Filter)
+                );
+            }
+
+
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

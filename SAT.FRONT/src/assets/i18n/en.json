@@ -652,5 +652,7 @@
     "numero pedido": "Order number",
     "detalhe pedido": "Order detail",
     "itens pedido": "Order items",
-    "valor desconto a base de troca": "Discount value on trade base"
+    "valor desconto a base de troca": "Discount value on trade base",
+    "dados bancarios": "Bank data",
+    "pedido obrigatorio": "Mandatory order"
 }

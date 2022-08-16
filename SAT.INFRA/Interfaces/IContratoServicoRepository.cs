@@ -7,9 +7,9 @@ namespace SAT.INFRA.Interfaces
     public interface IContratoServicoRepository
     {
         PagedList<ContratoServico> ObterPorParametros(ContratoServicoParameters parameters);
+        ContratoServico ObterPorCodigo(int codContratoServico);
         void Criar(ContratoServico contratoServico);
-        void Deletar(int codContrato, int codContratoServico);
+        void Deletar(int codContratoServico);
         void Atualizar(ContratoServico contratoServico);
-        ContratoServico ObterPorCodigo(int codContrato, int codContratoServico);
     }
 }

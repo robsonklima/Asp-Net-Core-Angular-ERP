@@ -44,7 +44,7 @@ export class NotificationsComponent implements OnInit, OnDestroy
 
     ngOnInit(): void
     {
-        interval(5 * 60 * 1000)
+        interval(30 * 60 * 1000)
             .pipe(startWith(0))
             .subscribe(() => {
                 this.obterNotificacoes();

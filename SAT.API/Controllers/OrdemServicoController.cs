@@ -38,6 +38,12 @@ namespace SAT.API.Controllers
             return _osService.Criar(ordemServico);
         }
 
+        [HttpPost("{Clonar}")]
+        public OrdemServico Clonar([FromBody] OrdemServico ordemServico)
+        {
+            return _osService.Clonar(ordemServico);
+        }
+
         [HttpPut]
         public OrdemServico Put([FromBody] OrdemServico ordemServico)
         {

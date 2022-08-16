@@ -13,13 +13,14 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FileMime } from 'app/core/types/file.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
-  selector: 'app-equipamento-modulo-lista',
-  templateUrl: './equipamento-modulo-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
+	selector: 'app-equipamento-modulo-lista',
+	templateUrl: './equipamento-modulo-lista.component.html',
+	styles: [
+		/* language=SCSS */
+		`
     .list-grid-u {
       grid-template-columns: 142px auto 40% 20%;
       
@@ -36,96 +37,101 @@ import { FileMime } from 'app/core/types/file.types';
       } */
   }
     `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+	],
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 export class EquipamentoModuloListaComponent extends Filterable implements AfterViewInit, IFilterable {
 
-  @ViewChild('sidenav') public sidenav: MatSidenav;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSourceData: EquipamentoModuloData;
-  isLoading: boolean = false;
+	@ViewChild('sidenav') public sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild(MatSort) sort: MatSort;
+	dataSourceData: EquipamentoModuloData;
+	isLoading: boolean = false;
 
-  userSession: UserSession;
+	userSession: UserSession;
 
-  constructor(
-    protected _userService: UserService,
-    private _equipamentoModuloService: EquipamentoModuloService,
-    private _cdr: ChangeDetectorRef,
-    private _exportacaoService: ExportacaoService
-  ) {
-    super(_userService, 'equipamento-modulo')
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+	constructor(
+		protected _userService: UserService,
+		private _equipamentoModuloService: EquipamentoModuloService,
+		private _cdr: ChangeDetectorRef,
+		private _exportacaoService: ExportacaoService
+	) {
+		super(_userService, 'equipamento-modulo')
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
-  }
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+	}
 
-  async ngAfterViewInit() {
-    this.registerEmitters();
-    this.obterDados();
+	async ngAfterViewInit() {
+		this.registerEmitters();
+		this.obterDados();
 
-    if (this.sort && this.paginator) {
-      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-        map((event: any) => {
-          return event.target.value;
-        })
-        , debounceTime(700)
-        , distinctUntilChanged()
-      ).subscribe((text: string) => {
-        this.paginator.pageIndex = 0;
-        this.searchInputControl.nativeElement.val = text;
-        this.obterDados(text);
-      });
+		if (this.sort && this.paginator) {
+			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+				map((event: any) => {
+					return event.target.value;
+				})
+				, debounceTime(700)
+				, distinctUntilChanged()
+			).subscribe((text: string) => {
+				this.paginator.pageIndex = 0;
+				this.searchInputControl.nativeElement.val = text;
+				this.obterDados(text);
+			});
 
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
-      this.sort.sortChange.subscribe(() => {
-        this.paginator.pageIndex = 0;
-        this.obterDados();
-      });
-    }
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
+			this.sort.sortChange.subscribe(() => {
+				this.paginator.pageIndex = 0;
+				this.obterDados();
+			});
+		}
 
-    this._cdr.detectChanges();
-  }
+		this._cdr.detectChanges();
+	}
 
-  async obterDados(filtro: string = '') {
-    this.isLoading = true;
+	async obterDados(filtro: string = '') {
+		this.isLoading = true;
 
-    const parametros: EquipamentoModuloParameters = {
-      ...{
-        pageNumber: this.paginator?.pageIndex + 1,
-        sortActive: 'codEquip',
-        sortDirection: 'asc',
-        pageSize: this.paginator?.pageSize,
-        filter: filtro
-      },
-      ...this.filter?.parametros
-    }
+		const parametros: EquipamentoModuloParameters = {
+			...{
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: 'codEquip',
+				sortDirection: 'asc',
+				pageSize: this.paginator?.pageSize,
+				filter: filtro
+			},
+			...this.filter?.parametros
+		}
 
-    const data = await this._equipamentoModuloService.obterPorParametros(parametros).toPromise();
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  }
+		const data = await this._equipamentoModuloService.obterPorParametros(parametros).toPromise();
+		this.dataSourceData = data;
+		this.isLoading = false;
+		this._cdr.detectChanges();
+	}
 
-  async exportar() {
-    this.isLoading = true;
+	async exportar() {
+		this.isLoading = true;
 
-    await this._exportacaoService.exportar('EquipamentoModulo', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.EQUIPAMENTOMODULO,
+			entityParameters: this.filter?.parametros
+		}
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
-    this.isLoading = false;
-  }
+		this.isLoading = false;
+	}
 
 
-  paginar() {
-    this.obterDados();
-  }
+	paginar() {
+		this.obterDados();
+	}
 }

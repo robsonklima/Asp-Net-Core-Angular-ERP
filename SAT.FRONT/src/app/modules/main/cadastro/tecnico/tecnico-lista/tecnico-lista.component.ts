@@ -13,6 +13,7 @@ import { FileMime } from 'app/core/types/file.types';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'app-tecnico-lista',
@@ -121,7 +122,13 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 	async exportar() {
 		this.isLoading = true;
 
-		await this._exportacaoService.exportar('Tecnico', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.TECNICO,
+			entityParameters: this.filter?.parametros
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam );
 
 		this.isLoading = false;
 	}

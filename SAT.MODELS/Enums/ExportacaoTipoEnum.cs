@@ -27,8 +27,10 @@ namespace SAT.MODELS.Enums
         LOCALATENDIMENTO,
         PECA,
         USUARIO,
+        ORCAMENTO,
         REGIAO,
         REGIAOAUTORIZADA,
-        FILIAL
+        FILIAL,
+        TICKET
     }
 }

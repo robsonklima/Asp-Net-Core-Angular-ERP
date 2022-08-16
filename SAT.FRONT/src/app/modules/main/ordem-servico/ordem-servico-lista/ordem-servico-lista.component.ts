@@ -16,6 +16,7 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { StringExtensions } from 'app/core/extensions/string.extensions';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'ordem-servico-lista',
@@ -47,8 +48,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	@ViewChild(MatSort) sort: MatSort;
-	validaCliente:boolean = this._userService.isCustomer;
-	validaAbreOS:boolean = this._userService.isOpenOS;
+	validaCliente: boolean = this._userService.isCustomer;
+	validaAbreOS: boolean = this._userService.isOpenOS;
 	//validaCliente:boolean = false;
 
 	dataSourceData: OrdemServicoData;
@@ -105,7 +106,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
 	async obterOrdensServico(filter: string = '') {
 		this.isLoading = true;
-		
+
 		const params: OrdemServicoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
 			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
@@ -148,14 +149,18 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
 		this.isLoading = true;
 
-		const params: OrdemServicoParameters = {
-			...this.filter?.parametros,
-			sortDirection: 'desc',
-			pageSize: 100000,
-			include: OrdemServicoIncludeEnum.OS_EXPORTAR,
-		};
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
+			entityParameters: {
+				...this.filter?.parametros,
+				sortDirection: 'desc',
+				pageSize: 100000,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+			}
+		}
 
-		await this._exportacaoService.exportar('OrdemServico', FileMime.Excel, params);
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
 		this.isLoading = false;
 	}

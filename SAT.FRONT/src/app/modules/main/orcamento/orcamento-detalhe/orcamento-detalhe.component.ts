@@ -1,5 +1,6 @@
+import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus, OrcamentoParameters } from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -19,6 +20,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { FileMime } from 'app/core/types/file.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -64,7 +67,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 		private _orcStatusService: OrcamentoStatusService,
 		private _cdRef: ChangeDetectorRef,
 		private _formBuilder: FormBuilder,
-		private _snack: CustomSnackbarService
+		private _snack: CustomSnackbarService,
+		private _exportacaoService: ExportacaoService,
 	) {
 		this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -206,10 +210,58 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	enviarEmail() {
-		this._dialog.open(EmailDialogComponent, {
+		const dialogRef = this._dialog.open(EmailDialogComponent, {
 			width: '600px',
+			data: {
+				assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento.codigoOrdemServico}`,
+				conteudoEmail: `
+					Prezado Cliente,
+					<br>
+					<br>
+					A PERTO encaminha no anexo orçamento para sua apreciação, solicitamos gentilmente acessar o link abaixo, para aprovação ou reprovação.
+					Alertamos ao prazo de validade do mesmo, constante no rodapé do orçamento, findo este prazo e não obtido retorno será considerado reprovado e o chamado fechado.
+					<br>
+					<br>
+					No caso de aprovação a Nota Fiscal Fatura será emitida e encaminhada conforme os dados abaixo, caso seja necessário alteração por favor comunicar o setor de orçamentos da PERTO.
+					Clique Aqui para Aprovar ou Reprovar este orçamento !!!
+					Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!
+
+				`,
+				nomeRemetente: 'DSS ORÇAMENTOS',
+				emailRemetente: 'dss.orcamentos@perto.com.br',
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (data: any) => {
+			if (data) {
+
+				let exportacaoParam: Exportacao = {
+					email: data,
+					formatoArquivo: ExportacaoFormatoEnum.PDF,
+					tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
+					entityParameters: {
+						codigoOrdemServico: this.codOrc
+					}
+				}
+
+				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+
+			}
 		});
 	}
+
+	exportar() {
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.PDF,
+			tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
+			entityParameters: {
+				codigoOrdemServico: this.codOrc
+			}
+		}
+
+		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+	}
+
 
 	trocarTab(tab: any) {
 		if (tab.index == 0)
@@ -241,29 +293,29 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 	excluir() {
 
-        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-            data: {
-                titulo: 'Confirmação',
-                message: 'Deseja excluir este orçamento?',
-                buttonText: {
-                    ok: 'Sim',
-                    cancel: 'Não'
-                }
-            }
-        });
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja excluir este orçamento?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-            if (confirmacao) {
-				
+			if (confirmacao) {
+
 				this._orcamentoService.deletar(this.codOrc).subscribe(() => {
-					
-					this._snack.exibirToast('Orçamento Excluído','success');
+
+					this._snack.exibirToast('Orçamento Excluído', 'success');
 					this._router.navigate(['/orcamento/lista']);
 				});
-            }
-        });
+			}
+		});
 
-	}	
+	}
 
 	isEqual(): boolean {
 		return _.isEqual(this.orcamento, this.oldItem);

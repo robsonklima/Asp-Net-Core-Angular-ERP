@@ -12,13 +12,14 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
-  selector: 'app-peca-lista',
-  templateUrl: './peca-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
+	selector: 'app-peca-lista',
+	templateUrl: './peca-lista.component.html',
+	styles: [
+		/* language=SCSS */
+		`
       .list-grid-ge {
           grid-template-columns: 15% auto 15%;
           
@@ -35,123 +36,112 @@ import { ExportacaoService } from 'app/core/services/exportacao.service';
           } */
       }
     `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+	],
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
-export class PecaListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable 
-{
-  @ViewChild('sidenav') public sidenav: MatSidenav;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSourceData: PecaData;
-  byteArray;
-  isLoading: boolean = false;
-  pecaStatus: string[] = [];
-  
-  constructor(
-    protected _userService: UserService,
-    private _cdr: ChangeDetectorRef, 
-    private _pecaService: PecaService,
-    private _exportacaoService: ExportacaoService
+export class PecaListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
+	@ViewChild('sidenav') public sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild(MatSort) sort: MatSort;
+	dataSourceData: PecaData;
+	byteArray;
+	isLoading: boolean = false;
+	pecaStatus: string[] = [];
 
-    ) {
-      super(_userService, 'peca')
-      this.userSession = JSON.parse(this._userService.userSession);
-     }
+	constructor(
+		protected _userService: UserService,
+		private _cdr: ChangeDetectorRef,
+		private _pecaService: PecaService,
+		private _exportacaoService: ExportacaoService
 
-  ngOnInit(): void { }
+	) {
+		super(_userService, 'peca')
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
-  }
+	ngOnInit(): void { }
 
-  ngAfterViewInit(): void {
-    this.registerEmitters();
-    this.obterDados();
-    this.obterStatus();
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+	}
 
-    if (this.sort && this.paginator) 
-    {
-      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-        map((event: any) => {
-          return event.target.value;  
-        })
-        , debounceTime(700)
-        , distinctUntilChanged()
-      ).subscribe((text: string) => {
-        this.paginator.pageIndex = 0;
-        this.searchInputControl.nativeElement.val = text;
-        this.obterDados();
-      });
+	ngAfterViewInit(): void {
+		this.registerEmitters();
+		this.obterDados();
+		this.obterStatus();
 
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
+		if (this.sort && this.paginator) {
+			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+				map((event: any) => {
+					return event.target.value;
+				})
+				, debounceTime(700)
+				, distinctUntilChanged()
+			).subscribe((text: string) => {
+				this.paginator.pageIndex = 0;
+				this.searchInputControl.nativeElement.val = text;
+				this.obterDados();
+			});
 
-      this.sort.sortChange.subscribe(() => {
-        this.paginator.pageIndex = 0;
-        this.obterDados();
-      });
-    }
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
 
-    this._cdr.detectChanges();
-  }
+			this.sort.sortChange.subscribe(() => {
+				this.paginator.pageIndex = 0;
+				this.obterDados();
+			});
+		}
 
-  public async obterDados(filtro: string = '') 
-  {
-    this.isLoading = true;
+		this._cdr.detectChanges();
+	}
 
-    const params: PecaParameters = 
-    {
-      ...{
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort?.active || 'codPeca',
-      sortDirection: this.sort?.direction || 'desc',
-      pageSize: this.paginator?.pageSize,
-      filter: filtro
-    },
-    ...this.filter?.parametros
-    }    
-    console.log(this.filter?.parametros);
-    
+	public async obterDados(filtro: string = '') {
+		this.isLoading = true;
 
-    this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  }
+		const params: PecaParameters =
+		{
+			...{
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: this.sort?.active || 'codPeca',
+				sortDirection: this.sort?.direction || 'desc',
+				pageSize: this.paginator?.pageSize,
+				filter: filtro
+			},
+			...this.filter?.parametros
+		}
+		console.log(this.filter?.parametros);
 
-  private async obterStatus(): Promise<void>
-  {
-    Object.keys(PecaStatus)
-    .filter((e) => isNaN(Number(e)))
-    .forEach((tr) => 
-      this.pecaStatus.push(tr));
-  }
 
-  // public async exportar()
-  // {      
-  //   this.isLoading = true;
-    
-  //   const params: PecaParameters = 
-  //   {
-  //     sortDirection: 'desc',
-  //     pageSize: 1000
-  //   }
+		this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
+		this.isLoading = false;
+		this._cdr.detectChanges();
+	}
 
-  //   this.isLoading = false;
-  // }
+	private async obterStatus(): Promise<void> {
+		Object.keys(PecaStatus)
+			.filter((e) => isNaN(Number(e)))
+			.forEach((tr) =>
+				this.pecaStatus.push(tr));
+	}
 
-  async exportar() {
-    this.isLoading = true;
+	async exportar() {
+		this.isLoading = true;
 
-    await this._exportacaoService.exportar('Peca', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.PECA,
+			entityParameters: this.filter?.parametros
+		}
 
-    this.isLoading = false;
-  }
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
-  public paginar() { this.obterDados();  }
+		this.isLoading = false;
+	}
+
+	public paginar() { this.obterDados(); }
 }

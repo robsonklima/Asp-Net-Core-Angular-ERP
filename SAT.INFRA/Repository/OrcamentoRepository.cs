@@ -59,6 +59,7 @@ namespace SAT.INFRA.Repository
         public Orcamento ObterPorCodigo(int codigo)
         {
             return _context.Orcamento
+                .Include(o => o.Filial)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)
@@ -69,6 +70,10 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(s => s.Regiao)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(s => s.LocalAtendimento)
+                        .ThenInclude(la => la.Cidade)
+                            .ThenInclude(c => c.UnidadeFederativa)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.LocalAtendimento)
                 .Include(o => o.OrdemServico)

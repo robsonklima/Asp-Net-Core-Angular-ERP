@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FeriadoService } from 'app/core/services/feriado.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FeriadoData, FeriadoParameters } from 'app/core/types/feriado.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
@@ -114,8 +115,14 @@ this._cdr.detectChanges();
 }
 async exportar(){
     this.isLoading = true;
+    
+    let exportacaoParam: Exportacao = {
+        formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+        tipoArquivo: ExportacaoTipoEnum.FERIADO,
+        entityParameters: this.filter?.parametros
+    }
 
-    await this._exportacaoService.exportar('Feriado', FileMime.Excel, this.filter?.parametros);
+    await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
     this.isLoading = false;
 }

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -26,11 +27,25 @@ namespace SAT.SERVICES.Services
                 MailboxAddress cc = new MailboxAddress(email.NomeCC, email.EmailCC);
                 message.Cc.Add(cc);
             }
-
+            
             message.Subject = email.Assunto;
 
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = email.Corpo;
+
+            if (!string.IsNullOrEmpty(email.PathAnexo))
+            {
+                var attachment = new MimePart ("image", "gif") 
+                {
+                    Content = new MimeContent (File.OpenRead(email.PathAnexo)),
+                    ContentDisposition = new ContentDisposition (ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = Path.GetFileName(email.PathAnexo)
+                };
+             
+                bodyBuilder.Attachments.Add(attachment);
+            };
+
             message.Body = bodyBuilder.ToMessageBody();
 
             SmtpClient client = new SmtpClient();

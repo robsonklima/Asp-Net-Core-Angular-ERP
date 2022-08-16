@@ -12,6 +12,7 @@ import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { Filterable } from 'app/core/filters/filterable';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'app-equipamento-contrato-lista',
@@ -132,7 +133,13 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 	async exportar() {
 		this.isLoading = true;
 
-		await this._exportacaoService.exportar('EquipamentoContrato', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.EQUIPAMENTO_CONTRATO,
+			entityParameters: this.filter?.parametros
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
 		this.isLoading = false;
 	}

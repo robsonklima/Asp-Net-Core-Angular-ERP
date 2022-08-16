@@ -9,6 +9,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="NLog.Extensions.Logging" Version="1.7.2" />
 		<PackageReference Include="MailKit" Version="3.0.0" />
+		<PackageReference Include="QuestPDF" Version="2022.6.3" />
 		<PackageReference Include="Vonage" Version="5.9.5" />
 	</ItemGroup>
 	<ItemGroup>

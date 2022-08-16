@@ -51,8 +51,12 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
-                                [matTooltip]="'Reabrir OS'" (click)="clonarOS()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                                [matTooltip]="'Exportar PDF'" (click)="exportar()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                            </button>
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                                [matTooltip]="'Enviar e-mail'" (click)="enviarEmail()">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button

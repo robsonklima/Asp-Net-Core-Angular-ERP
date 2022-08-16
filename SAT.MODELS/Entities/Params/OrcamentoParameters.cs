@@ -5,6 +5,7 @@ namespace SAT.MODELS.Entities.Params
 {
     public class OrcamentoParameters : QueryStringParameters
     {
+        public int? codOrc { get; set; }
         public string codStatusServicos { get; set; }
         public string codFiliais { get; set; }
         public string codClientes { get; set; }

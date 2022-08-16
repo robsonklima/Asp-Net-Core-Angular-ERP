@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FormaPagamentoService } from 'app/core/services/forma-pagamento.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { FormaPagamentoData, FormaPagamentoParameters } from 'app/core/types/forma-pagamento.types';
@@ -14,11 +15,11 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-formas-pagamento-lista',
-  templateUrl: './formas-pagamento-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
+	selector: 'app-formas-pagamento-lista',
+	templateUrl: './formas-pagamento-lista.component.html',
+	styles: [
+		/* language=SCSS */
+		`
     .list-grid-u {
       grid-template-columns: 142px 50% 200px 25%;
       
@@ -35,92 +36,98 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
       } */
   }
     `
-  ],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+	],
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 export class FormasPagamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-  @ViewChild('sidenav') public sidenav: MatSidenav;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSourceData: FormaPagamentoData;
-  isLoading: boolean = false;
-  @ViewChild('searchInputControl') searchInputControl: ElementRef;
+	@ViewChild('sidenav') public sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatSort) sort: MatSort;
+	dataSourceData: FormaPagamentoData;
+	isLoading: boolean = false;
+	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 
-  constructor(
-    protected _userService: UserService,
-    private _formasPagamentoService: FormaPagamentoService,
-    private _cdr: ChangeDetectorRef,
-    private _exportacaoService: ExportacaoService
-  ) {
-    super(_userService, 'formas-pagamento')
-    this.userSession = JSON.parse(this._userService.userSession);
-   }
+	constructor(
+		protected _userService: UserService,
+		private _formasPagamentoService: FormaPagamentoService,
+		private _cdr: ChangeDetectorRef,
+		private _exportacaoService: ExportacaoService
+	) {
+		super(_userService, 'formas-pagamento')
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-   registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
-  }
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+	}
 
-  async ngAfterViewInit() {
-    this.registerEmitters();
-    this.obterDados();
+	async ngAfterViewInit() {
+		this.registerEmitters();
+		this.obterDados();
 
-    if (this.sort && this.paginator) {
-      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-        map((event: any) => {
-          return event.target.value;
-        })
-        , debounceTime(700)
-        , distinctUntilChanged()
-      ).subscribe((text: string) => {
-        this.paginator.pageIndex = 0;
-        this.searchInputControl.nativeElement.val = text;
-        this.obterDados(text);
-      });
+		if (this.sort && this.paginator) {
+			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+				map((event: any) => {
+					return event.target.value;
+				})
+				, debounceTime(700)
+				, distinctUntilChanged()
+			).subscribe((text: string) => {
+				this.paginator.pageIndex = 0;
+				this.searchInputControl.nativeElement.val = text;
+				this.obterDados();
+			});
 
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
-      this.sort.sortChange.subscribe(() => {
-        this.paginator.pageIndex = 0;
-        this.obterDados();
-      });
-    }
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
+			this.sort.sortChange.subscribe(() => {
+				this.paginator.pageIndex = 0;
+				this.obterDados();
+			});
+		}
 
-    this._cdr.detectChanges();
-  }
+		this._cdr.detectChanges();
+	}
 
-  async obterDados(filtro: string = '') {
+	async obterDados(filtro: string = '') {
 
-    this.isLoading = true;
-    const parametros: FormaPagamentoParameters = {
-      ...{
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'DescFormaPagto',
-      sortDirection: 'asc',
-      pageSize: this.paginator?.pageSize,
-      filter: filtro
-    },
-    ...this.filter?.parametros
-    }
+		this.isLoading = true;
+		const parametros: FormaPagamentoParameters = {
+			...{
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: 'DescFormaPagto',
+				sortDirection: 'asc',
+				pageSize: this.paginator?.pageSize,
+				filter: filtro
+			},
+			...this.filter?.parametros
+		}
 
-    const data = await this._formasPagamentoService.obterPorParametros(parametros).toPromise();
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  }
+		const data = await this._formasPagamentoService.obterPorParametros(parametros).toPromise();
+		this.dataSourceData = data;
+		this.isLoading = false;
+		this._cdr.detectChanges();
+	}
 
-  async exportar(){
-    this.isLoading = true;
+	async exportar() {
+		this.isLoading = true;
 
-    await this._exportacaoService.exportar('FormaPagamento', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.FORMAPAGAMENTO,
+			entityParameters: this.filter?.parametros
+		}
 
-    this.isLoading = false;
-}
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
-  paginar() {
-    this.obterDados();
-  }
+		this.isLoading = false;
+	}
+
+	paginar() {
+		this.obterDados();
+	}
 }

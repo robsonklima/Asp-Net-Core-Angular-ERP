@@ -7,6 +7,7 @@ import { Filterable } from 'app/core/filters/filterable';
 import { DefeitoComponenteService } from 'app/core/services/defeito-componente.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { DefeitoComponente, DefeitoComponenteData, DefeitoComponenteParameters } from 'app/core/types/defeito-componente.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
@@ -132,7 +133,14 @@ export class DefeitoCausaListaComponent extends Filterable implements AfterViewI
     async exportar(){
         this.isLoading = true;
 
-		await this._exportacaoService.exportar('DefeitoComponente', FileMime.Excel, this.filter?.parametros);
+        let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.DEFEITOCOMPONENTE,
+			entityParameters: this.filter?.parametros
+            
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
 		this.isLoading = false;
     }

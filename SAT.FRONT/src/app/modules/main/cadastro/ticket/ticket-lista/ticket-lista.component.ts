@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { Filterable } from 'app/core/filters/filterable';
 import { TicketService } from 'app/core/services/ticket.service';
 import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'app-ticket-lista',
@@ -139,7 +140,13 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 	async exportar() {
 		this.isLoading = true;
 
-		await this._exportacaoService.exportar('EquipamentoContrato', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.TICKET,
+			entityParameters: this.filter?.parametros
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
 		this.isLoading = false;
 	}

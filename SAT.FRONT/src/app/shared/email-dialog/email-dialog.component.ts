@@ -12,98 +12,91 @@ import { ENTER, COMMA, SEMICOLON } from '@angular/cdk/keycodes';
 import Enumerable from 'linq';
 
 @Component({
-  selector: 'app-email-dialog',
-  templateUrl: './email-dialog.component.html'
+    selector: 'app-email-dialog',
+    templateUrl: './email-dialog.component.html'
 })
-export class EmailDialogComponent
-{
-  protected snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
-  protected snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
+export class EmailDialogComponent {
+    protected snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
+    protected snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
-  public form: FormGroup;
-  protected userSession: UserSession;
-  protected assuntoEmail: string = 'Lorem ipsum';
-  protected conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-  protected emailRemetente: string = appConfig.email_equipe;
-  protected nomeRemetente: string = 'Equipe SAT';
+    public form: FormGroup;
+    protected userSession: UserSession;
+    protected assuntoEmail: string = 'Lorem ipsum';
+    protected conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+    protected emailRemetente: string = appConfig.email_equipe;
+    protected nomeRemetente: string = 'Equipe SAT';
 
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
-  emails: EmailAddress[] = [];
+    addOnBlur = true;
+    readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
+    emails: EmailAddress[] = [];
 
-  constructor (
-    @Inject(MAT_DIALOG_DATA) protected data: any,
-    protected dialogRef: MatDialogRef<EmailDialogComponent>,
-    protected _formBuilder: FormBuilder,
-    protected _snack: MatSnackBar,
-    protected _userService: UserService,
-    protected _emailSvc: EmailService)
-  {
-    if (data)
-    {
-      this.assuntoEmail = data.assuntoEmail || this.assuntoEmail;
-      this.conteudoEmail = data.conteudoEmail || this.conteudoEmail;
-      this.emailRemetente = data.emailRemetente || this.emailRemetente;
-      this.nomeRemetente = data.nomeRemetente || this.nomeRemetente;
+    constructor(
+        @Inject(MAT_DIALOG_DATA) protected data: any,
+        protected dialogRef: MatDialogRef<EmailDialogComponent>,
+        protected _formBuilder: FormBuilder,
+        protected _snack: MatSnackBar,
+        protected _userService: UserService,
+        protected _emailSvc: EmailService) {
+        if (data) {
+            this.assuntoEmail = data.assuntoEmail || this.assuntoEmail;
+            this.conteudoEmail = data.conteudoEmail || this.conteudoEmail;
+            this.emailRemetente = data.emailRemetente || this.emailRemetente;
+            this.nomeRemetente = data.nomeRemetente || this.nomeRemetente;
+        }
+
+        this.userSession = JSON.parse(this._userService.userSession);
+
+        if (this.userSession && !data?.emailRemetente)
+            this.emailRemetente = this.userSession?.usuario?.email || this.emailRemetente;
+
+        if (this.userSession && !data?.nomeRemetente)
+            this.nomeRemetente = this.userSession?.usuario?.nomeUsuario || this.nomeRemetente;
+
+        this.criarForm();
     }
 
-    this.userSession = JSON.parse(this._userService.userSession);
 
-    if (this.userSession && !data?.emailRemetente)
-      this.emailRemetente = this.userSession?.usuario?.email || this.emailRemetente;
+    add(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
 
-    if (this.userSession && !data?.nomeRemetente)
-      this.nomeRemetente = this.userSession?.usuario?.nomeUsuario || this.nomeRemetente;
+        if (value)
+            this.emails.push({ endereco: value });
 
-    this.criarForm();
-  }
+        event.chipInput!.clear();
+    }
 
+    criarForm() {
+        this.form = this._formBuilder.group({
+            email: [undefined]
+        });
+    }
 
-  add(event: MatChipInputEvent): void
-  {
-    const value = (event.value || '').trim();
+    removerEmail(email): void {
+        const index = this.emails.indexOf(email);
 
-    if (value)
-      this.emails.push({ endereco: value });
+        if (index >= 0)
+            this.emails.splice(index, 1);
+    }
 
-    event.chipInput!.clear();
-  }
+    async confirmar() {
+        var mailMessage: Email =
+        {
+          emailRemetente: this.emailRemetente,
+          nomeRemetente: this.nomeRemetente,
+          emailDestinatario: Enumerable.from(this.emails).select(i => i.endereco).toJoinedString(','),
+          assunto: this.assuntoEmail,
+          corpo: this.conteudoEmail
+        };
 
-  criarForm()
-  {
-    this.form = this._formBuilder.group({
-      email: [undefined]
-    });
-  }
+        // this._emailSvc.enviarEmail(mailMessage).subscribe(s =>
+        // {
+        //   this._snack.open('E-mail enviado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
+        // },
+        //   e =>
+        //   {
+        //     this._snack.open('Não foi possível enviar o e-mail.', null, this.snackConfigDanger).afterDismissed().toPromise();
+        //   });
 
-  removerEmail(email): void
-  {
-    const index = this.emails.indexOf(email);
-
-    if (index >= 0)
-      this.emails.splice(index, 1);
-  }
-
-  async confirmar()
-  {
-    var mailMessage: Email =
-    {
-      emailRemetente: this.emailRemetente,
-      nomeRemetente: this.nomeRemetente,
-      emailDestinatario: Enumerable.from(this.emails).select(i => i.endereco).toJoinedString(','),
-      assunto: this.assuntoEmail,
-      corpo: this.conteudoEmail
-    };
-
-    this._emailSvc.enviarEmail(mailMessage).subscribe(s =>
-    {
-      this._snack.open('E-mail enviado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
-    },
-      e =>
-      {
-        this._snack.open('Não foi possível enviar o e-mail.', null, this.snackConfigDanger).afterDismissed().toPromise();
-      });
-
-    this.dialogRef.close(true);
-  }
+        this.dialogRef.close(mailMessage);
+    }
 }

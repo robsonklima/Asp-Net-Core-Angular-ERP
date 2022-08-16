@@ -13,11 +13,12 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FileMime } from 'app/core/types/file.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
-  selector: 'app-regiao-lista',
-  templateUrl: './regiao-lista.component.html',
-  styles: [`
+	selector: 'app-regiao-lista',
+	templateUrl: './regiao-lista.component.html',
+	styles: [`
     .list-grid {
       grid-template-columns: 72px auto 60px;
       
@@ -34,100 +35,106 @@ import { FileMime } from 'app/core/types/file.types';
       } */
     }  
   `],
-  encapsulation: ViewEncapsulation.None,
-  animations: fuseAnimations
+	encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 
 export class RegiaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-  @ViewChild('sidenav') public sidenav: MatSidenav;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSourceData: RegiaoData;
-  isLoading: boolean = false;
-  @ViewChild('searchInputControl') searchInputControl: ElementRef;
-  selectedItem: Regiao | null = null;
-  userSession: UserSession;
+	@ViewChild('sidenav') public sidenav: MatSidenav;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatSort) sort: MatSort;
+	dataSourceData: RegiaoData;
+	isLoading: boolean = false;
+	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	selectedItem: Regiao | null = null;
+	userSession: UserSession;
 
-  constructor(
-    protected _userService: UserService,
-    private _cdr: ChangeDetectorRef,
-    private _regiaoService: RegiaoService,
-    private _exportacaoService: ExportacaoService
-  ) {
-    super(_userService, 'regiao')
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+	constructor(
+		protected _userService: UserService,
+		private _cdr: ChangeDetectorRef,
+		private _regiaoService: RegiaoService,
+		private _exportacaoService: ExportacaoService
+	) {
+		super(_userService, 'regiao')
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
-  }
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+	}
 
-  async ngAfterViewInit() {
-    this.registerEmitters();
-    this.obterDados();
+	async ngAfterViewInit() {
+		this.registerEmitters();
+		this.obterDados();
 
-    if (this.sort && this.paginator) {
-      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-        map((event: any) => {
-          return event.target.value;
-        })
-        , debounceTime(700)
-        , distinctUntilChanged()
-      ).subscribe((text: string) => {
-        this.paginator.pageIndex = 0;
-        this.searchInputControl.nativeElement.val = text;
-        this.obterDados(text);
-      });
+		if (this.sort && this.paginator) {
+			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+				map((event: any) => {
+					return event.target.value;
+				})
+				, debounceTime(700)
+				, distinctUntilChanged()
+			).subscribe((text: string) => {
+				this.paginator.pageIndex = 0;
+				this.searchInputControl.nativeElement.val = text;
+				this.obterDados();
+			});
 
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() => {
-        this.paginator.pageIndex = 0;
-        this.obterDados();
-      });
-    }
+			this.sort.sortChange.subscribe(() => {
+				this.paginator.pageIndex = 0;
+				this.obterDados();
+			});
+		}
 
-    this._cdr.detectChanges();
-  }
+		this._cdr.detectChanges();
+	}
 
-  async obterDados(filtro: string = '') {
-    this.isLoading = true;
+	async obterDados(filtro: string = '') {
+		this.isLoading = true;
 
-    const params: RegiaoParameters = {
-      ...{
-        //this._regiaoService.obterPorParametros({
-        pageNumber: this.paginator?.pageIndex + 1,
-        sortActive: this.sort.active,
-        sortDirection: this.sort.direction,
-        pageSize: this.paginator?.pageSize,
-        filter: filtro
+		const params: RegiaoParameters = {
+			...{
+				//this._regiaoService.obterPorParametros({
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: this.sort.active,
+				sortDirection: this.sort.direction,
+				pageSize: this.paginator?.pageSize,
+				filter: filtro
 
-      },
-      ...this.filter?.parametros
-    }
+			},
+			...this.filter?.parametros
+		}
 
-    const data = await this._regiaoService
-      .obterPorParametros(params)
-      .toPromise();
+		const data = await this._regiaoService
+			.obterPorParametros(params)
+			.toPromise();
 
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-  }
+		this.dataSourceData = data;
+		this.isLoading = false;
+		this._cdr.detectChanges();
+	}
 
-  async exportar() {
-    this.isLoading = true;
+	async exportar() {
+		this.isLoading = true;
 
-    await this._exportacaoService.exportar('Regiao', FileMime.Excel, this.filter?.parametros);
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.REGIAO,
+			entityParameters: this.filter?.parametros
+		}
 
-    this.isLoading = false;
-  }
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
-paginar() {
-  this.obterDados();
-}
+		this.isLoading = false;
+	}
+
+	paginar() {
+		this.obterDados();
+	}
 }

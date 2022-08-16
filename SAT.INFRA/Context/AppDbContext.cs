@@ -132,7 +132,7 @@ namespace SAT.INFRA.Context
         public DbSet<UsuarioDispositivo> UsuarioDispositivo { get; set; }
         public DbSet<OrdemServicoHistorico> OrdemServicoHistorico { get; set; }
         public DbSet<Orcamento> Orcamento { get; set; }
-        public DbSet<OrcamentosFaturamento> OrcamentosFaturamento { get; set; }
+        public DbSet<OrcamentoFaturamento> OrcamentoFaturamento { get; set; }
         public DbSet<OrcamentoMaterial> OrcamentoMaterial { get; set; }
         public DbSet<OrcamentoMotivo> OrcamentoMotivo { get; set; }
         public DbSet<OrcamentoDesconto> OrcamentoDesconto { get; set; }
@@ -387,6 +387,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<AuditoriaVeiculo>(new AuditoriaVeiculoMap().Configure);
             modelBuilder.Entity<AuditoriaVeiculoAcessorio>(new AuditoriaVeiculoAcessorioMap().Configure);
             modelBuilder.Entity<AuditoriaVeiculoTanque>(new AuditoriaVeiculoTanqueMap().Configure);
+            modelBuilder.Entity<OrcamentoFaturamento>(new OrcamentoFaturamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -6,16 +6,16 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class OrcamentosFaturamentoService : IOrcamentosFaturamentoService
+    public class OrcamentoFaturamentoService : IOrcamentoFaturamentoService
     {
-        private readonly IOrcamentosFaturamentoRepository _orcamentoFaturamentoRepo;
+        private readonly IOrcamentoFaturamentoRepository _orcamentoFaturamentoRepo;
 
-        public OrcamentosFaturamentoService(IOrcamentosFaturamentoRepository orcamentoFaturamentoRepo)
+        public OrcamentoFaturamentoService(IOrcamentoFaturamentoRepository orcamentoFaturamentoRepo)
         {
             _orcamentoFaturamentoRepo = orcamentoFaturamentoRepo;
         }
 
-        public ListViewModel ObterPorParametros(OrcamentosFaturamentoParameters parameters)
+        public ListViewModel ObterPorParametros(OrcamentoFaturamentoParameters parameters)
         {
             var orcamentos = _orcamentoFaturamentoRepo.ObterPorParametros(parameters);
 
@@ -33,7 +33,7 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public OrcamentosFaturamento Criar(OrcamentosFaturamento orcamento)
+        public OrcamentoFaturamento Criar(OrcamentoFaturamento orcamento)
         {
             _orcamentoFaturamentoRepo.Criar(orcamento);
             return orcamento;
@@ -44,13 +44,13 @@ namespace SAT.SERVICES.Services
             _orcamentoFaturamentoRepo.Deletar(codigo);
         }
 
-        public OrcamentosFaturamento Atualizar(OrcamentosFaturamento orcamento)
+        public OrcamentoFaturamento Atualizar(OrcamentoFaturamento orcamento)
         {
             _orcamentoFaturamentoRepo.Atualizar(orcamento);
             return orcamento;
         }
 
-        public OrcamentosFaturamento ObterPorCodigo(int codigo)
+        public OrcamentoFaturamento ObterPorCodigo(int codigo)
         {
             return _orcamentoFaturamentoRepo.ObterPorCodigo(codigo);
         }

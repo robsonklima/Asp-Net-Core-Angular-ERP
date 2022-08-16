@@ -45,6 +45,7 @@ export interface Orcamento
     indFaturamento?: number;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
+    faturamentos?: OrcamentosFaturamento[];
 }
 
 export interface OrcamentoMotivo

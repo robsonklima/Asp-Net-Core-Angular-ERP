@@ -47,13 +47,6 @@ namespace SAT.INFRA.Mapping
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasOne(i => i.OrcamentosFaturamento)
-                .WithMany()
-                .HasForeignKey(i => i.CodOrc)
-                .HasPrincipalKey(i => i.CodOrcamento)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder
                 .HasOne(i => i.OrcamentoDeslocamento)
                 .WithOne()
                 .HasForeignKey<OrcamentoDeslocamento>(i => i.CodOrc)

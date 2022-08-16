@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities
 {
-    public class OrcamentosFaturamento
+    public class OrcamentoFaturamento
     {
         public int? CodOrcamentoFaturamento { get; set; }
         [Key]

@@ -9,55 +9,55 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
-    public class OrcamentosFaturamentoRepository : IOrcamentosFaturamentoRepository
+    public class OrcamentoFaturamentoRepository : IOrcamentoFaturamentoRepository
     {
         private readonly AppDbContext _context;
 
-        public OrcamentosFaturamentoRepository(AppDbContext context)
+        public OrcamentoFaturamentoRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public void Atualizar(OrcamentosFaturamento orcamentosFaturamento)
+        public void Atualizar(OrcamentoFaturamento OrcamentoFaturamento)
         {
             _context.ChangeTracker.Clear();
-            OrcamentosFaturamento p = _context.OrcamentosFaturamento.FirstOrDefault(p => p.CodOrcamentoFaturamento == orcamentosFaturamento.CodOrcamentoFaturamento);
+            OrcamentoFaturamento p = _context.OrcamentoFaturamento.FirstOrDefault(p => p.CodOrcamentoFaturamento == OrcamentoFaturamento.CodOrcamentoFaturamento);
 
             if (p != null)
             {
-                _context.Entry(p).CurrentValues.SetValues(orcamentosFaturamento);
+                _context.Entry(p).CurrentValues.SetValues(OrcamentoFaturamento);
                 _context.SaveChanges();
             }
         }
 
-        public void Criar(OrcamentosFaturamento orcamentosFaturamento)
+        public void Criar(OrcamentoFaturamento OrcamentoFaturamento)
         {
-            _context.Add(orcamentosFaturamento);
+            _context.Add(OrcamentoFaturamento);
             _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
         {
-            OrcamentosFaturamento orcamentosFaturamento = _context
-                                                            .OrcamentosFaturamento
+            OrcamentoFaturamento OrcamentoFaturamento = _context
+                                                            .OrcamentoFaturamento
                                                                 .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
 
-            if (orcamentosFaturamento != null)
+            if (OrcamentoFaturamento != null)
             {
-                _context.OrcamentosFaturamento.Remove(orcamentosFaturamento);
+                _context.OrcamentoFaturamento.Remove(OrcamentoFaturamento);
                 _context.SaveChanges();
             }
         }
 
-        public OrcamentosFaturamento ObterPorCodigo(int codigo)
+        public OrcamentoFaturamento ObterPorCodigo(int codigo)
         {
-            return _context.OrcamentosFaturamento
+            return _context.OrcamentoFaturamento
                             .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
         }
 
-        public PagedList<OrcamentosFaturamento> ObterPorParametros(OrcamentosFaturamentoParameters parameters)
+        public PagedList<OrcamentoFaturamento> ObterPorParametros(OrcamentoFaturamentoParameters parameters)
         {
-            var query = _context.OrcamentosFaturamento.AsQueryable();
+            var query = _context.OrcamentoFaturamento.AsQueryable();
 
             if (parameters.Filter != null)
             {
@@ -72,7 +72,7 @@ namespace SAT.INFRA.Repository
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
-            return PagedList<OrcamentosFaturamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+            return PagedList<OrcamentoFaturamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace SAT.SERVICES.Services
 
             if (!string.IsNullOrEmpty(email.PathAnexo))
             {
-                var attachment = new MimePart ("image", "gif") 
+                var attachment = new MimePart("application/octet-stream") 
                 {
                     Content = new MimeContent (File.OpenRead(email.PathAnexo)),
                     ContentDisposition = new ContentDisposition (ContentDisposition.Attachment),

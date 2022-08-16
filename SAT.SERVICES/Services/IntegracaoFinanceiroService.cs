@@ -19,20 +19,26 @@ namespace SAT.SERVICES.Services
     public class IntegracaoFinanceiroService : IIntegracaoFinanceiroService
     {
         private IIntegracaoFinanceiroRepository _integracaoFinanceiroRepo;
+        private IOrcamentoRepository _orcamentoRepo;
         private string _token;
 
         public IntegracaoFinanceiroService(
-            IIntegracaoFinanceiroRepository integracaoFinanceiroRepo
+            IIntegracaoFinanceiroRepository integracaoFinanceiroRepo,
+            IOrcamentoRepository orcamentoRepo
         ) {
             _integracaoFinanceiroRepo = integracaoFinanceiroRepo;
+            _orcamentoRepo = orcamentoRepo;
         }
 
         public async void ExecutarAsync()
         {
             _token = await ObterTokenAsync();
+            var orcamentoFinanceiro = ObterDadosAsync("FGO78675");
 
-            var a = ObterDadosAsync();
+            await EnviarOrcamentosAsync();
+        }
 
+        private async Task EnviarOrcamentosAsync() {
             foreach (var tipo in Enum.GetValues(typeof(TipoFaturamentoOrcEnum)))  
             {
                 var orcamentos = _integracaoFinanceiroRepo
@@ -53,12 +59,12 @@ namespace SAT.SERVICES.Services
                         })
                         .ToList();
 
-                    await EnviarDadosAsync(orcamentos[i]);
+                    await EnviarOrcamentoAsync(orcamentos[i]);
                 }
-            }  
+            } 
         }
 
-        private async Task EnviarDadosAsync(ViewIntegracaoFinanceiroOrcamento orcamento)
+        private async Task EnviarOrcamentoAsync(ViewIntegracaoFinanceiroOrcamento orcamento)
         {
             try
             {
@@ -88,14 +94,26 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        private async Task<string> ObterDadosAsync() {
-            HttpClient client = new();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            HttpResponseMessage response = await client
-                .GetAsync(Constants.INTEGRACAO_FINANCEIRO_API_URL + "/FaturamentoApi/api/orcamento/ConsultarOrcamento/21113"); 
-            var retorno = JsonConvert.DeserializeObject<IntegracaoFinanceiroRetorno>(response.Content.ReadAsStringAsync()?.Result);
+        private async Task<IntegracaoFinanceiroOrcamento> ObterDadosAsync(string nroOrcamento) {
+            try
+            {
+                HttpClient client = new();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                HttpResponseMessage response = await client
+                    .GetAsync(Constants.INTEGRACAO_FINANCEIRO_API_URL + "/FaturamentoApi/api/orcamento/ConsultarOrcamento?NumeroOrcamento=" + nroOrcamento); 
+                return JsonConvert.DeserializeObject<IntegracaoFinanceiroOrcamento>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao obter dados da integração financeiro" + ex.Message);
+            }
+        }
 
-            return string.Empty;
+        private void ObterOrcamentosPendentesFinanceiro() {
+            var orcamentos = _orcamentoRepo.ObterPorParametros(new OrcamentoParameters {
+                IsFaturamento = 1,
+                
+            });
         }
 
         private async Task<string> ObterTokenAsync() {

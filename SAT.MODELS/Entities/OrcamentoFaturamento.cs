@@ -1,11 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SAT.MODELS.Entities
 {
     public class OrcamentoFaturamento
     {
         public int? CodOrcamentoFaturamento { get; set; }
-        [Key]
         public int? CodOrcamento { get; set; }
         public string CodClienteBancada { get; set; }
         public int? CodFilial { get; set; }

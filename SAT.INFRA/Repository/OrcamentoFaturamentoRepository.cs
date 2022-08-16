@@ -39,8 +39,8 @@ namespace SAT.INFRA.Repository
         public void Deletar(int codigo)
         {
             OrcamentoFaturamento OrcamentoFaturamento = _context
-                                                            .OrcamentoFaturamento
-                                                                .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
+                .OrcamentoFaturamento
+                .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
 
             if (OrcamentoFaturamento != null)
             {
@@ -52,7 +52,7 @@ namespace SAT.INFRA.Repository
         public OrcamentoFaturamento ObterPorCodigo(int codigo)
         {
             return _context.OrcamentoFaturamento
-                            .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
+                .FirstOrDefault(p => p.CodOrcamentoFaturamento == codigo);
         }
 
         public PagedList<OrcamentoFaturamento> ObterPorParametros(OrcamentoFaturamentoParameters parameters)

@@ -78,9 +78,7 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		};
 
 		let data: OrcamentoData = await this._orcamentoSvc
-			.obterPorParametros({
-				...params,
-			})
+			.obterPorParametros(params)
 			.toPromise();
 		
 		this.dataSourceData = data;

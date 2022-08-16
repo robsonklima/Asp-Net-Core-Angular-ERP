@@ -182,6 +182,9 @@ namespace SAT.INFRA.Context
         public DbSet<OrcFormaPagamento> OrcFormaPagamento { get; set; }
         public DbSet<PosVenda> PosVenda { get; set; }
         public DbSet<OrcIntegracaoFinanceiro> OrcIntegracaoFinanceiro { get; set; }
+        public DbSet<AuditoriaVeiculo> AuditoriaVeiculo { get; set; }
+        public DbSet<AuditoriaVeiculoAcessorio> AuditoriaVeiculoAcessorio { get; set; }
+        public DbSet<AuditoriaVeiculoTanque> AuditoriaVeiculoTanque { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -381,6 +384,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<PosVenda>(new PosVendaMap().Configure);
             modelBuilder.Entity<OrcIntegracaoFinanceiro>(new OrcIntegracaoFinanceiroMap().Configure);
             modelBuilder.Entity<ViewDespesaImpressaoItem>(new ViewDespesaImpressaoItemMap().Configure);
+            modelBuilder.Entity<AuditoriaVeiculo>(new AuditoriaVeiculoMap().Configure);
+            modelBuilder.Entity<AuditoriaVeiculoAcessorio>(new AuditoriaVeiculoAcessorioMap().Configure);
+            modelBuilder.Entity<AuditoriaVeiculoTanque>(new AuditoriaVeiculoTanqueMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

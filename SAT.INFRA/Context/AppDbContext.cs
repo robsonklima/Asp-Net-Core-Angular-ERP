@@ -45,6 +45,7 @@ namespace SAT.INFRA.Context
         public DbSet<Agendamento> Agendamento { get; set; }
         public DbSet<DespesaCartaoCombustivel> DespesaCartaoCombustivel { get; set; }
         public DbSet<Autorizada> Autorizada { get; set; }
+        public DbSet<Auditoria> Auditoria { get; set; }
         public DbSet<AcordoNivelServico> AcordoNivelServico { get; set; }
         public DbSet<Navegacao> Navegacao { get; set; }
         public DbSet<NavegacaoConfiguracao> NavegacaoConfiguracao { get; set; }

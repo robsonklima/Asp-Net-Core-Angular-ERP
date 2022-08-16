@@ -1,4 +1,3 @@
-import { OrcamentosFaturamento } from './../../../../../../core/types/orcamento.types';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -7,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
-import { OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
+import { OrcamentoData, OrcamentoFaturamento, OrcamentoParameters } from 'app/core/types/orcamento.types';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { Subject } from 'rxjs';
 
@@ -89,7 +88,7 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	}
 
 	faturar(orc: any){
-		let orcamentoFaturamento: OrcamentosFaturamento = {
+		let orcamentoFaturamento: OrcamentoFaturamento = {
 			codOrcamento: 0,
 			codClienteBancada: '1',
 			codFilial: 1,

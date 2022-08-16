@@ -45,7 +45,7 @@ export interface Orcamento
     indFaturamento?: number;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
-    faturamentos?: OrcamentosFaturamento[];
+    faturamentos?: OrcamentoFaturamento[];
 }
 
 export interface OrcamentoMotivo
@@ -225,17 +225,17 @@ export interface OrcamentoData extends Meta
     items: Orcamento[];
 };
 
-export interface OrcamentosFaturamentoParameters extends Meta
+export interface OrcamentoFaturamentoParameters extends Meta
 {
     codOrcamento?: number;
 };
 
-export interface OrcamentosFaturamentoData extends Meta
+export interface OrcamentoFaturamentoData extends Meta
 {
-    items: OrcamentosFaturamento[];
+    items: OrcamentoFaturamento[];
 };
 
-export interface OrcamentosFaturamento extends Meta
+export interface OrcamentoFaturamento extends Meta
 {
     codOrcamentoFaturamento?: number;
     codOrcamento?: number;

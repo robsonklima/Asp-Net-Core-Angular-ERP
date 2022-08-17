@@ -17,7 +17,7 @@ namespace SAT.API.Controllers
         private readonly IAuditoriaVeiculoTanqueService _auditoriaVeiculoTanqueService;
 
         public AuditoriaVeiculoTanqueController(IAuditoriaVeiculoTanqueService auditoriaVeiculoTanqueService)
-        {
+        { 
             _auditoriaVeiculoTanqueService = auditoriaVeiculoTanqueService;
         }
 

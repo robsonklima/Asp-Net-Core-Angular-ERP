@@ -6,10 +6,10 @@ export const frotaTecnicosRoutes: Route[] = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'auditorias'
+        redirectTo: 'lista'
     },
     {
-        path: 'auditorias',
+        path: 'lista',
         component: AuditoriaListaComponent
     },
     {

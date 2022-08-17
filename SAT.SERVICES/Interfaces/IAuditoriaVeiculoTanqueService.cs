@@ -6,7 +6,7 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IAuditoriaVeiculoTanqueService
     {
-        //ListViewModel ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters);
+        ListViewModel ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters);
         AuditoriaVeiculoTanque Criar(AuditoriaVeiculoTanque auditoriaVeiculoTanque);
         void Deletar(int codigo);
         void Atualizar(AuditoriaVeiculoTanque auditoriaVeiculoTanque);

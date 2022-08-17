@@ -393,6 +393,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<AuditoriaStatus>(new AuditoriaStatusMap().Configure);
             modelBuilder.Entity<AuditoriaFoto>(new AuditoriaFotoMap().Configure);
             modelBuilder.Entity<Auditoria>(new AuditoriaMap().Configure);
+            modelBuilder.Entity<DespesaConfiguracaoCombustivel>(new DespesaConfiguracaoCombustivelMap().Configure);
             modelBuilder.Entity<OrcamentoFaturamento>(new OrcamentoFaturamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

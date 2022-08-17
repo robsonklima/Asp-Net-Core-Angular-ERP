@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SAT.MODELS.Entities
 {
     public class DespesaConfiguracaoCombustivel
     {
-        [Key]
         public int CodDespesaConfiguracaoCombustivel { get; set; }
         public int? CodFilial { get; set; }
         public int? CodUf { get; set; }

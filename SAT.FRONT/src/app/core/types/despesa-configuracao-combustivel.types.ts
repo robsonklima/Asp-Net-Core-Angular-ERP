@@ -19,6 +19,7 @@ export interface DespesaConfiguracaoCombustivelData extends Meta
 
 export interface DespesaConfiguracaoCombustivelParameters extends QueryStringParameters
 {
+    codDespesaConfiguracaoCombustivel: number;
     codFilial?: number;
     codUf?: number;
 };

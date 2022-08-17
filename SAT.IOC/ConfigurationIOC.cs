@@ -35,6 +35,9 @@ public class ConfigurationIOC
         builder.RegisterType<AuditoriaRepository>().As<IAuditoriaRepository>();
         builder.RegisterType<AuditoriaFotoRepository>().As<IAuditoriaFotoRepository>();
         builder.RegisterType<AuditoriaStatusRepository>().As<IAuditoriaStatusRepository>();
+        builder.RegisterType<AuditoriaVeiculoRepository>().As<IAuditoriaVeiculoRepository>();
+        builder.RegisterType<AuditoriaVeiculoAcessorioRepository>().As<IAuditoriaVeiculoAcessorioRepository>();
+        builder.RegisterType<AuditoriaVeiculoTanqueRepository>().As<IAuditoriaVeiculoTanqueRepository>();
         builder.RegisterType<PerfilRepository>().As<IPerfilRepository>();
         builder.RegisterType<PaisRepository>().As<IPaisRepository>();
         builder.RegisterType<CidadeRepository>().As<ICidadeRepository>();
@@ -166,6 +169,9 @@ public class ConfigurationIOC
         builder.RegisterType<AuditoriaService>().As<IAuditoriaService>();
         builder.RegisterType<AuditoriaFotoService>().As<IAuditoriaFotoService>();
         builder.RegisterType<AuditoriaStatusService>().As<IAuditoriaStatusService>();
+        builder.RegisterType<AuditoriaVeiculoService>().As<IAuditoriaVeiculoService>();
+        builder.RegisterType<AuditoriaVeiculoAcessorioService>().As<IAuditoriaVeiculoAcessorioService>();
+        builder.RegisterType<AuditoriaVeiculoTanqueService>().As<IAuditoriaVeiculoTanqueService>();
         builder.RegisterType<CausaService>().As<ICausaService>();
         builder.RegisterType<CidadeService>().As<ICidadeService>();
         builder.RegisterType<ClienteService>().As<IClienteService>();

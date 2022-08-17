@@ -111,6 +111,7 @@ export const appRoutes: Route[] = [
             { path: 'tecnico-plantao', loadChildren: () => import('app/modules/main/tecnico-plantao/tecnico-plantao.module').then(m => m.TecnicoPlantaoModule) },
             { path: 'importacao', loadChildren: () => import('app/modules/main/importacao/importacao.module').then(m => m.ImportacaoModule) },
             { path: 'ticket', loadChildren: () => import('app/modules/main/cadastro/ticket/ticket.module').then(m => m.TicketModule) },
+            { path: 'auditorias', loadChildren: () => import('app/modules/main/frota-tecnicos/frota-tecnicos.module').then(m => m.FrotaTecnicosModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

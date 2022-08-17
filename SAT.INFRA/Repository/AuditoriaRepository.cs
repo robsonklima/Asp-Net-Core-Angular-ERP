@@ -77,7 +77,6 @@ namespace SAT.INFRA.Repository
         public PagedList<Auditoria> ObterPorParametros(AuditoriaParameters parameters)
         {
             var auditorias = _context.Auditoria
-                .AsNoTracking()
                 .AsQueryable();
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);

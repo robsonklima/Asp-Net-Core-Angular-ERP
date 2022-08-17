@@ -27,6 +27,7 @@ import { ValoresCombustivelListaComponent } from './valores-combustivel/valores-
 import { ValoresCombustivelFormComponent } from './valores-combustivel/valores-combustivel-form/valores-combustivel-form.component';
 import { ValoresCombustivelFiltroComponent } from './valores-combustivel/valores-combustivel-filtro/valores-combustivel-filtro.component';
 import { frotaTecnicosRoutes } from './frota-tecnicos.routing';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { frotaTecnicosRoutes } from './frota-tecnicos.routing';
     MatCheckboxModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatTooltipModule,
     
     FormsModule,
     FiltroModule,

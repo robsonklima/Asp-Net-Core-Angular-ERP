@@ -17,17 +17,17 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(OrcamentoFaturamentoParameters parameters)
         {
-            var orcamentos = _orcamentoFaturamentoRepo.ObterPorParametros(parameters);
+            var faturamentos = _orcamentoFaturamentoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
-                Items = orcamentos,
-                TotalCount = orcamentos.TotalCount,
-                CurrentPage = orcamentos.CurrentPage,
-                PageSize = orcamentos.PageSize,
-                TotalPages = orcamentos.TotalPages,
-                HasNext = orcamentos.HasNext,
-                HasPrevious = orcamentos.HasPrevious
+                Items = faturamentos,
+                TotalCount = faturamentos.TotalCount,
+                CurrentPage = faturamentos.CurrentPage,
+                PageSize = faturamentos.PageSize,
+                TotalPages = faturamentos.TotalPages,
+                HasNext = faturamentos.HasNext,
+                HasPrevious = faturamentos.HasPrevious
             };
 
             return lista;

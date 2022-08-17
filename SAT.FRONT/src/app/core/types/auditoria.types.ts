@@ -1,4 +1,5 @@
 import { AuditoriaStatus } from "./auditoria-status.types";
+import { AuditoriaVeiculo } from "./auditoria-veiculo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Usuario } from "./usuario.types";
 
@@ -7,14 +8,14 @@ export class Auditoria {
     codUsuario : number ;
     usuario?: Usuario;
     codAuditoriaVeiculo ?: number;
-    //auditoriaVeiculo ?: AuditoriaVeiculo;
-    dataHoraRetiradaVeiculo ?: Date;
+    auditoriaVeiculo ?: AuditoriaVeiculo;
+    dataHoraRetiradaVeiculo ?: string;
     dataHoraCad : string;
     codAuditoriaStatus : number;
     auditoriaStatus ?: AuditoriaStatus;
     totalMesesEmUso ?: number;
     valorCombustivel ?: number;
-    dataRetiradaVeiculo ?: Date;
+    dataRetiradaVeiculo ?: string;
     creditosCartao ?: number;
     despesasSAT ?: number;
     totalDiasEmUso ?: number;
@@ -30,7 +31,7 @@ export class Auditoria {
     kmParticular ?: number;
     observacoes ?: string;
     kmParticularMes ?: number;
-    dataHoraManut ?: Date
+    dataHoraManut ?: string;
     codUsuarioManut ?: string;
 }
 

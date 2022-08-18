@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Http;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -192,7 +190,14 @@ namespace SAT.UTILS
                                                 if (f.NomeFoto.Contains("LAUDO") && !f.NomeFoto.Contains("ASSINATURA"))
                                                 {
                                                     var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                    grid.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                    grid.Item().Row(gr =>
+                                                    {
+                                                        gr.RelativeItem().Column(gc =>
+                                                        {
+                                                            gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                            gc.Item().Text(f.Modalidade).FontSize(6);
+                                                        });
+                                                    });
                                                 }
                                             });
                                         });
@@ -324,7 +329,14 @@ namespace SAT.UTILS
                                 if (f.NomeFoto.Contains("LAUDO") && f.NomeFoto.Contains("ASSINATURA"))
                                 {
                                     var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                    grid.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                    grid.Item().Row(gr =>
+                                    {
+                                        gr.RelativeItem().Column(gc =>
+                                        {
+                                            gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                            gc.Item().Text(f.Modalidade).FontSize(6);
+                                        });
+                                    });
                                 }
                             });
                         });

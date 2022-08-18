@@ -214,7 +214,7 @@ export class ContratoFormComponent implements OnInit {
 			dataFimVigencia: [undefined, Validators.required],
 			dataInicioPeriodoReajuste: [undefined],
 			dataFimPeriodoReajuste: [undefined],
-			nomeResponsavelPerto: [undefined, Validators.required],
+			nomeResponsavelPerto: [undefined],
 			nomeResponsavelCliente: [undefined, Validators.required],
 			objetoContrato: [undefined],
 			semCobertura: [undefined],

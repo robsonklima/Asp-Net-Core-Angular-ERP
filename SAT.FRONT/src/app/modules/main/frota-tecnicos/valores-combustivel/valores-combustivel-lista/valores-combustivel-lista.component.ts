@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
+import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
 import { DespesaConfiguracaoCombustivelData, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
@@ -12,7 +13,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-valores-combustivel-lista',
-    templateUrl: './valores-combustivel-lista.component.html'
+    templateUrl: './valores-combustivel-lista.component.html',
+
+    styles: [
+        /* language=SCSS */
+        `
+      .list-grid-u {
+          grid-template-columns: 25% 25% auto 25% 25% 25%;
+      }
+    `
+    ],
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class ValoresCombustivelListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
 
@@ -37,10 +49,10 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
     }
 
     registerEmitters(): void {
-        this.sidenav.closedStart.subscribe(() => {
-            this.onSidenavClosed();
-            this.obterDados();
-        })
+        // this.sidenav.closedStart.subscribe(() => {
+        //     this.onSidenavClosed();
+        //     this.obterDados();
+        // })
     }
 
     async ngAfterViewInit() {
@@ -78,8 +90,8 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
         const parametros: DespesaConfiguracaoCombustivelParameters = {
             ...{
                 pageNumber: this.paginator?.pageIndex + 1,
-                sortActive: this.sort?.active || 'codDespesaConfiguracaoCombustivel',
-                sortDirection: this.sort?.direction || 'precoLitro',
+                sortActive: this.sort?.active,
+                sortDirection: this.sort?.direction,
                 pageSize: this.paginator?.pageSize,
                 filter: filtro
             },
@@ -89,7 +101,9 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
         this.dataSourceData = data;
         this.isLoading = false;
         this._cdr.detectChanges();
+        console.log(data);
     }
+    
 
     paginar() {
         this.obterDados();

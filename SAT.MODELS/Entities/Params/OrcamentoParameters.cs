@@ -15,6 +15,7 @@ namespace SAT.MODELS.Entities.Params
         public string NumSerie { get; set; }
         public string Numero { get; set; }
         public bool IsFaturamento { get; set; }
+        public bool IncluirLaudoExportacao { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public DateTime? DataAberturaInicio { get; set; }

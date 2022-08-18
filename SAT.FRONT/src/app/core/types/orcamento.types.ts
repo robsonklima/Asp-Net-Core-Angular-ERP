@@ -46,6 +46,7 @@ export interface Orcamento
     numPedido?: string;
     obsPedido?: string;
     indFaturamento?: number;
+    incluirLaudoExportacao?: boolean;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
     faturamentos?: OrcamentoFaturamento[];

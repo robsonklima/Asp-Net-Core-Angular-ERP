@@ -31,6 +31,7 @@ namespace SAT.MODELS.Enums
         REGIAO,
         REGIAOAUTORIZADA,
         FILIAL,
-        TICKET
+        TICKET,
+        AUDITORIA
     }
 }

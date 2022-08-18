@@ -64,52 +64,52 @@
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let orc of dataSourceData?.items">
+                            <ng-container *ngFor="let faturamento of dataSourceData?.items">
                                 <div
                                     class="list-grid-financeiro-faturamentos grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100">
                                     <div class="truncate">
-                                        {{ orc.ordemServico.cliente?.nomeFantasia || '---' }}
+                                        {{ faturamento.cliente || '---' }}
                                     </div>
 
                                     <div class="truncate">
-                                        {{ orc.numero.substring(0,3) || '---' }}
+                                        {{ faturamento.filial || '---' }}
                                     </div>
 
                                     <div class="truncate">
-                                        {{ orc.ordemServico?.codOS }}
+                                        {{ faturamento.codOS }}
                                     </div>
 
                                     <div class="truncate">
-                                        {{ orc.ordemServico?.numOSCliente }}
+                                        {{ faturamento.numOSCliente }}
                                     </div>
 
                                     <div class="truncate">
-                                        {{ orc.numero }}
+                                        {{ faturamento.numOrcamento }}
                                     </div>
 
                                     <div class="truncate">
-                                        {{ orc?.orcamentosFaturamento?.descricaoNotaFiscal }}
+                                        {{ faturamento.descNF }}
                                     </div>
 
                                     <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        true }" [contentEditable]="true" [textContent]="orc.orcamentosFaturamento?.numNF"
-                                        (input)="orc.numNF = $event.target.innerText">
+                                        true }" [contentEditable]="true" [textContent]="faturamento?.numNF"
+                                        (input)="faturamento.numNF = $event.target.innerText">
                                     </div>
 
                                     <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        true }" [contentEditable]="true" [textContent]="orc.orcamentosFaturamento?.dataEmissaoNF"
-                                        (input)="orc.dataEmissaoNF = $event.target.innerText"
+                                        true }" [contentEditable]="true" [textContent]="faturamento?.dataEmissao"
+                                        (input)="faturamento.dataEmissao = $event.target.innerText"
                                         data-mask="0000-00-00">
                                     </div>
 
                                     <div class="truncate rounded text-white text-center"
-                                        [class.bg-green-600]="orc.orcamentosFaturamento?.indFaturado"
-                                        [class.bg-red-600]="!orc.orcamentosFaturamento?.indFaturado">
-                                        {{ orc.orcamentosFaturamento?.indFaturado ? 'SIM' : 'NÃO' }}
+                                        [class.bg-green-600]="faturamento.indFaturado"
+                                        [class.bg-red-600]="!faturamento.indFaturado">
+                                        {{ faturamento.indFaturado ? 'SIM' : 'NÃO' }}
                                     </div>
 
                                     <div class="truncate text-center">
-                                        <button class="bg-transparent " [matTooltip]="t('faturar')" (click)="faturar(orc)">
+                                        <button class="bg-transparent " [matTooltip]="t('faturar')" (click)="faturar(faturamento)">
                                             <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_outline:newspaper'">
                                             </mat-icon>
                                         </button>

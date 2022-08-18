@@ -69,6 +69,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.Orcamento
                 .Include(o => o.Filial)
+                .Include(o => o.Cliente)                      
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)
@@ -105,7 +106,6 @@ namespace SAT.INFRA.Repository
                 .Include(p => p.OutrosServicos)
                 .Include(p => p.Descontos)
                 .Include(p => p.OrcamentoStatus)
-                .Include(p => p.Faturamentos!)
                     .DefaultIfEmpty()
                 .Include(p => p.OrcamentoDeslocamento)
                 .FirstOrDefault(p => p.CodOrc == codigo);
@@ -114,8 +114,8 @@ namespace SAT.INFRA.Repository
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
             var query = _context.Orcamento
-                .Include(o => o.Faturamentos!)
-                    .DefaultIfEmpty()
+                .Include(o => o.Filial!)
+                .Include(o => o.Cliente!)                            
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)
@@ -135,6 +135,10 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(s => s.RelatoriosAtendimento)
                         .ThenInclude(s => s.Laudos)
                             .ThenInclude(s => s.LaudoStatus)
+                .Include(o => o.Materiais!)
+                    .ThenInclude(p => p.Peca!)                
+                .Include(o => o.MaoDeObra!)
+                .Include(o => o.OutrosServicos!)
                 .AsQueryable();
 
             if (parameters.Filter != null)

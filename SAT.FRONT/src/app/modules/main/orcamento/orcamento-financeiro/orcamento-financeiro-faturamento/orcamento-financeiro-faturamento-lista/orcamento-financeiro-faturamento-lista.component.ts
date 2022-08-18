@@ -6,9 +6,11 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
-import { OrcamentoData, OrcamentoFaturamento, OrcamentoParameters } from 'app/core/types/orcamento.types';
-import { OrcamentoService } from 'app/core/services/orcamento.service';
-import { Subject } from 'rxjs';
+import { OrcamentoFaturamentoData } from 'app/core/types/orcamento.types';
+import { fromEvent, Subject } from 'rxjs';
+import { OrcamentoFaturamentoService } from 'app/core/services/orcamento-faturamento.service';
+import { OrcamentoFaturamentoParameters } from 'app/core/types/orcamento-faturamento.types';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
@@ -34,18 +36,15 @@ import { Subject } from 'rxjs';
 	animations: fuseAnimations
 })
 export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-
 	@ViewChild(MatSort) sort: MatSort;
-
-	dataSourceData: OrcamentoData;
+	dataSourceData: OrcamentoFaturamentoData;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
-		private _orcamentoSvc: OrcamentoService,
+		private _orcamentoFaturamentoSvc: OrcamentoFaturamentoService,
 		private _cdr: ChangeDetectorRef,
 		protected _userService: UserService
 	) {
@@ -53,62 +52,51 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	}
 
 	ngAfterViewInit(): void {
-		this.obterOrcamentos();
+		this.obterFaturamentos();
 		this.registerEmitters();
 		this._cdr.detectChanges();
 	}
 
 	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterOrcamentos();
-		})
+		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(1000)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+			this.paginator.pageIndex = 0;
+			this.obterFaturamentos(text);
+		});
 	}
 
-	private async obterOrcamentos(filtro: string = '') {
+	private async obterFaturamentos(filtro: string = '') {
 		this.isLoading = true;
 
-		const params: OrcamentoParameters = {
+		const params: OrcamentoFaturamentoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
 			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOrc',
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
-			filter: filtro,
-			isFaturamento: true,
+			filter: filtro
 		};
 
-		let data: OrcamentoData = await this._orcamentoSvc
+		let data: OrcamentoFaturamentoData = await this._orcamentoFaturamentoSvc
 			.obterPorParametros(params)
 			.toPromise();
-		
+
+		console.log(data);
+
 		this.dataSourceData = data;
 		this.isLoading = false;
 	}
 
 	faturar(orc: any){
-		let orcamentoFaturamento: OrcamentoFaturamento = {
-			codOrcamento: 0,
-			codClienteBancada: '1',
-			codFilial: 1,
-			numOSPerto: 1,
-			numOrcamento: '',
-			descricaoNotaFiscal: '',
-			valorPeca: orc.valorTotal,
-			qtdePeca: 1,
-			valorServico: '',
-			numNF: orc.numNF,
-			dataEmissaoNF: orc.dataEmissaoNF,
-			indFaturado: 1,
-			indRegistroDanfe: '0',
-			caminhoDanfe: '',
-			codUsuarioCad: '',
-			dataHoraCad: ''
-		}
 	}
 
 	paginar() {
 		this.onPaginationChanged();
-		this.obterOrcamentos();
+		this.obterFaturamentos();
 	}
 
 	ngOnDestroy() {

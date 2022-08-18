@@ -1,13 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, LOCALE_ID, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { fuseAnimations } from '@fuse/animations';
-import { OrcamentoMaterial } from 'app/core/types/orcamento.types';
 import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { isEqual } from 'lodash';
 import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { OrcamentoMaterial } from 'app/core/types/orcamento.material.types';
 
 @Component({
   selector: 'app-orcamento-detalhe-material',

@@ -57,7 +57,8 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OrcamentoFaturamento> ObterPorParametros(OrcamentoFaturamentoParameters parameters)
         {
-            var query = _context.OrcamentoFaturamento.AsQueryable();
+            var query = _context.OrcamentoFaturamento
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {
@@ -66,6 +67,26 @@ namespace SAT.INFRA.Repository
                     p.NumOrcamento.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
+
+            if (parameters.NumNF != null)
+            {
+                query = query.Where(p => p.NumNF == parameters.NumNF);
+            }
+
+            if (parameters.DescricaoNotaFiscal != null)
+            {
+                query = query.Where(p => p.DescricaoNotaFiscal == parameters.DescricaoNotaFiscal);
+            }            
+
+            if (parameters.DataEmissaoNF != null)
+            {
+                query = query.Where(p => p.DataEmissaoNF == parameters.DataEmissaoNF);
+            }  
+
+            if (parameters.IndFaturado != null)
+            {
+                query = query.Where(p => p.IndFaturado == parameters.IndFaturado);
+            }              
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

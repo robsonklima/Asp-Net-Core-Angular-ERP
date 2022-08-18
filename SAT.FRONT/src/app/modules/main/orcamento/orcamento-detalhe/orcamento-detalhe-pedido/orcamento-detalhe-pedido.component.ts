@@ -1,4 +1,4 @@
-import { Orcamento, OrcamentoMaterial } from 'app/core/types/orcamento.types';
+import { Orcamento } from 'app/core/types/orcamento.types';
 import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDrag } from '@angular/cdk/drag-drop';
 import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import Enumerable from 'linq';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OrcamentoMaterial } from 'app/core/types/orcamento.material.types';
 
 @Component({
 	selector: 'app-orcamento-detalhe-pedido',
@@ -80,7 +81,7 @@ export class OrcamentoDetalhePedidoComponent implements OnInit {
 		}
 
 	ngOnInit(): void {
-		this.materiais = Enumerable.from(this.orcamento.materiais).orderBy(mat => mat.seqItemPedido).toArray();
+		this.materiais = Enumerable.from(this.materiais).orderBy(mat => mat.seqItemPedido).toArray();
 		this.inicializaForm();
 	}
 

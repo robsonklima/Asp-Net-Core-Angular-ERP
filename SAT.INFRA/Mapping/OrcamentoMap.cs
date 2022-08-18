@@ -33,6 +33,18 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(i => i.CodOrcMotivo);
 
             builder
+                .HasOne(i => i.Cliente)
+                .WithMany()
+                .HasForeignKey(i => i.CodigoCliente)
+                .HasPrincipalKey(i => i.CodCliente);
+
+            builder
+                .HasOne(i => i.Filial)
+                .WithMany()
+                .HasForeignKey(i => i.CodigoFilial)
+                .HasPrincipalKey(i => i.CodFilial);                
+
+            builder
                .HasMany(i => i.Materiais)
                .WithOne()
                .HasForeignKey(i => i.CodOrc)
@@ -72,12 +84,6 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(i => i.CodigoStatus)
                 .HasPrincipalKey(i => i.CodOrcStatus);
-
-            builder
-                .HasMany(prop => prop.Faturamentos)
-                .WithOne()
-                .HasForeignKey(prop => prop.CodOrcamento)
-                .HasPrincipalKey(prop => prop.CodOrc);
         }
     }
 }

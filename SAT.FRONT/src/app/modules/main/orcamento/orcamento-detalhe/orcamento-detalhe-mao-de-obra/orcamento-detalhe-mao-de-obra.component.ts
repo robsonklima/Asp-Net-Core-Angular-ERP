@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-import { OrcamentoMaoDeObra } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { IEditableFuseCard } from 'app/core/base-components/interfaces/ieditable-fuse-card';
 import { isEqual } from 'lodash';
 import { OrcamentoMaoDeObraService } from 'app/core/services/orcamento-mao-de-obra.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
+import { OrcamentoMaoDeObra } from 'app/core/types/orcamento-mao-de-obra.types';
 
 @Component({
   selector: 'app-orcamento-detalhe-mao-de-obra',

@@ -46,6 +46,7 @@ namespace SAT.SERVICES.Services
         private readonly IOrcamentoRepository _orcamentoRepo;
         private readonly IRegiaoAutorizadaRepository _regiaoAutorizadaRepo;
         private readonly IFilialRepository _filialRepo;
+        private readonly IAuditoriaRepository _auditoriaRepo;
 
         public ExportacaoService(
             IOrdemServicoRepository osRepo,
@@ -76,7 +77,8 @@ namespace SAT.SERVICES.Services
             IRegiaoRepository regiaoRepo,
             IOrcamentoRepository orcamentoRepo,
             IRegiaoAutorizadaRepository regiaoAutorizadaRepo,
-            IFilialRepository filialRepo
+            IFilialRepository filialRepo,
+            IAuditoriaRepository auditoriaRepo
         )
         {
             _osRepo = osRepo;
@@ -108,6 +110,7 @@ namespace SAT.SERVICES.Services
             _orcamentoRepo = orcamentoRepo;
             _regiaoAutorizadaRepo = regiaoAutorizadaRepo;
             _filialRepo = filialRepo;
+            _auditoriaRepo = auditoriaRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -253,6 +256,9 @@ namespace SAT.SERVICES.Services
                     break;
                 case ExportacaoTipoEnum.REGIAOAUTORIZADA:
                     GerarPlanilhaRegiaoAutorizada(((JObject)parameters).ToObject<RegiaoAutorizadaParameters>());
+                    break;
+                case ExportacaoTipoEnum.AUDITORIA:
+                    GerarPlanilhaAuditoria(((JObject)parameters).ToObject<AuditoriaParameters>());
                     break;
                 default:
                     break;

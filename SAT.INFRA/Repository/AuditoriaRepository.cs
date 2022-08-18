@@ -86,11 +86,31 @@ namespace SAT.INFRA.Repository
             if (parameters.CodAuditoriaStatus != null)
             {
                 auditorias = auditorias.Where(a => a.CodAuditoriaStatus == parameters.CodAuditoriaStatus);
-            }
+            };
+
             if (parameters.CodAuditoriaVeiculo != null)
             {
                 auditorias = auditorias.Where(a => a.CodAuditoriaVeiculo == parameters.CodAuditoriaVeiculo);
+            };
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                auditorias = auditorias.Where(dc => cods.Contains(dc.Usuario.Filial.CodFilial));
+            };
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodUsuarios))
+            {
+               string[] cods = parameters.CodUsuarios.Split(",").Select(a =>a.Trim()).Distinct().ToArray();
+                auditorias = auditorias.Where(dc => cods.Contains(dc.Usuario.CodUsuario));
             }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodAuditoriaStats))
+            {
+                int[] cods = parameters.CodAuditoriaStats.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                auditorias = auditorias.Where(dc => cods.Contains(dc.AuditoriaStatus.CodAuditoriaStatus));
+            };
+
             
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);

@@ -7,11 +7,13 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { EmailService } from '../services/email.service';
 import { Router } from '@angular/router';
+import { CustomSnackbarService } from '../services/custom-snackbar.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
         private _authService: AuthService,
+        private _snack: CustomSnackbarService,
         private _emailSvc: EmailService,
         private _router: Router
     ) { }

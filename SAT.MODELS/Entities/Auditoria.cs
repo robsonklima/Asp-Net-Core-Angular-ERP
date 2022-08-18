@@ -9,16 +9,16 @@ namespace SAT.MODELS.Entities
         public string CodUsuario { get; set; }
         public Usuario Usuario { get; set; }
         public int? CodAuditoriaVeiculo { get; set; }
-		public AuditoriaVeiculo AuditoriaVeiculo { get; set; }
+        public AuditoriaVeiculo AuditoriaVeiculo { get; set; }
         public DateTime? DataHoraRetiradaVeiculo { get; set; }
-        public DateTime DataHoraCad { get; set; }
+        public DateTime? DataHoraCad { get; set; }
+        public byte CodAuditoriaStatus { get; set; }
 		public AuditoriaStatus AuditoriaStatus { get; set; }
-        public int CodAuditoriaStatus { get; set; }
         public int? TotalMesesEmUso { get; set; }
         public double? ValorCombustivel { get; set; }
         public DateTime? DataRetiradaVeiculo { get; set; }
         public double? CreditosCartao { get; set; }
-        public double? DespesasSAT { get; set; }
+        public double? DespesasSat { get; set; }
         public int? TotalDiasEmUso { get; set; }
         public double? DespesasCompensadasValor { get; set; }
         public double? OdometroInicialRetirada { get; set; }
@@ -28,7 +28,7 @@ namespace SAT.MODELS.Entities
         public int? KmCompensado { get; set; }
         public double? ValorTanque { get; set; }
         public int? KmFerias { get; set; }
-        public double UsoParticular { get; set; }
+        public double? UsoParticular { get; set; }
         public double? KmParticular { get; set; }
         public string Observacoes { get; set; }
         public double? KmParticularMes { get; set; }
@@ -37,3 +37,4 @@ namespace SAT.MODELS.Entities
 
     }
 }
+

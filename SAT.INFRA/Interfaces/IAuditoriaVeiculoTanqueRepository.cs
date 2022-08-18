@@ -6,7 +6,7 @@ namespace SAT.INFRA.Interfaces
 {
     public interface IAuditoriaVeiculoTanqueRepository
     {
-       // PagedList<AuditoriaVeiculoTanque> ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters);
+        PagedList<AuditoriaVeiculoTanque> ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters);
         void Criar(AuditoriaVeiculoTanque auditoriaVeiculoTanque);
         void Deletar(int codigo);
         void Atualizar(AuditoriaVeiculoTanque auditoriaVeiculoTanque);

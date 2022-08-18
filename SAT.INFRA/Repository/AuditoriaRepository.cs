@@ -77,8 +77,21 @@ namespace SAT.INFRA.Repository
         public PagedList<Auditoria> ObterPorParametros(AuditoriaParameters parameters)
         {
             var auditorias = _context.Auditoria
-                .AsNoTracking()
+                .Include(c => c.Usuario)
+                    .ThenInclude(c => c.Filial)
+                .Include(c => c.AuditoriaStatus)
+                .Include(c => c.AuditoriaVeiculo)
                 .AsQueryable();
+
+            if (parameters.CodAuditoriaStatus != null)
+            {
+                auditorias = auditorias.Where(a => a.CodAuditoriaStatus == parameters.CodAuditoriaStatus);
+            }
+            if (parameters.CodAuditoriaVeiculo != null)
+            {
+                auditorias = auditorias.Where(a => a.CodAuditoriaVeiculo == parameters.CodAuditoriaVeiculo);
+            }
+            
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);
         }

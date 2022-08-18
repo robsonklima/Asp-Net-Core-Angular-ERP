@@ -22,10 +22,10 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        // public ListViewModel Get([FromQuery] AuditoriaVeiculoParameters parameters)
-        // {
-        //     return _auditoriaVeiculoService.ObterPorParametros(parameters);
-        // }
+        public ListViewModel Get([FromQuery] AuditoriaVeiculoParameters parameters)
+        {
+            return _auditoriaVeiculoService.ObterPorParametros(parameters);
+        }
 
         [HttpGet("{codAuditoriaVeiculo}")]
         public AuditoriaVeiculo Get(int codAuditoriaVeiculo)

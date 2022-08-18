@@ -75,17 +75,17 @@ namespace SAT.INFRA.Repository
             return _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTaque == codigo);
         }
 
-        // public PagedList<AuditoriaVeiculo> ObterPorParametros(AuditoriaVeiculoParameters parameters)
-        // {
-        //     var auditoriaVeiculo = _context.AuditoriaVeiculo.AsQueryable();
+        public PagedList<AuditoriaVeiculoTanque> ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters)
+        {
+            var auditoriasVeiculosTanques = _context.AuditoriaVeiculoTanque.AsQueryable();
 
-        //     if (parameters.CodAuditoriaVeiculo.HasValue)
-        //         agendamentos = agendamentos.Where(a => a.CodAgendamento == parameters.CodAgendamento);
+            if (parameters.Nome != null)
+                auditoriasVeiculosTanques = auditoriasVeiculosTanques.Where(a => a.Nome == parameters.Nome);
 
-        //     if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-        //         agendamentos = agendamentos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                auditoriasVeiculosTanques = auditoriasVeiculosTanques.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
-        //     return PagedList<Agendamento>.ToPagedList(agendamentos, parameters.PageNumber, parameters.PageSize);
-        // }
+            return PagedList<AuditoriaVeiculoTanque>.ToPagedList(auditoriasVeiculosTanques, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

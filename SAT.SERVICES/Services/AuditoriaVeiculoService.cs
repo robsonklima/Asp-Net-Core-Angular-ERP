@@ -15,23 +15,23 @@ namespace SAT.SERVICES.Services
             _auditoriaVeiculoRepo = auditoriaVeiculoRepo;
         }
 
-        // public ListViewModel ObterPorParametros(AuditoriaVeiculoParameters parameters)
-        // {
-        //     var auditoriaVeiculos = _auditoriaVeiculoRepo.ObterPorParametros(parameters);
+        public ListViewModel ObterPorParametros(AuditoriaVeiculoParameters parameters)
+        {
+            var auditoriaVeiculos = _auditoriaVeiculoRepo.ObterPorParametros(parameters);
 
-        //     var lista = new ListViewModel
-        //     {
-        //         Items = causas,
-        //         TotalCount = causas.TotalCount,
-        //         CurrentPage = causas.CurrentPage,
-        //         PageSize = causas.PageSize,
-        //         TotalPages = causas.TotalPages,
-        //         HasNext = causas.HasNext,
-        //         HasPrevious = causas.HasPrevious
-        //     };
+            var lista = new ListViewModel
+            {
+                Items = auditoriaVeiculos,
+                TotalCount = auditoriaVeiculos.TotalCount,
+                CurrentPage = auditoriaVeiculos.CurrentPage,
+                PageSize = auditoriaVeiculos.PageSize,
+                TotalPages = auditoriaVeiculos.TotalPages,
+                HasNext = auditoriaVeiculos.HasNext,
+                HasPrevious = auditoriaVeiculos.HasPrevious
+            };
 
-        //     return lista;
-        // }
+            return lista;
+        }
 
         public AuditoriaVeiculo Criar(AuditoriaVeiculo auditoriaVeiculo)
         {

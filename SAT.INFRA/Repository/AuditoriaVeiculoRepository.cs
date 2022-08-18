@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SAT.INFRA.Context;
+﻿using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System;
@@ -75,17 +73,17 @@ namespace SAT.INFRA.Repository
             return _context.AuditoriaVeiculo.SingleOrDefault(a => a.CodAuditoriaVeiculo == codigo);
         }
 
-        // public PagedList<AuditoriaVeiculo> ObterPorParametros(AuditoriaVeiculoParameters parameters)
-        // {
-        //     var auditoriaVeiculo = _context.AuditoriaVeiculo.AsQueryable();
+        public PagedList<AuditoriaVeiculo> ObterPorParametros(AuditoriaVeiculoParameters parameters)
+        {
+            var auditoriasVeiculos = _context.AuditoriaVeiculo.AsQueryable();
 
-        //     if (parameters.CodAuditoriaVeiculo.HasValue)
-        //         agendamentos = agendamentos.Where(a => a.CodAgendamento == parameters.CodAgendamento);
+            if (parameters.Placa != null)
+                auditoriasVeiculos = auditoriasVeiculos.Where(a => a.Placa == parameters.Placa);
 
-        //     if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-        //         agendamentos = agendamentos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                auditoriasVeiculos = auditoriasVeiculos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
-        //     return PagedList<Agendamento>.ToPagedList(agendamentos, parameters.PageNumber, parameters.PageSize);
-        // }
+            return PagedList<AuditoriaVeiculo>.ToPagedList(auditoriasVeiculos, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

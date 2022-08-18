@@ -75,17 +75,17 @@ namespace SAT.INFRA.Repository
             return _context.AuditoriaVeiculoAcessorio.SingleOrDefault(a => a.CodAuditoriaVeiculoAcessorio == codigo);
         }
 
-        // public PagedList<AuditoriaVeiculo> ObterPorParametros(AuditoriaVeiculoParameters parameters)
-        // {
-        //     var auditoriaVeiculo = _context.AuditoriaVeiculo.AsQueryable();
+        public PagedList<AuditoriaVeiculoAcessorio> ObterPorParametros(AuditoriaVeiculoAcessorioParameters parameters)
+        {
+            var auditoriasVeiculosAcessorios = _context.AuditoriaVeiculoAcessorio.AsQueryable();
 
-        //     if (parameters.CodAuditoriaVeiculo.HasValue)
-        //         agendamentos = agendamentos.Where(a => a.CodAgendamento == parameters.CodAgendamento);
+            if (parameters.Nome != null)
+                auditoriasVeiculosAcessorios = auditoriasVeiculosAcessorios.Where(a => a.Nome == parameters.Nome);
 
-        //     if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
-        //         agendamentos = agendamentos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                auditoriasVeiculosAcessorios = auditoriasVeiculosAcessorios.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
-        //     return PagedList<Agendamento>.ToPagedList(agendamentos, parameters.PageNumber, parameters.PageSize);
-        // }
+            return PagedList<AuditoriaVeiculoAcessorio>.ToPagedList(auditoriasVeiculosAcessorios, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace SAT.SERVICES.Services
     {
         private XLWorkbook Workbook { get; set; }
         public string FilePath { get; set; }
+        private readonly IEmailService _emaiLService;
         private readonly IOrdemServicoRepository _osRepo;
         private readonly IEquipamentoContratoRepository _ecRepo;
         private readonly IAcaoRepository _acaoRepo;
@@ -48,6 +49,7 @@ namespace SAT.SERVICES.Services
         private readonly IFilialRepository _filialRepo;
 
         public ExportacaoService(
+            IEmailService emaiLService,
             IOrdemServicoRepository osRepo,
             IEquipamentoContratoRepository ecRepo,
             IAcaoRepository acaoRepo,
@@ -79,6 +81,7 @@ namespace SAT.SERVICES.Services
             IFilialRepository filialRepo
         )
         {
+            _emaiLService = emaiLService;
             _osRepo = osRepo;
             _ecRepo = ecRepo;
             _acaoRepo = acaoRepo;

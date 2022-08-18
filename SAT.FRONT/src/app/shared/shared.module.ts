@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PhonePipe } from 'app/core/pipes/fone.pipe';
 import { CEPPipe } from 'app/core/pipes/cep.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export const FORMATO_DATA = {
     parse: {
@@ -52,6 +53,7 @@ export const FORMATO_DATA = {
         ReactiveFormsModule,
         MatSnackBarModule,
         MatSelectModule,
+        MatCheckboxModule,
         MatIconModule,
         MatTooltipModule,
         MatChipsModule,

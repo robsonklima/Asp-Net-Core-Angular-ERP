@@ -30,11 +30,6 @@
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
-                                [matTooltip]="'Enviar e-mail'" (click)="enviarEmail()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                            </button>
-                            
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
                                 [matTooltip]="'Faturar'" (click)="faturar()"
                                 [disabled]="orcamento?.indFaturamento || (os?.codStatusServico !== 3 && os?.codTipoIntervencao !== 17) || (os?.equipamentoContrato?.contrato?.indPedido && !orcamento?.numPedido)">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:upload'"></mat-icon>

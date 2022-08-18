@@ -230,6 +230,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 				`,
 				nomeRemetente: 'DSS ORÇAMENTOS',
 				emailRemetente: 'dss.orcamentos@perto.com.br',
+				indOrcamento: true
 			}
 		});
 
@@ -241,12 +242,12 @@ export class OrcamentoDetalheComponent implements OnInit {
 					formatoArquivo: ExportacaoFormatoEnum.PDF,
 					tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
 					entityParameters: {
-						codigoOrdemServico: this.codOrc
+						codigoOrdemServico: this.codOrc,
+						incluirLaudoExportacao: data.incluirLaudoExportacao
 					}
 				}
 
 				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
-
 			}
 		});
 	}

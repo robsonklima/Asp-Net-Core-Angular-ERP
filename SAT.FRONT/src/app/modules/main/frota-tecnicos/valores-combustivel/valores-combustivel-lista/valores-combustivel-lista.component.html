@@ -16,7 +16,7 @@
             </mat-form-field>
 
             <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-                [routerLink]="['/feriado/form']">
+                [routerLink]="['/frota-tecnico/valores-combustivel/form']">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
 
@@ -62,14 +62,11 @@
                             <div>
                                 {{ t('usuario atualizacao') }}
                             </div>
-
-                            
-                            
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let valorCombustivel of dataSourceData?.items">
-                                <!-- <a [routerLink]="['/valores-combustivel/form/' + valorCombustivel.codDespesaConfiguracaoCombustivel]"> -->
+                                <a [routerLink]="['/frota-tecnico/valores-combustivel/form/' + valorCombustivel.codDespesaConfiguracaoCombustivel]">
                                     <div
                                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
@@ -96,9 +93,8 @@
                                         <div class="truncate">
                                             {{ valorCombustivel.usuarioManutencao.nomeUsuario || t('nao informado') | titlecase }}
                                         </div>
-                                        
                                     </div>
-                                <!-- </a> -->
+                                </a>
                             </ng-container>
                         </ng-container>
                     </div>

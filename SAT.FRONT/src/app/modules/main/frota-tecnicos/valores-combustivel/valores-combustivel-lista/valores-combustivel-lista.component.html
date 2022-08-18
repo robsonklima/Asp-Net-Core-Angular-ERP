@@ -38,24 +38,33 @@
                     <div class="grid" *transloco="let t">
                         <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear *transloco="let t">
+                            <div class="md:block" [mat-sort-header]="'codigo'">
+                                {{ t('codigo') }}
+                            </div>
+                            <div>
+                                {{ t('filial') }}
+                            </div>
+                            <div>
+                                {{ t('unidade federativa') }}
+                            </div>
                             <div class="md:block" [mat-sort-header]="'preco'">
                                 {{ t('preco') }}
                             </div>
                             <div [mat-sort-header]="'dataCadastro'">
                                 {{ t('data cadastro') }}
                             </div>
-                            <div [mat-sort-header]="'usuario'">
-                                {{ t('usuario') }}
+                            <div>
+                                {{ t('usuario cadastro') }}
                             </div>
-                            <div [mat-sort-header]="'atualizaçao'">
+                            <div [mat-sort-header]="'atualizacao'">
                                 {{ t('atualizacao') }}
                             </div>
                             <div>
-                                {{ t('unidade federativa') }}
+                                {{ t('usuario atualizacao') }}
                             </div>
-                            <div>
-                                {{ t('filial') }}
-                            </div>
+
+                            
+                            
                         </div>
 
                         <ng-container>
@@ -64,26 +73,30 @@
                                     <div
                                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
+                                            {{ valorCombustivel.codDespesaConfiguracaoCombustivel }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ valorCombustivel.filial?.nomeFilial || t('nao informado') }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ valorCombustivel.unidadeFederativa?.siglaUF || t('nao informado') }}
+                                        </div>
+                                        <div class="flex items-center">
                                             {{ valorCombustivel.precoLitro | currency:'BRL' || t('nao informado') }}
                                         </div>
                                         <div class="truncate">
                                             {{ valorCombustivel.dataHoraCad | date:'dd/MM/yyyy' || t('nao informado') }}
                                         </div>
                                         <div class="truncate">
-                                            {{ valorCombustivel.Usuario?.nomeUsuario | titlecase }}
+                                            {{ valorCombustivel.usuarioCadastro.nomeUsuario || t('nao informado') | titlecase }}
                                         </div>
                                         <div class="truncate">
                                             {{ valorCombustivel.dataHoraManut | date:'dd/MM/yyyy' || t('nao informado') }}
                                         </div>
                                         <div class="truncate">
-                                            {{ valorCombustivel.unidadeFederativa?.siglaUF || t('nao informado') | titlecase }}
+                                            {{ valorCombustivel.usuarioManutencao.nomeUsuario || t('nao informado') | titlecase }}
                                         </div>
-                                        <div class="truncate">
-                                            {{ valorCombustivel.Filial?.nome || t('nao informado') | titlecase }}
-                                        </div>
-                                        <!-- <div class="truncate">
-                                            {{ valorCombustivel.cidade?.nomeCidade || t('nao informado') | titlecase }}
-                                        </div> -->
+                                        
                                     </div>
                                 <!-- </a> -->
                             </ng-container>

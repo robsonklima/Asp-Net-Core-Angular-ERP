@@ -61,43 +61,46 @@ export class AuthSignInComponent implements OnInit {
         const form = this.signInForm.getRawValue();
         const codUsuario = form.codUsuario;
         const senha = form.senha;
-        const usuario = await this._userSvc.obterPorCodigo(codUsuario).toPromise();
-
-        const params = {
-            codUsuario: codUsuario,
-            sistemaOperacional: this.deviceInfo.os,
-            navegador: this.deviceInfo.browser,
-            versaoSO: this.deviceInfo.os_version,
-            tipoDispositivo: this.deviceInfo.deviceType,
-            ip: this.ipData.ip
-        }
-
-        const dispositivoData = await this._usuarioDispositivoSvc.obterPorParametros(params).toPromise();
-        let dispositivo = dispositivoData.items.shift();
-
-        if (!usuario || !usuario?.email) {
-            this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
-        } else if (!dispositivo) {
-            dispositivo = await this.cadastrarDispositivo();
-            usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
-            this._router.navigate(['confirmation-required']);
-        } else if (dispositivo?.indAtivo) {
-            this._authService
-                .signIn(codUsuario, senha)
-                .subscribe(() => {
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                    this._router.navigateByUrl(redirectURL);
-                }, (e) => {
-                    this.signInForm.enable();
-                    this.signInNgForm.resetForm();
-                    this._snack.exibirToast(e?.error?.errorMessage || 'Ocorreu um erro', 'error')
-                });
-
+        this._userSvc.obterPorCodigo(codUsuario).subscribe(async (usuario) => {
+            const params = {
+                codUsuario: codUsuario,
+                sistemaOperacional: this.deviceInfo.os,
+                navegador: this.deviceInfo.browser,
+                versaoSO: this.deviceInfo.os_version,
+                tipoDispositivo: this.deviceInfo.deviceType,
+                ip: this.ipData.ip
+            }
+    
+            const dispositivoData = await this._usuarioDispositivoSvc.obterPorParametros(params).toPromise();
+            let dispositivo = dispositivoData.items.shift();
+    
+            if (!usuario || !usuario?.email) {
+                this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
+            } else if (!dispositivo) {
+                dispositivo = await this.cadastrarDispositivo();
+                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
+                this._router.navigate(['confirmation-required']);
+            } else if (dispositivo?.indAtivo) {
+                this._authService
+                    .signIn(codUsuario, senha)
+                    .subscribe(() => {
+                        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                        this._router.navigateByUrl(redirectURL);
+                    }, (e) => {
+                        this.signInForm.enable();
+                        this.signInNgForm.resetForm();
+                        this._snack.exibirToast(e?.error?.errorMessage || 'Ocorreu um erro', 'error')
+                    });
+    
+                this.signInForm.enable();
+            } else {
+                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
+                this._router.navigate(['confirmation-required']);
+            }
+        }, err => {
+            this._snack.exibirToast(`Ocorreu um erro ${ err?.message }`, "error");
             this.signInForm.enable();
-        } else {
-            usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
-            this._router.navigate(['confirmation-required']);
-        }
+        });
     }
 
     private enviarSMS(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {

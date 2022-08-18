@@ -654,5 +654,10 @@
     "itens pedido": "Order items",
     "valor desconto a base de troca": "Discount value on trade base",
     "dados bancarios": "Bank data",
-    "pedido obrigatorio": "Mandatory order"
+    "pedido obrigatorio": "Mandatory order",
+    "auditorias": "Audits",
+    "pendencias": "Backlog",
+    "frota tecnico": "Technical Fleet",
+    "auditoria": "Audit",
+    "valores combustível": "Fuel Values"
 }

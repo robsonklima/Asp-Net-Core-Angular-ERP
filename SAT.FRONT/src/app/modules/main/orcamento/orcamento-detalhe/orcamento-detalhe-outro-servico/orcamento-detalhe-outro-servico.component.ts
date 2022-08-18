@@ -5,7 +5,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { IEditableItem, IEditableItemList } from 'app/core/base-components/interfaces/ieditable-item-list';
 import { OrcamentoOutroServicoService } from 'app/core/services/orcamento-outro-servico.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
-import { OrcamentoOutroServico } from 'app/core/types/orcamento.types';
+import { OrcamentoOutroServico } from 'app/core/types/orcamento-outro-servico.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { OrcamentoAddOutroServicoDialogComponent } from './orcamento-add-outro-servico-dialog/orcamento-add-outro-servico-dialog.component';
 

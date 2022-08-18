@@ -33,6 +33,18 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(i => i.CodOrcMotivo);
 
             builder
+                .HasOne(i => i.Cliente)
+                .WithMany()
+                .HasForeignKey(i => i.CodigoCliente)
+                .HasPrincipalKey(i => i.CodCliente);
+
+            builder
+                .HasOne(i => i.Filial)
+                .WithMany()
+                .HasForeignKey(i => i.CodigoFilial)
+                .HasPrincipalKey(i => i.CodFilial);                
+
+            builder
                .HasMany(i => i.Materiais)
                .WithOne()
                .HasForeignKey(i => i.CodOrc)
@@ -44,13 +56,6 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<OrcamentoMaoDeObra>(i => i.CodOrc)
                 .HasPrincipalKey<Orcamento>(i => i.CodOrc)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder
-                .HasOne(i => i.OrcamentosFaturamento)
-                .WithMany()
-                .HasForeignKey(i => i.CodOrc)
-                .HasPrincipalKey(i => i.CodOrcamento)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder

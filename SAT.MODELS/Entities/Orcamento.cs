@@ -36,10 +36,10 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraFaturamento { get; set; }
         public string CodUsuarioFaturamento { get; set; }
         public virtual LocalEnvioNFFaturamento LocalEnvioNFFaturamento { get; set; }
-        public virtual OrcamentosFaturamento OrcamentosFaturamento { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }
         [ForeignKey("CodigoFilial")]
         public virtual Filial Filial { get; set; }
+        public virtual Cliente Cliente { get; set; }
         public virtual OrcamentoMotivo OrcamentoMotivo { get; set; }
         public virtual List<OrcamentoMaterial> Materiais { get; set; }
         public virtual List<OrcamentoOutroServico> OutrosServicos { get; set; }

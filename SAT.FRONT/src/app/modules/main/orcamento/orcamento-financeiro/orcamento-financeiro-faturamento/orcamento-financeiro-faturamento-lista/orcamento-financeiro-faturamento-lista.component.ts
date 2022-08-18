@@ -1,20 +1,16 @@
-import { OrcamentosFaturamento } from './../../../../../../core/types/orcamento.types';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { LocalEnvioNFFaturamentoService } from 'app/core/services/local-envio-nf-faturamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { LocalEnvioNFFaturamento, LocalEnvioNFFaturamentoData } from 'app/core/types/local-envio-nf-faturamento.types';
-import { UserSession } from 'app/core/user/user.types';
-import { fromEvent, Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
-import { OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
-import { OrcamentoService } from 'app/core/services/orcamento.service';
-import Enumerable from 'linq';
+import { OrcamentoFaturamentoData } from 'app/core/types/orcamento.types';
+import { fromEvent, Subject } from 'rxjs';
+import { OrcamentoFaturamentoService } from 'app/core/services/orcamento-faturamento.service';
+import { OrcamentoFaturamentoParameters } from 'app/core/types/orcamento-faturamento.types';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
@@ -40,18 +36,15 @@ import Enumerable from 'linq';
 	animations: fuseAnimations
 })
 export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-
 	@ViewChild(MatSort) sort: MatSort;
-
-	dataSourceData: OrcamentoData;
+	dataSourceData: OrcamentoFaturamentoData;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
-		private _orcamentoSvc: OrcamentoService,
+		private _orcamentoFaturamentoSvc: OrcamentoFaturamentoService,
 		private _cdr: ChangeDetectorRef,
 		protected _userService: UserService
 	) {
@@ -59,93 +52,51 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	}
 
 	ngAfterViewInit(): void {
-		this.obterOrcamentos();
+		this.obterFaturamentos();
 		this.registerEmitters();
-
-		// fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-		// 	map((event: any) => {
-		// 		return event.target.value;
-		// 	})
-		// 	, debounceTime(1000)
-		// 	, distinctUntilChanged()
-		// ).subscribe((text: string) => {
-		// 	this.paginator.pageIndex = 0;
-		// 	this.obterOrcamentos(text);
-		// });
-
-		// if (this.sort && this.paginator) {
-		// 	this.sort.disableClear = true;
-		// 	this._cdr.markForCheck();
-
-		// 	this.sort.sortChange.subscribe(() => {
-		// 		this.onSortChanged();
-		// 		this.obterOrcamentos();
-		// 	});
-		// }
-
 		this._cdr.detectChanges();
 	}
 
 	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterOrcamentos();
-		})
+		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(1000)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+			this.paginator.pageIndex = 0;
+			this.obterFaturamentos(text);
+		});
 	}
 
-	private async obterOrcamentos(filtro: string = '') {
+	private async obterFaturamentos(filtro: string = '') {
 		this.isLoading = true;
 
-		const params: OrcamentoParameters = {
+		const params: OrcamentoFaturamentoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
 			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOrc',
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
-			filter: filtro,
-			isFaturamento: true,
+			filter: filtro
 		};
 
-		let data: OrcamentoData = await this._orcamentoSvc
-			.obterPorParametros({
-				...params,
-			})
+		let data: OrcamentoFaturamentoData = await this._orcamentoFaturamentoSvc
+			.obterPorParametros(params)
 			.toPromise();
-		
-		// data.items = Enumerable.from(data.items).where(orc => orc.ordemServico.codTipoIntervencao == 17 && orc.ordemServico.codStatusServico == 3 ).toArray();
 
 		console.log(data);
-		
+
 		this.dataSourceData = data;
 		this.isLoading = false;
 	}
 
 	faturar(orc: any){
-		console.log(orc);
-
-		let orcamentoFaturamento: OrcamentosFaturamento = {
-			codOrcamento: 0,
-			codClienteBancada: '1',
-			codFilial: 1,
-			numOSPerto: 1,
-			numOrcamento: '',
-			descricaoNotaFiscal: '',
-			valorPeca: orc.valorTotal,
-			qtdePeca: 1,
-			valorServico: '',
-			numNF: orc.numNF,
-			dataEmissaoNF: orc.dataEmissaoNF,
-			indFaturado: 1,
-			indRegistroDanfe: '0',
-			caminhoDanfe: '',
-			codUsuarioCad: '',
-			dataHoraCad: ''
-		}
-		
 	}
 
 	paginar() {
 		this.onPaginationChanged();
-		this.obterOrcamentos();
+		this.obterFaturamentos();
 	}
 
 	ngOnDestroy() {

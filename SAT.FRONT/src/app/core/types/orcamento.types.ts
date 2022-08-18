@@ -3,6 +3,9 @@ import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { LocalEnvioNFFaturamento } from "./local-envio-nf-faturamento.types";
 import { Peca } from "./peca.types";
+import { OrcamentoMaoDeObra, OrcamentoMaoDeObraData } from './orcamento-mao-de-obra.types';
+import { OrcamentoOutroServico } from './orcamento-outro-servico.types';
+import { OrcamentoMaterial } from './orcamento.material.types';
 
 export interface Orcamento
 {
@@ -32,9 +35,9 @@ export interface Orcamento
     dataAprovacaoCliente?: string;
     localEnvioNFFaturamento?: LocalEnvioNFFaturamento;
     orcamentoMotivo?: OrcamentoMotivo;
-    materiais?: OrcamentoMaterial[];
+    materiais?: OrcamentoMaterial;
     maoDeObra?: OrcamentoMaoDeObra;
-    outrosServicos?: OrcamentoOutroServico[];
+    outrosServicos?: OrcamentoOutroServico;
     descontos?: OrcamentoDesconto[];
     ordemServico?: OrdemServico;
     orcamentoStatus?: OrcamentoStatus;
@@ -46,6 +49,10 @@ export interface Orcamento
     incluirLaudoExportacao?: boolean;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
+    faturamentos?: OrcamentoFaturamento[];
+    orcamentoMateriais?: OrcamentoMaterial[];
+    orcamentoMaoDeObra?: OrcamentoMaoDeObraData[];
+    orcamentoOutrosServicos?: OrcamentoOutroServico[];
 }
 
 export interface OrcamentoMotivo
@@ -111,59 +118,6 @@ export interface EnderecoFaturamentoNF
     cidadeFaturamento?: Cidade;
 }
 
-export interface OrcamentoMaterial
-{
-    codOrcMaterial?: number;
-    codOrc: number;
-    codigoMagnus: string;
-    codigoPeca: string;
-    descricao: string;
-    valorUnitario: number;
-    valorDesconto?: number;
-    valorTotal?: number;
-    quantidade: number;
-    dataCadastro: string;
-    usuarioCadastro: string;
-    valorIpi: number;
-    valorUnitarioFinanceiro: number;
-    seqItemPedido?: number;
-    peca?: Peca;
-}
-
-export interface OrcamentoMaoDeObra
-{
-    codOrcMaoObra?: number;
-    codOrc: number;
-    previsaoHoras?: number;
-    valorHoraTecnica: number;
-    valorTotal?: number;
-    redutor?: number;
-    dataCadastro: string;
-    usuarioCadastro: string;
-}
-
-export interface OrcamentoOutroServico
-{
-    codOrcOutroServico: number;
-    codOrc: number;
-    tipo: string;
-    descricao: string;
-    valorUnitario: number;
-    quantidade: number;
-    valorTotal: number;
-    dataCadastro: string;
-    usuarioCadastro: string;
-}
-
-export interface OrcamentoOutroServicoData extends Meta
-{
-    items: OrcamentoOutroServico[];
-};
-
-export interface OrcamentoOutroServicoParameters extends QueryStringParameters
-{
-};
-
 export interface OrcamentoDesconto
 {
     codOrcDesconto: number;
@@ -225,17 +179,12 @@ export interface OrcamentoData extends Meta
     items: Orcamento[];
 };
 
-export interface OrcamentosFaturamentoParameters extends Meta
+export interface OrcamentoFaturamentoData extends Meta
 {
-    codOrcamento?: number;
+    items: OrcamentoFaturamento[];
 };
 
-export interface OrcamentosFaturamentoData extends Meta
-{
-    items: OrcamentosFaturamento[];
-};
-
-export interface OrcamentosFaturamento extends Meta
+export interface OrcamentoFaturamento extends Meta
 {
     codOrcamentoFaturamento?: number;
     codOrcamento?: number;
@@ -347,4 +296,18 @@ export enum OrcamentoTipoIntervencao
     ORCAMENTO_APROVADO = 17,
     ORCAMENTO = 5,
     ORCAMENTO_REPROVADO = 18,
+}
+
+export interface OrcamentoFaturamentoViewModel {
+    codigo: number | null;
+    cliente: string;
+    filial: string;
+    codOrc: number;
+    tipo: OrcamentoFaturamentoTipoEnum;
+}
+
+export enum OrcamentoFaturamentoTipoEnum {
+    SERVICO = 1,
+    MATERIAL = 2,
+    FATURAMENTO = 3
 }

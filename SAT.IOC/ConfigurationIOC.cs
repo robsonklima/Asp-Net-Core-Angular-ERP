@@ -32,6 +32,12 @@ public class ConfigurationIOC
         builder.RegisterType<TipoServicoRepository>().As<ITipoServicoRepository>();
         builder.RegisterType<RegiaoRepository>().As<IRegiaoRepository>();
         builder.RegisterType<AutorizadaRepository>().As<IAutorizadaRepository>();
+        builder.RegisterType<AuditoriaRepository>().As<IAuditoriaRepository>();
+        builder.RegisterType<AuditoriaFotoRepository>().As<IAuditoriaFotoRepository>();
+        builder.RegisterType<AuditoriaStatusRepository>().As<IAuditoriaStatusRepository>();
+        builder.RegisterType<AuditoriaVeiculoRepository>().As<IAuditoriaVeiculoRepository>();
+        builder.RegisterType<AuditoriaVeiculoAcessorioRepository>().As<IAuditoriaVeiculoAcessorioRepository>();
+        builder.RegisterType<AuditoriaVeiculoTanqueRepository>().As<IAuditoriaVeiculoTanqueRepository>();
         builder.RegisterType<PerfilRepository>().As<IPerfilRepository>();
         builder.RegisterType<PaisRepository>().As<IPaisRepository>();
         builder.RegisterType<CidadeRepository>().As<ICidadeRepository>();
@@ -149,6 +155,7 @@ public class ConfigurationIOC
         builder.RegisterType<PosVendaRepository>().As<IPosVendaRepository>();
         builder.RegisterType<OrcFormaPagamentoRepository>().As<IOrcFormaPagamentoRepository>();
         builder.RegisterType<OrcDadosBancariosRepository>().As<IOrcDadosBancariosRepository>();
+        builder.RegisterType<OrcamentoFaturamentoRepository>().As<IOrcamentoFaturamentoRepository>();
         #endregion
 
         #region Services
@@ -160,6 +167,12 @@ public class ConfigurationIOC
         builder.RegisterType<AcaoService>().As<IAcaoService>();
         builder.RegisterType<AcordoNivelServicoService>().As<IAcordoNivelServicoService>();
         builder.RegisterType<AutorizadaService>().As<IAutorizadaService>();
+        builder.RegisterType<AuditoriaService>().As<IAuditoriaService>();
+        builder.RegisterType<AuditoriaFotoService>().As<IAuditoriaFotoService>();
+        builder.RegisterType<AuditoriaStatusService>().As<IAuditoriaStatusService>();
+        builder.RegisterType<AuditoriaVeiculoService>().As<IAuditoriaVeiculoService>();
+        builder.RegisterType<AuditoriaVeiculoAcessorioService>().As<IAuditoriaVeiculoAcessorioService>();
+        builder.RegisterType<AuditoriaVeiculoTanqueService>().As<IAuditoriaVeiculoTanqueService>();
         builder.RegisterType<CausaService>().As<ICausaService>();
         builder.RegisterType<CidadeService>().As<ICidadeService>();
         builder.RegisterType<ClienteService>().As<IClienteService>();
@@ -284,6 +297,7 @@ public class ConfigurationIOC
         builder.RegisterType<PosVendaService>().As<IPosVendaService>();
         builder.RegisterType<OrcFormaPagamentoService>().As<IOrcFormaPagamentoService>();
         builder.RegisterType<OrcDadosBancariosService>().As<IOrcDadosBancariosService>();
+        builder.RegisterType<OrcamentoFaturamentoService>().As<IOrcamentoFaturamentoService>();
         #endregion
 
         #region Utils Services

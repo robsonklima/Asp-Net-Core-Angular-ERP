@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoOutroServico } from '../types/orcamento.types';
+import { OrcamentoOutroServico } from '../types/orcamento-outro-servico.types';
 
 @Injectable({
     providedIn: 'root'

@@ -5,7 +5,9 @@ import { OrcamentoMaoDeObraService } from "app/core/services/orcamento-mao-de-ob
 import { OrcamentoMaterialService } from "app/core/services/orcamento-material.service";
 import { OrcamentoService } from "app/core/services/orcamento.service";
 import { ContratoServico } from "app/core/types/contrato.types";
-import { Orcamento, OrcamentoDeslocamento, OrcamentoMaoDeObra, OrcamentoMaterial, OrcamentoMotivoEnum } from "app/core/types/orcamento.types";
+import { OrcamentoMaoDeObra } from "app/core/types/orcamento-mao-de-obra.types";
+import { OrcamentoMaterial } from "app/core/types/orcamento.material.types";
+import { Orcamento, OrcamentoDeslocamento, OrcamentoMotivoEnum } from "app/core/types/orcamento.types";
 import { OrdemServico } from "app/core/types/ordem-servico.types";
 import { Peca } from "app/core/types/peca.types";
 import { TipoServicoEnum } from "app/core/types/tipo-servico.types";
@@ -103,8 +105,6 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
 
             materiais.push(m);
         };
-
-        this.orcamento.materiais = materiais;
 
         return this;
     }

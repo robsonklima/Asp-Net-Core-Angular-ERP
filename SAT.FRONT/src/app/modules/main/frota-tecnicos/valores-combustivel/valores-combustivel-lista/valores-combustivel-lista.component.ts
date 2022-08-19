@@ -17,11 +17,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
     styles: [
         /* language=SCSS */
-        `
-      .list-grid-u {
-          grid-template-columns: 25% 25% auto 25% 25% 25%;
-      }
-    `
+        `.list-grid-u {
+            grid-template-columns: 3% 5% 5% 10% 15% 10% 15% auto;
+        }`
     ],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
@@ -101,10 +99,8 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
         this.dataSourceData = data;
         this.isLoading = false;
         this._cdr.detectChanges();
-        console.log(data);
     }
     
-
     paginar() {
         this.obterDados();
     }

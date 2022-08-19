@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -31,23 +32,32 @@ namespace SAT.SERVICES.Services
         private IActionResult GerarPdfOrcamento(Exportacao exportacao)
         {
 
+            var arquivos = new List<string>();
+
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrcamentoParameters>();
-            
             var orcamento = _orcamentoRepo.ObterPorCodigo(parameters.CodigoOrdemServico.Value);
             var orcamentoImpressao = new OrcamentoPdfHelper(orcamento);
-            var pdfFile = GenerateFilePath($"ORÇAMENTO-{orcamento.Numero}.pdf");
-            orcamentoImpressao.GeneratePdf(pdfFile);
+            var orcamentoPdf = GenerateFilePath($"ORÇAMENTO-{orcamento.Numero}.pdf");
+            orcamentoImpressao.GeneratePdf(orcamentoPdf);
+            arquivos.Add(orcamentoPdf);
+
+            if (parameters.IncluirLaudoExportacao)
+            {
+                var laudoImpressao = new LaudoPdfHelper(orcamento.OrdemServico);
+                var laudoPdf = GenerateFilePath($"LAUDO-{orcamento.Numero}.pdf");
+                laudoImpressao.GeneratePdf(laudoPdf);
+                arquivos.Add(laudoPdf);
+            }
 
             if (exportacao.Email != null)
-            {  
-                exportacao.Email.PathAnexo = pdfFile;
+            {
+                exportacao.Email.Anexos = arquivos;
 
-                new EmailService().Enviar(exportacao.Email);
-
+                _emaiLService.Enviar(exportacao.Email);
                 return new NoContentResult();
             }
 
-            byte[] file = File.ReadAllBytes(pdfFile);
+            byte[] file = File.ReadAllBytes(orcamentoPdf);
             return new FileContentResult(file, "application/pdf");
         }
     }

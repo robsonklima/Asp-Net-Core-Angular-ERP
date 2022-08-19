@@ -25,6 +25,8 @@ export class EmailDialogComponent {
     protected conteudoEmail: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
     protected emailRemetente: string = appConfig.email_equipe;
     protected nomeRemetente: string = 'Equipe SAT';
+    public indOrcamento: boolean = false;
+    public incluirLaudoExportacao: any;
 
     addOnBlur = true;
     readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
@@ -42,6 +44,7 @@ export class EmailDialogComponent {
             this.conteudoEmail = data.conteudoEmail || this.conteudoEmail;
             this.emailRemetente = data.emailRemetente || this.emailRemetente;
             this.nomeRemetente = data.nomeRemetente || this.nomeRemetente;
+            this.indOrcamento = data.indOrcamento || this.indOrcamento;
         }
 
         this.userSession = JSON.parse(this._userService.userSession);
@@ -78,6 +81,10 @@ export class EmailDialogComponent {
             this.emails.splice(index, 1);
     }
 
+    check(event: any){
+        this.incluirLaudoExportacao = event;
+    }
+
     async confirmar() {
         var mailMessage: Email =
         {
@@ -85,18 +92,8 @@ export class EmailDialogComponent {
           nomeRemetente: this.nomeRemetente,
           emailDestinatario: Enumerable.from(this.emails).select(i => i.endereco).toJoinedString(','),
           assunto: this.assuntoEmail,
-          corpo: this.conteudoEmail
+          corpo: this.conteudoEmail,
         };
-
-        // this._emailSvc.enviarEmail(mailMessage).subscribe(s =>
-        // {
-        //   this._snack.open('E-mail enviado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
-        // },
-        //   e =>
-        //   {
-        //     this._snack.open('Não foi possível enviar o e-mail.', null, this.snackConfigDanger).afterDismissed().toPromise();
-        //   });
-
-        this.dialogRef.close(mailMessage);
+        this.dialogRef.close({...mailMessage,...{incluirLaudoExportacao: this.incluirLaudoExportacao.checked}});
     }
 }

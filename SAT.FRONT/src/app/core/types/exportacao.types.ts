@@ -44,5 +44,6 @@ export enum ExportacaoTipoEnum {
     REGIAO,
     REGIAOAUTORIZADA,
     FILIAL,
-    TICKET
+    TICKET,
+    AUDITORIA
 }

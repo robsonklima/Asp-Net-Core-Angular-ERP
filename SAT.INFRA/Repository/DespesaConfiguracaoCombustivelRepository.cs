@@ -1,4 +1,5 @@
-﻿using SAT.INFRA.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -41,7 +42,12 @@ namespace SAT.INFRA.Repository
         public PagedList<DespesaConfiguracaoCombustivel> ObterPorParametros(DespesaConfiguracaoCombustivelParameters parameters)
         {
             var configuracoes =
-                _context.DespesaConfiguracaoCombustivel.AsQueryable();
+                _context.DespesaConfiguracaoCombustivel
+                .Include(d => d.UsuarioCadastro)
+                .Include(d => d.UsuarioManutencao)
+                .Include(d => d.Filial)
+                .Include(d => d.UnidadeFederativa)
+                .AsQueryable();
 
             if (parameters.CodFilial.HasValue)
                 configuracoes = configuracoes.Where(a => a.CodFilial == parameters.CodFilial);

@@ -13,6 +13,30 @@ namespace SAT.INFRA.Mapping
 
             builder
                 .HasKey(i => i.CodDespesaConfiguracaoCombustivel);
+
+             builder
+                .HasOne(prop => prop.UsuarioCadastro)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioCad)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+
+             builder
+                .HasOne(prop => prop.UsuarioManutencao)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioManut)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+             
+             builder
+                .HasOne(prop => prop.Filial)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodFilial)
+                .HasPrincipalKey(prop => prop.CodFilial);
+
+             builder
+                .HasOne(prop => prop.UnidadeFederativa)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUf)
+                .HasPrincipalKey(prop => prop.CodUF);
         }
     }
 }

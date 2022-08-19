@@ -20,6 +20,9 @@
                             [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>
                 </mat-form-field>
+                <mat-checkbox class="mb-1" [color]="'primary'" (change)="check($event)" *ngIf="indOrcamento">
+                    Incluir Laudo
+                </mat-checkbox>
             </form>
         </div>
         <div class="mt-4" align="end">

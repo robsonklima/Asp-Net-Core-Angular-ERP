@@ -22,6 +22,11 @@ namespace SAT.UTILS
         {
             return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
         }
+        
+        static IContainer TitleStyle(IContainer container)
+        {
+            return container.PaddingVertical(5);
+        }
 
         static TextStyle FontStyle()
         {
@@ -131,35 +136,35 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("DADOS DO LOCAL PARA FATURAMENTO");
+                            header.Cell().Element(TitleStyle).Text("DADOS DO LOCAL PARA FATURAMENTO");
                         });
 
                         table.Cell().Element(CellStyle).Text("Razão Social").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.NomeFantasia).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.NomeFantasia).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("CNPJ").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.Cnpj).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.Cnpj).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("I.E").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.InscricaoEstadual).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.InscricaoEstadual).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Responsável").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.ResponsavelFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.ResponsavelFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("E-mail").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.EmailFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.EmailFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Fone").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.FoneFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.FoneFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Endereço").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.EnderecoFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.EnderecoFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Número").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.NumeroFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.NumeroFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Complemento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.ComplementoFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.ComplementoFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Bairro").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.BairroFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.BairroFaturamento).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Cidade").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CidadeFaturamento.NomeCidade).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CidadeFaturamento?.NomeCidade).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("UF").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CidadeFaturamento.UnidadeFederativa.SiglaUF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CidadeFaturamento?.UnidadeFederativa.SiglaUF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("CEP").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CepFaturamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CepFaturamento).Style(FontStyle());
 
                     });
         }
@@ -176,35 +181,35 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("DADOS DO LOCAL PARA ENVIO DE NOTA FISCAL");
+                            header.Cell().Element(TitleStyle).Text("DADOS DO LOCAL PARA ENVIO DE NOTA FISCAL");
                         });
 
                         table.Cell().Element(CellStyle).Text("Razão Social").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.NomeFantasia).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.NomeFantasia).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("CNPJ").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.Cnpj).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.Cnpj).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("I.E").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente.InscricaoEstadual).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.OrdemServico.Cliente?.InscricaoEstadual).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Responsável").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.ResponsavelEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.ResponsavelEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("E-mail").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.EmailEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.EmailEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Fone").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.FoneEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.FoneEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Endereço").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.EnderecoEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.EnderecoEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Número").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.NumeroEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.NumeroEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Complemento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.ComplementoEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.ComplementoEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Bairro").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.BairroEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.BairroEnvioNF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Cidade").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CidadeEnvioNF.NomeCidade).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CidadeEnvioNF?.NomeCidade).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("UF").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CidadeEnvioNF.UnidadeFederativa.SiglaUF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CidadeEnvioNF?.UnidadeFederativa.SiglaUF).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("CEP").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento.CepEnvioNF).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.LocalEnvioNFFaturamento?.CepEnvioNF).Style(FontStyle());
                     });
         }
 
@@ -220,7 +225,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("DADOS DO LOCAL DE ATENDIMENTO/OCORRÊNCIA");
+                            header.Cell().Element(TitleStyle).Text("DADOS DO LOCAL DE ATENDIMENTO/OCORRÊNCIA");
                         });
 
                         table.Cell().Element(CellStyle).Text("Nro Contrato").Style(FontStyle());
@@ -270,7 +275,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("MÃO DE OBRA");
+                            header.Cell().Element(TitleStyle).Text("MÃO DE OBRA");
                         });
 
                         table.Cell().Element(CellStyle).Text("Hora Técnica").Style(FontStyle());
@@ -294,7 +299,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("DESLOCAMENTO");
+                            header.Cell().Element(TitleStyle).Text("DESLOCAMENTO");
 
 
                         });
@@ -327,7 +332,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("MATERIAL A SER UTILIZADO");
+                            header.Cell().Element(TitleStyle).Text("MATERIAL A SER UTILIZADO");
 
                         });
 
@@ -384,7 +389,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("OUTROS SERVIÇOS");
+                            header.Cell().Element(TitleStyle).Text("OUTROS SERVIÇOS");
 
 
                         });
@@ -436,7 +441,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("DESCONTOS");
+                            header.Cell().Element(TitleStyle).Text("DESCONTOS");
 
 
                         });
@@ -488,7 +493,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("TOTAL");
+                            header.Cell().Element(TitleStyle).Text("TOTAL");
                         });
 
                         table.Cell().Element(CellStyle).Text("Descontos").Style(FontStyle());
@@ -511,7 +516,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(CellStyle).Text("CONDIÇÕES");
+                            header.Cell().Element(TitleStyle).Text("CONDIÇÕES");
                         });
 
                         table.Cell().Element(CellStyle).Text("Validade Orçamento").Style(FontStyle());

@@ -8,18 +8,12 @@
                         {{ t('conferências') }}
                     </a>
                 </div>
+
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                    </span>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        #{{ codConferencia }}
+                        {{ t('atualizando') }}
                     </span>
                 </div>
             </div>
@@ -39,14 +33,29 @@
                     <p class="text-lg font-medium">{{ t('identificacao') }}</p>
                 </div>
 
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome') }}</mat-label>
                         <input matInput formControlName="nome">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('participantes') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codUsuarios" multiple="true">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="usuariosFiltro" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
+                                {{ usuario.nomeUsuario | uppercase }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
                 </div>
 

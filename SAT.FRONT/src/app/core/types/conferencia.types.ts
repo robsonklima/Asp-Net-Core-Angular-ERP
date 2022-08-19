@@ -1,3 +1,4 @@
+import { ConferenciaParticipante } from "./conferencia-participante.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Usuario } from "./usuario.types";
 
@@ -11,6 +12,7 @@ export interface Conferencia {
     codUsuarioManut: string;
     usuarioManut: Usuario;
     dataHoraManut: string | null;
+    participantes: ConferenciaParticipante[];
     indAtivo: number;
 }
 

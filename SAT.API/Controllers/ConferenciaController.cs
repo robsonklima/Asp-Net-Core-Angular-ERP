@@ -39,12 +39,6 @@ namespace SAT.API.Controllers
             return _conferenciaService.Criar(Conferencia);
         }
 
-        [HttpPut]
-        public void Put([FromBody] Conferencia Conferencia)
-        {
-            _conferenciaService.Atualizar(Conferencia);
-        }
-
         [HttpDelete("{codConferencia}")]
         public void Delete(int codConferencia)
         {

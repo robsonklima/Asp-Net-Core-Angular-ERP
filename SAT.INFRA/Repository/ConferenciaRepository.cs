@@ -18,27 +18,18 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(Conferencia conferencia)
-        {
-            _context.ChangeTracker.Clear();
-            Conferencia c = _context.Conferencia.FirstOrDefault(c => c.CodConferencia == conferencia.CodConferencia);
-
-            if (c != null)
-            {
-                _context.Entry(c).CurrentValues.SetValues(conferencia);
-                _context.SaveChanges();
-            }
-        }
-
         public void Criar(Conferencia conferencia)
         {
-            _context.Add(conferencia);
+            _context.Conferencia.Add(conferencia);
+            _context.ConferenciaParticipante.AddRange(conferencia.Participantes);
             _context.SaveChanges();
         }
 
         public void Deletar(int codConferencia)
         {
-            Conferencia c = _context.Conferencia.FirstOrDefault(c => c.CodConferencia == codConferencia);
+            Conferencia c = _context.Conferencia
+                .Include(c => c.Participantes)
+                .FirstOrDefault(c => c.CodConferencia == codConferencia);
 
             if (c != null)
             {
@@ -52,6 +43,10 @@ namespace SAT.INFRA.Repository
             return _context.Conferencia
                 .Include(c => c.UsuarioCadastro)
                 .Include(c => c.UsuarioManut)
+                .Include(c => c.Participantes)
+                    .ThenInclude(u => u.UsuarioCadastro)
+                .Include(c => c.Participantes)
+                    .ThenInclude(u => u.UsuarioParticipante)
                 .FirstOrDefault(c => c.CodConferencia == codigo);
         }
 
@@ -60,6 +55,10 @@ namespace SAT.INFRA.Repository
             var Conferencias = _context.Conferencia
                 .Include(c => c.UsuarioCadastro)
                 .Include(c => c.UsuarioManut)
+                .Include(c => c.Participantes)
+                    .ThenInclude(u => u.UsuarioCadastro)
+                .Include(c => c.Participantes)
+                    .ThenInclude(u => u.UsuarioParticipante)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))

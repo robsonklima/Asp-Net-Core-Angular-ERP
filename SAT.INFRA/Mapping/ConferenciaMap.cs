@@ -24,7 +24,7 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey(prop => prop.CodUsuarioManut)
                 .HasPrincipalKey(prop => prop.CodUsuario);
 
-            builder
+             builder
                 .HasMany(prop => prop.Participantes)
                 .WithOne()
                 .HasForeignKey(prop => prop.CodConferencia)

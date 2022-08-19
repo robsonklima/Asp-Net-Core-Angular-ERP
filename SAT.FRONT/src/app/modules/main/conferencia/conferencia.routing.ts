@@ -14,10 +14,6 @@ export const conferenciaRoutes: Route[] = [
         component: ConferenciaListaComponent
     },
     {
-        path     : 'form/:codConferencia',
-        component: ConferenciaFormComponent
-    },
-    {
         path     : 'form',
         component: ConferenciaFormComponent
     },

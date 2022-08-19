@@ -9,7 +9,6 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(ConferenciaParameters parameters);
         Conferencia Criar(Conferencia conferencia);
         void Deletar(int codigo);
-        void Atualizar(Conferencia conferencia);
         Conferencia ObterPorCodigo(int codigo);
 
     }

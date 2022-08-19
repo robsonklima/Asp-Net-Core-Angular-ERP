@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 	templateUrl: './conferencia-lista.component.html',
 	styles: [
 		`.list-grid-confs {
-			grid-template-columns: 72px auto 240px;
+			grid-template-columns: 72px 256px auto 240px;
 		}`
 	],
 	encapsulation: ViewEncapsulation.None,
@@ -43,6 +43,7 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 		super(_userService, 'tecnico')
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
+
 	registerEmitters(): void {
 
 	}
@@ -91,6 +92,9 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 			.obterPorParametros(params)
 			.toPromise();
 
+		console.log(data);
+		
+
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();
@@ -124,6 +128,10 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 					});
 			}
 		});
+	}
+
+	mostrarNomeParticipantes(conferencia: Conferencia): string {
+		return conferencia.participantes.map(p => p.usuarioParticipante.nomeUsuario).join(', ');
 	}
 
 	paginar() {

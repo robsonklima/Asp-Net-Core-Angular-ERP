@@ -8,7 +8,6 @@ namespace SAT.INFRA.Interfaces
     {
         PagedList<Conferencia> ObterPorParametros(ConferenciaParameters parameters);
         Conferencia ObterPorCodigo(int codigo);
-        void Atualizar(Conferencia conferencia);
         void Criar(Conferencia conferencia);
         void Deletar(int codConferencia);
     }

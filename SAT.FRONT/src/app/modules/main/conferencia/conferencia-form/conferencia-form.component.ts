@@ -1,11 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConferenciaParticipanteService } from 'app/core/services/conferencia-participante.service';
 import { ConferenciaService } from 'app/core/services/conferencia.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { Conferencia } from 'app/core/types/conferencia.types';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UsuarioService } from 'app/core/services/usuario.service';
+import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 
@@ -14,33 +14,26 @@ import moment from 'moment';
   templateUrl: './conferencia-form.component.html'
 })
 export class ConferenciaFormComponent implements OnInit {
-  codConferencia: number;
-  conferencia: Conferencia;
   form: FormGroup;
-  isAddMode: boolean;
   usuarioSessao: UsuarioSessao;
   loading: boolean = false;
+  usuarios: Usuario[];
+  usuariosFiltro: FormControl = new FormControl();
 
   constructor(
     private _snack: CustomSnackbarService,
-    private _route: ActivatedRoute,
     private _userService: UserService,
     private _conferenciaService: ConferenciaService,
     private _formBuilder: FormBuilder,
+    private _usuarioService: UsuarioService,
     private _location: Location
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.codConferencia = +this._route.snapshot.paramMap.get('codConferencia');
-    this.isAddMode = !this.codConferencia;
     this.inicializarForm();
-
-    if (!this.isAddMode) {
-      this.conferencia =  await this._conferenciaService.obterPorCodigo(this.codConferencia).toPromise();
-      this.form.patchValue(this.conferencia);
-    }
+    this.obterUsuarios();
   }
 
   private inicializarForm() {
@@ -51,37 +44,32 @@ export class ConferenciaFormComponent implements OnInit {
           disabled: true
         }, Validators.required
       ],
+      codUsuarios: [undefined, Validators.required],
       nome: [undefined, Validators.required],
-      indAtivo: [undefined],
+      indAtivo: [true],
     });
+  }
+
+  private async obterUsuarios(filtro: string=null) {
+    const data = await this._usuarioService.obterPorParametros({ 
+      indAtivo: 1, filter: filtro, sortActive: 'NomeUsuario', sortDirection: 'ASC', pageSize: 50
+    }).toPromise();
+    this.usuarios = data.items;
   }
 
   salvar(): void {
-    this.isAddMode ? this.criar() : this.atualizar();
-  }
+    debugger;
 
-  atualizar(): void {
-    const form: any = this.form.getRawValue();
-
-    let obj = {
-      ...this.conferencia,
-      ...form,
-      ...{
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.usuarioSessao.usuario.codUsuario,
-        indAtivo: +form.indAtivo
-      }
-    };
-
-    this._conferenciaService.atualizar(obj).subscribe(() => {
-      this._snack.exibirToast(`Conferência ${obj.nome} atualizada com sucesso!`, "success");
-      this._location.back();
-
-    });
-  }
-
-  criar(): void {
+    
     const form = this.form.getRawValue();
+
+    const participantes = form.codUsuarios.map(codUsuario => {
+      return { 
+        codUsuarioParticipante: codUsuario,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
+      }
+    });
 
     let obj = {
       ...form,
@@ -89,6 +77,7 @@ export class ConferenciaFormComponent implements OnInit {
         sala: `SAT_${ this.usuarioSessao.usuario.codUsuario.toUpperCase() }_${ moment().format('yyyyMMDDHHmmsss') }`,
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
+        participantes: participantes,
         indAtivo: +form.indAtivo,
       }
     };

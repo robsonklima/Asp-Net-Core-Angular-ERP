@@ -20,10 +20,6 @@
                 <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/conferencia/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
-
-                <button class="ml-2" mat-icon-button matTooltip="{{ t('filtro') }}" (click)="sidenav.toggle()">
-                    <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-                </button>
             </div>
         </div>
 
@@ -40,6 +36,10 @@
 
                                 <div class="md:block" [mat-sort-header]="'nome'">
                                     {{ t('nome') }}
+                                </div>
+
+                                <div class="md:block">
+                                    {{ t('participantes') }}
                                 </div>
 
                                 <div>
@@ -59,6 +59,10 @@
                                             {{ conferencia.nome }}
                                         </div>
 
+                                        <div class="flex">
+                                            {{ mostrarNomeParticipantes(conferencia) }}
+                                        </div>
+
                                         <div>
                                             <button
                                                 [routerLink]="['/conferencia/sala/' + conferencia.codConferencia]" 
@@ -69,17 +73,6 @@
                                                 <mat-icon
                                                     class="icon-size-5 text-blue-600"
                                                     [svgIcon]="'heroicons_solid:video-camera'"></mat-icon>
-                                            </button>
-
-                                            <button
-                                                [routerLink]="['/conferencia/form/' + conferencia.codConferencia]" 
-                                                class="min-w-10 min-h-7 h-7 mr-1"
-                                                mat-stroked-button
-                                                [matTooltip]="'Editar'"
-                                                matTooltipPosition="above">
-                                                <mat-icon
-                                                    class="icon-size-5 text-blue-600"
-                                                    [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                                             </button>
 
                                             <button

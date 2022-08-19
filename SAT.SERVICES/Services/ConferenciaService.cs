@@ -44,11 +44,6 @@ namespace SAT.SERVICES.Services
             _conferenciaRepo.Deletar(codigo);
         }
 
-        public void Atualizar(Conferencia Conferencia)
-        {
-            _conferenciaRepo.Atualizar(Conferencia);
-        }
-
         public Conferencia ObterPorCodigo(int codigo)
         {
             return _conferenciaRepo.ObterPorCodigo(codigo);

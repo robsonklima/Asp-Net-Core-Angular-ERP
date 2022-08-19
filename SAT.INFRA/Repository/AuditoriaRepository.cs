@@ -111,6 +111,12 @@ namespace SAT.INFRA.Repository
                 auditorias = auditorias.Where(dc => cods.Contains(dc.AuditoriaStatus.CodAuditoriaStatus));
             };
 
+            if (!string.IsNullOrEmpty(parameters.CodAuditoriaStatusNotIn))
+            {
+                int[] cods = parameters.CodAuditoriaStatusNotIn.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                auditorias = auditorias.Where(e => !cods.Contains(e.CodAuditoriaStatus));
+            }
+
             
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);

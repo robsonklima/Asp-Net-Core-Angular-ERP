@@ -34,7 +34,7 @@ namespace SAT.MODELS.Entities
         public double? KmParticularMes { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
-
+        public int? QtdDespesasPendentes { get; set; }
     }
 }
 

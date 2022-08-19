@@ -13,8 +13,6 @@ import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-auditoria-lista',
@@ -23,18 +21,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 		/* language=SCSS */
 		`
       .list-grid-auditoria {
-		grid-template-columns: 142px 15% 10% auto 25%;
+		grid-template-columns: 142px 15% 10% auto 10% 15%;
       
       @screen sm {
-		grid-template-columns: 142px 15% 10% auto 25%;
+		grid-template-columns: 142px 15% 10% auto 10% 15%;
       }
   
       @screen md {
-		grid-template-columns: 142px 15% 10% auto 25%;
+		grid-template-columns: 142px 15% 10% auto 10% 15%;
       }
   
       @screen lg {
-		grid-template-columns: 142px 15% 10% auto 25%;
+		grid-template-columns: 142px 15% 10% auto 10% 15%;
       }
       }
     `
@@ -48,6 +46,7 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: AuditoriaData;
+	pendencia: boolean = false;
 	isLoading: boolean = false;
 	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 	selectedItem: Auditoria | null = null;
@@ -107,8 +106,6 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
-
-
 
 	paginar() {
 		this.obterDados();

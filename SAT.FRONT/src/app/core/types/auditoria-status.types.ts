@@ -1,3 +1,4 @@
+import { constant } from "lodash";
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export class AuditoriaStatus {
@@ -11,4 +12,10 @@ export interface AuditoriaStatusData extends Meta {
 
 export interface AuditoriaStatusParameters extends QueryStringParameters {
     codAuditoriaStatus?: number;
+};
+
+export const AuditoriaStatusEnum = {
+    SOLICITADO_AO_TECNICO: 1,
+    AGUARDANDO_AVALIACAO_DA_FILIAL: 2,
+    FINALIZADO: 3  
 };

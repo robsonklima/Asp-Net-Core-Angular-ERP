@@ -32,6 +32,7 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey(prop => prop.CodAuditoriaVeiculo)
                 .HasPrincipalKey(prop => prop.CodAuditoriaVeiculo);
 
+            builder.Ignore(prop => prop.QtdDespesasPendentes);
         }
     }
 }

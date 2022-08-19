@@ -20,11 +20,39 @@ export interface OrcamentoFaturamento {
     dataHoraCad: string;
 }
 
+export interface OrcamentoFaturamentoViewModel {
+    codigo: number | null;
+    cliente: string;
+    filial: string;
+    codOS: number | null;
+    numOSCliente: string;
+    numOrcamento: string;
+    descNF: string;
+    numNF: number | null;
+    dataEmissao: string;
+    indFaturado: number | null;
+    codOrc: number | null;
+    tipo: OrcamentoFaturamentoTipoEnum;
+    codFilial: number | null;
+    codClienteBancada: string;
+    valorPeca: string;
+    qtdePeca: number | null;
+    valorServico: string;
+    indRegistroDanfe: string;
+    caminhoDanfe: string;
+}
+
 export interface OrcamentoFaturamentoParameters extends QueryStringParameters {
     codOrc?: number | null;
 }
 
 export interface OrcamentoFaturamentoData extends Meta
 {
-    items: OrcamentoFaturamento[];
+    items: OrcamentoFaturamentoViewModel[];
 };
+
+export enum OrcamentoFaturamentoTipoEnum {
+    SERVICO = 1,
+    MATERIAL = 2,
+    FATURAMENTO = 3
+}

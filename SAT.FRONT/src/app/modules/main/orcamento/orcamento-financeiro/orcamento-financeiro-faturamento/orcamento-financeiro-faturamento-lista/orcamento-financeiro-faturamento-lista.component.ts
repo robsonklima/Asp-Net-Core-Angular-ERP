@@ -1,16 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
-import { OrcamentoFaturamentoData } from 'app/core/types/orcamento.types';
 import { fromEvent, Subject } from 'rxjs';
 import { OrcamentoFaturamentoService } from 'app/core/services/orcamento-faturamento.service';
-import { OrcamentoFaturamentoParameters } from 'app/core/types/orcamento-faturamento.types';
+import { OrcamentoFaturamentoData, OrcamentoFaturamentoParameters, OrcamentoFaturamentoViewModel } from 'app/core/types/orcamento-faturamento.types';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import moment from 'moment';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
@@ -46,11 +47,13 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	constructor(
 		private _orcamentoFaturamentoSvc: OrcamentoFaturamentoService,
 		private _cdr: ChangeDetectorRef,
-		protected _userService: UserService
+		protected _userService: UserService,
+		private _snack: CustomSnackbarService,
+		private _router: Router
 	) {
 		super(_userService, 'orcamento');
 	}
-
+	
 	ngAfterViewInit(): void {
 		this.obterFaturamentos();
 		this.registerEmitters();
@@ -84,15 +87,42 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		let data: OrcamentoFaturamentoData = await this._orcamentoFaturamentoSvc
 			.obterPorParametros(params)
 			.toPromise();
-
-		console.log(data);
-
 		this.dataSourceData = data;
 		this.isLoading = false;
 	}
 
-	faturar(orc: any){
+	salvar(faturamentoVM: OrcamentoFaturamentoViewModel) {			
+		if (faturamentoVM.indFaturado) 
+			this.atualizar(faturamentoVM);		
+		else 
+			this.criar(faturamentoVM)
 	}
+
+	criar(faturamentoVM: OrcamentoFaturamentoViewModel){	
+		let obj = {
+			...faturamentoVM,
+			...{
+				indFaturado: 1,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+			}
+		}
+
+	}
+
+	atualizar(faturamentoVM: OrcamentoFaturamentoViewModel){
+		let obj = {
+			...faturamentoVM,
+			...{
+				indFaturado: 1,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				codOrcamentoFaturamento: faturamentoVM.codigo
+			}
+		}
+
+		console.log(obj);		
+	}		
 
 	paginar() {
 		this.onPaginationChanged();

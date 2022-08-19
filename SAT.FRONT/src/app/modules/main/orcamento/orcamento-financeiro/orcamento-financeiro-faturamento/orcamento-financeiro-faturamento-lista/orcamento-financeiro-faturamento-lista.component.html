@@ -91,27 +91,25 @@
                                         {{ faturamento.descNF }}
                                     </div>
 
-                                    <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                    <div ngDefaultControl class="rounded border border-blue-600" [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
                                         true }" [contentEditable]="true" [textContent]="faturamento?.numNF"
                                         (input)="faturamento.numNF = $event.target.innerText">
                                     </div>
 
-                                    <div ngDefaultControl class="rounded border border-blue-600 " [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
-                                        true }" [contentEditable]="true" [textContent]="faturamento?.dataEmissao"
-                                        (input)="faturamento.dataEmissao = $event.target.innerText"
-                                        data-mask="0000-00-00">
+                                    <div ngDefaultControl class="rounded border border-blue-600" [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':
+                                        true }" [contentEditable]="true" [textContent]="faturamento?.dataEmissao"                                        
+                                        (input)="faturamento.dataEmissao = $event.target.innerText">
                                     </div>
 
-                                    <div class="truncate rounded text-white text-center"
-                                        [class.bg-green-600]="faturamento.indFaturado"
-                                        [class.bg-red-600]="!faturamento.indFaturado">
+                                    <div class="truncate text-center"
+                                        [class.text-green-600]="faturamento.indFaturado"
+                                        [class.text-red-600]="!faturamento.indFaturado">
                                         {{ faturamento.indFaturado ? 'SIM' : 'NÃO' }}
                                     </div>
 
-                                    <div class="truncate text-center">
-                                        <button class="bg-transparent " [matTooltip]="t('faturar')" (click)="faturar(faturamento)">
-                                            <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_outline:newspaper'">
-                                            </mat-icon>
+                                    <div class="text-center">
+                                        <button class="bg-green-600 text-white rounded py-1 px-2" [matTooltip]="t('faturar')" (click)="salvar(faturamento)">
+                                            {{ t('salvar') }}
                                         </button>
                                     </div>
                                 </div>

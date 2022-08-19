@@ -8,30 +8,18 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { MatSidenav } from '@angular/material/sidenav';
 import { Conferencia, ConferenciaData, ConferenciaParameters } from 'app/core/types/conferencia.types';
 import { ConferenciaService } from 'app/core/services/conferencia.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConferenciaFormComponent } from '../conferencia-form/conferencia-form.component';
 
 @Component({
 	selector: 'app-conferencia-lista',
 	templateUrl: './conferencia-lista.component.html',
 	styles: [
-		`.list-grid-ge {
-			grid-template-columns: 72px auto 5% 10% 10% 60px 60px;
-			
-			/* @screen sm {
-				grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-			}
-		
-			@screen md {
-				grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-			}
-		
-			@screen lg {
-				grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-			} */
+		`.list-grid-confs {
+			grid-template-columns: 72px auto 240px;
 		}`
 	],
 	encapsulation: ViewEncapsulation.None,
@@ -39,7 +27,6 @@ import { ConferenciaFormComponent } from '../conferencia-form/conferencia-form.c
 })
 export class ConferenciaListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-	@ViewChild('sidenav') public sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: ConferenciaData;
@@ -48,6 +35,7 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 
 	constructor(
 		private _cdr: ChangeDetectorRef,
+		private _snack: CustomSnackbarService,
 		private _dialog: MatDialog,
 		private _conferenciaService: ConferenciaService,
 		protected _userService: UserService
@@ -56,17 +44,15 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterDados();
-		});
+
 	}
 
 	async ngAfterViewInit() {
 		this.registerEmitters();
 		this.obterDados();
 
-		if (this.sort && this.paginator) {
+		if (this.sort && this.paginator)
+		{
 			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
 				map((event: any) => {
 					return event.target.value;
@@ -99,7 +85,7 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 				filter: filtro
 			},
 			...this.filter?.parametros
-	  	};
+		};
 
 		const data = await this._conferenciaService
 			.obterPorParametros(params)
@@ -110,15 +96,32 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 		this._cdr.detectChanges();
 	}
 
-	onCadastrar(conferencia: Conferencia=null) {
-		const dialogRef = this._dialog.open(ConferenciaFormComponent, {
-			width: '400px',
-			data: { conferencia: conferencia }
+	remover(conferencia: Conferencia) {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover a conferência autorizada?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
 		});
 
-		dialogRef.afterClosed().subscribe((conferencia: Conferencia) => {
-			if (conferencia) {
-				this.obterDados();
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao)
+			{
+				this.isLoading = true;
+				this._conferenciaService
+					.deletar(conferencia.codConferencia)
+					.subscribe(() => {
+						this._snack.exibirToast(`Registro removido com sucesso`, 'success');
+						this.isLoading = false;
+						this.obterDados();
+					}, (e) => {
+						this._snack.exibirToast(e.message || e.error.message, 'error');
+						this.isLoading = false;
+					});
 			}
 		});
 	}

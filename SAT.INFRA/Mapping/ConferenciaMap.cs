@@ -23,6 +23,12 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodUsuarioManut)
                 .HasPrincipalKey(prop => prop.CodUsuario);
+
+            builder
+                .HasMany(prop => prop.Participantes)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodConferencia)
+                .HasPrincipalKey(prop => prop.CodConferencia);
         }
     }
 }

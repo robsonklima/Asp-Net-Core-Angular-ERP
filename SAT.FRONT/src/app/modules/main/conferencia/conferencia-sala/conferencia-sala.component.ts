@@ -1,5 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ConferenciaService } from 'app/core/services/conferencia.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Conferencia } from 'app/core/types/conferencia.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import * as moment from 'moment'
@@ -10,32 +13,37 @@ declare var JitsiMeetExternalAPI: any;
   templateUrl: './conferencia-sala.component.html'
 })
 export class ConferenciaSalaComponent implements OnInit, AfterViewInit {
-
+  conferencia: Conferencia;
   domain: string = "meet.jit.si";
   room: any;
   options: any;
   api: any;
   user: any;
+  codConferencia: number;
   sessionData: UserSession;
-
   isAudioMuted = false;
   isVideoMuted = false;
 
   constructor(
     private _snack: CustomSnackbarService,
-    private _userSvc: UserService
+    private _conferenciaService: ConferenciaService,
+    private _userSvc: UserService,
+    private _route: ActivatedRoute
   ) {
     this.sessionData = JSON.parse(this._userSvc.userSession);
   }
 
   ngOnInit(): void {
-    this.room = `SAT_${ this.sessionData.usuario.codUsuario.toUpperCase() }_${ moment().format('yyyyMMDDHHmmsss') }`
-    this.user = {
-      name: this.sessionData.usuario.nomeUsuario
-    }
+    this.codConferencia = +this._route.snapshot.paramMap.get('codConferencia');
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
+    this.conferencia = await this._conferenciaService.obterPorCodigo(this.codConferencia).toPromise();
+    this.room = this.conferencia.sala
+    this.user = {
+      name: this.conferencia.usuarioCadastro.nomeUsuario
+    }
+
     this.options = {
       roomName: this.room,
       width: 900,

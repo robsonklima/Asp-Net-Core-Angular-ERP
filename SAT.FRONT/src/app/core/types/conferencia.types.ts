@@ -3,7 +3,8 @@ import { Usuario } from "./usuario.types";
 
 export interface Conferencia {
     codConferencia: number;
-    link: string;
+    nome: string;
+    sala: string;
     codUsuarioCad: string;
     usuarioCadastro: Usuario;
     dataHoraCad: string;

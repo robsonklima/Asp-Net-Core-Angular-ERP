@@ -46,7 +46,6 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
-
         
         public Conferencia ObterPorCodigo(int codigo)
         {
@@ -66,7 +65,8 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrEmpty(parameters.Filter))
                 Conferencias = Conferencias.Where(
                     s =>
-                    s.CodConferencia.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    s.CodConferencia.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.Nome.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             
             if (parameters.SortActive != null && parameters.SortDirection != null)

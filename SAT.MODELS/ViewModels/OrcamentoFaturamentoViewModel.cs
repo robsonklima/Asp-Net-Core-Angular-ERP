@@ -16,5 +16,12 @@ namespace SAT.MODELS.ViewModels{
         public double? IndFaturado { get; set; }
         public int? CodOrc { get; set; }
         public OrcamentoFaturamentoTipoEnum Tipo { get; set; }
+        public int? CodFilial { get; set; }
+        public string CodClienteBancada { get; set; }
+        public string ValorPeca { get; set; }
+        public double? QtdePeca { get; set; }
+        public string ValorServico { get; set; }
+        public string IndRegistroDanfe { get; set; }
+        public string CaminhoDanfe { get; set; }
     }
 }

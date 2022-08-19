@@ -55,7 +55,7 @@ namespace SAT.SERVICES.Services
                         {
                             faturamentos.Add(new OrcamentoFaturamentoViewModel
                             {
-                                Codigo = material.CodOrcMaterial,
+                                Codigo = faturamentoMaterial.CodOrcamentoFaturamento,
                                 Cliente = orc?.Cliente?.NomeFantasia,
                                 Filial = orc.OrdemServico?.Filial?.NomeFilial,
                                 CodOS = orc.CodigoOrdemServico,
@@ -66,7 +66,14 @@ namespace SAT.SERVICES.Services
                                 NumNF = faturamentoMaterial?.NumNF,
                                 DataEmissao = faturamentoMaterial?.DataEmissaoNF,
                                 DescNF = faturamentoMaterial?.DescricaoNotaFiscal,
-                                IndFaturado = (double)faturamentoMaterial?.IndFaturado
+                                IndFaturado = (double)faturamentoMaterial?.IndFaturado,
+                                CodFilial = orc.CodigoFilial,
+                                CaminhoDanfe = faturamentoMaterial.CaminhoDanfe,
+                                CodClienteBancada = faturamentoMaterial.CodClienteBancada,
+                                IndRegistroDanfe = faturamentoMaterial.IndRegistroDanfe,
+                                QtdePeca = faturamentoMaterial.QtdePeca,
+                                ValorPeca = faturamentoMaterial.ValorPeca,
+                                ValorServico = faturamentoMaterial.ValorServico                                
                             });
                         }
                         else
@@ -80,7 +87,8 @@ namespace SAT.SERVICES.Services
                                 NumOSCliente = orc.OrdemServico?.NumOSCliente,
                                 NumOrcamento = orc.Numero,
                                 CodOrc = orc.CodOrc,
-                                Tipo = OrcamentoFaturamentoTipoEnum.MATERIAL
+                                Tipo = OrcamentoFaturamentoTipoEnum.MATERIAL,
+                                CodFilial = orc.CodigoFilial
                             });                            
                         }
 

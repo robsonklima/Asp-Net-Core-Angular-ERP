@@ -1,14 +1,15 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import * as moment from 'moment'
 declare var JitsiMeetExternalAPI: any;
 
 @Component({
-  selector: 'app-jitsi',
-  templateUrl: './jitsi.component.html'
+  selector: 'app-conferencia-sala',
+  templateUrl: './conferencia-sala.component.html'
 })
-export class JitsiComponent implements OnInit, AfterViewInit {
+export class ConferenciaSalaComponent implements OnInit, AfterViewInit {
 
   domain: string = "meet.jit.si";
   room: any;
@@ -21,15 +22,16 @@ export class JitsiComponent implements OnInit, AfterViewInit {
   isVideoMuted = false;
 
   constructor(
+    private _snack: CustomSnackbarService,
     private _userSvc: UserService
   ) {
     this.sessionData = JSON.parse(this._userSvc.userSession);
   }
 
   ngOnInit(): void {
-    this.room = `SAT_${this.sessionData.usuario.codUsuario}_${moment().format('yyyyMMDDHHmmsss')}`
+    this.room = `SAT_${ this.sessionData.usuario.codUsuario.toUpperCase() }_${ moment().format('yyyyMMDDHHmmsss') }`
     this.user = {
-      name: 'Equipe SAT'
+      name: this.sessionData.usuario.nomeUsuario
     }
   }
 
@@ -100,6 +102,11 @@ export class JitsiComponent implements OnInit, AfterViewInit {
       }, 500)
     });
   }
+
+  copy(){
+		navigator.clipboard.writeText('https://meet.jit.si/' + this.room);
+		this._snack.exibirToast('Informação Copiada', 'info');
+	}
 
   executeCommand(command: string) {
     this.api.executeCommand(command);

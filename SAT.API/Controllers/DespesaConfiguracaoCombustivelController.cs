@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
@@ -8,35 +9,49 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]
     public class DespesaConfiguracaoCombustivelController : ControllerBase
     {
-        private readonly IDespesaConfiguracaoCombustivelService _despesaService;
+        private readonly IDespesaConfiguracaoCombustivelService _despesaConfiguracaoCombustivelService;
 
-        public DespesaConfiguracaoCombustivelController(IDespesaConfiguracaoCombustivelService despesaService) =>
-            _despesaService = despesaService;
+        public DespesaConfiguracaoCombustivelController(IDespesaConfiguracaoCombustivelService despesaConfiguracaoCombustivelService)
+        {
+            _despesaConfiguracaoCombustivelService = despesaConfiguracaoCombustivelService;
+        }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] DespesaConfiguracaoCombustivelParameters parameters) =>
-            _despesaService.ObterPorParametros(parameters);
+        public ListViewModel Get([FromQuery] DespesaConfiguracaoCombustivelParameters parameters)
+        {
 
-        [HttpGet("{codDespesa}")]
-        public DespesaConfiguracaoCombustivel Get(int codDespesa) =>
-             _despesaService.ObterPorCodigo(codDespesa);
+            return _despesaConfiguracaoCombustivelService.ObterPorParametros(parameters);
+        
+        }
+
+        [HttpGet("{codDespesaConfiguracaoCombustivel}")]
+        public DespesaConfiguracaoCombustivel Get(int codDespesaConfiguracaoCombustivel)
+        {
+             return _despesaConfiguracaoCombustivelService.ObterPorCodigo(codDespesaConfiguracaoCombustivel);
+        }
 
         [HttpPost]
-        public void Post([FromBody] DespesaConfiguracaoCombustivel despesa) =>
-            _despesaService.Criar(despesa);
+        public void Post([FromBody] DespesaConfiguracaoCombustivel despesaConfiguracaoCombustivel)
+        {
+            _despesaConfiguracaoCombustivelService.Criar(despesaConfiguracaoCombustivel);
+        }
 
         [HttpPut]
-        public void Put([FromBody] DespesaConfiguracaoCombustivel despesa) =>
-            _despesaService.Atualizar(despesa);
+        public void Put([FromBody] DespesaConfiguracaoCombustivel despesaConfiguracaoCombustivel)
+        {
+            _despesaConfiguracaoCombustivelService.Atualizar(despesaConfiguracaoCombustivel);
+        }
 
-        [HttpDelete("{codDespesa}")]
-        public void Delete(int codDespesa) =>
-            _despesaService.Deletar(codDespesa);
+        [HttpDelete("{codDespesaConfiguracaoCombustivel}")]
+        public void Delete(int codDespesaConfiguracaoCombustivel)
+        {
+            _despesaConfiguracaoCombustivelService.Deletar(codDespesaConfiguracaoCombustivel);
+        }
     }
 }

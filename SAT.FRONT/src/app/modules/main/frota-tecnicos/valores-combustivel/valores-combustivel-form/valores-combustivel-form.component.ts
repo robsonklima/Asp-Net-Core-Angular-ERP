@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -12,117 +12,132 @@ import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/u
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-valores-combustivel-form',
-  templateUrl: './valores-combustivel-form.component.html'
+	selector: 'app-valores-combustivel-form',
+	templateUrl: './valores-combustivel-form.component.html'
 })
 export class ValoresCombustivelFormComponent implements OnInit, OnDestroy {
 
-  protected _onDestroy = new Subject<void>();
-  public valorCombustivel: DespesaConfiguracaoCombustivel;
-  public loading: boolean = true;
-  public codDespesaConfiguracaoCombustivel: number;
-  public isAddMode: boolean;
-  public form: FormGroup;
+	protected _onDestroy = new Subject<void>();
+	public valorCombustivel: DespesaConfiguracaoCombustivel;
+	public loading: boolean = true;
+	public codDespesaConfiguracaoCombustivel: number;
+	public isAddMode: boolean;
+	public form: FormGroup;
+	userSession: UsuarioSessao;
 
-  public filiais: Filial[] = [];
-  public unidadesFederativas: UnidadeFederativa[] = [];
-  filialFiltro: FormControl = new FormControl();
-  unidadeFederativaFiltro: FormControl = new FormControl();
+	public filiais: Filial[] = [];
+	public unidadesFederativas: UnidadeFederativa[] = [];
+	filialFiltro: FormControl = new FormControl();
+	unidadeFederativaFiltro: FormControl = new FormControl();
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _snack: CustomSnackbarService,
-    private _route: ActivatedRoute,
-    private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService,
-    private _filialService: FilialService,
-    private _unidadeFederativaService: UnidadeFederativaService,
-    private _cdr: ChangeDetectorRef,
-    public _location: Location,
-  ) { }
+	constructor(
+		private _formBuilder: FormBuilder,
+		private _snack: CustomSnackbarService,
+		private _route: ActivatedRoute,
+		private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService,
+		private _filialService: FilialService,
+		private _unidadeFederativaService: UnidadeFederativaService,
+		public _location: Location,
+		private _userService: UserService
+	) {
+		this.userSession = JSON.parse(this._userService.userSession);
+	}
 
-  async ngOnInit() {
+	async ngOnInit() {
 
-    this.codDespesaConfiguracaoCombustivel= +this._route.snapshot.paramMap.get('codDespesaConfiguracaoCombustivel');
-    this.isAddMode = !this.codDespesaConfiguracaoCombustivel;
-    this.inicializarForm();
-    this.obterFiliais();
-    this.obterUFs();
+		this.codDespesaConfiguracaoCombustivel = +this._route.snapshot.paramMap.get('codDespesaConfiguracaoCombustivel');
+		this.isAddMode = !this.codDespesaConfiguracaoCombustivel;
+		this.inicializarForm();
+		this.obterFiliais();
+		this.obterUFs();
 
-    if (!this.isAddMode) {
-      this._despesaConfiguracaoCombustivelService.obterPorCodigo(this.codDespesaConfiguracaoCombustivel)
-        .pipe(first())
-        .subscribe(data => {
-          this.valorCombustivel = data;
-          this.form.patchValue(data);
-        });
-    }
+		if (!this.isAddMode) {
+			this._despesaConfiguracaoCombustivelService.obterPorCodigo(this.codDespesaConfiguracaoCombustivel)
+				.pipe(first())
+				.subscribe(data => {
+					this.form.patchValue(data);
+					this.valorCombustivel = data;
+				});
+		}
 
-    this.loading = false;
-  }
+		this.loading = false;
+	}
 
-  private inicializarForm() {
+	private inicializarForm() {
+		this.form = this._formBuilder.group({
+			codUF: [undefined, Validators.required],
+			codFilial: [undefined, Validators.required],
+			precoLitro: [undefined, Validators.required],
+		});
+	}
 
-    this.form = this._formBuilder.group({
-      codDespesaConfiguracaoCombustivel: [
-        {
-          value: undefined,
-          disabled: true
-        }
-      ],
-      codUF: [undefined, Validators.required],
-      codFilial: [undefined, Validators.required],
-    });
-
-  }
-  private async obterFiliais() {
+	private async obterFiliais() {
 		const params: FilialParameters = {
 			sortActive: 'nomeFilial',
 			sortDirection: 'asc',
 			indAtivo: statusConst.ATIVO,
 			pageSize: 100
 		}
-    const data = await this._filialService.obterPorParametros(params).toPromise();
+		const data = await this._filialService.obterPorParametros(params).toPromise();
 		this.filiais = data.items;
 	}
 
-  private async obterUFs() {
+	private async obterUFs() {
 		const params: UnidadeFederativaParameters = {
 			sortActive: 'siglaUF',
 			sortDirection: 'asc',
+			codPais: 1,
 			pageSize: 100
 		}
-    const data = await this._unidadeFederativaService.obterPorParametros(params).toPromise();
+		const data = await this._unidadeFederativaService.obterPorParametros(params).toPromise();
 		this.unidadesFederativas = data.items;
 	}
 
-  public salvar(): void {
+	public salvar(): void {
+		this.isAddMode ? this.criar() : this.atualizar();
+	}
 
-    const form = this.form.getRawValue();
+	atualizar(): void {
+		const form: any = this.form.getRawValue();
 
-    let obj = {
-      ...this.valorCombustivel,
-      ...form
-    };
 
-    if (this.isAddMode) {
-      this._despesaConfiguracaoCombustivelService.criar(obj).subscribe(() => {
-        this._snack.exibirToast(`Valor combustível com sucesso!`, "success");
-        this._location.back();
-      });
-    } else {
-      this._despesaConfiguracaoCombustivelService.atualizar(obj).subscribe(() => {
-        this._snack.exibirToast(`Valor combustível atualizado com sucesso!`, "success");
-        this._location.back();
-      });
-    }
-  }
+		let obj = {
+			...this.valorCombustivel,
+			...form,
+			...{
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario?.codUsuario
+			}
+		};
 
-    
-  ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
-  }
+		this._despesaConfiguracaoCombustivelService.atualizar(obj).subscribe(() => {
+			this._snack.exibirToast(`Preço atualizado com sucesso!`, "success");
+			this._location.back();
+		});
+	}
+
+	criar(): void {
+		const form = this.form.getRawValue();
+
+		let obj = {
+			...this.valorCombustivel,
+			...form
+		};
+
+		this._despesaConfiguracaoCombustivelService.criar(obj).subscribe(() => {
+			this._snack.exibirToast(`Valor combustível criado com sucesso!`, "success");
+			this._location.back();
+		});
+	}
+
+	ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 
 }

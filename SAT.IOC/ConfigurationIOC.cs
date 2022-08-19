@@ -156,6 +156,7 @@ public class ConfigurationIOC
         builder.RegisterType<OrcFormaPagamentoRepository>().As<IOrcFormaPagamentoRepository>();
         builder.RegisterType<OrcDadosBancariosRepository>().As<IOrcDadosBancariosRepository>();
         builder.RegisterType<OrcamentoFaturamentoRepository>().As<IOrcamentoFaturamentoRepository>();
+        builder.RegisterType<ConferenciaRepository>().As<IConferenciaRepository>();
         #endregion
 
         #region Services
@@ -298,6 +299,7 @@ public class ConfigurationIOC
         builder.RegisterType<OrcFormaPagamentoService>().As<IOrcFormaPagamentoService>();
         builder.RegisterType<OrcDadosBancariosService>().As<IOrcDadosBancariosService>();
         builder.RegisterType<OrcamentoFaturamentoService>().As<IOrcamentoFaturamentoService>();
+        builder.RegisterType<ConferenciaService>().As<IConferenciaService>();
         #endregion
 
         #region Utils Services

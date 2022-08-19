@@ -49,7 +49,6 @@ export interface Orcamento
     incluirLaudoExportacao?: boolean;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
-    faturamentos?: OrcamentoFaturamento[];
     orcamentoMateriais?: OrcamentoMaterial[];
     orcamentoMaoDeObra?: OrcamentoMaoDeObraData[];
     orcamentoOutrosServicos?: OrcamentoOutroServico[];
@@ -179,32 +178,6 @@ export interface OrcamentoData extends Meta
     items: Orcamento[];
 };
 
-export interface OrcamentoFaturamentoData extends Meta
-{
-    items: OrcamentoFaturamento[];
-};
-
-export interface OrcamentoFaturamento extends Meta
-{
-    codOrcamentoFaturamento?: number;
-    codOrcamento?: number;
-    codClienteBancada: string;
-    codFilial?: number;
-    numOSPerto?: number;
-    numOrcamento: string;
-    descricaoNotaFiscal: string;
-    valorPeca: string;
-    qtdePeca?: number;
-    valorServico: string;
-    numNF?: number;
-    dataEmissaoNF: string;
-    indFaturado?: number;
-    indRegistroDanfe: string;
-    caminhoDanfe: string;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-};
-
 export interface OrcamentoParameters extends QueryStringParameters
 {
     codStatusServicos?: string;
@@ -296,18 +269,4 @@ export enum OrcamentoTipoIntervencao
     ORCAMENTO_APROVADO = 17,
     ORCAMENTO = 5,
     ORCAMENTO_REPROVADO = 18,
-}
-
-export interface OrcamentoFaturamentoViewModel {
-    codigo: number | null;
-    cliente: string;
-    filial: string;
-    codOrc: number;
-    tipo: OrcamentoFaturamentoTipoEnum;
-}
-
-export enum OrcamentoFaturamentoTipoEnum {
-    SERVICO = 1,
-    MATERIAL = 2,
-    FATURAMENTO = 3
 }

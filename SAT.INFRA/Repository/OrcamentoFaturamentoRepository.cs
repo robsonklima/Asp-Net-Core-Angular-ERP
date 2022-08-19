@@ -68,6 +68,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodOrc != null)
+            {
+                query = query.Where(p => p.CodOrcamento == parameters.CodOrc);
+            }            
+
             if (parameters.NumNF != null)
             {
                 query = query.Where(p => p.NumNF == parameters.NumNF);

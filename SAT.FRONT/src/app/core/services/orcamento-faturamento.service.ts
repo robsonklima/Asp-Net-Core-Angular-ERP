@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoFaturamentoData } from '../types/orcamento.types';
-import { OrcamentoFaturamentoParameters } from '../types/orcamento-faturamento.types';
+import { OrcamentoFaturamento, OrcamentoFaturamentoData, OrcamentoFaturamentoParameters } from '../types/orcamento-faturamento.types';
 
 @Injectable({
     providedIn: 'root'
@@ -23,4 +22,20 @@ export class OrcamentoFaturamentoService {
             map((data: OrcamentoFaturamentoData) => data)
         )
     }
+
+    criar(orcamentoFaturamento: OrcamentoFaturamento): Observable<OrcamentoFaturamento>
+    {
+      return this.http.post<OrcamentoFaturamento>(`${c.api}/OrcamentoFaturamento`, orcamentoFaturamento).pipe(
+        map((obj) => obj)
+      );
+    }
+  
+    atualizar(orcamentoFaturamento: OrcamentoFaturamento): Observable<OrcamentoFaturamento>
+    {
+      const url = `${c.api}/OrcamentoFaturamento`;
+  
+      return this.http.put<OrcamentoFaturamento>(url, orcamentoFaturamento).pipe(
+        map((obj) => obj)
+      );
+    }    
 }

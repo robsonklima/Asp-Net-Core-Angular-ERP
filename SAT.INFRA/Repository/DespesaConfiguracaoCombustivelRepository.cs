@@ -21,22 +21,61 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaConfiguracaoCombustivel despesaConfiguracao)
         {
-            throw new NotImplementedException();
+            _context.ChangeTracker.Clear();
+            DespesaConfiguracaoCombustivel desp = _context.DespesaConfiguracaoCombustivel.SingleOrDefault(d => d.CodDespesaConfiguracaoCombustivel == despesaConfiguracao.CodDespesaConfiguracaoCombustivel);
+
+            if (desp != null)
+            {
+                try
+                {
+                    _context.Entry(desp).CurrentValues.SetValues(despesaConfiguracao);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
+            }
         }
 
         public void Criar(DespesaConfiguracaoCombustivel despesaConfiguracao)
         {
-            throw new NotImplementedException();
+             try
+            {
+                _context.Add(despesaConfiguracao);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
         }
 
         public void Deletar(int codigo)
         {
-            throw new NotImplementedException();
+             DespesaConfiguracaoCombustivel desp = _context.DespesaConfiguracaoCombustivel.SingleOrDefault(d => d.CodDespesaConfiguracaoCombustivel == codigo);
+
+            if (desp != null)
+            {
+                _context.DespesaConfiguracaoCombustivel.Remove(desp);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
+            }
         }
 
         public DespesaConfiguracaoCombustivel ObterPorCodigo(int codigo)
         {
-            throw new NotImplementedException();
+            return _context.DespesaConfiguracaoCombustivel
+                .Include(d => d.Filial)
+                .Include(d => d.UnidadeFederativa)
+                .FirstOrDefault(d => d.CodDespesaConfiguracaoCombustivel == codigo);
         }
 
         public PagedList<DespesaConfiguracaoCombustivel> ObterPorParametros(DespesaConfiguracaoCombustivelParameters parameters)
@@ -52,8 +91,8 @@ namespace SAT.INFRA.Repository
             if (parameters.CodFilial.HasValue)
                 configuracoes = configuracoes.Where(a => a.CodFilial == parameters.CodFilial);
 
-            if (parameters.CodUf.HasValue)
-                configuracoes = configuracoes.Where(a => a.CodUf == parameters.CodUf);
+            if (parameters.CodUF.HasValue)
+                configuracoes = configuracoes.Where(a => a.CodUF == parameters.CodUF);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 configuracoes = configuracoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

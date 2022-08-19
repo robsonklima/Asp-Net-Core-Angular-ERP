@@ -27,7 +27,7 @@ export class DespesaConfiguracaoCombustivelService
   }
 
   obterPorCodigo(codDespesaConfiguracaoCombustivel: number): Observable<DespesaConfiguracaoCombustivel> {
-    const url = `${c.api}/valores-combustivel/${codDespesaConfiguracaoCombustivel}`;
+    const url = `${c.api}/DespesaConfiguracaoCombustivel/${codDespesaConfiguracaoCombustivel}`;
     return this.http.get<DespesaConfiguracaoCombustivel>(url).pipe(
         map((obj) => obj)
     );

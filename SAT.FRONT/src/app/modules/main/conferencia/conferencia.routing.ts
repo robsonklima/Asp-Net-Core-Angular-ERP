@@ -1,9 +1,28 @@
 import { Route } from '@angular/router';
-import { JitsiComponent } from './jitsi/jitsi.component';
+import { ConferenciaFormComponent } from './conferencia-form/conferencia-form.component';
+import { ConferenciaListaComponent } from './conferencia-lista/conferencia-lista.component';
+import { ConferenciaSalaComponent } from './conferencia-sala/conferencia-sala.component';
 
 export const conferenciaRoutes: Route[] = [
     {
-        path     : 'jitsi',
-        component: JitsiComponent
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'lista'
+    },
+    {
+        path     : 'lista',
+        component: ConferenciaListaComponent
+    },
+    {
+        path     : 'form/:codConferencia',
+        component: ConferenciaFormComponent
+    },
+    {
+        path     : 'form',
+        component: ConferenciaFormComponent
+    },
+    {
+        path     : 'sala/:codConferencia',
+        component: ConferenciaSalaComponent
     }
 ];

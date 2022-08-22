@@ -104,7 +104,7 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
-				message: `Deseja remover a conferência autorizada?`,
+				message: `Deseja remover a conferência selecionada?`,
 				buttonText: {
 					ok: 'Sim',
 					cancel: 'Não'

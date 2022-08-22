@@ -9,6 +9,5 @@ namespace SAT.MODELS.Entities
         public string Placa { get; set; }
         public string Odometro { get; set; }
         public DateTime? DataHoraCad { get; set; }
-
     }
 }

@@ -10,6 +10,5 @@ namespace SAT.MODELS.Entities
         public byte? Selecionado { get; set; }
         public string Justificativa { get; set; }
         public DateTime? DataHoraCad { get; set; }
-
     }
 }

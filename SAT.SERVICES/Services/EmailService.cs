@@ -1,7 +1,6 @@
-using System.IO;
-using System.Linq;
-using MailKit.Net.Smtp;
-using MimeKit;
+using System;
+using System.Net;
+using System.Net.Mail;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
@@ -12,52 +11,33 @@ namespace SAT.SERVICES.Services
     {
         public void Enviar(Email email)
         {
-            MimeMessage message = new MimeMessage();
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-            MailboxAddress from = new MailboxAddress(email.NomeRemetente, email.EmailRemetente);
-            message.From.Add(from);
-
-            var destinatarios = email.EmailDestinatario.Split(',').Select(i => i.Trim()).ToList();
-            InternetAddressList recipients = new InternetAddressList();
-            recipients.AddRange(destinatarios.Select(i => new MailboxAddress("", i)));
-            message.To.AddRange(recipients);
-
-            if (!string.IsNullOrWhiteSpace(email.NomeCC) && !string.IsNullOrWhiteSpace(email.EmailCC))
-            {
-                MailboxAddress cc = new MailboxAddress(email.NomeCC, email.EmailCC);
-                message.Cc.Add(cc);
-            }
-
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(Constants.SMTP_USER);
+            message.To.Add(new MailAddress(email.EmailDestinatario));
             message.Subject = email.Assunto;
+            message.Subject = email.Assunto;
+            message.Body = email.Corpo;
 
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = email.Corpo;
+            var client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(Constants.SMTP_USER, Constants.SMTP_PASSWORD);
+            client.Host = Constants.SMTP_HOST;
+            client.Port = Constants.SMTP_PORT;
+            client.EnableSsl = true;
 
-            if (email.Anexos.Any())
+            try
             {
-                email.Anexos.ForEach(file =>
-                {
-                    var attachment = new MimePart("application/pdf")
-                    {
-                        Content = new MimeContent(File.OpenRead(file)),
-                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                        ContentTransferEncoding = ContentEncoding.Base64,
-                        FileName = Path.GetFileName(file)
-                    };
-
-                    bodyBuilder.Attachments.Add(attachment);
-                });
-            };
-
-            message.Body = bodyBuilder.ToMessageBody();
-
-            SmtpClient client = new SmtpClient();
-            client.Connect(Constants.SMTP_HOST, Constants.SMTP_PORT, MailKit.Security.SecureSocketOptions.Auto);
-            client.Authenticate(Constants.SMTP_USER, Constants.SMTP_PASSWORD);
-
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
+                client.Send(message);
+                client.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

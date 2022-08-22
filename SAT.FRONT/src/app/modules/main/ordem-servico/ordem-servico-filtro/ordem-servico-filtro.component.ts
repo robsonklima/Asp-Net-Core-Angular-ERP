@@ -99,9 +99,6 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
 		this.aoSelecionarFilial();
 		this.aoSelecionarCliente();
-
-
-		
 	}
 
 	createForm(): void {

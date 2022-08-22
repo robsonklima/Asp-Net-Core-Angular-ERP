@@ -1,62 +1,53 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { isNgTemplate } from '@angular/compiler';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { CidadeService } from 'app/core/services/cidade.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { Cidade, CidadeData, CidadeParameters } from 'app/core/types/cidade.types';
+import { MensagemTecnicoService } from 'app/core/services/mensagem-tecnico.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { MensagemTecnico, MensagemTecnicoData, MensagemTecnicoParameters } from 'app/core/types/mensagem-tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-cidade-lista',
-	templateUrl: './cidade-lista.component.html',
+	selector: 'app-mensagem-tecnico-lista',
+	templateUrl: './mensagem-tecnico-lista.component.html',
 	styles: [
-		/* language=SCSS */
-		`
-      .list-grid-cidade {
-          grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-          
-          @screen sm {
-              grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-          }
-      
-          @screen md {
-              grid-template-columns: 72px auto 5% 10% 10% 48px 42px;
-          }
-      
-          @screen lg {
-              grid-template-columns: 72px auto 5% 10% 10% 10% 10%;
-          }
-      }
-    `
+		`.list-grid-mensagem-tecnico {
+          grid-template-columns: 64px 64px auto 160px;
+    	}`
 	],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations
 })
 
-export class CidadeListaComponent extends Filterable implements AfterViewInit, IFilterable {
+export class MensagemTecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-	dataSourceData: CidadeData;
+	dataSourceData: MensagemTecnicoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-	selectedItem: Cidade | null = null;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
+	selectedItem: MensagemTecnico | null = null;
 	userSession: UserSession;
 
 	constructor(
 		protected _userService: UserService,
 		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
-		private _cidadeService: CidadeService
+		private _dialog: MatDialog,
+		private _snack: CustomSnackbarService,
+		private _mensagemTecnicoService: MensagemTecnicoService
 	) {
 		super(_userService, 'cidade')
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -93,7 +84,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;
@@ -110,7 +101,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
-		const parametros: CidadeParameters = {
+		const parametros: MensagemTecnicoParameters = {
 			pageNumber: this.paginator?.pageIndex + 1,
 			sortActive: this.sort.active,
 			sortDirection: 'asc',
@@ -118,19 +109,57 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 			filter: filtro
 		}
 
-		const data: CidadeData = await this._cidadeService.obterPorParametros({
+		const data: MensagemTecnicoData = await this._mensagemTecnicoService.obterPorParametros({
 			...parametros,
 			...this.filter?.parametros
 		}).toPromise();
+
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
 
-
-
 	paginar() {
 		this.obterDados();
+	}
+
+	marcarTodos(ev: any) {
+		this.dataSourceData?.items.forEach(x => x.selecionado = ev.target.checked)
+	}
+
+	isTodosMarcados() {
+		return this.dataSourceData?.items.every(p => p.selecionado);
+	}
+
+	isAlgumMarcado() {
+		return this.dataSourceData?.items.some(p => p.selecionado);
+	}
+
+	async deletar() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover a(s) mensagem(s) selecionada(s)?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao)
+			{
+				this.isLoading = true;
+				for (const msg of this.dataSourceData?.items) {
+					if (msg.selecionado) await this._mensagemTecnicoService.deletar(msg.codMensagemTecnico).toPromise();
+				}
+		
+				this._snack.exibirToast(`Registro(s) deletado(s) com sucesso!`, "success");
+				this.obterDados();
+				this.isLoading = false;
+			}
+		});
 	}
 
 	public async exportar() {
@@ -144,5 +173,4 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam);
 		this.isLoading = false;
 	}
-
 }

@@ -6,13 +6,9 @@ namespace SAT.MODELS.Entities.Constants
     {
         public static string SISTEMA_NOME = "SAT";
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
-        public static string SMTP_HOST = "zimbragd.perto.com.br";
-        public static int SMTP_PORT = 587;
-        public static string SMTP_USER = "aplicacao.sat@perto.com.br";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
         public static string MAP_QUEST_KEY = "nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2";
         public static string GOOGLE_API_KEY = "AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM";
-        public static string SMTP_PASSWORD = "S@aPlic20(v";
         public static string DB_PROD = "Prod";
         public static string DB_HOMOLOG = "Homolog";
         public static int TEMPO_IISLOG_MS = 3 * 60 * 1000;
@@ -22,6 +18,12 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
+
+        // Email
+        public static string SMTP_HOST = "smtp.office365.com";
+        public static int SMTP_PORT = 587;
+        public static string SMTP_USER = "sat.teste@perto.com.br";
+        public static string SMTP_PASSWORD = "SQ!@g45lic20(v";
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;

@@ -110,6 +110,7 @@
     "voltar": "Voltar",
     "pecas": "Peças",
     "filtros": "Filtros",
+    "filtro": "Filtro",
     "novo relatorio de atendimento": "Novo Relatório de Atendimento",
     "atualizar o chamado": "Atualizar o Chamado",
     "transferir o chamado": "Transferir o Chamado",
@@ -682,5 +683,15 @@
     "usuario cadastro": "Usuário Cadastro",
     "atualizacao": "Atualização",
     "valores combustivel": "Valores Combustível",
-    "usuario atualizacao": "Usuário Atualização"
+    "usuario atualizacao": "Usuário Atualização",
+    "conferência": "Conferência",
+    "conferências": "Conferências",
+    "técnico": "Técnico",
+    "data retirada veiculo": "Data de Retirada do Veículo",
+    "participantes": "Participantes",
+    "manutencao de auditoria": "Manutenção de Auditoria",
+    "utilizacao da km": "Utilização de KM",
+    "utilizacao do credito": "Utilização de Crédito",
+    "acessorios": "Acessórios"
+
 }

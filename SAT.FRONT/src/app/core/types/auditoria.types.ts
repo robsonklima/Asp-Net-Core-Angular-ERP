@@ -33,6 +33,7 @@ export class Auditoria {
     kmParticularMes ?: number;
     dataHoraManut ?: string;
     codUsuarioManut ?: string;
+    qtdDespesasPendentes ?: number;
 }
 
 export interface AuditoriaData extends Meta {

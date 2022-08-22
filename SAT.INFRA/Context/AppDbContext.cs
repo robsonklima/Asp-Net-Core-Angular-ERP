@@ -188,6 +188,8 @@ namespace SAT.INFRA.Context
         public DbSet<AuditoriaVeiculo> AuditoriaVeiculo { get; set; }
         public DbSet<AuditoriaVeiculoAcessorio> AuditoriaVeiculoAcessorio { get; set; }
         public DbSet<AuditoriaVeiculoTanque> AuditoriaVeiculoTanque { get; set; }
+        public DbSet<Conferencia> Conferencia { get; set; }
+        public DbSet<ConferenciaParticipante> ConferenciaParticipante { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -395,6 +397,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Auditoria>(new AuditoriaMap().Configure);
             modelBuilder.Entity<DespesaConfiguracaoCombustivel>(new DespesaConfiguracaoCombustivelMap().Configure);
             modelBuilder.Entity<OrcamentoFaturamento>(new OrcamentoFaturamentoMap().Configure);
+            modelBuilder.Entity<Conferencia>(new ConferenciaMap().Configure);
+            modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

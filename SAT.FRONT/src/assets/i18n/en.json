@@ -106,7 +106,8 @@
     "proximo": "Next",
     "voltar": "Back",
     "pecas": "Pieces",
-    "filtros": "Filtros",
+    "filtros": "Filters",
+    "filtro": "Filter",
     "novo relatorio de atendimento": "New Service Report",
     "atualizar o chamado": "Update Service Order",
     "transferir o chamado": "Transfer Service Order",
@@ -659,5 +660,12 @@
     "pendencias": "Backlog",
     "frota tecnico": "Technical Fleet",
     "auditoria": "Audit",
-    "valores combustível": "Fuel Values"
+    "valores combustível": "Fuel Values",
+    "conferência": "Conference",
+    "conferências": "Conferences",
+    "participantes": "Attendants",
+    "manutencao de auditoria": "Audit Maintenance",
+    "utilizacao da km": "KM usage",
+    "utilizacao do credito": "Use of Credit",
+    "acessorios": "Accessories"
 }

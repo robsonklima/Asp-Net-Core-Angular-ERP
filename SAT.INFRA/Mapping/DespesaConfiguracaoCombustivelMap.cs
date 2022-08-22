@@ -35,7 +35,7 @@ namespace SAT.INFRA.Mapping
              builder
                 .HasOne(prop => prop.UnidadeFederativa)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodUf)
+                .HasForeignKey(prop => prop.CodUF)
                 .HasPrincipalKey(prop => prop.CodUF);
         }
     }

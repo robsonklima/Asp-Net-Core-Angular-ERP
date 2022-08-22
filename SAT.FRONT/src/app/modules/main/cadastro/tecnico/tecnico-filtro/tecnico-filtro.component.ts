@@ -13,13 +13,11 @@ import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
 
-
 @Component({
 	selector: 'app-tecnico-filtro',
 	templateUrl: './tecnico-filtro.component.html'
 })
 export class TecnicoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
-
 	@Input() sidenav: MatSidenav;
 
 	filiais: Filial[] = [];

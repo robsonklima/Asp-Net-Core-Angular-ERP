@@ -91,34 +91,19 @@ namespace SAT.SERVICES.Services
                                 CodFilial = orc.CodigoFilial
                             });                            
                         }
-
-                    }
-
-                    foreach (var servico in orc?.OutrosServicos)
-                    {
-                        faturamentos.Add(new OrcamentoFaturamentoViewModel
-                        {
-                            Codigo = servico.CodOrcOutroServico,
-                            Cliente = orc?.Cliente?.NomeFantasia,
-                            Filial = orc?.OrdemServico?.Filial?.NomeFilial,
-                            CodOS = orc.CodigoOrdemServico,
-                            NumOSCliente = orc.OrdemServico?.NumOSCliente,
-                            NumOrcamento = orc.Numero,
-                            CodOrc = orc.CodOrc,
-                            Tipo = OrcamentoFaturamentoTipoEnum.SERVICO
-                        });
                     }
 
                     faturamentos.Add(new OrcamentoFaturamentoViewModel
                     {
-                        Codigo = orc?.MaoDeObra?.CodOrcMaoObra,
+                        Codigo = null,
                         Cliente = orc?.Cliente?.NomeFantasia,
-                        Filial = orc.OrdemServico?.Filial?.NomeFilial,
+                        Filial = orc?.OrdemServico?.Filial?.NomeFilial,
                         CodOS = orc.CodigoOrdemServico,
-                        NumOSCliente = orc?.OrdemServico?.NumOSCliente,
+                        NumOSCliente = orc.OrdemServico?.NumOSCliente,
                         NumOrcamento = orc.Numero,
                         CodOrc = orc.CodOrc,
-                        Tipo = OrcamentoFaturamentoTipoEnum.SERVICO
+                        Tipo = OrcamentoFaturamentoTipoEnum.SERVICO,
+                        ValorServico = (orc.OutrosServicos.Sum(o => o.ValorTotal) + orc.MaoDeObra.ValorTotal).ToString()
                     });
                 }
 

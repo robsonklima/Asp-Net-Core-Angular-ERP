@@ -7,11 +7,10 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent, Subject } from 'rxjs';
 import { OrcamentoFaturamentoService } from 'app/core/services/orcamento-faturamento.service';
-import { OrcamentoFaturamentoData, OrcamentoFaturamentoParameters, OrcamentoFaturamentoViewModel } from 'app/core/types/orcamento-faturamento.types';
+import { OrcamentoFaturamento, OrcamentoFaturamentoData, OrcamentoFaturamentoParameters, OrcamentoFaturamentoViewModel } from 'app/core/types/orcamento-faturamento.types';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-orcamento-financeiro-faturamento-lista',
@@ -49,11 +48,10 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		private _cdr: ChangeDetectorRef,
 		protected _userService: UserService,
 		private _snack: CustomSnackbarService,
-		private _router: Router
 	) {
 		super(_userService, 'orcamento');
 	}
-	
+
 	ngAfterViewInit(): void {
 		this.obterFaturamentos();
 		this.registerEmitters();
@@ -91,38 +89,63 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		this.isLoading = false;
 	}
 
-	salvar(faturamentoVM: OrcamentoFaturamentoViewModel) {			
-		if (faturamentoVM.indFaturado) 
-			this.atualizar(faturamentoVM);		
-		else 
-			this.criar(faturamentoVM)
+	salvar(faturamentoVM: OrcamentoFaturamentoViewModel) {
+		if (!faturamentoVM.numNF) {
+			this._snack.exibirToast('Favor informar o número da NF', 'error');
+			return;			
+		}
+		
+		if (!faturamentoVM.dataEmissao) {
+			this._snack.exibirToast('Favor informar a data de emissão da NF', 'error');			
+			return;
+		}
+
+		const faturamento: OrcamentoFaturamento = {
+			codOrcamentoFaturamento: faturamentoVM.codigo,
+			caminhoDanfe: faturamentoVM.caminhoDanfe,
+			codClienteBancada: faturamentoVM.codClienteBancada,
+			codFilial: faturamentoVM.codFilial,
+			codOrcamento: faturamentoVM.codOrc,
+			indFaturado: 1,
+			dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+			codUsuarioCad: this.userSession.usuario.codUsuario,
+			dataEmissaoNF: faturamentoVM.dataEmissao,
+			descricaoNotaFiscal: faturamentoVM.descNF,
+			indRegistroDanfe: faturamentoVM.indRegistroDanfe,
+			numNF: faturamentoVM.numNF,
+			numOrcamento: faturamentoVM.numOrcamento,
+			numOSPerto: faturamentoVM.codOS,
+			qtdePeca: faturamentoVM.qtdePeca,
+			valorPeca: faturamentoVM.valorPeca,
+			valorServico: faturamentoVM.valorServico
+		};
+
+		if (faturamentoVM.indFaturado)
+			this.atualizar(faturamento);
+		else
+			this.criar(faturamento)
 	}
 
-	criar(faturamentoVM: OrcamentoFaturamentoViewModel){	
+	criar(faturamento: OrcamentoFaturamento) {
+		this._orcamentoFaturamentoSvc.criar(faturamento).subscribe(() => {
+			this._snack.exibirToast("Registro criado com sucesso!", "success");
+		});
+	}
+
+	atualizar(faturamento: OrcamentoFaturamento) {
 		let obj = {
-			...faturamentoVM,
+			...faturamento,
 			...{
 				indFaturado: 1,
-				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioCad: this.userSession.usuario.codUsuario,
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario.codUsuario
 			}
 		}
 
+		this._orcamentoFaturamentoSvc.atualizar(faturamento).subscribe(() => {
+			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+		});
 	}
-
-	atualizar(faturamentoVM: OrcamentoFaturamentoViewModel){
-		let obj = {
-			...faturamentoVM,
-			...{
-				indFaturado: 1,
-				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioCad: this.userSession.usuario.codUsuario,
-				codOrcamentoFaturamento: faturamentoVM.codigo
-			}
-		}
-
-		console.log(obj);		
-	}		
 
 	paginar() {
 		this.onPaginationChanged();

@@ -1,13 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConferenciaParticipanteService } from 'app/core/services/conferencia-participante.service';
 import { ConferenciaService } from 'app/core/services/conferencia.service';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-conferencia-form',
@@ -19,6 +20,7 @@ export class ConferenciaFormComponent implements OnInit {
   loading: boolean = false;
   usuarios: Usuario[];
   usuariosFiltro: FormControl = new FormControl();
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private _snack: CustomSnackbarService,
@@ -33,7 +35,20 @@ export class ConferenciaFormComponent implements OnInit {
 
   async ngOnInit() {
     this.inicializarForm();
+    this.registrarEmitters();
     this.obterUsuarios();
+  }
+
+  registrarEmitters() {
+    this.usuariosFiltro.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(500),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterUsuarios(this.usuariosFiltro.value);
+			});
   }
 
   private inicializarForm() {
@@ -58,9 +73,6 @@ export class ConferenciaFormComponent implements OnInit {
   }
 
   salvar(): void {
-    debugger;
-
-    
     const form = this.form.getRawValue();
 
     const participantes = form.codUsuarios.map(codUsuario => {
@@ -87,4 +99,9 @@ export class ConferenciaFormComponent implements OnInit {
       this._location.back();
     });
   } 
+
+  ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 }

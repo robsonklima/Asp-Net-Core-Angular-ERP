@@ -54,7 +54,7 @@ import { FiltroModule } from '../filtros/filtro.module';
     MatTooltipModule,
     FormsModule,
     FiltroModule,
-    MatMenuModule
+    MatMenuModule,
   ]
 })
 export class MensagemModule { }

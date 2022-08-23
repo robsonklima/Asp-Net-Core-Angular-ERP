@@ -32,7 +32,6 @@ import { Equipamento } from 'app/core/types/equipamento.types';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
-import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 
 @Component({
 	selector: 'app-ordem-servico-form',

@@ -1,5 +1,6 @@
 
 using NLog;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -11,17 +12,20 @@ public partial class Worker : BackgroundService
     private readonly IPontoUsuarioService _pontoUsuarioService;
     private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
     private readonly ISatTaskService _satTaskService;
+    private readonly IEmailService _emailService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
         IPontoUsuarioService pontoUsuarioService,
         IIntegracaoFinanceiroService integracaoFinanceiroService,
+        IEmailService emailService,
         ISatTaskService satTaskService
     ) {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
         _integracaoFinanceiroService = integracaoFinanceiroService;
         _satTaskService = satTaskService;
+        _emailService = emailService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -36,7 +40,16 @@ public partial class Worker : BackgroundService
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
-                _integracaoFinanceiroService.ExecutarAsync();                
+                //_integracaoFinanceiroService.ExecutarAsync();
+
+                _emailService.Enviar(new Email {
+                    Assunto = "Teste de envio de e-mail",
+                    EmailDestinatario = "equipe.sat@perto.com.br",
+                    NomeDestinatario = "Equipe SAT",
+                    EmailRemetente = "equipe.sat@perto.com.br",
+                    NomeRemetente = "Equipe SAT",
+                    Corpo = "Teste"
+                });
             }
             catch (Exception ex)
             {

@@ -11,7 +11,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { Filterable } from 'app/core/filters/filterable';
-import { IFilterable, IFilterBase } from 'app/core/types/filtro.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UserService } from 'app/core/user/user.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';

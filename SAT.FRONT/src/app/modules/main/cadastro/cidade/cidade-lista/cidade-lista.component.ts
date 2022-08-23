@@ -79,7 +79,6 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 		this.obterDados();
 	}
 
-
 	ngAfterViewInit(): void {
 		this.registerEmitters();
 		this.obterDados();

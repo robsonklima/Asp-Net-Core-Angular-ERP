@@ -63,7 +63,6 @@ export class DefeitoFormComponent implements OnInit, OnDestroy {
   }
 
   salvar(): void {
-
     const form: any = this.form.getRawValue();
 
     let obj = {

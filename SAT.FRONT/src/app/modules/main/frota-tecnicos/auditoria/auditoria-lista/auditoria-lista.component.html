@@ -16,7 +16,7 @@
           </mat-form-field>
 
           <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-              [routerLink]="['/auditoria/form']">
+              [routerLink]="['/frota-tecnico/auditoria/form']">
               <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
           </button>
 
@@ -57,7 +57,6 @@
 
                       <ng-container>
                           <ng-container *ngFor="let auditoria of dataSourceData?.items">
-                              <a [routerLink]="['/auditoria/form/' + auditoria.codAuditoria]">
                                   <div
                                       class="list-grid-auditoria grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                       <div class="truncate">
@@ -73,10 +72,15 @@
                                           {{ auditoria.usuario?.nomeUsuario || t('nao informado') }}
                                       </div>
                                       <div class="truncate">
-                                          {{ auditoria.usoParticular || t('nao informado') }}
+                                          {{ auditoria.qtdDespesasPendentes + t('  Pendência') }}
                                       </div>
-                                  </div>
-                              </a>
+                                      <div>
+                                        <button class="min-w-10 min-h-7 h-7 px-2 ml-2" mat-stroked-button [matTooltip]="'Detalhes'"[routerLink]="['/auditoria/form']"
+                                            [disabled]="auditoria.qtdDespesasPendentes>0" matTooltipPosition="above">
+                                            <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                        </button>
+                                      </div>
+                                    </div>
                           </ng-container>
                       </ng-container>
                   </div>

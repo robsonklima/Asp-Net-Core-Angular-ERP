@@ -1,0 +1,110 @@
+<div class="flex-auto h-full">
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div
+            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">
+                {{ t('conferências') }}
+            </div>
+
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                </mat-form-field>
+
+                <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/conferencia/form']">
+                    <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid" *transloco="let t">
+                            <div class="list-grid-confs z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear *transloco="let t">
+                                <div class="md:block" [mat-sort-header]="'codConferencia'">
+                                    {{ t('codigo') }}
+                                </div>
+
+                                <div class="md:block" [mat-sort-header]="'nome'">
+                                    {{ t('nome') }}
+                                </div>
+
+                                <div class="md:block">
+                                    {{ t('participantes') }}
+                                </div>
+
+                                <div>
+                                    {{ t('acoes') }}
+                                </div>
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let conferencia of dataSourceData?.items">
+                                    <div class="list-grid-confs grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
+                                        *transloco="let t">
+                                        <div class="flex items-center">
+                                            {{ conferencia.codConferencia }}
+                                        </div>
+
+                                        <div class="flex">
+                                            {{ conferencia.nome | uppercase }}
+                                        </div>
+
+                                        <div class="flex">
+                                            {{ mostrarNomeParticipantes(conferencia) }}
+                                        </div>
+
+                                        <div>
+                                            <button
+                                                [routerLink]="['/conferencia/sala/' + conferencia.codConferencia]" 
+                                                class="min-w-10 min-h-7 h-7 mr-1"
+                                                mat-stroked-button
+                                                [matTooltip]="'Entrar'"
+                                                matTooltipPosition="above">
+                                                <mat-icon
+                                                    class="icon-size-5 text-blue-600"
+                                                    [svgIcon]="'heroicons_solid:video-camera'"></mat-icon>
+                                            </button>
+
+                                            <button
+                                                (click)="remover(conferencia)"
+                                                class="min-w-10 min-h-7 h-7 mr-1"
+                                                mat-stroked-button
+                                                [matTooltip]="'Deletar'"
+                                                matTooltipPosition="above">
+                                                <mat-icon
+                                                    class="icon-size-5 text-red-600"
+                                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <div *ngIf="!dataSourceData?.items.length && !isLoading"
+                            class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                            Nenhuma conferência encontrada!
+                        </div>
+
+                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                            [pageSize]="50" [pageSizeOptions]="[50, 100, 150, 200]" [showFirstLastButtons]="true"
+                            (page)="paginar()">
+                        </mat-paginator>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

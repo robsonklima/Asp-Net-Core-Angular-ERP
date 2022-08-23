@@ -112,6 +112,7 @@ export const appRoutes: Route[] = [
             { path: 'importacao', loadChildren: () => import('app/modules/main/importacao/importacao.module').then(m => m.ImportacaoModule) },
             { path: 'ticket', loadChildren: () => import('app/modules/main/cadastro/ticket/ticket.module').then(m => m.TicketModule) },
             { path: 'frota-tecnico', loadChildren: () => import('app/modules/main/frota-tecnicos/frota-tecnicos.module').then(m => m.FrotaTecnicosModule) },
+            { path: 'mensagem', loadChildren: () => import('app/modules/main/mensagem/mensagem.module').then(m => m.MensagemModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },
@@ -119,7 +120,6 @@ export const appRoutes: Route[] = [
             { path: '500-internal-server-error', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-500/erro-500.module').then(m => m.Erro500Module) },
             { path: '0-connection-refused', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-0/erro-0.module').then(m => m.Erro0Module) },
             { path: '503-service-unavailable', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-503/erro-503.module').then(m => m.Erro503Module) },
-
             { path: '**', redirectTo: '404-not-found' }
         ]
     }

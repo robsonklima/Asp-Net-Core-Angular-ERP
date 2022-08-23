@@ -7,18 +7,12 @@
                         {{ t('mensagens') }}
                     </a>
                 </div>
+                
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                    </span>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        #{{ codMensagemTecnico }}
+                        {{ t('novo') }}
                     </span>
                 </div>
             </div>
@@ -57,7 +51,7 @@
                             </mat-option>
 
                             <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
-                                {{ usuario?.nomeUsuario | uppercase }}
+                                {{ usuario?.nomeUsuario | uppercase }} - {{ usuario?.filial?.nomeFilial }}
                             </mat-option>
                         </mat-select>
 

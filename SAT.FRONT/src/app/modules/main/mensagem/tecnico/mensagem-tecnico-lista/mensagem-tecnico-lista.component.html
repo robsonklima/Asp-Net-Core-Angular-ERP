@@ -45,8 +45,8 @@
                         <div class="grid" *transloco="let t">
                             <div class="list-grid-mensagem-tecnico z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
-                                <div>
-                                    <input *ngIf="dataSourceData?.items.length" type="checkbox" [checked]="isTodosMarcados()" (change)="marcarTodos($event)">
+                                <div class="pl-4">
+                                    <input type="checkbox" [checked]="isTodosMarcados()" (change)="marcarTodos($event)" *ngIf="dataSourceData?.items.length">
                                 </div>
 
                                 <div [mat-sort-header]="'codmensagemTecnico'">
@@ -64,7 +64,7 @@
 
                             <ng-container>
                                 <ng-container *ngFor="let mensagemTecnico of dataSourceData?.items; let i=index">
-                                    <div class="list-grid-mensagem-tecnico grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                    <div class="list-grid-mensagem-tecnico grid items-left h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div>
                                             <input type="checkbox" [(ngModel)]="dataSourceData?.items[i].selecionado">
                                         </div>
@@ -77,7 +77,7 @@
                                             {{ mensagemTecnico.usuarioDestinatario.nomeUsuario }}
                                         </div>
 
-                                        <div>
+                                        <div class="pl-4">
                                             {{ mensagemTecnico.indLeitura ? 'SIM' : 'NÃO' }}
                                         </div>
                                     </div>

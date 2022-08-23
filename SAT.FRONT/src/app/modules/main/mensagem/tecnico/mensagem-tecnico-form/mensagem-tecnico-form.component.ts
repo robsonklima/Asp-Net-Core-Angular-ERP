@@ -22,7 +22,6 @@ export class MensagemTecnicoFormComponent implements OnInit, OnDestroy {
   usuarioSessao: UsuarioSessao;
   codMensagemTecnico: number;
   form: FormGroup;
-  isAddMode: boolean;
   mensagemTecnico: MensagemTecnico;
   usuarios: Usuario[] = [];
   public isLoading: Boolean = false;
@@ -43,7 +42,6 @@ export class MensagemTecnicoFormComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.codMensagemTecnico = +this._route.snapshot.paramMap.get('codMensagemTecnico');
-    this.isAddMode = !this.codMensagemTecnico;
     this.inicializarForm();
     this.registrarEmitters();
     this.obterUsuarios();
@@ -82,7 +80,7 @@ export class MensagemTecnicoFormComponent implements OnInit, OnDestroy {
       filter: filtro,
       sortActive: 'NomeUsuario', 
       sortDirection: 'ASC', 
-      pageSize: 300, 
+      pageSize: 500, 
       codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO
     }).toPromise();
 

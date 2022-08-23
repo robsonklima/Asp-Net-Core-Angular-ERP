@@ -24,7 +24,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './mensagem-tecnico-lista.component.html',
 	styles: [
 		`.list-grid-mensagem-tecnico {
-          grid-template-columns: 64px 64px auto 160px;
+          grid-template-columns: 64px 64px auto 64px;
     	}`
 	],
 	encapsulation: ViewEncapsulation.None,

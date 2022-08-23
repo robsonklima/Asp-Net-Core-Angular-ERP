@@ -663,5 +663,9 @@
     "valores combustível": "Fuel Values",
     "conferência": "Conference",
     "conferências": "Conferences",
-    "participantes": "Attendants"
+    "participantes": "Attendants",
+    "mensagens": "Messages",
+    "mensagens tecnicos": "Technicians Messages",
+    "lida": "Read",
+    "destinatarios": "Recipients"
 }

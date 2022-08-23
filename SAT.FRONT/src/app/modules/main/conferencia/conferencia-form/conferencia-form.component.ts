@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConferenciaService } from 'app/core/services/conferencia.service';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -67,7 +67,11 @@ export class ConferenciaFormComponent implements OnInit {
 
   private async obterUsuarios(filtro: string=null) {
     const data = await this._usuarioService.obterPorParametros({ 
-      indAtivo: 1, filter: filtro, sortActive: 'NomeUsuario', sortDirection: 'ASC', pageSize: 50
+      indAtivo: 1, 
+      filter: filtro, 
+      sortActive: 'NomeUsuario', 
+      sortDirection: 'ASC', 
+      pageSize: 500
     }).toPromise();
     this.usuarios = data.items;
   }
@@ -99,6 +103,15 @@ export class ConferenciaFormComponent implements OnInit {
       this._location.back();
     });
   } 
+
+  selectAll(select: AbstractControl, values, propertyName) {
+    if (select.value[0] == 0 && propertyName != '')
+        select.patchValue([...values.map(item => item[`${propertyName}`]), 0]);
+    else if (select.value[0] == 0 && propertyName == '')
+        select.patchValue([...values.map(item => item), 0]);
+    else
+        select.patchValue([]);
+  }
 
   ngOnDestroy() {
 		this._onDestroy.next();

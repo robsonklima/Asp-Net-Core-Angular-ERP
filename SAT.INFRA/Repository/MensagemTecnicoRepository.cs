@@ -36,7 +36,7 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
-            
+
         }
 
         public void Criar(MensagemTecnico MensagemTecnico)
@@ -79,12 +79,17 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.IndAtivo.HasValue)
+            {
+                query = query.Where(m => m.IndAtivo == parameters.IndAtivo);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
             return PagedList<MensagemTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
-    }
+        }
     }
 }

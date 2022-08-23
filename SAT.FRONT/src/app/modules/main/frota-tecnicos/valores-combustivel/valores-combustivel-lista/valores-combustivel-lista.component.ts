@@ -5,7 +5,10 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { DespesaConfiguracaoCombustivelData, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
@@ -36,8 +39,8 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
     constructor(
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
-        private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService
-        //private _exportacaoService: ExportacaoService
+        private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService,
+        private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'despesaConfiguracaoCombustivel')
         this.userSession = JSON.parse(this._userService.userSession);
@@ -99,6 +102,17 @@ export class ValoresCombustivelListaComponent extends Filterable implements OnIn
         this.dataSourceData = data;
         this.isLoading = false;
         this._cdr.detectChanges();
+    }
+
+    exportar(){
+
+        let params: Exportacao = {
+            formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+            tipoArquivo: ExportacaoTipoEnum.VALOR_COMBUSTIVEL,
+            entityParameters: {}
+        }
+
+        this._exportacaoService.exportar(FileMime.Excel,params);
     }
     
     paginar() {

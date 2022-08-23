@@ -32,6 +32,7 @@ namespace SAT.MODELS.Enums
         REGIAOAUTORIZADA,
         FILIAL,
         TICKET,
-        AUDITORIA
+        AUDITORIA,
+        VALOR_COMBUSTIVEL
     }
 }

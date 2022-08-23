@@ -263,6 +263,9 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.AUDITORIA:
                     GerarPlanilhaAuditoria(((JObject)parameters).ToObject<AuditoriaParameters>());
                     break;
+                case ExportacaoTipoEnum.VALOR_COMBUSTIVEL:
+                    GerarPlanilhaDespesaConfiguracaoCombustivel(((JObject)parameters).ToObject<DespesaConfiguracaoCombustivelParameters>());
+                    break;
                 default:
                     break;
             }

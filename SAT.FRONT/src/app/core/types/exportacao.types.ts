@@ -45,5 +45,6 @@ export enum ExportacaoTipoEnum {
     REGIAOAUTORIZADA,
     FILIAL,
     TICKET,
-    AUDITORIA
+    AUDITORIA,
+    VALOR_COMBUSTIVEL
 }

@@ -21,7 +21,7 @@ namespace SAT.API.Controllers
         }
 		
         [HttpPost]
-        public IActionResult ExportarOrdemServico([FromBody] Exportacao exportacao)
+        public IActionResult Exportar([FromBody] Exportacao exportacao)
         {
 			return _exService.Exportar(exportacao);
         }

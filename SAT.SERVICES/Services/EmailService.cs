@@ -24,7 +24,7 @@ namespace SAT.SERVICES.Services
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             MailMessage message = new MailMessage();
-            message.From = new MailAddress(Constants.SMTP_USER);
+            message.From = new MailAddress(Constants.EMAIL_TESTE.Username);
             message.To.Add(new MailAddress(email.EmailDestinatario));
             message.Subject = email.Assunto;
             message.Subject = email.Assunto;
@@ -32,9 +32,9 @@ namespace SAT.SERVICES.Services
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(Constants.SMTP_USER, Constants.SMTP_PASSWORD);
-            client.Host = Constants.SMTP_HOST;
-            client.Port = Constants.SMTP_PORT;
+            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE.Username, Constants.EMAIL_TESTE.Password);
+            client.Host = Constants.EMAIL_TESTE.Host;
+            client.Port = (int)Constants.EMAIL_TESTE.Port;
             client.EnableSsl = true;
 
             try
@@ -65,7 +65,7 @@ namespace SAT.SERVICES.Services
                     }
                     defaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                    HttpResponseMessage response = await httpClient.GetAsync($"{Constants.OUTLOOK_API_URI}v1.0/users/${Constants.OUTLOOK_CLIENT_ID}/messages");
+                    HttpResponseMessage response = await httpClient.GetAsync($"{Constants.EMAIL_TESTE.ApiUri}v1.0/users/${Constants.EMAIL_TESTE.ClientID}/messages");
                     if (response.IsSuccessStatusCode)
                     {
                         string json = await response.Content.ReadAsStringAsync();
@@ -88,12 +88,12 @@ namespace SAT.SERVICES.Services
             IConfidentialClientApplication app;
 
             app = ConfidentialClientApplicationBuilder
-                    .Create(Constants.OUTLOOK_CLIENT_ID)
-                    .WithClientSecret(Constants.OUTLOOK_CLIENT_SECRET)
-                    .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.OUTLOOK_INSTANCE, Constants.OUTLOOK_TENANT)))
+                    .Create(Constants.EMAIL_TESTE.ClientID)
+                    .WithClientSecret(Constants.EMAIL_TESTE.ClientSecret)
+                    .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.EMAIL_TESTE.Instance, Constants.EMAIL_TESTE.Tenant)))
                     .Build();
 
-            string[] scopes = new string[] { $"{Constants.OUTLOOK_API_URI}.default" };
+            string[] scopes = new string[] { $"{Constants.EMAIL_TESTE.ApiUri}.default" };
 
             AuthenticationResult result = null;
             try

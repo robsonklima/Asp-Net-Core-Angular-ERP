@@ -20,15 +20,17 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
 
         // Email
-        public static string SMTP_HOST = "smtp.office365.com";
-        public static int SMTP_PORT = 587;
-        public static string SMTP_USER = "sat.teste@perto.com.br";
-        public static string SMTP_PASSWORD = "SQ!@g45lic20(v";
-        public static string OUTLOOK_CLIENT_ID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96";
-        public static string OUTLOOK_CLIENT_SECRET = "Uyt8Q~DxTOYrhXeLwr-K_xdRyw.iHofX8MhG2aND";
-        public static string OUTLOOK_TENANT = "grupodigicon.onmicrosoft.com";
-        public static string OUTLOOK_API_URI = "https://graph.microsoft.com/";
-        public static string OUTLOOK_INSTANCE = "https://login.microsoftonline.com/{0}";
+        public static EmailConfiguration EMAIL_TESTE = new EmailConfiguration {
+            Host = "smtp.office365.com",
+            Port = 587,
+            Username = "sat.teste@perto.com.br",
+            Password = "SQ!@g45lic20(v",
+            ClientID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96",
+            ClientSecret = "Uyt8Q~DxTOYrhXeLwr-K_xdRyw.iHofX8MhG2aND",
+            Tenant = "grupodigicon.onmicrosoft.com",
+            ApiUri = "https://graph.microsoft.com/",
+            Instance = "https://login.microsoftonline.com/{0}",
+        };
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;

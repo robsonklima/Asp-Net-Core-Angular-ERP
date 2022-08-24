@@ -4,7 +4,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 export class AuditoriaFoto {
     codAuditoriaFoto : number;
     codAuditoria : number ;
-    //auditora ?: Auditoria;
+    auditora ?: Auditoria;
     foto : string;
 }
 

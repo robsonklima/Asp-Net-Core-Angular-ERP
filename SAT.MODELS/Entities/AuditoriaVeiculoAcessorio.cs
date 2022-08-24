@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
     {
         public int CodAuditoriaVeiculoAcessorio { get; set; }
         public int? CodAuditoriaVeiculo { get; set; }
+        //public AuditoriaVeiculo AuditoriaVeiculo { get; set; }
         public string Nome { get; set; }
         public byte? Selecionado { get; set; }
         public string Justificativa { get; set; }

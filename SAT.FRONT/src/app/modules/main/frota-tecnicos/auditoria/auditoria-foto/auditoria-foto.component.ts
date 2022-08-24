@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { AuditoriaFoto } from 'app/core/types/auditoria-foto.types';
 
 @Component({
-  selector: 'app-ordem-auditoria-foto',
+  selector: 'app-auditoria-foto',
   templateUrl: './auditoria-foto.component.html'
 })
 export class AuditoriaFotoComponent implements OnInit {

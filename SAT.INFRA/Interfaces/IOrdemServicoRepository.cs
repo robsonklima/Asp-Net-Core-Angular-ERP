@@ -3,6 +3,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Collections.Generic;
 using System.Linq;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -14,6 +15,6 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(OrdemServico ordemServico);
         void Deletar(int codOS);
         OrdemServico ObterPorCodigo(int codigo);
-        List<MODELS.ViewModels.ViewExportacaoChamadosUnificado> ObterViewPorOs(int[] osList);
+        List<ViewExportacaoChamadosUnificado> ObterViewPorOs(int[] osList);
     }
 }

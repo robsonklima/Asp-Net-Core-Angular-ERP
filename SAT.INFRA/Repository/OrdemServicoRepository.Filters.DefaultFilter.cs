@@ -4,7 +4,7 @@ using System;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Enums;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Repository
 {

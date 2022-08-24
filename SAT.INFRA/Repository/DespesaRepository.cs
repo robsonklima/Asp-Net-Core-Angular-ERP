@@ -8,7 +8,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Repository
 {

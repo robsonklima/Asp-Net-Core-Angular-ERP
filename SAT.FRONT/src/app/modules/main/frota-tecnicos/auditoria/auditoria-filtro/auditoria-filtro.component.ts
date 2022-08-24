@@ -13,28 +13,26 @@ import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { AuditoriaStatusService } from 'app/core/services/auditoria-status.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
 
-
-
 @Component({
 	selector: 'app-auditoria-filtro',
 	templateUrl: './auditoria-filtro.component.html'
 })
 export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFilterBase {
-	
+
 	@Input() sidenav: MatSidenav;
 	filiais: Filial[] = [];
 	filialFilterCtrl: FormControl = new FormControl();
-	usuarios: Usuario[] = [];	
+	usuarios: Usuario[] = [];
 	usuariosFilterCtrl: FormControl = new FormControl();
-  stats: AuditoriaStatus[] = [];	
+	stats: AuditoriaStatus[] = [];
 	statsFilterCtrl: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _filialService: FilialService,
 		private _usuarioService: UsuarioService,
-    private _auditoriaStatusService: AuditoriaStatusService,
-    protected _userService: UserService,
+		private _auditoriaStatusService: AuditoriaStatusService,
+		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
 		super(_userService, _formBuilder, 'auditoria');
@@ -43,25 +41,23 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 	ngOnInit(): void {
 		this.createForm();
 		this.loadData();
-		
+
 	}
 
 	async loadData() {
 		this.obterFiliais();
 		this.obterUsuarios();
-    this.obterAuditoriaStatus();
+		this.obterAuditoriaStatus();
 		this.registrarEmitters();
 	}
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
-			 codFiliais:[undefined],
-			 codUsuarios:[undefined],
-			 codAuditoriaStats: [undefined],
-			 
-			
-
+			codFiliais: [undefined],
+			codUsuarios: [undefined],
+			codAuditoriaStats: [undefined],
 		});
+		
 		this.form.patchValue(this.filter?.parametros);
 	}
 
@@ -81,7 +77,7 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 	async obterUsuarios(filtro: string = '') {
 		let params: UsuarioParameters = {
 			filter: filtro,
-      sortActive: 'nomeUsuario',
+			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
@@ -91,7 +87,7 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 		this.usuarios = data.items;
 	}
 
-  async obterAuditoriaStatus(filtro: string = '') {
+	async obterAuditoriaStatus(filtro: string = '') {
 		let params: AuditoriaStatusParameters = {
 			filter: filtro,
 			sortActive: 'nome',
@@ -104,41 +100,36 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 		this.stats = data.items;
 	}
 
-
-
-
 	private registrarEmitters() {
 		this.filialFilterCtrl.valueChanges
-		.pipe(
-			takeUntil(this._onDestroy),
-			debounceTime(700),
-			distinctUntilChanged()
-		)
-		.subscribe(() => {
-			this.obterFiliais(this.filialFilterCtrl.value);
-		});
-		
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterFiliais(this.filialFilterCtrl.value);
+			});
+
 		this.usuariosFilterCtrl.valueChanges
-		.pipe(
-			takeUntil(this._onDestroy),
-			debounceTime(700),
-			distinctUntilChanged()
-		)
-		.subscribe(() => {
-			this.obterUsuarios(this.usuariosFilterCtrl.value);
-		});
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterUsuarios(this.usuariosFilterCtrl.value);
+			});
 
-    this.statsFilterCtrl.valueChanges
-		.pipe(
-			takeUntil(this._onDestroy),
-			debounceTime(700),
-			distinctUntilChanged()
-		)
-		.subscribe(() => {
-			this.obterAuditoriaStatus(this.statsFilterCtrl.value);
-		});
-
-
+		this.statsFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterAuditoriaStatus(this.statsFilterCtrl.value);
+			});
 	}
 
 	limpar() {

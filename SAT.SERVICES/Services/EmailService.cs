@@ -1,10 +1,17 @@
-using System.IO;
-using System.Linq;
-using MailKit.Net.Smtp;
-using MimeKit;
-using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
+using Microsoft.Identity.Client;
+using System;
+using System.Threading.Tasks;
 using SAT.SERVICES.Interfaces;
+using System.Globalization;
+using SAT.MODELS.Entities.Constants;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using SAT.MODELS.Entities;
 
 namespace SAT.SERVICES.Services
 {
@@ -12,52 +19,93 @@ namespace SAT.SERVICES.Services
     {
         public void Enviar(Email email)
         {
-            MimeMessage message = new MimeMessage();
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-            MailboxAddress from = new MailboxAddress(email.NomeRemetente, email.EmailRemetente);
-            message.From.Add(from);
-
-            var destinatarios = email.EmailDestinatario.Split(',').Select(i => i.Trim()).ToList();
-            InternetAddressList recipients = new InternetAddressList();
-            recipients.AddRange(destinatarios.Select(i => new MailboxAddress("", i)));
-            message.To.AddRange(recipients);
-
-            if (!string.IsNullOrWhiteSpace(email.NomeCC) && !string.IsNullOrWhiteSpace(email.EmailCC))
-            {
-                MailboxAddress cc = new MailboxAddress(email.NomeCC, email.EmailCC);
-                message.Cc.Add(cc);
-            }
-
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(Constants.EMAIL_TESTE.Username);
+            message.To.Add(new MailAddress(email.EmailDestinatario));
             message.Subject = email.Assunto;
+            message.Subject = email.Assunto;
+            message.Body = email.Corpo;
 
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = email.Corpo;
+            var client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE.Username, Constants.EMAIL_TESTE.Password);
+            client.Host = Constants.EMAIL_TESTE.Host;
+            client.Port = (int)Constants.EMAIL_TESTE.Port;
+            client.EnableSsl = true;
 
-            if (email.Anexos.Any())
+            try
             {
-                email.Anexos.ForEach(file =>
+                client.Send(message);
+                client.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task ObterEmailsAsync()
+        {
+            var token = await ObterTokenAsync();
+
+            try
+            {
+                if (token != null)
                 {
-                    var attachment = new MimePart("application/pdf")
+                    HttpClient httpClient = new();
+                    var defaultRequestHeaders = httpClient.DefaultRequestHeaders;
+
+                    if (defaultRequestHeaders.Accept == null || !defaultRequestHeaders.Accept.Any(m => m.MediaType == "application/json"))
                     {
-                        Content = new MimeContent(File.OpenRead(file)),
-                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                        ContentTransferEncoding = ContentEncoding.Base64,
-                        FileName = Path.GetFileName(file)
-                    };
+                        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    }
+                    defaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                    bodyBuilder.Attachments.Add(attachment);
-                });
-            };
+                    HttpResponseMessage response = await httpClient.GetAsync($"{Constants.EMAIL_TESTE.ApiUri}v1.0/users/${Constants.EMAIL_TESTE.ClientID}/messages");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string json = await response.Content.ReadAsStringAsync();
+                        JObject result = JsonConvert.DeserializeObject(json) as JObject;
+                    }
+                    else
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao obter emails do Outlook {ex.Message}");
+            }
+        }
 
-            message.Body = bodyBuilder.ToMessageBody();
+        public async Task<string> ObterTokenAsync()
+        {
+            IConfidentialClientApplication app;
 
-            SmtpClient client = new SmtpClient();
-            client.Connect(Constants.SMTP_HOST, Constants.SMTP_PORT, MailKit.Security.SecureSocketOptions.Auto);
-            client.Authenticate(Constants.SMTP_USER, Constants.SMTP_PASSWORD);
+            app = ConfidentialClientApplicationBuilder
+                    .Create(Constants.EMAIL_TESTE.ClientID)
+                    .WithClientSecret(Constants.EMAIL_TESTE.ClientSecret)
+                    .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.EMAIL_TESTE.Instance, Constants.EMAIL_TESTE.Tenant)))
+                    .Build();
 
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
+            string[] scopes = new string[] { $"{Constants.EMAIL_TESTE.ApiUri}.default" };
+
+            AuthenticationResult result = null;
+            try
+            {
+                result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+
+                return result.AccessToken;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao obter Token da Microsoft {ex.Message}");
+            }
         }
     }
 }

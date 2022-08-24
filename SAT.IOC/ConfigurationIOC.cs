@@ -158,6 +158,7 @@ public class ConfigurationIOC
         builder.RegisterType<OrcamentoFaturamentoRepository>().As<IOrcamentoFaturamentoRepository>();
         builder.RegisterType<ConferenciaRepository>().As<IConferenciaRepository>();
         builder.RegisterType<ConferenciaParticipanteRepository>().As<IConferenciaParticipanteRepository>();
+        builder.RegisterType<MensagemTecnicoRepository>().As<IMensagemTecnicoRepository>();
         #endregion
 
         #region Services
@@ -302,6 +303,7 @@ public class ConfigurationIOC
         builder.RegisterType<OrcamentoFaturamentoService>().As<IOrcamentoFaturamentoService>();
         builder.RegisterType<ConferenciaService>().As<IConferenciaService>();
         builder.RegisterType<ConferenciaParticipanteService>().As<IConferenciaParticipanteService>();
+        builder.RegisterType<MensagemTecnicoService>().As<IMensagemTecnicoService>();
         #endregion
 
         #region Utils Services

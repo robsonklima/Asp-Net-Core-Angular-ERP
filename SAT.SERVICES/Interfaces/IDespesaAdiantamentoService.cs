@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.SERVICES.Interfaces
 {

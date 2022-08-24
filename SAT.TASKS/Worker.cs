@@ -35,6 +35,8 @@ public partial class Worker : BackgroundService
         {
             try
             {
+                var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG);
+
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 
@@ -42,7 +44,6 @@ public partial class Worker : BackgroundService
                     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
                 _integracaoFinanceiroService.ExecutarAsync();
-                await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG);
             }
             catch (Exception ex)
             {

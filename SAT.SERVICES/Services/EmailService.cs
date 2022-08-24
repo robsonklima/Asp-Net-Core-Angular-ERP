@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<Office365Email> ObterEmailsAsync(EmailConfig emailConfig)
+        public async Task<Office365Email> ObterEmailsAsync(Office365EmailConfig emailConfig)
         {
             var token = await ObterTokenAsync();
             var emails = new Office365Email();

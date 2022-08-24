@@ -30,7 +30,7 @@ namespace SAT.MODELS.Entities.Constants
             ApiUri = "https://graph.microsoft.com/",
         };
 
-        public static EmailConfig EMAIL_TESTE_CONFIG = new EmailConfig {
+        public static Office365EmailConfig EMAIL_TESTE_CONFIG = new Office365EmailConfig {
             Username = "sat.teste@perto.com.br",
             Password = "SQ!@g45lic20(v",
             ClientId = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"

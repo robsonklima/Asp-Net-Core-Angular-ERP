@@ -1,5 +1,5 @@
 namespace SAT.MODELS.Entities {
-    public class EmailConfig
+    public class Office365EmailConfig
     {
         public string Username { get; set; }
         public string Password { get; set; }

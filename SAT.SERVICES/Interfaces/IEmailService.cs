@@ -7,6 +7,6 @@ namespace SAT.SERVICES.Interfaces
     {
         void Enviar(Email email);
         Task<string> ObterTokenAsync();
-        Task ObterEmailsAsync(EmailConfig conf);
+        Task<Office365Email> ObterEmailsAsync(EmailConfig conf);
     }
 }

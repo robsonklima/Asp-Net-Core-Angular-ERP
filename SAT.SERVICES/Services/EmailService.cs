@@ -5,14 +5,11 @@ using SAT.SERVICES.Interfaces;
 using System.Globalization;
 using SAT.MODELS.Entities.Constants;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using SAT.MODELS.Entities;
-using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -49,9 +46,10 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task ObterEmailsAsync(EmailConfig emailConfig)
+        public async Task<Office365Email> ObterEmailsAsync(EmailConfig emailConfig)
         {
             var token = await ObterTokenAsync();
+            var emails = new Office365Email();
 
             try
             {
@@ -68,17 +66,17 @@ namespace SAT.SERVICES.Services
                     HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{emailConfig.ClientId}/messages");
                     if (res.IsSuccessStatusCode)
                     {
-                        string json = await res.Content.ReadAsStringAsync();
-
-                        var result = JsonConvert.DeserializeObject(json) as List<Office365Email>;
+                        var json = await res.Content.ReadAsStringAsync();
+                        emails = Newtonsoft.Json.JsonConvert.DeserializeObject<Office365Email>(json);
                     }
                     else
                     {
                         var content = await res.Content.ReadAsStringAsync();
-                        
                         throw new Exception($"Erro ao obter emails do Outlook {content}");
                     }
                 }
+
+                return emails;
             }
             catch (Exception ex)
             {

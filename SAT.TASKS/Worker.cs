@@ -1,6 +1,7 @@
 
 using NLog;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -42,7 +43,7 @@ public partial class Worker : BackgroundService
 
                 //_integracaoFinanceiroService.ExecutarAsync();
 
-                await _emailService.ObterEmailsAsync();
+                await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG);
             }
             catch (Exception ex)
             {

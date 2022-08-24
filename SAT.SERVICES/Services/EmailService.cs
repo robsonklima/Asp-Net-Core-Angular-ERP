@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using SAT.MODELS.Entities;
+using System.Collections.Generic;
 
 namespace SAT.SERVICES.Services
 {
@@ -24,7 +25,7 @@ namespace SAT.SERVICES.Services
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             MailMessage message = new MailMessage();
-            message.From = new MailAddress(Constants.EMAIL_TESTE.Username);
+            message.From = new MailAddress(Constants.EMAIL_TESTE_CONFIG.Username);
             message.To.Add(new MailAddress(email.EmailDestinatario));
             message.Subject = email.Assunto;
             message.Subject = email.Assunto;
@@ -32,9 +33,9 @@ namespace SAT.SERVICES.Services
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE.Username, Constants.EMAIL_TESTE.Password);
-            client.Host = Constants.EMAIL_TESTE.Host;
-            client.Port = (int)Constants.EMAIL_TESTE.Port;
+            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE_CONFIG.Username, Constants.EMAIL_TESTE_CONFIG.Password);
+            client.Host = Constants.OFFICE_365_CONFIG.Host;
+            client.Port = (int)Constants.OFFICE_365_CONFIG.Port;
             client.EnableSsl = true;
 
             try
@@ -48,7 +49,7 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task ObterEmailsAsync()
+        public async Task ObterEmailsAsync(EmailConfig emailConfig)
         {
             var token = await ObterTokenAsync();
 
@@ -57,23 +58,25 @@ namespace SAT.SERVICES.Services
                 if (token != null)
                 {
                     HttpClient httpClient = new();
-                    var defaultRequestHeaders = httpClient.DefaultRequestHeaders;
+                    var headers = httpClient.DefaultRequestHeaders;
 
-                    if (defaultRequestHeaders.Accept == null || !defaultRequestHeaders.Accept.Any(m => m.MediaType == "application/json"))
-                    {
+                    if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    }
-                    defaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                    HttpResponseMessage response = await httpClient.GetAsync($"{Constants.EMAIL_TESTE.ApiUri}v1.0/users/${Constants.EMAIL_TESTE.ClientID}/messages");
-                    if (response.IsSuccessStatusCode)
+                    headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{emailConfig.ClientId}/messages");
+                    if (res.IsSuccessStatusCode)
                     {
-                        string json = await response.Content.ReadAsStringAsync();
-                        JObject result = JsonConvert.DeserializeObject(json) as JObject;
+                        string json = await res.Content.ReadAsStringAsync();
+
+                        var result = JsonConvert.DeserializeObject(json) as List<Office365Email>;
                     }
                     else
                     {
-                        string content = await response.Content.ReadAsStringAsync();
+                        var content = await res.Content.ReadAsStringAsync();
+                        
+                        throw new Exception($"Erro ao obter emails do Outlook {content}");
                     }
                 }
             }
@@ -88,12 +91,12 @@ namespace SAT.SERVICES.Services
             IConfidentialClientApplication app;
 
             app = ConfidentialClientApplicationBuilder
-                    .Create(Constants.EMAIL_TESTE.ClientID)
-                    .WithClientSecret(Constants.EMAIL_TESTE.ClientSecret)
-                    .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.EMAIL_TESTE.Instance, Constants.EMAIL_TESTE.Tenant)))
-                    .Build();
+                .Create(Constants.OFFICE_365_CONFIG.ClientID)
+                .WithClientSecret(Constants.OFFICE_365_CONFIG.ClientSecret)
+                .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.OFFICE_365_CONFIG.Instance, Constants.OFFICE_365_CONFIG.Tenant)))
+                .Build();
 
-            string[] scopes = new string[] { $"{Constants.EMAIL_TESTE.ApiUri}.default" };
+            string[] scopes = new string[] { $"{Constants.OFFICE_365_CONFIG.ApiUri}.default" };
 
             AuthenticationResult result = null;
             try

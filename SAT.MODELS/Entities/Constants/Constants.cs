@@ -20,16 +20,20 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
 
         // Email
-        public static EmailConfiguration EMAIL_TESTE = new EmailConfiguration {
+        public static Office365Config OFFICE_365_CONFIG = new Office365Config {
             Host = "smtp.office365.com",
             Port = 587,
-            Username = "sat.teste@perto.com.br",
-            Password = "SQ!@g45lic20(v",
             ClientID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96",
             ClientSecret = "Uyt8Q~DxTOYrhXeLwr-K_xdRyw.iHofX8MhG2aND",
+            Instance = "https://login.microsoftonline.com/{0}",
             Tenant = "grupodigicon.onmicrosoft.com",
             ApiUri = "https://graph.microsoft.com/",
-            Instance = "https://login.microsoftonline.com/{0}",
+        };
+
+        public static EmailConfig EMAIL_TESTE_CONFIG = new EmailConfig {
+            Username = "sat.teste@perto.com.br",
+            Password = "SQ!@g45lic20(v",
+            ClientId = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
         };
 
         // Status de Serviço

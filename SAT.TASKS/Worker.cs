@@ -42,14 +42,7 @@ public partial class Worker : BackgroundService
 
                 //_integracaoFinanceiroService.ExecutarAsync();
 
-                _emailService.Enviar(new Email {
-                    Assunto = "Teste de envio de e-mail",
-                    EmailDestinatario = "equipe.sat@perto.com.br",
-                    NomeDestinatario = "Equipe SAT",
-                    EmailRemetente = "equipe.sat@perto.com.br",
-                    NomeRemetente = "Equipe SAT",
-                    Corpo = "Teste"
-                });
+                await _emailService.ObterEmailsAsync();
             }
             catch (Exception ex)
             {

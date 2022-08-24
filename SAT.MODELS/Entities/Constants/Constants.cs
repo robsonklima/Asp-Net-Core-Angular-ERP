@@ -24,6 +24,11 @@ namespace SAT.MODELS.Entities.Constants
         public static int SMTP_PORT = 587;
         public static string SMTP_USER = "sat.teste@perto.com.br";
         public static string SMTP_PASSWORD = "SQ!@g45lic20(v";
+        public static string OUTLOOK_CLIENT_ID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96";
+        public static string OUTLOOK_CLIENT_SECRET = "Uyt8Q~DxTOYrhXeLwr-K_xdRyw.iHofX8MhG2aND";
+        public static string OUTLOOK_TENANT = "grupodigicon.onmicrosoft.com";
+        public static string OUTLOOK_API_URI = "https://graph.microsoft.com/";
+        public static string OUTLOOK_INSTANCE = "https://login.microsoftonline.com/{0}";
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;

@@ -7,7 +7,7 @@ using SAT.MODELS.Helpers;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Repository
 {

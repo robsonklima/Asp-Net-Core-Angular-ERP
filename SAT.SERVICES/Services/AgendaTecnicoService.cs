@@ -6,7 +6,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services

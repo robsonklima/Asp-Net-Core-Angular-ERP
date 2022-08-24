@@ -1,6 +1,6 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using System.Collections.Generic;
 
 namespace SAT.INFRA.Interfaces

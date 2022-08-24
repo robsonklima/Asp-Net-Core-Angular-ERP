@@ -2,7 +2,7 @@ using SAT.INFRA.Context;
 using System;
 using SAT.INFRA.Interfaces;
 using System.Collections.Generic;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using System.Linq;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities;

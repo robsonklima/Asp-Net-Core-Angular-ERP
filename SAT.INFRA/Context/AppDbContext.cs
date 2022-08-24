@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Mapping;
 using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Context
 {

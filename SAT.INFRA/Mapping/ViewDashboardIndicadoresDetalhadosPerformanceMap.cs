@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Mapping
 {

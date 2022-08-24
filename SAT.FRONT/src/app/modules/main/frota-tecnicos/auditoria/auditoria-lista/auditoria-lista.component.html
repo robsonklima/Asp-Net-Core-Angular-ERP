@@ -75,7 +75,7 @@
                                           {{ auditoria.qtdDespesasPendentes + t('  Pendência') }}
                                       </div>
                                       <div>
-                                        <button class="min-w-10 min-h-7 h-7 px-2 ml-2" mat-stroked-button [matTooltip]="'Detalhes'"[routerLink]="['/auditoria/form']"
+                                        <button class="min-w-10 min-h-7 h-7 px-2 ml-2" mat-stroked-button [matTooltip]="'Detalhes'"[routerLink]="['/frota-tecnico/auditoria/' + auditoria.codAuditoria]"
                                             [disabled]="auditoria.qtdDespesasPendentes>0" matTooltipPosition="above">
                                             <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>

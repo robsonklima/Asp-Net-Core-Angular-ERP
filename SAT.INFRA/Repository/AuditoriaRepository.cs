@@ -66,7 +66,14 @@ namespace SAT.INFRA.Repository
         {
             try
             {
-                return _context.Auditoria.SingleOrDefault(aud => aud.CodAuditoria == codAuditoria);
+                return _context.Auditoria
+                    .Include(c => c.Usuario)
+                        .ThenInclude(c => c.Filial)
+                    .Include(c => c.Usuario)
+                        .ThenInclude(c => c.Tecnico)
+                    .Include(c => c.AuditoriaStatus)
+                    .Include(c => c.AuditoriaVeiculo)
+                    .SingleOrDefault(aud => aud.CodAuditoria == codAuditoria);
             }
             catch (System.Exception)
             {
@@ -79,6 +86,8 @@ namespace SAT.INFRA.Repository
             var auditorias = _context.Auditoria
                 .Include(c => c.Usuario)
                     .ThenInclude(c => c.Filial)
+                .Include(c => c.Usuario)
+                    .ThenInclude(c => c.Tecnico)
                 .Include(c => c.AuditoriaStatus)
                 .Include(c => c.AuditoriaVeiculo)
                 .AsQueryable();

@@ -17,4 +17,5 @@ export interface AuditoriaVeiculoAcessorioData extends Meta {
 
 export interface AuditoriaVeiculoAcessorioParameters extends QueryStringParameters {
     nome?: string;
+    codAuditoriaVeiculo?: number;
 };

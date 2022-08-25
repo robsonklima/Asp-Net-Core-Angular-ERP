@@ -36,6 +36,7 @@ import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-fot
 import { AuditoriaAcessoriosComponent } from './auditoria/auditoria-acessorios/auditoria-acessorios.component';
 import { MatTableModule } from '@angular/material/table';
 import { NgxMaskModule } from 'ngx-mask/lib/ngx-mask.module';
+import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { NgxMaskModule } from 'ngx-mask/lib/ngx-mask.module';
     AuditoriaDetalhesComponent,
     AuditoriaFotoComponent,
     AuditoriaAcessoriosComponent,
+    AuditoriaUtilizacaoComponent,
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,

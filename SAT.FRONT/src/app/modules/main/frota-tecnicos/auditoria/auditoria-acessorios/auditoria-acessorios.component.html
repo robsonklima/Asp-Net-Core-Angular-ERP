@@ -1,13 +1,7 @@
-<div class="flex-auto">
-  <div class="max-w-5xl" *ngIf="!isLoading">
-    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
-      <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
-        <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-          <mat-tab label="{{ t('acessorios') }}">
-            <ng-template matTabContent>
+
               <div class="grid  w-full min-w-0">
                 <div class="p-8">
-                  <div class="flex flex-col gt-xs:flex-row">
+                  <div class="flex flex-col gt-xs:flex-row " >
                     <table *ngIf="auditoria?.auditoriaVeiculo?.acessorios.length"
                       mat-table [dataSource]="auditoria?.auditoriaVeiculo?.acessorios" class="mat-elevation-z8 demo-table">
                       <ng-container matColumnDef="nome">
@@ -47,10 +41,3 @@
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
-    </div>
-  </div>
-</div>

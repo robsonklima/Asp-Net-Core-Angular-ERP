@@ -33,6 +33,9 @@ import { AuditoriaDetalhesComponent } from './auditoria/auditoria-detalhes/audit
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
 import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-foto.component';
+import { AuditoriaAcessoriosComponent } from './auditoria/auditoria-acessorios/auditoria-acessorios.component';
+import { MatTableModule } from '@angular/material/table';
+import { NgxMaskModule } from 'ngx-mask/lib/ngx-mask.module';
 
 
 @NgModule({
@@ -43,6 +46,7 @@ import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-fot
     AuditoriaLayoutComponent,
     AuditoriaDetalhesComponent,
     AuditoriaFotoComponent,
+    AuditoriaAcessoriosComponent,
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
@@ -71,7 +75,8 @@ import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-fot
     FiltroModule,
     MatMenuModule,
     MatTabsModule,
-    FuseCardModule
+    FuseCardModule,
+    MatTableModule
   ]
 })
 export class FrotaTecnicosModule { }

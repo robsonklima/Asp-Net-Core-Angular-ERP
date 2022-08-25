@@ -1,0 +1,56 @@
+<div class="flex-auto">
+  <div class="max-w-5xl" *ngIf="!isLoading">
+    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+      <div class="w-full max-w-screen-xl mx-auto" *ngIf="!isLoading">
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+          <mat-tab label="{{ t('acessorios') }}">
+            <ng-template matTabContent>
+              <div class="grid  w-full min-w-0">
+                <div class="p-8">
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <table *ngIf="auditoria?.auditoriaVeiculo?.acessorios.length"
+                      mat-table [dataSource]="auditoria?.auditoriaVeiculo?.acessorios" class="mat-elevation-z8 demo-table">
+                      <ng-container matColumnDef="nome">
+                        <th mat-header-cell *matHeaderCellDef>Nome</th>
+                        <td mat-cell *matCellDef="let acessorio">
+                          <mat-cell>
+                            {{ acessorio.nome }}
+                          </mat-cell>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>status</th>
+                        <td mat-cell *matCellDef="let acessorio">
+                          <mat-cell>
+                            {{ acessorio.selecionado }}
+                          </mat-cell>
+                        </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="justificativa">
+                        <th mat-header-cell *matHeaderCellDef>justificativa</th>
+                        <td mat-cell *matCellDef="let acessorio">
+                          <mat-cell>
+                            {{ acessorio.justificativa }}
+                          </mat-cell>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <p *ngIf="!auditoria?.auditoriaVeiculo?.acessorios.length">
+                      Nenhum acessório encontrado
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>

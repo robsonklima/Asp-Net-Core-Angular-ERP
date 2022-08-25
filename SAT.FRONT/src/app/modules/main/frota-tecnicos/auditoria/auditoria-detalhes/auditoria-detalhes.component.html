@@ -1,38 +1,3 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div *ngIf=isAddMode
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 md:min-w-0">
-            <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/contrato">
-                        {{ t('Auditorias') }}
-                    </a>
-                </div>
-
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                    </span>
-                </div>
-                
-                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="whitespace-nowrap text-secondary">
-                        {{ codAuditoria }}
-                    </span>
-                </div>
-            </div>
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    {{ t('auditoria') }}
-                </h2>
-            </div>
-        </div>
-    </div>
-
     <div class="flex-auto">
         <div class="max-w-5xl" *ngIf="!isLoading">
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
@@ -60,14 +25,14 @@
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
-                                                <div class="text-secondary">{{ t('cpf') }}</div>
-                                                <div>{{ auditoria?.usuario?.tecnico?.cpf || "Não informado" }}</div>
+                                                <div class="text-secondary">{{ t('cpf') }} </div>
+                                                <div>{{ auditoria?.usuario?.tecnico?.cpf  || "Não informado" }}</div>
                                             </div>
 
-                                              <!-- <div class="flex items-center justify-between py-3">
-                                                <div class="text-secondary">{{ t('placa') }}</div>
-                                                <div> {{ auditoria?.usuario?.filial?.nomeFilial || "Não informado" }} </div>
-                                                </div> -->
+                                            <div class="flex items-center justify-between py-3"   *ngFor="let placa of auditoria?.usuario?.tecnico?.veiculos">
+                                                    <div class="text-secondary">{{ t('placa') }}</div>
+                                                    <div  *ngIf="placa.indAtivo" > {{  placa.placa || "Não informado" }} </div>
+                                            </div>
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('cnh') }}</div>
@@ -98,17 +63,17 @@
                         
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('cnh categoria') }}</div>
-                                                <div> {{ auditoria?.usuario?.tecnico?.cnhCategorias || "Não informado" }} </div>
+                                                <div> {{ auditoria?.usuario?.tecnico?.cnhcategorias || "Não informado" }} </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('finalidade') }}</div>
-                                                <div>{{ auditoria?.usuario?.tecnico?.finalidadesUso || "Não informado" }} </div>
+                                                <div>{{ auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso|| "Não informado" }} </div>
                                             </div>
 
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('cnhValidade') }}</div>
-                                                <div> {{ auditoria?.usuario?.tecnico?.cnhValidade || "Não informado" }} </div>
+                                                <div> {{ auditoria?.usuario?.tecnico?.cnhvalidade || "Não informado" }} </div>
                                             </div>
                                         </div>
                                     </fuse-card>

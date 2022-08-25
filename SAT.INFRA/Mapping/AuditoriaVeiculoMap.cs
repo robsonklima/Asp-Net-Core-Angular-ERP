@@ -13,6 +13,13 @@ namespace SAT.INFRA.Mapping
 
             builder
                 .HasKey(i => i.CodAuditoriaVeiculo);
+
+            builder
+                .HasMany(prop => prop.Acessorios)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodAuditoriaVeiculo)
+                .HasPrincipalKey(prop => prop.CodAuditoriaVeiculo);
+
         }
     }
 }

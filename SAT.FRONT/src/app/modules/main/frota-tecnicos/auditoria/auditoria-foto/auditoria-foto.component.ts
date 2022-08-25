@@ -10,6 +10,7 @@ import { UserService } from 'app/core/user/user.service';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { FormGroup } from '@angular/forms';
 import { AuditoriaFoto } from 'app/core/types/auditoria-foto.types';
+import { AuditoriaFotoService } from 'app/core/services/auditoria-foto.service';
 
 @Component({
   selector: 'app-auditoria-foto',
@@ -21,27 +22,25 @@ export class AuditoriaFotoComponent implements OnInit {
   auditoria: Auditoria;
   userSession: UsuarioSessao;
   form: FormGroup;
-  fotos: AuditoriaFoto[] = [];
+  fotos: AuditoriaFoto;
 
   constructor(
-    private _dialog: MatDialog,
     private _route: ActivatedRoute,
     private _auditoriaService: AuditoriaService,
     private _userService: UserService,
-	private _router: Router
   ) {
-     this.userSession = JSON.parse(this._userService.userSession); 
-    }
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   ngOnInit(): void {
     this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
 
     this._auditoriaService.obterPorCodigo(this.codAuditoria)
-				.pipe(first())
-				.subscribe(data => {
-					this.form.patchValue(data);
-					this.auditoria = data;
-				});
+      .pipe(first())
+      .subscribe(data => {
+
+        this.auditoria = data;
+      });
   }
 
 }

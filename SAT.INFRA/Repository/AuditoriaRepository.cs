@@ -4,6 +4,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 
 namespace SAT.INFRA.Repository
@@ -73,11 +74,12 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(c => c.Tecnico)
                     .Include(c => c.AuditoriaStatus)
                     .Include(c => c.AuditoriaVeiculo)
+                    .Include(c => c.Fotos)
                     .SingleOrDefault(aud => aud.CodAuditoria == codAuditoria);
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception($"Erro ao consultar a auditoria {ex.Message}");
             }
         }
 
@@ -125,8 +127,6 @@ namespace SAT.INFRA.Repository
                 int[] cods = parameters.CodAuditoriaStatusNotIn.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
                 auditorias = auditorias.Where(e => !cods.Contains(e.CodAuditoriaStatus));
             }
-
-            
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);
         }

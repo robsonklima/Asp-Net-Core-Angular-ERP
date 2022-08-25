@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -35,6 +37,8 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string CodUsuarioManut { get; set; }
         public int? QtdDespesasPendentes { get; set; }
+        [ForeignKey("CodAuditoria")]
+        public List<AuditoriaFoto> Fotos  { get; set; }
     }
 }
 

@@ -46,37 +46,29 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<Office365Email> ObterEmailsAsync(Office365EmailConfig emailConfig)
+        public async Task<Office365Email> ObterEmailsAsync(string token, string clientID)
         {
-            var token = await ObterTokenAsync();
-            var emails = new Office365Email();
-
             try
             {
-                if (token != null)
+                HttpClient httpClient = new();
+                var headers = httpClient.DefaultRequestHeaders;
+
+                if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/messages");
+                if (res.IsSuccessStatusCode)
                 {
-                    HttpClient httpClient = new();
-                    var headers = httpClient.DefaultRequestHeaders;
-
-                    if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
-                        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                    HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{emailConfig.ClientId}/messages");
-                    if (res.IsSuccessStatusCode)
-                    {
-                        var json = await res.Content.ReadAsStringAsync();
-                        emails = Newtonsoft.Json.JsonConvert.DeserializeObject<Office365Email>(json);
-                    }
-                    else
-                    {
-                        var content = await res.Content.ReadAsStringAsync();
-                        throw new Exception($"Erro ao obter emails do Outlook {content}");
-                    }
+                    var json = await res.Content.ReadAsStringAsync();
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<Office365Email>(json);
                 }
-
-                return emails;
+                else
+                {
+                    var content = await res.Content.ReadAsStringAsync();
+                    throw new Exception($"Erro ao obter emails do Outlook {content}");
+                }
             }
             catch (Exception ex)
             {
@@ -84,22 +76,40 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<string> ObterTokenAsync()
+        public async Task DeletarEmailAsync(string token, string clientID, string emailID)
         {
-            IConfidentialClientApplication app;
-
-            app = ConfidentialClientApplicationBuilder
-                .Create(Constants.OFFICE_365_CONFIG.ClientID)
-                .WithClientSecret(Constants.OFFICE_365_CONFIG.ClientSecret)
-                .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.OFFICE_365_CONFIG.Instance, Constants.OFFICE_365_CONFIG.Tenant)))
-                .Build();
-
-            string[] scopes = new string[] { $"{Constants.OFFICE_365_CONFIG.ApiUri}.default" };
-
-            AuthenticationResult result = null;
             try
             {
-                result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+                HttpClient httpClient = new();
+                var headers = httpClient.DefaultRequestHeaders;
+
+                if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage del = await httpClient
+                    .DeleteAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/messages/{emailID}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao deletar email do Outlook {ex.Message}");
+            }
+        }
+
+        public async Task<string> ObterTokenAsync()
+        {
+            try
+            {
+                IConfidentialClientApplication app = ConfidentialClientApplicationBuilder
+                    .Create(Constants.OFFICE_365_CONFIG.ClientID)
+                    .WithClientSecret(Constants.OFFICE_365_CONFIG.ClientSecret)
+                    .WithAuthority(new Uri(String.Format(CultureInfo.InvariantCulture, Constants.OFFICE_365_CONFIG.Instance, Constants.OFFICE_365_CONFIG.Tenant)))
+                    .Build();
+
+                string[] scopes = new string[] { $"{Constants.OFFICE_365_CONFIG.ApiUri}.default" };
+
+                AuthenticationResult result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
 
                 return result.AccessToken;
             }

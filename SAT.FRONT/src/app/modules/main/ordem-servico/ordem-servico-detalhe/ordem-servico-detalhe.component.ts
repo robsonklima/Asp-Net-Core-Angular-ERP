@@ -460,6 +460,29 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		});
 	}
 
+	public reprocessarIntegracaoBRB() {
+		this.isLoading = true;
+
+		this._ordemServicoService.atualizar({
+			...this.os,
+			...{
+				dataHoraIntegracaoRevisao: null,
+				dataHoraIntegracaoRevisaoAgendamento: null,
+				dataHoraIntegracaoRevisaoV2: null,
+				dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario.codUsuario,
+				dataHoraManutencao: moment().format('yyyy-MM-DD HH:mm:ss'),
+				codUsuarioManutencao: this.userSession.usuario.codUsuario
+			}
+		}).subscribe((os: OrdemServico) => {
+			this._snack.exibirToast("Sua solicitação foi realizada com sucesso! O chamado será reprocessado dentro de alguns minutos", 'success');
+			this.isLoading = false;
+		}, e => {
+			this._snack.exibirToast("Erro ao realizar sua solicitação!", 'error');
+			this.isLoading = false;
+		})
+	}
+
 	verificaPermissaoBB() {
 		if (((this.userSession.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
 			this.userSession.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA) &&

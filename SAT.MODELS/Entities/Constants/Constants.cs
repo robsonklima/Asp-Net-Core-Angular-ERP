@@ -33,7 +33,7 @@ namespace SAT.MODELS.Entities.Constants
         public static Office365EmailConfig EMAIL_TESTE_CONFIG = new Office365EmailConfig {
             Username = "sat.teste@perto.com.br",
             Password = "SQ!@g45lic20(v",
-            ClientId = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
+            ClientID = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
         };
 
         // Status de Serviço

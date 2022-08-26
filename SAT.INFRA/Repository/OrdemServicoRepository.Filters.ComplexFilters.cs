@@ -142,58 +142,6 @@ namespace SAT.INFRA.Repository
 
                             select c;
 
-
-            //  var l = po2.Count();
-            //   var l2 = po2.Count();
-
-
-            //var c = (from q in query.Where(c => c.CodCliente == (int)ClienteEnum.BB && c.CodContrato == 3145 &&
-            //                        c.IndServico == 1 &&
-            //                                    //c.CodUsuarioCadastro == "SERVI�O" &&
-            //                                    c.DispBBEquipamentoContrato != null &&
-            //                                    c.DispBBEquipamentoContrato.Equipamento != null
-            //                             && c.DispBBEquipamentoContrato.AnoMes == "202111" &&
-            //                             (c.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA ||
-            //                             c.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORCAMENTO ||
-            //                             c.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORC_APROVADO ||
-            //                             c.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORC_REPROVADO ||
-            //                             c.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE ||
-            //                             c.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORC_PEND_FILIAL_DETALHAR_MOTIVO
-            //                             )
-            //                            && !c.DispBBEquipamentoContrato.Equipamento.NomeEquip.Contains("TDS")
-            //                            && !c.DispBBEquipamentoContrato.Equipamento.NomeEquip.Contains("TCC")
-            //                            && !c.DispBBEquipamentoContrato.Equipamento.NomeEquip.Contains("TOP")
-            //                            && !c.DispBBEquipamentoContrato.Equipamento.NomeEquip.Contains("TR 1150")
-
-            //                            && ((c.DataHoraAberturaOS >= primeiroDiaMes && c.DataHoraAberturaOS <= ultimoDiaMes) ||
-            //                                    /* Proximo dia util func*/
-            //                                    (c.RelatoriosAtendimento.OrderBy(or => or.DataHoraSolucao).FirstOrDefault().DataHoraSolucao >= primeiroDiaMes
-            //                                    && c.RelatoriosAtendimento.OrderBy(or => or.DataHoraSolucao).FirstOrDefault().DataHoraSolucao <= ultimoDiaMes)
-
-            //                                    ||
-
-            //                                    (
-            //                                    c.CodStatusServico != (int)StatusServicoEnum.CANCELADO &&
-            //                                     c.CodStatusServico != (int)StatusServicoEnum.FECHADO &&
-            //                                     c.DataHoraAberturaOS < primeiroDiaMes
-            //                                     )
-
-            //                                     ||
-
-            //                                     (c.DataHoraAberturaOS < primeiroDiaMes &&
-            //                                      c.RelatoriosAtendimento.OrderBy(or => or.DataHoraSolucao).FirstOrDefault().DataHoraSolucao > ultimoDiaMes)
-            //                                )
-            //                             )
-
-
-            //         select q
-
-            //    ).ToList();
-
-
-
-            //var o = c.Count;
-
             return po.AsQueryable();
         }
 

@@ -1,4 +1,3 @@
-
 using NLog;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -14,19 +13,22 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
     private readonly ISatTaskService _satTaskService;
     private readonly IEmailService _emailService;
+    private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
         IPontoUsuarioService pontoUsuarioService,
         IIntegracaoFinanceiroService integracaoFinanceiroService,
         IEmailService emailService,
-        ISatTaskService satTaskService
+        ISatTaskService satTaskService,
+        IIntegracaoBanrisulService integracaoBanrisulService
     ) {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
         _integracaoFinanceiroService = integracaoFinanceiroService;
         _satTaskService = satTaskService;
         _emailService = emailService;
+        _integracaoBanrisulService = integracaoBanrisulService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,15 +37,15 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG);
+                await _integracaoBanrisulService.ExecutarIntegracaoATMAsync();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                    _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
-                _integracaoFinanceiroService.ExecutarAsync();
+                //_integracaoFinanceiroService.ExecutarAsync();
             }
             catch (Exception ex)
             {

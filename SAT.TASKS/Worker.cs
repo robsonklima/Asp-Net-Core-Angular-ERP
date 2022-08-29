@@ -1,7 +1,4 @@
 using NLog;
-using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
-using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.TASKS;
@@ -11,6 +8,7 @@ public partial class Worker : BackgroundService
     private readonly IPlantaoTecnicoService _plantaoTecnicoService;
     private readonly IPontoUsuarioService _pontoUsuarioService;
     private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
+    private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
     private readonly ISatTaskService _satTaskService;
     private readonly IEmailService _emailService;
 
@@ -18,12 +16,14 @@ public partial class Worker : BackgroundService
         IPlantaoTecnicoService plantaoTecnicoService,
         IPontoUsuarioService pontoUsuarioService,
         IIntegracaoFinanceiroService integracaoFinanceiroService,
+        IIntegracaoBanrisulService integracaoBanrisulService,
         IEmailService emailService,
         ISatTaskService satTaskService
     ) {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
         _integracaoFinanceiroService = integracaoFinanceiroService;
+        _integracaoBanrisulService = integracaoBanrisulService;
         _satTaskService = satTaskService;
         _emailService = emailService;
     }
@@ -41,6 +41,8 @@ public partial class Worker : BackgroundService
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
                 //_integracaoFinanceiroService.ExecutarAsync();
+
+                _integracaoBanrisulService.ExecutarAsync();
             }
             catch (Exception ex)
             {

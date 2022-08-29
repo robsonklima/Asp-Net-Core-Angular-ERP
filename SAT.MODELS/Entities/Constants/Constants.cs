@@ -20,7 +20,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
 
         // Email
-        public static Office365Config OFFICE_365_CONFIG = new Office365Config {
+        public static Office365Config OFFICE_365_CONFIG = new Office365Config { // Apenas para obtencao do Token
             Host = "smtp.office365.com",
             Port = 587,
             ClientID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96",

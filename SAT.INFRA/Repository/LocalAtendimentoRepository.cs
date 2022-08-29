@@ -152,6 +152,12 @@ namespace SAT.INFRA.Repository
                 locais = locais.Where(l => cods.Contains(l.CodCliente));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.DCPostoNotIn))
+            {
+                string[] cods = parameters.DCPosto.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                locais = locais.Where(l => !cods.Contains(l.DCPosto));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 locais = locais.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

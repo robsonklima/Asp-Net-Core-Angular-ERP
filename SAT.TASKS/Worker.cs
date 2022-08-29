@@ -13,22 +13,19 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
     private readonly ISatTaskService _satTaskService;
     private readonly IEmailService _emailService;
-    private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
         IPontoUsuarioService pontoUsuarioService,
         IIntegracaoFinanceiroService integracaoFinanceiroService,
         IEmailService emailService,
-        ISatTaskService satTaskService,
-        IIntegracaoBanrisulService integracaoBanrisulService
+        ISatTaskService satTaskService
     ) {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
         _integracaoFinanceiroService = integracaoFinanceiroService;
         _satTaskService = satTaskService;
         _emailService = emailService;
-        _integracaoBanrisulService = integracaoBanrisulService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,8 +34,6 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                await _integracaoBanrisulService.ExecutarIntegracaoATMAsync();
-
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                 //     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 

@@ -16,6 +16,7 @@ namespace SAT.SERVICES.Services {
                                 Filial = tecnico.Filial?.NomeFilial ?? Constants.NENHUM_REGISTRO,
                                 FonePerto = tecnico.FonePerto ?? Constants.NENHUM_REGISTRO,
                                 FoneParticular = tecnico.FoneParticular ?? Constants.NENHUM_REGISTRO,
+                                DataAdmissao = tecnico.DataAdmissao,
                                 IndAtivo = tecnico.IndAtivo == 1 ? "SIM" : "NÃO"
                             });
 

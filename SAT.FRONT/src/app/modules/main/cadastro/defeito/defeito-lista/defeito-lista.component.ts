@@ -77,6 +77,7 @@ export class DefeitoListaComponent extends Filterable implements AfterViewInit, 
 		this.loadFilter();
 		this.obterDados();
 	}
+  
   async ngAfterViewInit() {
     this.registerEmitters();
     this.obterDados();

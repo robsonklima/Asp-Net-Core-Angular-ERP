@@ -304,6 +304,7 @@ public class ConfigurationIOC
         builder.RegisterType<ConferenciaService>().As<IConferenciaService>();
         builder.RegisterType<ConferenciaParticipanteService>().As<IConferenciaParticipanteService>();
         builder.RegisterType<MensagemTecnicoService>().As<IMensagemTecnicoService>();
+        builder.RegisterType<IntegracaoBanrisulService>().As<IIntegracaoBanrisulService>();
         #endregion
 
         #region Utils Services

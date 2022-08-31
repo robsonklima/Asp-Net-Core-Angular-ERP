@@ -26,6 +26,7 @@ namespace SAT.MODELS.Entities
         public Campo PrioridadeIncidente;
         public Campo DataHoraAgendamento;
         public Campo DataHoraSolucaoValida;
+        public string Conteudo;
 
         public IntegracaoBanrisulAtendimento()
         {
@@ -46,6 +47,7 @@ namespace SAT.MODELS.Entities
             PrioridadeIncidente = new Campo() { Indice = 14, Nome = "Prioridade Incidente" };
             DataHoraAgendamento = new Campo() { Indice = 15, Nome = "Data Hora Agendamento" };
             DataHoraSolucaoValida = new Campo() { Indice = 16, Nome = "Data Hora Solucao Valida" };
+            Conteudo = string.Empty;
         }
     }
 }

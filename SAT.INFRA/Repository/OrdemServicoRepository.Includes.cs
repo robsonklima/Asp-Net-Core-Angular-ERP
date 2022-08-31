@@ -340,7 +340,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.Filial)
                         .Include(os => os.TipoIntervencao)
                         .Include(os => os.LocalAtendimento)
-                        .Include(os => os.LocalAtendimento.Cidade)
+                            .ThenInclude(l => l.Cidade)
                         .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
                         .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa.Pais)
                         .Include(os => os.Equipamento)

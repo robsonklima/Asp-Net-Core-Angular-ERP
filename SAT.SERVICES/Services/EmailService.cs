@@ -23,10 +23,18 @@ namespace SAT.SERVICES.Services
 
             MailMessage message = new MailMessage();
             message.From = new MailAddress(Constants.EMAIL_TESTE_CONFIG.Username);
-            message.To.Add(new MailAddress(email.EmailDestinatario));
+
+            foreach (string enderencoEmail in email.EmailDestinatarios)
+            {
+                if (!string.IsNullOrWhiteSpace(enderencoEmail)) {
+                    message.To.Add(new MailAddress(enderencoEmail));    
+                }
+            }
+            
             message.Subject = email.Assunto;
             message.Subject = email.Assunto;
             message.Body = email.Corpo;
+            message.IsBodyHtml = true;
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
@@ -46,12 +54,13 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<Office365Email> ObterEmailsAsync(string token, string clientID)
+        public async Task<Office365Email> ObterEmailsAsync(string clientID)
         {
             try
             {
                 HttpClient httpClient = new();
                 var headers = httpClient.DefaultRequestHeaders;
+                var token = await ObterTokenAsync();
 
                 if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -76,12 +85,13 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task DeletarEmailAsync(string token, string clientID, string emailID)
+        public async Task DeletarEmailAsync(string clientID, string emailID)
         {
             try
             {
                 HttpClient httpClient = new();
                 var headers = httpClient.DefaultRequestHeaders;
+                var token = await ObterTokenAsync();
 
                 if (headers.Accept == null || !headers.Accept.Any(m => m.MediaType == "application/json"))
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -97,7 +107,7 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<string> ObterTokenAsync()
+        private async Task<string> ObterTokenAsync()
         {
             try
             {

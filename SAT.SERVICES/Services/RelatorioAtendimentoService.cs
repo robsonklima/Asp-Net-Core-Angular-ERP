@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
@@ -121,15 +120,11 @@ namespace SAT.SERVICES.Services
                 }
 
                 _relatorioAtendimentoRepo.Deletar(codigo);
+                string[] destinatarios = {usuario.Email};
 
                 var email = new Email
                 {
-                    EmailRemetente = "equipe.sat@perto.com.br",
-                    NomeRemetente = "Sistema SAT",
-                    EmailCC = "equipe.sat@perto.com.br; supervisordss@perto.com.br",
-                    NomeCC = "Equipe SAT",
-                    EmailDestinatario = usuario.Email,
-                    NomeDestinatario = usuario.NomeUsuario,
+                    EmailDestinatarios = destinatarios,
                     Assunto = "Atualização em massa do módulo Implantação",
                     Corpo = $"RAT: {relatorio.NumRAT} Excluída por {usuario.NomeUsuario} na data {DateTime.Now}",
                 };

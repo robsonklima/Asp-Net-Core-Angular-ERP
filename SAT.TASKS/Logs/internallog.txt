@@ -1,0 +1,542 @@
+2022-08-30 17:48:55.3228 Info Message Template Auto Format enabled
+2022-08-30 17:48:55.3635 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-08-30 17:48:55.3635 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:55.3778 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.3778 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:55.3875 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.3875 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.3875 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.3875 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.3875 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.4044 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.4044 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:55.4044 Info Adding target FileTarget(Name=logfile)
+2022-08-30 17:48:55.4044 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-08-30 17:48:55.4044 Debug Setting 'NLog.Targets.FileTarget.name' to 'error'
+2022-08-30 17:48:55.4194 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:55.4194 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.4194 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:55.4194 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.4194 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.4360 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.4360 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.4360 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.4360 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.4360 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:55.4514 Info Adding target FileTarget(Name=error)
+2022-08-30 17:48:55.4514 Debug Registered target error: NLog.Targets.FileTarget
+2022-08-30 17:48:55.4514 Trace ParseRulesElement
+2022-08-30 17:48:55.4932 Debug Watching file-filter 'NLog.config' in directory: C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64
+2022-08-30 17:48:55.4977 Debug --- NLog configuration dump ---
+2022-08-30 17:48:55.4977 Debug Targets:
+2022-08-30 17:48:55.4977 Debug FileTarget(Name=logfile)
+2022-08-30 17:48:55.4977 Debug FileTarget(Name=error)
+2022-08-30 17:48:55.5130 Debug Rules:
+2022-08-30 17:48:55.5130 Debug logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-08-30 17:48:55.5130 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-08-30 17:48:55.5130 Debug logNamePattern: (:All) levels: [ Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-08-30 17:48:55.5287 Debug logNamePattern: (:All) levels: [ Error Fatal ] writeTo: [ error ]
+2022-08-30 17:48:55.5287 Debug logNamePattern: (:All) levels: [ Warn Error Fatal ] writeTo: [ logfile ]
+2022-08-30 17:48:55.5287 Debug --- End of NLog configuration dump ---
+2022-08-30 17:48:55.5287 Trace FindReachableObject<System.Object>:
+2022-08-30 17:48:55.5461 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:55.5461 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:55.5461 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-08-30 17:48:55.5593 Trace   Scanning Property FileName 'Logs/${shortdate}_logfile.log' NLog.Layouts
+2022-08-30 17:48:55.5593 Trace   Scanning SimpleLayout 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:55.5593 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.5593 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.5769 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:55.5769 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.5769 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:55.5769 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.5924 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.5924 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.5924 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.5924 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.6075 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.6075 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:55.6075 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:55.6075 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:55.6260 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:55.6260 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:55.6260 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:55.6415 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:55.6415 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:55.6415 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:55.6565 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:55.6565 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:55.6565 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:55.6720 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Error Fatal ] writeTo: [ error ]'
+2022-08-30 17:48:55.6720 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:55.6720 Trace  Scanning FileTarget 'FileTarget(Name=error)'
+2022-08-30 17:48:55.6867 Trace   Scanning Property FileName 'Logs/${shortdate}_error.log' NLog.Layouts
+2022-08-30 17:48:55.6867 Trace   Scanning SimpleLayout 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:55.6867 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.7016 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.7016 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:55.7016 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.7182 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:55.7182 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.7182 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.7335 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.7335 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.7335 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.7479 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.7479 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:55.7479 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:55.7479 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:55.7654 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:55.7654 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:55.7654 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:55.7654 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:55.7818 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:55.7818 Info Validating config: TargetNames=logfile, error, ConfigItems=27, FilePath=C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64\NLog.config
+2022-08-30 17:48:55.7954 Debug Unused target checking is started... Rule Count: 5, Target Count: 2
+2022-08-30 17:48:55.7954 Debug Unused target checking is completed. Total Rule Count: 5, Total Target Count: 2, Unused Target Count: 0
+2022-08-30 17:48:55.7954 Trace Initializing Layout Renderer: ${message}
+2022-08-30 17:48:55.8125 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.8125 Trace Initializing Layout Renderer: ${level}
+2022-08-30 17:48:55.8125 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.8250 Trace Initializing Layout Renderer: ${longdate}
+2022-08-30 17:48:55.8250 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-08-30 17:48:55.8250 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.8250 Trace Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.8438 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.8438 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.8438 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.8565 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.8565 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.8565 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:55.8565 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.8744 Trace Initializing Layout Renderer: ${shortdate}
+2022-08-30 17:48:55.8744 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.8744 Trace Initializing Logs/${shortdate}_error.log
+2022-08-30 17:48:55.8744 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.8909 Trace Scanning SimpleLayout 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:55.8909 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.8909 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.9034 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:55.9034 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.9034 Trace Initializing FileTarget(Name=error)
+2022-08-30 17:48:55.9034 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-08-30 17:48:55.9223 Trace Scanning FileTarget 'FileTarget(Name=error)'
+2022-08-30 17:48:55.9223 Trace  Scanning Property FileName 'Logs/${shortdate}_error.log' NLog.Layouts
+2022-08-30 17:48:55.9223 Trace  Scanning SimpleLayout 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:55.9344 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:55.9344 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.9344 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:55.9344 Trace FileTarget(Name=error) has 2 layouts
+2022-08-30 17:48:55.9515 Trace FileTarget(Name=error): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-08-30 17:48:55.9515 Trace Initializing Layout Renderer: ${message}
+2022-08-30 17:48:55.9515 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.9515 Trace Initializing Layout Renderer: ${level}
+2022-08-30 17:48:55.9678 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:55.9678 Trace Initializing Layout Renderer: ${longdate}
+2022-08-30 17:48:55.9678 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-08-30 17:48:55.9678 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:55.9839 Trace Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:55.9839 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:55.9839 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:55.9967 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.9967 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:55.9967 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:55.9967 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:56.0142 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:56.0142 Trace Initializing Layout Renderer: ${shortdate}
+2022-08-30 17:48:56.0142 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:56.0142 Trace Initializing Logs/${shortdate}_logfile.log
+2022-08-30 17:48:56.0316 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:48:56.0316 Trace Scanning SimpleLayout 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:56.0316 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:56.0447 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:56.0447 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:56.0447 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:56.0447 Trace Initializing FileTarget(Name=logfile)
+2022-08-30 17:48:56.0619 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-08-30 17:48:56.0619 Trace Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-08-30 17:48:56.0619 Trace  Scanning Property FileName 'Logs/${shortdate}_logfile.log' NLog.Layouts
+2022-08-30 17:48:56.0749 Trace  Scanning SimpleLayout 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:56.0749 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:56.0749 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:56.0749 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:56.0920 Trace FileTarget(Name=logfile) has 2 layouts
+2022-08-30 17:48:56.0920 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-08-30 17:48:56.1174 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:56.1222 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:56.1222 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:56.1222 Debug Targets configured when LogLevel >= Trace for Logger: Program
+2022-08-30 17:48:56.1374 Debug Logger Program [Trace] => logfile
+2022-08-30 17:48:56.1374 Debug Logger Program [Debug] => logfile
+2022-08-30 17:48:56.1374 Debug Logger Program [Info] => logfile
+2022-08-30 17:48:56.1374 Debug Logger Program [Warn] => logfile
+2022-08-30 17:48:56.1555 Debug Logger Program [Error] => logfile error
+2022-08-30 17:48:56.1555 Debug Logger Program [Fatal] => logfile error
+2022-08-30 17:48:56.6594 Debug ScanAssembly('NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-08-30 17:48:56.6698 Trace Assembly 'NLog.Web.AspNetCore, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c' will be hidden in callsite stacktrace
+2022-08-30 17:48:57.0110 Debug Hide assemblies for callsite
+2022-08-30 17:48:57.0157 Debug ScanAssembly('NLog.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-08-30 17:48:57.0157 Trace Assembly 'NLog.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c' will be hidden in callsite stacktrace
+2022-08-30 17:48:57.0157 Trace Assembly 'Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2022-08-30 17:48:57.0309 Trace Assembly 'Microsoft.Extensions.Logging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2022-08-30 17:48:57.0309 Debug Skip loading NLogLoggingConfiguration from empty config section: NLog
+2022-08-30 17:48:57.0309 Trace FindReachableObject<System.Object>:
+2022-08-30 17:48:57.0468 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:57.0468 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:57.0468 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-08-30 17:48:57.0600 Trace   Scanning Property FileName 'Logs/${shortdate}_logfile.log' NLog.Layouts
+2022-08-30 17:48:57.0600 Trace   Scanning SimpleLayout 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:57.0600 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:57.0600 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.0787 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:57.0787 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.0787 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:57.0935 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:57.0935 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:57.0935 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:57.1069 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.1069 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:57.1069 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.1212 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:57.1212 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:57.1212 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:57.1212 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:57.1400 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:57.1400 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:57.1400 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:57.1537 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:57.1537 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:57.1537 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:57.1537 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:57.1731 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:57.1731 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Error Fatal ] writeTo: [ error ]'
+2022-08-30 17:48:57.1731 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:57.1869 Trace  Scanning FileTarget 'FileTarget(Name=error)'
+2022-08-30 17:48:57.1869 Trace   Scanning Property FileName 'Logs/${shortdate}_error.log' NLog.Layouts
+2022-08-30 17:48:57.1869 Trace   Scanning SimpleLayout 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:57.2012 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:57.2012 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.2012 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-08-30 17:48:57.2154 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.2154 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:57.2154 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:57.2154 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:48:57.2341 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-08-30 17:48:57.2341 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.2341 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:48:57.2480 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:48:57.2480 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:48:57.2480 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:57.2620 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:57.2620 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:57.2620 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Warn Error Fatal ] writeTo: [ logfile ]'
+2022-08-30 17:48:57.2620 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:48:57.2801 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:48:57.2801 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:48:57.2801 Info Validating config: TargetNames=logfile, error, ConfigItems=27, FilePath=C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64\NLog.config
+2022-08-30 17:48:57.2941 Trace Initializing Layout Renderer: ${message}
+2022-08-30 17:48:57.2941 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.2941 Trace Initializing Layout Renderer: ${level}
+2022-08-30 17:48:57.3101 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.3101 Trace Initializing Layout Renderer: ${longdate}
+2022-08-30 17:48:57.3101 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-08-30 17:48:57.3260 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.3260 Trace Initializing Layout Renderer: ${shortdate}
+2022-08-30 17:48:57.3260 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.3405 Trace Initializing Logs/${shortdate}_error.log
+2022-08-30 17:48:57.3405 Trace Initializing FileTarget(Name=error)
+2022-08-30 17:48:57.3405 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-08-30 17:48:57.3405 Trace Scanning FileTarget 'FileTarget(Name=error)'
+2022-08-30 17:48:57.3594 Trace  Scanning Property FileName 'Logs/${shortdate}_error.log' NLog.Layouts
+2022-08-30 17:48:57.3594 Trace  Scanning SimpleLayout 'Logs/${shortdate}_error.log'
+2022-08-30 17:48:57.3594 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:57.3744 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:57.3744 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:57.3744 Trace FileTarget(Name=error) has 2 layouts
+2022-08-30 17:48:57.3893 Trace Initializing Layout Renderer: ${message}
+2022-08-30 17:48:57.3893 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.3893 Trace Initializing Layout Renderer: ${level}
+2022-08-30 17:48:57.4049 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.4049 Trace Initializing Layout Renderer: ${longdate}
+2022-08-30 17:48:57.4049 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-08-30 17:48:57.4217 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.4217 Trace Initializing Layout Renderer: ${shortdate}
+2022-08-30 17:48:57.4342 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:48:57.4342 Trace Initializing Logs/${shortdate}_logfile.log
+2022-08-30 17:48:57.4342 Trace Initializing FileTarget(Name=logfile)
+2022-08-30 17:48:57.4541 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-08-30 17:48:57.4541 Trace Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-08-30 17:48:57.4749 Trace  Scanning Property FileName 'Logs/${shortdate}_logfile.log' NLog.Layouts
+2022-08-30 17:48:57.5494 Trace  Scanning SimpleLayout 'Logs/${shortdate}_logfile.log'
+2022-08-30 17:48:57.6163 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-08-30 17:48:57.6225 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-08-30 17:48:57.6225 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:48:57.6225 Trace FileTarget(Name=logfile) has 2 layouts
+2022-08-30 17:48:57.6423 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:57.6423 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:57.6542 Warn Logger: Program configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:57.6542 Debug Targets configured when LogLevel >= Trace for Logger: Program
+2022-08-30 17:48:57.6542 Debug Logger Program [Trace] => logfile
+2022-08-30 17:48:57.6738 Debug Logger Program [Debug] => logfile
+2022-08-30 17:48:57.6738 Debug Logger Program [Info] => logfile
+2022-08-30 17:48:57.6898 Debug Logger Program [Warn] => logfile
+2022-08-30 17:48:57.6898 Debug Logger Program [Error] => logfile error
+2022-08-30 17:48:57.7183 Debug Logger Program [Fatal] => logfile error
+2022-08-30 17:48:57.8303 Warn Logger: Microsoft.Extensions.Hosting.Internal.ApplicationLifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:57.8303 Warn Logger: Microsoft.Extensions.Hosting.Internal.ApplicationLifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:57.8462 Warn Logger: Microsoft.Extensions.Hosting.Internal.ApplicationLifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:57.8462 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.Extensions.Hosting.Internal.ApplicationLifetime
+2022-08-30 17:48:57.8576 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Trace] => logfile
+2022-08-30 17:48:57.8576 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Debug] => logfile
+2022-08-30 17:48:57.8733 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Info] => logfile
+2022-08-30 17:48:57.8733 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Warn] => logfile
+2022-08-30 17:48:57.8733 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Error] => logfile error
+2022-08-30 17:48:57.8929 Debug Logger Microsoft.Extensions.Hosting.Internal.ApplicationLifetime [Fatal] => logfile error
+2022-08-30 17:48:57.8929 Warn Logger: Microsoft.Extensions.Hosting.Internal.Host configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:57.9071 Warn Logger: Microsoft.Extensions.Hosting.Internal.Host configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:57.9071 Warn Logger: Microsoft.Extensions.Hosting.Internal.Host configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:57.9071 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.Extensions.Hosting.Internal.Host
+2022-08-30 17:48:57.9232 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Trace] => logfile
+2022-08-30 17:48:57.9232 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Debug] => logfile
+2022-08-30 17:48:57.9232 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Info] => logfile
+2022-08-30 17:48:57.9389 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Warn] => logfile
+2022-08-30 17:48:57.9389 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Error] => logfile error
+2022-08-30 17:48:57.9503 Debug Logger Microsoft.Extensions.Hosting.Internal.Host [Fatal] => logfile error
+2022-08-30 17:48:57.9503 Warn Logger: Microsoft.Hosting.Lifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:57.9663 Warn Logger: Microsoft.Hosting.Lifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:57.9663 Warn Logger: Microsoft.Hosting.Lifetime configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:57.9663 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.Hosting.Lifetime
+2022-08-30 17:48:57.9875 Debug Logger Microsoft.Hosting.Lifetime [Trace] => logfile
+2022-08-30 17:48:57.9875 Debug Logger Microsoft.Hosting.Lifetime [Debug] => logfile
+2022-08-30 17:48:58.0012 Debug Logger Microsoft.Hosting.Lifetime [Info] => logfile
+2022-08-30 17:48:58.0012 Debug Logger Microsoft.Hosting.Lifetime [Warn] => logfile
+2022-08-30 17:48:58.0143 Debug Logger Microsoft.Hosting.Lifetime [Error] => logfile error
+2022-08-30 17:48:58.0143 Debug Logger Microsoft.Hosting.Lifetime [Fatal] => logfile error
+2022-08-30 17:48:58.0592 Debug FileTarget(Name=logfile): Preparing for new file 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64\Logs/2022-08-30_logfile.log'
+2022-08-30 17:48:58.0592 Debug FileTarget(Name=logfile): Creating file appender: C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64\Logs/2022-08-30_logfile.log
+2022-08-30 17:48:58.0763 Trace FileTarget(Name=logfile): Opening C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\bin\Debug\net6.0\win-x64\Logs/2022-08-30_logfile.log with allowFileSharedWriting=False
+2022-08-30 17:48:58.0903 Warn Logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.0903 Warn Logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.0903 Warn Logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.0903 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator
+2022-08-30 17:48:58.1084 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Trace] => logfile
+2022-08-30 17:48:58.1084 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Debug] => logfile
+2022-08-30 17:48:58.1084 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Info] => logfile
+2022-08-30 17:48:58.1216 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Warn] => logfile
+2022-08-30 17:48:58.1216 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Error] => logfile error
+2022-08-30 17:48:58.1216 Debug Logger Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Fatal] => logfile error
+2022-08-30 17:48:58.1432 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.1432 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.1533 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.1533 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager
+2022-08-30 17:48:58.1533 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Trace] => logfile
+2022-08-30 17:48:58.1691 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Debug] => logfile
+2022-08-30 17:48:58.1691 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Info] => logfile
+2022-08-30 17:48:58.1691 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Warn] => logfile
+2022-08-30 17:48:58.1842 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Error] => logfile error
+2022-08-30 17:48:58.1842 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Fatal] => logfile error
+2022-08-30 17:48:58.1842 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.2012 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.2012 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.2012 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory
+2022-08-30 17:48:58.2167 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Trace] => logfile
+2022-08-30 17:48:58.2167 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Debug] => logfile
+2022-08-30 17:48:58.2359 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Info] => logfile
+2022-08-30 17:48:58.2359 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Warn] => logfile
+2022-08-30 17:48:58.2359 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Error] => logfile error
+2022-08-30 17:48:58.2514 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory [Fatal] => logfile error
+2022-08-30 17:48:58.2514 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.2514 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.2665 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.2665 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory
+2022-08-30 17:48:58.2665 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Trace] => logfile
+2022-08-30 17:48:58.2809 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Debug] => logfile
+2022-08-30 17:48:58.2809 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Info] => logfile
+2022-08-30 17:48:58.2809 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Warn] => logfile
+2022-08-30 17:48:58.2952 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Error] => logfile error
+2022-08-30 17:48:58.2952 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory [Fatal] => logfile error
+2022-08-30 17:48:58.2952 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.3104 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.3104 Warn Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.3104 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory
+2022-08-30 17:48:58.3250 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Trace] => logfile
+2022-08-30 17:48:58.3250 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Debug] => logfile
+2022-08-30 17:48:58.3250 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Info] => logfile
+2022-08-30 17:48:58.3250 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Warn] => logfile
+2022-08-30 17:48:58.3447 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Error] => logfile error
+2022-08-30 17:48:58.3447 Debug Logger Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Fatal] => logfile error
+2022-08-30 17:48:58.3673 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.3723 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.3723 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.3723 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor
+2022-08-30 17:48:58.3872 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Trace] => logfile
+2022-08-30 17:48:58.3872 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Debug] => logfile
+2022-08-30 17:48:58.3872 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Info] => logfile
+2022-08-30 17:48:58.4028 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Warn] => logfile
+2022-08-30 17:48:58.4028 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Error] => logfile error
+2022-08-30 17:48:58.4028 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor [Fatal] => logfile error
+2022-08-30 17:48:58.4185 Warn Logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.4185 Warn Logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.4185 Warn Logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.4185 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository
+2022-08-30 17:48:58.4384 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Trace] => logfile
+2022-08-30 17:48:58.4384 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Debug] => logfile
+2022-08-30 17:48:58.4384 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Info] => logfile
+2022-08-30 17:48:58.4535 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Warn] => logfile
+2022-08-30 17:48:58.4535 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Error] => logfile error
+2022-08-30 17:48:58.4535 Debug Logger Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Fatal] => logfile error
+2022-08-30 17:48:58.4907 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.5002 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.5002 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.5002 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver
+2022-08-30 17:48:58.5168 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Trace] => logfile
+2022-08-30 17:48:58.5168 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Debug] => logfile
+2022-08-30 17:48:58.5271 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Info] => logfile
+2022-08-30 17:48:58.5271 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Warn] => logfile
+2022-08-30 17:48:58.5271 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Error] => logfile error
+2022-08-30 17:48:58.5271 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Fatal] => logfile error
+2022-08-30 17:48:58.5481 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.5481 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.5481 Warn Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.5632 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider
+2022-08-30 17:48:58.5632 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Trace] => logfile
+2022-08-30 17:48:58.5632 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Debug] => logfile
+2022-08-30 17:48:58.5778 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Info] => logfile
+2022-08-30 17:48:58.5778 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Warn] => logfile
+2022-08-30 17:48:58.5778 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Error] => logfile error
+2022-08-30 17:48:58.5930 Debug Logger Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Fatal] => logfile error
+2022-08-30 17:48:58.5930 Warn Logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.5930 Warn Logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.6078 Warn Logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.6078 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService
+2022-08-30 17:48:58.6078 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Trace] => logfile
+2022-08-30 17:48:58.6224 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Debug] => logfile
+2022-08-30 17:48:58.6224 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Info] => logfile
+2022-08-30 17:48:58.6224 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Warn] => logfile
+2022-08-30 17:48:58.6374 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Error] => logfile error
+2022-08-30 17:48:58.6374 Debug Logger Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Fatal] => logfile error
+2022-08-30 17:48:58.8447 Warn Logger: Microsoft.EntityFrameworkCore.Infrastructure configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:58.8447 Warn Logger: Microsoft.EntityFrameworkCore.Infrastructure configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:58.8552 Warn Logger: Microsoft.EntityFrameworkCore.Infrastructure configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:58.8552 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.EntityFrameworkCore.Infrastructure
+2022-08-30 17:48:58.8552 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Trace] => logfile
+2022-08-30 17:48:58.8718 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Debug] => logfile
+2022-08-30 17:48:58.8718 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Info] => logfile
+2022-08-30 17:48:58.8718 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Warn] => logfile
+2022-08-30 17:48:58.8903 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Error] => logfile error
+2022-08-30 17:48:58.8903 Debug Logger Microsoft.EntityFrameworkCore.Infrastructure [Fatal] => logfile error
+2022-08-30 17:48:59.0295 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Debug has been skipped.
+2022-08-30 17:48:59.0295 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Info has been skipped.
+2022-08-30 17:48:59.0435 Warn Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor configured with duplicate output to target: FileTarget(Name=logfile). LoggingRule with NamePattern='*' and Level=Warn has been skipped.
+2022-08-30 17:48:59.0435 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor
+2022-08-30 17:48:59.0435 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Trace] => logfile
+2022-08-30 17:48:59.0594 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Debug] => logfile
+2022-08-30 17:48:59.0594 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Info] => logfile
+2022-08-30 17:48:59.0594 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Warn] => logfile
+2022-08-30 17:48:59.0756 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Error] => logfile error
+2022-08-30 17:48:59.0756 Debug Logger Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor [Fatal] => logfile error
+2022-08-30 17:49:01.7999 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Error parsing layout  date
+ ---> System.ArgumentException: LayoutRenderer symbol-name is unknown: ' date'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(String typeName, ConfigurationItemFactory configurationItemFactory, Nullable`1 throwConfigExceptions)
+   --- End of inner exception stack trace ---
+2022-08-30 17:49:01.8283 Warn Error has been raised. Exception: NLog.NLogConfigurationException: ${ date} cannot assign unknown property 'format='
+2022-08-30 17:49:01.8283 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.8283 Trace Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:01.8447 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.8447 Trace Scanning ThreadIdLayoutRenderer 'Layout Renderer: ${threadid}'
+2022-08-30 17:49:01.8560 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.8560 Trace Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2022-08-30 17:49:01.8560 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.8731 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:49:01.8731 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.8731 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:49:01.8986 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:01.9039 Trace Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2022-08-30 17:49:01.9039 Trace  Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2022-08-30 17:49:01.9039 Debug Registered target DebugLog: NLog.Targets.FileTarget
+2022-08-30 17:49:01.9210 Debug --- NLog configuration dump ---
+2022-08-30 17:49:01.9210 Debug Targets:
+2022-08-30 17:49:01.9210 Debug FileTarget(Name=DebugLog)
+2022-08-30 17:49:01.9363 Debug Rules:
+2022-08-30 17:49:01.9363 Debug logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ DebugLog ]
+2022-08-30 17:49:01.9363 Debug --- End of NLog configuration dump ---
+2022-08-30 17:49:01.9513 Trace FindReachableObject<System.Object>:
+2022-08-30 17:49:01.9513 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ DebugLog ]'
+2022-08-30 17:49:01.9513 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-08-30 17:49:01.9663 Trace  Scanning FileTarget 'FileTarget(Name=DebugLog)'
+2022-08-30 17:49:01.9663 Trace   Scanning Property FileName 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt' NLog.Layouts
+2022-08-30 17:49:01.9663 Trace   Scanning SimpleLayout 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt'
+2022-08-30 17:49:01.9814 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:49:01.9814 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:01.9814 Trace   Scanning Property Layout '${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}' NLog.Layouts
+2022-08-30 17:49:01.9965 Trace   Scanning SimpleLayout '${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}'
+2022-08-30 17:49:01.9965 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:49:01.9965 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.0119 Trace    Scanning ThreadIdLayoutRenderer 'Layout Renderer: ${threadid}'
+2022-08-30 17:49:02.0119 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.0119 Trace    Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2022-08-30 17:49:02.0119 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.0326 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:49:02.0326 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.0326 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:49:02.0477 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.0477 Trace    Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2022-08-30 17:49:02.0477 Trace     Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2022-08-30 17:49:02.0626 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:49:02.0626 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-08-30 17:49:02.0626 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-08-30 17:49:02.0773 Info Validating config: TargetNames=DebugLog, ConfigItems=15
+2022-08-30 17:49:02.0773 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-08-30 17:49:02.0773 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2022-08-30 17:49:02.0926 Trace Initializing Layout Renderer: ${exception}
+2022-08-30 17:49:02.0926 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.0926 Trace Initializing Layout Renderer: ${message}
+2022-08-30 17:49:02.1078 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.1078 Trace Initializing Layout Renderer: ${level}
+2022-08-30 17:49:02.1078 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.1226 Trace Initializing Layout Renderer: ${logger}
+2022-08-30 17:49:02.1226 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.1226 Trace Initializing Layout Renderer: ${threadid}
+2022-08-30 17:49:02.1373 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.1373 Trace Initializing ${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}
+2022-08-30 17:49:02.1373 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:02.1373 Trace Scanning SimpleLayout '${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}'
+2022-08-30 17:49:02.1567 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:49:02.1567 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.1567 Trace  Scanning ThreadIdLayoutRenderer 'Layout Renderer: ${threadid}'
+2022-08-30 17:49:02.1714 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.1714 Trace  Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2022-08-30 17:49:02.1714 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.1862 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-08-30 17:49:02.1862 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.2056 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-08-30 17:49:02.2056 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.2173 Trace  Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2022-08-30 17:49:02.2173 Trace   Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2022-08-30 17:49:02.2173 Trace Initializing Layout Renderer: ${literal}
+2022-08-30 17:49:02.2339 Trace Initializing C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt
+2022-08-30 17:49:02.2339 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-08-30 17:49:02.2339 Trace Scanning SimpleLayout 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt'
+2022-08-30 17:49:02.2500 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-08-30 17:49:02.2500 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-08-30 17:49:02.2500 Trace Initializing FileTarget(Name=DebugLog)
+2022-08-30 17:49:02.2659 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-08-30 17:49:02.2659 Trace Scanning FileTarget 'FileTarget(Name=DebugLog)'
+2022-08-30 17:49:02.2659 Trace  Scanning Property FileName 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt' NLog.Layouts
+2022-08-30 17:49:02.2829 Trace  Scanning SimpleLayout 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt'
+2022-08-30 17:49:02.2829 Trace  Scanning Property Layout '${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}' NLog.Layouts
+2022-08-30 17:49:02.2933 Trace  Scanning SimpleLayout '${ date:format=dd.MM.yyyy HH\:mm\:ss.fff} thread[${threadid}] ${logger} (${level:uppercase=true}): ${message}. ${exception:format=ToString}'
+2022-08-30 17:49:02.2933 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-08-30 17:49:02.2933 Trace FileTarget(Name=DebugLog) has 2 layouts
+2022-08-30 17:49:02.3126 Trace FileTarget(Name=DebugLog): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-08-30 17:49:02.3126 Debug Targets configured when LogLevel >= Trace for Logger: SAT.SERVICES.Services.LoggerService
+2022-08-30 17:49:02.3126 Debug Logger SAT.SERVICES.Services.LoggerService [Trace] => DebugLog
+2022-08-30 17:49:02.3296 Debug Logger SAT.SERVICES.Services.LoggerService [Debug] => DebugLog
+2022-08-30 17:49:02.3296 Debug Logger SAT.SERVICES.Services.LoggerService [Info] => DebugLog
+2022-08-30 17:49:02.3398 Debug Logger SAT.SERVICES.Services.LoggerService [Warn] => DebugLog
+2022-08-30 17:49:02.3398 Debug Logger SAT.SERVICES.Services.LoggerService [Error] => DebugLog
+2022-08-30 17:49:02.3398 Debug Logger SAT.SERVICES.Services.LoggerService [Fatal] => DebugLog
+2022-08-30 17:49:02.3561 Debug FileTarget(Name=DebugLog): Preparing for new file 'C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt'
+2022-08-30 17:49:02.3561 Debug FileTarget(Name=DebugLog): Creating file appender: C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt
+2022-08-30 17:49:02.3561 Trace FileTarget(Name=DebugLog): Opening C:\Users\rklima\Documents\Workspace\SAT.V2\SAT.TASKS\/Logs/DebugLog/30-08-2022.txt with allowFileSharedWriting=False

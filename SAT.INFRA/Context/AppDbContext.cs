@@ -401,6 +401,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Conferencia>(new ConferenciaMap().Configure);
             modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
+            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

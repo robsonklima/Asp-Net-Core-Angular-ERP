@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Feriado> builder)
         {
-            builder
-                .ToTable("Feriados");
-
-            builder
-                .HasKey(i => i.CodFeriado);
+            builder.ToTable("Feriados");
+            builder.HasKey(i => i.CodFeriado);
         }
     }
 }

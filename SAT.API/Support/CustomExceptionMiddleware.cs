@@ -40,12 +40,12 @@ namespace SAT.API.Support
             int statusCode = (int)HttpStatusCode.InternalServerError;
             var result = JsonConvert.SerializeObject(new { statusCode = statusCode, errorMessage = Constants.ERROR });
             LoggerService.LogError($"{statusCode} {ex.Message} {ex.InnerException}");
+            string[] destinatarios = { Constants.EQUIPE_SAT_EMAIL };
             _emailService.Enviar(new Email() {
-                    Assunto = "Erro durante o uso do SAT.V2",
-                    Corpo = $"{statusCode} {ex.Message} {ex.InnerException}",
-                    EmailDestinatario = Constants.EQUIPE_SAT_EMAIL,
-                    EmailRemetente = Constants.EQUIPE_SAT_EMAIL
-                });
+                Assunto = "Erro durante o uso do SAT.V2",
+                Corpo = $"{statusCode} {ex.Message} {ex.InnerException}",
+                EmailDestinatarios = destinatarios,
+            });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
             return context.Response.WriteAsync(result);

@@ -14,7 +14,6 @@ namespace SAT.SERVICES.Services {
                                 CodCidade = cidade.CodCidade,
                                 Nome = cidade.NomeCidade,
                                 UF = cidade.UnidadeFederativa?.NomeUF?? Constants.NENHUM_REGISTRO,
-                                Filial = cidade.Filial?.NomeFilial?? Constants.NENHUM_REGISTRO,
                                 Ativo = cidade.IndAtivo == 1 ? "SIM" : "NÃO"
                             });
 

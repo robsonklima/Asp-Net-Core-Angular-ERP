@@ -40,8 +40,6 @@ namespace SAT.SERVICES.Services
 
         public async void ExecutarAsync()
         {
-            LoggerService.LogError("RobsonErro");
-
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
 
             foreach (var email in emails.Value)

@@ -9,7 +9,6 @@ namespace SAT.MODELS.Entities
         public int CodUF { get; set; }
         public UnidadeFederativa UnidadeFederativa { get; set; }
         public int CodFilial { get; set; }
-        public Filial Filial { get; set; }
         public byte? CodSlAParametroAdicional { get; set; }
         public string NomeCidade { get; set; }
         public string Latitude { get; set; }

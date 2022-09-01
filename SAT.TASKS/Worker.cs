@@ -50,5 +50,4 @@ public partial class Worker : BackgroundService
             await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
         }
     }
-    
 }

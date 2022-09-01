@@ -31,6 +31,8 @@ namespace SAT.SERVICES.Services
 
         public UsuarioLoginViewModel Login(Usuario usuario)
         {
+            LoggerService.LogError("Robson Teste");
+
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
             var navegacoes = CarregarNavegacoes(usuarioLogado);
 

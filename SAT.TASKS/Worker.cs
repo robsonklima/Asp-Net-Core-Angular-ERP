@@ -1,4 +1,3 @@
-using NLog;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.TASKS;
@@ -45,7 +44,7 @@ public partial class Worker : BackgroundService
             }
             catch (Exception ex)
             {
-                throw new Exception($"Integração Banrisul ATM: { ex.Message }");
+                throw ex;
             }
 
             await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);

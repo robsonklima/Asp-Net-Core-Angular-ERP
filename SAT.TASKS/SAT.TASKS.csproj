@@ -23,9 +23,11 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageReference Include="NLog" Version="5.0.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+		<Folder Include="Logs\" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SAT.IOC\SAT.IOC.csproj" />

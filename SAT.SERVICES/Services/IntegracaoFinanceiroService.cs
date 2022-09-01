@@ -13,11 +13,13 @@ using SAT.MODELS.Entities.Constants;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using SAT.MODELS.Entities;
+using NLog;
 
 namespace SAT.SERVICES.Services
 {
     public class IntegracaoFinanceiroService : IIntegracaoFinanceiroService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private IIntegracaoFinanceiroRepository _integracaoFinanceiroRepo;
         private IOrcamentoRepository _orcamentoRepo;
         private string _token;
@@ -82,9 +84,9 @@ namespace SAT.SERVICES.Services
                         DataHoraCad = DateTime.Now
                     });
 
-                    LoggerService.LogInfo($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com sucesso!");
+                    _logger.Info($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com sucesso!");
                 } else {
-                    LoggerService.LogError($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com erro!
+                    _logger.Info($@"Integração Financeiro: Orçamento {orcamento.CodOrc} integrado com erro!
                         {retorno.MensagemErro} {JsonConvert.SerializeObject(orcamento)}");
                 }
             }

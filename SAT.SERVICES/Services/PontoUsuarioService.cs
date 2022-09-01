@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using NLog;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -13,6 +14,7 @@ namespace SAT.SERVICES.Services
 {
     public class PontoUsuarioService : IPontoUsuarioService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly IUsuarioRepository _usuarioRepo;
@@ -118,7 +120,7 @@ namespace SAT.SERVICES.Services
                     }
                 }
 
-                LoggerService.LogInfo($"Correção de intervalo do RAT executado com sucesso!");
+                _logger.Info($"Correção de intervalo do RAT executado com sucesso!");
             }
             catch (Exception ex)
             {

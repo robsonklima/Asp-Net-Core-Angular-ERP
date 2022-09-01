@@ -308,7 +308,6 @@ public class ConfigurationIOC
         #endregion
 
         #region Utils Services
-        builder.RegisterType<LoggerService>().As<ILoggerService>();
         builder.RegisterType<TokenService>().As<ITokenService>();
         builder.RegisterType<IISLogService>().As<IIISLogService>();
         #endregion

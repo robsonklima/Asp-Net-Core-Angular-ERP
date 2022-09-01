@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using NLog;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -12,6 +13,7 @@ namespace SAT.SERVICES.Services
 {
     public class OrdemServicoService : IOrdemServicoService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
         private readonly IOrdemServicoAlertaService _ordemServicoAlertaService;
@@ -37,7 +39,7 @@ namespace SAT.SERVICES.Services
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
         {
-            LoggerService.LogInfo("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));
+            _logger.Info("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));
 
             _ordemServicoRepo.Atualizar(ordemServico);
 

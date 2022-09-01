@@ -26,6 +26,5 @@ namespace SAT.MODELS.Entities
         public int? Regiao { get; set; }
         public int? HorasRAcesso { get; set; }
         public int? CodRegiaoPOS { get; set; }
-        public List<Feriado> Feriados { get; set; }
     }
 }

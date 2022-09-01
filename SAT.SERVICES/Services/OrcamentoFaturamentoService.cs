@@ -93,18 +93,53 @@ namespace SAT.SERVICES.Services
                         }
                     }
 
-                    faturamentos.Add(new OrcamentoFaturamentoViewModel
+                    var faturamentoServico = _orcamentoFaturamentoRepo.ObterPorParametros(new OrcamentoFaturamentoParameters
                     {
-                        Codigo = null,
-                        Cliente = orc?.Cliente?.NomeFantasia,
-                        Filial = orc?.OrdemServico?.Filial?.NomeFilial,
-                        CodOS = orc.CodigoOrdemServico,
-                        NumOSCliente = orc.OrdemServico?.NumOSCliente,
-                        NumOrcamento = orc.Numero,
                         CodOrc = orc.CodOrc,
-                        Tipo = OrcamentoFaturamentoTipoEnum.SERVICO,
-                        ValorServico = (orc.OutrosServicos.Sum(o => o.ValorTotal) + orc.MaoDeObra.ValorTotal).ToString()
-                    });
+                        DescricaoNotaFiscal = "SERVIÇOS"
+                    })?.FirstOrDefault();
+
+                    if(faturamentoServico != null)
+                    {
+                        faturamentos.Add(new OrcamentoFaturamentoViewModel
+                        {
+                            Codigo = faturamentoServico.CodOrcamentoFaturamento,
+                            Cliente = orc?.Cliente?.NomeFantasia,
+                            Filial = orc.OrdemServico?.Filial?.NomeFilial,
+                            CodOS = orc.CodigoOrdemServico,
+                            NumOSCliente = orc.OrdemServico?.NumOSCliente,
+                            NumOrcamento = orc.Numero,
+                            CodOrc = orc.CodOrc,
+                            Tipo = OrcamentoFaturamentoTipoEnum.SERVICO,
+                            NumNF = faturamentoServico?.NumNF,
+                            DataEmissao = faturamentoServico?.DataEmissaoNF,
+                            DescNF = faturamentoServico?.DescricaoNotaFiscal,
+                            IndFaturado = (double)faturamentoServico?.IndFaturado,
+                            CodFilial = orc.CodigoFilial,
+                            CaminhoDanfe = faturamentoServico.CaminhoDanfe,
+                            CodClienteBancada = faturamentoServico.CodClienteBancada,
+                            IndRegistroDanfe = faturamentoServico.IndRegistroDanfe,
+                            QtdePeca = faturamentoServico.QtdePeca,
+                            ValorPeca = faturamentoServico.ValorPeca,
+                            ValorServico = faturamentoServico.ValorServico                                                                                                        
+                        });
+                    }
+                    else
+                    {
+                        faturamentos.Add(new OrcamentoFaturamentoViewModel
+                        {
+                            Codigo = null,
+                            Cliente = orc?.Cliente?.NomeFantasia,
+                            Filial = orc?.OrdemServico?.Filial?.NomeFilial,
+                            CodOS = orc.CodigoOrdemServico,
+                            NumOSCliente = orc.OrdemServico?.NumOSCliente,
+                            NumOrcamento = orc.Numero,
+                            CodOrc = orc.CodOrc,                        
+                            Tipo = OrcamentoFaturamentoTipoEnum.SERVICO,
+                            ValorServico = (orc.OutrosServicos.Sum(o => o.ValorTotal) + orc.MaoDeObra.ValorTotal).ToString()
+                        });                            
+                    }
+
                 }
 
                 var faturamentosLista = PagedList<OrcamentoFaturamentoViewModel>.ToPagedList(faturamentos, 1, 100000);

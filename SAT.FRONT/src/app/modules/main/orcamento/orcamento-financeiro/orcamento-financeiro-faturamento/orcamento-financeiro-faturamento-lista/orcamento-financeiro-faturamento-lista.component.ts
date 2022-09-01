@@ -120,6 +120,9 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			valorServico: faturamentoVM.valorServico
 		};
 
+		if(!faturamentoVM.descNF)
+			faturamento.descricaoNotaFiscal = "SERVIÇOS";
+
 		if (faturamentoVM.indFaturado)
 			this.atualizar(faturamento);
 		else

@@ -19,6 +19,12 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey(prop => prop.CodAuditoriaVeiculo)
                 .HasPrincipalKey(prop => prop.CodAuditoriaVeiculo);
+                            
+            builder
+                .HasOne(prop => prop.AuditoriaVeiculoTanque)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodAuditoriaVeiculoTanque)
+                .HasPrincipalKey(prop => prop.CodAuditoriaVeiculoTanque);
 
         }
     }

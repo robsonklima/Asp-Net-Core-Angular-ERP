@@ -4,27 +4,47 @@
                     
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('retirada veiculo') }}</div>
-                                            <!-- <div>{{ auditoria?.codAuditoria }}</div> imput -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                    <span class="text-red-600" 
+                                                        *ngIf="form.controls['dataHoraRetiradaVeiculo'].invalid && form.controls['dataHoraRetiradaVeiculo'].errors.required">*</span>
+                                                <input matInput formControlName="dataHoraRetiradaVeiculo">
+                                            </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('data auditoria') }}</div>
-                                            <!-- <div>{{ auditoria?.usuario?.nomeUsuario || "Não informado" }}</div> imput -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['dataHoraCad'].invalid && form.controls['dataHoraCad'].errors.required">*</span>
+                                                <input matInput formControlName="dataHoraCad">
+                                            </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('total de dias em uso') }}</div>
-                                            <!-- <div>{{ auditoria?.usuario?.filial?.nomeFilial || "Não informado" }}</div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['totalDiasEmUso'].invalid && form.controls['totalDiasEmUso'].errors.required">*</span>
+                                            <input matInput formControlName="totalDiasEmUso">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('odometro inicial') }} </div>
-                                            <!-- <div>{{ auditoria?.usuario?.tecnico?.cpf  || "Não informado" }}</div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['odometroInicialRetirada'].invalid && form.controls['odometroInicialRetirada'].errors.required">*</span>
+                                            <input matInput formControlName="odometroInicialRetirada">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('odometro periodo') }}</div>
-                                            <!-- <div> {{ auditoria?.usuario?.tecnico?.cnh || "Não informado" }} </div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['odometroPeriodoAuditado'].invalid && form.controls['odometroPeriodoAuditado'].errors.required">*</span>
+                                            <input matInput formControlName="odometroPeriodoAuditado">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -34,7 +54,11 @@
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('km ferias') }}</div>
-                                            <!-- <div> {{ auditoria?.usuario?.tecnico?.cnh || "Não informado" }} </div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['kmFerias'].invalid && form.controls['kmFerias'].errors.required">*</span>
+                                            <input matInput formControlName="kmFerias">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -56,7 +80,11 @@
                                         
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('creditos no cartao') }}</div>
-                                            <!-- <div> {{ auditoria?.auditoriaStatus?.nome || "Não informado" }} </div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['creditosCartao'].invalid && form.controls['creditosCartao'].errors.required">*</span>
+                                            <input matInput formControlName="creditosCartao">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -71,12 +99,20 @@
                     
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('saldo cartao') }}</div>
-                                            <!-- <div> {{ auditoria?.usuario?.tecnico?.cnhcategorias || "Não informado" }} </div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['saldoCartao'].invalid && form.controls['saldoCartao'].errors.required">*</span>
+                                            <input matInput formControlName="saldoCartao">
+                                        </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('tanque(medidor)') }}</div>
-                                            <!-- <div>{{ auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso|| "Não informado" }} </div> options -->
+                                            <mat-select formControlName="codAuditoriaVeiculoTanque" #modeloSelect>
+                                                <mat-option *ngFor="let tanque of auditoriaVeiculos" [value]="tanque?.auditoriaVeiculo?.veiculoAuditoriaTanque?.codAuditoriaVeiculoTanque" matTooltip="{{ tanque?.auditoriaVeiculo?.veiculoAuditoriaTanque?.nome }}" matTooltipPosition="right">
+                                                    <span>{{ tanque?.auditoriaVeiculo?.veiculoAuditoriaTanque?.nome }}</span>
+                                                </mat-option>
+                                            </mat-select>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -96,7 +132,11 @@
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('observacoes') }}</div>
-                                            <!-- <div> {{ auditoria?.usuario?.tecnico?.cnhvalidade || "Não informado" }} </div> -->
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <span class="text-red-600" 
+                                                    *ngIf="form.controls['observacoes'].invalid && form.controls['observacoes'].errors.required">*</span>
+                                                    <input matInput formControlName="observacoes">
+                                        </mat-form-field>
                                         </div>
                                     </div>
                                 </fuse-card>

@@ -1,13 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Usuario, UsuarioParameters, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { Location } from '@angular/common';
 import { statusConst } from 'app/core/types/status-types';
 import { Auditoria } from 'app/core/types/auditoria.types';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
@@ -20,12 +17,11 @@ import { UsuarioService } from 'app/core/services/usuario.service';
 })
 export class AuditoriaDetalhesComponent implements OnInit {
 
-	@Output() cod = new EventEmitter();
 	
 	codAuditoria: number;
-    codAuditoriaVeiculo: number;
+  codAuditoriaVeiculo: number;
 	auditoria: Auditoria;
-    auditoriaVeiculo: AuditoriaVeiculo;
+  auditoriaVeiculo: AuditoriaVeiculo;
 	form: FormGroup;
 	isAddMode: boolean;
 	isLoading: boolean;
@@ -38,12 +34,10 @@ export class AuditoriaDetalhesComponent implements OnInit {
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _route: ActivatedRoute,
-		private _router: Router,
 		private _userService: UserService,
 		private _auditoriaService: AuditoriaService,
-        private _usuarioService: UsuarioService,
-		private _snack: CustomSnackbarService,
-        private _location: Location,
+    private _usuarioService: UsuarioService,
+
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -91,59 +85,6 @@ export class AuditoriaDetalhesComponent implements OnInit {
             cnhValidade: [undefined],
 		});
 	}
-
-
-    salvar(): void
-    {
-      this.form.disable();
-      this.isAddMode ? this.criar() : this.atualizar();
-    }
-  
-    private atualizar(): void
-    {
-      const form: any = this.form.getRawValue();
-  
-      let obj = {
-        ...this.auditoria,
-        ...form,
-        ...{
-          dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-          codUsuarioManut: this.userSession.usuario.codUsuario,
-        }
-      };
-  
-      this._usuarioService.atualizar(obj).subscribe(() =>
-      {
-        this._snack.exibirToast("Usuario atualizada com sucesso!", "success");
-        this._location.back();
-      }, e =>
-      {
-        this.form.enable();
-      });
-    }
-  
-    private criar(): void
-    {
-      const form = this.form.getRawValue();
-  
-      let obj = {
-        ...this.auditoria,
-        ...form,
-        ...{
-          dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-          codUsuarioCad: this.userSession.usuario.codUsuario,
-        }
-      };
-  
-      this._auditoriaService.criar(obj).subscribe(() =>
-      {
-        this._snack.exibirToast("Auditoria inserida com sucesso!", "success");
-        this._location.back();
-      }, e =>
-      {
-        this.form.enable();
-      });
-    }
 
 	ngOnDestroy() {
 		this._onDestroy.next();

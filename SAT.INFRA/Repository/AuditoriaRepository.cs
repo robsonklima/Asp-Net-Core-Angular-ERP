@@ -76,6 +76,8 @@ namespace SAT.INFRA.Repository
                     .Include(c => c.AuditoriaStatus)
                     .Include(c => c.AuditoriaVeiculo)
                         .ThenInclude(c => c.Acessorios)
+                    .Include(c => c.AuditoriaVeiculo)
+                        .ThenInclude(c => c.AuditoriaVeiculoTanque)
                     .Include(c => c.Fotos)
                     .SingleOrDefault(aud => aud.CodAuditoria == codAuditoria);
             }

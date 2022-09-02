@@ -18,7 +18,8 @@ public partial class Worker : BackgroundService
         IIntegracaoBanrisulService integracaoBanrisulService,
         IEmailService emailService,
         ISatTaskService satTaskService
-    ) {
+    )
+    {
         _plantaoTecnicoService = plantaoTecnicoService;
         _pontoUsuarioService = pontoUsuarioService;
         _integracaoFinanceiroService = integracaoFinanceiroService;
@@ -33,15 +34,15 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                _integracaoBanrisulService.ExecutarAsync();
+                await _integracaoBanrisulService.ExecutarAsync();
 
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                    _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
+                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
-
-                //_integracaoFinanceiroService.ExecutarAsync();
+                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
+                    
+                // _integracaoFinanceiroService.ExecutarAsync();
             }
             catch (Exception ex)
             {

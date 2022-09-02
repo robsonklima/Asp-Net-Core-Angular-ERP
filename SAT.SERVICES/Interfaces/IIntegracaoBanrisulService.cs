@@ -4,6 +4,6 @@ namespace SAT.SERVICES.Interfaces
 {
     public interface IIntegracaoBanrisulService
     {
-        void ExecutarAsync();
+        Task ExecutarAsync();
     }
 }

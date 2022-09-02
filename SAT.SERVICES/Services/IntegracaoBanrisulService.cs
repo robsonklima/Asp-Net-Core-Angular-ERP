@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NLog;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -19,7 +21,7 @@ namespace SAT.SERVICES.Services
         private IEmailService _emailService;
         private IOrdemServicoService _ordemServicoService;
         private IRelatorioAtendimentoService _relatorioAtendimentoService;
-        private IEquipamentoContratoService _equipamentoContratoService;
+        private IEquipamentoContratoRepository _equipamentoContratoRepo;
         private ILocalAtendimentoService _localAtendimentoService;
         private IFeriadoService _feriadoService;
 
@@ -27,7 +29,7 @@ namespace SAT.SERVICES.Services
             IEmailService emailService,
             IOrdemServicoService ordemServicoService,
             IRelatorioAtendimentoService relatorioAtendimentoService,
-            IEquipamentoContratoService equipamentoContratoService,
+            IEquipamentoContratoRepository equipamentoContratoRepo,
             ILocalAtendimentoService localAtendimentoService,
             IFeriadoService feriadoService
         )
@@ -35,12 +37,12 @@ namespace SAT.SERVICES.Services
             _emailService = emailService;
             _ordemServicoService = ordemServicoService;
             _relatorioAtendimentoService = relatorioAtendimentoService;
-            _equipamentoContratoService = equipamentoContratoService;
+            _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
             _feriadoService = feriadoService;
         }
 
-        public async void ExecutarAsync()
+        public async Task ExecutarAsync()
         {
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
 
@@ -332,13 +334,16 @@ namespace SAT.SERVICES.Services
             }
 
             EquipamentoContrato equipamento = new();
+            Console.WriteLine("Antes do break");
 
-            var equipamentos = _equipamentoContratoService.ObterPorParametros(new EquipamentoContratoParameters
+            var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters
             {
                 IndAtivo = 1,
                 NumSerie = atendimento.NumeroSerie.Valor.Trim().ToUpper(),
                 CodClientes = Constants.CLIENTE_BANRISUL.ToString()
-            }).Items;
+            });
+
+            Console.WriteLine("Depois do Break");
 
             if (equipamentos.Count() == 0)
             {

@@ -15,12 +15,9 @@ namespace SAT.INFRA.Repository
     {
         private readonly AppDbContext _context;
 
-        Feriado[] listaFeriados = null;
-
         public FeriadoRepository(AppDbContext context)
         {
             _context = context;
-            this.listaFeriados = _context.Feriado.ToArray();
         }
 
         public void Atualizar(Feriado feriado)
@@ -171,7 +168,8 @@ namespace SAT.INFRA.Repository
 
             #endregion
 
-            Feriado[] feriadosSAT = this.listaFeriados.Where(d => d.Data >= dataInicio && d.Data <= dataFim).ToArray();// _context.Feriado.Where(d => d.Data >= dataInicio && d.Data <= dataFim).ToArray();
+            Feriado[] feriadosSAT = _context.Feriado
+                .Where(d => d.Data >= dataInicio && d.Data <= dataFim).ToArray().ToArray();
 
             int diasNaoUteis = 0;
 

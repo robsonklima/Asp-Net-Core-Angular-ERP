@@ -9,11 +9,13 @@ using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
 using SAT.UTILS;
+using NLog;
 
 namespace SAT.SERVICES.Services
 {
     public class UsuarioService : IUsuarioService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IUsuarioRepository _usuarioRepo;
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
@@ -134,7 +136,7 @@ namespace SAT.SERVICES.Services
             }
             catch (Exception ex)
             {
-                LoggerService.LogError($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}");
+                _logger.Error($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}");
                 response.RequestValido = false;
                 response.Mensagem = "Um erro ocorreu ao solicitar nova senha";
             }

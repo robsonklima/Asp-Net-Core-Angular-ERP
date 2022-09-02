@@ -6,10 +6,6 @@ using Autofac.Extensions.DependencyInjection;
 using SAT.TASKS;
 using Microsoft.AspNetCore.Builder;
 using SAT.MODELS.Entities.Constants;
-using NLog;
-using NLog.Web;
-
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .UseWindowsService(options =>
@@ -35,7 +31,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))
-    .UseNLog()
     .Build();
 
 await host.RunAsync();

@@ -134,6 +134,11 @@ namespace SAT.INFRA.Repository
 
             return PagedList<Auditoria>.ToPagedList(auditorias, parameters.PageNumber, parameters.PageSize);
         }
+
+        public void ObterPorProc(int codAuditoria)
+        {
+            var a = _context.Database.ExecuteSqlRaw($"exec storedProcedure‌​Name {codAuditoria}");
+        }
     }
 
 }

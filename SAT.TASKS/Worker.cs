@@ -1,10 +1,8 @@
-using NLog;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.TASKS;
 public partial class Worker : BackgroundService
 {
-    private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
     private readonly IPlantaoTecnicoService _plantaoTecnicoService;
     private readonly IPontoUsuarioService _pontoUsuarioService;
     private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
@@ -34,6 +32,8 @@ public partial class Worker : BackgroundService
         {
             try
             {
+                _integracaoBanrisulService.ExecutarAsync();
+
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                 //     _plantaoTecnicoService.ProcessarTaskEmailsSobreaviso();
 
@@ -41,12 +41,10 @@ public partial class Worker : BackgroundService
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPonto();
 
                 //_integracaoFinanceiroService.ExecutarAsync();
-
-                _integracaoBanrisulService.ExecutarAsync();
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                throw ex;
             }
 
             await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);

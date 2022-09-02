@@ -84,9 +84,10 @@ namespace SAT.SERVICES.Services
 
             _ordemServicoRepo.Atualizar(os);
             
+            string[] destinatarios = { "dss.orcamentos@perto.com.br" };
+
             _emailService.Enviar(new Email {
-                EmailDestinatario = "dss.orcamentos@perto.com.br",
-                EmailRemetente = "dss.orcamentos@perto.com.br",
+                EmailDestinatarios = destinatarios,
                 Assunto = $"Perto - Orçamento Nro { orcamento.Numero } da OS { os.CodOS }",
                 Corpo = $@"Enviado por { aprovacao.Nome }, departamento: { aprovacao.Departamento }, email:  { aprovacao.Email }, 
                     motivo: { aprovacao.Motivo }, fone: { aprovacao.Telefone }, ramal: { aprovacao.Ramal }",

@@ -15,3 +15,4 @@ SAT.FRONT/src/app/core/config/app.config.ts
 SAT.API/Logs/
 *.mp4
 SAT.FRONT/src/environments/environment.ts
+SAT.TASKS/Logs/

@@ -81,14 +81,11 @@ namespace SAT.SERVICES.Services
                                         }
                                     });
 
+            string[] destinatarios = {usuario.Email};
+
             var email = new Email
             {
-                EmailRemetente = "equipe.sat@perto.com.br",
-                NomeRemetente = "Sistema SAT",
-                EmailCC = "equipe.sat@perto.com.br",
-                NomeCC = "Equipe SAT",
-                EmailDestinatario = usuario.Email,
-                NomeDestinatario = usuario.NomeUsuario,
+                EmailDestinatarios = destinatarios,
                 Assunto = "Abertura em massa de chamados",
                 Corpo = String.Join("<br>", Mensagem),
             };

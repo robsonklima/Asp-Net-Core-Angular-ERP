@@ -28,6 +28,15 @@ import { ValoresCombustivelFormComponent } from './valores-combustivel/valores-c
 import { ValoresCombustivelFiltroComponent } from './valores-combustivel/valores-combustivel-filtro/valores-combustivel-filtro.component';
 import { frotaTecnicosRoutes } from './frota-tecnicos.routing';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuditoriaLayoutComponent } from './auditoria/auditoria-layout/auditoria-layout.component';
+import { AuditoriaDetalhesComponent } from './auditoria/auditoria-detalhes/auditoria-detalhes.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { FuseCardModule } from '@fuse/components/card';
+import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-foto.component';
+import { AuditoriaAcessoriosComponent } from './auditoria/auditoria-acessorios/auditoria-acessorios.component';
+import { MatTableModule } from '@angular/material/table';
+import { NgxMaskModule } from 'ngx-mask/lib/ngx-mask.module';
+import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao.component';
 
 
 @NgModule({
@@ -35,6 +44,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AuditoriaListaComponent,
     AuditoriaFormComponent,
     AuditoriaFiltroComponent,
+    AuditoriaLayoutComponent,
+    AuditoriaDetalhesComponent,
+    AuditoriaFotoComponent,
+    AuditoriaAcessoriosComponent,
+    AuditoriaUtilizacaoComponent,
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
@@ -61,7 +75,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     FormsModule,
     FiltroModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule,
+    FuseCardModule,
+    MatTableModule
   ]
 })
 export class FrotaTecnicosModule { }

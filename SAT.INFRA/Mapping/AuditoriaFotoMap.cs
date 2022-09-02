@@ -7,12 +7,8 @@ namespace SAT.INFRA.Mapping {
     {
         public void Configure(EntityTypeBuilder<AuditoriaFoto> builder)
         {
-            builder.
-                ToTable("AuditoriaFoto");
-            
-            builder.
-                HasKey(i => new { i.CodAuditoriaFoto });
-
+            builder.ToTable("AuditoriaFoto");
+            builder.HasKey(i => new { i.CodAuditoriaFoto });
         }
     }
 }

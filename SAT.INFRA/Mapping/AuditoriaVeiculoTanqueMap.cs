@@ -12,7 +12,7 @@ namespace SAT.INFRA.Mapping
                 .ToTable("AuditoriaVeiculoTanque");
 
             builder
-                .HasKey(i => i.CodAuditoriaVeiculoTaque);
+                .HasKey(i => i.CodAuditoriaVeiculoTanque);
         }
     }
 }

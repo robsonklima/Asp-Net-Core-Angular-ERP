@@ -2,7 +2,7 @@
 {
     public class AuditoriaVeiculoTanque
     {
-        public int CodAuditoriaVeiculoTaque { get; set; }
+        public int CodAuditoriaVeiculoTanque { get; set; }
         public string Nome { get; set; }
 
     }

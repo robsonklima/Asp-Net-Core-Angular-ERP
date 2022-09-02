@@ -1,0 +1,83 @@
+<mat-drawer-container class="flex-auto h-full">
+	<mat-drawer-content>
+		<div class="flex flex-col flex-auto min-w-0">
+			<div class="bg-card">
+				<div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+					<div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
+						*transloco="let t">
+						<div class="flex flex-auto items-center min-w-0">
+							<div class="flex-1 min-w-0">
+								<div class="flex flex-wrap items-center font-medium">
+									<div>
+										<a class="whitespace-nowrap text-primary-500" routerLink="/auditoria">
+											{{ t('auditorias') }}
+										</a>
+									</div>
+									<div class="flex items-center ml-1 whitespace-nowrap">
+										<mat-icon class="icon-size-5 text-secondary"
+											[svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+										<span class="ml-1 text-secondary">{{ t('auditoria') }}</span>
+									</div>
+								</div>
+								<div class="mt-2">
+									<h6
+										class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+										{{ nroAuditoria }}
+									</h6>
+									<div class="text-right">
+										<button class='mt-2 text-right'
+											(click)="salvar()" matTooltipPosition="below"
+											[matTooltip]="t('salvar e finalizar')">
+											<mat-icon
+												style="height:35px !important; width:35px !important; font-size:35px !important;"
+												class="text-green-500" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
+										</button>
+										
+										<button class='mt-2 text-right'
+											(click)="salvar()" matTooltipPosition="below"
+											[matTooltip]="t('imprimir')">
+											<mat-icon
+												style="height:35px !important; width:35px !important; font-size:35px !important;"
+												class="text-black-500" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+										</button>
+										   <!-- [routerLink]="['/ordem-servico/impressao/' + codOS]" incluir dentro do button -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+				<div class="w-full max-w-screen-xl mx-auto">
+					<mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+						<mat-tab [label]="t('detalhes')">
+							<ng-template matTabContent>
+									<app-auditoria-detalhes (cod)="reciverFeedback($event)"></app-auditoria-detalhes>
+							</ng-template>
+						</mat-tab>
+
+						<mat-tab [label]="t('utilizacao')">
+							<ng-template matTabContent>
+									<app-auditoria-utilizacao></app-auditoria-utilizacao>
+							</ng-template>
+						</mat-tab>
+
+						<mat-tab [label]="t('acessorios')">
+							<ng-template matTabContent>
+									<app-auditoria-acessorios></app-auditoria-acessorios>
+							</ng-template>
+						</mat-tab>
+
+						<mat-tab [label]="t('fotos')">
+							<ng-template matTabContent>
+									<app-auditoria-foto></app-auditoria-foto>
+							</ng-template>
+						</mat-tab> 
+					</mat-tab-group>
+				</div>
+			</div>
+		</div>
+	</mat-drawer-content>
+</mat-drawer-container>

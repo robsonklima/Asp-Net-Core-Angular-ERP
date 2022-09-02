@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { statusConst } from 'app/core/types/status-types';
 import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -31,10 +30,8 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
-    private _route: ActivatedRoute,
     private _usuarioService: UsuarioService,
     private _auditoriaService: AuditoriaService,
-    private _cdr: ChangeDetectorRef,
     public _location: Location,
   ) { }
 
@@ -111,7 +108,8 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
       ...this.auditoria,
       ...form,
       ...{
-            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss')
+            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss')    
+        
       }
     };
 

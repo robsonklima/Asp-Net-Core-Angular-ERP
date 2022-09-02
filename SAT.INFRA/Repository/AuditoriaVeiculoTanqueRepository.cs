@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(AuditoriaVeiculoTanque auditoriaVeiculoTanque)
         {   
             _context.ChangeTracker.Clear();
-            AuditoriaVeiculoTanque a = _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTaque == auditoriaVeiculoTanque.CodAuditoriaVeiculoTaque);
+            AuditoriaVeiculoTanque a = _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTanque == auditoriaVeiculoTanque.CodAuditoriaVeiculoTanque);
 
             if (a != null)
             {
@@ -54,7 +54,7 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            AuditoriaVeiculoTanque a = _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTaque == codigo);
+            AuditoriaVeiculoTanque a = _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTanque == codigo);
 
             if (a != null)
             {
@@ -72,7 +72,7 @@ namespace SAT.INFRA.Repository
 
         public AuditoriaVeiculoTanque ObterPorCodigo(int codigo)
         {
-            return _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTaque == codigo);
+            return _context.AuditoriaVeiculoTanque.SingleOrDefault(a => a.CodAuditoriaVeiculoTanque == codigo);
         }
 
         public PagedList<AuditoriaVeiculoTanque> ObterPorParametros(AuditoriaVeiculoTanqueParameters parameters)

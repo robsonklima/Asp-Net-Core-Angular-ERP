@@ -6,6 +6,7 @@ using System.Linq.Dynamic.Core;
 using System;
 using System.Linq;
 using SAT.MODELS.Entities.Params;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -52,7 +53,8 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            AuditoriaVeiculo a = _context.AuditoriaVeiculo.SingleOrDefault(a => a.CodAuditoriaVeiculo == codigo);
+            AuditoriaVeiculo a = _context.AuditoriaVeiculo
+                .SingleOrDefault(a => a.CodAuditoriaVeiculo == codigo);
 
             if (a != null)
             {
@@ -70,7 +72,9 @@ namespace SAT.INFRA.Repository
 
         public AuditoriaVeiculo ObterPorCodigo(int codigo)
         {
-            return _context.AuditoriaVeiculo.SingleOrDefault(a => a.CodAuditoriaVeiculo == codigo);
+            return _context.AuditoriaVeiculo
+                .Include(a => a.Acessorios)
+                .SingleOrDefault(a => a.CodAuditoriaVeiculo == codigo);
         }
 
         public PagedList<AuditoriaVeiculo> ObterPorParametros(AuditoriaVeiculoParameters parameters)

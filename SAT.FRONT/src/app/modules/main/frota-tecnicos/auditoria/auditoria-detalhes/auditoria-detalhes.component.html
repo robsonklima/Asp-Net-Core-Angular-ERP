@@ -1,0 +1,73 @@
+                                <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
+                                    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                        
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('codigo') }}</div>
+                                                <div>{{ auditoria?.codAuditoria }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('nome') }}</div>
+                                                <div>{{ auditoria?.usuario?.nomeUsuario || "Não informado" }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('filial') }}</div>
+                                                <div>{{ auditoria?.usuario?.filial?.nomeFilial || "Não informado" }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('cpf') }} </div>
+                                                <div>{{ auditoria?.usuario?.tecnico?.cpf  || "Não informado" }}</div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('placa') }}</div>
+                                                <div> {{  auditoria?.auditoriaVeiculo?.placa || "Não informado" }} </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('cnh') }}</div>
+                                                <div> {{ auditoria?.usuario?.tecnico?.cnh || "Não informado" }} </div>
+                                            </div>
+
+                                            
+                                        </div>
+                                    </fuse-card>
+
+                                    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+                                        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                                            
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('status') }}</div>
+                                                <div> {{ auditoria?.auditoriaStatus?.nome || "Não informado" }} </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('matricula') }}</div>
+                                                <div> {{ auditoria?.usuario?.numCracha || "Não informado" }} </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-3">
+                                                <div class="text-secondary">{{ t('rg') }}</div>
+                                                <div> {{ auditoria?.usuario?.tecnico?.rg || "Não informado" }} </div>
+                                            </div>
+                        
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">{{ t('cnh categoria') }}</div>
+                <div> {{ auditoria?.usuario?.tecnico?.cnhcategorias || "Não informado" }} </div>
+            </div>
+
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">{{ t('finalidade') }}</div>
+                <div>{{ auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso|| "Não informado" }} </div>
+            </div>
+
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">{{ t('cnhValidade') }}</div>
+                <div> {{ auditoria?.usuario?.tecnico?.cnhvalidade || "Não informado" }} </div>
+            </div>
+        </div>
+    </fuse-card>
+</div>

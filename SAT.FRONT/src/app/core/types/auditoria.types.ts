@@ -1,3 +1,4 @@
+import { AuditoriaFoto } from "./auditoria-foto.types";
 import { AuditoriaStatus } from "./auditoria-status.types";
 import { AuditoriaVeiculo } from "./auditoria-veiculo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
@@ -34,6 +35,7 @@ export class Auditoria {
     dataHoraManut ?: string;
     codUsuarioManut ?: string;
     qtdDespesasPendentes ?: number;
+    fotos ?: AuditoriaFoto[]
 }
 
 export interface AuditoriaData extends Meta {

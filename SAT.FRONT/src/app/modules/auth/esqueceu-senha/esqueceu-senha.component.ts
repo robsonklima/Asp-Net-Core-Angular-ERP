@@ -83,12 +83,7 @@ export class EsqueceuSenhaComponent implements OnInit {
                         });
                     } else {
                         this._emailService.enviarEmail({
-                            nomeRemetente: "SAT",
-                            emailRemetente: "aplicacao.sat@perto.com.br",
-                            nomeDestinatario: response.data.nomeUsuario,
-                            emailDestinatario: response.data.email,
-                            nomeCC: 'Equipe SAT',
-                            emailCC: 'equipe.sat@perto.com.br',
+                            emailDestinatarios: [response.data.email],
                             assunto: "Nova senha de acesso ao Sistema SAT",
                             corpo: `<!DOCTYPE html>
                                     <html>

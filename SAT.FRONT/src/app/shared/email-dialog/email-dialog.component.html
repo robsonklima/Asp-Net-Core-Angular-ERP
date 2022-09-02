@@ -10,7 +10,7 @@
                     <mat-label>E-mails</mat-label>
                     <mat-chip-list class='m-1 p-1' #emailList aria-label="E-mails">
                         <mat-chip *ngFor="let email of emails" (removed)="removerEmail(email)">
-                            {{ email.endereco }}
+                            {{ email }}
                             <button matChipRemove>
                                 <mat-icon style='margin-top:-1px; margin-left: -1px;'>cancel</mat-icon>
                             </button>

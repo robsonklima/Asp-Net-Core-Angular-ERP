@@ -328,7 +328,9 @@ namespace SAT.SERVICES.Services
 
         private string GenerateFilePath(string file)
         {
-            return Path.Combine(Path.GetTempPath(), file);
+            var fullPath = Path.Combine(Path.GetTempPath(), file);
+
+            return fullPath;
         }
     }
 }

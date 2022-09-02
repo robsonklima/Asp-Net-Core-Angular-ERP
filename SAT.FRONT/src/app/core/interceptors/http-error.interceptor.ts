@@ -68,10 +68,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     enviarEmail(error: any) {
         this._emailSvc.enviarEmail({
-            nomeRemetente: c.system_user,
-            emailRemetente: c.email_equipe,
-            nomeDestinatario: c.system_user,
-            emailDestinatario: c.email_equipe,
+            emailDestinatarios: [c.email_equipe],
             assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
             corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
         }).toPromise(); 

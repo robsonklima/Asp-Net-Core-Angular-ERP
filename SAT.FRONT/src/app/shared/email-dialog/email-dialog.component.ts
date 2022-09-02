@@ -30,7 +30,7 @@ export class EmailDialogComponent {
 
     addOnBlur = true;
     readonly separatorKeysCodes = [ENTER, COMMA, SEMICOLON] as const;
-    emails: EmailAddress[] = [];
+    emails: string[] = [];
 
     constructor(
         @Inject(MAT_DIALOG_DATA) protected data: any,
@@ -61,9 +61,9 @@ export class EmailDialogComponent {
 
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
-
+        
         if (value)
-            this.emails.push({ endereco: value });
+            this.emails.push(value);
 
         event.chipInput!.clear();
     }
@@ -88,12 +88,11 @@ export class EmailDialogComponent {
     async confirmar() {
         var mailMessage: Email =
         {
-          emailRemetente: this.emailRemetente,
-          nomeRemetente: this.nomeRemetente,
-          emailDestinatario: Enumerable.from(this.emails).select(i => i.endereco).toJoinedString(','),
+          emailDestinatarios: this.emails,
           assunto: this.assuntoEmail,
           corpo: this.conteudoEmail,
         };
-        this.dialogRef.close({...mailMessage,...{incluirLaudoExportacao: this.incluirLaudoExportacao.checked}});
+        
+        this.dialogRef.close({...mailMessage,...{incluirLaudoExportacao: this.incluirLaudoExportacao?.checked?? false}});
     }
 }

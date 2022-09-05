@@ -6,7 +6,6 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
-using SAT.MODELS.Entities.Constants;
 using System;
 
 namespace SAT.INFRA.Repository
@@ -92,129 +91,136 @@ namespace SAT.INFRA.Repository
 
         public PagedList<EquipamentoContrato> ObterPorParametros(EquipamentoContratoParameters parameters)
         {
-            var equips = _context.EquipamentoContrato
-                .Include(e => e.LocalAtendimento)
-                    .ThenInclude(e => e.Cidade)
-                        .ThenInclude(e => e.UnidadeFederativa)
-                .Include(e => e.Cliente)
-                .Include(e => e.Contrato)
-                   .ThenInclude(e => e.TipoContrato)
-                .Include(e => e.Equipamento)
-                    .ThenInclude(e => e.Equivalencia)
-                .Include(e => e.ContratoEquipamento)
-                .Include(e => e.AcordoNivelServico)
-                .Include(e => e.GrupoEquipamento)
-                .Include(e => e.RegiaoAutorizada)
-                    .ThenInclude(e => e.Filial)
-                .Include(e => e.RegiaoAutorizada)
-                    .ThenInclude(e => e.Autorizada)
-                .Include(e => e.RegiaoAutorizada)
-                    .ThenInclude(e => e.Regiao)
-                .Include(e => e.TipoEquipamento)
-                .AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(parameters.Filter))
-                equips = equips.Where(e =>
-                    e.NumSerie.Contains(parameters.Filter) ||
-                    e.AtmId.Contains(parameters.Filter));
-
-            if (parameters.CodEquipContrato.HasValue)
-                equips = equips.Where(e => e.CodEquipContrato == parameters.CodEquipContrato);
-
-            if (!string.IsNullOrWhiteSpace(parameters.AtmId))
-                equips = equips.Where(e => e.AtmId.Contains(parameters.AtmId));
-
-            if (parameters.CodPosto.HasValue)
-                equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
-
-            if (parameters.CodContrato.HasValue)
-                equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
-
-            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            try
             {
-                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                equips = equips.Where(os => cods.Contains(os.CodCliente));
-            }
+                var equips = _context.EquipamentoContrato
+                    .Include(e => e.LocalAtendimento)
+                        .ThenInclude(e => e.Cidade)
+                            .ThenInclude(e => e.UnidadeFederativa)
+                    .Include(e => e.Cliente)
+                    .Include(e => e.Contrato)
+                    .ThenInclude(e => e.TipoContrato)
+                    .Include(e => e.Equipamento)
+                        .ThenInclude(e => e.Equivalencia)
+                    .Include(e => e.ContratoEquipamento)
+                    .Include(e => e.AcordoNivelServico)
+                    .Include(e => e.GrupoEquipamento)
+                    .Include(e => e.RegiaoAutorizada)
+                        .ThenInclude(e => e.Filial)
+                    .Include(e => e.RegiaoAutorizada)
+                        .ThenInclude(e => e.Autorizada)
+                    .Include(e => e.RegiaoAutorizada)
+                        .ThenInclude(e => e.Regiao)
+                    .Include(e => e.TipoEquipamento)
+                    .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(parameters.CodTipoContratos))
+                if (!string.IsNullOrWhiteSpace(parameters.Filter))
+                    equips = equips.Where(e =>
+                        e.NumSerie.Contains(parameters.Filter) ||
+                        e.AtmId.Contains(parameters.Filter));
+
+                if (parameters.CodEquipContrato.HasValue)
+                    equips = equips.Where(e => e.CodEquipContrato == parameters.CodEquipContrato);
+
+                if (!string.IsNullOrWhiteSpace(parameters.AtmId))
+                    equips = equips.Where(e => e.AtmId.Contains(parameters.AtmId));
+
+                if (parameters.CodPosto.HasValue)
+                    equips = equips.Where(e => e.CodPosto == parameters.CodPosto);
+
+                if (parameters.CodContrato.HasValue)
+                    equips = equips.Where(e => e.CodContrato == parameters.CodContrato);
+
+                if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+                {
+                    int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                    equips = equips.Where(os => cods.Contains(os.CodCliente));
+                }
+
+                if (!string.IsNullOrWhiteSpace(parameters.CodTipoContratos))
+                {
+                    int[] cods = parameters.CodTipoContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                    equips = equips.Where(equip => cods.Contains(equip.Contrato.TipoContrato.CodTipoContrato));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.NumSerie))
+                    equips = equips.Where(e => e.NumSerie == parameters.NumSerie);
+
+                if (parameters.CodFilial.HasValue)
+                    equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
+
+                if (parameters.IndAtivo.HasValue)
+                    equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+                if (!string.IsNullOrEmpty(parameters.CodPostos))
+                {
+                    var locais = parameters.CodPostos.Split(',').Select(f => f.Trim());
+                    equips = equips.Where(e => locais.Any(p => p == e.CodPosto.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodCidades))
+                {
+                    var cidades = parameters.CodCidades.Split(',').Select(c => c.Trim());
+                    equips = equips.Where(e => cidades.Any(p => p == e.LocalAtendimento.Cidade.CodCidade.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodUfs))
+                {
+                    var ufs = parameters.CodUfs.Split(',').Select(uf => uf.Trim());
+                    equips = equips.Where(e => ufs.Any(p => p == e.LocalAtendimento.Cidade.CodUF.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodFiliais))
+                {
+                    var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
+                    equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodRegioes))
+                {
+                    var regioes = parameters.CodRegioes.Split(',').Select(f => f.Trim());
+                    equips = equips.Where(e => regioes.Any(p => p == e.CodRegiao.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+                {
+                    var autorizadas = parameters.CodAutorizadas.Split(',').Select(a => a.Trim());
+                    equips = equips.Where(e => autorizadas.Any(p => p == e.CodAutorizada.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodTipoEquips))
+                {
+                    var tipos = parameters.CodTipoEquips.Split(',').Select(t => t.Trim());
+                    equips = equips.Where(e => tipos.Any(p => p == e.TipoEquipamento.CodTipoEquip.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodEquips))
+                {
+                    var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
+                    equips = equips.Where(e => modelos.Any(p => p == e.Equipamento.CodEquip.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodGrupoEquips))
+                {
+                    var grupo = parameters.CodGrupoEquips.Split(',').Select(g => g.Trim());
+                    equips = equips.Where(e => grupo.Any(p => p == e.GrupoEquipamento.CodGrupoEquip.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.CodEquipamentos))
+                {
+                    var codigos = parameters.CodEquipamentos.Split(',').Select(f => f.Trim());
+                    equips = equips.Where(e => codigos.Any(p => p == e.CodEquip.ToString()));
+                }
+
+                if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
+                    equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+                return PagedList<EquipamentoContrato>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
+            }
+            catch (Exception ex)
             {
-                int[] cods = parameters.CodTipoContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                equips = equips.Where(equip => cods.Contains(equip.Contrato.TipoContrato.CodTipoContrato));
+                throw new Exception(ex.Message);
             }
-
-            if (!string.IsNullOrEmpty(parameters.NumSerie))
-                equips = equips.Where(e => e.NumSerie == parameters.NumSerie);
-
-            if (parameters.CodFilial.HasValue)
-                equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);
-
-            if (parameters.IndAtivo.HasValue)
-                equips = equips.Where(e => e.IndAtivo == parameters.IndAtivo);
-
-            if (!string.IsNullOrEmpty(parameters.CodPostos))
-            {
-                var locais = parameters.CodPostos.Split(',').Select(f => f.Trim());
-                equips = equips.Where(e => locais.Any(p => p == e.CodPosto.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodCidades))
-            {
-                var cidades = parameters.CodCidades.Split(',').Select(c => c.Trim());
-                equips = equips.Where(e => cidades.Any(p => p == e.LocalAtendimento.Cidade.CodCidade.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodUfs))
-            {
-                var ufs = parameters.CodUfs.Split(',').Select(uf => uf.Trim());
-                equips = equips.Where(e => ufs.Any(p => p == e.LocalAtendimento.Cidade.CodUF.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodFiliais))
-            {
-                var filiais = parameters.CodFiliais.Split(',').Select(f => f.Trim());
-                equips = equips.Where(e => filiais.Any(p => p == e.CodFilial.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodRegioes))
-            {
-                var regioes = parameters.CodRegioes.Split(',').Select(f => f.Trim());
-                equips = equips.Where(e => regioes.Any(p => p == e.CodRegiao.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
-            {
-                var autorizadas = parameters.CodAutorizadas.Split(',').Select(a => a.Trim());
-                equips = equips.Where(e => autorizadas.Any(p => p == e.CodAutorizada.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodTipoEquips))
-            {
-                var tipos = parameters.CodTipoEquips.Split(',').Select(t => t.Trim());
-                equips = equips.Where(e => tipos.Any(p => p == e.TipoEquipamento.CodTipoEquip.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodEquips))
-            {
-                var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
-                equips = equips.Where(e => modelos.Any(p => p == e.Equipamento.CodEquip.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodGrupoEquips))
-            {
-                var grupo = parameters.CodGrupoEquips.Split(',').Select(g => g.Trim());
-                equips = equips.Where(e => grupo.Any(p => p == e.GrupoEquipamento.CodGrupoEquip.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.CodEquipamentos))
-            {
-                var codigos = parameters.CodEquipamentos.Split(',').Select(f => f.Trim());
-                equips = equips.Where(e => codigos.Any(p => p == e.CodEquip.ToString()));
-            }
-
-            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
-                equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
-
-            return PagedList<EquipamentoContrato>.ToPagedList(equips, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

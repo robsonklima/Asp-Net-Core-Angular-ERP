@@ -48,7 +48,7 @@ namespace SAT.SERVICES.Services
 
             foreach (var email in emails.Value)
             {
-                //await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
+                await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
 

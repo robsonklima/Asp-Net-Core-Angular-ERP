@@ -37,11 +37,11 @@ public partial class Worker : BackgroundService
             {
                 await _integracaoBanrisulService.ExecutarAsync();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
                     
                 // _integracaoFinanceiroService.ExecutarAsync();
             }

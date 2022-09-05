@@ -26,7 +26,7 @@ public class ConfigurationIOC
         builder.RegisterType<AcaoRepository>().As<IAcaoRepository>();
         builder.RegisterType<SequenciaRepository>().As<ISequenciaRepository>();
         builder.RegisterType<EquipamentoRepository>().As<IEquipamentoRepository>();
-        builder.RegisterType<EquipamentoContratoRepository>().As<IEquipamentoContratoRepository>();
+        builder.RegisterType<EquipamentoContratoRepository>().As<IEquipamentoContratoRepository>().SingleInstance();
         builder.RegisterType<ContratoRepository>().As<IContratoRepository>();
         builder.RegisterType<TipoEquipamentoRepository>().As<ITipoEquipamentoRepository>();
         builder.RegisterType<TipoServicoRepository>().As<ITipoServicoRepository>();

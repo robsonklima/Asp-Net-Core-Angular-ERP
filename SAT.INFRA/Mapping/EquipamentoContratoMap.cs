@@ -85,7 +85,6 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => new { prop.CodFilial, prop.CodRegiao, prop.CodAutorizada})
                 .HasPrincipalKey((prop => new { prop.CodFilial, prop.CodRegiao, prop.CodAutorizada }));
-         
         }
     }
 }

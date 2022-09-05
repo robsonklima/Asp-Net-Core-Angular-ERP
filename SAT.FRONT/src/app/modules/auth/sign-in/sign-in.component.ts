@@ -119,12 +119,7 @@ export class AuthSignInComponent implements OnInit {
 
     private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._emailSvc.enviarEmail({
-            nomeRemetente: "SAT",
-            emailRemetente: "aplicacao.sat@perto.com.br",
-            nomeDestinatario: usuario.nomeUsuario,
-            emailDestinatario: usuario.email,
-            nomeCC: 'Equipe SAT',
-            //emailCC: 'equipe.sat@perto.com.br',
+            emailDestinatarios: [usuario.email],
             assunto: "Ativação de Acesso ao Sistema SAT",
             corpo: `<p>Solicitação de Permissão de Acesso à sua Conta no SAT</p>
                     <p>Sistema Operacional: ${this.deviceInfo.os}</p>

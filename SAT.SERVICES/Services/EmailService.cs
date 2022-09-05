@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using Microsoft.Identity.Client;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mime;
 
 namespace SAT.SERVICES.Services
 {
@@ -35,6 +36,15 @@ namespace SAT.SERVICES.Services
             message.Subject = email.Assunto;
             message.Body = email.Corpo;
             message.IsBodyHtml = true;
+            
+            if(email.Anexos.Any())
+            {
+                email.Anexos.ForEach(anexo =>
+                {
+                    message.Attachments.Add(new Attachment(anexo, MediaTypeNames.Application.Octet));
+                });
+            }
+
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;

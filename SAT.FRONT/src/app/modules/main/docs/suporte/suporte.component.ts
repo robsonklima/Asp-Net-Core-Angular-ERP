@@ -40,14 +40,11 @@ export class SuporteComponent implements OnInit {
     const form: any = this.supportForm.getRawValue();
     const usuario = this.userSession.usuario;
     const email: Email = {
-      emailRemetente: usuario.email,
-      nomeRemetente: usuario.nomeUsuario,
-      emailCC: usuario.email,
-      nomeCC: usuario.nomeUsuario,
-      nomeDestinatario: 'Equipe SAT',
-      emailDestinatario: 'equipe.sat@perto.com.br',
+      emailDestinatarios: ['equipe.sat@perto.com.br'],
       assunto: `Contato via Suporte: ${form.assunto}`,
-      corpo: form.mensagem
+      corpo: `  Solicitante: ${usuario.nomeUsuario} <br>
+                E-mai.: ${usuario.email} <br>
+                ${form.mensagem}`
     }
 
     await this._emailSvc.enviarEmail(email).toPromise();

@@ -38,6 +38,12 @@ namespace SAT.SERVICES.Services
             var orcamento = _orcamentoRepo.ObterPorCodigo(parameters.CodigoOrdemServico.Value);
             var orcamentoImpressao = new OrcamentoPdfHelper(orcamento);
             var orcamentoPdf = GenerateFilePath($"ORÇAMENTO-{orcamento.Numero}.pdf");
+
+            if (File.Exists(orcamentoPdf))
+            {
+                File.Delete(orcamentoPdf);
+            }
+            
             orcamentoImpressao.GeneratePdf(orcamentoPdf);
             arquivos.Add(orcamentoPdf);
 

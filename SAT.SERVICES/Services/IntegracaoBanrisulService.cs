@@ -44,11 +44,11 @@ namespace SAT.SERVICES.Services
 
         public async Task ExecutarAsync()
         {
-            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
+            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
             foreach (var email in emails.Value)
             {
-                await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
+                await _emailService.DeletarEmailAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
 

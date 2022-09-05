@@ -37,14 +37,13 @@ namespace SAT.SERVICES.Services
             message.Body = email.Corpo;
             message.IsBodyHtml = true;
             
-            if(email.Anexos.Any())
+            if((email.Anexos != null ) && (email.Anexos.Any()))
             {
                 email.Anexos.ForEach(anexo =>
                 {
                     message.Attachments.Add(new Attachment(anexo, MediaTypeNames.Application.Octet));
                 });
             }
-
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;

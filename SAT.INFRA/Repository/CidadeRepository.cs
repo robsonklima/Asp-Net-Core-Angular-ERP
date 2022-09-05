@@ -93,11 +93,11 @@ namespace SAT.INFRA.Repository
                     s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             
-            // if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
-            // {
-            //     int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-            //     cidades = cidades.Where(dc => cods.Contains(dc.Filial.CodFilial));
-            // };
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                cidades = cidades.Where(dc => cods.Contains(dc.Filial.CodFilial));
+            };
             
             if (!string.IsNullOrWhiteSpace(parameters.CodUFs))
             {

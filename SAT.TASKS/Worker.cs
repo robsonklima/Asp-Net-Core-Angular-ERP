@@ -1,3 +1,4 @@
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -46,7 +47,7 @@ public partial class Worker : BackgroundService
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.Message);
             }
 
             await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);

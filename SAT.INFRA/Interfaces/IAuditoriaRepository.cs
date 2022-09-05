@@ -9,6 +9,5 @@ namespace SAT.INFRA.Interfaces {
         void Criar(Auditoria auditoria);
         void Deletar(int codigoAuditoria);
         void Atualizar(Auditoria auditoria);
-        void ObterPorProc(int codAuditoria);
     }
 }

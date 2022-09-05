@@ -190,6 +190,7 @@ namespace SAT.INFRA.Context
         public DbSet<AuditoriaVeiculoTanque> AuditoriaVeiculoTanque { get; set; }
         public DbSet<Conferencia> Conferencia { get; set; }
         public DbSet<ConferenciaParticipante> ConferenciaParticipante { get; set; }
+        public DbSet<ArquivoBanrisul> ArquivoBanrisul { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -401,36 +402,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Conferencia>(new ConferenciaMap().Configure);
             modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
-            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);
-
-            modelBuilder.Entity<RegiaoAutorizada>()
-                            .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
-
-            modelBuilder.Entity<NavegacaoConfiguracao>()
-                        .HasOne<Perfil>(nc => nc.Perfil)
-                        .WithMany(nc => nc.NavegacoesConfiguracao);
-
-            modelBuilder.Entity<NavegacaoConfiguracao>()
-                        .HasOne<Navegacao>(nc => nc.Navegacao)
-                        .WithMany(nc => nc.NavegacoesConfiguracao);
-
-            modelBuilder.Entity<DespesaPeriodoTecnico>()
-                        .HasKey(ra => new { ra.CodTecnico, ra.CodDespesaPeriodo });
-
-            modelBuilder.Entity<ContratoEquipamento>()
-                        .HasKey(e => new { e.CodContrato, e.CodEquip });
-
-            modelBuilder.Entity<DispBBEquipamentoContrato>()
-                .HasKey(e => e.CodDispBBEquipamentoContrato);
-
-            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
-                        .HasKey(ra => new { ra.CodDespesaProtocolo, ra.CodDespesaPeriodoTecnico });
-
-            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
-                        .HasOne(p => p.DespesaPeriodoTecnico)
-                        .WithOne(p => p.DespesaProtocoloPeriodoTecnico)
-                        .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
-                        .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
+            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
+            modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);            
         }
     }
 }

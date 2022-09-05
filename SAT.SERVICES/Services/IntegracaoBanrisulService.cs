@@ -44,11 +44,11 @@ namespace SAT.SERVICES.Services
 
         public async Task ExecutarAsync()
         {
-            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
+            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
             foreach (var email in emails.Value)
             {
-                await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
+                await _emailService.DeletarEmailAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
 
@@ -259,55 +259,6 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        private void ResponderOS(IntegracaoBanrisulAtendimento atendimento)
-        {
-            try
-            {
-                var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
-
-                if (ordemServico.RelatoriosAtendimento.Count > 0)
-                {
-                    RelatorioAtendimento ultimaRAT = ordemServico.RelatoriosAtendimento.OrderByDescending(q => q.CodRAT).FirstOrDefault();
-                    DateTime parseDate = new DateTime();
-
-                    if (DateTime.TryParse(atendimento.DataHoraSolucaoValida.Valor, out parseDate))
-                    {
-                        ultimaRAT.DataHoraSolucaoValida = parseDate;
-                        _relatorioAtendimentoService.Atualizar(ultimaRAT);
-
-                        EnviaEmailResolucao(atendimento, "Resolução acatada com sucesso", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RECEBIDA);
-                        return;
-                    }
-                    else
-                    {
-                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
-
-                        RegistrarExcecao($"Integração Banrisul ATM: DataHoraSolucaoValida inválida. Status do incidente: RE. {atendimento.Conteudo}");
-                    }
-                }
-                else
-                {
-                    EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
-
-                    RegistrarExcecao($"Integração Banrisul ATM: RAT não encontrada. Status do incidente: RE. {atendimento.Conteudo}");
-                }
-            }
-            catch (Exception ex)
-            {
-                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir ordem de serviço. {atendimento.Conteudo} Erro {ex.Message}");
-            }
-        }
-
-        private OrdemServico ObterOrdemServico(string numOSCliente)
-        {
-            return (OrdemServico)_ordemServicoService
-                .ObterPorParametros(new OrdemServicoParameters
-                {
-                    NumOSCliente = numOSCliente,
-                    CodClientes = Constants.CLIENTE_BANRISUL.ToString()
-                }).Items.FirstOrDefault();
-        }
-
         private void AbrirOS(IntegracaoBanrisulAtendimento atendimento)
         {
             OrdemServico ordemServico = new();
@@ -471,6 +422,63 @@ namespace SAT.SERVICES.Services
 
             ordemServico = _ordemServicoService.Criar(ordemServico);
             EnviaEmailAbertura(atendimento, ordemServico);
+        }
+
+        private void ResponderOS(IntegracaoBanrisulAtendimento atendimento)
+        {
+            try
+            {
+                var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
+
+                if (ordemServico.RelatoriosAtendimento.Count > 0)
+                {
+                    RelatorioAtendimento ultimaRAT = ordemServico.RelatoriosAtendimento.OrderByDescending(q => q.CodRAT).FirstOrDefault();
+                    DateTime parseDate = new DateTime();
+
+                    if (DateTime.TryParse(atendimento.DataHoraSolucaoValida.Valor, out parseDate))
+                    {
+                        ultimaRAT.DataHoraSolucaoValida = parseDate;
+                        _relatorioAtendimentoService.Atualizar(ultimaRAT);
+
+                        EnviaEmailResolucao(atendimento, "Resolução acatada com sucesso", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RECEBIDA);
+                        return;
+                    }
+                    else
+                    {
+                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
+
+                        RegistrarExcecao($"Integração Banrisul ATM: DataHoraSolucaoValida inválida. Status do incidente: RE. {atendimento.Conteudo}");
+                    }
+                }
+                else
+                {
+                    EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
+
+                    RegistrarExcecao($"Integração Banrisul ATM: RAT não encontrada. Status do incidente: RE. {atendimento.Conteudo}");
+                }
+            }
+            catch (Exception ex)
+            {
+                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir ordem de serviço. {atendimento.Conteudo} Erro {ex.Message}");
+            }
+        }
+
+        private OrdemServico ObterOrdemServico(string numOSCliente)
+        {
+            return (OrdemServico)_ordemServicoService
+                .ObterPorParametros(new OrdemServicoParameters
+                {
+                    NumOSCliente = numOSCliente,
+                    CodClientes = Constants.CLIENTE_BANRISUL.ToString()
+                }).Items.FirstOrDefault();
+        }
+
+        private string GetHtmlEmailTrocaStatus() {
+            return string.Empty;
+        }
+
+        private void EnviaPdf() {
+            
         }
 
         private string GetHtmlEmailAbertura(IntegracaoBanrisulAtendimento atendimento, String mensagem)

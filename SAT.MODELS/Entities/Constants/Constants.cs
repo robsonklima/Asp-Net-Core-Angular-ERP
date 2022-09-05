@@ -36,6 +36,12 @@ namespace SAT.MODELS.Entities.Constants
             ClientID = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
         };
 
+        public static Office365EmailConfig EMAIL_BANRISUL_CONFIG = new Office365EmailConfig {
+            Username = "gss.sat.banrisul@perto.com.br",
+            Password = "Aolv!@#g8A)g4",
+            ClientID = "4a0d5062-6188-4067-af77-e5eb261b2119"
+        };        
+
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;
         public static int TRANFERIDO = 8;

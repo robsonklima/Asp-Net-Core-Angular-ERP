@@ -73,7 +73,7 @@ namespace SAT.SERVICES.Services
             return _pontoUsuarioRepo.ObterPorCodigo(codigo);
         }
 
-        public void ProcessarTaskAtualizacaoIntervalosPonto()
+        public void ProcessarTaskAtualizacaoIntervalosPontoAsync()
         {
             try
             {

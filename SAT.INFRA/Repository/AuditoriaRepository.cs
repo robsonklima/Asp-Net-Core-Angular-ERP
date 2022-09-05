@@ -98,6 +98,12 @@ namespace SAT.INFRA.Repository
                 .Include(c => c.AuditoriaVeiculo)
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                auditorias = auditorias.Where(a =>
+                    a.CodAuditoria.ToString().Contains(parameters.Filter));
+            }
+
             if (parameters.CodAuditoriaStatus != null)
             {
                 auditorias = auditorias.Where(a => a.CodAuditoriaStatus == parameters.CodAuditoriaStatus);

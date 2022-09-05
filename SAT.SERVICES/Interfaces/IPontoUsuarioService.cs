@@ -11,6 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(PontoUsuario pontoUsuario);
         PontoUsuario ObterPorCodigo(int codigo);
-        void ProcessarTaskAtualizacaoIntervalosPonto();
+        void ProcessarTaskAtualizacaoIntervalosPontoAsync();
     }
 }

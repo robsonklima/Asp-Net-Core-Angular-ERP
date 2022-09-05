@@ -71,7 +71,7 @@ namespace SAT.SERVICES.Services
             return _plantaoTecnicoRepo.ObterPorCodigo(codigo);
         }
 
-        public void ProcessarTaskEmailsSobreaviso()
+        public void ProcessarTaskEmailsSobreavisoAsync()
         {
             _satTaskService.Criar(new SatTask()
             {

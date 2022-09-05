@@ -13,6 +13,8 @@ import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-auditoria-lista',
@@ -45,10 +47,10 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	dataSourceData: AuditoriaData;
 	pendencia: boolean = false;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 	selectedItem: Auditoria | null = null;
 	userSession: UserSession;
 
@@ -84,16 +86,40 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 	ngAfterViewInit(): void {
 		this.isLoading = true;
 		this.registerEmitters();
-        this.obterDados();
-        this._cdr.detectChanges();
+		this.obterDados();
+
+		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(1000)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+			this.paginator.pageIndex = 0;
+			this.obterDados(text);
+		});
+
+		if (this.sort && this.paginator) {
+			this.sort.disableClear = true;
+			this._cdr.markForCheck();
+
+			this.sort.sortChange.subscribe(() => {
+				this.onSortChanged();
+				this.obterDados();
+			});
+		}
+
+		this._cdr.detectChanges();
 	}
 
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
+
 		const parametros: AuditoriaParameters = {
+
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active,
-			sortDirection: 'asc',
+			sortActive: this.sort.active || 'codAuditoria',
+			sortDirection: 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro
 		}

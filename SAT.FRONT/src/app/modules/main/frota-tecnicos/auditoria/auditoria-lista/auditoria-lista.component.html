@@ -38,7 +38,7 @@
                   <div class="grid" *transloco="let t">
                       <div class="list-grid-auditoria z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                       matSort matSortDisableClear *transloco="let t">
-                          <div class="md:block">
+                          <div class="md:block" [mat-sort-header]="'codAuditoria'">
                               {{ t('codigo') }}
                           </div>
                           <div >

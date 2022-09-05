@@ -96,6 +96,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.Tecnico)
                 .Include(c => c.AuditoriaStatus)
                 .Include(c => c.AuditoriaVeiculo)
+                    .ThenInclude(c => c.AuditoriaVeiculoTanque)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -112,6 +113,12 @@ namespace SAT.INFRA.Repository
             if (parameters.CodAuditoriaVeiculo != null)
             {
                 auditorias = auditorias.Where(a => a.CodAuditoriaVeiculo == parameters.CodAuditoriaVeiculo);
+            };
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodAuditoriaVeiculoTanque))
+            {
+                int[] cods = parameters.CodAuditoriaVeiculoTanque.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                auditorias = auditorias.Where(dc => cods.Contains(dc.AuditoriaVeiculo.AuditoriaVeiculoTanque.CodAuditoriaVeiculoTanque));
             };
 
             if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))

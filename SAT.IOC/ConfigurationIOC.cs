@@ -159,6 +159,7 @@ public class ConfigurationIOC
         builder.RegisterType<ConferenciaRepository>().As<IConferenciaRepository>();
         builder.RegisterType<ConferenciaParticipanteRepository>().As<IConferenciaParticipanteRepository>();
         builder.RegisterType<MensagemTecnicoRepository>().As<IMensagemTecnicoRepository>();
+        builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>();
         #endregion
 
         #region Services
@@ -305,6 +306,7 @@ public class ConfigurationIOC
         builder.RegisterType<ConferenciaParticipanteService>().As<IConferenciaParticipanteService>();
         builder.RegisterType<MensagemTecnicoService>().As<IMensagemTecnicoService>();
         builder.RegisterType<IntegracaoBanrisulService>().As<IIntegracaoBanrisulService>();
+        builder.RegisterType<ArquivoBanrisulService>().As<IArquivoBanrisulService>();
         #endregion
 
         #region Utils Services

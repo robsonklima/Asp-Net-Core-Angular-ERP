@@ -190,6 +190,7 @@ namespace SAT.INFRA.Context
         public DbSet<AuditoriaVeiculoTanque> AuditoriaVeiculoTanque { get; set; }
         public DbSet<Conferencia> Conferencia { get; set; }
         public DbSet<ConferenciaParticipante> ConferenciaParticipante { get; set; }
+        public DbSet<ArquivoBanrisul> ArquivoBanrisul { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -401,7 +402,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Conferencia>(new ConferenciaMap().Configure);
             modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
-            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);            
+            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
+            modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);            
         }
     }
 }

@@ -473,6 +473,14 @@ namespace SAT.SERVICES.Services
                 }).Items.FirstOrDefault();
         }
 
+        private string GetHtmlEmailTrocaStatus() {
+            return string.Empty;
+        }
+
+        private void EnviaPdf() {
+            
+        }
+
         private string GetHtmlEmailAbertura(IntegracaoBanrisulAtendimento atendimento, String mensagem)
         {
             StringBuilder texto = new StringBuilder();

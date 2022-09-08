@@ -36,6 +36,12 @@ namespace SAT.MODELS.Entities.Constants
             ClientID = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
         };
 
+        public static Office365EmailConfig EMAIL_APLICACAO_CONFIG = new Office365EmailConfig {
+            Username = "aplicacao.sat@perto.com.br",
+            Password = "Aavk@41(&a$bfJo01",
+            ClientID = "1b71cdeb-01a7-493e-a4a1-aedacb2488e3"
+        };        
+
         public static Office365EmailConfig EMAIL_BANRISUL_CONFIG = new Office365EmailConfig {
             Username = "gss.sat.banrisul@perto.com.br",
             Password = "Aolv!@#g8A)g4",

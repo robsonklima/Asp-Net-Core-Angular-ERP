@@ -419,6 +419,7 @@ namespace SAT.SERVICES.Services
             ordemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
             ordemServico.DataHoraSolicitacao = DateTime.Parse(atendimento.DataHoraAbertura.Valor);
             ordemServico.IndStatusEnvioReincidencia = 0;
+            ordemServico.IndRevisaoReincidencia = 0;
 
             ordemServico = _ordemServicoService.Criar(ordemServico);
             EnviaEmailAbertura(atendimento, ordemServico);

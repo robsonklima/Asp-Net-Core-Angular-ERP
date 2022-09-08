@@ -403,7 +403,26 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
             modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
-            modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);            
+            modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);
+
+            modelBuilder.Entity<RegiaoAutorizada>()
+                            .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });
+
+            modelBuilder.Entity<NavegacaoConfiguracao>()
+                        .HasOne<Navegacao>(nc => nc.Navegacao)
+                        .WithMany(nc => nc.NavegacoesConfiguracao);
+
+            modelBuilder.Entity<DispBBEquipamentoContrato>()
+                .HasKey(e => e.CodDispBBEquipamentoContrato);
+
+            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
+                        .HasKey(ra => new { ra.CodDespesaProtocolo, ra.CodDespesaPeriodoTecnico });
+
+            modelBuilder.Entity<DespesaProtocoloPeriodoTecnico>()
+                        .HasOne(p => p.DespesaPeriodoTecnico)
+                        .WithOne(p => p.DespesaProtocoloPeriodoTecnico)
+                        .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
+                        .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
         }
     }
 }

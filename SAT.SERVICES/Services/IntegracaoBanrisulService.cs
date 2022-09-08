@@ -40,7 +40,7 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
             _feriadoService = feriadoService;
-        }
+        } 
 
         public async Task ExecutarAsync()
         {

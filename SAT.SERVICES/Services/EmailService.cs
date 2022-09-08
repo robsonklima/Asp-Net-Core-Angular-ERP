@@ -76,7 +76,7 @@ namespace SAT.SERVICES.Services
 
                 headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/messages");
+                HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/mailFolders/inbox/messages");
                 if (res.IsSuccessStatusCode)
                 {
                     var json = await res.Content.ReadAsStringAsync();

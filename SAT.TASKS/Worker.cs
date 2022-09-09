@@ -37,20 +37,20 @@ public partial class Worker : BackgroundService
             {
                 await _integracaoBanrisulService.ExecutarAsync();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
                     
-                // _integracaoFinanceiroService.ExecutarAsync();
+                //_integracaoFinanceiroService.ExecutarAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 }

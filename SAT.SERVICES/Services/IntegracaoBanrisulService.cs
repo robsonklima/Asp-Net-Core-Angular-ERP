@@ -42,23 +42,15 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
             _feriadoService = feriadoService;
-            _arquivoBanrisulService = arquivoBanrisulService;
         }
 
         public async Task ExecutarAsync()
-        {
-            ProcessarArquivos();
-
-            await ProcessarEmailsAsync();
-        }
-
-        private async Task ProcessarEmailsAsync()
         {
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
 
             foreach (var email in emails.Value)
             {
-                //await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
+                await _emailService.DeletarEmailAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
 
@@ -439,6 +431,7 @@ namespace SAT.SERVICES.Services
             ordemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
             ordemServico.DataHoraSolicitacao = DateTime.Parse(atendimento.DataHoraAbertura.Valor);
             ordemServico.IndStatusEnvioReincidencia = 0;
+            ordemServico.IndRevisaoReincidencia = 0;
 
             ordemServico = _ordemServicoService.Criar(ordemServico);
             EnviaEmailAbertura(atendimento, ordemServico);

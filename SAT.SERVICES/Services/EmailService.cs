@@ -23,7 +23,7 @@ namespace SAT.SERVICES.Services
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             MailMessage message = new MailMessage();
-            message.From = new MailAddress(Constants.EMAIL_TESTE_CONFIG.Username);
+            message.From = new MailAddress(Constants.EMAIL_APLICACAO_CONFIG.Username);
 
             foreach (string enderencoEmail in email.EmailDestinatarios)
             {
@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
             message.Body = email.Corpo;
             message.IsBodyHtml = true;
             
-            if(email.Anexos.Any())
+            if((email.Anexos != null ) && (email.Anexos.Any()))
             {
                 email.Anexos.ForEach(anexo =>
                 {
@@ -45,10 +45,9 @@ namespace SAT.SERVICES.Services
                 });
             }
 
-
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE_CONFIG.Username, Constants.EMAIL_TESTE_CONFIG.Password);
+            client.Credentials = new NetworkCredential(Constants.EMAIL_APLICACAO_CONFIG.Username, Constants.EMAIL_APLICACAO_CONFIG.Password);
             client.Host = Constants.OFFICE_365_CONFIG.Host;
             client.Port = (int)Constants.OFFICE_365_CONFIG.Port;
             client.EnableSsl = true;
@@ -77,7 +76,7 @@ namespace SAT.SERVICES.Services
 
                 headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/messages");
+                HttpResponseMessage res = await httpClient.GetAsync($"{Constants.OFFICE_365_CONFIG.ApiUri}v1.0/users/{clientID}/mailFolders/inbox/messages");
                 if (res.IsSuccessStatusCode)
                 {
                     var json = await res.Content.ReadAsStringAsync();

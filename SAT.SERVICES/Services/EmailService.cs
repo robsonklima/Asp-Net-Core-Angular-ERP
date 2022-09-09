@@ -23,7 +23,7 @@ namespace SAT.SERVICES.Services
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             MailMessage message = new MailMessage();
-            message.From = new MailAddress(Constants.EMAIL_TESTE_CONFIG.Username);
+            message.From = new MailAddress(Constants.EMAIL_APLICACAO_CONFIG.Username);
 
             foreach (string enderencoEmail in email.EmailDestinatarios)
             {
@@ -47,7 +47,7 @@ namespace SAT.SERVICES.Services
 
             var client = new SmtpClient();
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(Constants.EMAIL_TESTE_CONFIG.Username, Constants.EMAIL_TESTE_CONFIG.Password);
+            client.Credentials = new NetworkCredential(Constants.EMAIL_APLICACAO_CONFIG.Username, Constants.EMAIL_APLICACAO_CONFIG.Password);
             client.Host = Constants.OFFICE_365_CONFIG.Host;
             client.Port = (int)Constants.OFFICE_365_CONFIG.Port;
             client.EnableSsl = true;

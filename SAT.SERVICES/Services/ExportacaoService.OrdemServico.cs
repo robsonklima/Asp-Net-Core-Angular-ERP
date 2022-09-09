@@ -2,6 +2,13 @@ using System.Linq;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities.Constants;
 using System;
+using Microsoft.AspNetCore.Mvc;
+using SAT.MODELS.Entities;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using SAT.UTILS;
+using System.IO;
+using QuestPDF.Fluent;
 
 namespace SAT.SERVICES.Services
 {
@@ -120,8 +127,8 @@ namespace SAT.SERVICES.Services
                                         }
                                     ))));
 
-            var exportUnificado = viewUnificada.Select(v => 
-                                            new 
+            var exportUnificado = viewUnificada.Select(v =>
+                                            new
                                             {
                                                 CodOS = v.CodOS.HasValue ? v.CodOS.Value.ToString() : Constants.NENHUM_REGISTRO,
                                                 NumOSCliente = v.NumOSCliente ?? Constants.NENHUM_REGISTRO,
@@ -130,8 +137,8 @@ namespace SAT.SERVICES.Services
                                                 DataHoraSolicitacao = v.DataHoraSolicitacao.HasValue ? v.DataHoraSolicitacao.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraFechamento = v.DataHoraFechamento.HasValue ? v.DataHoraFechamento.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraAgendamento = v.DataAgendamento.HasValue ? v.DataAgendamento.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
-                                                HorasOsAberta = (v.DataHoraFechamento.HasValue)  ? 
-                                                                v.DataHoraFechamento.Value.Subtract(v.DataHoraAberturaOS.Value).TotalHours : 
+                                                HorasOsAberta = (v.DataHoraFechamento.HasValue) ?
+                                                                v.DataHoraFechamento.Value.Subtract(v.DataHoraAberturaOS.Value).TotalHours :
                                                                 DateTime.Now.Subtract(v.DataHoraAberturaOS.Value).TotalHours,
                                                 StatusSLAOS = v.StatusSLAOS ?? Constants.NENHUM_REGISTRO,
                                                 StatusOS = v.StatusOS ?? Constants.NENHUM_REGISTRO,
@@ -169,7 +176,7 @@ namespace SAT.SERVICES.Services
                                                 DataHoraChegada = v.DataHoraChegada.HasValue ? v.DataHoraChegada.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraInicio = v.DataHoraInicio.HasValue ? v.DataHoraInicio.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                                 DataHoraFim = v.DataHoraFim.HasValue ? v.DataHoraFim.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
-                                                HorasTotalRAT = (v.DataHoraFim.HasValue && v.DataHoraInicio.HasValue)  ? 
+                                                HorasTotalRAT = (v.DataHoraFim.HasValue && v.DataHoraInicio.HasValue) ?
                                                                 v.DataHoraFim.Value.Subtract(v.DataHoraInicio.Value).TotalHours : 0,
                                                 TempoAtendimentoMin = v.TempoAtendimentoMin.ToString() ?? Constants.NENHUM_REGISTRO,
                                                 RelatoSolucao = v.RelatoSolucao ?? Constants.NENHUM_REGISTRO,
@@ -184,9 +191,9 @@ namespace SAT.SERVICES.Services
                                                 NomePeca = v.NomePeca ?? Constants.NENHUM_REGISTRO,
                                                 QtdePecas = v.QtdePecas.HasValue ? v.QtdePecas.ToString() : Constants.NENHUM_REGISTRO,
                                                 IndServico = v.IndServico.HasValue ? v.IndServico.ToString() : Constants.NENHUM_REGISTRO,
-                                                
+
                                             });
-    
+
             var wsOs = Workbook.Worksheets.Add("Chamados");
             wsOs.Cell(2, 1).Value = osSheet;
             WriteHeaders(osSheet.FirstOrDefault(), wsOs);
@@ -205,10 +212,41 @@ namespace SAT.SERVICES.Services
                 wsRatDetalhePeca.Cell(2, 1).Value = ratDetalhePecaSheet;
                 WriteHeaders(ratDetalhePecaSheet.FirstOrDefault(), wsRatDetalhePeca);
             }
-            
+
             var wsUni = Workbook.Worksheets.Add("Unificado");
-                wsUni.Cell(2, 1).Value = exportUnificado;
-                WriteHeaders(exportUnificado.FirstOrDefault(), wsUni);
+            wsUni.Cell(2, 1).Value = exportUnificado;
+            WriteHeaders(exportUnificado.FirstOrDefault(), wsUni);
+        }
+        
+        private IActionResult GerarPdfOrdemServico(Exportacao exportacao)
+        {
+
+            var arquivos = new List<string>();
+
+            var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
+            var os = _osRepo.ObterPorCodigo(Int32.Parse(parameters.CodOS));
+            var osImpressao = new OrdemServicoPdfHelper(os);
+            var osPdf = GenerateFilePath($"OS-{os.CodOS}.pdf");
+
+            if (File.Exists(osPdf))
+            {
+                File.Delete(osPdf);
+            }
+
+            osImpressao.GeneratePdf(osPdf);
+                                                          
+
+            if (exportacao.Email != null)
+            {
+                arquivos.Add(osPdf);
+                exportacao.Email.Anexos = arquivos;
+
+                _emaiLService.Enviar(exportacao.Email);
+                return new NoContentResult();
+            }
+
+            byte[] file = File.ReadAllBytes(osPdf);
+            return new FileContentResult(file, "application/pdf");
         }
     }
 }

@@ -139,6 +139,9 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.ORCAMENTO:
                     return GerarPdfOrcamento(exportacao);
 
+                case ExportacaoTipoEnum.ORDEM_SERVICO:
+                    return GerarPdfOrdemServico(exportacao);
+
                 default:
                     return null;
             }
@@ -257,15 +260,19 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.REGIAO:
                     GerarPlanilhaRegiao(((JObject)parameters).ToObject<RegiaoParameters>());
                     break;
+
                 case ExportacaoTipoEnum.REGIAOAUTORIZADA:
                     GerarPlanilhaRegiaoAutorizada(((JObject)parameters).ToObject<RegiaoAutorizadaParameters>());
                     break;
+
                 case ExportacaoTipoEnum.AUDITORIA:
                     GerarPlanilhaAuditoria(((JObject)parameters).ToObject<AuditoriaParameters>());
                     break;
+
                 case ExportacaoTipoEnum.VALOR_COMBUSTIVEL:
                     GerarPlanilhaDespesaConfiguracaoCombustivel(((JObject)parameters).ToObject<DespesaConfiguracaoCombustivelParameters>());
                     break;
+                    
                 default:
                     break;
             }

@@ -55,5 +55,7 @@ namespace SAT.MODELS.Entities
         public int? CodRegional { get; set; }
         public string CnpjFaturamento { get; set; }
         public string SenhaAcessoNotaFiscal { get; set; }
+        public string Telefone1_DEL { get; set; }
+        public string Telefone2_DEL { get; set; }
     }
 }

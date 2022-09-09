@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
 
         public async Task ExecutarAsync()
         {
-            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
+            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
             foreach (var email in emails.Value)
             {
@@ -63,9 +63,7 @@ namespace SAT.SERVICES.Services
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {
                     IndPDFGerado = 0
-                });
-
-                        
+                });                       
         }
 
         private IntegracaoBanrisulAtendimento Carrega(string conteudo)
@@ -297,7 +295,6 @@ namespace SAT.SERVICES.Services
             }
 
             EquipamentoContrato equipamento = new();
-            Console.WriteLine("Antes do break");
 
             var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters
             {
@@ -305,8 +302,6 @@ namespace SAT.SERVICES.Services
                 NumSerie = atendimento.NumeroSerie.Valor.Trim().ToUpper(),
                 CodClientes = Constants.CLIENTE_BANRISUL.ToString()
             });
-
-            Console.WriteLine("Depois do Break");
 
             if (equipamentos.Count() == 0)
             {

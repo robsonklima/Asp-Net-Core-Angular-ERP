@@ -35,7 +35,6 @@ namespace SAT.INFRA.Repository
                 throw;
             }
         }
-    
 
         public void Criar(ArquivoBanrisul arquivo)
         {
@@ -66,7 +65,9 @@ namespace SAT.INFRA.Repository
         {
             try
             {
-                return _context.ArquivoBanrisul.SingleOrDefault(a => a.CodGerenciaArquivosBanrisul == codigo);
+                return _context.ArquivoBanrisul
+                    .Include(a => a.OrdemServico)
+                    .SingleOrDefault(a => a.CodGerenciaArquivosBanrisul == codigo);
             }
             catch (System.Exception)
             {
@@ -77,11 +78,13 @@ namespace SAT.INFRA.Repository
         public PagedList<ArquivoBanrisul> ObterPorParametros(ArquivoBanrisulParameters parameters)
         {
             var arquivos = _context.ArquivoBanrisul
-                .AsNoTracking()
+                .Include(a => a.OrdemServico)
                 .AsQueryable();
+
+            if (parameters.IndPDFGerado.HasValue) 
+                arquivos = arquivos.Where(a => a.IndPDFGerado == parameters.IndPDFGerado);
 
             return PagedList<ArquivoBanrisul>.ToPagedList(arquivos, parameters.PageNumber, parameters.PageSize);
         }
     }
-
 }

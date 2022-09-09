@@ -24,6 +24,7 @@ namespace SAT.SERVICES.Services
         private IEquipamentoContratoRepository _equipamentoContratoRepo;
         private ILocalAtendimentoService _localAtendimentoService;
         private IFeriadoService _feriadoService;
+        private readonly IArquivoBanrisulService _arquivoBanrisulService;
 
         public IntegracaoBanrisulService(
             IEmailService emailService,
@@ -31,7 +32,8 @@ namespace SAT.SERVICES.Services
             IRelatorioAtendimentoService relatorioAtendimentoService,
             IEquipamentoContratoRepository equipamentoContratoRepo,
             ILocalAtendimentoService localAtendimentoService,
-            IFeriadoService feriadoService
+            IFeriadoService feriadoService,
+            IArquivoBanrisulService arquivoBanrisulService
         )
         {
             _emailService = emailService;
@@ -40,9 +42,17 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
             _feriadoService = feriadoService;
+            _arquivoBanrisulService = arquivoBanrisulService;
         }
 
         public async Task ExecutarAsync()
+        {
+            ProcessarArquivos();
+
+            await ProcessarEmailsAsync();
+        }
+
+        private async Task ProcessarEmailsAsync()
         {
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
 
@@ -54,6 +64,16 @@ namespace SAT.SERVICES.Services
 
                 TentaCadastro(atendimento);
             }
+        }
+
+        private void ProcessarArquivos() 
+        {
+            var arquivosPendentes = _arquivoBanrisulService
+                .ObterPorParametros(new ArquivoBanrisulParameters {
+                    IndPDFGerado = 0
+                });
+
+                        
         }
 
         private IntegracaoBanrisulAtendimento Carrega(string conteudo)

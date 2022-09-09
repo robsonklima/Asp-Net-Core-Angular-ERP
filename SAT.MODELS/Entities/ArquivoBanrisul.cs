@@ -7,6 +7,7 @@ namespace SAT.MODELS.Entities
         public int CodGerenciaArquivosBanrisul { get; set; } 
         public byte? IndPDFGerado { get; set; }       
         public int CodOS { get; set; }
+        public OrdemServico OrdemServico { get; set; }
         public string NumOSCliente { get; set; }
         public string CaminhoPDF { get; set; }
         public string TextoEmail { get; set; }

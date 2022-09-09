@@ -17,11 +17,11 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey(prop => prop.CodUF)
                 .HasPrincipalKey(prop => prop.CodUF);
 
-            // builder
-            //     .HasOne(prop => prop.Filial)
-            //     .WithMany()
-            //     .HasForeignKey(prop => prop.CodFilial)
-            //     .HasPrincipalKey(prop => prop.CodFilial);
+            builder
+                .HasOne(prop => prop.Filial)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodFilial)
+                .HasPrincipalKey(prop => prop.CodFilial);
 
             builder.Ignore(p => p.LatitudeMetros);
             builder.Ignore(p => p.LongitudeMetros);

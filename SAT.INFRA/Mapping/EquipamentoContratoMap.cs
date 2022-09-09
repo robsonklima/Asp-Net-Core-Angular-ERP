@@ -21,6 +21,12 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodContrato);
 
             builder
+                .HasOne(prop => prop.ContratoEquipamento)
+                .WithMany()
+                .HasForeignKey(prop => new { prop.CodContrato, prop.CodGrupoEquip, prop.CodTipoEquip, prop.CodEquip})
+                .HasPrincipalKey(prop => new { prop.CodContrato, prop.CodGrupoEquip, prop.CodTipoEquip, prop.CodEquip});
+
+            builder
                 .HasOne(prop => prop.TipoEquipamento)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodTipoEquip)
@@ -85,7 +91,6 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => new { prop.CodFilial, prop.CodRegiao, prop.CodAutorizada})
                 .HasPrincipalKey((prop => new { prop.CodFilial, prop.CodRegiao, prop.CodAutorizada }));
-         
         }
     }
 }

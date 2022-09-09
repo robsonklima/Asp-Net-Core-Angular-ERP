@@ -24,6 +24,7 @@ namespace SAT.SERVICES.Services
         private IEquipamentoContratoRepository _equipamentoContratoRepo;
         private ILocalAtendimentoService _localAtendimentoService;
         private IFeriadoService _feriadoService;
+        private readonly IArquivoBanrisulService _arquivoBanrisulService;
 
         public IntegracaoBanrisulService(
             IEmailService emailService,
@@ -31,7 +32,8 @@ namespace SAT.SERVICES.Services
             IRelatorioAtendimentoService relatorioAtendimentoService,
             IEquipamentoContratoRepository equipamentoContratoRepo,
             ILocalAtendimentoService localAtendimentoService,
-            IFeriadoService feriadoService
+            IFeriadoService feriadoService,
+            IArquivoBanrisulService arquivoBanrisulService
         )
         {
             _emailService = emailService;
@@ -48,12 +50,22 @@ namespace SAT.SERVICES.Services
 
             foreach (var email in emails.Value)
             {
-                await _emailService.DeletarEmailAsync(Constants.EMAIL_TESTE_CONFIG.ClientID, email.Id);
+                await _emailService.DeletarEmailAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
 
                 TentaCadastro(atendimento);
             }
+        }
+
+        private void ProcessarArquivos() 
+        {
+            var arquivosPendentes = _arquivoBanrisulService
+                .ObterPorParametros(new ArquivoBanrisulParameters {
+                    IndPDFGerado = 0
+                });
+
+                        
         }
 
         private IntegracaoBanrisulAtendimento Carrega(string conteudo)
@@ -259,55 +271,6 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        private void ResponderOS(IntegracaoBanrisulAtendimento atendimento)
-        {
-            try
-            {
-                var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
-
-                if (ordemServico.RelatoriosAtendimento.Count > 0)
-                {
-                    RelatorioAtendimento ultimaRAT = ordemServico.RelatoriosAtendimento.OrderByDescending(q => q.CodRAT).FirstOrDefault();
-                    DateTime parseDate = new DateTime();
-
-                    if (DateTime.TryParse(atendimento.DataHoraSolucaoValida.Valor, out parseDate))
-                    {
-                        ultimaRAT.DataHoraSolucaoValida = parseDate;
-                        _relatorioAtendimentoService.Atualizar(ultimaRAT);
-
-                        EnviaEmailResolucao(atendimento, "Resolução acatada com sucesso", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RECEBIDA);
-                        return;
-                    }
-                    else
-                    {
-                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
-
-                        RegistrarExcecao($"Integração Banrisul ATM: DataHoraSolucaoValida inválida. Status do incidente: RE. {atendimento.Conteudo}");
-                    }
-                }
-                else
-                {
-                    EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
-
-                    RegistrarExcecao($"Integração Banrisul ATM: RAT não encontrada. Status do incidente: RE. {atendimento.Conteudo}");
-                }
-            }
-            catch (Exception ex)
-            {
-                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir ordem de serviço. {atendimento.Conteudo} Erro {ex.Message}");
-            }
-        }
-
-        private OrdemServico ObterOrdemServico(string numOSCliente)
-        {
-            return (OrdemServico)_ordemServicoService
-                .ObterPorParametros(new OrdemServicoParameters
-                {
-                    NumOSCliente = numOSCliente,
-                    CodClientes = Constants.CLIENTE_BANRISUL.ToString()
-                }).Items.FirstOrDefault();
-        }
-
         private void AbrirOS(IntegracaoBanrisulAtendimento atendimento)
         {
             OrdemServico ordemServico = new();
@@ -468,9 +431,67 @@ namespace SAT.SERVICES.Services
             ordemServico.CodStatusServico = (int)StatusServicoEnum.ABERTO;
             ordemServico.DataHoraSolicitacao = DateTime.Parse(atendimento.DataHoraAbertura.Valor);
             ordemServico.IndStatusEnvioReincidencia = 0;
+            ordemServico.IndRevisaoReincidencia = 0;
 
             ordemServico = _ordemServicoService.Criar(ordemServico);
             EnviaEmailAbertura(atendimento, ordemServico);
+        }
+
+        private void ResponderOS(IntegracaoBanrisulAtendimento atendimento)
+        {
+            try
+            {
+                var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
+
+                if (ordemServico.RelatoriosAtendimento.Count > 0)
+                {
+                    RelatorioAtendimento ultimaRAT = ordemServico.RelatoriosAtendimento.OrderByDescending(q => q.CodRAT).FirstOrDefault();
+                    DateTime parseDate = new DateTime();
+
+                    if (DateTime.TryParse(atendimento.DataHoraSolucaoValida.Valor, out parseDate))
+                    {
+                        ultimaRAT.DataHoraSolucaoValida = parseDate;
+                        _relatorioAtendimentoService.Atualizar(ultimaRAT);
+
+                        EnviaEmailResolucao(atendimento, "Resolução acatada com sucesso", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RECEBIDA);
+                        return;
+                    }
+                    else
+                    {
+                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
+
+                        RegistrarExcecao($"Integração Banrisul ATM: DataHoraSolucaoValida inválida. Status do incidente: RE. {atendimento.Conteudo}");
+                    }
+                }
+                else
+                {
+                    EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
+
+                    RegistrarExcecao($"Integração Banrisul ATM: RAT não encontrada. Status do incidente: RE. {atendimento.Conteudo}");
+                }
+            }
+            catch (Exception ex)
+            {
+                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir ordem de serviço. {atendimento.Conteudo} Erro {ex.Message}");
+            }
+        }
+
+        private OrdemServico ObterOrdemServico(string numOSCliente)
+        {
+            return (OrdemServico)_ordemServicoService
+                .ObterPorParametros(new OrdemServicoParameters
+                {
+                    NumOSCliente = numOSCliente,
+                    CodClientes = Constants.CLIENTE_BANRISUL.ToString()
+                }).Items.FirstOrDefault();
+        }
+
+        private string GetHtmlEmailTrocaStatus() {
+            return string.Empty;
+        }
+
+        private void EnviaPdf() {
+            
         }
 
         private string GetHtmlEmailAbertura(IntegracaoBanrisulAtendimento atendimento, String mensagem)

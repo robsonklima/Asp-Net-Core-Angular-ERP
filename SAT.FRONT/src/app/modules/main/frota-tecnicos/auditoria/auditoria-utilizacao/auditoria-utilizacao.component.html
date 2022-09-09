@@ -14,7 +14,7 @@
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('data auditoria') }}</div>
-                                            <div>{{ auditoria?.dataHoraCad | date:'dd/MM/yyyy' }}</div>
+                                            <div>{{ auditoria?.dataHoraCad| date:'dd/MM/yyyy' }}</div>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -100,26 +100,32 @@
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('tanque(medidor)') }}</div>
-                                            <mat-select formControlName="codAuditoriaVeiculoTanque">
-                                                <mat-option *ngFor="let tanque of tanques" [value]="tanque?.codAuditoriaVeiculoTanque" matTooltip="{{ tanque?.nome }}" matTooltipPosition="right">
+                                            <mat-select class="flex items-center justify-between py-3" formControlName="codAuditoriaVeiculoTanque">
+                                                <mat-option *ngFor="let tanque of tanques" [value]="tanque.codAuditoriaVeiculoTanque">
                                                     <span>{{ tanque?.nome }}</span>
                                                 </mat-option>
                                             </mat-select>
                                         </div>
 
-                                        <div class="flex items-center justify-between py-3">
-                                            <div class="text-secondary">{{ t('tanque(litros)') }}</div>
-                                            <div> {{ qtdLitros || "Não informado" }} </div>
-                                        </div>
+                                    <div class="flex items-center justify-between py-3">
+                                        <div class="text-secondary">{{ t('tanque(litros)') }}</div>
+                                        <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                            <input matInput formControlName="qtdLitros" [(ngModel)]="auditoria.auditoriaVeiculo.auditoriaVeiculoTanque.qtdLitros">
+                                        </mat-form-field>
+                                        <!-- <div> {{ auditoria?.auditoriaVeiculo?.auditoriaVeiculoTanque?.qtdLitros || "Não informado" }} </div> -->
+                                    </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('tanque(R$)') }}</div>
-                                            <div> {{ auditoria?.valorTanque | currency:'BRL':'symbol-narrow' || "Não informado" }} </div>
+                                            <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                                                <input matInput formControlName="valorTanque" [(ngModel)]="auditoria.valorTanque" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                                                [dropSpecialCharacters]="true">
+                                            </mat-form-field>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
                                             <div class="text-secondary">{{ t('uso particular') }}</div>
-                                            <!-- <div> {{ auditoria?.usoParticular || "Não informado" }} </div> -->
+                                            <div> {{ auditoria?.usoParticular || "Não informado" }} </div>
                                         </div>
 
                                         <div class="flex items-center justify-between py-3">
@@ -128,6 +134,11 @@
                                                 <textarea matInput formControlName="observacoes" [placeholder]="t('observacao')"
                                                     [rows]="4" maxlength="1000"></textarea>
                                         </mat-form-field>
+                                        </div>
+
+                                        <div class="flex items-center justify-between py-3">
+                                            <div class="text-secondary">{{ t('observacoes') }}</div>
+                                                <textarea class="flex items-center justify-between py-3" matInput formControlName="observacoes" [placeholder]="t('observacao')" [rows]="4" maxlength="1000"></textarea>
                                         </div>
 
                                     </div>

@@ -8,6 +8,7 @@ namespace SAT.MODELS.Entities
     [Table("DispBBEquipamentoContrato")]
     public class DispBBEquipamentoContrato
     {
+        [Key]
         [Column("DispBBEquipamentoContrato")]
         public int CodDispBBEquipamentoContrato { get; set; }
         public int CodEquipContrato { get; set; }

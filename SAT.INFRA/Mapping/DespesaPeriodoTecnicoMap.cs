@@ -47,6 +47,12 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<DespesaPeriodoTecnico>(i => i.CodDespesaPeriodoTecnico)
                 .HasPrincipalKey<TicketLogPedidoCredito>(i => i.CodDespesaPeriodoTecnico);
+
+            builder
+                .HasOne(i => i.DespesaProtocoloPeriodoTecnico)
+                .WithOne()
+                .HasForeignKey<DespesaPeriodoTecnico>(i => i.CodDespesaPeriodoTecnico)
+                .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>(i => i.CodDespesaPeriodoTecnico);                
         }
     }
 }

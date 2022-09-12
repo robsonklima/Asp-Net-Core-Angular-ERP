@@ -1,16 +1,21 @@
-<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow overflow-hidden" *transloco="let t">
+<fuse-card class="flex flex-col flex-auto pt-4 pb-2 px-6 bg-card shadow overflow-hidden" *transloco="let t">
     <div class="flex items-center justify-between">
-        <div class="text-lg font-medium">{{t('mao de obra')}}</div>
+        <div class="text-lg font-medium mb-2">
+            {{t('mao de obra')}}
+        </div>
         
-        <button mat-icon-button (click)="editar()" *ngIf="!isEditing">
-            <mat-icon class="icon-size-5 text-right" [svgIcon]="'heroicons_solid:pencil'">
-            </mat-icon>
+        <button
+                class="h-8 px-4 mb-2 text-sm text-white transition-colors duration-150 bg-orange-700 rounded-lg focus:shadow-outline hover:bg-orange-500"
+                mat-button
+                matTooltip="Editar"
+                (click)="editar()" *ngIf="!isEditing">
+                {{ t('editar') }}
         </button>
 
         <div class="text-secondary italic" *ngIf="isEditing">Em edição</div>
     </div>
 
-    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
+    <div class="flex flex-col border-t border-b divide-y font-medium pointer-events-none">
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">{{ t("valor hora tecnica") }}</div>
             <div class="truncate">

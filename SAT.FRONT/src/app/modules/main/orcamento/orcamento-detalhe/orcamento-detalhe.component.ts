@@ -1,6 +1,7 @@
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, OrcamentoMotivo, OrcamentoStatus, OrcamentoParameters } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, 
+		 OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -15,14 +16,14 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.component';
 import { Subject } from 'rxjs';
-import _ from 'lodash';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { FileMime } from 'app/core/types/file.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { environment } from 'environments/environment';
+import moment from 'moment';
+import _ from 'lodash';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -85,7 +86,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
 		this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
 		this.inicializarForm();
-		this.obterLocais();
+		this.formatarLocais();
 		this.isLoading = false;
 	}
 
@@ -152,7 +153,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 	}
 
-	private obterLocais() {
+	private formatarLocais() {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
@@ -264,7 +265,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 	}
-
 
 	trocarTab(tab: any) {
 		if (tab.index == 0)

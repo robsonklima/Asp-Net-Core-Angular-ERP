@@ -360,9 +360,6 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 				.obterPorParametros({ codOS: agenda.codOS, codUsuarioTecnico: agenda.codUsuario }).toPromise();
 			this.checkin = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKIN).pop()?.dataHoraCadSmartphone;
 			this.checkout = checkinCheckout.items.filter(c => c.tipo == CheckinCheckoutTipo.CHECKOUT).pop()?.dataHoraCadSmartphone;
-
-			console.log(checkinCheckout);			
-			
 		}
 
 		this.tooltip.open();

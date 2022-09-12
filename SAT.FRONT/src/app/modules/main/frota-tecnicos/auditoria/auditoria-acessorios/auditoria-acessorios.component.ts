@@ -48,8 +48,6 @@ export class AuditoriaAcessoriosComponent implements OnInit {
 		this._auditoriaService.obterPorCodigo(this.codAuditoria)
 			.pipe(first())
 			.subscribe(data => {
-				console.log(data);
-				
 				this.form.patchValue(data);
 				this.auditoria = data;
 			});

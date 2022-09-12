@@ -92,9 +92,6 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 			.obterPorParametros(params)
 			.toPromise();
 
-		console.log(data);
-		
-
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();

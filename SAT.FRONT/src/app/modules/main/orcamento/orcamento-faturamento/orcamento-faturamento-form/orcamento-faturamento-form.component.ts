@@ -194,9 +194,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	private async obterLocalEnvioNFFaturamento() {
-
-		console.log(this.codLocalEnvioNFFaturamento);
-
 		this._localEnvioNFFaturamentoService.obterPorCodigo(this.codLocalEnvioNFFaturamento)
 			.pipe(first())
 			.subscribe(data => {

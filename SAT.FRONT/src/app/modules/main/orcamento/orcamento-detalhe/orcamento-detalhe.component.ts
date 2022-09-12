@@ -1,7 +1,9 @@
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento, 
-		 OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
+import {
+	Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento,
+	OrcamentoMotivo, OrcamentoStatus
+} from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -83,8 +85,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 	private async obterDados() {
 		this.isLoading = true;
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
-		this.os = await this._osService.obterPorCodigo(this.orcamento.codigoOrdemServico).toPromise();
-		this.filial = await this._filialService.obterPorCodigo(this.orcamento.codigoFilial).toPromise();
+		this.os = await this._osService.obterPorCodigo(this.orcamento?.codigoOrdemServico).toPromise();
+		this.filial = await this._filialService.obterPorCodigo(this.orcamento?.codigoFilial).toPromise();
 		this.inicializarForm();
 		this.formatarLocais();
 		this.isLoading = false;
@@ -216,7 +218,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		const dialogRef = this._dialog.open(EmailDialogComponent, {
 			width: '600px',
 			data: {
-				assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento.codigoOrdemServico}`,
+				assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
 				conteudoEmail: `
 					Prezado Cliente,
 					<br>
@@ -232,12 +234,13 @@ export class OrcamentoDetalheComponent implements OnInit {
 				`,
 				nomeRemetente: 'DSS ORÇAMENTOS',
 				emailRemetente: 'dss.orcamentos@perto.com.br',
-				indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2? true : false
+				indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
 			}
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
-			if (data) {
+			if (data)
+			{
 
 				let exportacaoParam: Exportacao = {
 					email: data,
@@ -308,7 +311,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {
+			if (confirmacao)
+			{
 
 				this._orcamentoService.deletar(this.codOrc).subscribe(() => {
 
@@ -333,7 +337,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {
+			if (confirmacao)
+			{
 				this.orcamento.indFaturamento = 1;
 				this.orcamento.dataHoraFaturamento = moment().format('yyyy-MM-DD HH:mm:ss');
 				this.orcamento.codUsuarioFaturamento = this.userSession.usuario.codUsuario;
@@ -360,7 +365,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {
+			if (confirmacao)
+			{
 				this.isLoading = true;
 
 				this._osService.clonar(this.os).subscribe((os: OrdemServico) => {

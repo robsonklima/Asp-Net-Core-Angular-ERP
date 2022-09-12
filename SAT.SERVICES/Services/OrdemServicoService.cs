@@ -217,8 +217,7 @@ namespace SAT.SERVICES.Services
                 return true;
             }
 
-            if (
-                (
+            if ((
                     os.CodTipoIntervencao == (int)TipoIntervencaoEnum.CORRETIVA
                     || os.CodTipoIntervencao == (int)TipoIntervencaoEnum.PREVENTIVA
                     || os.CodTipoIntervencao == (int)TipoIntervencaoEnum.ORC_APROVADO
@@ -237,8 +236,7 @@ namespace SAT.SERVICES.Services
                     || os.CodCliente == (int)ClienteEnum.BANCO_DA_AMAZONIA
                     || os.CodCliente == (int)ClienteEnum.BNB
                     || os.CodCliente == (int)ClienteEnum.BANESTES
-                )
-            )
+                ))
             {
                 return true;
             }

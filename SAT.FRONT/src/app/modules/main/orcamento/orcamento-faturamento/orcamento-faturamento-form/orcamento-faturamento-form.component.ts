@@ -215,9 +215,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			.subscribe(data => {
 				this.localEnvioNFFaturamentoVinculado = data.items;
 			});
-
-
-
 	}
 
 	private async obterClientes(filtro: string = '') {
@@ -285,6 +282,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 
 				if (!this.isAddMode) {
 					this.obterContratos(this.localEnvioNFFaturamento.contrato.nomeContrato);
+					this.form.controls['codCliente'].disable();
 				}
 				else {
 					this.obterContratos();

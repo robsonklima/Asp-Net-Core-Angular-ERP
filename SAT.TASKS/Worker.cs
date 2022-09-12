@@ -47,7 +47,7 @@ public partial class Worker : BackgroundService
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                    
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);

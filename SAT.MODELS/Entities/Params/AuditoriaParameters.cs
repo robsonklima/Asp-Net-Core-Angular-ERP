@@ -10,6 +10,7 @@ namespace SAT.MODELS.Entities.Params {
         public string CodUsuarios { get; set; }
         public string CodAuditoriaStats { get; set; }
         public string CodAuditoriaStatusNotIn { get; set; }
+        public string CodAuditoriaVeiculoTanque { get; set; }
 
         
     }

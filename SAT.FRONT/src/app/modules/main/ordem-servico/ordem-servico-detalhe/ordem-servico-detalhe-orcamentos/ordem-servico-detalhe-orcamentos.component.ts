@@ -11,8 +11,8 @@ import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
-  selector: 'app-ordem-servico-detalhe-orcamento',
-  templateUrl: './ordem-servico-detalhe-orcamento.component.html',
+  selector: 'app-ordem-servico-detalhe-orcamentos',
+  templateUrl: './ordem-servico-detalhe-orcamentos.component.html',
   styles: [`
         .list-grid-orcamentos {
             grid-template-columns: 100px 100px auto 130px 130px;
@@ -31,7 +31,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoDetalheOrcamentoComponent implements OnInit
+export class OrdemServicoDetalheOrcamentosComponent implements OnInit
 {
 
   isLoading: boolean = false;
@@ -69,7 +69,7 @@ export class OrdemServicoDetalheOrcamentoComponent implements OnInit
           cancel: 'Não'
         }
       }
-    });
+    });  
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
     {

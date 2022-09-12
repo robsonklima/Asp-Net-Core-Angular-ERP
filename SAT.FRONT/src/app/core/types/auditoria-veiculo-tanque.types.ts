@@ -1,9 +1,9 @@
-import { AuditoriaVeiculo } from "./auditoria-veiculo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export class AuditoriaVeiculoTanque {
     codAuditoriaVeiculoTanque : number;
     nome: string;
+    qtdLitros: number;
 }
 
 export interface AuditoriaVeiculoTanqueData extends Meta {

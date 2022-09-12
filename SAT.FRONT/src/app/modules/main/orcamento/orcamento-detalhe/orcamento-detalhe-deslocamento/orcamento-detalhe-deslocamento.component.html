@@ -41,7 +41,7 @@
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Valor Total Hora em Deslocamento</div>
             <div class="truncate max-w-1/2">
-                {{ deslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
+                {{ deslocamento?.valorTotalKmDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
         </div>
     </div>
     <div class="flex justify-end mt-2" *ngIf="isEditing">

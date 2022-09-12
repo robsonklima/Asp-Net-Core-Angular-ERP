@@ -133,7 +133,8 @@ namespace SAT.INFRA.Repository
                                         .ThenInclude(rat => rat.Peca)
                                             .ThenInclude(peca => peca.ClientePecaGenerica)
                         .Include(os => os.Orcamentos)
-                            .ThenInclude(orc => orc.OrcamentoMotivo);
+                            .ThenInclude(orc => orc.OrcamentoMotivo)
+                        .Include(os => os.LocalAtendimento);
                     break;
                 case (OrdemServicoIncludeEnum.OS_LISTA):
                     query = query

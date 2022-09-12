@@ -188,9 +188,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Localizacoes)
                 .Include(u => u.FiltroUsuario)
                 .Include(u => u.UsuarioSeguranca)
-                .Include(u => u.Cidade)
-                    .ThenInclude(u => u.UnidadeFederativa)
-                    .ThenInclude(u => u.Pais)
+                .Include(u => u.Cidade!)
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
 

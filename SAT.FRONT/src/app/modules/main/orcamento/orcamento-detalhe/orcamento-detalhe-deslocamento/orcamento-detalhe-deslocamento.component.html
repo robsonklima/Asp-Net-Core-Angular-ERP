@@ -1,12 +1,15 @@
 <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-    <div class="flex items-center justify-between mt-2">
+    <div class="flex items-center justify-between">
         <div class="text-lg font-medium">Deslocamento</div>
+        
         <button mat-icon-button (click)="editar()" *ngIf="!isEditing">
             <mat-icon class="icon-size-5 text-right" [svgIcon]="'heroicons_solid:pencil'">
             </mat-icon>
         </button>
+
         <div class="text-secondary italic" *ngIf="isEditing">Em edição</div>
     </div>
+
     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Valor unitário do KM Rodado (ida e volta)</div>
@@ -41,9 +44,10 @@
         <div class="flex items-center justify-between py-3">
             <div class="text-secondary">Valor Total Hora em Deslocamento</div>
             <div class="truncate max-w-1/2">
-                {{ deslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
+                {{ deslocamento?.valorTotalKmDeslocamento | currency:'BRL':'symbol-narrow' }} </div>
         </div>
     </div>
+
     <div class="flex justify-end mt-2" *ngIf="isEditing">
         <button mat-icon-button (click)="salvar()" [disabled]="isEqual() || isInvalid()">
             <mat-icon class="icon-size-6 text-right text-green-500" [svgIcon]="'heroicons_solid:check-circle'">

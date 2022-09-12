@@ -1,7 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Auditoria } from 'app/core/types/auditoria.types';
-import { AuditoriaService } from 'app/core/services/auditoria.service';
 
 @Component({
 	selector: 'app-auditoria-layout',
@@ -14,11 +13,10 @@ export class AuditoriaLayoutComponent implements OnInit {
 	public Auditoria: Auditoria;
 	constructor(
 		private _route: ActivatedRoute,
-		private _auditoriaService: AuditoriaService
 	) { }
 
 	async ngOnInit(): Promise<void> {
-
+		this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
 	}
 
 	reciverFeedback(codFilho) {

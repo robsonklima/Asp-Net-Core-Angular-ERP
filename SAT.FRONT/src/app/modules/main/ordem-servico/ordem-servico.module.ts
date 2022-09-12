@@ -47,7 +47,7 @@ import { OrdemServicoCancelamentoComponent } from './ordem-servico-cancelamento/
 import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-foto.component';
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
-import { OrdemServicoDetalheOrcamentoComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamento/ordem-servico-detalhe-orcamento.component';
+import { OrdemServicoDetalheOrcamentosComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
 import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -73,7 +73,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrdemServicoEmailDialogComponent,
         OrdemServicoFotoComponent,
         OrdemServicoPesquisaComponent,
-        OrdemServicoDetalheOrcamentoComponent,
+        OrdemServicoDetalheOrcamentosComponent,
         OrdemServicoLaudoComponent
     ],
     imports: [

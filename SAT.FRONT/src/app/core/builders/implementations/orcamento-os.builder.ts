@@ -79,8 +79,6 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-
-
         for (const dp of detalhesPeca)
         {
             var m: OrcamentoMaterial =
@@ -100,12 +98,13 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             m.valorTotal =
                 (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
 
-            m =
-                await this._orcMaterialService.criar(m).toPromise();
+            m = await this._orcMaterialService.criar(m).toPromise();
 
             materiais.push(m);
         };
 
+        this.orcamento.orcamentoMateriais = materiais;
+        
         return this;
     }
 
@@ -147,7 +146,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         {
             codOrc: this.orcamento?.codOrc,
             valorHoraTecnica: contratoServico?.valor,
-            previsaoHoras: 1,
+            previsaoHoras: 2,
             usuarioCadastro: this.userSession?.usuario.codUsuario,
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
@@ -175,8 +174,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
                 i.codEquip == this.orcamento?.codigoEquipamento &&
                 i.codSLA == this.orcamento?.codigoSla &&
-                i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;
-
+                i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;             
+        
         var d: OrcamentoDeslocamento =
         {
             codOrc: this.orcamento?.codOrc,
@@ -186,17 +185,17 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             longitudeOrigem: this.os?.localAtendimento?.autorizada?.longitude,
             latitudeDestino: this.os?.localAtendimento?.latitude,
             longitudeDestino: this.os?.localAtendimento?.longitude,
-            quantidadeKm: 0,
+            quantidadeKm: this.os?.localAtendimento?.distanciaKmPatRes * 2,
             usuarioCadastro: this.userSession?.usuario.codUsuario,
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
             data: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
         d.valorTotalKmRodado =
-            d.quantidadeKm * d.valorHoraDeslocamento;
+            d.quantidadeKm * d.valorUnitarioKmRodado;
 
         d.quantidadeHoraCadaSessentaKm =
-            d.quantidadeKm / 65.0;
+            d.quantidadeKm / 60.0;
 
         d.valorTotalKmDeslocamento =
             d.valorHoraDeslocamento * d.quantidadeHoraCadaSessentaKm;

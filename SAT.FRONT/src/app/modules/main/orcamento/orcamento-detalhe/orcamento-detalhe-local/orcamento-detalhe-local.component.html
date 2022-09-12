@@ -1,174 +1,315 @@
-<fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
-    <div class="flex items-center justify-between mt-2">
-        <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
-        <button mat-icon-button matTooltip="Ir para Locais Faturamento" [routerLink]="'/orcamento/faturamento/form/'+ dadosLocal.codLocalEnvioNFFaturamento" *ngIf="dadosLocal.tipo == 1">
-            <mat-icon class="icon-size-5 text-right" [svgIcon]="'heroicons_solid:clipboard-list'">
-            </mat-icon>
-        </button>
-    </div>
+<div *ngIf="dadosLocal.tipo == 3">
+    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('local de atendimento') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nomeLocal ? dadosLocal.nomeLocal : dadosLocal.razaoSocial }}
+                </div>
+            </div>
+    
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('numero contrato') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nroContrato || 'Não Informado' }}
+                </div>
+            </div>
 
-    <form [formGroup]="form" class="flex flex-col overflow-hidden">
-        <div class="grid grid-cols-4 sm:grid-cols-4 gap-x-6 flex-col flex-auto overflow-hidden" *ngIf="dadosLocal.tipo == 3">
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('agencia') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.agencia || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-4">
-                <mat-label>{{ t('local de atendimento') }}</mat-label>
-                <input matInput formControlName="nomeLocal">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('os cliente') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.oscliente || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('numero contrato') }}</mat-label>
-                <input matInput formControlName="nroContrato">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('os perto') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.osPerto || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('agencia') }}</mat-label>
-                <input matInput formControlName="agencia">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('razao social') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.razaoSocial || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('os cliente') }}</mat-label>
-                <input matInput formControlName="oscliente">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('cnpj') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.cnpj || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('os perto') }}</mat-label>
-                <input matInput formControlName="osPerto">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('inscricao estadual') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.inscricaoEstadual || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('razao social') }}</mat-label>
-                <input matInput formControlName="razaoSocial">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('responsavel') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.responsavel || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('cnpj') }}</mat-label>
-                <input matInput formControlName="cnpj">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('email') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.email || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('inscricao estadual') }}</mat-label>
-                <input matInput formControlName="inscricaoEstadual">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('fone') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.fone || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('responsavel') }}</mat-label>
-                <input matInput formControlName="responsavel">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('endereco') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    <div class="truncate max-w-1/2">
+                        {{ dadosLocal.endereco }}
+                        {{ dadosLocal.numero }}
+                        {{ dadosLocal.bairro }}
+                        {{ dadosLocal.cidade }}
+                        {{ dadosLocal.uf }}
+                        {{ dadosLocal.cep }}
+                    </div>
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('email') }}</mat-label>
-                <input matInput formControlName="email">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('modelo') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.modelo || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('fone') }}</mat-label>
-                <input matInput formControlName="fone">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3 border-b-0 border-b-white">
+                <div class="text-secondary">
+                    {{ t('serie') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nroSerie || 'Não Informado' }}
+                </div>
+            </div>
+        </div>
+    </fuse-card>
+</div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-3">
-                <mat-label>{{ t('endereco') }}</mat-label>
-                <input matInput formControlName="endereco">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-1">
-                <mat-label>{{ t('numero') }}</mat-label>
-                <input matInput formControlName="numero">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('bairro') }}</mat-label>
-                <input matInput formControlName="bairro">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('cep') }}</mat-label>
-                <input matInput formControlName="cep">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('cidade') }}</mat-label>
-                <input matInput formControlName="cidade">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('unidade federativa') }}</mat-label>
-                <input matInput formControlName="uf">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('modelo') }}</mat-label>
-                <input matInput formControlName="modelo">
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('serie') }}</mat-label>
-                <input matInput formControlName="nroSerie">
-            </mat-form-field>
+<div *ngIf="dadosLocal.tipo != 3">
+    <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
+        <div class="flex items-center justify-between mt-2">
+            <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
+    
+            <button
+                class="text-white bg-orange-600"
+                mat-button
+                matTooltip="Ir para Locais Faturamento"
+                [routerLink]="'/orcamento/faturamento/form/'+ dadosLocal.codLocalEnvioNFFaturamento">
+                {{ t('editar') }}
+            </button>
         </div>
 
-        <div class="grid grid-cols-4 sm:grid-cols-4 gap-x-6 flex-col flex-auto overflow-hidden"
-            *ngIf="dadosLocal.tipo != 3">
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('local de atendimento') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nomeLocal ? dadosLocal.nomeLocal : dadosLocal.razaoSocial }}
+                </div>
+            </div>
+    
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('numero contrato') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nroContrato || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-4">
-                <mat-label>{{ t('razao social') }}</mat-label>
-                <input matInput formControlName="razaoSocial">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('agencia') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.agencia || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('endereco') }}</mat-label>
-                <input matInput formControlName="endereco">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('os cliente') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.oscliente || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-1">
-                <mat-label>{{ t('numero') }}</mat-label>
-                <input matInput formControlName="numero">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('os perto') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.osPerto || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-1">
-                <mat-label>{{ t('uf') }}</mat-label>
-                <input matInput formControlName="uf">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('razao social') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.razaoSocial || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('bairro') }}</mat-label>
-                <input matInput formControlName="bairro">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('cnpj') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.cnpj || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('cidade') }}</mat-label>
-                <input matInput formControlName="cidade">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('inscricao estadual') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.inscricaoEstadual || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('complemento') }}</mat-label>
-                <input matInput formControlName="complemento">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('responsavel') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.responsavel || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('cep') }}</mat-label>
-                <input matInput formControlName="cep">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('email') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.email || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('inscricao estadual') }}</mat-label>
-                <input matInput formControlName="inscricaoEstadual">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('fone') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.fone || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('responsavel') }}</mat-label>
-                <input matInput formControlName="responsavel">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('endereco') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.endereco }}
+                    {{ dadosLocal.numero }}
+                    {{ dadosLocal.bairro }}
+                    {{ dadosLocal.cidade }}
+                    {{ dadosLocal.uf }}
+                    {{ dadosLocal.cep }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('email') }}</mat-label>
-                <input matInput formControlName="email">
-            </mat-form-field>
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('modelo') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.modelo || 'Não Informado' }}
+                </div>
+            </div>
 
-            <mat-form-field class="fuse-mat-no-subscript fuse-mat-no-subscript fuse-mat-dense mb-2 col-span-2">
-                <mat-label>{{ t('fone') }}</mat-label>
-                <input matInput formControlName="fone">
-            </mat-form-field>
-
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">
+                    {{ t('serie') }}
+                </div>
+    
+                <div class="truncate max-w-1/2">
+                    {{ dadosLocal.nroSerie || 'Não Informado' }}
+                </div>
+            </div>
         </div>
-    </form>
-</fuse-card>
+    </fuse-card>
+</div>

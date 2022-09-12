@@ -15,10 +15,6 @@ export class OrcamentoDetalheLocalComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-
-		console.log(this.dadosLocal);
-		
-
 		this.form = this._formBuilder.group({
 			nomeLocal: [{ value: this.dadosLocal.nomeLocal ? this.dadosLocal.nomeLocal : this.dadosLocal.razaoSocial , disabled: true }],
 			nroContrato: [{ value: this.dadosLocal.nroContrato, disabled: true }],

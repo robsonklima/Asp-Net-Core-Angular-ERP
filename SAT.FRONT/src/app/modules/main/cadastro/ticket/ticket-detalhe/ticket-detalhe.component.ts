@@ -43,18 +43,12 @@ export class TicketDetalheComponent implements AfterViewInit {
 		}
 
 		this._cdr.detectChanges();
-
 	}
 
 	private async obterDados() {
 		this.isLoading = true;
-			
 		this.ticket = await this._ticketService.obterPorCodigo(this.codTicket).toPromise();
-
 		this.ticketAtendimento = await this._ticketAtendimentoService.obterPorParametros({codTicket: this.codTicket	}).toPromise();
-
-		console.log(this.ticketAtendimento);
-
 		this.isLoading = false;
 	}
 
@@ -75,6 +69,5 @@ export class TicketDetalheComponent implements AfterViewInit {
 			).subscribe(r => {
 			
 		});
-		
 	}
 }

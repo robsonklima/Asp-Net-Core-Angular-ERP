@@ -1,3 +1,4 @@
+import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -31,6 +32,7 @@ import { CheckinCheckout } from 'app/core/types/checkin-checkout.types';
 import moment from 'moment';
 import Enumerable from 'linq';
 import { Agendamento } from 'app/core/types/agendamento.types';
+import { Orcamento, OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -47,6 +49,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	codOS: number;
 	os: OrdemServico;
+	orcamentos: Orcamento[] = [];
 	statusServico: StatusServico;
 	perfis: any;
 	userSession: UsuarioSessao;
@@ -70,6 +73,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	constructor(
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
+		private _orcamentoService: OrcamentoService,
 		private _osHistoricoService: OrdemServicoHistoricoService,
 		private _agendamentoService: AgendamentoService,
 		private _userService: UserService,
@@ -107,7 +111,20 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
 		this.obterDispBBBloqueioOS();
+		this.obterOrcamentos();
 		this.isLoading = false;
+	}
+
+	async obterOrcamentos() {
+
+		const params: OrcamentoParameters = {
+			codigoOrdemServico: this.codOS
+		}
+
+		this.orcamentos = (await this._orcamentoService.obterPorParametros(params).toPromise()).items;
+
+		console.log(this.orcamentos);
+		
 	}
 
 	private async obterOS() {

@@ -114,8 +114,6 @@ export class PecaListaComponent extends Filterable implements OnInit, AfterViewI
 			},
 			...this.filter?.parametros
 		}
-		console.log(this.filter?.parametros);
-
 
 		this.dataSourceData = await this._pecaService.obterPorParametros(params).toPromise();
 		this.isLoading = false;

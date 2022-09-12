@@ -130,10 +130,7 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 				...this.filter?.parametros
 			})
 			.toPromise();
-				
-			//console.log();
 			
-
 		this.isLoading = false;
 	}
 

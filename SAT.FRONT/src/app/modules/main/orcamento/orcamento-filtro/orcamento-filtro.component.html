@@ -29,6 +29,20 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('status laudo') }}</mat-label>
+                    <mat-select formControlName="codLaudosStatus" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codLaudosStatus, laudosStatus,
+                            'codLaudosStatus')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let status of laudosStatus"
+                            [value]="status.codLaudoStatus">
+                            {{ status.nomeStatus }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dsense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
                     <mat-select formControlName="codFiliais" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,

@@ -44,7 +44,7 @@ namespace SAT.SERVICES.Services
             _feriadoService = feriadoService;
         }
 
-        public async Task ExecutarAsync()
+        public async Task ProcessarEmailsAsync()
         {
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
@@ -56,6 +56,11 @@ namespace SAT.SERVICES.Services
 
                 TentaCadastro(atendimento);
             }
+        }
+
+        public Task ProcessarRetornosAsync()
+        {
+            throw new NotImplementedException();
         }
 
         private void ProcessarArquivos() 

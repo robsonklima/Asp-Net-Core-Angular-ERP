@@ -1,3 +1,4 @@
+import { LaudoStatus } from './../../../../core/types/laudo.types';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -15,76 +16,104 @@ import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.servi
 import { TipoIntervencao, TipoIntervencaoParameters } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
-  selector: 'app-orcamento-filtro',
-  templateUrl: './orcamento-filtro.component.html'
+	selector: 'app-orcamento-filtro',
+	templateUrl: './orcamento-filtro.component.html'
 })
 export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
-  @Input() sidenav: MatSidenav;
-  statusServicos: StatusServico[] = [];
-  filiais: Filial[] = [];
-  clientes: Cliente[] = [];
-  tiposIntervencao: TipoIntervencao[] = [];
-  
-  constructor(
-    protected _userService: UserService,
-    protected _formBuilder: FormBuilder,
-    private _statusServicoService: StatusServicoService,
+	@Input() sidenav: MatSidenav;
+	statusServicos: StatusServico[] = [];
+	laudosStatus: LaudoStatus[] = [];
+	filiais: Filial[] = [];
+	clientes: Cliente[] = [];
+	tiposIntervencao: TipoIntervencao[] = [];
+
+	constructor(
+		protected _userService: UserService,
+		protected _formBuilder: FormBuilder,
+		private _statusServicoService: StatusServicoService,
 		private _filialService: FilialService,
 		private _clienteService: ClienteService,
-    private _tipoIntervencaoService: TipoIntervencaoService
+		private _tipoIntervencaoService: TipoIntervencaoService
 
-  ) {
-    super(_userService, _formBuilder, 'orcamento');
-  }
+	) {
+		super(_userService, _formBuilder, 'orcamento');
+	}
 
-  ngOnInit(): void {
-    this.createForm();
-    this.loadData();
-  }
+	ngOnInit(): void {
+		this.createForm();
+		this.loadData();
+	}
 
-  createForm(): void {
-    this.form = this._formBuilder.group({
-      codStatusServicos: [undefined],
-      codFiliais: [undefined],
-      codClientes: [undefined],
-      codTiposIntervencao: [undefined],
-      numSerie: [undefined],
-      codigoOrdemServico: [undefined],
-      numOSCliente: [undefined],
-      dataInicio: [undefined],
-      dataFim: [undefined],
+	createForm(): void {
+		this.form = this._formBuilder.group({
+			codStatusServicos: [undefined],
+			codLaudosStatus: [undefined],
+			codFiliais: [undefined],
+			codClientes: [undefined],
+			codTiposIntervencao: [undefined],
+			numSerie: [undefined],
+			codigoOrdemServico: [undefined],
+			numOSCliente: [undefined],
+			dataInicio: [undefined],
+			dataFim: [undefined],
 			dataAberturaInicio: [undefined],
-			dataAberturaFim: [undefined],      
-    });
-    this.form.patchValue(this.filter?.parametros);
-  }  
-SS
-  loadData(): void {
-    this.obterStatusServicos();
-    this.obterClientes();
-    this.obterFiliais();
-    this.obterTiposIntervencao();
-  }
+			dataAberturaFim: [undefined],
+		});
+		this.form.patchValue(this.filter?.parametros);
+	}
+	
+	loadData(): void {
+		this.obterStatusServicos();
+		this.obterClientes();
+		this.obterFiliais();
+		this.obterTiposIntervencao();
+		this.obterLaudoStatus();
+	}
 
-  async obterStatusServicos() {
-    let params: StatusServicoParameters = {
-      indAtivo: statusConst.ATIVO,
-      sortActive: 'nomeStatusServico',
-      sortDirection: 'asc'
-    }
+	obterLaudoStatus() {
+		this.laudosStatus = [
+			{
+				codLaudoStatus: 1,
+				nomeStatus: 'PENDENTE',
+				indAtivo: 1
+			},
+			{
+				codLaudoStatus: 2,
+				nomeStatus: 'APROVADO',
+				indAtivo: 1
+			},
+			{
+				codLaudoStatus: 3,
+				nomeStatus: 'APROVADO C/ RESSALVAS',
+				indAtivo: 1
+			},
+			{
+				codLaudoStatus: 4,
+				nomeStatus: 'REPROVADO',
+				indAtivo: 1
+			},
+		];
+	}
 
-    const data = await this._statusServicoService
-      .obterPorParametros(params)
-      .toPromise();
+	async obterStatusServicos() {
+		let params: StatusServicoParameters = {
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeStatusServico',
+			sortDirection: 'asc'
+		}
 
-    this.statusServicos = data.items;
-  }
+		const data = await this._statusServicoService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.statusServicos = data.items;
+	}
 
 	async obterFiliais(nomeFilial: string = '') {
 		let params: FilialParameters = {
-      indAtivo: 1,
-      sortActive: 'nomeFilial',
-      sortDirection: 'asc'      
+			indAtivo: 1,
+			sortActive: 'nomeFilial',
+			sortDirection: 'asc'
 		};
 
 		const data = await this._filialService
@@ -92,10 +121,10 @@ SS
 			.toPromise();
 
 		this.filiais = data.items;
-	}  
+	}
 
 	async obterClientes(filtro: string = '') {
-      let params: ClienteParameters = {
+		let params: ClienteParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeFantasia',
@@ -108,11 +137,11 @@ SS
 			.toPromise();
 
 		this.clientes = data.items;
-	}  
+	}
 
-  async obterTiposIntervencao(filtro: string = '') {
+	async obterTiposIntervencao(filtro: string = '') {
 		let params: TipoIntervencaoParameters = {
-      filter: filtro,
+			filter: filtro,
 			indAtivo: 1,
 			sortActive: 'nomTipoIntervencao',
 			sortDirection: 'asc'

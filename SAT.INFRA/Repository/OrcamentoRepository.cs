@@ -164,22 +164,29 @@ namespace SAT.INFRA.Repository
             if (parameters.CodigoOrdemServico.HasValue)
                query = query.Where(orc => orc.OrdemServico.CodOS == parameters.CodigoOrdemServico);
             
-
-            if (!string.IsNullOrEmpty(parameters.codStatusServicos))
+            if (!string.IsNullOrEmpty(parameters.CodLaudosStatus))
             {
-                var statusServicos = parameters.codStatusServicos.Split(',').Select(a => a.Trim()).ToArray();
+               int[] laudosStatus = parameters.CodLaudosStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+            
+            //    query = query.Where(orc => orc.OrdemServico.RelatoriosAtendimento.LastOrDefault().Laudos.Any(laudo => laudosStatus.Contains(laudo.CodLaudoStatus)));
+
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodStatusServicos))
+            {
+                var statusServicos = parameters.CodStatusServicos.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => statusServicos.Any(f => f == orc.OrdemServico.CodStatusServico.ToString()));
             }
 
-            if (!string.IsNullOrEmpty(parameters.codClientes))
+            if (!string.IsNullOrEmpty(parameters.CodClientes))
             {
-                var clientes = parameters.codClientes.Split(',').Select(a => a.Trim()).ToArray();
+                var clientes = parameters.CodClientes.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => clientes.Any(f => f == orc.OrdemServico.CodCliente.ToString()));
             }    
 
-            if (!string.IsNullOrEmpty(parameters.codFiliais))
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
-                var filiais = parameters.codFiliais.Split(',').Select(a => a.Trim()).ToArray();
+                var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => filiais.Any(f => f == orc.OrdemServico.CodFilial.ToString()));
             }                       
 

@@ -285,6 +285,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 
 				if (!this.isAddMode) {
 					this.obterContratos(this.localEnvioNFFaturamento.contrato.nomeContrato);
+					this.form.controls['codCliente'].disable();
 				}
 				else {
 					this.obterContratos();

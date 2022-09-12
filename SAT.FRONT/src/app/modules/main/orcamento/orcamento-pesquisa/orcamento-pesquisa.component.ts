@@ -109,9 +109,6 @@ export class OrcamentoPesquisaComponent implements OnInit, OnDestroy {
 				return;
 			}
 
-			console.log(data);
-
-
 			if (data.items.length === 0) {
 				this._snack.exibirToast('Nenhum orcamento encontrado', 'error');
 			}

@@ -73,34 +73,31 @@ export class ConferenciaSalaComponent implements OnInit, AfterViewInit {
 
 
   handleClose = () => {
-    console.log("handleClose");
+    
   }
 
   handleParticipantLeft = async (participant) => {
-    console.log("handleParticipantLeft", participant);
     const data = await this.getParticipants();
   }
 
   handleParticipantJoined = async (participant) => {
-    console.log("handleParticipantJoined", participant);
     const data = await this.getParticipants();
   }
 
   handleVideoConferenceJoined = async (participant) => {
-    console.log("handleVideoConferenceJoined", participant);
     const data = await this.getParticipants();
   }
 
   handleVideoConferenceLeft = () => {
-    console.log("handleVideoConferenceLeft");
+    
   }
 
   handleMuteStatus = (audio) => {
-    console.log("handleMuteStatus", audio);
+    
   }
 
   handleVideoStatus = (video) => {
-    console.log("handleVideoStatus", video);
+    
   }
 
   getParticipants() {

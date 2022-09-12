@@ -56,10 +56,6 @@ export class OrdemServicoDetalheOrcamentoComponent implements OnInit
         codOS: this.codOS.toString(),
         include: OrdemServicoIncludeEnum.OS_ORCAMENTO
       }).toPromise()).items.shift();
-
-      console.log(this.orcamentos);
-      console.log(this.os);
-      
   }
 
   criarNovoOrcamento()

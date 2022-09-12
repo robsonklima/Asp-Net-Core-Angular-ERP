@@ -32,9 +32,9 @@
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"
+                    <div matTooltip="{{ dataSourceData?.totalCount > 1000 ? 'Máximo de registros 1000' : t('exportar') }}"
                         (click)="exportar()">
-                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 20000">
+                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 1000">
                             <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                         </button>
                     </div>

@@ -53,9 +53,6 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 			codDespesaPeriodo: this.despesaPeriodoTecnico.codDespesaPeriodo
 		}).toPromise()
 
-		console.log(this.despesasView);
-		
-
 		await this.obterOS();
 		await this.obterAdiantamentos();
 		await this.obterContaTecnico();

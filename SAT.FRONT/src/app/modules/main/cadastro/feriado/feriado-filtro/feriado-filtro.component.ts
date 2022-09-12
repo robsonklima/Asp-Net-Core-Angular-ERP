@@ -91,8 +91,6 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 			.toPromise();
 
 		this.cidades = Enumerable.from(data.items).orderBy(i => i.nomeCidade).toArray();
-		console.log(this.cidades);
-		
 	}
 
 	async obterUfs() {

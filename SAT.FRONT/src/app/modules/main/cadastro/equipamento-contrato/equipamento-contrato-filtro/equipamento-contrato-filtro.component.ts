@@ -413,7 +413,6 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	}
 	obterModelosPorContrato() {
 		this.equipamentos = [];
-		console.log(this.contratosEquipamento);
 		
 		this.contratosEquipamento.forEach(ce => {
 			this.equipamentos.push(ce.equipamento);

@@ -115,9 +115,6 @@ export class DefeitoCausaListaComponent extends Filterable implements AfterViewI
 
         const data = await this._defeitoComponenteService.obterPorParametros(parametros).toPromise();
         this.dataSourceData = data;
-
-        console.log(data);
-        
         this.isLoading = false;
         this._cdr.detectChanges();
     }

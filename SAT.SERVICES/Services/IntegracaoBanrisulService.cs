@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
 
         public async Task ExecutarAsync()
         {
-            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_TESTE_CONFIG.ClientID);
+            var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
             foreach (var email in emails.Value)
             {
@@ -63,9 +63,7 @@ namespace SAT.SERVICES.Services
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {
                     IndPDFGerado = 0
-                });
-
-                        
+                });                       
         }
 
         private IntegracaoBanrisulAtendimento Carrega(string conteudo)
@@ -297,7 +295,6 @@ namespace SAT.SERVICES.Services
             }
 
             EquipamentoContrato equipamento = new();
-            Console.WriteLine("Antes do break");
 
             var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters
             {
@@ -305,8 +302,6 @@ namespace SAT.SERVICES.Services
                 NumSerie = atendimento.NumeroSerie.Valor.Trim().ToUpper(),
                 CodClientes = Constants.CLIENTE_BANRISUL.ToString()
             });
-
-            Console.WriteLine("Depois do Break");
 
             if (equipamentos.Count() == 0)
             {
@@ -629,21 +624,23 @@ namespace SAT.SERVICES.Services
 
         private int GeraTipoIntervencao(string ClassificacaoAtendimento)
         {
-            if ("intervencao_CashDesinstalacao".Equals(ClassificacaoAtendimento) ||
-                "intervencao_TalonadoraDesinstalacao".Equals(ClassificacaoAtendimento) ||
-                "intervencao_TcDesinstalacao".Equals(ClassificacaoAtendimento))
+            if ("TI.EQUIPAMENTO.CASH.DESINSTALAÇÃO".Equals(ClassificacaoAtendimento) ||
+                "TI.EQUIPAMENTO.TALONADORA.DESINSTALAÇÃO".Equals(ClassificacaoAtendimento) ||
+                "TI.EQUIPAMENTO.TC.DESINSTALAÇÃO".Equals(ClassificacaoAtendimento))
                 return 3;
-            else if ("intervecao_preventiva".Equals(ClassificacaoAtendimento))
+            else if ("TI.EQUIPAMENTO.CASH.MANUTENÇÃO PREVENTIVA".Equals(ClassificacaoAtendimento))
                 return 6;
-            else if ("intervencao_CashReinstalacao".Equals(ClassificacaoAtendimento) ||
-                "intervencao_TalonadoraReinstalacao".Equals(ClassificacaoAtendimento) ||
-                "intervencao_TcReinstalacao".Equals(ClassificacaoAtendimento))
+            else if ("TI.EQUIPAMENTO.CASH.REINSTALAÇÃO".Equals(ClassificacaoAtendimento) ||
+                "TI.EQUIPAMENTO.TALONADORA.REINSTALAÇÃO".Equals(ClassificacaoAtendimento) ||
+                "TI.EQUIPAMENTO.TC.REINSTALAÇÃO".Equals(ClassificacaoAtendimento))
                 return 7;
-            else if ("intervencao_BocalATM".Equals(ClassificacaoAtendimento) || "intervencao_Entitamento".Equals(ClassificacaoAtendimento) ||
-                    "intervencao_RecallCDP".Equals(ClassificacaoAtendimento) || "intervencao_k7".Equals(ClassificacaoAtendimento))
+            else if ("TI.EQUIPAMENTO.CASH.INSTALAÇÃO DO KIT BOCAL E PLACA CDP NO ATM".Equals(ClassificacaoAtendimento) || 
+                    "TI.EQUIPAMENTO.CASH.INSTALAÇÃO DO KIT DE ENTINTAMENTO DE ATM".Equals(ClassificacaoAtendimento) ||
+                    "TI.EQUIPAMENTO.CASH.RECALL PLACA CDP".Equals(ClassificacaoAtendimento) || 
+                    "TI.EQUIPAMENTO.CASH.RECALL TAMPA DE K7".Equals(ClassificacaoAtendimento))
                 return 1;
             else
-                return 2;
+                return 2;                
         }
 
         private double? CalculaHorasNaoUteis(DateTime inicio, DateTime fim, List<Feriado> feriados)

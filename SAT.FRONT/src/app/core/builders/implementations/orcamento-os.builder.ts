@@ -79,8 +79,6 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-
-
         for (const dp of detalhesPeca)
         {
             var m: OrcamentoMaterial =
@@ -100,12 +98,13 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             m.valorTotal =
                 (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
 
-            m =
-                await this._orcMaterialService.criar(m).toPromise();
+            m = await this._orcMaterialService.criar(m).toPromise();
 
             materiais.push(m);
         };
 
+        this.orcamento.orcamentoMateriais = materiais;
+        
         return this;
     }
 
@@ -176,8 +175,6 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
                 i.codEquip == this.orcamento?.codigoEquipamento &&
                 i.codSLA == this.orcamento?.codigoSla &&
                 i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;             
-
-        console.log(this.os?.localAtendimento?.distanciaKmPatRes);
         
         var d: OrcamentoDeslocamento =
         {

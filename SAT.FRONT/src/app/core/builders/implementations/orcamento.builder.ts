@@ -37,15 +37,15 @@ export class OrcamentoBuilder implements
     }
 
     calculaTotalizacao(orcamento: Orcamento): Orcamento
-    {                
+    {   
         orcamento.valorTotal =
             ((Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorTotal) +
                 orcamento?.maoDeObra?.valorTotal +
                 orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento +
-                orcamento?.orcamentoDeslocamento?.valorTotalKmRodado)) - Enumerable.from(orcamento.descontos).sum(i => i.valorTotal);
+                orcamento?.orcamentoDeslocamento?.valorTotalKmRodado)) - Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal);
 
         orcamento.valorTotalDesconto =
-            Enumerable.from(orcamento.descontos).sum(i => i.valorTotal) + Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorDesconto);
+            Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal) + Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorDesconto);
 
         return orcamento;
     }

@@ -35,9 +35,15 @@ import { FuseCardModule } from '@fuse/components/card';
 import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-foto.component';
 import { AuditoriaAcessoriosComponent } from './auditoria/auditoria-acessorios/auditoria-acessorios.component';
 import { MatTableModule } from '@angular/material/table';
-import { NgxMaskModule } from 'ngx-mask/lib/ngx-mask.module';
 import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
 
+const maskConfigFunction: () => Partial<IConfig> = () =>
+{
+  return {
+    validation: false,
+  };
+};
 
 @NgModule({
   declarations: [
@@ -56,6 +62,7 @@ import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/a
   imports: [
     CommonModule,
     RouterModule.forChild(frotaTecnicosRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     MatIconModule,
     MatFormFieldModule,

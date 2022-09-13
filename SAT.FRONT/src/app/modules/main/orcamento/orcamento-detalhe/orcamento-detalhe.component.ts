@@ -79,7 +79,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 	async ngOnInit() {
 		await this.obterStatus();
 		await this.obterMotivos();
-		await this.obterDados();
+		await this.obterDados();		
 	}
 
 	private async obterDados() {
@@ -254,6 +254,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			}
 		});
 	}
+
 	private obterEmailsFaturamentoNf() {
 
 		return [

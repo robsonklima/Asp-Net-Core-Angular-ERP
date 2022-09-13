@@ -20,23 +20,20 @@ import { OrcamentoBuilder } from "./orcamento.builder";
 @Injectable({
     providedIn: 'root'
 })
-export class OrcamentoOSBuilder extends OrcamentoBuilder
-{
+export class OrcamentoOSBuilder extends OrcamentoBuilder {
     private orcamento: Orcamento = null;
     private os: OrdemServico;
     private userSession: UserSession;
 
-    constructor (
+    constructor(
         private _orcamentoService: OrcamentoService,
         private _orcMaoDeObraService: OrcamentoMaoDeObraService,
         private _orcMaterialService: OrcamentoMaterialService,
-        private _orcDeslocamentoService: OrcamentoDeslocamentoService)
-    {
+        private _orcDeslocamentoService: OrcamentoDeslocamentoService) {
         super();
     }
 
-    async specifyBase(): Promise<ISpecifyMateriaisOrcamentoOSBuilder>
-    {
+    async specifyBase(): Promise<ISpecifyMateriaisOrcamentoOSBuilder> {
         this.orcamento =
         {
             codigoOrdemServico: this.os?.codOS,
@@ -70,8 +67,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         return this;
     }
 
-    async specifyMateriais(): Promise<ISpecifyMaoDeObraOrcamentoOSBuilder>
-    {
+    async specifyMateriais(): Promise<ISpecifyMaoDeObraOrcamentoOSBuilder> {
         var materiais: OrcamentoMaterial[] = [];
 
         var detalhesPeca = Enumerable.from(this.os.relatoriosAtendimento)
@@ -79,8 +75,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             .selectMany(i => i.relatorioAtendimentoDetalhePecas)
             .toArray();
 
-        for (const dp of detalhesPeca)
-        {
+        for (const dp of detalhesPeca) {
             var m: OrcamentoMaterial =
             {
                 codOrc: this.orcamento?.codOrc,
@@ -104,12 +99,11 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         };
 
         this.orcamento.orcamentoMateriais = materiais;
-        
+
         return this;
     }
 
-    private obterValorMaterial(peca: Peca)
-    {
+    private obterValorMaterial(peca: Peca) {
         if (peca?.indValorFixo === 1)
             return peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
 
@@ -118,10 +112,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
     }
 
-    private obterValorUnitarioFinanceiroMaterial(peca: Peca)
-    {
-        if (this.orcamento.isMaterialEspecifico === 1)
-        {
+    private obterValorUnitarioFinanceiroMaterial(peca: Peca) {
+        if (this.orcamento.isMaterialEspecifico === 1) {
             if (peca?.valIPI <= 0 || peca?.valIPI === null)
                 return peca?.valPeca;
 
@@ -131,8 +123,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         return (peca?.valPeca * 1.025) / appConfig.parametroReajusteValorOrcamento;
     }
 
-    async specifyMaoDeObra(): Promise<ISpecifyDeslocamentoOrcamentoOSBuilder>
-    {
+    async specifyMaoDeObra(): Promise<ISpecifyDeslocamentoOrcamentoOSBuilder> {
         var codServico: number =
             this.orcamento?.codigoMotivo == OrcamentoMotivoEnum.INSTALACAO_DESINSTACALAO ?
                 TipoServicoEnum.ATIVACAO : TipoServicoEnum.HORA_TECNICA;
@@ -162,8 +153,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         return this;
     }
 
-    async specifyDeslocamento(): Promise<IOrcamentoOSBuilder>
-    {
+    async specifyDeslocamento(): Promise<IOrcamentoOSBuilder> {
         var valorUnitarioKmRodado =
             this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
                 i.codEquip == this.orcamento?.codigoEquipamento &&
@@ -174,8 +164,8 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
             this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
                 i.codEquip == this.orcamento?.codigoEquipamento &&
                 i.codSLA == this.orcamento?.codigoSla &&
-                i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;             
-        
+                i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;
+
         var d: OrcamentoDeslocamento =
         {
             codOrc: this.orcamento?.codOrc,
@@ -207,8 +197,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         return this;
     }
 
-    async build(): Promise<Orcamento>
-    {
+    async build(): Promise<Orcamento> {
         this.orcamento =
             this.calculaTotalizacao(this.orcamento);
 
@@ -218,8 +207,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder
         return this.orcamento;
     }
 
-    async create(os: OrdemServico, userSession: UserSession): Promise<Orcamento>
-    {
+    async create(os: OrdemServico, userSession: UserSession): Promise<Orcamento> {
         this.os = os;
         this.userSession = userSession;
 

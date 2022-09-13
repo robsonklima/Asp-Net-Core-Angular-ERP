@@ -70,11 +70,16 @@ namespace SAT.UTILS
 
                 row.ConstantItem(280).Column(column =>
                 {
-                    column.Item().Row(cr =>
+                    column.Item().Row(async cr =>
                     {
                         cr.Spacing(20);
 
-                        cr.ConstantItem(65).AlignMiddle().Image("../SAT.UTILS/assets/Logo.png", ImageScaling.FitArea);
+                        using (HttpClient webClient = new HttpClient())
+                        {
+                            byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
+
+                            cr.ConstantItem(65).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
+                        }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(10);

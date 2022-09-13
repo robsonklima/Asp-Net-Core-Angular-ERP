@@ -215,9 +215,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			.subscribe(data => {
 				this.localEnvioNFFaturamentoVinculado = data.items;
 			});
-
-
-
 	}
 
 	private async obterClientes(filtro: string = '') {

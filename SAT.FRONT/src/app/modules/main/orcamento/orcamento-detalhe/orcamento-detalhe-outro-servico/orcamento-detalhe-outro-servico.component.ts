@@ -25,8 +25,7 @@ import { OrcamentoAddOutroServicoDialogComponent } from './orcamento-add-outro-s
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<OrcamentoOutroServico>, AfterViewInit
-{
+export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<OrcamentoOutroServico>, AfterViewInit {
   snackConfigDanger: MatSnackBarConfig = { duration: 2000, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
   snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
@@ -36,36 +35,31 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
   editableList: IEditableItem<OrcamentoOutroServico>[];
   isEditing: boolean;
 
-  constructor (public _dialog: MatDialog,
+  constructor(public _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
     private _orcService: OrcamentoService,
     private _snack: MatSnackBar,
-    private _orcOutroServicoService: OrcamentoOutroServicoService)
-  { }
+    private _orcOutroServicoService: OrcamentoOutroServicoService) { }
 
   ngAfterViewInit(): void { this.editableList = this.createEditableList(); }
 
-  editar(servico: IEditableItem<OrcamentoOutroServico>): void
-  {
+  editar(servico: IEditableItem<OrcamentoOutroServico>): void {
     servico.oldItem = Object.assign({}, servico.item);
     this.isEditing = true;
     servico.isEditing = true;
   }
 
-  salvar(servico: IEditableItem<OrcamentoOutroServico>): void
-  {
+  salvar(servico: IEditableItem<OrcamentoOutroServico>): void {
     servico.item.valorUnitario = parseFloat((servico.item.valorUnitario.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
     servico.item.quantidade = parseFloat((servico.item.quantidade.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
     servico.item.valorTotal = servico.item.valorUnitario * servico.item.quantidade;
 
-    this._orcOutroServicoService.atualizar(servico.item).subscribe(m =>
-    {
+    this._orcOutroServicoService.atualizar(servico.item).subscribe(m => {
       this._orcService.atualizarTotalizacao(m.codOrc);
       this._snack.open('Servico atualizado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
       servico.oldItem = Object.assign({}, m);
     },
-      e =>
-      {
+      e => {
         this._snack.open('Erro ao atualizar serviço.', null, this.snackConfigDanger).afterDismissed().toPromise();
       });
 
@@ -73,8 +67,7 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
     servico.isEditing = false;
   }
 
-  cancelar(servico: IEditableItem<OrcamentoOutroServico>): void
-  {
+  cancelar(servico: IEditableItem<OrcamentoOutroServico>): void {
     servico.item = Object.assign({}, servico.oldItem);
     this.isEditing = false;
     servico.isEditing = false;
@@ -85,10 +78,8 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
 
   isInvalid(item: IEditableItem<OrcamentoOutroServico>): boolean { return false; }
 
-  createEditableList(): IEditableItem<OrcamentoOutroServico>[]
-  {
-    return this.outrosServicos.map(i =>
-    {
+  createEditableList(): IEditableItem<OrcamentoOutroServico>[] {
+    return this.outrosServicos.map(i => {
       var item: IEditableItem<OrcamentoOutroServico> =
       {
         item: i,
@@ -104,8 +95,7 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
     });
   }
 
-  excluirOutroServico(s: IEditableItem<OrcamentoOutroServico>) 
-  {
+  excluirOutroServico(s: IEditableItem<OrcamentoOutroServico>) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -118,12 +108,10 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
       backdropClass: 'static'
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
-        this._orcOutroServicoService.deletar(s.item.codOrcOutroServico).subscribe(d =>
-        {
+        this._orcOutroServicoService.deletar(s.item.codOrcOutroServico).subscribe(d => {
           this._snack.open('Serviço removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
           const index = this.editableList.indexOf(s);
@@ -132,16 +120,14 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
 
           this._orcService.atualizarTotalizacao(s.item.codOrc);
         },
-          e =>
-          {
+          e => {
             this._snack.open('Erro ao remover serviço.', null, this.snackConfigDanger).afterDismissed().toPromise();
           });
       }
     });
   }
 
-  adicionarOutroServico()
-  {
+  adicionarOutroServico() {
     const dialogRef = this._dialog.open(OrcamentoAddOutroServicoDialogComponent, {
       data: {
         codOrc: this.codOrc
@@ -150,8 +136,7 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
       width: '600px'
     });
 
-    dialogRef.afterClosed().subscribe((novoServico: OrcamentoOutroServico) =>
-    {
+    dialogRef.afterClosed().subscribe((novoServico: OrcamentoOutroServico) => {
       if (novoServico)
       {
         var item: IEditableItem<OrcamentoOutroServico> =

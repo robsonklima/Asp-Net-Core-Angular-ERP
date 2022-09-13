@@ -1,3 +1,4 @@
+using System.Net;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -22,7 +23,7 @@ namespace SAT.UTILS
         {
             return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
         }
-        
+
         static IContainer TitleStyle(IContainer container)
         {
             return container.PaddingVertical(5);
@@ -85,11 +86,16 @@ namespace SAT.UTILS
                 row.ConstantItem(280).Column(column =>
                 {
 
-                    column.Item().Row(cr =>
+                    column.Item().Row(async cr =>
                     {
                         cr.Spacing(20);
 
-                        cr.ConstantItem(65).AlignMiddle().Image("../SAT.UTILS/assets/Logo.png", ImageScaling.FitArea);
+                        using (HttpClient webClient = new HttpClient())
+                        {
+                            byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
+
+                            cr.ConstantItem(65).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
+                        }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(10);
@@ -479,7 +485,7 @@ namespace SAT.UTILS
                         }
                     });
         }
-    
+
         void ComporTotal(IContainer container)
         {
             container.Table(table =>
@@ -499,7 +505,7 @@ namespace SAT.UTILS
                         table.Cell().Element(CellStyle).Text("Descontos").Style(FontStyle());
                         table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.ValorTotalDesconto).Style(FontStyle().Bold());
                         table.Cell().Element(CellStyle).Text("ValorTotal").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.ValorTotal).Style(FontStyle().Bold());          
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.ValorTotal).Style(FontStyle().Bold());
                     });
         }
 
@@ -522,7 +528,7 @@ namespace SAT.UTILS
                         table.Cell().Element(CellStyle).Text("Validade Orçamento").Style(FontStyle());
                         table.Cell().Element(CellStyle).AlignRight().Text("3 dias").Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Impostos Inclusos").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text("Sim").Style(FontStyle());          
+                        table.Cell().Element(CellStyle).AlignRight().Text("Sim").Style(FontStyle());
                     });
         }
     }

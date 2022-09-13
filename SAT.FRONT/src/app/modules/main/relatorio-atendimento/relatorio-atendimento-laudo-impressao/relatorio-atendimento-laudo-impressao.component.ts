@@ -18,8 +18,7 @@ import moment from 'moment';
   templateUrl: './relatorio-atendimento-laudo-impressao.component.html',
   styleUrls: ['./relatorio-atendimento-laudo-impressao.component.scss']
 })
-export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
-{
+export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit {
 
   codOS: number;
   codLaudo: number;
@@ -32,7 +31,7 @@ export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
   loading: boolean;
   fotosLaudos: Foto[];
 
-  constructor (
+  constructor(
     private _ordemServicoService: OrdemServicoService,
     private _ratService: RelatorioAtendimentoService,
     private _route: ActivatedRoute,
@@ -40,8 +39,7 @@ export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
     private _fotoService: FotoService
   ) { }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.loading = true;
 
     this.codOS = +this._route.snapshot.paramMap.get('codOS');
@@ -55,27 +53,25 @@ export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
     this.loading = false;
   }
 
-  private async obterLaudo()
-  {
+  private async obterLaudo() {
     this.laudo = (await this._laudoService.obterPorCodigo(this.codLaudo).toPromise());
   }
 
-  private async obterOS()
-  {
+  private async obterOS() {
     this.os = (await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise());
   }
 
-  private async obterRAT()
-  {
-    if (this.codRAT) return
-      this.rat = (await this._ratService.obterPorCodigo(this.codRAT).toPromise());
+  private async obterRAT() {
+    if (!this.codRAT)
+      return
+
+    this.rat = (await this._ratService.obterPorCodigo(this.codRAT).toPromise());
 
     if (this.rat?.numRAT && this.codOS)
       this.fotos = (await this._fotoService.obterPorParametros({ numRAT: this.rat.numRAT, codOS: this.codOS }).toPromise())?.items;
   }
 
-  print()
-  {
+  print() {
     var contentToPrint = document.getElementById("print-area").innerHTML;
     var windowPopup = window.open('', '_blank', 'width=500,height=500');
     windowPopup.document.open();
@@ -85,22 +81,21 @@ export class RelatorioAtendimentoLaudoImpressaoComponent implements OnInit
     windowPopup.document.close();
   }
 
-  obterLaudoSituacaoFotos(index: number)
-  {
-    return Enumerable.from(this.fotos)
+  obterLaudoSituacaoFotos(index: number) {
+    const fotos = Enumerable.from(this.fotos)
       .where(i => i.modalidade.toLowerCase().startsWith('laudo') && i.modalidade.slice(-1) == (index + 1).toString())
       .toArray();
+
+    return fotos
   }
 
-  obterAssinaturas()
-  {
+  obterAssinaturas() {
     return Enumerable.from(this.fotos)
       .where(i => i.modalidade.toLowerCase().startsWith('assinatura') && i.modalidade.toLowerCase().endsWith('laudo'))
       .toArray();
   }
 
-  obterData()
-  {
+  obterData() {
     return moment().format('DD/MM/yy');
   }
 }

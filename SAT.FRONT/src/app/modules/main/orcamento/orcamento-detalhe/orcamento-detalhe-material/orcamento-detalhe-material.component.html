@@ -47,7 +47,7 @@
                                     <div>
                                         {{ material?.item?.codigoMagnus }}
                                     </div>
-                                    <div>
+                                    <div [matTooltip]="material?.item?.descricao" class="truncate">
                                         {{ material?.item?.descricao }}
                                     </div>
                                     <div ngDefaultControl [ngClass]="{'pointer-events-auto cursor-text text-blue-500 font-bold':

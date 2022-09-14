@@ -79,7 +79,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 	async ngOnInit() {
 		await this.obterStatus();
 		await this.obterMotivos();
-		await this.obterDados();
+		await this.obterDados();		
 	}
 
 	private async obterDados() {
@@ -218,6 +218,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		const dialogRef = this._dialog.open(EmailDialogComponent, {
 			width: '600px',
 			data: {
+				destinatarios: this.obterEmailsFaturamentoNf(),
 				assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
 				conteudoEmail: `
 					Prezado Cliente,
@@ -232,8 +233,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 					<br>
 					Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!					
 				`,
-				nomeRemetente: 'DSS ORÇAMENTOS',
-				emailRemetente: 'dss.orcamentos@perto.com.br',
 				indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
 			}
 		});
@@ -241,7 +240,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(async (data: any) => {
 			if (data)
 			{
-
 				let exportacaoParam: Exportacao = {
 					email: data,
 					formatoArquivo: ExportacaoFormatoEnum.PDF,
@@ -255,6 +253,18 @@ export class OrcamentoDetalheComponent implements OnInit {
 				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 			}
 		});
+	}
+
+	private obterEmailsFaturamentoNf() {
+
+		return [
+			...this.dadosLocalEnvioNF?.email.split(';').map(function(item) {
+				return item.trim();
+			  }),
+			...this.dadosLocalFaturamento?.email.split(';').map(function(item) {
+				return item.trim();
+			  })
+		];
 	}
 
 	exportar() {

@@ -55,13 +55,19 @@ export class EmailDialogComponent {
         if (this.userSession && !data?.nomeRemetente)
             this.nomeRemetente = this.userSession?.usuario?.nomeUsuario || this.nomeRemetente;
 
+        if (data.destinatarios.length) {
+            data.destinatarios.forEach(email => {
+                this.emails.push(email);
+            });
+        }
+
         this.criarForm();
     }
 
 
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
-        
+
         if (value)
             this.emails.push(value);
 
@@ -81,18 +87,18 @@ export class EmailDialogComponent {
             this.emails.splice(index, 1);
     }
 
-    check(event: any){
+    check(event: any) {
         this.incluirLaudoExportacao = event;
     }
 
     async confirmar() {
         var mailMessage: Email =
         {
-          emailDestinatarios: this.emails,
-          assunto: this.assuntoEmail,
-          corpo: this.conteudoEmail,
+            emailDestinatarios: this.emails,
+            assunto: this.assuntoEmail,
+            corpo: this.conteudoEmail,
         };
-        
-        this.dialogRef.close({...mailMessage,...{incluirLaudoExportacao: this.incluirLaudoExportacao?.checked?? false}});
+
+        this.dialogRef.close({ ...mailMessage, ...{ incluirLaudoExportacao: this.incluirLaudoExportacao?.checked ?? false } });
     }
 }

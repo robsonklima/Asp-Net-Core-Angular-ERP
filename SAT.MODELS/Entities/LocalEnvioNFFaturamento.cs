@@ -45,6 +45,5 @@ namespace SAT.MODELS.Entities
         public Contrato Contrato { get; set; }
         public Cidade CidadeFaturamento { get; set; }
         public Cidade CidadeEnvioNF { get; set; }
-        public List<LocalEnvioNFFaturamentoVinculado> LocaisVinculados { get; set; }
     }
 }

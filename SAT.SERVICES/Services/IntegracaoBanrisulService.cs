@@ -232,6 +232,8 @@ namespace SAT.SERVICES.Services
                             {
                                 ordemServico.CodStatusServico = 1;
                                 ordemServico.NumOSQuarteirizada = "REABERTO";
+                                ordemServico.Tecnico.OrdensServico = null;
+                                ordemServico.Filial.OrdensServico = null;
 
                                 _ordemServicoService.Atualizar(ordemServico);
 

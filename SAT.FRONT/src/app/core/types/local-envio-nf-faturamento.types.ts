@@ -11,7 +11,7 @@ export interface LocalEnvioNFFaturamento {
     complementoFaturamento: string;
     numeroFaturamento: string;
     bairroFaturamento: string;
-    cnpjfaturamento: string;
+    cnpjFaturamento: string;
     inscricaoEstadualFaturamento: string;
     responsavelFaturamento: string;
     emailFaturamento: string;

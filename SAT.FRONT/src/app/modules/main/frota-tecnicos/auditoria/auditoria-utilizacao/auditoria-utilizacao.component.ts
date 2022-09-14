@@ -16,6 +16,11 @@ import { AuditoriaVeiculoTanque } from 'app/core/types/auditoria-veiculo-tanque.
 import { AuditoriaVeiculoTanqueService } from 'app/core/services/auditoria-veiculo-tanque.service';
 import { DespesaConfiguracaoCombustivel, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
+import { Despesa } from 'app/core/types/despesa.types';
+import { DespesaService } from 'app/core/services/despesa.service';
+import { DespesaPeriodo , DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoService } from 'app/core/services/despesa-periodo.service';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 
 
 @Component({
@@ -39,6 +44,8 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   qtdLitros: number;
   tanques: AuditoriaVeiculoTanque[] = [];
   tanque: AuditoriaVeiculoTanque;
+  despesas: Despesa[] = [];
+  despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   configuracaoCombustivel: DespesaConfiguracaoCombustivel;
   protected _onDestroy = new Subject<void>();
 
@@ -50,6 +57,8 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private _snack: CustomSnackbarService,
     private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService,
+    private _despesaService: DespesaService,
+    private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
     private _location: Location,
   ) {
@@ -93,22 +102,28 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       observacoes: [undefined],
       qtdLitros: [undefined],
       valorTanque: [undefined],
+      kmPercorrido: [undefined],
+      kmCompensado: [undefined],
+      despesasCompensadasValor: [undefined],
+
     });
   }
 
   private registrarEmitters() {
     this.form.controls["codAuditoriaVeiculoTanque"].valueChanges.subscribe(codAuditoriaVeiculoTanque => {
-      this.atualizarValores(codAuditoriaVeiculoTanque);
+      this.atualizarValoresTanque(codAuditoriaVeiculoTanque);
     });
-    this.form.controls["dataHoraRetiradaVeiculo"].valueChanges.subscribe(dataHoraRetiradaVeiculo => {
-      this.calcularDespesasPeriodo(dataHoraRetiradaVeiculo);
-      console.log(dataHoraRetiradaVeiculo);
+    
+    this.form.controls["dataHoraRetiradaVeiculo"].valueChanges.subscribe(async dataHoraRetiradaVeiculo => {
+      this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoService.obterPorParametros({
+        codTecnico: this.auditoria.usuario.codTecnico,
+        inicioPeriodo: dataHoraRetiradaVeiculo.format('YYYY-MM-DD HH:mm:ss'),
+      }).toPromise()).items;
+
+      this.atualizarValoresDespesas(dataHoraRetiradaVeiculo);
     });
   }
-
-  private calcularDespesasPeriodo(dataHoraRetiradaVeiculo){
-  }
-
+ 
   private async obterValoresCombustivel() {
     const params: DespesaConfiguracaoCombustivelParameters = {
       codFilial: this.auditoria?.usuario?.tecnico?.filial?.codFilial,
@@ -117,8 +132,43 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     const data = await this._despesaConfiguracaoCombustivelService.obterPorParametros(params).toPromise();
     this.configuracaoCombustivel = data.items.shift();
   }
+  
+  private async atualizarValoresDespesas(dataHoraRetiradaVeiculo){
+    this.auditoria.kmPercorrido = 0;
+    this.auditoria.kmCompensado = 0;
+    this.auditoria.despesasSAT = 0;
+    this.auditoria.despesasCompensadasValor = 0;
+    this.auditoria.totalDiasEmUso = moment(this.auditoria.dataHoraCad).diff(dataHoraRetiradaVeiculo,'days');
 
-  private async atualizarValores(codAuditoriaVeiculoTanque) {
+    for(let x = 0; x < this.despesasPeriodoTecnico.length; x++)
+    {
+      var despesaPeriodoTecnico = this.despesasPeriodoTecnico[x];
+      for(let y = 0; y < despesaPeriodoTecnico.despesas.length; y++)
+      {
+        var despesa = despesaPeriodoTecnico.despesas[y];
+        if(moment(despesaPeriodoTecnico.despesaPeriodo.dataInicio).isBefore(moment(this.auditoria.dataHoraCad)))
+        {
+
+          for(let z = 0; z < despesa.despesaItens.length; z++)
+          {
+            var items = despesa.despesaItens[z];
+            if(despesaPeriodoTecnico.indCompensacao == 1)
+            {
+              this.auditoria.kmCompensado = items.kmPercorrido + this.auditoria?.kmCompensado;
+              this.auditoria.despesasCompensadasValor = items.despesaValor + this.auditoria?.despesasCompensadasValor;
+            }
+            else
+            {
+              this.auditoria.kmPercorrido = items.kmPercorrido + this.auditoria?.kmPercorrido;
+              this.auditoria.despesasSAT = items.despesaValor + this.auditoria?.despesasSAT;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private async atualizarValoresTanque(codAuditoriaVeiculoTanque) {
     const veiculoTanque = await this._auditoriaVeiculoTanqueService
       .obterPorCodigo(codAuditoriaVeiculoTanque)
       .toPromise();

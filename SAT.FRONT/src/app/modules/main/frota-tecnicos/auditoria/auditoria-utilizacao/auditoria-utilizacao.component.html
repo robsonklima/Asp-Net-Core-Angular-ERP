@@ -38,10 +38,7 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('total de dias em uso') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="totalDiasEmUso">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
+                        <input matInput formControlName="totalDiasEmUso" readonly=“true” [(ngModel)]="auditoria.totalDiasEmUso">
                     </mat-form-field>
                 </div>
 
@@ -61,13 +58,22 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km percorrido') }}</div>
-                    <div> {{ auditoria?.kmPercorrido || "Não informado" }} </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="kmPercorrido" readonly=“true” [(ngModel)]="auditoria.kmPercorrido">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('km compensado') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="kmCompensado" readonly=“true” [(ngModel)]="auditoria.kmCompensado">
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km ferias') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmFerias">
+                        <input matInput formControlName="kmFerias" >
                     </mat-form-field>
                 </div>
 
@@ -102,13 +108,20 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('despesas cb') }}</div>
-                    <div> {{ auditoria?.despesasSAT | currency:'BRL':'symbol-narrow' || "Não informado" }} </div>
+                        <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                            <input matInput formControlName="despesasSAT" [(ngModel)]="auditoria.despesasSAT"
+                                 mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
+                                [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                        </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('despesa cb compensadas') }}</div>
-                    <div> {{ auditoria?.despesasCompensadasValor | currency:'BRL':'symbol-narrow' || "Não informado" }}
-                    </div>
+                        <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                            <input matInput formControlName="despesasCompensadasValor" [(ngModel)]="auditoria.despesasCompensadasValor"
+                                 mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
+                                [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                        </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">

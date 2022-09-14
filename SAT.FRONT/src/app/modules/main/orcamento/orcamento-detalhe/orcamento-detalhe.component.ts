@@ -159,9 +159,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.os?.cliente?.razaoSocial,
-			cnpj: this.os?.cliente?.cnpj,
-			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualFaturamento,
 			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento,
 			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento,
 			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneFaturamento,
@@ -177,9 +177,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.dadosLocalEnvioNF = {
 			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.os?.cliente?.razaoSocial,
-			cnpj: this.os?.cliente?.cnpj,
-			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
 			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
 			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
 			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
@@ -209,7 +209,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			modelo: this.os?.equipamento?.nomeEquip,
 			nroSerie: this.os?.equipamentoContrato?.numSerie,
 			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao,
-			cnpj: this.os?.cliente?.cnpj,
+			cnpj: this.os?.localAtendimento?.cnpj
 		}
 	}
 

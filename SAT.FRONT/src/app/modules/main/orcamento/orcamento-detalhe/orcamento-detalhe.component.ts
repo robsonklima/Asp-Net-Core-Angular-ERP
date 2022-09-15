@@ -26,6 +26,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 import { environment } from 'environments/environment';
 import moment from 'moment';
 import _ from 'lodash';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -251,8 +252,10 @@ export class OrcamentoDetalheComponent implements OnInit {
 				}
 
 				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+
+				this.atualizaIntervencaoOS();
 			}
-		});
+		});	
 	}
 
 	private obterEmailsFaturamentoNf() {
@@ -361,6 +364,34 @@ export class OrcamentoDetalheComponent implements OnInit {
 			}
 		});
 	}
+
+	atualizaIntervencaoOS() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja alterar chamado para PENDENTE APROVAÇÃO CLIENTE?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao)
+			{
+				this.orcamento.ordemServico.codTipoIntervencao = TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE;
+				this.orcamento.ordemServico.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
+				this.orcamento.ordemServico.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+				this._osService.atualizar(this.orcamento.ordemServico).subscribe(() => {
+					this._snack.exibirToast('Chamado Atualizado com Sucesso', 'success');
+				}, error => {
+					this._snack.exibirToast(error?.error?.message || error?.message, 'error');
+				});
+			}
+		});
+	}	
 
 	clonarOS() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {

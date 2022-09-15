@@ -3,8 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { LocalEnvioNFFaturamentoService } from 'app/core/services/local-envio-nf-faturamento.service';
-import { LocalEnvioNFFaturamento, LocalEnvioNFFaturamentoData } from 'app/core/types/local-envio-nf-faturamento.types';
+import { LocalEnvioNFFaturamento, LocalEnvioNFFaturamentoData, LocalEnvioNFFaturamentoParameters } from 'app/core/types/local-envio-nf-faturamento.types';
 import { UserSession } from 'app/core/user/user.types';
+import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-orcamento-faturamento-lista',
@@ -52,30 +54,45 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 			this.sort.disableClear = true;
 			this._cdr.markForCheck();
 
+			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+				map((event: any) => {
+					return event.target.value;
+				})
+				, debounceTime(1000)
+				, distinctUntilChanged()
+			).subscribe((text: string) => {
+				this.paginator.pageIndex = 0;
+				this.obterDados(text);
+			});
+
 			this.sort.sortChange.subscribe(() => {
 				this.onSortChanged()
 				this.obterDados();
 			});
 		}
 
-		this.registerEmitters();
 		this._cdr.detectChanges();
 	}
 
-	obterDados(): void {
-
+	async obterDados(filtro: string = '') {
 		this.isLoading = true;
-		this._localEnvioNFFaturamentoService.obterPorParametros({
+
+		const parametros: LocalEnvioNFFaturamentoParameters = {
+
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: 'codLocalEnvioNFFaturamento',
+			sortActive: this.sort.active || 'codLocalEnvioNFFaturamento' || 'cnpjFaturamento',
 			sortDirection: 'desc',
 			pageSize: this.paginator?.pageSize,
-			filter: this.searchInputControl.nativeElement.val
-		}).subscribe((data: LocalEnvioNFFaturamentoData) => {
-			this.dataSourceData = data;
-			this.isLoading = false;
-			this._cdr.detectChanges();
-		});
+			filter: filtro
+		}
+
+		const data: LocalEnvioNFFaturamentoData = await this._localEnvioNFFaturamentoService.obterPorParametros({
+			...parametros,
+			...this.filter?.parametros
+		}).toPromise();
+		this.dataSourceData = data;
+		this.isLoading = false;
+		this._cdr.detectChanges();
 	}
 
 	paginar() {

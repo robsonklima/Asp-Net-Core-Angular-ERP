@@ -32,7 +32,10 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('data auditoria') }}</div>
-                    <div>{{ auditoria?.dataHoraCad| date:'dd/MM/yyyy' }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput [matDatepicker]="cadastroData" formControlName="dataHoraCad" readonly=“true”>
+                        <mat-datepicker #cadastroData></mat-datepicker>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
@@ -73,18 +76,22 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km ferias') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmFerias" >
+                        <input matInput formControlName="kmFerias" [(ngModel)]="auditoria.kmFerias">
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km particular') }}</div>
-                    <div> {{ auditoria?.kmParticular || "Não informado" }} </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="kmParticular" readonly=“true” [(ngModel)]="auditoria.kmParticular">
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km particular por mes') }}</div>
-                    <div> {{ auditoria?.kmParticularMes || "Não informado" }} </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="kmParticularMes" readonly=“true” [(ngModel)]="auditoria.kmParticularMes">
+                    </mat-form-field>
                 </div>
 
 
@@ -162,13 +169,16 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('uso particular') }}</div>
-                    <div> {{ auditoria?.usoParticular || "Não informado" }} </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="usoParticular" [(ngModel)]="auditoria.usoParticular"
+                            mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
+                            [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
-                    <textarea class="flex items-center justify-between py-3" matInput formControlName="observacoes"
-                        [placeholder]="t('observacao')" [rows]="4" maxlength="1000"></textarea>
+                    <textarea class="flex items-center justify-between py-3" matInput formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
                 </div>
             </div>
         </form>

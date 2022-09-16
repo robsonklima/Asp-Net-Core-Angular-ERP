@@ -67,7 +67,7 @@ namespace SAT.SERVICES.Services
         {
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {
-                    IndPDFGerado = 1,
+                    IndPDFGerado = 0,
                     PageSize = 1
                 });
 
@@ -80,9 +80,9 @@ namespace SAT.SERVICES.Services
                 arquivo.TextoEmail = arquivo.TextoEmail.Replace("|", "<br />");
 
                 var email = new Email {
-                    EmailDestinatarios = new string[] { "equipe.sat@perto.com.br" },
+                    EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.EQUIPE_SAT_EMAIL },
                     Assunto = arquivo.AssuntoEmail,
-                    Corpo = arquivo.TextoEmail
+                    Corpo = arquivo.TextoEmail                    
                 };
 
                 _exportacaoService.Exportar(new Exportacao {
@@ -92,8 +92,9 @@ namespace SAT.SERVICES.Services
                     Email = email
                 });
 
-                arquivo.IndPDFGerado = 0;
+                arquivo.IndPDFGerado = 1;
                 _arquivoBanrisulService.Atualizar(arquivo);
+                _logger.Info($"Integração Banrisul ATM: Enviado retorno em pdf da OS: ${arquivo.CodOS}");
             }
         }
 

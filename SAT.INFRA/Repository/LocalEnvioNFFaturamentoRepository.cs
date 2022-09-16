@@ -97,7 +97,8 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
                     l =>
-                    l.CodLocalEnvioNFFaturamento.ToString().Contains(parameters.Filter)
+                    l.CodLocalEnvioNFFaturamento.ToString().Contains(parameters.Filter)|| 
+                    l.CnpjFaturamento.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );            
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))

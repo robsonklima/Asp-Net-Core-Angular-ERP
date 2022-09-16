@@ -690,6 +690,8 @@
     "tanque(medidor)": "Tank(Meter)",
     "tanque(litros)": "Tank(Liters)",
     "tanque(R$)": "Tank(R$)",
-    "uso particular": "Private Use"
+    "uso particular": "Private Use",
+    "matricula": "matriculation",
+    "salvar e finalizar": "Save and Finish"
 
 }

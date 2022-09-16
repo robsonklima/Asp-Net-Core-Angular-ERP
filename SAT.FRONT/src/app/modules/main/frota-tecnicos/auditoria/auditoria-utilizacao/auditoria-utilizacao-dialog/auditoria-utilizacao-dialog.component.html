@@ -1,0 +1,122 @@
+<form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+        <mat-step [formGroupName]="'step1'" [stepControl]="form.get('step1')" #horizontalStepperStep1>
+            <ng-template matStepLabel>Periodo</ng-template>
+            <div class="flex flex-col gt-xs:flex-row">
+                
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('retirada veiculo') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo" required [(ngModel)]="auditoria.dataHoraRetiradaVeiculo">
+                        <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
+                        <mat-datepicker #contratoData></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('data auditoria') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataHoraCad" required [(ngModel)]="auditoria.dataHoraCad">
+                        <mat-datepicker-toggle matSuffix [for]="cadastroData"></mat-datepicker-toggle>
+                        <mat-datepicker #cadastroData></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex justify-end">
+                <button class="px-8" mat-flat-button [color]="'primary'"
+                    [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
+                    type="button" matStepperNext (click)="onProximo()">
+                    {{ t('proximo') }}
+                </button>
+            </div>
+        </mat-step>
+        <mat-step [formGroupName]="'step2'" [stepControl]="form.get('step2')" #horizontalStepperStep2>
+            <ng-template matStepLabel>Km</ng-template>
+            <div class="flex flex-col gt-xs:flex-row">
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('odometro inicial') }} </div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="odometroInicialRetirada" [(ngModel)]="auditoria.odometroInicialRetirada">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('odometro periodo') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="odometroPeriodoAuditado" [(ngModel)]="auditoria.odometroPeriodoAuditado">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('km ferias') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="kmFerias" [(ngModel)]="auditoria.kmFerias">
+                    </mat-form-field>
+                </div>
+            
+            </div>
+            <div class="flex justify-end">
+                <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
+                    Voltar
+                </button>
+
+                <button class="px-8" mat-flat-button [color]="'primary'"
+                    [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
+                    type="button" matStepperNext (click)="onProximo()">
+                    {{ t('proximo') }}
+                </button>
+            </div>
+        </mat-step>
+        <mat-step [formGroupName]="'step3'" [stepControl]="form.get('step3')" #horizontalStepperStep3>
+            <ng-template matStepLabel>Combustível</ng-template>
+            <div class="flex flex-col gt-xs:flex-row">
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('creditos no cartao') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="creditosCartao" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true" [(ngModel)]="auditoria.creditosCartao">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('saldo cartao') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="saldoCartao" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true" [(ngModel)]="auditoria.saldoCartao">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('tanque(medidor)') }}</div>
+                    <mat-select class="flex items-center justify-between py-3"
+                        formControlName="codAuditoriaVeiculoTanque">
+                        <mat-option *ngFor="let tanque of tanques" [value]="tanque.codAuditoriaVeiculoTanque">
+                            <span>{{ tanque?.nome }}</span>
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('tanque(litros)') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="qtdLitros" [(ngModel)]="auditoria.auditoriaVeiculo?.auditoriaVeiculoTanque.qtdLitros">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex justify-end mt-8">
+                <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
+                    {{ t('voltar') }}
+                </button>
+
+                <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
+                    [color]="'primary'" type="button" (click)="salvar()">
+                    {{ t('salvar') }}
+                </button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>

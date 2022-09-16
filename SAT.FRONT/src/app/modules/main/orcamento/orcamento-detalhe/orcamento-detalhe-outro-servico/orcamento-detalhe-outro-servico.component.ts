@@ -107,11 +107,14 @@ export class OrcamentoDetalheOutroServicoComponent implements IEditableItemList<
       },
       backdropClass: 'static'
     });
+    console.log(s.item);
+
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
         this._orcOutroServicoService.deletar(s.item.codOrcOutroServico).subscribe(d => {
+          console.log(s.item);
           this._snack.open('Serviço removido com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 
           const index = this.editableList.indexOf(s);

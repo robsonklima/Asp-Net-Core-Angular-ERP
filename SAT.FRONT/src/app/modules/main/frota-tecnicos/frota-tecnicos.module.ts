@@ -37,6 +37,8 @@ import { AuditoriaAcessoriosComponent } from './auditoria/auditoria-acessorios/a
 import { MatTableModule } from '@angular/material/table';
 import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { AuditoriaUtilizacaoDialogComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao-dialog/auditoria-utilizacao-dialog.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -55,6 +57,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     AuditoriaFotoComponent,
     AuditoriaAcessoriosComponent,
     AuditoriaUtilizacaoComponent,
+    AuditoriaUtilizacaoDialogComponent,
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
@@ -85,6 +88,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     MatMenuModule,
     MatTabsModule,
     FuseCardModule,
+    MatStepperModule,
     MatTableModule
   ]
 })

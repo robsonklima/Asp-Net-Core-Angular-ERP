@@ -80,9 +80,9 @@ namespace SAT.SERVICES.Services
                 arquivo.TextoEmail = arquivo.TextoEmail.Replace("|", "<br />");
 
                 var email = new Email {
-                    EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL },
+                    EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.EQUIPE_SAT_EMAIL },
                     Assunto = arquivo.AssuntoEmail,
-                    Corpo = arquivo.TextoEmail
+                    Corpo = arquivo.TextoEmail                    
                 };
 
                 _exportacaoService.Exportar(new Exportacao {

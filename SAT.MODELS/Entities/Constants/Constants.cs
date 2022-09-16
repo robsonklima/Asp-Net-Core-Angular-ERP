@@ -207,5 +207,8 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tecnicos
         public static int TECNICO_SISTEMA = 2329;
+
+        // Tasks
+        public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
     }
 }

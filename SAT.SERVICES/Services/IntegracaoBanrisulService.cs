@@ -94,6 +94,7 @@ namespace SAT.SERVICES.Services
 
                 arquivo.IndPDFGerado = 1;
                 _arquivoBanrisulService.Atualizar(arquivo);
+                _logger.Info($"Integração Banrisul ATM: Enviado retorno em pdf da OS: ${arquivo.CodOS}");
             }
         }
 

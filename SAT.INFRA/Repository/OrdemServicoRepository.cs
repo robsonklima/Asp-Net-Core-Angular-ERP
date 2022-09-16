@@ -38,8 +38,11 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             OrdemServico os = _context.OrdemServico.FirstOrDefault(os => os.CodOS == ordemServico.CodOS);
-            ordemServico.Tecnico.OrdensServico = null;
-            ordemServico.Filial.OrdensServico = null;
+            if (ordemServico.Tecnico != null)
+                ordemServico.Tecnico.OrdensServico = null;
+
+            if (ordemServico.Filial != null)
+                ordemServico.Filial.OrdensServico  = null;
 
             if (os != null)
             {

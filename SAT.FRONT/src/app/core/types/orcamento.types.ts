@@ -1,11 +1,10 @@
 import { OrdemServico } from './ordem-servico.types';
 import { Cidade } from "./cidade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
-import { LocalEnvioNFFaturamento } from "./local-envio-nf-faturamento.types";
-import { Peca } from "./peca.types";
 import { OrcamentoMaoDeObra, OrcamentoMaoDeObraData } from './orcamento-mao-de-obra.types';
 import { OrcamentoOutroServico } from './orcamento-outro-servico.types';
 import { OrcamentoMaterial } from './orcamento.material.types';
+import { LocalEnvioNFFaturamentoVinculado } from './local-envio-nf-faturamento-vinculado.types';
 
 export interface Orcamento
 {
@@ -33,7 +32,7 @@ export interface Orcamento
     usuarioCadastro?: string;
     dataEnvioAprovacao?: string;
     dataAprovacaoCliente?: string;
-    localEnvioNFFaturamento?: LocalEnvioNFFaturamento;
+    localEnvioNFFaturamentoVinculado?: LocalEnvioNFFaturamentoVinculado;
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial;
     maoDeObra?: OrcamentoMaoDeObra;

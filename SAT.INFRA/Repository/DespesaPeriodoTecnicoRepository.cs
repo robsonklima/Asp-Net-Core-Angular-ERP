@@ -101,6 +101,10 @@ namespace SAT.INFRA.Repository
         {
             var query = ObterQuery(parameters);
 
+            if (parameters.InicioPeriodo.HasValue) {
+                query = query.Where(d => d.DespesaPeriodo.DataInicio.Date >= Convert.ToDateTime(parameters.InicioPeriodo).Date);
+            }
+
             return PagedList<DespesaPeriodoTecnico>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

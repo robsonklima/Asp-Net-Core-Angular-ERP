@@ -80,8 +80,6 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.UnidadeFederativa)
                 .Include(l => l.CidadeFaturamento)
                     .ThenInclude(c => c.UnidadeFederativa)
-                .Include(l => l.LocaisVinculados)
-                    .ThenInclude(l => l.LocalAtendimento)
                 .FirstOrDefault(f => f.CodLocalEnvioNFFaturamento == codigo);
         }
 
@@ -94,14 +92,13 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.UnidadeFederativa)
                 .Include(l => l.CidadeFaturamento)        
                     .ThenInclude(c => c.UnidadeFederativa)        
-                .Include(l => l.LocaisVinculados)
-                    .ThenInclude(l => l.LocalAtendimento)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
                     l =>
-                    l.CodLocalEnvioNFFaturamento.ToString().Contains(parameters.Filter)
+                    l.CodLocalEnvioNFFaturamento.ToString().Contains(parameters.Filter)|| 
+                    l.CnpjFaturamento.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );            
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))

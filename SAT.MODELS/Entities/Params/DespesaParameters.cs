@@ -9,5 +9,7 @@ namespace SAT.MODELS.Entities.Params
         public string CodTecnico { get; set; }
         public string CodRATs { get; set; }
         public DateTime? DataHoraInicioRAT { get; set; }
+        public DateTime? InicioPeriodo { get; set; }
+        public DateTime? FimPeriodo { get; set; }
     }
 }

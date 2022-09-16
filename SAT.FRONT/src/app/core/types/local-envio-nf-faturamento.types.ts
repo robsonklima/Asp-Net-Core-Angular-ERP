@@ -2,8 +2,6 @@ import { Cidade } from "./cidade.types";
 import { Cliente } from "./cliente.types";
 import { Contrato } from "./contrato.types";
 import { Meta, QueryStringParameters } from "./generic.types";
-import { LocalEnvioNFFaturamentoVinculado } from "./local-envio-nf-faturamento-vinculado.types";
-
 export interface LocalEnvioNFFaturamento {
     codLocalEnvioNFFaturamento: number;
     codCliente: number;
@@ -13,7 +11,7 @@ export interface LocalEnvioNFFaturamento {
     complementoFaturamento: string;
     numeroFaturamento: string;
     bairroFaturamento: string;
-    cnpjfaturamento: string;
+    cnpjFaturamento: string;
     inscricaoEstadualFaturamento: string;
     responsavelFaturamento: string;
     emailFaturamento: string;
@@ -46,7 +44,6 @@ export interface LocalEnvioNFFaturamento {
     cidadeFaturamento: Cidade;
     cidadeEnvioNF: Cidade;
     contrato: Contrato;
-    locaisVinculados: LocalEnvioNFFaturamentoVinculado[];
 }
 
 export interface LocalEnvioNFFaturamentoData extends Meta

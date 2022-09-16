@@ -63,7 +63,7 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task ProcessarRetornosAsync()
+        public void ProcessarRetornos()
         {
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {

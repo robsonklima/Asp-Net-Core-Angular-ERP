@@ -172,12 +172,16 @@ namespace SAT.UTILS
                     grid.Item(6).Text($"Nº: {rel.NumRAT}").FontSize(10); // OS CLIENTE
                     grid.Item(6).Text($"Acompanhante: {rel.NomeAcompanhante}").FontSize(10); // OS Quarteirizada
 
-                    grid.Item(12).Text( tx =>
-                    {
-                        tx.Span($"Tipo Serviço: {rel.RelatorioAtendimentoDetalhes?.FirstOrDefault()?.TipoServico.NomeServico}").FontSize(10);
-                        var tipoServico =  rel.RelatorioAtendimentoDetalhes.FirstOrDefault().TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
-                        tx.Span($"  ({tipoServico})").FontSize(10);
-                    });
+                    var detalhe = rel.RelatorioAtendimentoDetalhes.FirstOrDefault();
+
+                    if (detalhe != null) {
+                        grid.Item(12).Text( tx =>
+                        {
+                            tx.Span($"Tipo Serviço: {detalhe.TipoServico.NomeServico}").FontSize(10);
+                            var tipoServico = detalhe.TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
+                            tx.Span($"  ({tipoServico})").FontSize(10);
+                        });
+                    }
                     
                     grid.Item(4).Text($"Início: {rel.DataHoraInicio}").FontSize(10); // BAIRRO
                     grid.Item(4).Text($"Término: {rel.DataHoraSolucao}").FontSize(10); // CIDADE

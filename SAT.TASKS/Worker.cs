@@ -36,7 +36,7 @@ public partial class Worker : BackgroundService
             try
             {
                 await _integracaoBanrisulService.ProcessarEmailsAsync();
-                _integracaoBanrisulService.ProcessarRetornosAsync();
+                await _integracaoBanrisulService.ProcessarRetornosAsync();
 
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();

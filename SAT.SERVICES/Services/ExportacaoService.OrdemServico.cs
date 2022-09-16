@@ -234,7 +234,6 @@ namespace SAT.SERVICES.Services
             }
 
             osImpressao.GeneratePdf(osPdf);
-                                                          
 
             if (exportacao.Email != null)
             {

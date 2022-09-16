@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using NLog;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -18,13 +19,14 @@ namespace SAT.SERVICES.Services
     public partial class IntegracaoBanrisulService : IIntegracaoBanrisulService
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        private IEmailService _emailService;
-        private IOrdemServicoService _ordemServicoService;
-        private IRelatorioAtendimentoService _relatorioAtendimentoService;
-        private IEquipamentoContratoRepository _equipamentoContratoRepo;
-        private ILocalAtendimentoService _localAtendimentoService;
-        private IFeriadoService _feriadoService;
+        private readonly IEmailService _emailService;
+        private readonly IOrdemServicoService _ordemServicoService;
+        private readonly IRelatorioAtendimentoService _relatorioAtendimentoService;
+        private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
+        private readonly ILocalAtendimentoService _localAtendimentoService;
+        private readonly IFeriadoService _feriadoService;
         private readonly IArquivoBanrisulService _arquivoBanrisulService;
+        private readonly IExportacaoService _exportacaoService;
 
         public IntegracaoBanrisulService(
             IEmailService emailService,
@@ -33,7 +35,8 @@ namespace SAT.SERVICES.Services
             IEquipamentoContratoRepository equipamentoContratoRepo,
             ILocalAtendimentoService localAtendimentoService,
             IFeriadoService feriadoService,
-            IArquivoBanrisulService arquivoBanrisulService
+            IArquivoBanrisulService arquivoBanrisulService,
+            IExportacaoService exportacaoService
         )
         {
             _emailService = emailService;
@@ -42,6 +45,8 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
             _feriadoService = feriadoService;
+            _arquivoBanrisulService = arquivoBanrisulService;
+            _exportacaoService = exportacaoService;
         }
 
         public async Task ProcessarEmailsAsync()
@@ -58,17 +63,38 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public Task ProcessarRetornosAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ProcessarArquivos() 
+        public async Task ProcessarRetornosAsync()
         {
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {
-                    IndPDFGerado = 0
-                });                       
+                    IndPDFGerado = 1,
+                    PageSize = 1
+                });
+
+            foreach (ArquivoBanrisul arquivo in arquivosPendentes.Items)
+            {
+                var parametros = new OrdemServicoParameters {
+                    CodOS = arquivo.CodOS.ToString()
+                };
+
+                arquivo.TextoEmail = arquivo.TextoEmail.Replace("|", "<br />");
+
+                var email = new Email {
+                    EmailDestinatarios = new string[] { "equipe.sat@perto.com.br" },
+                    Assunto = arquivo.AssuntoEmail,
+                    Corpo = arquivo.TextoEmail
+                };
+
+                _exportacaoService.Exportar(new Exportacao {
+                    FormatoArquivo = ExportacaoFormatoEnum.PDF,
+                    TipoArquivo = ExportacaoTipoEnum.ORDEM_SERVICO,
+                    EntityParameters = JObject.FromObject(parametros),
+                    Email = email
+                });
+
+                arquivo.IndPDFGerado = 0;
+                _arquivoBanrisulService.Atualizar(arquivo);
+            }
         }
 
         private IntegracaoBanrisulAtendimento Carrega(string conteudo)
@@ -484,14 +510,6 @@ namespace SAT.SERVICES.Services
                     NumOSCliente = numOSCliente,
                     CodClientes = Constants.CLIENTE_BANRISUL.ToString()
                 }).Items.FirstOrDefault();
-        }
-
-        private string GetHtmlEmailTrocaStatus() {
-            return string.Empty;
-        }
-
-        private void EnviaPdf() {
-            
         }
 
         private string GetHtmlEmailAbertura(IntegracaoBanrisulAtendimento atendimento, String mensagem)

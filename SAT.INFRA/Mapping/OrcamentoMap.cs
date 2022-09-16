@@ -15,12 +15,6 @@ namespace SAT.INFRA.Mapping
                 .HasKey(prop => prop.CodOrc);
 
             builder
-                .HasOne(prop => prop.LocalEnvioNFFaturamento)
-                .WithMany()
-                .HasForeignKey(prop => new { prop.CodigoCliente, prop.CodigoContrato })
-                .HasPrincipalKey(prop => new { prop.CodCliente, prop.CodContrato });
-
-            builder
                 .HasOne(i => i.OrdemServico)
                 .WithOne()
                 .HasForeignKey<OrdemServico>(i => i.CodOS)
@@ -84,6 +78,13 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(i => i.CodigoStatus)
                 .HasPrincipalKey(i => i.CodOrcStatus);
+
+            builder
+                .HasOne(prop => prop.LocalEnvioNFFaturamentoVinculado)
+                .WithMany()
+                .HasForeignKey(prop => new { prop.CodigoPosto, prop.CodigoContrato })
+                .HasPrincipalKey(prop => new { prop.CodPosto, prop.CodContrato });
+
         }
     }
 }

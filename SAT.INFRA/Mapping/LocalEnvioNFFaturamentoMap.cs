@@ -35,11 +35,7 @@ namespace SAT.INFRA.Mapping
                .HasForeignKey(prop => prop.CodCidadeFaturamento)
                .HasPrincipalKey(prop => prop.CodCidade);                 
 
-            builder
-                .HasMany(prop => prop.LocaisVinculados)
-                .WithOne()
-            .HasForeignKey(prop => prop.CodLocalEnvioNFFaturamento)
-                .HasPrincipalKey(prop => prop.CodLocalEnvioNFFaturamento);
+            
         }
     }
 }

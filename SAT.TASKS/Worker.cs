@@ -36,7 +36,7 @@ public partial class Worker : BackgroundService
             try
             {
                 await _integracaoBanrisulService.ProcessarEmailsAsync();
-                _integracaoBanrisulService.ProcessarRetornosAsync();
+                 _integracaoBanrisulService.ProcessarRetornos();
 
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
@@ -46,7 +46,7 @@ public partial class Worker : BackgroundService
                     
                 //_integracaoFinanceiroService.ExecutarAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                     
             }

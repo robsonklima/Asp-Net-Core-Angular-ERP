@@ -717,5 +717,7 @@
     "tanque(medidor)": "Tanque(Medidor)",
     "tanque(litros)": "Tanque(Litros)",
     "tanque(R$)": "Tanque(R$)",
-    "uso particular": "Uso Particular"
+    "uso particular": "Uso Particular",
+    "matricula": "Matrícula",
+    "salvar e finalizar": "Salvar e Finalizar"
 }

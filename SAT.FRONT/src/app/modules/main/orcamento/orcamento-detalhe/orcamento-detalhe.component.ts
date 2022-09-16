@@ -26,6 +26,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 import { environment } from 'environments/environment';
 import moment from 'moment';
 import _ from 'lodash';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -158,43 +159,43 @@ export class OrcamentoDetalheComponent implements OnInit {
 	private formatarLocais() {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
-			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.os?.cliente?.razaoSocial,
-			cnpj: this.os?.cliente?.cnpj,
-			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
-			responsavel: this.orcamento?.localEnvioNFFaturamento?.responsavelFaturamento,
-			email: this.orcamento?.localEnvioNFFaturamento?.emailFaturamento,
-			fone: this.orcamento?.localEnvioNFFaturamento?.foneFaturamento,
-			endereco: this.orcamento?.localEnvioNFFaturamento?.enderecoFaturamento,
-			numero: this.orcamento?.localEnvioNFFaturamento?.numeroFaturamento,
-			bairro: this.orcamento?.localEnvioNFFaturamento?.bairroFaturamento,
-			cep: this.orcamento?.localEnvioNFFaturamento?.cepFaturamento,
-			complemento: this.orcamento?.localEnvioNFFaturamento?.complementoFaturamento,
-			cidade: this.orcamento?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
-			uf: this.orcamento?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualFaturamento,
+			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento,
+			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento,
+			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneFaturamento,
+			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento,
+			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroFaturamento,
+			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento,
+			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento,
+			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoFaturamento,
+			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
+			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF
 		}
 
 		this.dadosLocalEnvioNF = {
 			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
-			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.os?.cliente?.razaoSocial,
-			cnpj: this.os?.cliente?.cnpj,
-			inscricaoEstadual: this.os.cliente?.inscricaoEstadual,
-			responsavel: this.orcamento?.localEnvioNFFaturamento?.responsavelEnvioNF,
-			email: this.orcamento?.localEnvioNFFaturamento?.emailEnvioNF,
-			fone: this.orcamento?.localEnvioNFFaturamento?.foneEnvioNF,
-			endereco: this.orcamento?.localEnvioNFFaturamento?.enderecoEnvioNF,
-			numero: this.orcamento?.localEnvioNFFaturamento?.numeroEnvioNF,
-			bairro: this.orcamento?.localEnvioNFFaturamento?.bairroEnvioNF,
-			cep: this.orcamento?.localEnvioNFFaturamento?.cepEnvioNF,
-			complemento: this.orcamento?.localEnvioNFFaturamento?.complementoEnvioNF,
-			cidade: this.orcamento?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
-			uf: this.orcamento?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
+			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
+			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
+			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
+			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF,
+			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF,
+			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF,
+			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF,
+			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF,
+			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
+			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
 		}
 
 		this.dadosLocalAtendimento = {
 			tipo: OrcamentoDadosLocalEnum.ATENDIMENTO,
-			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
 			nroContrato: this.os?.equipamentoContrato?.contrato?.nroContrato,
 			nomeLocal: this.os?.localAtendimento?.nomeLocal,
 			oscliente: this.os?.numOSCliente,
@@ -209,7 +210,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			modelo: this.os?.equipamento?.nomeEquip,
 			nroSerie: this.os?.equipamentoContrato?.numSerie,
 			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao,
-			cnpj: this.os?.cliente?.cnpj,
+			cnpj: this.os?.localAtendimento?.cnpj
 		}
 	}
 
@@ -321,8 +322,10 @@ export class OrcamentoDetalheComponent implements OnInit {
 				}
 
 				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+
+				this.atualizaIntervencaoOS();
 			}
-		});
+		});	
 	}
 
 	private obterEmailsFaturamentoNf() {
@@ -429,6 +432,34 @@ export class OrcamentoDetalheComponent implements OnInit {
 			}
 		});
 	}
+
+	atualizaIntervencaoOS() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: 'Deseja alterar chamado para PENDENTE APROVAÇÃO CLIENTE?',
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao)
+			{
+				this.orcamento.ordemServico.codTipoIntervencao = TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE;
+				this.orcamento.ordemServico.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
+				this.orcamento.ordemServico.codUsuarioManut = this.userSession.usuario.codUsuario;
+
+				this._osService.atualizar(this.orcamento.ordemServico).subscribe(() => {
+					this._snack.exibirToast('Chamado Atualizado com Sucesso', 'success');
+				}, error => {
+					this._snack.exibirToast(error?.error?.message || error?.message, 'error');
+				});
+			}
+		});
+	}	
 
 	clonarOS() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {

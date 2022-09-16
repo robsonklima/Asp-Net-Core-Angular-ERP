@@ -18,11 +18,11 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey<LocalEnvioNFFaturamentoVinculado>("CodPosto")
                 .HasPrincipalKey<LocalAtendimento>("CodPosto");
 
-        //     builder
-        //         .HasOne(p => p.Contrato)
-        //         .WithOne()
-        //         .HasForeignKey<LocalEnvioNFFaturamentoVinculado>("CodContrato")
-        //         .HasPrincipalKey<Contrato>("CodContrato");
+            builder
+                .HasOne(prop => prop.LocalEnvioNFFaturamento)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodLocalEnvioNFFaturamento)
+                .HasPrincipalKey(prop => prop.CodLocalEnvioNFFaturamento);
          }
     }
 }

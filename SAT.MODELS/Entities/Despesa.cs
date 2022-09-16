@@ -10,6 +10,8 @@ namespace SAT.MODELS.Entities
         [Key]
         public int CodDespesa { get; set; }
         public int CodDespesaPeriodo { get; set; }
+        [ForeignKey("CodDespesaPeriodo")]
+        public DespesaPeriodo DespesaPeriodo { get; set; }
         public int? CodRAT { get; set; }
         [ForeignKey("CodRAT")]
         public RelatorioAtendimento RelatorioAtendimento { get; set; }

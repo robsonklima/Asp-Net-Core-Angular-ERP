@@ -35,7 +35,7 @@ namespace SAT.MODELS.Entities
         public byte? IndFaturamento { get; set; }
         public DateTime? DataHoraFaturamento { get; set; }
         public string CodUsuarioFaturamento { get; set; }
-        public virtual LocalEnvioNFFaturamento LocalEnvioNFFaturamento { get; set; }
+        public LocalEnvioNFFaturamentoVinculado LocalEnvioNFFaturamentoVinculado { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }
         [ForeignKey("CodigoFilial")]
         public virtual Filial Filial { get; set; }

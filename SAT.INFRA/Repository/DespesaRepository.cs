@@ -53,10 +53,11 @@ namespace SAT.INFRA.Repository
         public PagedList<Despesa> ObterPorParametros(DespesaParameters parameters)
         {
             var despesas = _context.Despesa
-            .Include(d => d.DespesaItens)
-                .ThenInclude(di => di.DespesaTipo)
-            .Include(d => d.RelatorioAtendimento)
-            .AsQueryable();
+                .Include(d => d.DespesaPeriodo)
+                .Include(d => d.DespesaItens)
+                    .ThenInclude(di => di.DespesaTipo)
+                .Include(d => d.RelatorioAtendimento)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.CodTecnico))
             {
@@ -70,6 +71,10 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodDespesaPeriodo.HasValue)
                 despesas = despesas.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
+
+            if (parameters.InicioPeriodo.HasValue) {
+                despesas = despesas.Where(d => d.DespesaPeriodo.DataInicio.Date >= Convert.ToDateTime(parameters.InicioPeriodo).Date);
+            }
 
             if (!string.IsNullOrEmpty(parameters.CodRATs))
             {

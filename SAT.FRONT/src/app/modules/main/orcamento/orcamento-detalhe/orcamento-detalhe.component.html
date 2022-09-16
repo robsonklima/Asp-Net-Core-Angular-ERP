@@ -35,29 +35,44 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:upload'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
                                 [matTooltip]="'Ir para OS'" [routerLink]="['/ordem-servico/detalhe/' + os?.codOS]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
                                 [matTooltip]="'imprimir'" [routerLink]="['/orcamento/impressao/' + codOrc]">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
                                 [matTooltip]="'Exportar PDF'" (click)="exportar()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
                             </button>
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
-                                [matTooltip]="'Enviar e-mail'" (click)="enviarEmail()">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                            </button>
 
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
                                 [matTooltip]="'Excluir'" (click)="excluir()" *ngIf="userSession?.usuario?.codPerfil == 100 || userSession?.usuario?.codPerfil == 3">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                             </button>
+
+
+                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button
+                            [matMenuTriggerFor]="menu" [disabled]="isLoading" [matTooltip]="'Enviar por e-mail'">
+                            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                <mat-menu #menu>
+                                    <button mat-menu-item (click)="enviarEmail()">
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+                                        {{ t('enviar orcamento') }}
+                                    </button>
+
+                                    <button mat-menu-item (click)="enviarEmail()">
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:currency-dollar'"></mat-icon>
+                                        {{ t('enviar cotacao') }}
+                                    </button>
+                                </mat-menu>
+                            </button>
+
+
                         </div>
                     </div>
                 </div>

@@ -690,6 +690,7 @@
     "tanque(medidor)": "Tank(Meter)",
     "tanque(litros)": "Tank(Liters)",
     "tanque(R$)": "Tank(R$)",
-    "uso particular": "Private Use"
-
+    "uso particular": "Private Use",
+    "enviar orcamento": "Send Budget",
+    "enviar cotacao": "Send Quote"
 }

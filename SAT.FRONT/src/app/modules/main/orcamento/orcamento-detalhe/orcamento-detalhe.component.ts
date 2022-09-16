@@ -79,7 +79,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 	async ngOnInit() {
 		await this.obterStatus();
 		await this.obterMotivos();
-		await this.obterDados();		
+		await this.obterDados();
 	}
 
 	private async obterDados() {
@@ -213,33 +213,103 @@ export class OrcamentoDetalheComponent implements OnInit {
 		}
 	}
 
-	enviarEmail() {
+	enviarEmail(tipoEnvio: number = 0) {
+
+		let dados = {};
+
+		switch (tipoEnvio) {
+			case 0:
+				dados = {
+					destinatarios: this.obterEmailsFaturamentoNf(),
+					assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
+					conteudoEmail:
+						`
+							Prezado Cliente,
+							<br>
+							A PERTO encaminha no anexo orçamento para sua apreciação, solicitamos gentilmente acessar o link abaixo, para aprovação ou reprovação.
+							<br>
+							Alertamos ao prazo de validade do mesmo, constante no rodapé do orçamento, findo este prazo e não obtido retorno será considerado reprovado e o chamado fechado.
+							<br>
+							No caso de aprovação a Nota Fiscal Fatura será emitida e encaminhada conforme os dados abaixo, caso seja necessário alteração por favor comunicar o setor de orçamentos da PERTO.
+							<br>
+							<a href="${environment.clientUrl}/#/orcamento-aprovacao/${this.codOrc}">CLIQUE AQUI</a> para Aprovar ou Reprovar este orçamento !!!
+							<br>
+							Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!					
+						`,
+					indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
+				};
+				break;
+
+			case 1:
+				dados = {
+					destinatarios: 'dss.orcamentos@perto.com.br',
+					assuntoEmail: `COTAÇÃO DE PEÇAS ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
+					conteudoEmail:
+						`
+							<p>Solicito cotação para o atendimento abaixo</p> 
+							<table> 
+								<tr> 
+									<td><b>CHAMADO PERTO:</b></td> 
+									<td>${this.orcamento.codigoOrdemServico}</td> 
+								</tr> 
+								<tr> 
+									<td><b>CLIENTE:</b></td> 
+									<td>${this.orcamento}</td> 
+									<td>" + orcamento.EnderecoFaturamento.RazaoSocial + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>LOCAL:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.NomeLocal + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>CEP:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.Cep + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>ENDEREÇO:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.Rua + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>BAIRRO:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.Bairro + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>CIDADE:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.NomeCidade + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>UF:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.Uf + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>MÁQUINA:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.NomeEquipamento + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>SÉRIE:</b></td> 
+									<td>" + orcamento.EnderecoAtendimento.NumeroSerie + "</td> 
+								</tr> 
+								<tr> 
+									<td><b>OBS:</b></td> 
+									<td>Necessário serviço de " + outroServico.Descricao.ToLower() + "</td> 
+								</tr> 
+							</table> 
+						`,
+					// indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
+				};
+				break;
+
+			default:
+				break;
+		}
 
 		const dialogRef = this._dialog.open(EmailDialogComponent, {
 			width: '600px',
-			data: {
-				destinatarios: this.obterEmailsFaturamentoNf(),
-				assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
-				conteudoEmail: `
-					Prezado Cliente,
-					<br>
-					A PERTO encaminha no anexo orçamento para sua apreciação, solicitamos gentilmente acessar o link abaixo, para aprovação ou reprovação.
-					<br>
-					Alertamos ao prazo de validade do mesmo, constante no rodapé do orçamento, findo este prazo e não obtido retorno será considerado reprovado e o chamado fechado.
-					<br>
-					No caso de aprovação a Nota Fiscal Fatura será emitida e encaminhada conforme os dados abaixo, caso seja necessário alteração por favor comunicar o setor de orçamentos da PERTO.
-					<br>
-					<a href="${environment.clientUrl}/#/orcamento-aprovacao/${this.codOrc}">CLIQUE AQUI</a> para Aprovar ou Reprovar este orçamento !!!
-					<br>
-					Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!					
-				`,
-				indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
-			}
+			data: dados
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
-			if (data)
-			{
+			if (data) {
 				let exportacaoParam: Exportacao = {
 					email: data,
 					formatoArquivo: ExportacaoFormatoEnum.PDF,
@@ -258,12 +328,12 @@ export class OrcamentoDetalheComponent implements OnInit {
 	private obterEmailsFaturamentoNf() {
 
 		return [
-			...this.dadosLocalEnvioNF?.email.split(';').map(function(item) {
+			...this.dadosLocalEnvioNF?.email.split(';').map(function (item) {
 				return item.trim();
-			  }),
-			...this.dadosLocalFaturamento?.email.split(';').map(function(item) {
+			}),
+			...this.dadosLocalFaturamento?.email.split(';').map(function (item) {
 				return item.trim();
-			  })
+			})
 		];
 	}
 
@@ -321,8 +391,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao)
-			{
+			if (confirmacao) {
 
 				this._orcamentoService.deletar(this.codOrc).subscribe(() => {
 
@@ -347,8 +416,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao)
-			{
+			if (confirmacao) {
 				this.orcamento.indFaturamento = 1;
 				this.orcamento.dataHoraFaturamento = moment().format('yyyy-MM-DD HH:mm:ss');
 				this.orcamento.codUsuarioFaturamento = this.userSession.usuario.codUsuario;
@@ -375,8 +443,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao)
-			{
+			if (confirmacao) {
 				this.isLoading = true;
 
 				this._osService.clonar(this.os).subscribe((os: OrdemServico) => {

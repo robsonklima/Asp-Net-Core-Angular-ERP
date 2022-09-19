@@ -16,6 +16,8 @@ import { DespesaConfiguracaoCombustivel, DespesaConfiguracaoCombustivelParameter
 import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import { AuditoriaUtilizacaoDialogComponent } from './auditoria-utilizacao-dialog/auditoria-utilizacao-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -43,6 +45,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     private _despesaConfiguracaoCombustivelService: DespesaConfiguracaoCombustivelService,
     private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
+    private _dialog: MatDialog,
     private _location: Location,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -53,7 +56,12 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     this.codAuditoriaVeiculo = +this._route.snapshot.paramMap.get('codAuditoriaVeiculo');
     this.inicializarForm();
     this.registrarEmitters();
+    this.obterAuditoria();
 
+
+  }
+
+  obterAuditoria(){
     this._auditoriaService.obterPorCodigo(this.codAuditoria)
       .pipe(first())
       .subscribe(data => {
@@ -63,6 +71,19 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
         this.obterValoresCombustivel();
       });
   }
+
+  editarAuditoria(){    
+    const dialogRef = this._dialog.open(AuditoriaUtilizacaoDialogComponent, {
+    data:
+    {
+      codAuditoria: this.auditoria.codAuditoria,
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+    if (confirmacao)
+      this.obterAuditoria();
+  });}
 
   private async obterTanques() {
     const data = await this._auditoriaVeiculoTanqueService.obterPorParametros({}).toPromise();

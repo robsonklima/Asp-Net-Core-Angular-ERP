@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NLog;
+using NLog.Fluent;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -53,8 +54,18 @@ namespace SAT.SERVICES.Services
         {
             var emails = await _emailService.ObterEmailsAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID);
 
+            _logger.Info()
+                .Message("{ qtd } e-mails encontrados para processamento", emails.Value.Count)
+                .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                .Write();
+
             foreach (var email in emails.Value)
             {
+                _logger.Info()
+                    .Message("processando e-mail { assunto }", email.Subject)
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
+
                 await _emailService.DeletarEmailAsync(Constants.EMAIL_BANRISUL_CONFIG.ClientID, email.Id);
 
                 var atendimento = Carrega(email.Body.Content);
@@ -65,36 +76,66 @@ namespace SAT.SERVICES.Services
 
         public void ProcessarRetornos()
         {
+            _logger.Info()
+                .Message("iniciando processamento de retorno em pdf")
+                .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                .Write();
+
             var arquivosPendentes = _arquivoBanrisulService
                 .ObterPorParametros(new ArquivoBanrisulParameters {
                     IndPDFGerado = 0,
-                    PageSize = 1
+                    PageSize = 10
                 });
+
+            _logger.Info()
+                .Message("{ pendencias } arquivos encontrados para processamento", arquivosPendentes.Items.Count())
+                .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                .Write();
 
             foreach (ArquivoBanrisul arquivo in arquivosPendentes.Items)
             {
-                var parametros = new OrdemServicoParameters {
-                    CodOS = arquivo.CodOS.ToString()
-                };
+                try
+                {
+                    var parametros = new OrdemServicoParameters {
+                        CodOS = arquivo.CodOS.ToString()
+                    };
 
-                arquivo.TextoEmail = arquivo.TextoEmail.Replace("|", "<br />");
+                    arquivo.TextoEmail = arquivo.TextoEmail.Replace("|", "<br />");
 
-                var email = new Email {
-                    EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.EQUIPE_SAT_EMAIL },
-                    Assunto = arquivo.AssuntoEmail,
-                    Corpo = arquivo.TextoEmail                    
-                };
+                    _logger.Info()
+                        .Message("Processando arquivo do chamado {os}", arquivo.CodOS)
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Write();
 
-                _exportacaoService.Exportar(new Exportacao {
-                    FormatoArquivo = ExportacaoFormatoEnum.PDF,
-                    TipoArquivo = ExportacaoTipoEnum.ORDEM_SERVICO,
-                    EntityParameters = JObject.FromObject(parametros),
-                    Email = email
-                });
+                    var email = new Email {
+                        EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.EQUIPE_SAT_EMAIL },
+                        Assunto = arquivo.AssuntoEmail,
+                        Corpo = arquivo.TextoEmail                    
+                    };
 
-                arquivo.IndPDFGerado = 1;
-                _arquivoBanrisulService.Atualizar(arquivo);
-                _logger.Info($"Integração Banrisul ATM: Enviado retorno em pdf da OS: ${arquivo.CodOS}");
+                    _exportacaoService.Exportar(new Exportacao {
+                        FormatoArquivo = ExportacaoFormatoEnum.PDF,
+                        TipoArquivo = ExportacaoTipoEnum.ORDEM_SERVICO,
+                        EntityParameters = JObject.FromObject(parametros),
+                        Email = email
+                    });
+
+                    arquivo.IndPDFGerado = 1;
+                    _arquivoBanrisulService.Atualizar(arquivo);
+
+                    _logger.Info()
+                        .Message("Enviado retorno em pdf da OS {os}", arquivo.CodOS)
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Write();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error()
+                        .Message("Erro ao enviar retorno em pdf")
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Exception(ex)
+                        .Write();
+                }
             }
         }
 
@@ -102,7 +143,10 @@ namespace SAT.SERVICES.Services
         {
             if (string.IsNullOrWhiteSpace(conteudo))
             {
-                RegistrarExcecao($"Integração Banrisul ATM: Não é possivel carregar o conteudo pois está vazio. Conteudo encontrado: {conteudo}");
+                _logger.Error()
+                    .Message("Não é possivel carregar o conteudo pois está vazio")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             conteudo = StringHelper.GetStringBetweenCharacters(conteudo, '#', '#');
@@ -115,7 +159,10 @@ namespace SAT.SERVICES.Services
 
             if (dados.Length != quantidadeCampos)
             {
-                RegistrarExcecao($"Integração Banrisul ATM: A quantidade de campos encontrados é diferente do permitido. Conteudo encontrado: {conteudo}");
+                _logger.Error()
+                    .Message("A quantidade de campos encontrados é diferente do permitido")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             IntegracaoBanrisulAtendimento atendimento = new();
@@ -174,7 +221,11 @@ namespace SAT.SERVICES.Services
             }
             catch (Exception ex)
             {
-                RegistrarExcecao($"Integração Banrisul ATM: {atendimento.Conteudo}, erro: {ex.Message}");
+                _logger.Error()
+                    .Message("Ocorreu um erro")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Exception(ex)
+                    .Write();
             }
         }
 
@@ -182,6 +233,11 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                _logger.Info()
+                    .Message("Iniciando aprovação de orçamento da OS cliente")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
+
                 OrdemServico ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
                 string emailFilial = ordemServico.Filial.Email;
 
@@ -189,7 +245,10 @@ namespace SAT.SERVICES.Services
                 {
                     EnviaEmailRecusaAbertura(atendimento, "Integração Banrisul ATM: Chamado de aprovação de orçamento encaminhado pelo cliente, porém chamado não está cadastrado no sistema Perto.", emailFilial);
 
-                    RegistrarExcecao($"Integração Banrisul ATM: Chamado de aprovação de orçamento encaminhado pelo cliente, porém chamado não está cadastrado no sistema Perto. {atendimento.Conteudo}");
+                    _logger.Error()
+                        .Message("Chamado de aprovação de orçamento encaminhado pelo cliente, porém chamado não está cadastrado no sistema Perto")
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Write();
                 }
 
                 ordemServico.CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO;
@@ -201,7 +260,11 @@ namespace SAT.SERVICES.Services
             }
             catch (Exception ex)
             {
-                RegistrarExcecao($"Integração Banrisul ATM: Ocorreu um erro {ex.Message}");
+                _logger.Error()
+                    .Message("Ocorreu um erro")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Exception(ex)
+                    .Write();
             }
         }
 
@@ -209,6 +272,11 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                _logger.Info()
+                    .Message("Iniciando reabertura da OS cliente")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
+
                 var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
 
                 string emailFilial = ordemServico.Filial.Email;
@@ -270,21 +338,30 @@ namespace SAT.SERVICES.Services
                             {
                                 EnviaEmailRecusaAbertura(atendimento, "Prazo de 48 horas já encerrado. Status do incidente: REOP.", emailFilial);
 
-                                RegistrarExcecao($"Integração Banrisul ATM: Prazo de 48 horas já encerrado. Status do incidente: REOP. {atendimento.Conteudo}");
+                                _logger.Error()
+                                    .Message("Prazo de 48 horas já encerrado. Status do incidente: REOP")
+                                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                                    .Write();
                             }
                         }
                         else
                         {
                             EnviaEmailRecusaAbertura(atendimento, "SLA não encontrado: " + equipContrato.CodSLA, emailFilial);
 
-                            RegistrarExcecao($"Integração Banrisul ATM: SLA não encontrada. {atendimento.Conteudo}");
+                            _logger.Error()
+                                .Message("SLA não encontrada")
+                                .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                                .Write();
                         }
                     }
                     else
                     {
                         EnviaEmailRecusaAbertura(atendimento, "Chamado não encontrado. Status do incidente: REOP:" + ordemServico.CodContrato, emailFilial);
 
-                        RegistrarExcecao($"Integração Banrisul ATM: Contrato não encontrado: {atendimento.Conteudo}");
+                        _logger.Error()
+                            .Message("Contrato não encontrado")
+                            .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                            .Write();
                     }
 
                 }
@@ -292,38 +369,59 @@ namespace SAT.SERVICES.Services
                 {
                     EnviaEmailRecusaAbertura(atendimento, "Chamado não encontrado. Status do incidente: REOP.", emailFilial);
 
-                    RegistrarExcecao($"Integração Banrisul ATM: Chamado não encontrado.Status do incidente: REOP. {atendimento.Conteudo}");
+                    _logger.Error()
+                        .Message("Chamado não encontrado.Status do incidente: REOP.")
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Write();
                 }
             }
             catch (Exception ex)
             {
-                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir chamado. {atendimento.Conteudo} Erro {ex.Message}");
+                _logger.Error()
+                    .Message("Erro ao abrir chamado")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Exception(ex)
+                    .Write();
             }
         }
 
         private void AbrirOS(IntegracaoBanrisulAtendimento atendimento)
         {
+            _logger.Info()
+                .Message("Iniciando abertura da OS cliente")
+                .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                .Write();
+
             OrdemServico ordemServico = new();
 
             if (string.IsNullOrWhiteSpace(atendimento.DataHoraAbertura.Valor))
             {
                 EnviaEmailRecusaAbertura(atendimento, "A data de abertura é inválida ou não foi informada.", null);
 
-                RegistrarExcecao($"Integração Banrisul ATM: A data de abertura é inválida ou não foi informada. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("A data de abertura é inválida ou não foi informada")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (atendimento.StatusIncidente.Valor.ToUpper().Equals("CAC"))
             {
                 EnviaEmailRecusaAbertura(atendimento, "Chamado de cancelamento ignorado. Status do incidente: CAC.", null);
 
-                RegistrarExcecao($"Integração Banrisul ATM: Chamado de cancelamento ignorado. Status do incidente: CAC. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Chamado de cancelamento ignorado. Status do incidente: CAC")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (string.IsNullOrWhiteSpace(atendimento.NumeroSerie.Valor))
             {
                 EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento.", null);
 
-                RegistrarExcecao($"Integração Banrisul ATM: Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento.")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             EquipamentoContrato equipamento = new();
@@ -339,14 +437,20 @@ namespace SAT.SERVICES.Services
             {
                 EnviaEmailRecusaAbertura(atendimento, "O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema.", null);
 
-                RegistrarExcecao($"Integração Banrisul ATM: O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema.")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (equipamentos.Count() > 1)
             {
                 EnviaEmailRecusaAbertura(atendimento, "Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento.", null);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (equipamentos.Count() == 1)
@@ -358,14 +462,20 @@ namespace SAT.SERVICES.Services
             {
                 EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar a agência no e-mail de atendimento.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: Não foi possível encontrar a agência no e-mail de atendimento. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Não foi possível encontrar a agência no e-mail de atendimento")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (atendimento.CodigoLocalEquipamento.Valor.Length < 5)
             {
                 EnviaEmailRecusaAbertura(atendimento, "O código da agência informado no e-mail deve conter 5 posições.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: O código da agência informado no e-mail deve conter 5 posições. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("O código da agência informado no e-mail deve conter 5 posições")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             LocalAtendimento local = new();
@@ -381,14 +491,20 @@ namespace SAT.SERVICES.Services
             {
                 EnviaEmailRecusaAbertura(atendimento, "A agência encontrada no e-mail não está cadastrada no sistema.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: A agência encontrada no e-mail não está cadastrada no sistema. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("A agência encontrada no e-mail não está cadastrada no sistema")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (locais.Count() > 1)
             {
                 EnviaEmailRecusaAbertura(atendimento, "Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (locais.Count() == 1)
@@ -400,7 +516,10 @@ namespace SAT.SERVICES.Services
             {
                 EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             var p = new OrdemServicoParameters
@@ -418,7 +537,10 @@ namespace SAT.SERVICES.Services
             {
                 EnviaEmailRecusaAbertura(atendimento, "Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado.", equipamento.Filial.Email);
                 
-                RegistrarExcecao($"Integração Banrisul ATM: Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado. {atendimento.Conteudo}");
+                _logger.Error()
+                    .Message("Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
             }
 
             if (!string.IsNullOrWhiteSpace(atendimento.DataHoraAgendamento.Valor))
@@ -468,6 +590,11 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                _logger.Info()
+                    .Message("iniciando retorno de status da OS cliente {cliente}", atendimento.NumeroIncidente.Valor)
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Write();
+
                 var ordemServico = ObterOrdemServico(atendimento.NumeroIncidente.Valor);
 
                 if (ordemServico.RelatoriosAtendimento.Count > 0)
@@ -487,19 +614,29 @@ namespace SAT.SERVICES.Services
                     {
                         EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
 
-                        RegistrarExcecao($"Integração Banrisul ATM: DataHoraSolucaoValida inválida. Status do incidente: RE. {atendimento.Conteudo}");
+                        _logger.Error()
+                            .Message("DataHoraSolucaoValida inválida. Status do incidente: RE.")
+                            .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                            .Write();
                     }
                 }
                 else
                 {
                     EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
 
-                    RegistrarExcecao($"Integração Banrisul ATM: RAT não encontrada. Status do incidente: RE. {atendimento.Conteudo}");
+                    _logger.Error()
+                        .Message("Rat não encontrada")
+                        .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                        .Write();
                 }
             }
             catch (Exception ex)
             {
-                RegistrarExcecao($"Integração Banrisul ATM: Erro ao reabrir ordem de serviço. {atendimento.Conteudo} Erro {ex.Message}");
+                _logger.Error()
+                    .Message("Ocorreu um erro")
+                    .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
+                    .Exception(ex)
+                    .Write();
             }
         }
 
@@ -691,13 +828,6 @@ namespace SAT.SERVICES.Services
             }
 
             return datas.Count * 24;
-        }
-
-        private void RegistrarExcecao(string msg)
-        {
-            _logger.Error(msg);
-
-            throw new Exception(msg);
         }
     }
 }

@@ -39,11 +39,19 @@ namespace SAT.SERVICES.Services
 
         public OrdemServico Atualizar(OrdemServico ordemServico)
         {
-            _logger.Info("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));
+            try
+            {
+                _ordemServicoRepo.Atualizar(ordemServico);
 
-            _ordemServicoRepo.Atualizar(ordemServico);
+                _logger.Info("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));            
 
-            return ordemServico;
+                return ordemServico;                
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception($"Erro ao atualizar chamado no SAT 2.0 {ex.Message}");
+            }
         }
 
         public OrdemServico Criar(OrdemServico ordemServico)

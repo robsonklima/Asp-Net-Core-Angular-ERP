@@ -1,7 +1,12 @@
 <div class="mt-2" *transloco="let t">
     <div class="text-right">
-        <button class='mt-2 text-right' (click)="salvar()" matTooltipPosition="below"
-            [matTooltip]="t('salvar e finalizar')">
+
+        <button class="fuse-mat-button-rounded text-yellow-500 bg-white" [matTooltip]="t('editar')" matTooltipPosition="below" (click)="editarAuditoria()">
+        <mat-icon style="height:35px !important; width:35px !important; font-size:35px !important;" class="icon-size-8" 
+            [svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
+        </button>
+
+        <button class='mt-2 text-right' (click)="salvar()" matTooltipPosition="below" [matTooltip]="t('salvar e finalizar')">
             <mat-icon style="height:35px !important; width:35px !important; font-size:35px !important;"
                 class="text-green-500" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
         </button>
@@ -23,18 +28,8 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('retirada veiculo') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData"
-                            formControlName="dataHoraRetiradaVeiculo">
-                        <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
+                        <input matInput readonly=“true” [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo">
                         <mat-datepicker #contratoData></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('data auditoria') }}</div>
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput [matDatepicker]="cadastroData" formControlName="dataHoraCad" readonly=“true”>
-                        <mat-datepicker #cadastroData></mat-datepicker>
                     </mat-form-field>
                 </div>
 
@@ -48,14 +43,14 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('odometro inicial') }} </div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="odometroInicialRetirada">
+                        <input matInput formControlName="odometroInicialRetirada" readonly=“true”>
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('odometro periodo') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="odometroPeriodoAuditado">
+                        <input matInput formControlName="odometroPeriodoAuditado" readonly=“true”>
                     </mat-form-field>
                 </div>
 
@@ -76,7 +71,7 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km ferias') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmFerias" [(ngModel)]="auditoria.kmFerias">
+                        <input matInput formControlName="kmFerias" readonly=“true” [(ngModel)]="auditoria.kmFerias">
                     </mat-form-field>
                 </div>
 
@@ -105,11 +100,19 @@
             <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
 
                 <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('data auditoria') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput readonly=“true” [matDatepicker]="cadastroData" formControlName="dataHoraCad">
+                        <mat-datepicker #cadastroData></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('creditos no cartao') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="creditosCartao" mask="separator.2" prefix="R$ "
                             thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
-                            [dropSpecialCharacters]="true">
+                            [dropSpecialCharacters]="true" readonly=“true”>
                     </mat-form-field>
                 </div>
 
@@ -136,15 +139,15 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="saldoCartao" mask="separator.2" prefix="R$ "
                             thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
-                            [dropSpecialCharacters]="true">
+                            [dropSpecialCharacters]="true" readonly=“true”>
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <!-- <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('tanque(medidor)') }}</div>
                     <mat-select class="flex items-center justify-between py-3"
                         formControlName="codAuditoriaVeiculoTanque">
-                        <mat-option *ngFor="let tanque of tanques" [value]="tanque.codAuditoriaVeiculoTanque">
+                        <mat-option *ngFor="let tanque of tanques" [value]="tanque.codAuditoriaVeiculoTanque" readonly=“true”>
                             <span>{{ tanque?.nome }}</span>
                         </mat-option>
                     </mat-select>
@@ -156,7 +159,7 @@
                         <input matInput formControlName="qtdLitros" readonly=“true”
                             [(ngModel)]="auditoria.auditoriaVeiculo?.auditoriaVeiculoTanque.qtdLitros">
                     </mat-form-field>
-                </div>
+                </div> -->
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('tanque(R$)') }}</div>

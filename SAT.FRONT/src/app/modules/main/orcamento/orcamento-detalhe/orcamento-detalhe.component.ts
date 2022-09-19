@@ -1,3 +1,4 @@
+import { EmailService } from 'app/core/services/email.service';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import {
@@ -72,6 +73,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		private _formBuilder: FormBuilder,
 		private _snack: CustomSnackbarService,
 		private _exportacaoService: ExportacaoService,
+		private _emailService: EmailService
 	) {
 		this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -214,15 +216,14 @@ export class OrcamentoDetalheComponent implements OnInit {
 		}
 	}
 
-	enviarEmail(tipoEnvio: number = 0) {
+	enviarEmail(tipoEnvio: number) {
 
-		let dados = {};
-
+		let dados;
 		switch (tipoEnvio) {
-			case 0:
+			case 1:
 				dados = {
 					destinatarios: this.obterEmailsFaturamentoNf(),
-					assuntoEmail: `PERTO ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
+					assuntoEmail: `PERTO ${this.orcamento?.numero} ${this.orcamento?.codigoOrdemServico}`,
 					conteudoEmail:
 						`
 							Prezado Cliente,
@@ -240,10 +241,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 					indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
 				};
 				break;
-
-			case 1:
+			case 2:
 				dados = {
-					destinatarios: 'dss.orcamentos@perto.com.br',
+					destinatarios: ['dss.orcamentos@perto.com.br'],
 					assuntoEmail: `COTAÇÃO DE PEÇAS ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
 					conteudoEmail:
 						`
@@ -255,51 +255,48 @@ export class OrcamentoDetalheComponent implements OnInit {
 								</tr> 
 								<tr> 
 									<td><b>CLIENTE:</b></td> 
-									<td>${this.orcamento}</td> 
-									<td>" + orcamento.EnderecoFaturamento.RazaoSocial + "</td> 
+									<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento}</td> 
 								</tr> 
 								<tr> 
 									<td><b>LOCAL:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.NomeLocal + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.nomeLocal}</td> 
 								</tr> 
 								<tr> 
 									<td><b>CEP:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.Cep + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.cep}</td> 
 								</tr> 
 								<tr> 
 									<td><b>ENDEREÇO:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.Rua + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.endereco}</td> 
 								</tr> 
 								<tr> 
 									<td><b>BAIRRO:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.Bairro + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.bairro}</td> 
 								</tr> 
 								<tr> 
 									<td><b>CIDADE:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.NomeCidade + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.cidade?.nomeCidade}</td> 
 								</tr> 
 								<tr> 
 									<td><b>UF:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.Uf + "</td> 
+									<td>${this.orcamento.ordemServico?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF}</td> 
 								</tr> 
 								<tr> 
 									<td><b>MÁQUINA:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.NomeEquipamento + "</td> 
+									<td>${this.orcamento.ordemServico?.equipamento?.nomeEquip}</td> 
 								</tr> 
 								<tr> 
 									<td><b>SÉRIE:</b></td> 
-									<td>" + orcamento.EnderecoAtendimento.NumeroSerie + "</td> 
+									<td>${this.orcamento.ordemServico?.equipamentoContrato?.numSerie}</td> 
 								</tr> 
 								<tr> 
 									<td><b>OBS:</b></td> 
-									<td>Necessário serviço de " + outroServico.Descricao.ToLower() + "</td> 
+									<td>${this.orcamento.outrosServicos?.descricao?? ''}</td> 
 								</tr> 
 							</table> 
 						`,
-					// indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
 				};
 				break;
-
 			default:
 				break;
 		}
@@ -311,30 +308,48 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
 			if (data) {
-				let exportacaoParam: Exportacao = {
-					email: data,
-					formatoArquivo: ExportacaoFormatoEnum.PDF,
-					tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
-					entityParameters: {
-						codigoOrdemServico: this.codOrc,
-						incluirLaudoExportacao: data.incluirLaudoExportacao
-					}
+				debugger;
+				switch (tipoEnvio) {
+					case 1:
+						let exportacaoParam: Exportacao = {
+							email: data,
+							formatoArquivo: ExportacaoFormatoEnum.PDF,
+							tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
+							entityParameters: {
+								codigoOrdemServico: this.codOrc,
+								incluirLaudoExportacao: data.incluirLaudoExportacao
+							}
+						}
+						this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+						this.atualizaIntervencaoOS();
+						break;
+
+					case 2:
+						this._emailService.enviarEmail(
+							{
+								assunto: data.assunto,
+								corpo: data.corpo,
+								emailDestinatarios: data.emailDestinatarios
+							}
+						).subscribe(() => {
+							this._snack.exibirToast('E-mail enviado','success')
+						});
+						break;
+
+					default:
+						break;
 				}
-
-				this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
-
-				this.atualizaIntervencaoOS();
 			}
-		});	
+		});
 	}
 
 	private obterEmailsFaturamentoNf() {
 
 		return [
-			...this.dadosLocalEnvioNF?.email.split(';').map(function (item) {
+			...this.dadosLocalEnvioNF?.email?.split(';').map(function (item) {
 				return item.trim();
 			}),
-			...this.dadosLocalFaturamento?.email.split(';').map(function (item) {
+			...this.dadosLocalFaturamento?.email?.split(';').map(function (item) {
 				return item.trim();
 			})
 		];
@@ -446,8 +461,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao)
-			{
+			if (confirmacao) {
 				this.orcamento.ordemServico.codTipoIntervencao = TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE;
 				this.orcamento.ordemServico.dataHoraManut = moment().format('yyyy-MM-DD HH:mm:ss');
 				this.orcamento.ordemServico.codUsuarioManut = this.userSession.usuario.codUsuario;
@@ -459,7 +473,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 				});
 			}
 		});
-	}	
+	}
 
 	clonarOS() {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {

@@ -291,6 +291,8 @@
     "responsavel perto": "Responsible Perto",
     "responsavel cliente": "Responsible Customer",
     "gerar orcamento para": "Budget For: ",
+    "enviar orcamento": "Send Budget",
+    "enviar cotacao": "Send Quote",    
     "permite peca especifica": "Allows specific part",
     "dias para substituicao": "Days for Replacement",
     "data contrato": "Contract Date",
@@ -693,6 +695,5 @@
     "uso particular": "Private Use",
     "matricula": "matriculation",
     "salvar e finalizar": "Save and Finish",
-    "enviar orcamento": "Send Budget",
-    "enviar cotacao": "Send Quote"
+    "cadastros faturamento": "Go to Billing Register"
 }

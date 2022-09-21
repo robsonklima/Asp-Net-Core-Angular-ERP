@@ -17,7 +17,7 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(OrcamentoOutroServico orcOutrServ)
+        public OrcamentoOutroServico Atualizar(OrcamentoOutroServico orcOutrServ)
         {
             _context.ChangeTracker.Clear();
             OrcamentoOutroServico p = _context.OrcamentoOutroServico.FirstOrDefault(p => p.CodOrcOutroServico == orcOutrServ.CodOrcOutroServico);
@@ -27,12 +27,16 @@ namespace SAT.INFRA.Repository
                 _context.Entry(p).CurrentValues.SetValues(orcOutrServ);
                 _context.SaveChanges();
             }
+
+            return orcOutrServ;
         }
 
-        public void Criar(OrcamentoOutroServico orcOutrServ)
+        public OrcamentoOutroServico Criar(OrcamentoOutroServico orcOutrServ)
         {
             _context.Add(orcOutrServ);
             _context.SaveChanges();
+
+            return orcOutrServ;
         }
 
         public void Deletar(int codOrcOutroServico)

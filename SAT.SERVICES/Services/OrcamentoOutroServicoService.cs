@@ -35,8 +35,7 @@ namespace SAT.SERVICES.Services
 
         public OrcamentoOutroServico Criar(OrcamentoOutroServico orcamentoOutrServ)
         {
-            _orcamentoOutrServRepo.Criar(orcamentoOutrServ);
-            return orcamentoOutrServ;
+            return _orcamentoOutrServRepo.Criar(orcamentoOutrServ);
         }
 
         public void Deletar(int codigo)
@@ -46,8 +45,7 @@ namespace SAT.SERVICES.Services
 
         public OrcamentoOutroServico Atualizar(OrcamentoOutroServico orcamentoOutrServ)
         {
-            _orcamentoOutrServRepo.Atualizar(orcamentoOutrServ);
-            return orcamentoOutrServ;
+            return _orcamentoOutrServRepo.Atualizar(orcamentoOutrServ);
         }
 
         public OrcamentoOutroServico ObterPorCodigo(int codigo)

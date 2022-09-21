@@ -308,7 +308,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
 			if (data) {
-				debugger;
 				switch (tipoEnvio) {
 					case 1:
 						let exportacaoParam: Exportacao = {

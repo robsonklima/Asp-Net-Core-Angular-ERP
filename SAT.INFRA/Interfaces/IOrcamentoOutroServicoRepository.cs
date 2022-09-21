@@ -7,8 +7,8 @@ namespace SAT.INFRA.Interfaces
     public interface IOrcamentoOutroServicoRepository
     {
         PagedList<OrcamentoOutroServico> ObterPorParametros(OrcamentoOutroServicoParameters parameters);
-        void Criar(OrcamentoOutroServico orcamento);
-        void Atualizar(OrcamentoOutroServico orcamento);
+        OrcamentoOutroServico Criar(OrcamentoOutroServico orcamento);
+        OrcamentoOutroServico Atualizar(OrcamentoOutroServico orcamento);
         void Deletar(int codOrcamento);
         OrcamentoOutroServico ObterPorCodigo(int codigo);
     }

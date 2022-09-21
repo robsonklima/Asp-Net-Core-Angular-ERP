@@ -8,6 +8,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
         public static string BANRISUL_EMAIL = "tecnologia_suporte_service_desk@banrisul.com.br";        
+        public static string BANRISUL_EMAIL2 = "tecnologia_SDMOV@banrisul.com.br";        
         public static string MAP_QUEST_KEY = "nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2";
         public static string GOOGLE_API_KEY = "AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM";
         public static string DB_PROD = "Prod";

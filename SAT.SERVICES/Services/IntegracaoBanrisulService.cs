@@ -108,7 +108,7 @@ namespace SAT.SERVICES.Services
                         .Write();
 
                     var email = new Email {
-                        EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.EQUIPE_SAT_EMAIL },
+                        EmailDestinatarios = new string[] { Constants.BANRISUL_EMAIL, Constants.BANRISUL_EMAIL2, Constants.EQUIPE_SAT_EMAIL },
                         Assunto = arquivo.AssuntoEmail,
                         Corpo = arquivo.TextoEmail                    
                     };

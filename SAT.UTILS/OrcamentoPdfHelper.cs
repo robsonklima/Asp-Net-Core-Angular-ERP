@@ -47,12 +47,6 @@ namespace SAT.UTILS
                     page.Content().Element(ComposeContent);
                     page.Footer().PaddingTop(5).Row(row =>
                     {
-                        row.ConstantItem(350).AlignLeft().Text(x =>
-                        {
-                            x.Span("Os valores deste orçamento são apenas uma previsão. O efetivo faturamento será efetuado de acordo com os serviços executados e comprovados em Relatórios Técnicos, assinados pelo cliente.").FontSize(6);
-                            x.EmptyLine();
-                            x.Span("*O valor de desconto a base de troca está condicionado ao recolhimento da peça substituída").FontSize(6);
-                        });
                         row.RelativeItem().AlignRight().Text(x =>
                         {
                             x.CurrentPageNumber().FontSize(8);
@@ -147,7 +141,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("DADOS DO LOCAL PARA FATURAMENTO").FontSize(10).Bold();
+                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("DADOS PARA FATURAMENTO").FontSize(10).Bold();
                         });
 
                         table.Cell().Element(CellStyle).Grid(grid =>
@@ -185,7 +179,7 @@ namespace SAT.UTILS
                                 t.Span($"Número: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.NumeroFaturamento}").FontSize(8);
                             });
-                                
+
                             grid.Item(4).Text(t =>
                             {
                                 t.Span($"CEP: ").FontSize(8).Bold();
@@ -249,7 +243,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("DADOS DO LOCAL PARA ENVIO DE NOTA FISCAL").FontSize(10).Bold();
+                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("DADOS PARA ENVIO DE NOTA FISCAL").FontSize(10).Bold();
                         });
 
                         table.Cell().Element(CellStyle).Grid(grid =>
@@ -400,7 +394,7 @@ namespace SAT.UTILS
                                 t.Span($"UF: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento?.Cidade?.UnidadeFederativa?.SiglaUF}").FontSize(8);
                             });
-                            
+
                             grid.Item(3).Text(t =>
                             {
                                 t.Span($"CEP: ").FontSize(8).Bold();
@@ -421,8 +415,8 @@ namespace SAT.UTILS
 
                             grid.Item(3).Text(t =>
                             {
-                                t.Span($"OS CNPJ: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.InscricaoEstadualFaturamento}").FontSize(8);
+                                t.Span($"CNPJ: ").FontSize(8).Bold();
+                                t.Span($"{Orcamento.OrdemServico.LocalAtendimento.Cnpj}").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>
@@ -535,12 +529,12 @@ namespace SAT.UTILS
                             {
                                 h2.Cell().AlignCenter().Element(CellStyle).Text("Valor Hora Técnica").Style(FontStyle()).Bold();
                                 h2.Cell().AlignCenter().Element(CellStyle).Text("Previsão de Horas").Style(FontStyle()).Bold();
-                                h2.Cell().AlignCenter().Element(CellStyle).Text("Valor Total").Style(FontStyle()).Bold();
+                                h2.Cell().AlignCenter().Element(CellStyle).Text("Valor Total Hora Técnica").Style(FontStyle()).Bold();
                             });
 
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}", Orcamento.MaoDeObra.ValorHoraTecnica)).Style(FontStyle());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.MaoDeObra.ValorHoraTecnica)).Style(FontStyle());
                             t2.Cell().Element(CellStyle).AlignCenter().Text(Orcamento.MaoDeObra.PrevisaoHoras).Style(FontStyle());
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}", Orcamento.MaoDeObra.ValorTotal)).Style(FontStyle().Bold());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.MaoDeObra.ValorTotal)).Style(FontStyle().Bold());
                         });
                     });
         }
@@ -575,9 +569,9 @@ namespace SAT.UTILS
                                 h2.Cell().AlignCenter().Element(CellStyle).Text("Valor Total KM Rodado").Style(FontStyle()).Bold();
                             });
 
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}",Orcamento.OrcamentoDeslocamento.ValorUnitarioKmRodado)).Style(FontStyle());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.OrcamentoDeslocamento.ValorUnitarioKmRodado)).Style(FontStyle());
                             t2.Cell().Element(CellStyle).AlignCenter().Text(Orcamento.OrcamentoDeslocamento.QuantidadeKm).Style(FontStyle());
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}",Orcamento.OrcamentoDeslocamento.ValorTotalKmRodado)).Style(FontStyle().Bold());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.OrcamentoDeslocamento.ValorTotalKmRodado)).Style(FontStyle().Bold());
                         });
 
                         table.Cell().Element(CellStyle).Table(t2 =>
@@ -596,9 +590,9 @@ namespace SAT.UTILS
                                 h2.Cell().Element(CellStyle).AlignCenter().Text("Valor Total KM Deslocamento").Style(FontStyle()).Bold();
                             });
 
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}",Orcamento.OrcamentoDeslocamento.ValorHoraDeslocamento)).Style(FontStyle());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.OrcamentoDeslocamento.ValorHoraDeslocamento)).Style(FontStyle());
                             t2.Cell().Element(CellStyle).AlignCenter().Text($"{Orcamento.OrcamentoDeslocamento.QuantidadeHoraCadaSessentaKm:0.00}").Style(FontStyle());
-                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format( "{0:C}",Orcamento.OrcamentoDeslocamento.ValorTotalKmDeslocamento)).Style(FontStyle().Bold());
+                            t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", Orcamento.OrcamentoDeslocamento.ValorTotalKmDeslocamento)).Style(FontStyle().Bold());
                         });
 
                     });
@@ -625,30 +619,30 @@ namespace SAT.UTILS
                                 t2.ColumnsDefinition(columns =>
                                 {
                                     columns.RelativeColumn();
+                                    columns.ConstantColumn(130);
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
                                     columns.ConstantColumn(160);
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
-                                    columns.ConstantColumn(170);
                                     columns.RelativeColumn();
                                 });
                                 t2.Header(h2 =>
                                 {
                                     h2.Cell().Element(CellStyle).Text("Código").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).Text("Descrição").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Qtd").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Valor Unitário").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("Qtd").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("Valor Unitário").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).AlignCenter().Text("Desconto a base de troca(*)").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Valor Total").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("Valor Total Peças").Style(FontStyle()).Bold();
                                 });
 
                                 Orcamento.Materiais.ForEach(mat =>
                                 {
                                     t2.Cell().Element(CellStyle).Text(mat.CodigoMagnus).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).Text(mat.Descricao).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(mat.Quantidade).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(string.Format("{0:C}",mat.ValorUnitario)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}",mat.ValorDesconto)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(string.Format("{0:C}", mat.ValorTotal)).Style(FontStyle().Bold());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(mat.Quantidade).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", mat.ValorUnitario)).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", mat.ValorDesconto)).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", mat.ValorTotal)).Style(FontStyle().Bold());
                                 });
                             });
                         }
@@ -721,14 +715,14 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("TOTAL").FontSize(10).Bold();
+                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("TOTAL DO ORÇAMENTO").FontSize(10).Bold();
                             header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle);
                         });
 
-                        table.Cell().Element(CellStyle) .Text("Valor Total de Descontos").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight() .Text(string.Format( "{0:C}",Orcamento.ValorTotalDesconto)).Style(FontStyle().Bold());
-                        table.Cell().Element(CellStyle) .Text("Valor Total").Style(FontStyle());
-                        table.Cell().Element(CellStyle) .AlignRight().Text(string.Format( "{0:C}",Orcamento.ValorTotal)).Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).Text("Valor Total de Descontos").Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", Orcamento.ValorTotalDesconto)).Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).Text("Valor Total").Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", Orcamento.ValorTotal)).Style(FontStyle().Bold());
                     });
         }
 
@@ -739,20 +733,18 @@ namespace SAT.UTILS
                         // step 1
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(150);
                             columns.RelativeColumn();
                         });
 
                         table.Header(header =>
                         {
                             header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("CONDIÇÕES").FontSize(10).Bold();
-                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle);
                         });
 
-                        table.Cell().Element(CellStyle).Text("Validade Orçamento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text("3 dias").Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Impostos Inclusos").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text("Sim").Style(FontStyle());
+                        table.Cell().Element(CellStyle).Text("Validade Orçamento: 3 dias").Style(FontStyle());
+                        table.Cell().Element(CellStyle).Text("Impostos Inclusos: Sim").Style(FontStyle());
+                        table.Cell().Element(CellStyle).Text("Os valores deste orçamento são apenas uma previsão. O efetivo faturamento será efetuado de acordo com os serviços executados e comprovados em Relatórios Técnicos, assinados pelo cliente.").Style(FontStyle());
+                        table.Cell().Element(CellStyle).Text("(*)O valor de desconto a base de troca está condicionado ao recolhimento da peça substituída").Style(FontStyle());
                     });
         }
     }

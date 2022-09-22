@@ -12,7 +12,7 @@ namespace SAT.INFRA.Interfaces
         IQueryable<DespesaPeriodoTecnico> ObterQuery(DespesaPeriodoTecnicoParameters parameters);
         void Criar(DespesaPeriodoTecnico despesa);
         void Deletar(int codigo);
-        void Atualizar(DespesaPeriodoTecnico despesaTecnico);
+        DespesaPeriodoTecnico Atualizar(DespesaPeriodoTecnico despesaTecnico);
         DespesaPeriodoTecnico ObterPorCodigo(int codigo);
     }
 }

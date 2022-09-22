@@ -18,23 +18,20 @@ import moment from 'moment';
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaCreditoCreditarDialogComponent
-{
+export class DespesaCreditoCreditarDialogComponent {
   despesaCreditosCartaoListView: DespesaCreditosCartaoListView;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
   isLoading: boolean = false;
   userSession: UserSession;
 
-  constructor (
+  constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _ticketLogPeridoCreditoSvc: TicketLogPedidoCreditoService,
     private _dialogRef: MatDialogRef<DespesaCreditoCreditarDialogComponent>,
     private _matDialog: MatDialog,
-    private _userSvc: UserService)
-  {
-    if (data)
-    {
+    private _userSvc: UserService) {
+    if (data) {
       this.despesaCreditosCartaoListView = data.despesaCreditosCartaoListView;
       this.despesaPeriodoTecnico = data.despesaPeriodoTecnico;
     }
@@ -43,24 +40,21 @@ export class DespesaCreditoCreditarDialogComponent
     this.obterDados();
   }
 
-  async obterDados()
-  {
+  async obterDados() {
     this.isLoading = true;
     this.isLoading = false;
   }
 
-  getCategoriaCredito(c: TecnicoCategoriaCreditoEnum)
-  {
+  getCategoriaCredito(c: TecnicoCategoriaCreditoEnum) {
     return TecnicoCategoriaCreditoEnum[c];
   }
 
-  creditar(): void
-  {
+  creditar(): void {
     const dialogRef = this._matDialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
         message: `Deseja CREDITAR o valor de ${this.despesaCreditosCartaoListView.combustivel
-            .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${this.despesaCreditosCartaoListView.tecnico}?`,
+          .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} para o técnico ${this.despesaCreditosCartaoListView.tecnico}?`,
         buttonText: {
           ok: 'Sim',
           cancel: 'Não'
@@ -68,31 +62,36 @@ export class DespesaCreditoCreditarDialogComponent
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
-      if (confirmacao)
-      {
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
         this.despesaPeriodoTecnico.indCredito = 1;
         this.despesaPeriodoTecnico.codUsuarioCredito = this.userSession.usuario.codUsuario;
         this.despesaPeriodoTecnico.dataHoraCredito = moment().format('yyyy-MM-DD HH:mm:ss');
 
-        this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
+        this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).subscribe(() => {
+          var pedidoCredito: TicketLogPedidoCredito =
+          {
+            codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
+            codUsuarioCad: this.userSession.usuario.codUsuario,
+            dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
+          }
+  
+          this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).subscribe(() => {
+  
+          }, async () => {
+            this.despesaPeriodoTecnico.indCredito = 0;
+            this.despesaPeriodoTecnico.codUsuarioCredito = 'SAT';
+  
+            const despesa = await this._despesaPeriodoTecnicoSvc.atualizar(this.despesaPeriodoTecnico).toPromise();
+          });
+        });
 
-        var pedidoCredito: TicketLogPedidoCredito =
-        {
-          codDespesaPeriodoTecnico: this.despesaPeriodoTecnico.codDespesaPeriodoTecnico,
-          codUsuarioCad: this.userSession.usuario.codUsuario,
-          dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss')
-        }
-
-        this._ticketLogPeridoCreditoSvc.criar(pedidoCredito).toPromise();
         this._dialogRef.close(true);
       }
     });
   }
 
-  compensar(): void
-  {
+  compensar(): void {
     const dialogRef = this._matDialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -104,10 +103,8 @@ export class DespesaCreditoCreditarDialogComponent
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
-      if (confirmacao)
-      {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
         this.despesaPeriodoTecnico.indCompensacao = 1;
         this.despesaPeriodoTecnico.codUsuarioCompensacao = this.userSession.usuario.codUsuario;
         this.despesaPeriodoTecnico.dataHoraCompensacao = moment().format('yyyy-MM-DD HH:mm:ss');
@@ -118,8 +115,7 @@ export class DespesaCreditoCreditarDialogComponent
     });
   }
 
-  cancelar(): void
-  {
+  cancelar(): void {
     this._dialogRef.close(false);
   }
 }

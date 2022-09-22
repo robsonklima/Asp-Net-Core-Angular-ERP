@@ -22,7 +22,7 @@ namespace SAT.INFRA.Repository
             _despesaRepository = despesaRepository;
         }
 
-        public void Atualizar(DespesaPeriodoTecnico despesaTecnico)
+        public DespesaPeriodoTecnico Atualizar(DespesaPeriodoTecnico despesaTecnico)
         {
             _context.ChangeTracker.Clear();
             DespesaPeriodoTecnico d = _context.DespesaPeriodoTecnico.SingleOrDefault(l => l.CodDespesaPeriodoTecnico == despesaTecnico.CodDespesaPeriodoTecnico);
@@ -33,12 +33,15 @@ namespace SAT.INFRA.Repository
                 {
                     _context.Entry(d).CurrentValues.SetValues(despesaTecnico);
                     _context.SaveChanges();
+                    return despesaTecnico;
                 }
                 catch (Exception ex)
                 {
                     throw new Exception($"", ex);
                 }
             }
+
+            return null;
         }
 
         public void Criar(DespesaPeriodoTecnico despesa)

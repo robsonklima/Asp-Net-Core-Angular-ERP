@@ -39,7 +39,7 @@ namespace SAT.API.Controllers
             _despesaPeriodoTecnico.Criar(despesaPeriodoTecnico);
 
         [HttpPut]
-        public void Put([FromBody] DespesaPeriodoTecnico despesaPeriodoTecnico) =>
+        public DespesaPeriodoTecnico Put([FromBody] DespesaPeriodoTecnico despesaPeriodoTecnico) =>
             _despesaPeriodoTecnico.Atualizar(despesaPeriodoTecnico);
 
         [HttpDelete("{codDespesaPeriodoTecnico}")]

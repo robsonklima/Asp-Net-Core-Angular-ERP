@@ -29,9 +29,9 @@ namespace SAT.SERVICES.Services
             _despesaRepository = despesaRepository;
         }
 
-        public void Atualizar(DespesaPeriodoTecnico despesa)
+        public DespesaPeriodoTecnico Atualizar(DespesaPeriodoTecnico despesa)
         {
-            _despesaPeriodoTecnicoRepo.Atualizar(despesa);
+            return _despesaPeriodoTecnicoRepo.Atualizar(despesa);
         }
 
         public DespesaPeriodoTecnico Criar(DespesaPeriodoTecnico despesa)

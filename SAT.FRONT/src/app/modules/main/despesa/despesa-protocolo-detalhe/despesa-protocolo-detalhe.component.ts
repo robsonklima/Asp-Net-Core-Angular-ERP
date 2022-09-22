@@ -83,11 +83,13 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   calculaDespesa(dpt: DespesaPeriodoTecnico)
   {
+    debugger
     return Enumerable.from(dpt.despesas)
       .sum(d => Enumerable.from(d.despesaItens).
         where(i => i.indAtivo == statusConst.ATIVO &&
           i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
         .sum(i => i.despesaValor));
+        
   }
 
   async fecharProtocolo(): Promise<void>

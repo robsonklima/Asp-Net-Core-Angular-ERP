@@ -646,9 +646,9 @@ namespace SAT.UTILS
                                     t2.Cell().Element(CellStyle).Text(mat.CodigoMagnus).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).Text(mat.Descricao).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).Text(mat.Quantidade).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(string.Format(CultureInfo.GetCultureInfo("pt-BR"),"{0:C}",mat.ValorUnitario)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format(CultureInfo.GetCultureInfo("pt-BR"),"{0:C}",mat.ValorDesconto)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(string.Format(CultureInfo.GetCultureInfo("pt-BR"),"{0:C}", mat.ValorTotal)).Style(FontStyle().Bold());
+                                    t2.Cell().Element(CellStyle).Text(string.Format(  ,"{0:C}",mat.ValorUnitario)).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format(  ,"{0:C}",mat.ValorDesconto)).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).Text(string.Format(  ,"{0:C}", mat.ValorTotal)).Style(FontStyle().Bold());
                                 });
                             });
                         }

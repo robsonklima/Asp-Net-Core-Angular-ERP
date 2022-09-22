@@ -1,0 +1,8 @@
+<div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+    <p class="text-lg font-medium">Atenção</p>
+</div>
+
+<div
+    class="p-8 pb-6 bg-card shadow rounded overflow-hidden">
+    <div class="text-red-600" *ngFor="let e of showFormErrors()">{{ e.error }} {{ e.control }}</div>
+</div>

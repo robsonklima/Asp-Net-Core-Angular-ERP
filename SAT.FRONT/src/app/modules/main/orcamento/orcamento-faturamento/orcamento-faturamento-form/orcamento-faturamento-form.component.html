@@ -252,17 +252,17 @@
                     </mat-form-field>
                 </div>
 
+                <div *ngIf="!form.valid">
+                    <app-formulario-erros [form]="form"></app-formulario-erros>
+                </div>
+
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button [routerLink]="['/orcamento/faturamento']" mat-button>
                         {{ t('cancelar') }}
                     </button>
                     
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
-                        <span *ngIf="!form.disabled">
-                            {{ t('salvar') }}
-                        </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
+                        {{ t('salvar') }}
                     </button>
                 </div>
             </form>

@@ -1,7 +1,7 @@
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -35,7 +35,8 @@ import moment from 'moment';
                 grid-template-columns: 80px auto 100px 50px;
             }
         }
-	`]
+	`],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrcamentoFaturamentoFormComponent implements OnInit {
 	codLocalEnvioNFFaturamento: number;
@@ -75,19 +76,13 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this.codLocalEnvioNFFaturamento = +this._route.snapshot.paramMap.get('codLocalEnvioNFFaturamento');
 		this.isAddMode = !this.codLocalEnvioNFFaturamento;
 
-		this.obterClientes();
-		this.obterContratos();
-
 		this.form = this._formBuilder.group({
-			codLocalEnvioNFFaturamento: [
-				{
-					value: undefined,
-					disabled: true
-				}, Validators.required
-			],
+			codLocalEnvioNFFaturamento: [{
+				value: undefined,
+				disabled: true
+			}, Validators.required],
 			codCliente: [undefined, Validators.required],
 			codContrato: [undefined, Validators.required],
-			codPosto: [undefined, Validators.required],
 			cepFaturamento: ['', Validators.required],
 			enderecoFaturamento: [undefined, Validators.required],
 			complementoFaturamento: [undefined],
@@ -118,10 +113,11 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			razaoSocialEnvioNF: [undefined, Validators.required],
 		});
 
-		if (!this.isAddMode) {
+		if (!this.isAddMode)
 			this.obterLocalEnvioNFFaturamento();
-		}
 
+		this.obterClientes();
+		this.obterContratos();
 		this.isLoading = false;
 	}
 
@@ -208,6 +204,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				this.obterLocaisEnvioNFFaturamentoVinculado(data.contrato.codContrato);
 			});
 	}
+
 	async obterLocaisEnvioNFFaturamentoVinculado(codContrato: number) {
 
 		this._localEnvioNFFaturamentoVinculadoService

@@ -22,6 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PhonePipe } from 'app/core/pipes/fone.pipe';
 import { CEPPipe } from 'app/core/pipes/cep.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormularioErrosComponent } from './formulario-erros/formulario-erros.component';
 
 export const FORMATO_DATA = {
     parse: {
@@ -38,6 +39,7 @@ export const FORMATO_DATA = {
 @NgModule({
     declarations: [
         ConfirmacaoDialogComponent,
+        FormularioErrosComponent,
         EmailDialogComponent,
         CNPJPipe,
         PhonePipe,
@@ -62,6 +64,7 @@ export const FORMATO_DATA = {
     exports: [
         CommonModule,
         FormsModule,
+        FormularioErrosComponent,
         ReactiveFormsModule,
         EmailDialogComponent,
         CNPJPipe,

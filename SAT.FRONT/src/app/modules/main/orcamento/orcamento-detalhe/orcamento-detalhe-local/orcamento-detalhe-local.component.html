@@ -2,14 +2,6 @@
     <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex items-center justify-between">
             <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
-    
-            <button
-                class="h-8 px-4 mb-2 text-sm text-white transition-colors duration-150 bg-orange-700 rounded-lg focus:shadow-outline hover:bg-orange-500"
-                mat-button
-                matTooltip="Ir para Locais Faturamento"
-                [routerLink]="'/orcamento/faturamento/form/'+ dadosLocal.codLocalEnvioNFFaturamento">
-                {{ t('editar') }}
-            </button>
         </div>
 
         <div class="flex flex-col border-t border-b divide-y font-medium pointer-events-none">
@@ -112,6 +104,14 @@
     <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex items-center justify-between">
             <div class="text-lg font-medium">{{ obterTitulo() }}</div>
+
+            <button
+                class="h-8 px-4 mb-2 text-sm text-white transition-colors duration-150 bg-orange-700 rounded-lg focus:shadow-outline hover:bg-orange-500"
+                mat-button
+                matTooltip="Ir para Locais Faturamento"
+                [routerLink]="'/orcamento/faturamento/'">
+                {{ t('cadastros faturamento') }}
+            </button>            
         </div>
 
         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">

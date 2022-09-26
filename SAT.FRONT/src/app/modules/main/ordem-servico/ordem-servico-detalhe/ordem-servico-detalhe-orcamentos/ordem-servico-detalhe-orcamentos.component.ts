@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { OrcamentoOSBuilder } from 'app/core/builders/implementations/orcamento-os.builder';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
 import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
@@ -31,8 +32,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class OrdemServicoDetalheOrcamentosComponent implements OnInit
-{
+export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
 
   isLoading: boolean = false;
   @Input() orcamentos: Orcamento[] = [];
@@ -40,17 +40,16 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit
   os: OrdemServico;
   userSession: UserSession;
 
-  constructor (private _dialog: MatDialog,
+  constructor(private _dialog: MatDialog,
     private _router: Router,
     private _userService: UserService,
     private _osService: OrdemServicoService,
-    private _orcamentoOSBuilder: OrcamentoOSBuilder)
-  {
+    private _orcamentoOSBuilder: OrcamentoOSBuilder,
+    private _snack: CustomSnackbarService) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.os = (await this._osService.obterPorParametros(
       {
         codOS: this.codOS.toString(),
@@ -58,8 +57,7 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit
       }).toPromise()).items.shift();
   }
 
-  criarNovoOrcamento()
-  {
+  criarNovoOrcamento() {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -69,14 +67,17 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit
           cancel: 'Não'
         }
       }
-    });  
+    });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
-        this._orcamentoOSBuilder
-          .create(this.os, this.userSession).then(orc =>
-            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc));
+        this._orcamentoOSBuilder.create(this.os, this.userSession)
+          .then(orc => {
+            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc);
+          })
+          .catch((e) => {
+            this._snack.exibirToast(`Erro ao criar orçamento ${ e?.error?.message }`);
+          });
     });
   }
 }

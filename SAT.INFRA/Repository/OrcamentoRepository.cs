@@ -36,7 +36,7 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
-            
+
         }
 
         public void Criar(Orcamento orcamento)
@@ -69,7 +69,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.Orcamento
                 .Include(o => o.Filial)
-                .Include(o => o.Cliente)                      
+                .Include(o => o.Cliente)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)
@@ -121,7 +121,7 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.Orcamento
                 .Include(o => o.Filial!)
-                .Include(o => o.Cliente!)                            
+                .Include(o => o.Cliente!)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)
                 .Include(o => o.OrdemServico)
@@ -149,9 +149,9 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(s => s.Laudos)
                             .ThenInclude(s => s.LaudoStatus)
                 .Include(o => o.LocalEnvioNFFaturamentoVinculado)
-                         .ThenInclude(s => s.LocalEnvioNFFaturamento)                            
+                         .ThenInclude(s => s.LocalEnvioNFFaturamento)
                 .Include(o => o.Materiais!)
-                    .ThenInclude(p => p.Peca!)                
+                    .ThenInclude(p => p.Peca!)
                 .Include(o => o.MaoDeObra!)
                 .Include(o => o.OutrosServicos!)
                 .AsQueryable();
@@ -164,17 +164,9 @@ namespace SAT.INFRA.Repository
                     p.Numero.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
-            
-            if (parameters.CodigoOrdemServico.HasValue)
-               query = query.Where(orc => orc.OrdemServico.CodOS == parameters.CodigoOrdemServico);
-            
-            if (!string.IsNullOrEmpty(parameters.CodLaudosStatus))
-            {
-               int[] laudosStatus = parameters.CodLaudosStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-            
-            //    query = query.Where(orc => orc.OrdemServico.RelatoriosAtendimento.LastOrDefault().Laudos.Any(laudo => laudosStatus.Contains(laudo.CodLaudoStatus)));
 
-            }
+            if (parameters.CodigoOrdemServico.HasValue)
+                query = query.Where(orc => orc.CodigoOrdemServico == parameters.CodigoOrdemServico);
 
             if (!string.IsNullOrEmpty(parameters.CodStatusServicos))
             {
@@ -186,34 +178,34 @@ namespace SAT.INFRA.Repository
             {
                 var clientes = parameters.CodClientes.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => clientes.Any(f => f == orc.OrdemServico.CodCliente.ToString()));
-            }    
+            }
 
             if (!string.IsNullOrEmpty(parameters.CodFiliais))
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => filiais.Any(f => f == orc.OrdemServico.CodFilial.ToString()));
-            }                       
+            }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
             {
                 int[] tiposIntervencao = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(orc => tiposIntervencao.Contains(orc.OrdemServico.TipoIntervencao.CodTipoIntervencao.Value));
-            }      
+            }
 
             if (parameters.IsFaturamento)
             {
-                query = query.Where(orc => orc.OrdemServico.CodStatusServico == 3 && orc.OrdemServico.CodTipoIntervencao == 17 );
-            }            
+                query = query.Where(orc => orc.OrdemServico.CodStatusServico == 3 && orc.OrdemServico.CodTipoIntervencao == 17);
+            }
 
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(orc => orc.OrdemServico.NumOSCliente == parameters.NumOSCliente);
 
             if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
-                query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());                
+                query = query.Where(orc => orc.OrdemServico.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());
 
             if (parameters.DataInicio.HasValue && parameters.DataFim.HasValue)
                 query = query.Where(orc => orc.Data.HasValue && orc.Data.Value.Date >= parameters.DataInicio.Value.Date
-                    && orc.Data.Value.Date <= parameters.DataFim.Value.Date);                
+                    && orc.Data.Value.Date <= parameters.DataFim.Value.Date);
 
             if (parameters.DataAberturaInicio.HasValue && parameters.DataAberturaFim.HasValue)
                 query = query.Where(orc => orc.OrdemServico.DataHoraAberturaOS.HasValue && orc.OrdemServico.DataHoraAberturaOS.Value.Date >= parameters.DataAberturaInicio.Value.Date
@@ -225,6 +217,6 @@ namespace SAT.INFRA.Repository
             }
 
             return PagedList<Orcamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
-    }
+        }
     }
 }

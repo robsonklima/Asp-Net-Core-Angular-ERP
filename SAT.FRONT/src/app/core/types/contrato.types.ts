@@ -3,8 +3,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { InstalacaoLote } from "./instalacao-lote.types";
 import { TipoContrato } from "./tipo-contrato.types";
 
-export class Contrato
-{
+export class Contrato {
     codContrato: number;
     codContratoPai: number;
     codCliente: number;
@@ -61,20 +60,18 @@ export class Contrato
     codFormaPagamento: number;
     codOrcDadosBancarios: number;
     codPosVenda: number;
-    indPedido: number;    
+    indPedido: number;
     lotes: InstalacaoLote[];
     contratoEquipamento: ContratoEquipamento;
-    contratoServico: ContratoServico[];
+    contratosServico: ContratoServico[];
     tipoContrato: TipoContrato;
 }
 
-export interface ContratoData extends Meta
-{
+export interface ContratoData extends Meta {
     items: Contrato[];
 };
 
-export interface ContratoParameters extends QueryStringParameters
-{
+export interface ContratoParameters extends QueryStringParameters {
     codContrato?: number;
     codTipoContrato?: number;
     indAtivo?: number;
@@ -83,8 +80,7 @@ export interface ContratoParameters extends QueryStringParameters
     filter?: string;
 };
 
-export interface ContratoServico
-{
+export interface ContratoServico {
     codContratoServico: number;
     codContrato: number;
     codServico: number;

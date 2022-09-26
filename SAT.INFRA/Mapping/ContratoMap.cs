@@ -33,7 +33,7 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodContrato);
 
             builder
-               .HasMany(prop => prop.ContratoServico)
+               .HasMany(prop => prop.ContratosServico)
                .WithOne()
                .HasForeignKey("CodContrato")
                .HasPrincipalKey("CodContrato");

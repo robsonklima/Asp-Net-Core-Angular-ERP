@@ -30,8 +30,6 @@ export class ContratoServico {
     dataHoraCad_DEL?: string;
     codUsuarioManut_DEL?: any;
     dataHoraManut_DEL?: string;
-
-
 }
 
 export interface ContratoServicoData extends Meta {
@@ -41,4 +39,7 @@ export interface ContratoServicoData extends Meta {
 export interface ContratoServicoParameters extends QueryStringParameters {
     codContrato?: number;
     codContratoServico?: number;
+    codSLA?: number;
+    codEquip?: number;
+    codServico?: number;
 };

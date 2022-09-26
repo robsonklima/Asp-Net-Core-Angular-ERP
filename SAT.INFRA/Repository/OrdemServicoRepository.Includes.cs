@@ -116,10 +116,6 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(f => f.OrcamentoISS)
                         .Include(os => os.Equipamento)
                         .Include(os => os.EquipamentoContrato)
-                            .ThenInclude(ec => ec.Contrato)
-                                .ThenInclude(ec => ec.ContratoServico)
-                                    .ThenInclude(cs => cs.TipoServico)
-                        .Include(os => os.EquipamentoContrato)
                         .Include(os => os.RelatoriosAtendimento)
                             .ThenInclude(a => a.ProtocolosSTN)
                         .Include(os => os.RelatoriosAtendimento)
@@ -131,7 +127,6 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(a => a.RelatorioAtendimentoDetalhes)
                                     .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
                                         .ThenInclude(rat => rat.Peca)
-                                            // .ThenInclude(peca => peca.ClientePecaGenerica)
                         .Include(os => os.Orcamentos)
                             .ThenInclude(orc => orc.OrcamentoMotivo)
                         .Include(os => os.LocalAtendimento);

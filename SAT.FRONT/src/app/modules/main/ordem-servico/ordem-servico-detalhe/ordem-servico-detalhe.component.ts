@@ -116,11 +116,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	}
 
 	async obterOrcamentos() {
-
-		const params: OrcamentoParameters = {
+ 		const data = await this._orcamentoService.obterPorParametros({
 			codigoOrdemServico: this.codOS
-		}
- 		this.orcamentos = (await this._orcamentoService.obterPorParametros(params).toPromise()).items;
+		}).toPromise();
+
+		this.orcamentos = data.items;
 	}
 
 	private async obterOS() {

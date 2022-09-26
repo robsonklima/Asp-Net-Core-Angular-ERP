@@ -1,9 +1,12 @@
 import { Injectable } from "@angular/core";
 import { appConfig } from "app/core/config/app.config";
+import { ContratoServicoService } from "app/core/services/contrato-servico.service";
+import { CustomSnackbarService } from "app/core/services/custom-snackbar.service";
 import { OrcamentoDeslocamentoService } from "app/core/services/orcamento-deslocamento.service";
 import { OrcamentoMaoDeObraService } from "app/core/services/orcamento-mao-de-obra.service";
 import { OrcamentoMaterialService } from "app/core/services/orcamento-material.service";
 import { OrcamentoService } from "app/core/services/orcamento.service";
+import { ContratoServicoData } from "app/core/types/contrato-servico.types";
 import { ContratoServico } from "app/core/types/contrato.types";
 import { OrcamentoMaoDeObra } from "app/core/types/orcamento-mao-de-obra.types";
 import { OrcamentoMaterial } from "app/core/types/orcamento.material.types";
@@ -29,7 +32,9 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
         private _orcamentoService: OrcamentoService,
         private _orcMaoDeObraService: OrcamentoMaoDeObraService,
         private _orcMaterialService: OrcamentoMaterialService,
-        private _orcDeslocamentoService: OrcamentoDeslocamentoService) {
+        private _orcDeslocamentoService: OrcamentoDeslocamentoService,
+        private _contratoServicoService: ContratoServicoService,
+        private _snack: CustomSnackbarService) {
         super();
     }
 
@@ -128,11 +133,14 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
             this.orcamento?.codigoMotivo == OrcamentoMotivoEnum.INSTALACAO_DESINSTACALAO ?
                 TipoServicoEnum.ATIVACAO : TipoServicoEnum.HORA_TECNICA;
 
-        var contratoServico: ContratoServico = this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
-            i.codEquip == this.orcamento?.codigoEquipamento &&
-            i.codSLA == this.orcamento?.codigoSla &&
-            i.codServico == codServico);
+        const contratoServicoData: ContratoServicoData = await this._contratoServicoService.obterPorParametros({
+            codEquip: this.orcamento?.codigoEquipamento,
+            codSLA: this.orcamento?.codigoSla,
+            codServico: codServico
+        }).toPromise();
 
+        const contratoServico = contratoServicoData.items.shift();
+        
         var m: OrcamentoMaoDeObra =
         {
             codOrc: this.orcamento?.codOrc,
@@ -154,23 +162,27 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
     }
 
     async specifyDeslocamento(): Promise<IOrcamentoOSBuilder> {
-        var valorUnitarioKmRodado =
-            this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
-                i.codEquip == this.orcamento?.codigoEquipamento &&
-                i.codSLA == this.orcamento?.codigoSla &&
-                i.codServico == TipoServicoEnum.KM_RODADO)?.valor ?? 0;
+        const contratoServicoKmRodadoData: ContratoServicoData = await this._contratoServicoService.obterPorParametros({
+            codEquip: this.orcamento?.codigoEquipamento,
+            codSLA: this.orcamento?.codigoSla,
+            codServico: TipoServicoEnum.KM_RODADO
+        }).toPromise();
 
-        var valorHoraDeslocamento =
-            this.os?.equipamentoContrato?.contrato?.contratoServico?.find(i =>
-                i.codEquip == this.orcamento?.codigoEquipamento &&
-                i.codSLA == this.orcamento?.codigoSla &&
-                i.codServico == TipoServicoEnum.HORA_DE_VIAGEM)?.valor ?? 0;
+        const contratoServicoKmRodado = contratoServicoKmRodadoData.items.shift();
+
+        const contratoServicoHoraViagemData: ContratoServicoData = await this._contratoServicoService.obterPorParametros({
+            codEquip: this.orcamento?.codigoEquipamento,
+            codSLA: this.orcamento?.codigoSla,
+            codServico: TipoServicoEnum.HORA_DE_VIAGEM
+        }).toPromise();
+
+        const contratoServicoHoraViagem = contratoServicoHoraViagemData.items.shift();
 
         var d: OrcamentoDeslocamento =
         {
             codOrc: this.orcamento?.codOrc,
-            valorUnitarioKmRodado: valorUnitarioKmRodado,
-            valorHoraDeslocamento: valorHoraDeslocamento,
+            valorUnitarioKmRodado: contratoServicoKmRodado?.valor,
+            valorHoraDeslocamento: contratoServicoHoraViagem?.valor,
             latitudeOrigem: this.os?.localAtendimento?.autorizada?.latitude,
             longitudeOrigem: this.os?.localAtendimento?.autorizada?.longitude,
             latitudeDestino: this.os?.localAtendimento?.latitude,
@@ -216,6 +228,23 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
                 r.specifyMateriais().then(d =>
                     d.specifyMaoDeObra().then(p =>
                         p.specifyDeslocamento().then(l =>
-                            resolve(l.build()))))));
+                            resolve(l.build())
+                        ).catch((e) => {
+                            this._snack.exibirToast(`Ocorreu um erro ${e.message}`, 'error');
+                            reject();
+                        })
+                    ).catch((e) => {
+                        this._snack.exibirToast(`Ocorreu um erro ${e.message}`, 'error');
+                        reject();
+                    })
+                ).catch((e) => {
+                    this._snack.exibirToast(`Ocorreu um erro ${e.message}`, 'error');
+                    reject();
+                })
+            ).catch((e) => {
+                this._snack.exibirToast(`Ocorreu um erro ${e.message}`, 'error');
+                reject();
+            })
+        );
     }
 }

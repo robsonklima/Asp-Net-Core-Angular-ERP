@@ -102,7 +102,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodEquip != null)
             {
-                contratoServicos = contratoServicos.Where(a => a.CodGrupoEquip == parameters.CodGrupoEquip);
+                contratoServicos = contratoServicos.Where(a => a.CodEquip == parameters.CodEquip);
             }
 
             if (parameters.CodServico != null)

@@ -5,7 +5,6 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import 'leaflet';
 import 'leaflet-routing-machine';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import _ from 'lodash';
 import { Subject } from 'rxjs';
 import { Auditoria } from 'app/core/types/auditoria.types';
@@ -13,6 +12,10 @@ import { first } from 'rxjs/operators';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { AuditoriaVeiculoTanque } from 'app/core/types/auditoria-veiculo-tanque.types';
 import { AuditoriaVeiculoTanqueService } from 'app/core/services/auditoria-veiculo-tanque.service';
+import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import moment from 'moment';
+import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 declare var L: any;
 
 @Component({
@@ -27,6 +30,7 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
   auditoria: Auditoria;
   mapsPlaceholder: any = [];
   tanques: AuditoriaVeiculoTanque[] = [];
+  despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -35,7 +39,9 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     private _userSvc: UserService,
     private _auditoriaService: AuditoriaService,
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
-    private _snack: CustomSnackbarService,
+    private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
+    // private _snack: CustomSnackbarService,
+    // private _location: Location,
     private dialogRef: MatDialogRef<AuditoriaUtilizacaoDialogComponent>) {
     if (data)
     {
@@ -72,7 +78,11 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
       });
   }
 
-  registrarEmitters(){}
+  registrarEmitters(){
+    (this.form.get('step3') as FormGroup).controls["codAuditoriaVeiculoTanque"].valueChanges.subscribe(codAuditoriaVeiculoTanque => {
+      this.atualizarTanque(codAuditoriaVeiculoTanque);
+    });
+  }
 
   obterAuditoria(){    
     this._auditoriaService.obterPorCodigo(this.codAuditoria)
@@ -87,9 +97,112 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     this.tanques = data.items;
   }
 
-  onProximo(): void {}
+  private async atualizarTanque(codAuditoriaVeiculoTanque) {
+    const veiculoTanque = await this._auditoriaVeiculoTanqueService
+      .obterPorCodigo(codAuditoriaVeiculoTanque)
+      .toPromise();
 
-  salvar(){}
+    if (!veiculoTanque) 
+      return;
+
+    this.auditoria.auditoriaVeiculo.auditoriaVeiculoTanque.qtdLitros = veiculoTanque.qtdLitros;;
+  }
+
+  private zerarValores(){
+    this.auditoria.kmPercorrido = 0;
+    this.auditoria.kmCompensado = 0;
+    this.auditoria.despesasSAT = 0;
+    this.auditoria.despesasCompensadasValor = 0;
+  }
+
+  public async obterDespesas(){
+    this.despesasPeriodoTecnico = (await this._despesaPeriodoTecnicoService.obterPorParametros({
+      codTecnico: this.auditoria.usuario.codTecnico,
+      inicioPeriodo: moment(this.auditoria.dataHoraRetiradaVeiculo).format('YYYY-MM-DD HH:mm:ss').toString(),
+    }).toPromise()).items;
+  }
+
+  private async calcularValores(){
+    this.auditoria.totalDiasEmUso = moment(this.auditoria.dataHoraCad).diff(this.auditoria.dataHoraRetiradaVeiculo,'days');
+    this.auditoria.totalMesesEmUso = moment(this.auditoria.dataHoraCad).diff(this.auditoria.dataHoraRetiradaVeiculo,'months');
+
+    for(let x = 0; x < this.despesasPeriodoTecnico.length; x++)
+    {
+      var despesaPeriodoTecnico = this.despesasPeriodoTecnico[x];
+      for(let y = 0; y < despesaPeriodoTecnico.despesas.length; y++)
+      {
+        var despesa = despesaPeriodoTecnico.despesas[y];
+        if(moment(despesaPeriodoTecnico.despesaPeriodo.dataInicio).isBefore(moment(this.auditoria.dataHoraCad)))
+        {
+
+          for(let z = 0; z < despesa.despesaItens.length; z++)
+          {
+            var items = despesa.despesaItens[z];
+            if(despesaPeriodoTecnico.indCompensacao == 1 && despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus == 2
+              && items.indAtivo == 1 && items.codDespesaTipo == DespesaTipoEnum.KM)
+            {
+              this.auditoria.kmCompensado = items.kmPercorrido + this.auditoria.kmCompensado;
+              this.auditoria.despesasCompensadasValor = items.despesaValor + this.auditoria.despesasCompensadasValor;
+            }
+            else if(despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus == 2
+              && items.indAtivo == 1 && items.codDespesaTipo == DespesaTipoEnum.KM)
+            {
+              this.auditoria.kmPercorrido = items.kmPercorrido + this.auditoria.kmPercorrido;
+              this.auditoria.despesasSAT = items.despesaValor + this.auditoria.despesasSAT;
+            }
+          }
+        }
+      }
+    }
+
+    if(this.auditoria.kmFerias <= 3000){
+      this.auditoria.kmParticular = this.auditoria.odometroPeriodoAuditado - this.auditoria.odometroInicialRetirada 
+        - this.auditoria.kmPercorrido - this.auditoria.kmCompensado - this.auditoria.kmFerias;
+    }
+    else{
+      this.auditoria.kmParticular = this.auditoria.odometroPeriodoAuditado - this.auditoria.odometroInicialRetirada 
+        - this.auditoria.kmPercorrido - this.auditoria.kmCompensado - 3000;
+    }
+    if(this.auditoria.totalMesesEmUso < 1){
+      this.auditoria.kmParticularMes = this.auditoria.kmParticular;
+    }
+    else{
+      this.auditoria.kmParticularMes = this.auditoria.kmParticular / this.auditoria.totalMesesEmUso;
+    }
+
+    this.auditoria.usoParticular = this.auditoria.creditosCartao - this.auditoria.despesasSAT - this.auditoria.despesasCompensadasValor 
+      -this.auditoria.valorTanque - this.auditoria.saldoCartao;
+  }
+
+  salvar(){
+    this.zerarValores();
+    this.calcularValores();
+    this.dialogRef.close(true);
+    console.log("kmPercorrido",this.auditoria.kmPercorrido);
+    console.log("kmCompensado", this.auditoria.kmCompensado);
+    console.log("despesasSAT",this.auditoria.despesasSAT);
+    console.log("despesasCompensadasValor", this.auditoria.despesasCompensadasValor);
+  }
+
+  // salvar(): void {
+  //   const form: any = this.form.getRawValue();
+
+  //   let obj = {
+  //     ...this.auditoria,
+  //     ...form,
+  //     ...{
+  //       dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+  //       codUsuarioManut: this.userSession.usuario.codUsuario,
+  //     }
+  //   };
+
+  //   this._auditoriaService.atualizar(obj).subscribe(() => {
+  //     this._snack.exibirToast("Auditoria atualizada com sucesso!", "success");
+  //     this._location.back();
+  //   }, e => {
+  //     this.form.enable();
+  //   });
+  // }
 
 
 }

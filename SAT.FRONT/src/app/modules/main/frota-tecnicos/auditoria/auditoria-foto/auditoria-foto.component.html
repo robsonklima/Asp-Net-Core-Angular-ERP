@@ -1,5 +1,5 @@
 <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="auditoria?.fotos.length">
-    <div *ngFor="let foto of auditoria?.fotos" class="flex flex-col max-w-40 w-full filter-article hover:opacity-80 cursor-pointer">
+    <div *ngFor="let foto of auditoria?.fotos" class="flex flex-col max-w-40 w-full filter-article hover:opacity-80 cursor-pointer" (click)="ampliarFoto(foto.foto)">
         <img class="object-cover h-28 rounded-md w-full" [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.foto">
     </div>
 </div>

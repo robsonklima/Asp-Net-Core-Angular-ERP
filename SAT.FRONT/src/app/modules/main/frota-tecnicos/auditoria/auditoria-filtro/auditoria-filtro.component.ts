@@ -134,7 +134,6 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 
 	limpar() {
 		super.limpar();
-
 	}
 
 	ngOnDestroy() {

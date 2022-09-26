@@ -174,6 +174,8 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.TipoServico)
                 .Include(os => os.RelatoriosAtendimento)
+                    .ThenInclude(a => a.Fotos)
+                .Include(os => os.RelatoriosAtendimento.OrderByDescending(r => r.CodRAT))
                 .Include(os => os.RelatoriosAtendimento)
                     .ThenInclude(a => a.Laudos)
                         .ThenInclude(a => a.LaudosSituacao)

@@ -30,7 +30,7 @@ namespace SAT.UTILS
 
         static TextStyle FontStyle()
         {
-            return TextStyle.Default.FontSize(10).LineHeight(0.8f);
+            return TextStyle.Default.FontSize(8).LineHeight(0.8f);
         }
 
         public void Compose(IDocumentContainer container)
@@ -94,7 +94,7 @@ namespace SAT.UTILS
             });
         }
 
-        void ComposeContent(IContainer container)
+        public void ComposeContent(IContainer container)
         {
             container.PaddingVertical(10).Column(column =>
             {
@@ -150,10 +150,10 @@ namespace SAT.UTILS
                     });
         }
 
-        void ComporSituacao(IContainer container)
+        public void ComporSituacao(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.Last().Laudos;
-            var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
+            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
                     {
@@ -164,11 +164,11 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(TitleStyle).Text("SITUAÇÕES");
+                            header.Cell().Element(TitleStyle).Text("SITUAÇÕES").FontSize(10).Bold();
 
                         });
 
-                        if (laudos.Any())
+                        if (laudos is not null)
                         {
                             laudo?.LaudosSituacao.ForEach(sit =>
                             {
@@ -176,13 +176,13 @@ namespace SAT.UTILS
                                 {
                                     tr.RelativeItem().Column(column =>
                                     {
-                                        column.Item().Text($"Causa");
+                                        column.Item().Text($"Causa").FontSize(9).SemiBold();
                                         column.Item().Element(CellStyle).Text(sit.Causa).Style(FontStyle());
 
-                                        column.Item().Text($"Ação");
+                                        column.Item().Text($"Ação").FontSize(9).SemiBold();
                                         column.Item().Element(CellStyle).Text(sit.Acao).Style(FontStyle());
 
-                                        column.Item().Text($"Fotos");
+                                        column.Item().Text($"Fotos").FontSize(9).SemiBold();
 
                                         column.Item().Grid(grid =>
                                         {
@@ -190,7 +190,7 @@ namespace SAT.UTILS
                                             grid.Columns(4);
                                             using var client = new HttpClient();
 
-                                            OrdemServico.RelatoriosAtendimento.Last().Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                                            OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                                             {
                                                 if (f.NomeFoto.Contains("LAUDO") && !f.NomeFoto.Contains("ASSINATURA"))
                                                 {
@@ -200,7 +200,7 @@ namespace SAT.UTILS
                                                         gr.RelativeItem().Column(gc =>
                                                         {
                                                             gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                            gc.Item().Text(f.Modalidade).FontSize(6);
+                                                            gc.Item().Text(f.Modalidade).FontSize(6).SemiBold();
                                                         });
                                                     });
                                                 }
@@ -213,10 +213,10 @@ namespace SAT.UTILS
                     });
         }
 
-        void ComporChecagemVisual(IContainer container)
+        public void ComporChecagemVisual(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.Last().Laudos;
-            var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
+            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
                     {
@@ -227,14 +227,14 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(TitleStyle).Text("CHECAGEM VISUAL");
+                            header.Cell().Element(TitleStyle).Text("CHECAGEM VISUAL").FontSize(10).Bold();
 
                         });
                         table.Cell().Row(tr =>
                         {
                             tr.RelativeItem().Column(column =>
                             {
-                                column.Item().Text($"Relato do cliente durante o atendimento.");
+                                column.Item().Text($"Relato do cliente durante o atendimento.").SemiBold();
                                 column.Item().Element(CellStyle).Text(laudo?.RelatoCliente).Style(FontStyle());
 
                             });
@@ -242,9 +242,9 @@ namespace SAT.UTILS
                     });
         }
 
-        void ComporInfraEstruturaSite(IContainer container)
+        public void ComporInfraEstruturaSite(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.Last().Laudos;
+            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -257,7 +257,7 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE");
+                            header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
 
                         });
                         table.Cell().Element(CellStyle).Text("Tensão sem carga").Style(FontStyle());
@@ -277,9 +277,9 @@ namespace SAT.UTILS
                     });
         }
 
-        void ComporConclusao(IContainer container)
+        public void ComporConclusao(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.Last().Laudos;
+            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -291,14 +291,14 @@ namespace SAT.UTILS
 
                         table.Header(header =>
                         {
-                            header.Cell().Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO");
+                            header.Cell().Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO").FontSize(10).Bold();
 
                         });
                         table.Cell().Row(tr =>
                         {
                             tr.RelativeItem().Column(column =>
                             {
-                                column.Item().Text($"Conclusão");
+                                column.Item().Text($"Conclusão").SemiBold();
                                 column.Item().Element(CellStyle).Text(laudo?.Conclusao).Style(FontStyle());
 
                             });
@@ -306,7 +306,7 @@ namespace SAT.UTILS
                     });
         }
 
-        void ComporAssinatura(IContainer container)
+        public void ComporAssinatura(IContainer container)
         {
             container.Table(table =>
             {
@@ -317,7 +317,7 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("ASSINATURA");
+                    header.Cell().Element(TitleStyle).Text("ASSINATURA").FontSize(10).Bold();
                 });
                 table.Cell().Row(tr =>
                 {
@@ -327,19 +327,19 @@ namespace SAT.UTILS
                         {
                             grid.Spacing(10);
                             grid.Columns(4);
-                            using var client = new HttpClient();
 
-                            OrdemServico.RelatoriosAtendimento.Last().Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                            OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                             {
                                 if (f.NomeFoto.Contains("LAUDO") && f.NomeFoto.Contains("ASSINATURA"))
                                 {
+                                    using var client = new HttpClient();
                                     var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
                                     grid.Item().Row(gr =>
                                     {
                                         gr.RelativeItem().Column(gc =>
                                         {
                                             gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                            gc.Item().Text(f.Modalidade).FontSize(6);
+                                            gc.Item().Text(f.Modalidade).FontSize(6).SemiBold();
                                         });
                                     });
                                 }

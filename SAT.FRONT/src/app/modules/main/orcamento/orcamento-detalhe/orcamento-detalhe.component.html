@@ -41,11 +41,6 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
-                                [matTooltip]="'imprimir'" [routerLink]="['/orcamento/impressao/' + codOrc]">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
-                            </button>
-
-                            <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  [disabled]="isLoading" 
                                 [matTooltip]="'Exportar PDF'" (click)="exportar()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:download'"></mat-icon>
                             </button>
@@ -110,7 +105,6 @@
 
                                             <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-6">
                                                 <mat-label>{{ t('detalhe') }}</mat-label>
-                                                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                                                 <textarea matInput formControlName="detalhe" [placeholder]="t('detalhe')" [rows]="4" maxlength="1000"></textarea>
                                             </mat-form-field>
 

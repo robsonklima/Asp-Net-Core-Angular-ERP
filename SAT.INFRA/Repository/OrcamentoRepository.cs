@@ -103,6 +103,7 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(s => s.LaudosSituacao)
                 .Include(p => p.LocalEnvioNFFaturamentoVinculado)
                             .ThenInclude(s => s.LocalEnvioNFFaturamento)
+                                .ThenInclude(l => l.CidadeEnvioNF)
                 .Include(p => p.OrcamentoMotivo)
                 .Include(p => p.Materiais)
                     .ThenInclude(p => p.Peca)

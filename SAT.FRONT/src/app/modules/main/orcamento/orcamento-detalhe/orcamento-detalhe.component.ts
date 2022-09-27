@@ -85,6 +85,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.isLoading = true;
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
 		this.os = await this._osService.obterPorCodigo(this.codOS).toPromise();
+
+		console.log(this.os);
+		
 		this.inicializarForm();
 		this.formatarLocais();
 		this.isLoading = false;
@@ -154,6 +157,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	private formatarLocais() {
+		debugger
+
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
@@ -170,24 +175,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoFaturamento,
 			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
 			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF
-		}
-
-		this.dadosLocalEnvioNF = {
-			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
-			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
-			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
-			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
-			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
-			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
-			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
-			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF,
-			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF,
-			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF,
-			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF,
-			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF,
-			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
-			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
 		}
 
 		this.dadosLocalAtendimento = {
@@ -208,6 +195,24 @@ export class OrcamentoDetalheComponent implements OnInit {
 			nroSerie: this.os?.equipamentoContrato?.numSerie,
 			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao,
 			cnpj: this.os?.localAtendimento?.cnpj
+		}
+
+		this.dadosLocalEnvioNF = {
+			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
+			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
+			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
+			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
+			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF,
+			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF,
+			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF,
+			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF,
+			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF,
+			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
+			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
 		}
 	}
 
@@ -310,7 +315,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 							formatoArquivo: ExportacaoFormatoEnum.PDF,
 							tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
 							entityParameters: {
-								codigoOrdemServico: this.codOrc,
+								codOrc: this.codOrc,
 								incluirLaudoExportacao: data.incluirLaudoExportacao
 							}
 						}
@@ -354,11 +359,13 @@ export class OrcamentoDetalheComponent implements OnInit {
 			formatoArquivo: ExportacaoFormatoEnum.PDF,
 			tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
 			entityParameters: {
-				codigoOrdemServico: this.codOrc
+				codOrc: this.codOrc
 			}
 		}
 
-		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+		this._exportacaoService
+			.exportar(FileMime.PDF, exportacaoParam)
+			.catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
 	}
 
 	trocarTab(tab: any) {

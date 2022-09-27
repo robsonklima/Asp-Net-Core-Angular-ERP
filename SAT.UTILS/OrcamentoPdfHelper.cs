@@ -1,5 +1,3 @@
-using System.Globalization;
-using System.Net;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;

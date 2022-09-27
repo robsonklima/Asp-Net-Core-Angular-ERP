@@ -4,18 +4,18 @@
             <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
         </div>
 
-        <div class="flex flex-col border-t border-b divide-y font-medium pointer-events-none">
+        <div class="flex flex-col divide-y font-medium pointer-events-none" *ngIf="dadosLocal.razaoSocial">
             <div class="flex items-center justify-between py-3">
                 <div class="text-secondary">
                     {{ t('razao social') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.razaoSocial || 'Não Informado' }}
+                    {{ dadosLocal.razaoSocial }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.endereco || dadosLocal.numero || dadosLocal.bairro">
                 <div class="text-secondary">
                     {{ t('endereco') }}
                 </div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cep">
                 <div class="text-secondary">
                     {{ t('cep') }}
                 </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cidade && dadosLocal.uf">
                 <div class="text-secondary">
                     {{ t('cidade') }}
                 </div>
@@ -47,53 +47,53 @@
                 </div>
             </div>            
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cnpj">
                 <div class="text-secondary">
                     {{ t('cnpj') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.cnpj || 'Não Informado' }}
+                    {{ dadosLocal.cnpj }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.inscricaoEstadual">
                 <div class="text-secondary">
                     {{ t('inscricao estadual') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.inscricaoEstadual || 'Não Informado' }}
+                    {{ dadosLocal.inscricaoEstadual }}
                 </div>
             </div>     
             
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.fone">
                 <div class="text-secondary">
                     {{ t('fone') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.fone || 'Não Informado' }}
+                    {{ dadosLocal.fone }}
                 </div>
             </div>            
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.responsavel">
                 <div class="text-secondary">
                     {{ t('responsavel') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.responsavel || 'Não Informado' }}
+                    {{ dadosLocal.responsavel }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.email">
                 <div class="text-secondary">
                     {{ t('email') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.email || 'Não Informado' }}
+                    {{ dadosLocal.email }}
                 </div>
             </div>
         </div>
@@ -114,18 +114,18 @@
             </button>            
         </div>
 
-        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium pointer-events-none">
-            <div class="flex items-center justify-between py-3">
+        <div class="flex flex-col mt-4 divide-y font-medium pointer-events-none">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.nroContrato">
                 <div class="text-secondary">
                     {{ t('numero contrato') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.nroContrato || 'Não Informado' }}
+                    {{ dadosLocal.nroContrato }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.nomeLocal || dadosLocal.razaoSocial">
                 <div class="text-secondary">
                     {{ t('local de atendimento') }}
                 </div>
@@ -135,17 +135,17 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.agencia">
                 <div class="text-secondary">
                     {{ t('agencia') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.agencia || 'Não Informado' }}
+                    {{ dadosLocal.agencia }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.endereco">
                 <div class="text-secondary">
                     {{ t('endereco') }}
                 </div>
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cep">
                 <div class="text-secondary">
                     {{ t('cep') }}
                 </div>
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cidade && dadosLocal.uf">
                 <div class="text-secondary">
                     {{ t('cidade') }}
                 </div>
@@ -177,53 +177,53 @@
                 </div>
             </div>               
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.oscliente">
                 <div class="text-secondary">
                     {{ t('os cliente') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.oscliente || 'Não Informado' }}
+                    {{ dadosLocal.oscliente }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.osPerto">
                 <div class="text-secondary">
                     {{ t('os perto') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.osPerto || 'Não Informado' }}
+                    {{ dadosLocal.osPerto }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.cnpj">
                 <div class="text-secondary">
                     {{ t('cnpj') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.cnpj || 'Não Informado' }}
+                    {{ dadosLocal.cnpj }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.modelo">
                 <div class="text-secondary">
                     {{ t('modelo') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.modelo || 'Não Informado' }}
+                    {{ dadosLocal.modelo }}
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-3 border-b-0 border-b-white">
+            <div class="flex items-center justify-between py-3" *ngIf="dadosLocal.nroSerie">
                 <div class="text-secondary">
                     {{ t('serie') }}
                 </div>
     
                 <div class="truncate max-w-1/2">
-                    {{ dadosLocal.nroSerie || 'Não Informado' }}
+                    {{ dadosLocal.nroSerie }}
                 </div>
             </div>
         </div>

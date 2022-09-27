@@ -21,6 +21,7 @@ namespace SAT.SERVICES.Services
         private readonly IOrdemServicoRepository _osRepo;
         private readonly IEquipamentoContratoRepository _ecRepo;
         private readonly IAcaoRepository _acaoRepo;
+        private readonly IFotoRepository _fotoRepo;
         private readonly IAcaoComponenteRepository _acaoComponenteRepo;
         private readonly IAutorizadaRepository _autorizadaRepo;
         private readonly ITecnicoRepository _tecnicoRepo;
@@ -54,6 +55,7 @@ namespace SAT.SERVICES.Services
             IOrdemServicoRepository osRepo,
             IEquipamentoContratoRepository ecRepo,
             IAcaoRepository acaoRepo,
+            IFotoRepository fotoRepo,
             IAcaoComponenteRepository acaoComponenteRepo,
             IAutorizadaRepository autorizadaRepo,
             ITecnicoRepository tecnicoRepo,
@@ -87,6 +89,7 @@ namespace SAT.SERVICES.Services
             _osRepo = osRepo;
             _ecRepo = ecRepo;
             _acaoRepo = acaoRepo;
+            _fotoRepo = fotoRepo;
             _acaoComponenteRepo = acaoComponenteRepo;
             _autorizadaRepo = autorizadaRepo;
             _cidadeRepo = cidadeRepo;

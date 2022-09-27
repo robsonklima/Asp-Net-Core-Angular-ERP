@@ -91,7 +91,7 @@
 
                                 <ng-container>
                                     <ng-container *ngFor="let orc of dataSourceData?.items" class="overflow-x-auto mt-1">
-                                        <a [routerLink]="'/orcamento/detalhe/' + orc.codOrc">
+                                        <a [routerLink]="'/orcamento/detalhe/' + orc.codOrc + '/' + orc.codigoOrdemServico">
                                             <div class="list-grid-orcamentos grid items-center h-7 gap-4 px-2 text-xs md:px-4 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="flex items-center truncate">

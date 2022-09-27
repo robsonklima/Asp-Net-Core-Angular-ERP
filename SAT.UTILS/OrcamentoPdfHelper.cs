@@ -92,9 +92,9 @@ namespace SAT.UTILS
                     column.Item().Text($"ORÇAMENTO DE SERVIÇOS EXTRAS").Style(titleStyle);
                     column.Item().Text(text =>
                     {
-                        text.Span($"{Orcamento.Filial.NomeFilial} - ").FontSize(8);
-                        text.Span($"{Orcamento.Filial.Cidade.NomeCidade},  ").FontSize(8);
-                        text.Span($"{Orcamento.Filial.Cidade.UnidadeFederativa.SiglaUF}").FontSize(8);
+                        text.Span($"{Orcamento?.Filial?.NomeFilial} - ").FontSize(8);
+                        text.Span($"{Orcamento?.Filial?.Cidade?.NomeCidade},  ").FontSize(8);
+                        text.Span($"{Orcamento?.Filial?.Cidade?.UnidadeFederativa?.SiglaUF}").FontSize(8);
                     });
                     column.Item().Text(text =>
                     {

@@ -5,6 +5,7 @@ import { OrcamentoMaoDeObra, OrcamentoMaoDeObraData } from './orcamento-mao-de-o
 import { OrcamentoOutroServico } from './orcamento-outro-servico.types';
 import { OrcamentoMaterial } from './orcamento.material.types';
 import { LocalEnvioNFFaturamentoVinculado } from './local-envio-nf-faturamento-vinculado.types';
+import { Filial } from './filial.types';
 
 export interface Orcamento
 {
@@ -16,6 +17,7 @@ export interface Orcamento
     codigoCliente: number;
     codigoPosto: number;
     codigoFilial: number;
+    filial?: Filial;
     codigoContrato: number;
     isMaterialEspecifico: number;
     codigoOrdemServico: number;

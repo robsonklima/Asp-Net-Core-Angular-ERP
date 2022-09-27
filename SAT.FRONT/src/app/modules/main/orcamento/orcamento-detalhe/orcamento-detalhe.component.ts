@@ -1,19 +1,15 @@
 import { EmailService } from 'app/core/services/email.service';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import {
-	Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento,
-	OrcamentoMotivo, OrcamentoStatus
-} from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento,
+		 OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { FilialService } from 'app/core/services/filial.service';
 import { OrcamentoMotivoService } from 'app/core/services/orcamento-motivo.service';
 import { OrcamentoStatusService } from 'app/core/services/orcamento-status.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { Filial } from 'app/core/types/filial.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -43,9 +39,9 @@ import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 })
 export class OrcamentoDetalheComponent implements OnInit {
 	codOrc: number;
+	codOS: number;
 	orcamento: Orcamento;
 	os: OrdemServico;
-	filial: Filial;
 	userSession: UsuarioSessao;
 	isLoading: boolean = false;
 	status: OrcamentoStatus[] = [];
@@ -65,7 +61,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		private _userService: UserService,
 		private _osService: OrdemServicoService,
 		private _orcamentoService: OrcamentoService,
-		private _filialService: FilialService,
 		private _orcService: OrcamentoService,
 		private _orcMotivoService: OrcamentoMotivoService,
 		private _orcStatusService: OrcamentoStatusService,
@@ -76,20 +71,20 @@ export class OrcamentoDetalheComponent implements OnInit {
 		private _emailService: EmailService
 	) {
 		this.codOrc = +this._route.snapshot.paramMap.get('codOrc');
+		this.codOS = +this._route.snapshot.paramMap.get('codOS');
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
 	async ngOnInit() {
-		await this.obterStatus();
-		await this.obterMotivos();
-		await this.obterDados();
+		this.obterDados();
+		this.obterStatus();
+		this.obterMotivos();
 	}
 
 	private async obterDados() {
 		this.isLoading = true;
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
-		this.os = await this._osService.obterPorCodigo(this.orcamento?.codigoOrdemServico).toPromise();
-		this.filial = await this._filialService.obterPorCodigo(this.orcamento?.codigoFilial).toPromise();
+		this.os = await this._osService.obterPorCodigo(this.codOS).toPromise();
 		this.inicializarForm();
 		this.formatarLocais();
 		this.isLoading = false;
@@ -97,9 +92,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 
 	private inicializarForm() {
 		this.form = this._formBuilder.group({
-			codOrcMotivo: this.orcamento.orcamentoMotivo.codOrcMotivo,
-			detalhe: this.orcamento.detalhe,
-			codOrcStatus: this.orcamento.orcamentoStatus.codOrcStatus,
+			codOrcMotivo: this.orcamento?.orcamentoMotivo?.codOrcMotivo,
+			detalhe: this.orcamento?.detalhe,
+			codOrcStatus: this.orcamento?.orcamentoStatus?.codOrcStatus,
 			data: [
 				{
 					value: moment(this.orcamento?.dataCadastro).format('DD/MM/yyyy'),
@@ -112,22 +107,22 @@ export class OrcamentoDetalheComponent implements OnInit {
 					disabled: true
 				}
 			],
-			filial: this.filial.nomeFilial,
+			filial: this.orcamento?.filial?.nomeFilial,
 			endereco: [
 				{
-					value: this.filial?.endereco,
+					value: this.orcamento?.filial?.endereco,
 					disabled: true
 				}
 			],
 			fone: [
 				{
-					value: this.filial?.fone,
+					value: this.orcamento?.filial?.fone,
 					disabled: true
 				}
 			],
 			cnpj: [
 				{
-					value: this.filial?.cnpj,
+					value: this.orcamento?.filial?.cnpj,
 					disabled: true
 				}
 			],

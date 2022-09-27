@@ -157,8 +157,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	private formatarLocais() {
-		debugger
-
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,

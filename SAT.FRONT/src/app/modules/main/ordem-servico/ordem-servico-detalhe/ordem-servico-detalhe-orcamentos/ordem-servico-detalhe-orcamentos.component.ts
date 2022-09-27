@@ -15,7 +15,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   selector: 'app-ordem-servico-detalhe-orcamentos',
   templateUrl: './ordem-servico-detalhe-orcamentos.component.html',
   styles: [`
-        .list-grid-orcamentos {
+        .list-grid-orcamentos-os {
             grid-template-columns: 100px 100px auto 130px 130px;
             
             /* @screen sm {
@@ -73,7 +73,7 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
       if (confirmacao)
         this._orcamentoOSBuilder.create(this.os, this.userSession)
           .then(orc => {
-            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc);
+            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc + '/' + orc.codigoOrdemServico);
           })
           .catch((e) => {
             this._snack.exibirToast(`Erro ao criar orçamento ${ e?.error?.message }`);

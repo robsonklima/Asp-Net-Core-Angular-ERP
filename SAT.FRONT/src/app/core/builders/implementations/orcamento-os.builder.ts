@@ -7,7 +7,6 @@ import { OrcamentoMaoDeObraService } from "app/core/services/orcamento-mao-de-ob
 import { OrcamentoMaterialService } from "app/core/services/orcamento-material.service";
 import { OrcamentoService } from "app/core/services/orcamento.service";
 import { ContratoServicoData } from "app/core/types/contrato-servico.types";
-import { ContratoServico } from "app/core/types/contrato.types";
 import { OrcamentoMaoDeObra } from "app/core/types/orcamento-mao-de-obra.types";
 import { OrcamentoMaterial } from "app/core/types/orcamento.material.types";
 import { Orcamento, OrcamentoDeslocamento, OrcamentoMotivoEnum } from "app/core/types/orcamento.types";
@@ -141,7 +140,7 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
 
         const contratoServico = contratoServicoData.items.shift();
         
-        var m: OrcamentoMaoDeObra =
+        var maoObra: OrcamentoMaoDeObra =
         {
             codOrc: this.orcamento?.codOrc,
             valorHoraTecnica: contratoServico?.valor,
@@ -150,13 +149,10 @@ export class OrcamentoOSBuilder extends OrcamentoBuilder {
             dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
         }
 
-        m.valorTotal =
-            m?.previsaoHoras * m?.valorHoraTecnica;
+        maoObra.valorTotal = maoObra?.previsaoHoras * maoObra?.valorHoraTecnica;
+        maoObra = await this._orcMaoDeObraService.criar(maoObra).toPromise();
 
-        m =
-            await this._orcMaoDeObraService.criar(m).toPromise();
-
-        this.orcamento.maoDeObra = m;
+        this.orcamento.maoDeObra = maoObra;
 
         return this;
     }

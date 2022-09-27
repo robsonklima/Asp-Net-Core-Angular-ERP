@@ -19,8 +19,7 @@ import { statusConst } from 'app/core/types/status-types';
   templateUrl: './despesa-protocolo-detalhe.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class DespesaProtocoloDetalheComponent implements AfterViewInit
-{
+export class DespesaProtocoloDetalheComponent implements AfterViewInit {
   codDespesaProtocolo: number;
   displayedColumns: string[] = ['data inicial', 'data final', 'tecnico', 'valor'];
   protocolo: DespesaProtocolo;
@@ -28,26 +27,23 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
   userSession: UsuarioSessao;
   isLoading: boolean;
 
-  constructor (
+  constructor(
     private _route: ActivatedRoute,
     private _despesaProtocoloSvc: DespesaProtocoloService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
-  )
-  {
+  ) {
     this.userSession = JSON.parse(this._userService.userSession);
     this.codDespesaProtocolo = +this._route.snapshot.paramMap.get('codDespesaProtocolo');
   }
 
-  ngAfterViewInit(): void
-  {
+  ngAfterViewInit(): void {
     this.obterDados();
     this._cdr.detectChanges();
   }
 
-  private async obterDados()
-  {
+  private async obterDados() {
     this.isLoading = true;
 
     await this.obterProtocolo();
@@ -57,12 +53,10 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
 
   }
 
-  private criaListaPeriodos()
-  {
+  private criaListaPeriodos() {
     this.listView = [];
 
-    this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dppt =>
-    {
+    this.protocolo.despesaProtocoloPeriodoTecnico.forEach(dppt => {
       this.listView.push(
         {
           dataInicial: dppt.despesaPeriodoTecnico.despesaPeriodo.dataInicio,
@@ -75,25 +69,21 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     this.listView = Enumerable.from(this.listView).orderByDescending(i => i.dataInicial).toArray();
   }
 
-  private async obterProtocolo()
-  {
+  private async obterProtocolo() {
     this.protocolo =
       (await this._despesaProtocoloSvc.obterPorCodigo(this.codDespesaProtocolo).toPromise());
   }
 
-  calculaDespesa(dpt: DespesaPeriodoTecnico)
-  {
-    debugger
+  calculaDespesa(dpt: DespesaPeriodoTecnico) {
     return Enumerable.from(dpt.despesas)
       .sum(d => Enumerable.from(d.despesaItens).
         where(i => i.indAtivo == statusConst.ATIVO &&
           i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
         .sum(i => i.despesaValor));
-        
+
   }
 
-  async fecharProtocolo(): Promise<void>
-  {
+  async fecharProtocolo(): Promise<void> {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -105,8 +95,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
       }
     });
 
-    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
       if (confirmacao)
       {
         this.protocolo.indFechamento = 1;
@@ -117,8 +106,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     });
   }
 
-  async imprimirProtocolo(): Promise<void>
-  {
+  async imprimirProtocolo(): Promise<void> {
     const printDialog = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -130,8 +118,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
       }
     });
 
-    printDialog.afterClosed().subscribe(async (confirmacao: boolean) =>
-    {
+    printDialog.afterClosed().subscribe(async (confirmacao: boolean) => {
       if (confirmacao)
       {
         this.protocolo.indImpresso = 1;
@@ -148,8 +135,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
     });
   }
 
-  adicionarPeriodo(): void
-  {
+  adicionarPeriodo(): void {
     const dialogRef = this._dialog.open(DespesaProtocoloDetalhePeriodosDialogComponent, {
       data:
       {
@@ -157,8 +143,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
         this.obterDados();
     });

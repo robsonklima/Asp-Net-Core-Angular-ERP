@@ -24,36 +24,31 @@ import { OrcamentoService } from 'app/core/services/orcamento.service';
   animations: fuseAnimations
 })
 
-export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
-{
+export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard {
   @Input() deslocamento: OrcamentoDeslocamento;
   oldItem: OrcamentoDeslocamento;
   userSession: UserSession
   isLoading: boolean;
   isEditing: boolean;
 
-  constructor (
+  constructor(
     private _cdRef: ChangeDetectorRef,
     private _userService: UserService,
     private _orcDeslocamentoService: OrcamentoDeslocamentoService,
     private _orcService: OrcamentoService
-  )
-  {
+  ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  editar(): void
-  {
+  editar(): void {
     this.isEditing = true;
     this.oldItem = Object.assign({}, this.deslocamento);
   }
 
-  async salvar()
-  {
+  async salvar() {
     this.calcularDeslocamento();
 
-    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(d =>
-    {
+    this._orcDeslocamentoService.atualizar(this.deslocamento).subscribe(d => {
       this.deslocamento = d;
       this._orcService.atualizarTotalizacao(d.codOrc);
       this.oldItem = Object.assign({}, this.deslocamento);
@@ -64,28 +59,24 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
     this.isLoading = false;
   }
 
-  cancelar(): void
-  {
+  cancelar(): void {
     this.isEditing = false;
     this.deslocamento = Object.assign({}, this.oldItem);
     this._cdRef.detectChanges();
   }
 
-  isEqual(): boolean
-  {
+  isEqual(): boolean {
     return isEqual(this.oldItem?.quantidadeKm?.toString(), this.deslocamento?.quantidadeKm?.toString());
   }
 
-  isInvalid(): boolean
-  {
+  isInvalid(): boolean {
     if (!this.deslocamento || this.deslocamento?.quantidadeKm < 0 || !this.deslocamento?.quantidadeKm)
       return true;
 
     return false;
   }
 
-  calcularDeslocamento()
-  {
+  calcularDeslocamento() {
     this.deslocamento.quantidadeKm =
       parseFloat(this.deslocamento.quantidadeKm.toString().replace(',', '.'));
 
@@ -99,10 +90,8 @@ export class OrcamentoDetalheDeslocamentoComponent implements IEditableFuseCard
       this.deslocamento.valorHoraDeslocamento * this.deslocamento.quantidadeHoraCadaSessentaKm;
   }
 
-  onkeydown()
-  {
-    document.getElementById("quantidadeKm").addEventListener("keydown", function (event)
-    {
+  onkeydown() {
+    document.getElementById("quantidadeKm").addEventListener("keydown", function (event) {
       const isLetter = (event.key >= "a" && event.key <= "z");
 
       if (isLetter)

@@ -86,7 +86,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			cepFaturamento: ['', Validators.required],
 			enderecoFaturamento: [undefined, Validators.required],
 			complementoFaturamento: [undefined],
-			numeroFaturamento: [undefined, Validators.required],
+			numeroFaturamento: [this.localEnvioNFFaturamento?.numeroFaturamento, Validators.required],
 			bairroFaturamento: [undefined, Validators.required],
 			nomeCidadeFaturamento: [undefined, Validators.required],
 			siglaUFFaturamento: [undefined, Validators.required],
@@ -100,7 +100,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			cepEnvioNF: ['', Validators.required],
 			enderecoEnvioNF: [undefined, Validators.required],
 			complementoEnvioNF: [undefined],
-			numeroEnvioNF: [undefined, Validators.required],
+			numeroEnvioNF: [this.localEnvioNFFaturamento?.numeroEnvioNF, Validators.required],
 			bairroEnvioNF: [undefined, Validators.required],
 			nomeCidadeEnvioNF: [undefined, Validators.required],
 			siglaUFEnvioNF: [undefined, Validators.required],
@@ -118,6 +118,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 
 		this.obterClientes();
 		this.obterContratos();
+		this.registrarEmitters();
 		this.isLoading = false;
 	}
 
@@ -319,7 +320,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 						geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
 					}).subscribe((geo) => {
 						this.form.controls['enderecoFaturamento'].setValue(geo.endereco);
-						this.form.controls['numeroFaturamento'].setValue(this.localEnvioNFFaturamento.numeroFaturamento);
 						this.form.controls['bairroFaturamento'].setValue(geo.bairro);
 						this.form.controls['nomeCidadeFaturamento'].setValue(geo.cidade);
 						this.form.controls['siglaUFFaturamento'].setValue(geo.estado);
@@ -341,7 +341,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 						geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
 					}).subscribe((geo) => {
 						this.form.controls['enderecoEnvioNF'].setValue(geo.endereco);
-						this.form.controls['numeroEnvioNF'].setValue(this.localEnvioNFFaturamento.numeroEnvioNF);
 						this.form.controls['bairroEnvioNF'].setValue(geo.bairro);
 						this.form.controls['nomeCidadeEnvioNF'].setValue(geo.cidade);
 						this.form.controls['siglaUFEnvioNF'].setValue(geo.estado);

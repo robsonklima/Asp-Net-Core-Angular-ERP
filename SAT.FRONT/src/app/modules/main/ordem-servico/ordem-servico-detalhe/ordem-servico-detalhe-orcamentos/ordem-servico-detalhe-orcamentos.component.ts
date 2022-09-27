@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -17,10 +17,6 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   styles: [`
         .list-grid-orcamentos-os {
             grid-template-columns: 100px 100px auto 130px 130px;
-            
-            /* @screen sm {
-                grid-template-columns: 100px 100px auto 130px 130px;
-            } */
         }
     `],
   providers: [
@@ -33,28 +29,36 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
   animations: fuseAnimations
 })
 export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
-
   isLoading: boolean = false;
+  valorPecasDesatualizado: boolean = false;
   @Input() orcamentos: Orcamento[] = [];
-  @Input() codOS;
-  os: OrdemServico;
+  @Input() os: OrdemServico;
   userSession: UserSession;
 
   constructor(private _dialog: MatDialog,
     private _router: Router,
     private _userService: UserService,
-    private _osService: OrdemServicoService,
     private _orcamentoOSBuilder: OrcamentoOSBuilder,
     private _snack: CustomSnackbarService) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.os = (await this._osService.obterPorParametros(
-      {
-        codOS: this.codOS.toString(),
-        include: OrdemServicoIncludeEnum.OS_ORCAMENTO
-      }).toPromise()).items.shift();
+    this.verificarValorPecasEstaAtualizado();
+  }
+
+  verificarValorPecasEstaAtualizado() {
+    if (this.os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica)
+      return
+
+    this.os?.relatoriosAtendimento?.forEach(rat => {
+      rat.relatorioAtendimentoDetalhes.forEach(detalhe => {
+        detalhe.relatorioAtendimentoDetalhePecas.forEach(detalhePeca => {
+          if (!detalhePeca.peca.isValorAtualizado)
+            this.valorPecasDesatualizado = true;
+        });
+      });
+    });
   }
 
   criarNovoOrcamento() {
@@ -76,7 +80,7 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
             this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc + '/' + orc.codigoOrdemServico);
           })
           .catch((e) => {
-            this._snack.exibirToast(`Erro ao criar orçamento ${ e?.error?.message }`);
+            this._snack.exibirToast(`Erro ao criar orçamento ${e?.error?.message}`);
           });
     });
   }

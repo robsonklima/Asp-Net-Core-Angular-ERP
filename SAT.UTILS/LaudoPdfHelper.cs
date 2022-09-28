@@ -186,8 +186,8 @@ namespace SAT.UTILS
 
                                         column.Item().Grid(grid =>
                                         {
-                                            grid.Spacing(10);
-                                            grid.Columns(4);
+                                            grid.Spacing(5);
+                                            grid.Columns(6);
                                             using var client = new HttpClient();
 
                                             OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
@@ -251,7 +251,6 @@ namespace SAT.UTILS
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(250);
                             columns.RelativeColumn();
                         });
 
@@ -259,21 +258,40 @@ namespace SAT.UTILS
                         {
                             header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
 
+                        }); table.Cell().Table(t2 =>
+                        {
+                            t2.ColumnsDefinition(col2 =>
+                            {
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                                col2.RelativeColumn();
+                            });
+
+                            t2.Header(h2 =>
+                            {
+
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão sem carga").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão com carga").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão entre terra e neutro").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Rede estabilizada").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui Nobreak").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Temperatura").Bold().FontSize(8);
+                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui ar condicionado").Bold().FontSize(8);
+                            });
+
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.TensaoSemCarga).FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.TensaoComCarga).FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.TensaoTerraENeutro).FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.IndRedeEstabilizada == 1 ? "SIM" : "NÃO").FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.IndPossuiNobreak == 1 ? "SIM" : "NÃO").FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.Temperatura).FontSize(8);
+                            t2.Cell().Element(CellStyle).AlignMiddle().Text(laudo?.IndPossuiArCond == 1 ? "SIM" : "NÃO").FontSize(8);
                         });
-                        table.Cell().Element(CellStyle).Text("Tensão sem carga").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.TensaoSemCarga).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Tensão com carga").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.TensaoComCarga).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Tensão entre terra e neutro").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.TensaoTerraENeutro).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Rede estabilizada").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.IndRedeEstabilizada == 1 ? "SIM" : "NÃO").Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Possui Nobreak").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.IndPossuiNobreak == 1 ? "SIM" : "NÃO").Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Temperatura").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.Temperatura).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Possui ar condicionado").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(laudo?.IndPossuiArCond == 1 ? "SIM" : "NÃO").Style(FontStyle());
+
                     });
         }
 

@@ -237,7 +237,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			case 1:
 				dados = {
 					destinatarios: this.obterEmailsFaturamentoNf(),
-					assuntoEmail: `PERTO ${this.orcamento?.numero} ${this.orcamento?.codigoOrdemServico}`,
+					assuntoEmail: `PERTO ${this.orcamento?.numero} ${this.orcamento?.codigoOrdemServico} ${moment().format('DD/MM/YY HH:mm')}`,
 					conteudoEmail:
 						`
 							Prezado Cliente,

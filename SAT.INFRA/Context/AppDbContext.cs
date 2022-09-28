@@ -166,6 +166,7 @@ namespace SAT.INFRA.Context
         public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
         public DbSet<ClientePeca> ClientePeca { get; set; }
         public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
+        public DbSet<ViewOrcamentoLista> ViewOrcamentoLista{ get; set; }
         public DbSet<ViewAgendaTecnicoEvento> ViewAgendaTecnicoEvento { get; set; }
         public DbSet<ViewTecnicoTempoAtendimento> ViewTecnicoTempoAtendimento { get; set; }
 		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
@@ -353,6 +354,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
             modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamento>(new ViewIntegracaoFinanceiroOrcamentoMap().Configure);
             modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamentoItem>(new ViewIntegracaoFinanceiroOrcamentoItemMap().Configure);
+            modelBuilder.Entity<ViewOrcamentoLista>(new ViewOrcamentoListaMap().Configure);
             modelBuilder.Entity<PlantaoTecnico>(new PlantaoTecnicoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoRegiao>(new PlantaoTecnicoRegiaoMap().Configure);
             modelBuilder.Entity<PlantaoTecnicoCliente>(new PlantaoTecnicoClienteMap().Configure);

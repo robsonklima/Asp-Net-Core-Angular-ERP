@@ -7,6 +7,30 @@ import { OrcamentoMaterial } from './orcamento.material.types';
 import { LocalEnvioNFFaturamentoVinculado } from './local-envio-nf-faturamento-vinculado.types';
 import { Filial } from './filial.types';
 
+export interface ViewOrcamentoLista {
+    codOrc: number;
+    numero: string;
+    dataOrcamento: string;
+    codOS: number;
+    dataAbertura: string;
+    codStatusServico: number;
+    statusOS: string;
+    statusLaudo: string;
+    nomeLocal: string;
+    codTipoIntervencao: number;
+    intervencao: string;
+    autorizada: string;
+    regiao: string;
+    codCliente: number;
+    cliente: string;
+    equipamento: string;
+    codFilial: number;
+    numSerie: string;
+}
+export interface ViewOrcamentoListaData extends Meta {
+   items: ViewOrcamentoLista[];
+}
+
 export interface Orcamento
 {
     codOrc?: number;

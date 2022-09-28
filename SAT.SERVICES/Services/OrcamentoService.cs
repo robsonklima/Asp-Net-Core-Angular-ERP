@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -64,6 +67,24 @@ namespace SAT.SERVICES.Services
             return _orcamentoRepo.ObterPorCodigo(codigo);
         }
 
+        public ListViewModel ObterPorView(OrcamentoParameters parameters)
+        {
+            var orcamentos = _orcamentoRepo.ObterPorView(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = orcamentos,
+                TotalCount = orcamentos.TotalCount,
+                CurrentPage = orcamentos.CurrentPage,
+                PageSize = orcamentos.PageSize,
+                TotalPages = orcamentos.TotalPages,
+                HasNext = orcamentos.HasNext,
+                HasPrevious = orcamentos.HasPrevious
+            };
+
+            return lista;
+        }
+  
         public OrcamentoAprovacao Aprovar(OrcamentoAprovacao aprovacao)
         {
             var orcamento = _orcamentoRepo.ObterPorCodigo(aprovacao.CodOrc);

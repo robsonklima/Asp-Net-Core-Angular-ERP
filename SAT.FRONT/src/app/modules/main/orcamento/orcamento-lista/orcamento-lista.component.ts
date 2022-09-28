@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { Orcamento, OrcamentoData, OrcamentoParameters, OrcamentoTipoIntervencao } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoData, OrcamentoParameters, OrcamentoTipoIntervencao, ViewOrcamentoLista, ViewOrcamentoListaData } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './orcamento-lista.component.html',
 	styles: [`
         .list-grid-orcamentos {
-            grid-template-columns: 48px 72px 48px 80px 118px 118px auto 130px 60px 130px 100px 150px 100px;
+            grid-template-columns: 55px 72px 48px 80px 110px 90px auto 120px 60px 120px 90px 130px 70px 70px;
             
             /* @screen md {
               grid-template-columns: 48px 72px 48px 80px 118px 72px auto 148px 48px 120px;
@@ -37,7 +37,7 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 
 	@ViewChild(MatSort) sort: MatSort;
 
-	dataSourceData: OrcamentoData;
+	dataSourceData: ViewOrcamentoListaData;
 	selectedItem: Orcamento | null = null;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
@@ -96,8 +96,8 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 			filter: filtro
 		};
 
-		const data: OrcamentoData = await this._orcamentoSvc
-			.obterPorParametros({
+		const data: ViewOrcamentoListaData = await this._orcamentoSvc
+			.obterPorView({
 				...params,
 				...this.filter?.parametros
 			})
@@ -111,13 +111,13 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 		switch (codTipoIntervencao) {
 			case OrcamentoTipoIntervencao.ORCAMENTO_APROVADO:
 				return 'blue'
-		
+
 			case OrcamentoTipoIntervencao.ORCAMENTO:
 				return 'pink'
-		
+
 			case OrcamentoTipoIntervencao.ORCAMENTO_REPROVADO:
 				return 'gray'
-		
+
 			default:
 				break;
 		}
@@ -125,7 +125,7 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 
 	obterCorFonteIntervencao(codTipoIntervencao: number) {
 
-		if (codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_APROVADO || 
+		if (codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_APROVADO ||
 			codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_REPROVADO) {
 			return 'white'
 		}

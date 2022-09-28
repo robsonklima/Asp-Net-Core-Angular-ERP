@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -11,5 +13,6 @@ namespace SAT.INFRA.Interfaces
         void Atualizar(Orcamento orcamento);
         void Deletar(int codOrcamento);
         Orcamento ObterPorCodigo(int codigo);
+        PagedList<ViewOrcamentoLista> ObterPorView(OrcamentoParameters parameters);
     }
 }

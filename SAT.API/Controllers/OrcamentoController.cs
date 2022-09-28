@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -25,6 +27,12 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] OrcamentoParameters parameters)
         {
             return _orcamentoService.ObterPorParametros(parameters);
+        }
+
+        [HttpGet("View")]
+        public ListViewModel GetView([FromQuery] OrcamentoParameters parameters)
+        {
+            return _orcamentoService.ObterPorView(parameters);
         }
 
         [HttpGet("{codOrcamento}")]

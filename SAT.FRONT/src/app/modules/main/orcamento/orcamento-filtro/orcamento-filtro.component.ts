@@ -47,7 +47,7 @@ export class OrcamentoFiltroComponent extends FilterBase implements OnInit, IFil
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			codStatusServicos: [undefined],
-			codLaudosStatus: [undefined],
+			laudoStatus: [undefined],
 			codFiliais: [undefined],
 			codClientes: [undefined],
 			codTiposIntervencao: [undefined],

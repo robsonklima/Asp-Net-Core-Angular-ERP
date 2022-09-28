@@ -4,8 +4,10 @@
     </mat-drawer>
 
     <mat-drawer-content *transloco="let t">
-        <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-            <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
@@ -15,7 +17,7 @@
                         {{ t('orçamentos') }}
                     </div>
                 </div>
-                
+
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
                     <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
@@ -87,76 +89,97 @@
                                     <div>
                                         {{ t('serie') }}
                                     </div>
+
+                                    <div>
+                                        {{ t('acoes') }}
+                                    </div>
                                 </div>
 
                                 <ng-container>
-                                    <ng-container *ngFor="let orc of dataSourceData?.items" class="overflow-x-auto mt-1">
-                                        <a [routerLink]="'/orcamento/detalhe/' + orc.codOrc + '/' + orc.codigoOrdemServico">
-                                            <div class="list-grid-orcamentos grid items-center h-7 gap-4 px-2 text-xs md:px-4 border-b hover:bg-gray-100"
-                                                *transloco="let t">
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.numero }}
-                                                </div>
+                                    <ng-container *ngFor="let orc of dataSourceData?.items"
+                                        class="overflow-x-auto mt-1">
+                                        <div class="list-grid-orcamentos grid items-center h-7 gap-4 px-2 text-xs md:px-4 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.numero ?? '---' }}
+                                            </div>
 
-                                                <div class="text-center truncate">
-                                                    {{ orc?.data | date:'dd/MM/yyyy' }}
-                                                </div>
+                                            <div class="text-center truncate">
+                                                {{ orc?.dataOrcamento | date:'dd/MM/yyyy' ?? '---' }}
+                                            </div>
 
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.codigoOrdemServico }}
-                                                </div>
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.codOS }}
+                                            </div>
 
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.dataHoraAberturaOS | date:'dd/MM/yyyy' }}
-                                                </div>
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.dataAbertura | date:'dd/MM/yyyy' }}
+                                            </div>
 
-                                                <div class="flex items-center truncate">
-                                                    <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
+                                            <div class="flex items-center truncate">
+                                                <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
                                                         'background-color': orc?.ordemServico?.statusServico?.corFundo, 
                                                         'color': orc?.ordemServico?.statusServico?.corFonte
                                                     }">
-                                                    {{ orc?.ordemServico?.statusServico?.nomeStatusServico | titlecase }}
-                                                    </span>
-                                                </div>
+                                                    {{ orc?.statusOS | titlecase
+                                                    }}
+                                                </span>
+                                            </div>
 
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.relatoriosAtendimento[0]?.laudos[0]?.laudoStatus?.nomeStatus || 'Não Contém' }}
-                                                </div>
+                                            <div class="flex items-center truncate">
+                                                {{
+                                                orc?.statusLaudo
+                                                || 'Não Contém' }}
+                                            </div>
 
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.localAtendimento?.nomeLocal }}
-                                                </div>
-                                                <div class="flex items-center truncate">
-                                                    <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
-                                                        'background-color': obterCorFundoIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao), 
-                                                        'color': obterCorFonteIntervencao(orc?.ordemServico?.tipoIntervencao?.codTipoIntervencao)
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.nomeLocal }}
+                                            </div>
+                                            <div class="flex items-center truncate">
+                                                <span class="py-1 px-2 rounded text-xs font-semibold" [ngStyle]="{
+                                                        'background-color': obterCorFundoIntervencao(orc?.codTipoIntervencao), 
+                                                        'color': obterCorFonteIntervencao(orc?.codTipoIntervencao)
                                                     }">
 
-                                                        {{ orc?.ordemServico?.tipoIntervencao?.nomTipoIntervencao }}
-                                                    </span>
-                                                </div>
-
-                                                <div class="text-left truncate">
-                                                    {{ orc?.ordemServico?.autorizada?.nomeFantasia }}
-                                                </div>
-
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.regiao?.nomeRegiao }}
-                                                </div>
-
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.cliente?.nomeFantasia }}
-                                                </div>
-
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.equipamento?.nomeEquip }}
-                                                </div>
-
-                                                <div class="flex items-center truncate">
-                                                    {{ orc?.ordemServico?.equipamentoContrato?.numSerie }}
-                                                </div>
+                                                    {{ orc?.intervencao }}
+                                                </span>
                                             </div>
-                                        </a>
+
+                                            <div class="text-left truncate">
+                                                {{ orc?.autorizada }}
+                                            </div>
+
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.regiao }}
+                                            </div>
+
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.cliente }}
+                                            </div>
+
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.equipamento }}
+                                            </div>
+
+                                            <div class="flex items-center truncate">
+                                                {{ orc?.numSerie }}
+                                            </div>
+
+                                            <div class="flex items-center">
+                                                <button class="cursor-pointer" [routerLink]="['/ordem-servico/detalhe/' + orc?.codOS]">
+                                                    <mat-icon class="max-w-5 max-h-5 text-green-800"
+                                                        [matTooltip]="t('ir para os')"
+                                                        [svgIcon]="'heroicons_outline:clipboard'">
+                                                    </mat-icon>
+                                                </button>
+                                                <button class="cursor-pointer" [disabled]="!(orc?.codOrc)" [routerLink]="['/orcamento/detalhe/' + orc?.codOrc + '/' + orc?.codOS]">
+                                                    <mat-icon class="max-w-5 max-h-5 text-blue-800"
+                                                    [matTooltip]="t('ir para orcamento')"
+                                                    [svgIcon]="'heroicons_outline:calculator'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </ng-container>
                                 </ng-container>
                             </div>

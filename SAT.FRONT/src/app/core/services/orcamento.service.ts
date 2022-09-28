@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao } from '../types/orcamento.types';
+import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoLista, ViewOrcamentoListaData } from '../types/orcamento.types';
 import Enumerable from 'linq';
 
 @Injectable({
@@ -12,6 +12,20 @@ import Enumerable from 'linq';
 export class OrcamentoService
 {
     constructor (private http: HttpClient) { }
+
+    obterPorView(parameters: OrcamentoParameters): Observable<ViewOrcamentoListaData>
+    {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(`${c.api}/Orcamento/View`, { params: params }).pipe(
+            map((data: ViewOrcamentoListaData) => data)
+        )
+    }
 
     obterPorParametros(parameters: OrcamentoParameters): Observable<OrcamentoData>
     {

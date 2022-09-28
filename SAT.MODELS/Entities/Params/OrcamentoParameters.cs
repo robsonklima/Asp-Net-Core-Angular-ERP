@@ -8,6 +8,7 @@ namespace SAT.MODELS.Entities.Params
         public int? codOrc { get; set; }
         public string CodStatusServicos { get; set; }
         public string CodLaudosStatus { get; set; }
+        public string LaudosStatus { get; set; }
         public string CodFiliais { get; set; }
         public string CodClientes { get; set; }
         public string CodTiposIntervencao { get; set; }

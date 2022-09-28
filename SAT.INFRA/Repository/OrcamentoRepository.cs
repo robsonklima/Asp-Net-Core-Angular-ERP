@@ -7,6 +7,8 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Repository
 {
@@ -217,6 +219,76 @@ namespace SAT.INFRA.Repository
             }
 
             return PagedList<Orcamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public PagedList<ViewOrcamentoLista> ObterPorView(OrcamentoParameters parameters)
+        {
+            IQueryable<ViewOrcamentoLista> query = _context.ViewOrcamentoLista.AsQueryable();
+            if (parameters.Filter != null)
+            {
+                query = query.Where(p =>
+                    p.CodOrc.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.Numero.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+
+            if (parameters.CodigoOrdemServico.HasValue)
+                query = query.Where(orc => orc.CodOS == parameters.CodigoOrdemServico);
+
+            if (!string.IsNullOrEmpty(parameters.CodStatusServicos))
+            {
+                var statusServicos = parameters.CodStatusServicos.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => statusServicos.Any(f => f == orc.CodStatusServico.ToString()));
+            }
+            if (!string.IsNullOrEmpty(parameters.LaudosStatus))
+            {
+                var laudos = parameters.LaudosStatus.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => laudos.Any(f => f == orc.StatusLaudo.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodClientes))
+            {
+                var clientes = parameters.CodClientes.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => clientes.Any(f => f == orc.CodCliente.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
+                query = query.Where(orc => filiais.Any(f => f == orc.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
+            {
+                int[] tiposIntervencao = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(orc => tiposIntervencao.Contains(orc.CodTipoIntervencao));
+            }
+
+            if (parameters.IsFaturamento)
+            {
+                query = query.Where(orc => orc.CodStatusServico == 3 && orc.CodTipoIntervencao == 17);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
+                query = query.Where(orc => orc.NumOSCliente == parameters.NumOSCliente);
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
+                query = query.Where(orc => orc.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());
+
+            if (parameters.DataInicio.HasValue && parameters.DataFim.HasValue)
+                query = query.Where(orc => orc.DataOrcamento.HasValue && orc.DataOrcamento.Value.Date >= parameters.DataInicio.Value.Date
+                    && orc.DataOrcamento.Value.Date <= parameters.DataFim.Value.Date);
+
+            if (parameters.DataAberturaInicio.HasValue && parameters.DataAberturaFim.HasValue)
+                query = query.Where(orc => orc.DataAbertura.Date >= parameters.DataAberturaInicio.Value.Date
+                    && orc.DataAbertura.Date <= parameters.DataAberturaFim.Value.Date);
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+            return PagedList<ViewOrcamentoLista>.ToPagedList(query, 1, 100000);
         }
     }
 }

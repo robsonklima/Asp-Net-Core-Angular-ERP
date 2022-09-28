@@ -104,9 +104,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.isLoading = true;
 		this.orcamento = await this._orcamentoService.obterPorCodigo(this.codOrc).toPromise();
 		this.os = await this._osService.obterPorCodigo(this.codOS).toPromise();
-
-		console.log(this.os);
-		
 		this.inicializarForm();
 		this.formatarLocais();
 		this.isLoading = false;

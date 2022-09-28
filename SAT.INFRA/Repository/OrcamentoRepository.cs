@@ -36,7 +36,6 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
         public void Criar(Orcamento orcamento)

@@ -15,8 +15,7 @@ import Enumerable from 'linq';
   animations: fuseAnimations
 })
 
-export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
-{
+export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit {
   form: FormGroup;
   ordenacoes: any = [];
   isLoading: boolean = false;
@@ -24,11 +23,11 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
   weekStart: string;
   weekEnd: string;
 
-  constructor (@Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<AgendaTecnicoOrdenacaoDialogComponent>,
+  constructor(
+    @Inject(
+      MAT_DIALOG_DATA) private data: any,
     private _formBuilder: FormBuilder,
-    private _agendaTecnicoService: AgendaTecnicoService) 
-  {
+  ) {
     if (data)
     {
       this.tecnico = data.tecnico;
@@ -37,16 +36,13 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
     }
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.criarForm();
     this.obterOrdenacoes();
   }
 
-  private obterOrdenacoes(): void
-  {
-    Object.keys(AgendaTecnicoOrdenationEnum).map(key => parseInt(key)).forEach(key =>
-    {
+  private obterOrdenacoes(): void {
+    Object.keys(AgendaTecnicoOrdenationEnum).map(key => parseInt(key)).forEach(key => {
       if (!(Number.isNaN(key)))
         this.ordenacoes.push({
           codOrdenacao: key,
@@ -58,15 +54,13 @@ export class AgendaTecnicoOrdenacaoDialogComponent implements OnInit
       Enumerable.from(this.ordenacoes).orderBy(i => (i as any).nomeOrdenacao).toArray();
   }
 
-  criarForm()
-  {
+  criarForm() {
     this.form = this._formBuilder.group({
       codOrdenacao: [undefined, [Validators.required]]
     });
   }
 
-  async confirmar()
-  {
-    
+  async confirmar() {
+
   }
 }

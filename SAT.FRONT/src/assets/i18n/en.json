@@ -695,5 +695,7 @@
     "uso particular": "Private Use",
     "matricula": "matriculation",
     "salvar e finalizar": "Save and Finish",
-    "cadastros faturamento": "Go to Billing Register"
+    "cadastros faturamento": "Go to Billing Register",
+    "valor percentual": "Percent Value",
+    "valor iss": "ISS Value"
 }

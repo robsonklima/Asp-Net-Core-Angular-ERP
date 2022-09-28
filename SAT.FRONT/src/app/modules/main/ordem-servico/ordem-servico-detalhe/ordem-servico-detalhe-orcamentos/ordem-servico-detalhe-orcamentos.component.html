@@ -15,7 +15,7 @@
         </div>
 
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarNovoOrcamento()" [disabled]="!os || valorPecasDesatualizado">
+            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarOrcamento()" [disabled]="!os">
                 <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
                 </mat-icon>
             </button>

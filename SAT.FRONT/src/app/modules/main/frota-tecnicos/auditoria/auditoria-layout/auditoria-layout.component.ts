@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Auditoria } from 'app/core/types/auditoria.types';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { UserSession } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
 	selector: 'app-auditoria-layout',
@@ -26,6 +27,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 	constructor(
 		private _route: ActivatedRoute,
+		private _router: Router,
 		private _dialog: MatDialog,
 		private _snack: CustomSnackbarService,
 		private _auditoriaService: AuditoriaService,
@@ -84,5 +86,28 @@ export class AuditoriaLayoutComponent implements OnInit {
 		  });
 	}
 	
+	excluir(){
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent,{
+			data:
+			{
+				titulo:'Confirmação',
+				mensagem: 'Deseja confirmar a exclusão desta auditoria?',
+				buttonText:{
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>{
+			if(confirmacao){
+				this._auditoriaService.deletar(this.auditoria.codAuditoria).subscribe(() => {
+					this._snack.exibirToast('Auditoria Excluída','sucess');
+					this._router.navigate(['/frota-tecnico/']);
+				})
+
+			}
+		});
+	}
 
 }

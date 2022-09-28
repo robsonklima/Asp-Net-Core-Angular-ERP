@@ -60,7 +60,7 @@ export interface Orcamento
     dataAprovacaoCliente?: string;
     localEnvioNFFaturamentoVinculado?: LocalEnvioNFFaturamentoVinculado;
     orcamentoMotivo?: OrcamentoMotivo;
-    materiais?: OrcamentoMaterial;
+    materiais?: OrcamentoMaterial[];
     maoDeObra?: OrcamentoMaoDeObra;
     outrosServicos?: OrcamentoOutroServico;
     descontos?: OrcamentoDesconto[];

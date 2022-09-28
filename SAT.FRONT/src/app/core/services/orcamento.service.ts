@@ -4,14 +4,14 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoLista, ViewOrcamentoListaData } from '../types/orcamento.types';
-import { OrcamentoBuilder } from '../builders/implementations/orcamento.builder';
+import Enumerable from 'linq';
 
 @Injectable({
     providedIn: 'root'
 })
 export class OrcamentoService
 {
-    constructor (private http: HttpClient, private _builder: OrcamentoBuilder) { }
+    constructor (private http: HttpClient) { }
 
     obterPorView(parameters: OrcamentoParameters): Observable<ViewOrcamentoListaData>
     {
@@ -77,7 +77,7 @@ export class OrcamentoService
     {
         this.obterPorCodigo(codOrcamento).subscribe(orc =>
         {
-            orc = this._builder.calculaTotalizacao(orc);
+            orc = this.calculaTotalizacao(orc);
             this.atualizar(orc).toPromise();
         });
     }
@@ -87,5 +87,19 @@ export class OrcamentoService
         return this.http.post<OrcamentoAprovacao>(`${c.api}/Orcamento/AprovacaoCliente`, aprovacao).pipe(
             map((obj) => obj)
         );
+    }
+
+    calculaTotalizacao(orcamento: Orcamento): Orcamento
+    {   
+        orcamento.valorTotal =
+            ((Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorTotal) +
+                orcamento?.maoDeObra?.valorTotal +
+                orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento +
+                orcamento?.orcamentoDeslocamento?.valorTotalKmRodado)) - Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal);
+
+        orcamento.valorTotalDesconto =
+            Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal) + Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorDesconto);
+
+        return orcamento;
     }
 }

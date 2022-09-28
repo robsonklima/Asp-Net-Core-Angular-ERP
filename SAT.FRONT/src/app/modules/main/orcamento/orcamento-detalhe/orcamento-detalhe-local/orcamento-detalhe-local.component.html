@@ -92,10 +92,15 @@
                     {{ t('email') }}
                 </div>
     
-                <div class="truncate max-w-1/2">
-                    {{ dadosLocal.email }}
+                <div class="flex mt-2  text-justify">
+                    <div class="py-3">
+                        <ng-container >
+                            <div>{{ dadosLocal.email }}</div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </fuse-card>
 </div>

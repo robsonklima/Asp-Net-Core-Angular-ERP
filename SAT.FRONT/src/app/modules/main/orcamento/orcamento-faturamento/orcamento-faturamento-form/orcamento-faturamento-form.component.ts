@@ -86,29 +86,29 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			cepFaturamento: ['', Validators.required],
 			enderecoFaturamento: [undefined, Validators.required],
 			complementoFaturamento: [undefined],
-			numeroFaturamento: [this.localEnvioNFFaturamento?.numeroFaturamento, Validators.required],
+			numeroFaturamento: [this.localEnvioNFFaturamento?.numeroFaturamento],
 			bairroFaturamento: [undefined, Validators.required],
 			nomeCidadeFaturamento: [undefined, Validators.required],
 			siglaUFFaturamento: [undefined, Validators.required],
 			cnpjFaturamento: [undefined, Validators.required],
-			inscricaoEstadualFaturamento: [undefined, Validators.required],
+			inscricaoEstadualFaturamento: [undefined],
 			responsavelFaturamento: [undefined, Validators.required],
 			emailFaturamento: [undefined, Validators.required],
-			foneFaturamento: [undefined, Validators.required],
+			foneFaturamento: [undefined],
 			faxFaturamento: [undefined],
 			razaoSocialFaturamento: [undefined, Validators.required],
 			cepEnvioNF: ['', Validators.required],
 			enderecoEnvioNF: [undefined, Validators.required],
 			complementoEnvioNF: [undefined],
-			numeroEnvioNF: [this.localEnvioNFFaturamento?.numeroEnvioNF, Validators.required],
+			numeroEnvioNF: [this.localEnvioNFFaturamento?.numeroEnvioNF],
 			bairroEnvioNF: [undefined, Validators.required],
 			nomeCidadeEnvioNF: [undefined, Validators.required],
 			siglaUFEnvioNF: [undefined, Validators.required],
 			cnpjEnvioNF: [undefined, Validators.required],
-			inscricaoEstadualEnvioNF: [undefined, Validators.required],
+			inscricaoEstadualEnvioNF: [undefined],
 			responsavelEnvioNF: [undefined, Validators.required],
 			emailEnvioNF: [undefined, Validators.required],
-			foneEnvioNF: [undefined, Validators.required],
+			foneEnvioNF: [undefined],
 			faxEnvioNF: [undefined],
 			razaoSocialEnvioNF: [undefined, Validators.required],
 		});
@@ -216,15 +216,18 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	private async obterClientes(filtro: string = '') {
-		const params: ClienteParameters = {
-			sortActive: 'nomeFantasia',
-			sortDirection: 'asc',
+		let params: ClienteParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			pageSize: 50
-		}
+			sortActive: 'nomeFantasia',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
 
-		const data = await this._clienteService.obterPorParametros(params).toPromise();
+		const data = await this._clienteService
+			.obterPorParametros(params)
+			.toPromise();
+
 		this.clientes = data.items;
 	}
 

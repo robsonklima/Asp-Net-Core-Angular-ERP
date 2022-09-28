@@ -1,15 +1,10 @@
 import { Component, Input, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
-import { OrcamentoOSBuilder } from 'app/core/builders/implementations/orcamento-os.builder';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Orcamento } from 'app/core/types/orcamento.types';
-import { OrdemServico, OrdemServicoIncludeEnum } from 'app/core/types/ordem-servico.types';
-import { UserService } from 'app/core/user/user.service';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserSession } from 'app/core/user/user.types';
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { OrcamentoRevisaoDialogComponent } from 'app/modules/main/orcamento/orcamento-revisao-dialog/orcamento-revisao-dialog.component';
 
 @Component({
   selector: 'app-ordem-servico-detalhe-orcamentos',
@@ -35,53 +30,15 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
   @Input() os: OrdemServico;
   userSession: UserSession;
 
-  constructor(private _dialog: MatDialog,
-    private _router: Router,
-    private _userService: UserService,
-    private _orcamentoOSBuilder: OrcamentoOSBuilder,
-    private _snack: CustomSnackbarService) {
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+  constructor(
+    private _dialog: MatDialog,
+  ) {}
 
-  async ngOnInit() {
-    this.verificarValorPecasEstaAtualizado();
-  }
+  async ngOnInit() {}
 
-  verificarValorPecasEstaAtualizado() {
-    if (this.os?.equipamentoContrato?.contrato?.indPermitePecaEspecifica)
-      return
-
-    this.os?.relatoriosAtendimento?.forEach(rat => {
-      rat.relatorioAtendimentoDetalhes.forEach(detalhe => {
-        detalhe.relatorioAtendimentoDetalhePecas.forEach(detalhePeca => {
-          if (!detalhePeca.peca.isValorAtualizado)
-            this.valorPecasDesatualizado = true;
-        });
-      });
-    });
-  }
-
-  criarNovoOrcamento() {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-      data: {
-        titulo: 'Confirmação',
-        message: 'Deseja criar um novo orçamento?',
-        buttonText: {
-          ok: 'Sim',
-          cancel: 'Não'
-        }
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao)
-        this._orcamentoOSBuilder.create(this.os, this.userSession)
-          .then(orc => {
-            this._router.navigateByUrl('/orcamento/detalhe/' + orc.codOrc + '/' + orc.codigoOrdemServico);
-          })
-          .catch((e) => {
-            this._snack.exibirToast(`Erro ao criar orçamento ${e?.error?.message}`);
-          });
+  criarOrcamento() {
+    this._dialog.open(OrcamentoRevisaoDialogComponent, {
+      data: { os: this.os }
     });
   }
 }

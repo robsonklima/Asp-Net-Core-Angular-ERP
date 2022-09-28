@@ -178,10 +178,6 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     this.zerarValores();
     this.calcularValores();
     this.dialogRef.close(true);
-    console.log("kmPercorrido",this.auditoria.kmPercorrido);
-    console.log("kmCompensado", this.auditoria.kmCompensado);
-    console.log("despesasSAT",this.auditoria.despesasSAT);
-    console.log("despesasCompensadasValor", this.auditoria.despesasCompensadasValor);
   }
 
   // salvar(): void {

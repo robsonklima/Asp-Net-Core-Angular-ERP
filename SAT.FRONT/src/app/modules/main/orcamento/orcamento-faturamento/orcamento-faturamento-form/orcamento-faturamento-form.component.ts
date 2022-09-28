@@ -216,15 +216,18 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	private async obterClientes(filtro: string = '') {
-		const params: ClienteParameters = {
-			sortActive: 'nomeFantasia',
-			sortDirection: 'asc',
+		let params: ClienteParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			pageSize: 50
-		}
+			sortActive: 'nomeFantasia',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
 
-		const data = await this._clienteService.obterPorParametros(params).toPromise();
+		const data = await this._clienteService
+			.obterPorParametros(params)
+			.toPromise();
+
 		this.clientes = data.items;
 	}
 

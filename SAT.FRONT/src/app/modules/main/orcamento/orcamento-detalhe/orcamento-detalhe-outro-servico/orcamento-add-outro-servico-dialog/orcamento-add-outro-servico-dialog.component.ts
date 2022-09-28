@@ -5,10 +5,11 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { OrcamentoOutroServicoService } from 'app/core/services/orcamento-outro-servico.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrcamentoOutroServico } from 'app/core/types/orcamento-outro-servico.types';
-import { OrcamentoTipoOutroServicoEnum } from 'app/core/types/orcamento.types';
+import { Orcamento, OrcamentoTipoOutroServicoEnum } from 'app/core/types/orcamento.types';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-orcamento-add-outro-servico-dialog',
@@ -19,6 +20,9 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 	snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
 	form: FormGroup;
+	orcamento: Orcamento;
+	valorPercentualOutroServico: number;
+	valorIss: number;
 	protected _onDestroy = new Subject<void>();
 	tipoServicos: string[] = [];
 	codOrc: number;
@@ -35,8 +39,10 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 
 	async ngOnInit() {
 		this.inicializarForm();
+		this.obterValoresPercentuais();
 		this.registerEmitters();
 		this.obterTiposServico();
+		
 	}
 
 	private inicializarForm(): void {
@@ -62,9 +68,34 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 			.toArray();
 	}
 
+	async obterValoresPercentuais(){
+		const orc = await this._orcService.obterPorCodigo(this.codOrc).toPromise();
+
+		if(orc.codigoCliente == 58){
+			this.valorIss = 0;
+			this.valorPercentualOutroServico = 0;
+		}
+		else{
+			this.valorIss = orc.filial.orcamentoISS.valor;
+			this.valorPercentualOutroServico = 78.61;
+		}
+	}
+
+	calcularValorTotal(outroServico){
+		if(outroServico.tipo == "Outros"){
+			return outroServico.quantidade * outroServico.valorUnitario;
+		}
+		else{
+			console.log(outroServico);
+			this.valorIss = (this.valorIss / 100) * outroServico.valorUnitario;
+			this.valorPercentualOutroServico = (this.valorPercentualOutroServico / 100) * outroServico.valorUnitario;
+			return ((this.valorIss + this.valorPercentualOutroServico) + +outroServico.valorUnitario) * outroServico.quantidade;
+		}
+	}
+
 	inserir(): void {
 		var outroServico: OrcamentoOutroServico = this.form.getRawValue();
-		outroServico.valorTotal = outroServico.quantidade * outroServico.valorUnitario;
+		outroServico.valorTotal = this.calcularValorTotal(outroServico);
 		outroServico.dataCadastro = moment().format('yyyy-MM-DD HH:mm:ss');
 
 		this._orcOutroServicoService.criar(outroServico).subscribe(m => {

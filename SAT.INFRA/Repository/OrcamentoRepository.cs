@@ -70,6 +70,8 @@ namespace SAT.INFRA.Repository
             return _context.Orcamento
                 .Include(o => o.Filial!)
                     .ThenInclude(f => f.Cidade!)
+                .Include(o => o.Filial!)
+                    .ThenInclude(f => f.OrcamentoISS!)
                 .Include(o => o.Cliente)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(s => s.StatusServico)

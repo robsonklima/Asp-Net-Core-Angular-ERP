@@ -6,25 +6,37 @@
             Favor revisar os dados para a criação de um orçamento para o chamado {{ os.codOS }}
         </div>
 
-        <div class="pt-5" *ngIf="pecas.length">
+        <div class="pt-5" *ngIf="orcamento?.materiais?.length">
             <div class="pb-2">
-                <strong>Lista de Peças do Chamado</strong>
+                <strong>Material a Ser Utilizado</strong>
             </div>
 
             <div class="overflow-x-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="py-1 text-center">
+                            <th scope="col" class="py-1 pr-2 text-center">
                                 #
                             </th>
 
                             <th scope="col" class="py-1 dark:bg-gray-800">
-                                Nome da Peça
+                                Código
                             </th>
 
                             <th scope="col" class="py-1">
-                                Magnus
+                                Descrição
+                            </th>
+
+                            <th scope="col" class="py-1 text-center">
+                                Vlr. Unit.
+                            </th>
+
+                            <th scope="col" class="py-1 text-center">
+                                Vlr. Total.
+                            </th>
+
+                            <th scope="col" class="py-1 text-center">
+                                Qtd.
                             </th>
 
                             <th scope="col" class="py-1 text-center">
@@ -34,21 +46,35 @@
                     </thead>
 
                     <tbody>
-                        <tr class="dark:border-gray-700" *ngFor="let peca of pecas; let i=index">
-                            <td class="py-1 font-medium text-center">
+                        <tr class="dark:border-gray-700 border-t-2" *ngFor="let material of orcamento?.materiais; let i=index">
+                            <td class="py-1 pr-2 font-medium text-center">
                                 {{ i+1 }}
                             </td>
 
                             <th scope="row" class="py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                {{ peca.nomePeca }}
+                                <a class="text-blue-600 cursor-pointer" (click)="navegarParaPeca(material.codigoPeca)">
+                                    {{ material.codigoMagnus }}
+                                </a>
                             </th>
 
                             <td class="py-1">
-                                {{ peca.codMagnus }}
+                                {{ material.descricao }}
                             </td>
 
-                            <td class="py-1 font-bold text-center" [class.text-red-500]="!peca.isValorAtualizado">
-                                {{ peca.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                            <td class="py-1 text-center">
+                                {{ material.valorUnitario | currency:'BRL':'symbol-narrow' }}
+                            </td>
+
+                            <td class="py-1 text-center">
+                                {{ material.valorTotal | currency:'BRL':'symbol-narrow' }}
+                            </td>
+
+                            <td class="py-1 text-center">
+                                {{ material.quantidade }}
+                            </td>
+
+                            <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
+                                {{ material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
                             </td>
                         </tr>
                     </tbody>
@@ -64,7 +90,7 @@
             <div class="overflow-x-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <tbody>
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 Valor unitário do KM Rodado (ida e volta)
                             </td>
@@ -74,7 +100,7 @@
                             </td>
                         </tr>
     
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 Valor Total KM Rodado 
                             </td>
@@ -84,7 +110,7 @@
                             </td>
                         </tr>
     
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 Valor Hora em Deslocamento 
                             </td>
@@ -94,7 +120,7 @@
                             </td>
                         </tr>
     
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 Valor Total Hora em Deslocamento 
                             </td>
@@ -104,7 +130,7 @@
                             </td>
                         </tr>
     
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 KM
                             </td>
@@ -114,7 +140,7 @@
                             </td>
                         </tr>
     
-                        <tr class="dark:border-gray-700">
+                        <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
                                 Quantidade 1 hora cada 60 KM Rodado
                             </td>
@@ -128,12 +154,54 @@
             </div>
         </div>
 
+        <div class="pt-5" *ngIf="orcamento?.maoDeObra">
+            <div class="pb-2">
+                <strong>Mão de Obra</strong>
+            </div>
+    
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Valor da Hora Técnica
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Previsão Horas (mín. 2 hrs) 
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.previsaoHoras }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Total Mão de Obra  
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="flex items-center justify-end pt-8">
-            <button class="px-6 mr-2" mat-button [color]="'primary'" (click)="cancelar()">
+            <button class="px-6 mr-2" mat-button (click)="cancelar()">
                 Cancelar
             </button> 
 
-            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading">
+            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading || isValorPecasDesatualizado">
                 Criar
             </button>
         </div>

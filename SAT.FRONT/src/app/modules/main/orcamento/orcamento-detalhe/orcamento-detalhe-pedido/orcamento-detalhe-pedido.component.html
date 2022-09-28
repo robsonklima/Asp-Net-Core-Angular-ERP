@@ -3,11 +3,6 @@
         <div class="flex items-center">
             <span class="text-lg font-medium">{{ t('pedido') }}</span>
         </div>
-        <div class="flex place-content-end">
-            <button mat-button [color]="'primary'" (click)="salvarPedido()">
-                {{ t('salvar') }}
-            </button>
-        </div>
     </div>
     <div class="flex-auto" *ngIf="!isLoading">
         <div>
@@ -15,7 +10,7 @@
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
                         <form [formGroup]="form">
-                            <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto px-6 pb-6 bg-card shadow rounded overflow-hidden">
+                            <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto px-6 pb-8 bg-card shadow rounded overflow-hidden">
                                 <mat-form-field class="fuse-mat-dense w-5/12">
                                     <mat-label>{{ t('numero pedido') }}</mat-label>
                                     <input [maxlength]="50" matInput formControlName="numPedido">
@@ -36,6 +31,16 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                                <button class="px-6" mat-button [color]="'primary'" (click)="salvarPedido()" [disabled]="!form.valid">
+                                    <span *ngIf="!form.disabled">
+                                        {{ t('salvar') }}
+                                    </span>
+                                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                                    </mat-progress-spinner>
+                                </button>
                             </div>
                         </form>
                     </ng-container>

@@ -24,6 +24,7 @@ import { environment } from 'environments/environment';
 import moment from 'moment';
 import _ from 'lodash';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
 	selector: 'app-orcamento-detalhes',
@@ -52,6 +53,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 	dadosLocalFaturamento: OrcamentoDadosLocal;
 	dadosLocalEnvioNF: OrcamentoDadosLocal;
 	dadosLocalAtendimento: OrcamentoDadosLocal;
+	possuiPermissaoExclusao: boolean = false;
+	possuiPermissaoFaturar: boolean = false;
 	public orcamentoDeslocamentoChanged: Subject<OrcamentoDeslocamento[]> = new Subject<OrcamentoDeslocamento[]>();
 
 	constructor(
@@ -79,6 +82,22 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.obterDados();
 		this.obterStatus();
 		this.obterMotivos();
+		this.verificarPermissaoExclusao();
+		this.verificarPermissaoFaturar();
+	}
+
+	verificarPermissaoFaturar() {
+		this.possuiPermissaoFaturar = this.orcamento?.indFaturamento == 1 || 
+			(this.os?.codStatusServico !== 3 && this.os?.codTipoIntervencao !== 17) || 
+			(this.os?.equipamentoContrato?.contrato?.indPedido && !this.orcamento?.numPedido);
+	}
+
+	private verificarPermissaoExclusao() {
+		this.possuiPermissaoExclusao = this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_CREDITO || 
+			this.userSession?.usuario?.codPerfil == PerfilEnum.ADM_DO_SISTEMA || 
+			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_PONTO || 
+			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR || 
+			this.userSession?.usuario?.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO
 	}
 
 	private async obterDados() {

@@ -61,7 +61,7 @@
                                 {{ servico?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                             </div>
                             <div class="flex pointer-events-auto">
-                                <button class="bg-transparent" [matTooltip]="'Editar serviço'"
+                                <button class="bg-transparent mr-2" [matTooltip]="'Editar serviço'"
                                     (click)="servico.onEdit()" *ngIf="!servico?.isEditing">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                     </mat-icon>

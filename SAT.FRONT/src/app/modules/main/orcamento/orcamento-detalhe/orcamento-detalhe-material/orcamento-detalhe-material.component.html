@@ -69,23 +69,26 @@
                                         {{ material?.item?.peca?.isValorAtualizado ? "NÃO" : "SIM" }}
                                     </div>
                                     <div class="flex pointer-events-auto">
-                                        <button class="bg-transparent" [matTooltip]="'Editar material'"
+                                        <button class="bg-transparent mr-2" [matTooltip]="'Editar material'"
                                             (click)="material.onEdit()" *ngIf="!material?.isEditing">
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="t('deletar') + ' material'"
                                             (click)="material.onDelete()" *ngIf="!material?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="'Salvar edição'"
                                             (click)="material.onSave()" *ngIf="material?.isEditing">
                                             <mat-icon class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_outline:check-circle'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="'Cancelar edição'"
                                             (click)="material.onCancel()" *ngIf="material?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"

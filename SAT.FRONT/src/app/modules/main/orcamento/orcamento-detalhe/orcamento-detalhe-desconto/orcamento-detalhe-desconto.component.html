@@ -62,23 +62,26 @@
                                         {{ desconto?.item?.valorTotal | currency:'BRL':'symbol-narrow' }}
                                     </div>
                                     <div class="flex pointer-events-auto">
-                                        <button class="bg-transparent" [matTooltip]="'Editar desconto'"
+                                        <button class="bg-transparent mr-2" [matTooltip]="'Editar desconto'"
                                             (click)="desconto.onEdit()" *ngIf="!desconto?.isEditing">
                                             <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="t('deletar') + ' desconto'"
                                             (click)="desconto.onDelete()" *ngIf="!desconto?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"
                                                 [svgIcon]="'heroicons_outline:trash'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="'Salvar edição'"
                                             (click)="desconto.onSave()" *ngIf="desconto?.isEditing">
                                             <mat-icon class="icon-size-5 text-green-600"
                                                 [svgIcon]="'heroicons_outline:check-circle'">
                                             </mat-icon>
                                         </button>
+
                                         <button class="bg-transparent" [matTooltip]="'Cancelar edição'"
                                             (click)="desconto.onCancel()" *ngIf="desconto?.isEditing">
                                             <mat-icon class="icon-size-5 text-red-600"

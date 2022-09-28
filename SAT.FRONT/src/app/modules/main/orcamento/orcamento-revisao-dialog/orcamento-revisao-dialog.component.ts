@@ -55,6 +55,9 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     await this.montaMaoDeObra();
     await this.montaDeslocamento();
     await this.montaMateriais();
+
+    console.log(this.orcamento);
+    
     this.loading = false;
   }
 
@@ -178,8 +181,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       codOrc: this.orcamento?.codOrc,
       valorUnitarioKmRodado: contratoServicoKmRodado?.valor || 0,
       valorHoraDeslocamento: contratoServicoHoraViagem?.valor || 0,
-      latitudeOrigem: this.os?.localAtendimento?.autorizada?.latitude,
-      longitudeOrigem: this.os?.localAtendimento?.autorizada?.longitude,
+      latitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.latitude,
+      longitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.longitude,
       latitudeDestino: this.os?.localAtendimento?.latitude,
       longitudeDestino: this.os?.localAtendimento?.longitude,
       quantidadeKm: this.os?.localAtendimento?.distanciaKmPatRes * 2,

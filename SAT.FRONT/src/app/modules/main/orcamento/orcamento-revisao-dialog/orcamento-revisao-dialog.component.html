@@ -6,63 +6,136 @@
             Favor revisar os dados para a criação de um orçamento para o chamado {{ os.codOS }}
         </div>
 
-        <div class="pt-5 pb-2">
-            <strong>Lista de Peças do Chamado</strong>
+        <div class="pt-5" *ngIf="pecas.length">
+            <div class="pb-2">
+                <strong>Lista de Peças do Chamado</strong>
+            </div>
+
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-1 text-center">
+                                #
+                            </th>
+
+                            <th scope="col" class="py-1 dark:bg-gray-800">
+                                Nome da Peça
+                            </th>
+
+                            <th scope="col" class="py-1">
+                                Magnus
+                            </th>
+
+                            <th scope="col" class="py-1 text-center">
+                                Atualizado
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="dark:border-gray-700" *ngFor="let peca of pecas; let i=index">
+                            <td class="py-1 font-medium text-center">
+                                {{ i+1 }}
+                            </td>
+
+                            <th scope="row" class="py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                {{ peca.nomePeca }}
+                            </th>
+
+                            <td class="py-1">
+                                {{ peca.codMagnus }}
+                            </td>
+
+                            <td class="py-1 font-bold text-center" [class.text-red-500]="!peca.isValorAtualizado">
+                                {{ peca.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-
-        <div class="overflow-x-auto relative">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 divide-y">
-                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="py-3 text-center">
-                            #
-                        </th>
-
-                        <th scope="col" class="py-3 dark:bg-gray-800">
-                            Nome da Peça
-                        </th>
-
-                        <th scope="col" class="py-3">
-                            Magnus
-                        </th>
-
-                        <th scope="col" class="py-3 text-center">
-                            Atualizado
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr class="dark:border-gray-700" *ngFor="let peca of pecas; let i=index">
-                        <td class="py-3 font-medium text-center">
-                            {{ i+1 }}
-                        </td>
-
-                        <th scope="row" class="py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
-                            {{ peca.nomePeca }}
-                        </th>
-
-                        <td class="py-3">
-                            {{ peca.codMagnus }}
-                        </td>
-
-                        <td class="py-3 font-bold text-center" [class.text-red-500]="!peca.isValorAtualizado">
-                            {{ peca.isValorAtualizado ? 'SIM' : 'NÃO' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="flex items-center justify-end border-t pt-8">
-                <button class="px-6 mr-2" mat-button [color]="'primary'" (click)="cancelar()">
-                    Cancelar
-                </button> 
-
-                <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading">
-                    Criar
-                </button>
+        <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
+            <div class="pb-2">
+                <strong>Deslocamento</strong>
             </div>
+    
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                Valor unitário do KM Rodado (ida e volta)
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.valorUnitarioKmRodado | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+    
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                Valor Total KM Rodado 
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.valorTotalKmRodado | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+    
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                Valor Hora em Deslocamento 
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+    
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                Valor Total Hora em Deslocamento 
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+    
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                KM
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.quantidadeKm }}
+                            </td>
+                        </tr>
+    
+                        <tr class="dark:border-gray-700">
+                            <td class="py-1 font-medium text-left">
+                                Quantidade 1 hora cada 60 KM Rodado
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end pt-8">
+            <button class="px-6 mr-2" mat-button [color]="'primary'" (click)="cancelar()">
+                Cancelar
+            </button> 
+
+            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading">
+                Criar
+            </button>
         </div>
     </div>
 </ng-container>

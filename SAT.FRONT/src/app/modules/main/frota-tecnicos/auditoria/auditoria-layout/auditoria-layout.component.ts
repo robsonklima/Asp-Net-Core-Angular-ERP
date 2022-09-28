@@ -11,7 +11,6 @@ import { UserSession } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { Navegacao } from 'app/core/types/navegacao.types';
 
 @Component({
 	selector: 'app-auditoria-layout',

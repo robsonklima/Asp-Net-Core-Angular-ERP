@@ -47,7 +47,7 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: LocalAtendimentoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	userSession: UserSession;
 
 	constructor(
@@ -80,8 +80,8 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
 				, distinctUntilChanged()
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
-				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
+				debugger
 			});
 
 			this.sort.disableClear = true;
@@ -98,11 +98,11 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
 
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
-
+		
 		const params: LocalAtendimentoParameters = {
 			...{
 				pageNumber: this.paginator?.pageIndex + 1,
-				sortActive: this.sort?.active || 'nomeLocal',
+				sortActive: this.sort.active || 'nomeLocal' || 'numAgencia',
 				sortDirection: this.sort?.direction || 'asc',
 				pageSize: this.paginator?.pageSize,
 				filter: filtro

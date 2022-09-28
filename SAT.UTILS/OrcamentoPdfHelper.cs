@@ -175,20 +175,14 @@ namespace SAT.UTILS
 
                             grid.Item(2).Text(t =>
                             {
-                                t.Span($"   Número: ").FontSize(8).Bold();
+                                t.Span($" Número: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.NumeroFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(3).Text(t =>
+                            grid.Item(6).Text(t =>
                             {
-                                t.Span($"    Complemento: ").FontSize(8).Bold();
+                                t.Span($"Complemento: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.ComplementoFaturamento}").FontSize(8);
-                            });
-
-                            grid.Item(3).Text(t =>
-                            {
-                                t.Span($"CEP: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CepFaturamento}").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>
@@ -199,14 +193,20 @@ namespace SAT.UTILS
 
                             grid.Item(2).Text(t =>
                             {
-                                t.Span($"Cidade: ").FontSize(8).Bold();
+                                t.Span($"   Cidade: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.NomeCidade}").FontSize(8);
                             });
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(3).Text(t =>
                             {
-                                t.Span($"UF: ").FontSize(8).Bold();
+                                t.Span($"    UF: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.UnidadeFederativa.SiglaUF}").FontSize(8);
+                            });
+                            
+                            grid.Item(3).Text(t =>
+                            {
+                                t.Span($"CEP: ").FontSize(8).Bold();
+                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CepFaturamento}").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>

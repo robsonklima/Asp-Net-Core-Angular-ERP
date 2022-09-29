@@ -74,7 +74,7 @@
                             </td>
 
                             <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
-                                {{ !material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                                {{ material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
                             </td>
                         </tr>
                     </tbody>

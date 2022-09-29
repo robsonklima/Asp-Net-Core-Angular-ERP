@@ -8,6 +8,22 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex flex-wrap items-center font-medium">
                                     <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                                            {{ t('chamados') }}
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+
+                                        <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/' + codOS">
+                                            <span class="ml-1 text-primary-500">{{ codOS }}</span>
+                                        </a>
+
+                                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                    </div>
+
+                                    <div>
                                         <a class="whitespace-nowrap text-primary-500" routerLink="/orcamento">
                                             {{ t('orcamentos') }}
                                         </a>

@@ -20,24 +20,9 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	selector: 'app-auditoria-lista',
 	templateUrl: './auditoria-lista.component.html',
 	styles: [
-		/* language=SCSS */
-		`
-      .list-grid-auditoria {
-		grid-template-columns: 142px 15% 10% auto 10% 15%;
-      
-      @screen sm {
-		grid-template-columns: 142px 15% 10% auto 10% 15%;
-      }
-  
-      @screen md {
-		grid-template-columns: 142px 15% 10% auto 10% 15%;
-      }
-  
-      @screen lg {
-		grid-template-columns: 142px 15% 10% auto 10% 15%;
-      }
-      }
-    `
+		`.list-grid-auditoria {
+			grid-template-columns: 142px 15% 10% auto 10% 5%;
+		}`
 	],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations

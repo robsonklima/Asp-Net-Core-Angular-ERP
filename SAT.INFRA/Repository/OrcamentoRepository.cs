@@ -288,7 +288,8 @@ namespace SAT.INFRA.Repository
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-            return PagedList<ViewOrcamentoLista>.ToPagedList(query, 1, 100000);
+            
+            return PagedList<ViewOrcamentoLista>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

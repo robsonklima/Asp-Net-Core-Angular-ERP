@@ -258,7 +258,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			case 2:
 				dados = {
 					destinatarios: ['dss.orcamentos@perto.com.br'],
-					assuntoEmail: `COTAÇÃO DE PEÇAS ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
+					assuntoEmail: `Perto - Solicitação de Abertura Técnica`,
 					conteudoEmail:
 						`
 							<p>Solicito cotação para o atendimento abaixo</p> 

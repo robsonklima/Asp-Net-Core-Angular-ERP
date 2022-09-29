@@ -104,6 +104,7 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit
     {
       this.os.codTecnico = tecnico.codTecnico;
       this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
+      this.os.codUsuarioManutencao = this.sessionData.usuario.codUsuario;
       this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
       this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
       this._ordemServicoService.atualizar(this.os).subscribe(() =>

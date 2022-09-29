@@ -82,10 +82,9 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 	}
 
 	calcularValorTotal(outroServico){
-		if(outroServico.tipo === "Outros    "){
+		if(String(outroServico.tipo).trim() === "Outros"){
 			return outroServico.quantidade * outroServico.valorUnitario;
-		}
-		else{
+		} else {
 			this.valorIss = (this.valorIss / 100) * outroServico.valorUnitario;
 			this.valorPercentualOutroServico = (this.valorPercentualOutroServico / 100) * outroServico.valorUnitario;
 			return ((this.valorIss + this.valorPercentualOutroServico) + +outroServico.valorUnitario) * outroServico.quantidade;
@@ -101,11 +100,10 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 			this._orcService.atualizarTotalizacao(m.codOrc);
 			this._snack.open('Serviço adicionado com sucesso.', null, this.snackConfigSuccess).afterDismissed().toPromise();
 			this.dialogRef.close({ ...outroServico, ...m });
-		},
-			e => {
-				this._snack.open('Erro ao adicionar serviço.', null, this.snackConfigDanger).afterDismissed().toPromise();
-				this.dialogRef.close(null);
-			});
+		},e => {
+			this._snack.open('Erro ao adicionar serviço.', null, this.snackConfigDanger).afterDismissed().toPromise();
+			this.dialogRef.close(null);
+		});
 	}
 
 	ngOnDestroy() {

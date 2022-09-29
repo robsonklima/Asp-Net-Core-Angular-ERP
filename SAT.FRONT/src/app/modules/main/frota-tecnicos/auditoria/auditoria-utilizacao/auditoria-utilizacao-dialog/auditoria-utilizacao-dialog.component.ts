@@ -16,6 +16,8 @@ import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import moment from 'moment';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { Location } from '@angular/common';
 declare var L: any;
 
 @Component({
@@ -40,8 +42,8 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     private _auditoriaService: AuditoriaService,
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
     private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
-    // private _snack: CustomSnackbarService,
-    // private _location: Location,
+    private _snack: CustomSnackbarService,
+    private _location: Location,
     private dialogRef: MatDialogRef<AuditoriaUtilizacaoDialogComponent>) {
     if (data)
     {
@@ -177,28 +179,25 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
   salvar(){
     this.zerarValores();
     this.calcularValores();
+    const form: any = this.form.getRawValue();
+
+    let obj = {
+      ...this.auditoria,
+      ...form,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario.codUsuario,
+      }
+    };
+
+    this._auditoriaService.atualizar(obj).subscribe(() => {
+      this._snack.exibirToast("Auditoria atualizada com sucesso!", "success");
+      this._location.back();
+    }, e => {
+      this.form.enable();
+    });
+
     this.dialogRef.close(true);
   }
-
-  // salvar(): void {
-  //   const form: any = this.form.getRawValue();
-
-  //   let obj = {
-  //     ...this.auditoria,
-  //     ...form,
-  //     ...{
-  //       dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-  //       codUsuarioManut: this.userSession.usuario.codUsuario,
-  //     }
-  //   };
-
-  //   this._auditoriaService.atualizar(obj).subscribe(() => {
-  //     this._snack.exibirToast("Auditoria atualizada com sucesso!", "success");
-  //     this._location.back();
-  //   }, e => {
-  //     this.form.enable();
-  //   });
-  // }
-
 
 }

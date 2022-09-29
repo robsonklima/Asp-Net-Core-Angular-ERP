@@ -122,6 +122,7 @@ namespace SAT.INFRA.Repository
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
             var query = _context.Orcamento
+                .Include(p => p.OrcamentoMotivo)
                 .Include(o => o.Filial!)
                 .Include(o => o.Cliente!)
                 .Include(o => o.OrdemServico)

@@ -105,10 +105,9 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         valorIpi: dp?.peca?.valIPI,
         usuarioCadastro: this.userSession?.usuario?.codUsuario,
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
-        peca: dp?.peca
       }
 
-      if(!m?.peca?.isValorAtualizado)
+      if(!dp?.peca?.isValorAtualizado)
         this.isValorPecasDesatualizado = true;
 
       m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);
@@ -217,6 +216,9 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async persistirOrcamento(): Promise<any> {
+    console.log(this.orcamento);
+    
+
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();
@@ -233,6 +235,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   async persistirMateriais(): Promise<any> {
     return new Promise(async (resolve, reject) =>{
       for (const material of this.orcamento.materiais) {
+        material.peca = null;
+
         await this._orcMaterialService.criar(material).toPromise();
       }
 

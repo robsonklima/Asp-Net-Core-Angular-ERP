@@ -40,7 +40,7 @@
                             </th>
 
                             <th scope="col" class="py-1 text-center">
-                                Atualizado
+                                Valor Unit. Vencido
                             </th>
                         </tr>
                     </thead>
@@ -74,7 +74,7 @@
                             </td>
 
                             <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
-                                {{ material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                                {{ !material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
                             </td>
                         </tr>
                     </tbody>

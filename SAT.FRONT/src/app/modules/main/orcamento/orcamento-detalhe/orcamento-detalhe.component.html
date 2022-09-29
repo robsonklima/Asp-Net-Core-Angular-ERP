@@ -128,16 +128,6 @@
                                             <div class="flex flex-col mt-4 divide-y font-medium pointer-events-none sm:col-span-6">
                                                 <div class="flex items-center justify-between py-2">
                                                     <div class="text-secondary">
-                                                        {{ t('endereco') }}
-                                                    </div>
-                                        
-                                                    <div class="truncate max-w-1/2">
-                                                        {{ os?.filial?.endereco || 'Não Informado' }}
-                                                    </div>
-                                                </div>
-    
-                                                <div class="flex items-center justify-between py-2">
-                                                    <div class="text-secondary">
                                                         {{ t('data') }}
                                                     </div>
                                         
@@ -153,26 +143,6 @@
                                         
                                                     <div class="truncate max-w-1/2">
                                                         {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex items-center justify-between py-2">
-                                                    <div class="text-secondary">
-                                                        {{ t('fone') }}
-                                                    </div>
-                                        
-                                                    <div class="truncate max-w-1/2">
-                                                        {{ os?.filial?.fone || 'Não Informado' }}
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex items-center justify-between py-2">
-                                                    <div class="text-secondary">
-                                                        {{ t('cnpj') }}
-                                                    </div>
-                                        
-                                                    <div class="truncate max-w-1/2">
-                                                        {{ os?.filial?.cnpj || 'Não Informado' }}
                                                     </div>
                                                 </div>
 
@@ -232,13 +202,13 @@
                         <mat-tab label="{{ t('dados local') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 w-full min-w-0">
-                                    <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
-                                    </app-orcamento-detalhe-local>
-
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalFaturamento">
                                     </app-orcamento-detalhe-local>
                                     
                                     <app-orcamento-detalhe-local [dadosLocal]="dadosLocalEnvioNF">
+                                    </app-orcamento-detalhe-local>
+
+                                    <app-orcamento-detalhe-local [dadosLocal]="dadosLocalAtendimento">
                                     </app-orcamento-detalhe-local>
                                 </div>
                             </ng-template>

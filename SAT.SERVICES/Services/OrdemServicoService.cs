@@ -220,7 +220,7 @@ namespace SAT.SERVICES.Services
 
         private bool VerificarNumeroRATObrigatorio(OrdemServico os)
         {
-            if (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO)
+            if (os.CodTipoIntervencao == (int)TipoIntervencaoEnum.INSTALACAO || os.CodCliente == (int)ClienteEnum.BANRISUL || os.CodCliente == (int)ClienteEnum.BNB)
             {
                 return true;
             }

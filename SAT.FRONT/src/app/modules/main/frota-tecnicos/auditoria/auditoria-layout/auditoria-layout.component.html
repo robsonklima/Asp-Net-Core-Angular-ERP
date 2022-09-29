@@ -19,25 +19,20 @@
 										<span class="ml-1 text-secondary">{{ t('auditoria') }}</span>
 									</div>
 								</div>
-								<div class="mt-2"	*transloco="let t">
-									<h6
-										class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+								<div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4" *transloco="let t">
+									<h6 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
 										{{ codAuditoria }}
 									</h6>
-									<div class="text-right">
-										<!-- <button *ngIf="this.auditoria.auditoriaStatus.codAuditoriaStatus == 2"  -->
-										<button class="fuse-mat-button-rounded text-yellow-500 bg-white" [matTooltip]="t('editar')" matTooltipPosition="above" 
-											(click)="editarAuditoria()">
-											<mat-icon style="height:35px !important; width:35px !important; font-size:35px !important;" class="icon-size-8" 
-												[svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
+									<div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+										<button class="fuse-mat-button-rounded text-yellow-500 bg-white"
+											 mat-flat-button [matTooltip]="t('editar')" matTooltipPosition="above" (click)="editarAuditoria()">
+											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
 										</button>
-										<button class='mt-2 text-right' (click)="finalizar()" matTooltipPosition="above" [matTooltip]="t('finalizar')">
-											<mat-icon style="height:35px !important; width:35px !important; font-size:35px !important;"
-												class="text-green-500" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
+										<button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('finalizar')" matTooltipPosition="above" (click)="finalizar()">
+											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
 										</button>
-										<button class='mt-2 text-right' (click)="excluir()" matTooltipPosition="above" [matTooltip]="t('excluir')">
-											<mat-icon style="height:35px !important; width:35px !important; font-size:35px !important;"
-												class="text-red-500" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+										<button class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
+											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
 										</button>
 									</div>
 								</div>

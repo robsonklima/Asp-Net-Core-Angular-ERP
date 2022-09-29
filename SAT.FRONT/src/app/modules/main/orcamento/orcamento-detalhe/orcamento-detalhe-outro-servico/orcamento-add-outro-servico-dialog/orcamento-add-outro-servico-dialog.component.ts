@@ -95,6 +95,7 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 	inserir(): void {
 		var outroServico: OrcamentoOutroServico = this.form.getRawValue();
 		outroServico.valorTotal = this.calcularValorTotal(outroServico);
+		outroServico.valorUnitario = outroServico.valorTotal;
 		outroServico.dataCadastro = moment().format('yyyy-MM-DD HH:mm:ss');
 
 		this._orcOutroServicoService.criar(outroServico).subscribe(m => {

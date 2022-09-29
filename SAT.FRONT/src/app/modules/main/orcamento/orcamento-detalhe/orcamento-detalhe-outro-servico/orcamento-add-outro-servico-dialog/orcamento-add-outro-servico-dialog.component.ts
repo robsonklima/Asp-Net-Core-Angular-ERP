@@ -82,11 +82,10 @@ export class OrcamentoAddOutroServicoDialogComponent implements OnInit {
 	}
 
 	calcularValorTotal(outroServico){
-		if(outroServico.tipo == "Outros"){
+		if(outroServico.tipo === "Outros    "){
 			return outroServico.quantidade * outroServico.valorUnitario;
 		}
 		else{
-			console.log(outroServico);
 			this.valorIss = (this.valorIss / 100) * outroServico.valorUnitario;
 			this.valorPercentualOutroServico = (this.valorPercentualOutroServico / 100) * outroServico.valorUnitario;
 			return ((this.valorIss + this.valorPercentualOutroServico) + +outroServico.valorUnitario) * outroServico.quantidade;

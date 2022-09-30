@@ -13,3 +13,10 @@ export interface StatusServicoSTNData extends Meta {
 export interface StatusServicoSTNParameters extends QueryStringParameters {
     
 };
+
+export const statusServicoSTNConst = {
+	ABERTO: 1,
+    AGUARD_ATENDIMENTO: 2,
+    FECHADO: 3,
+    CANCELADO: 4
+}

@@ -76,6 +76,10 @@
                                     </div>
 
                                     <div>
+                                        {{ t('status') }}
+                                    </div>
+
+                                    <div class="pl-2">
                                         {{ t('acoes') }}
                                     </div>
                                 </div>
@@ -85,7 +89,7 @@
 
                     <ng-container>
                         <ng-container *ngFor="let ordem of dataSourceData?.items">
-                            <div class="list-grid-os-stn-lista grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                            <div class="list-grid-os-stn-lista grid items-center h-10 pt-2 gap-4 py-3 px-6 text-md md:px-8 border-b hover:bg-gray-100"
                                 *transloco="let t">
                                 <div class="truncate">
                                     {{ ordem.codOS }}
@@ -104,7 +108,7 @@
                                 </div>
 
                                 <div class="truncate">
-                                    {{ ordem.ordemServico.equipamento.nomeEquip }}
+                                    {{ ordem.ordemServico?.equipamento?.nomeEquip }}
                                 </div>
 
                                 <div class="truncate">
@@ -124,8 +128,14 @@
                                     {{ (ordem.usuario?.nomeUsuario | uppercase) || 'NÃO INFORMADO' }}
                                 </div>
 
+                                <div>
+                                    <span class="bg-green-600 text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1">
+                                        {{ (ordem.statusSTN?.descStatusServicoSTN | uppercase) || 'NÃO INFORMADO' }}
+                                    </span>
+                                </div>
+
                                 <div class="truncate">
-                                    <button class="min-w-10 min-h-7 h-7 px-2 ml-2" mat-stroked-button
+                                    <button class="min-w-10 min-h-7 h-6 mt-1 px-2 ml-2" mat-stroked-button
                                         [matTooltip]="'Detalhes'" matTooltipPosition="above">
                                         <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_solid:user'">
                                         </mat-icon>
@@ -134,6 +144,11 @@
                             </div>
                         </ng-container>
                     </ng-container>
+                </div>
+
+                <div *ngIf="!dataSourceData?.items?.length && !isLoading"
+                    class="w-full p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                    Nenhum registro encontrado!
                 </div>
 
                 <mat-paginator [hidden]="!dataSourceData?.items?.length"

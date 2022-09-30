@@ -34,11 +34,8 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-
 	@ViewChild(MatSort) sort: MatSort;
-
 	dataSourceData: ViewOrcamentoListaData;
-	selectedItem: Orcamento | null = null;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
 

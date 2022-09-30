@@ -36,5 +36,5 @@ export interface OrdemServicoSTNData extends Meta
 
 export interface OrdemServicoSTNParameters extends QueryStringParameters
 {
-    
+    codClientes?: string;
 };

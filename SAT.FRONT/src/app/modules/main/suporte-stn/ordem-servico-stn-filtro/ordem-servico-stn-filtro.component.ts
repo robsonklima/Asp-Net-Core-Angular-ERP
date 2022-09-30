@@ -21,7 +21,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 		protected _formBuilder: FormBuilder,
 		private _clienteService: ClienteService,
   ) {
-    super(_userService, _formBuilder, 'orcamento');
+    super(_userService, _formBuilder, 'ordem-servico-stn');
   }
 
   ngOnInit(): void {

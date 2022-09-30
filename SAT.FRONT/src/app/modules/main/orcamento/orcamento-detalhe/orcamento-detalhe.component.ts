@@ -503,7 +503,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data: {
 				titulo: 'Confirmação',
-				message: 'Deseja reabrir a OS?',
+				message: 'Deseja clonar a OS?',
 				buttonText: {
 					ok: 'Sim',
 					cancel: 'Não'

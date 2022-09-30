@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -51,12 +52,34 @@ namespace SAT.INFRA.Repository
 
         public OrdemServicoSTN ObterPorCodigo(int codAtendimento)
         {
-            return _context.OrdemServicoSTN.FirstOrDefault(p => p.CodAtendimento == codAtendimento);
+            return _context.OrdemServicoSTN
+                .Include(o => o.StatusSTN)
+                .Include(o => o.Usuario)
+                .Include(o => o.OrdemServicoSTNOrigem)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Filial)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.EquipamentoContrato)
+                        .ThenInclude(o => o.Equipamento)
+                .FirstOrDefault(p => p.CodAtendimento == codAtendimento);
         }
 
         public PagedList<OrdemServicoSTN> ObterPorParametros(OrdemServicoSTNParameters parameters)
         {
-            var query = _context.OrdemServicoSTN.AsQueryable();
+            var query = _context.OrdemServicoSTN
+                .Include(o => o.StatusSTN)
+                .Include(o => o.Usuario)
+                .Include(o => o.OrdemServicoSTNOrigem)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Filial)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.EquipamentoContrato)
+                        .ThenInclude(o => o.Equipamento)
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {

@@ -46,12 +46,9 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-
 	@ViewChild(MatSort) sort: MatSort;
 	validaCliente: boolean = this._userService.isCustomer;
 	validaAbreOS: boolean = this._userService.isOpenOS;
-	//validaCliente:boolean = false;
-
 	dataSourceData: OrdemServicoData;
 	selectedItem: OrdemServico | null = null;
 	isLoading: boolean = false;

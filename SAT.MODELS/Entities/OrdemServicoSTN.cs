@@ -15,9 +15,11 @@ namespace SAT.MODELS.Entities
         public string CodCausa { get; set; }
         public int? CodAcao { get; set; }
         public string CodTecnico { get; set; }
+        public Usuario Usuario { get; set; }
         public string CodUsuarioCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public int? CodOrigemChamadoSTN { get; set; }
+        public OrdemServicoSTNOrigem OrdemServicoSTNOrigem { get; set; }
         public int? IndAtivo { get; set; }
         public int? NumReincidenciaAoAssumir { get; set; }
         public DateTime? DataHoraManut { get; set; }
@@ -26,5 +28,7 @@ namespace SAT.MODELS.Entities
         public int? IndPrimeiraLigacao { get; set; }
         public string NomeSolicitante { get; set; }
         public string ObsSistema { get; set; }
+        public OrdemServico OrdemServico { get; set; }
+        public StatusServicoSTN StatusSTN { get; set; }
     }
 }

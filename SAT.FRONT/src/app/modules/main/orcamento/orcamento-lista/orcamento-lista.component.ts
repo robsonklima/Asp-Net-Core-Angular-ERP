@@ -124,12 +124,10 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 	}
 
 	obterCorFonteIntervencao(codTipoIntervencao: number) {
-
 		if (codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_APROVADO ||
 			codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_REPROVADO) {
 			return 'white'
 		}
-
 	}
 
 	paginar() {

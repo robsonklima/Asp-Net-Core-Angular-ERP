@@ -246,6 +246,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewIntegracaoFinanceiroOrcamento> ViewIntegracaoFinanceiroOrcamento { get; set; }
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
+        public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -406,6 +407,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
             modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
             modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);
+            modelBuilder.Entity<OrdemServicoSTN>(new OrdemServicoSTNMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

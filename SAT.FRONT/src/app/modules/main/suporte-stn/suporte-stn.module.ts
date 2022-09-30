@@ -16,49 +16,83 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SuporteSTNListaComponent } from './suporte-stn-lista/suporte-stn-lista.component';
-import { SuporteSTNDetalheComponent } from './suporte-stn-detalhe/suporte-stn-detalhe.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { OrdemServicoSTNListaComponent } from './ordem-servico-stn-lista/ordem-servico-stn-lista.component';
+import { OrdemServicoSTNDetalheComponent } from './ordem-servico-stn-detalhe/ordem-servico-stn-detalhe.component';
+import { OrdemServicoSTNFiltroComponent } from './ordem-servico-stn-filtro/ordem-servico-stn-filtro.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { FuseCardModule } from '@fuse/components/card';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatListModule } from '@angular/material/list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { FiltroModule } from '../filtros/filtro.module';
+import { MatDividerModule } from '@angular/material/divider';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
-      validation: false,
+    validation: false,
   };
 };
 
 @NgModule({
   declarations: [
-    SuporteSTNListaComponent,
-    SuporteSTNDetalheComponent
+    OrdemServicoSTNListaComponent,
+    OrdemServicoSTNDetalheComponent,
+    OrdemServicoSTNFiltroComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(suporteSTNRoutes),
     NgxMaskModule.forRoot(maskConfigFunction),
-    MatPaginatorModule,
-    SharedModule,
-    MatIconModule,
-    MatSortModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressBarModule,
-    TranslocoModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
+    MatButtonToggleModule,
+    MatChipsModule,
     MatDatepickerModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatTableModule,
+    MatDividerModule,
+    DragDropModule,
+    MatMomentDateModule,
+    FuseHighlightModule,
+    MatButtonModule,
     MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    MatRippleModule,
+    MatSortModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    SharedModule,
+    MatTableModule,
+    MatTabsModule,
+    TranslocoModule,
+    NgxMatSelectSearchModule,
+    FuseCardModule,
+    MatBadgeModule,
+    MatSidenavModule,
+    MatListModule,
+    MatStepperModule,
     FuseAlertModule,
-    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    FiltroModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class SuporteSTNModule { }

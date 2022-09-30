@@ -56,6 +56,7 @@ namespace SAT.SERVICES.Services
             {
                 client.Send(message);
                 client.Dispose();
+                message.Attachments.Dispose();
             }
             catch (Exception ex)
             {

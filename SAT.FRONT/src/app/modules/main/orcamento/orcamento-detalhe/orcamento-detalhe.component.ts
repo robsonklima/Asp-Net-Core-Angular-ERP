@@ -1,3 +1,4 @@
+import { Cidade } from 'app/core/types/cidade.types';
 import { EmailService } from 'app/core/services/email.service';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
@@ -250,7 +251,130 @@ export class OrcamentoDetalheComponent implements OnInit {
 							<br>
 							<a href="${environment.clientUrl}/#/orcamento-aprovacao/${this.codOrc}">CLIQUE AQUI</a> para Aprovar ou Reprovar este orçamento !!!
 							<br>
-							Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!					
+							Ou, se preferir, utilize seu recurso de 'Responder a todos' da sua ferramenta de e-mail, e nos escreva aprovado ou reprovado!!!
+							<br>
+							<div class="tg-wrap">							
+								<table style="undefined;table-layout: fixed; width: 1008px">
+									<colgroup>
+										<col style="width: 104px">
+										<col style="width: 370px">
+										<col style="width: 108px">
+										<col style="width: 249px">
+										<col style="width: 80px">
+										<col style="width: 80px">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="6" style="border-bottom: 2px solid white;">Dados do local para envio de Nota Fiscal</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="font-weight: bold;">Razão Social:</td>
+											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">CEP:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Endereço:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">Complemento:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">Número:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Bairro:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">Cidade:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade?? "---"}</td>
+											<td style="font-weight: bold;">UF:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">CNPJ:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">Ins. Estadual:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF?? "---"}</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Responsável:</td>
+											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">E-mail:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF?? "---"}</td>
+											<td style="font-weight: bold;">DDD+Fone:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF?? "---"}</td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							<br>
+							<div class="tg-wrap">							
+								<table style="undefined;table-layout: fixed; width: 1008px">
+									<colgroup>
+										<col style="width: 104px">
+										<col style="width: 370px">
+										<col style="width: 108px">
+										<col style="width: 249px">
+										<col style="width: 80px">
+										<col style="width: 80px">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="6" style="border-bottom: 2px solid white;">Dados do local para envio de Faturamento</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="font-weight: bold;">Razão Social:</td>
+											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">CEP:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Endereço:</td>
+											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">Complemento:</td>
+											<td> ${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">Número:</td>
+											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroFaturamento?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Bairro:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">Cidade:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.nomeCidade?? "---"}</td>
+											<td style="font-weight: bold;">UF:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">CNPJ:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">Ins. Estadual:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualFaturamento?? "---"}</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">Responsável:</td>
+											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento?? "---"}</td>
+										</tr>
+										<tr>
+											<td style="font-weight: bold;">E-mail:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento?? "---"}</td>
+											<td style="font-weight: bold;">DDD+Fone:</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneFaturamento?? "---"}</td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						`,
 					indOrcamento: this.orcamento.ordemServico?.relatoriosAtendimento.pop()?.laudos.pop()?.codLaudoStatus == 2 ? true : false
 				};

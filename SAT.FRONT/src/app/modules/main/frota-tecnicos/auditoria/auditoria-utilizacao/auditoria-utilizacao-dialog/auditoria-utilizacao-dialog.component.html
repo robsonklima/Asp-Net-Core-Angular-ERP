@@ -1,5 +1,5 @@
 <form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
-    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper *ngIf="auditoria">
         <mat-step [formGroupName]="'step1'" [stepControl]="form.get('step1')" #horizontalStepperStep1>
             <ng-template matStepLabel>Periodo</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
@@ -31,7 +31,7 @@
                 </button>
             </div>
         </mat-step>
-        <mat-step [formGroupName]="'step2'" [stepControl]="form.get('step2')" #horizontalStepperStep2>
+        <mat-step [formGroupName]="'step2'" [stepControl]="form.get('step2')" #horizontalStepperStep2 *ngIf="auditoria">
             <ng-template matStepLabel>Km</ng-template>
             <div class="flex flex-col gt-xs:flex-row">
 
@@ -69,9 +69,9 @@
                 </button>
             </div>
         </mat-step>
-        <mat-step [formGroupName]="'step3'" [stepControl]="form.get('step3')" #horizontalStepperStep3>
+        <mat-step [formGroupName]="'step3'" [stepControl]="form.get('step3')"  #horizontalStepperStep3>
             <ng-template matStepLabel>Combustível</ng-template>
-            <div class="flex flex-col gt-xs:flex-row">
+            <div class="flex flex-col gt-xs:flex-row" *ngIf="auditoria">
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('creditos no cartao') }}</div>

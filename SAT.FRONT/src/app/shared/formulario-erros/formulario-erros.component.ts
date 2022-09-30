@@ -11,6 +11,7 @@ export class FormularioErrosComponent {
     constructor() {}
 
     showFormErrors(): any {
+
 		const errors: any = [];
 
         if (!this.form)
@@ -43,6 +44,8 @@ export class FormularioErrosComponent {
 		switch (error) {
 			case 'required':
 				return 'Favor preencher o campo '
+			case 'maxlength':
+				return 'Tamanho do campo excedido para '
 			default:
 				return error;
 		}

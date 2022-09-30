@@ -107,7 +107,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			cnpjEnvioNF: [undefined, Validators.required],
 			inscricaoEstadualEnvioNF: [undefined],
 			responsavelEnvioNF: [undefined, Validators.required],
-			emailEnvioNF: [undefined, Validators.required, Validators.maxLength(1000)],
+			emailEnvioNF: [undefined, Validators.required],
 			foneEnvioNF: [undefined],
 			faxEnvioNF: [undefined],
 			razaoSocialEnvioNF: [undefined, Validators.required],

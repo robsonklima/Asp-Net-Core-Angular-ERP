@@ -11,6 +11,8 @@ namespace SAT.INFRA.Mapping
             builder
                 .ToTable("EquipamentoContrato");
 
+            builder.Ignore(p => p.Mtbf);
+
             builder
                 .HasKey(prop => prop.CodEquipContrato);
 

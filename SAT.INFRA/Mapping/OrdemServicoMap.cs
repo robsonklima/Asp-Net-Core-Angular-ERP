@@ -8,12 +8,9 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<OrdemServico> builder)
         {
-            builder
-                .ToTable("OS");
-
-            builder
-                .HasKey(prop => prop.CodOS);
-
+            builder.ToTable("OS");
+            builder.HasKey(prop => prop.CodOS);
+            
             builder
                 .Ignore(prop => prop.IndNumRATObrigatorio)
                 .Ignore(prop => prop.Fotos)

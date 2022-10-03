@@ -6,6 +6,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -20,6 +21,7 @@ namespace SAT.SERVICES.Services
         private readonly IRelatorioAtendimentoRepository _ratRepo;
         private readonly IRelatorioAtendimentoDetalheRepository _ratDetalheRepo;
         private readonly IRelatorioAtendimentoDetalhePecaRepository _ratDetalhePecaRepo;
+        private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
 
         public OrdemServicoService(
             IOrdemServicoRepository ordemServicoRepo, 
@@ -27,7 +29,8 @@ namespace SAT.SERVICES.Services
             IOrdemServicoAlertaService ordemServicoAlertaService,
             IRelatorioAtendimentoRepository ratRepo,
             IRelatorioAtendimentoDetalheRepository ratDetalheRepo,
-            IRelatorioAtendimentoDetalhePecaRepository ratDetalhePecaRepo
+            IRelatorioAtendimentoDetalhePecaRepository ratDetalhePecaRepo,
+            IEquipamentoContratoRepository equipamentoContratoRepo
         ) {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
@@ -35,6 +38,7 @@ namespace SAT.SERVICES.Services
             _ratRepo = ratRepo;
             _ratDetalheRepo = ratDetalheRepo;
             _ratDetalhePecaRepo = ratDetalhePecaRepo;
+            _equipamentoContratoRepo = equipamentoContratoRepo;
         }
 
         public OrdemServico Atualizar(OrdemServico ordemServico)

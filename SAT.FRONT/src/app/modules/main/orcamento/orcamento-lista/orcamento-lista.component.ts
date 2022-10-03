@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { Orcamento, OrcamentoData, OrcamentoParameters, OrcamentoTipoIntervencao, ViewOrcamentoLista, ViewOrcamentoListaData } from 'app/core/types/orcamento.types';
+import { OrcamentoParameters, OrcamentoTipoIntervencao, ViewOrcamentoListaData } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -33,8 +33,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 export class OrcamentoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	dataSourceData: ViewOrcamentoListaData;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();

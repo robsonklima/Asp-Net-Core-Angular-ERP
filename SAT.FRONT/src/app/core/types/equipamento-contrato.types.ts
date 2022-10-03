@@ -7,6 +7,7 @@ import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { GrupoEquipamento } from "./grupo-equipamento.types";
 import { LocalAtendimento } from "./local-atendimento.types";
+import { MtbfEquipamento } from "./mtbf-equipamento.types";
 import { RegiaoAutorizada } from "./regiao-autorizada.types";
 import { Regiao } from "./regiao.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
@@ -88,7 +89,8 @@ export class EquipamentoContrato {
     sequencia?: any;
     indMecanismo?: any;
     codDispBBCriticidade?: any;
-    contratoEquipamento: ContratoEquipamento
+    contratoEquipamento: ContratoEquipamento;
+    mtbf?: MtbfEquipamento;
 }
 
 export interface EquipamentoContratoData extends Meta {

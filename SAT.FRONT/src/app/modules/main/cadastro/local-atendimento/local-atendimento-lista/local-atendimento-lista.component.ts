@@ -81,7 +81,6 @@ export class LocalAtendimentoListaComponent extends Filterable implements AfterV
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.obterDados(text);
-				debugger
 			});
 
 			this.sort.disableClear = true;

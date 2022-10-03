@@ -210,7 +210,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		var codCliente = this.form.controls['codEquipContrato'].value ?? null;
 
 		const params: ContratoParameters = {
-			codCliente: this.form.controls['codCliente'].value ?? null,
 			filter: filter,
 			indAtivo: statusConst.ATIVO,
 			codClientes: codCliente.toString()

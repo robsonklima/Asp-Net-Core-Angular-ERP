@@ -137,7 +137,7 @@ export class ClientePecaFormComponent implements OnInit {
 
     this.form.controls['codCliente'].valueChanges.subscribe(async () => {
       this.contratos = [];
-      this.contratos = (await this._contratoService.obterPorParametros({ codCliente: this.form.controls['codCliente'].value }).toPromise()).items;
+      this.contratos = (await this._contratoService.obterPorParametros({ codClientes: this.form.controls['codCliente'].value }).toPromise()).items;
       this._cdr.detectChanges();
     });
   }

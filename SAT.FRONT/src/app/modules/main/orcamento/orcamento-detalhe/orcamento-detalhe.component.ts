@@ -445,8 +445,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
-			debugger
-
 			if (data) {
 				this.orcamento.indEnvioCliente = 1;
 				this.orcamento.codusuarioEnvioCliente = this.userSession.usuario.codUsuario;
@@ -469,8 +467,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 						break;
 
 					case 2:
-						debugger
-
 						this._emailService.enviarEmail(
 							{
 								assunto: data.assunto,

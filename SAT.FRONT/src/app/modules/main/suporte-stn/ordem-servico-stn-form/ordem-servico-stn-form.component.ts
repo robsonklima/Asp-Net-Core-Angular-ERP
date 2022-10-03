@@ -43,7 +43,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
 
-    this.obterOS(6886015);
+    //this.obterOS(6886015);
 
     this.registrarEmitters();
     this._cdr.detectChanges();

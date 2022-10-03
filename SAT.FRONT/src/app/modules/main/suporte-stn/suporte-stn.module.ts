@@ -39,6 +39,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FiltroModule } from '../filtros/filtro.module';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { OrdemServicoStnFormComponent } from './ordem-servico-stn-form/ordem-servico-stn-form.component';
 import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico/ordem-servico-stn-historico.component';
 
@@ -78,6 +79,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatRippleModule,
     MatSortModule,
     MatSelectModule,
+    MatExpansionModule,
     MatSlideToggleModule,
     SharedModule,
     MatTableModule,

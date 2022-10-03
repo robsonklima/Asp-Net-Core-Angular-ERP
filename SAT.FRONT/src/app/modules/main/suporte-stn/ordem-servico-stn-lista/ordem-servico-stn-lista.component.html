@@ -21,6 +21,12 @@
                         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
+                    
+                    <button class="ml-4" mat-icon-button
+                        [matTooltip]="'Novo Chamado'" [routerLink]="'/suporte-stn/form/'">
+                        <mat-icon class="icon-size-5 text-green-600" [svgIcon]="'heroicons_solid:plus-circle'">
+                        </mat-icon>
+                    </button>
 
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
@@ -135,7 +141,7 @@
                                 </div>
 
                                 <div class="truncate">
-                                    {{ (ordem.usuario?.nomeUsuario | uppercase) || 'NÃO INFORMADO' }}
+                                    {{ (ordem.usuario?.nomeUsuario | uppercase) || 'S/ TRANSF.' }}
                                 </div>
 
                                 <div>
@@ -161,11 +167,7 @@
                                 </div>
 
                                 <div class="truncate">
-                                    <button class="min-w-10 min-h-7 h-6 mt-1 px-2 ml-2" mat-stroked-button
-                                        [matTooltip]="'Detalhes'" matTooltipPosition="above">
-                                        <mat-icon class="icon-size-5 text-blue-600" [svgIcon]="'heroicons_solid:user'">
-                                        </mat-icon>
-                                    </button>
+                                    
                                 </div>
                             </div>
                         </ng-container>

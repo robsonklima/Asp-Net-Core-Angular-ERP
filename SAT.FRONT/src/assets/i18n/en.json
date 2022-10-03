@@ -703,5 +703,7 @@
     "enviado": "Sent",
     "suporte stn": "National Technician Support",
     "abertura stn": "Oppended STN",
-    "reincidencias": "Relapses"
+    "reincidencias": "Relapses",
+    "criando": "Adding",
+    "novo atendimento": "New Order"
 }

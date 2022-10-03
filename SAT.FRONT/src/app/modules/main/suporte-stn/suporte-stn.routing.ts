@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { OrdemServicoSTNDetalheComponent } from './ordem-servico-stn-detalhe/ordem-servico-stn-detalhe.component';
+import { OrdemServicoStnFormComponent } from './ordem-servico-stn-form/ordem-servico-stn-form.component';
 import { OrdemServicoSTNListaComponent } from './ordem-servico-stn-lista/ordem-servico-stn-lista.component';
 
 export const suporteSTNRoutes: Route[] = [
@@ -13,7 +13,7 @@ export const suporteSTNRoutes: Route[] = [
         component: OrdemServicoSTNListaComponent
     },
     {
-        path: 'detalhe/:codAtendimento',
-        component: OrdemServicoSTNDetalheComponent
+        path: 'form',
+        component: OrdemServicoStnFormComponent
     }
 ];

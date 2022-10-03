@@ -54,9 +54,6 @@ export class OrdemServicoSTNListaComponent  extends Filterable implements AfterV
 			this.obterDados(query);
 		});
     
-    console.log(this.sort, this.paginator);
-    
-
     if (this.sort && this.paginator) {
       this.sort.disableClear = true;
       this._cdr.markForCheck();
@@ -90,7 +87,6 @@ export class OrdemServicoSTNListaComponent  extends Filterable implements AfterV
         this.dataSourceData = data;
         this.isLoading = false;
         this._cdr.detectChanges();
-        console.log(data.items);
       }, e => {
         this._snack.exibirToast(`Erro ao consultar registros ${e.message}`, 'error');
       });

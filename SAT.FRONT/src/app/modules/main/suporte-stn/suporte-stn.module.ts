@@ -16,15 +16,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatOptionModule, MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FuseAlertModule } from '@fuse/components/alert';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { OrdemServicoSTNListaComponent } from './ordem-servico-stn-lista/ordem-servico-stn-lista.component';
-import { OrdemServicoSTNDetalheComponent } from './ordem-servico-stn-detalhe/ordem-servico-stn-detalhe.component';
 import { OrdemServicoSTNFiltroComponent } from './ordem-servico-stn-filtro/ordem-servico-stn-filtro.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -41,6 +39,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FiltroModule } from '../filtros/filtro.module';
 import { MatDividerModule } from '@angular/material/divider';
+import { OrdemServicoStnFormComponent } from './ordem-servico-stn-form/ordem-servico-stn-form.component';
+import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico/ordem-servico-stn-historico.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -51,8 +51,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
 @NgModule({
   declarations: [
     OrdemServicoSTNListaComponent,
-    OrdemServicoSTNDetalheComponent,
-    OrdemServicoSTNFiltroComponent
+    OrdemServicoSTNFiltroComponent,
+    OrdemServicoStnFormComponent,
+    OrdemServicoStnHistoricoComponent
   ],
   imports: [
     CommonModule,

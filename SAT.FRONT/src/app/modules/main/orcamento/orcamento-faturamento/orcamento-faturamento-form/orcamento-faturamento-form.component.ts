@@ -1,7 +1,7 @@
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -45,7 +45,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	clientes: Cliente[] = [];
 	contratos: Contrato[] = [];
 	isAddMode: boolean;
-	form: FormGroup;
+	formLocalEnvioNF: FormGroup;
+	formLocalEnvioNFVinculado: FormGroup;
 	isLoading: boolean;
 	locaisAtendimento: LocalAtendimento[];
 	userSession: UsuarioSessao;
@@ -71,12 +72,12 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	ngOnInit() {
+	ngOnInit(): void {		
 		this.isLoading = true;
 		this.codLocalEnvioNFFaturamento = +this._route.snapshot.paramMap.get('codLocalEnvioNFFaturamento');
 		this.isAddMode = !this.codLocalEnvioNFFaturamento;
 
-		this.form = this._formBuilder.group({
+		this.formLocalEnvioNF = this._formBuilder.group({
 			codLocalEnvioNFFaturamento: [{
 				value: undefined,
 				disabled: true
@@ -110,7 +111,11 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			emailEnvioNF: [undefined, Validators.required],
 			foneEnvioNF: [undefined],
 			faxEnvioNF: [undefined],
-			razaoSocialEnvioNF: [undefined, Validators.required],
+			razaoSocialEnvioNF: [undefined, Validators.required]
+		});
+
+		this.formLocalEnvioNFVinculado = this._formBuilder.group({
+			codPosto: [undefined]
 		});
 
 		if (!this.isAddMode)
@@ -127,7 +132,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	atualizar(): void {
-		const form: any = this.form.getRawValue();
+		const form: any = this.formLocalEnvioNF.getRawValue();
 
 		let obj = {
 			...this.localEnvioNFFaturamento,
@@ -144,13 +149,14 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	criar(): void {
-		const form = this.form.getRawValue();
+		const form = this.formLocalEnvioNF.getRawValue();
 
 		let obj = {
 			...this.localEnvioNFFaturamento,
 			...form,
 			...{
-				codUsuarioCad: this.userSession.usuario.codUsuario
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				dataHoraCad: moment()
 			}
 		};
 
@@ -176,7 +182,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		let novoLocal: LocalEnvioNFFaturamentoVinculado = {
 			codLocalEnvioNFFaturamento: this.codLocalEnvioNFFaturamento,
 			codPosto: localEnvioNf.codPosto,
-			codContrato: this.form.controls['codContrato'].value,
+			codContrato: this.formLocalEnvioNF.controls['codContrato'].value,
 			codUsuarioCad: this.userSession?.usuario?.codUsuario,
 			dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 		}
@@ -199,8 +205,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				this.obterClientes(data.cliente.nomeFantasia);
 				this.obterContratos(data.contrato.nomeContrato);
 				this.localEnvioNFFaturamento = data;
-				this.form.patchValue(data);
-				this.form.controls['codContrato'].setValue(data.contrato.codContrato)
+				this.formLocalEnvioNF.patchValue(data);
+				this.formLocalEnvioNF.controls['codContrato'].setValue(data.contrato.codContrato)
 				this.obterLocaisAtendimentos();
 				this.obterLocaisEnvioNFFaturamentoVinculado(data.contrato.codContrato);
 			});
@@ -232,13 +238,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	private async obterContratos(filtro: string = '') {
-
-
-		const codCliente = this.form.controls['codCliente'].value;
-
-		console.log(codCliente);
-		
-
+		const codCliente = this.formLocalEnvioNF.controls['codCliente'].value;
 		const params: ContratoParameters = {
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
@@ -254,7 +254,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 
 		let params: LocalAtendimentoParameters = {
 			indAtivo: statusConst.ATIVO,
-			codClientes: this.form.controls['codCliente'].value,
+			codClientes: this.formLocalEnvioNF.controls['codCliente'].value,
 			sortActive: 'nomeLocal',
 			sortDirection: 'asc',
 			pageSize: 1000,
@@ -278,7 +278,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				this.obterClientes(this.clienteFilterCtrl.value);
 			});
 
-		this.form.controls['codCliente'].valueChanges
+		this.formLocalEnvioNF.controls['codCliente'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(500),
@@ -288,7 +288,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 
 				if (!this.isAddMode) {
 					this.obterContratos(this.localEnvioNFFaturamento.contrato.nomeContrato);
-					this.form.controls['codCliente'].disable();
+					this.formLocalEnvioNF.controls['codCliente'].disable();
 				}
 				else {
 					this.obterContratos();
@@ -315,7 +315,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
 			});
 
-		this.form.controls['cepFaturamento'].valueChanges
+		this.formLocalEnvioNF.controls['cepFaturamento'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(500),
@@ -327,16 +327,16 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 						enderecoCep: cep,
 						geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
 					}).subscribe((geo) => {
-						this.form.controls['enderecoFaturamento'].setValue(geo.endereco);
-						this.form.controls['bairroFaturamento'].setValue(geo.bairro);
-						this.form.controls['nomeCidadeFaturamento'].setValue(geo.cidade);
-						this.form.controls['siglaUFFaturamento'].setValue(geo.estado);
+						this.formLocalEnvioNF.controls['enderecoFaturamento'].setValue(geo.endereco);
+						this.formLocalEnvioNF.controls['bairroFaturamento'].setValue(geo.bairro);
+						this.formLocalEnvioNF.controls['nomeCidadeFaturamento'].setValue(geo.cidade);
+						this.formLocalEnvioNF.controls['siglaUFFaturamento'].setValue(geo.estado);
 					}, e => {
 						this._snack.exibirToast(e.error.errorMessage || 'Erro ao consultar as coordenadas', 'error');
 					});
 			});
 
-		this.form.controls['cepEnvioNF'].valueChanges
+		this.formLocalEnvioNF.controls['cepEnvioNF'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(500),
@@ -348,10 +348,10 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 						enderecoCep: cep,
 						geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.VIACEP
 					}).subscribe((geo) => {
-						this.form.controls['enderecoEnvioNF'].setValue(geo.endereco);
-						this.form.controls['bairroEnvioNF'].setValue(geo.bairro);
-						this.form.controls['nomeCidadeEnvioNF'].setValue(geo.cidade);
-						this.form.controls['siglaUFEnvioNF'].setValue(geo.estado);
+						this.formLocalEnvioNF.controls['enderecoEnvioNF'].setValue(geo.endereco);
+						this.formLocalEnvioNF.controls['bairroEnvioNF'].setValue(geo.bairro);
+						this.formLocalEnvioNF.controls['nomeCidadeEnvioNF'].setValue(geo.cidade);
+						this.formLocalEnvioNF.controls['siglaUFEnvioNF'].setValue(geo.estado);
 					}, e => {
 						this._snack.exibirToast(e.error.errorMessage || 'Erro ao consultar as coordenadas', 'error');
 					});
@@ -359,20 +359,20 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	copiarDadosLocal() {
-		this.form.controls['cepEnvioNF'].setValue(this.form.controls['cepFaturamento'].value);
-		this.form.controls['enderecoEnvioNF'].setValue(this.form.controls['enderecoFaturamento'].value);
-		this.form.controls['complementoEnvioNF'].setValue(this.form.controls['complementoFaturamento'].value);
-		this.form.controls['numeroEnvioNF'].setValue(this.form.controls['numeroFaturamento'].value);
-		this.form.controls['bairroEnvioNF'].setValue(this.form.controls['bairroFaturamento'].value);
-		this.form.controls['nomeCidadeEnvioNF'].setValue(this.form.controls['nomeCidadeFaturamento'].value);
-		this.form.controls['siglaUFEnvioNF'].setValue(this.form.controls['siglaUFFaturamento'].value);
-		this.form.controls['cnpjEnvioNF'].setValue(this.form.controls['cnpjFaturamento'].value);
-		this.form.controls['inscricaoEstadualEnvioNF'].setValue(this.form.controls['inscricaoEstadualFaturamento'].value);
-		this.form.controls['responsavelEnvioNF'].setValue(this.form.controls['responsavelFaturamento'].value);
-		this.form.controls['emailEnvioNF'].setValue(this.form.controls['emailFaturamento'].value);
-		this.form.controls['foneEnvioNF'].setValue(this.form.controls['foneFaturamento'].value);
-		this.form.controls['faxEnvioNF'].setValue(this.form.controls['faxFaturamento'].value);
-		this.form.controls['razaoSocialEnvioNF'].setValue(this.form.controls['razaoSocialFaturamento'].value);
+		this.formLocalEnvioNF.controls['cepEnvioNF'].setValue(this.formLocalEnvioNF.controls['cepFaturamento'].value);
+		this.formLocalEnvioNF.controls['enderecoEnvioNF'].setValue(this.formLocalEnvioNF.controls['enderecoFaturamento'].value);
+		this.formLocalEnvioNF.controls['complementoEnvioNF'].setValue(this.formLocalEnvioNF.controls['complementoFaturamento'].value);
+		this.formLocalEnvioNF.controls['numeroEnvioNF'].setValue(this.formLocalEnvioNF.controls['numeroFaturamento'].value);
+		this.formLocalEnvioNF.controls['bairroEnvioNF'].setValue(this.formLocalEnvioNF.controls['bairroFaturamento'].value);
+		this.formLocalEnvioNF.controls['nomeCidadeEnvioNF'].setValue(this.formLocalEnvioNF.controls['nomeCidadeFaturamento'].value);
+		this.formLocalEnvioNF.controls['siglaUFEnvioNF'].setValue(this.formLocalEnvioNF.controls['siglaUFFaturamento'].value);
+		this.formLocalEnvioNF.controls['cnpjEnvioNF'].setValue(this.formLocalEnvioNF.controls['cnpjFaturamento'].value);
+		this.formLocalEnvioNF.controls['inscricaoEstadualEnvioNF'].setValue(this.formLocalEnvioNF.controls['inscricaoEstadualFaturamento'].value);
+		this.formLocalEnvioNF.controls['responsavelEnvioNF'].setValue(this.formLocalEnvioNF.controls['responsavelFaturamento'].value);
+		this.formLocalEnvioNF.controls['emailEnvioNF'].setValue(this.formLocalEnvioNF.controls['emailFaturamento'].value);
+		this.formLocalEnvioNF.controls['foneEnvioNF'].setValue(this.formLocalEnvioNF.controls['foneFaturamento'].value);
+		this.formLocalEnvioNF.controls['faxEnvioNF'].setValue(this.formLocalEnvioNF.controls['faxFaturamento'].value);
+		this.formLocalEnvioNF.controls['razaoSocialEnvioNF'].setValue(this.formLocalEnvioNF.controls['razaoSocialFaturamento'].value);
 
 	}
 

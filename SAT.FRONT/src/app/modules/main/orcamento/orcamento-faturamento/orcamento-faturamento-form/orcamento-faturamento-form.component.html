@@ -26,7 +26,7 @@
 
     <div class="grid grid-cols-2 gap-4 p-6 sm:p-10" *ngIf="!isLoading">
         <div class="max-w-3xl">
-            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="formLocalEnvioNF">
                 <div
                     class="grid grid-cols-2 gap-4 content-between items-stretch bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <div>
@@ -252,8 +252,8 @@
                     </mat-form-field>
                 </div>
 
-                <div *ngIf="!form.valid">
-                    <app-formulario-erros [form]="form"></app-formulario-erros>
+                <div *ngIf="!formLocalEnvioNF.valid">
+                    <app-formulario-erros [form]="formLocalEnvioNF"></app-formulario-erros>
                 </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
@@ -261,7 +261,7 @@
                         {{ t('cancelar') }}
                     </button>
                     
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!formLocalEnvioNF.valid">
                         {{ t('salvar') }}
                     </button>
                 </div>
@@ -269,7 +269,7 @@
         </div>
 
         <div class="max-w-3xl" *ngIf="!isAddMode">
-            <form class="flex flex-col bg-card shadow rounded overflow-hidden " [formGroup]="form">
+            <form class="flex flex-col bg-card shadow rounded overflow-hidden " [formGroup]="formLocalEnvioNF">
                 <div
                     class="grid grid-cols-2 gap-4 content-between items-stretch bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <div>
@@ -280,7 +280,7 @@
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden minh-full">
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <mat-label>{{ t('local de atendimento') }}</mat-label>
-                        <mat-select formControlName="codPosto">
+                        <mat-select>
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"

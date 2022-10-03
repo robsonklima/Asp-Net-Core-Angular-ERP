@@ -62,7 +62,7 @@
             </div>
 
             <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
-                <fuse-card class="flex flex-col col-span-3 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
+                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados OS Perto</p>
                     </div>
@@ -134,7 +134,7 @@
                             </div>
                 
                             <div class="truncate max-w-1/2">
-                                {{ os?.localAtendimento?.nomeLocal }}
+                                {{ os?.localAtendimento?.nomeLocal | uppercase }}
                             </div>
                         </div>
 
@@ -170,7 +170,7 @@
                     </div>
                 </fuse-card>
 
-                <fuse-card class="flex flex-col col-span-3 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="rat">
+                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="rat">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados Atendimento Campo</p>
                     </div>
@@ -233,6 +233,64 @@
                 
                             <div class="max-w-1/2 text-right">
                                 {{ rat?.relatoSolucao }}
+                            </div>
+                        </div>
+                    </div>
+                </fuse-card>
+
+                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Atendimento Tratativa STN</p>
+                    </div>
+
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Protocolo Atend. STN
+                            </div>
+                
+                            <div class="truncate max-w-1/2">
+                                
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Data Hora Abert.
+                            </div>
+                
+                            <div class="truncate max-w-1/2">
+                                
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Origem Chamado
+                            </div>
+                
+                            <div class="truncate max-w-1/2">
+                                
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Demanda em fila de espera?
+                            </div>
+                
+                            <div class="truncate max-w-1/2">
+                                
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Status Protocolo STN
+                            </div>
+                
+                            <div class="truncate max-w-1/2">
+                                
                             </div>
                         </div>
                     </div>

@@ -317,7 +317,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.form.controls['codCliente'].valueChanges.subscribe(async () => {
       this.contratos = (await this._contratoService
         .obterPorParametros({
-          codCliente: this.form.controls['codCliente'].value
+          codClientes: this.form.controls['codCliente'].value
         })
         .toPromise()).items;
       this._cdr.detectChanges();

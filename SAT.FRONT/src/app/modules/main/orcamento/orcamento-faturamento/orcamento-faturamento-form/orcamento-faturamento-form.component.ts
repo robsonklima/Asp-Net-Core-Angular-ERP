@@ -232,12 +232,17 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	private async obterContratos(filtro: string = '') {
+
+
 		const codCliente = this.form.controls['codCliente'].value;
+
+		console.log(codCliente);
+		
 
 		const params: ContratoParameters = {
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
-			codCliente: codCliente,
+			codClientes: codCliente,
 			filter: filtro,
 			pageSize: 1000
 		}
@@ -296,8 +301,8 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 				debounceTime(500),
 				distinctUntilChanged()
 			)
-			.subscribe(() => {
-				this.obterContratos(this.contratoFilterCtrl.value);
+			.subscribe((query) => {
+				this.obterContratos(query);
 			});
 
 		this.localAtendimentoFilterCtrl.valueChanges

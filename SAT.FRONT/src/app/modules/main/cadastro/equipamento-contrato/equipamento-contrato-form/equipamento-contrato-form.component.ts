@@ -181,7 +181,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			indAtivo: statusConst.ATIVO,
-			codCliente: codCliente,
+			codClientes: codCliente,
 			pageSize: 1000
 		}
 

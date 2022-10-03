@@ -111,7 +111,7 @@ export class ContratoListaComponent extends Filterable implements AfterViewInit,
         const data: ContratoData = await this._contratoService
             .obterPorParametros({
                 ...params,
-                codCliente: this.filter?.parametros.codClientes,
+                codClientes: this.filter?.parametros.codClientes,
                 codTipoContrato: this.filter?.parametros.codTipoContrato
             })
             .toPromise();

@@ -288,14 +288,14 @@
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let localAtendimento of locaisAtendimento"
-                                [value]="localAtendimento.codPosto"
+                                [value]="localAtendimento?.codPosto"
                                 matTooltip="Vincular local"
                                 matTooltipPosition="left"
                                 (click)="salvarLocalEnvioNf(localAtendimento)">
                                 <span class="opacity-60 text-md">
                                     {{ localAtendimento?.numAgencia }}/{{ localAtendimento?.dcPosto }}
                                 </span>
-                                {{ localAtendimento.nomeLocal }}
+                                {{ localAtendimento?.nomeLocal }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

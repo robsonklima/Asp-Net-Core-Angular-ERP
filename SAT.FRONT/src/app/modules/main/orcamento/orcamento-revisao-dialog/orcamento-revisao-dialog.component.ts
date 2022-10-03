@@ -30,8 +30,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   os: OrdemServico;
   orcamento: Orcamento;
   userSession: UserSession;
+  isValorPecasDesatualizado: boolean = false;
   loading: boolean = true;
-  pecas: Peca[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -50,25 +50,11 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.obterPecas();
     this.montaOrcamento();
     await this.montaMaoDeObra();
     await this.montaDeslocamento();
     await this.montaMateriais();
-
-    console.log(this.orcamento);
-    
     this.loading = false;
-  }
-
-  obterPecas() {
-    this.os?.relatoriosAtendimento?.forEach(rat => {
-      rat.relatorioAtendimentoDetalhes.forEach(detalhe => {
-        detalhe.relatorioAtendimentoDetalhePecas.forEach(detalhePeca => {
-          this.pecas.push(detalhePeca.peca);
-        });
-      });
-    });
   }
 
   cancelar() {
@@ -118,10 +104,13 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         valorUnitarioFinanceiro: this.obterValorUnitarioFinanceiroMaterial(dp?.peca),
         valorIpi: dp?.peca?.valIPI,
         usuarioCadastro: this.userSession?.usuario?.codUsuario,
-        dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss')
+        dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      m.valorTotal = (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
+      if(!dp?.peca?.isValorAtualizado)
+        this.isValorPecasDesatualizado = true;
+
+      m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);
       materiais.push(m);
     };
 
@@ -192,7 +181,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     }
 
     deslocamento.valorTotalKmRodado = deslocamento.quantidadeKm * deslocamento.valorUnitarioKmRodado;
-    deslocamento.quantidadeHoraCadaSessentaKm = deslocamento.quantidadeKm / 60.0;
+    deslocamento.quantidadeHoraCadaSessentaKm = +(deslocamento.quantidadeKm / 60.0).toFixed(2);
     deslocamento.valorTotalKmDeslocamento = deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm;
     this.orcamento.orcamentoDeslocamento = deslocamento;
   }
@@ -227,6 +216,9 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async persistirOrcamento(): Promise<any> {
+    console.log(this.orcamento);
+    
+
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();
@@ -241,16 +233,21 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async persistirMateriais(): Promise<any> {
-    console.log(this.orcamento);
-    
-
     return new Promise(async (resolve, reject) =>{
       for (const material of this.orcamento.materiais) {
+        material.peca = null;
+
         await this._orcMaterialService.criar(material).toPromise();
       }
 
       resolve(null);
     });
+  }
+
+  navegarParaPeca(codPeca: string) {
+    this._router.navigateByUrl('/peca/form/' + codPeca);
+    
+    this._dialogRef.close();
   }
 
   salvar() {

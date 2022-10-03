@@ -1,14 +1,4 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="flex flex-col flex-auto p-0 pt-px w-full" *ngIf="valorPecasDesatualizado">
-        <fuse-alert class="mb-4 " [type]="'error'" [appearance]="'border'">
-            <span fuseAlertTitle>Atenção!!</span>
-            <div class="rounded text-justify">
-                Foram encontrados materiais no chamado com valor unitário desatualizado.
-                Ajuste os valores destes materiais para liberar a opção CRIAR ORÇAMENTO.
-            </div>
-        </fuse-alert>
-    </div>
-
     <div class="grid grid-cols-2 justfy-between p-6 border-blue-200 bg-card rounded-t-lg">
         <div class="flex items-center">
             <span class="text-lg font-medium">{{ t('orcamentos') }}</span>
@@ -21,16 +11,19 @@
             </button>
         </div>
     </div>
+    
     <div class="flex-auto" *ngIf="!isLoading">
         <div class="grid h-100">
             <div class="overflow-hidden sm:overflow-y-auto">
                 <ng-container>
                     <div class="grid" *ngIf="orcamentos?.length">
-                        <div class="list-grid-orcamentos-os sticky z-10 top-0 grid py-4 px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid-orcamentos-os sticky z-10 top-0 grid py-4 px-8 shadow text-sm font-semibold text-secondary bg-gray-50"
                             matSort matSortDisableClear *transloco="let t">
                             <div> {{ t("numero") }} </div>
                             <div> {{ t("os") }} </div>
                             <div> {{ t("motivo") }} </div>
+                            <div> {{ t("data envio") }} </div>
+                            <div> {{ t("usuario envio") }} </div>
                             <div> {{ t("valor desconto") }} </div>
                             <div> {{ t("valor total") }} </div>
                         </div>
@@ -40,12 +33,14 @@
                                 <div> {{ orcamento?.numero }} </div>
                                 <div> {{ orcamento?.codigoOrdemServico }} </div>
                                 <div> {{ orcamento?.orcamentoMotivo?.descricao || 'Não Informado' }} </div>
+                                <div> {{ orcamento?.dataHoraEnvioCliente | date:'dd/MM/yyyy HH:mm' }} </div>
+                                <div> {{ orcamento?.codUsuarioEnvioCliente }} </div>
                                 <div> {{ orcamento?.valorTotalDesconto | currency:'BRL':'symbol-narrow' }}</div>
                                 <div> {{ orcamento?.valorTotal | currency:'BRL':'symbol-narrow' }} </div>
                             </a>
                         </ng-container>
                     </div>
-                    <div *ngIf="!orcamentos?.length && !isLoading"
+                    <div *ngIf="!orcamentos?.length"
                         class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center bg-card">
                         Nenhum orçamento encontrado!
                     </div>

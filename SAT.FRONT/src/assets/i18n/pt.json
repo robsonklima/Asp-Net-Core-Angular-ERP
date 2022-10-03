@@ -722,5 +722,9 @@
     "salvar e finalizar": "Salvar e Finalizar",
     "cadastros faturamento": "Ir para Cadastro de Faturamento",
     "valor percentual": "Valor Percentual",
-    "valor iss": "Valor ISS"
+    "valor iss": "Valor ISS",
+    "data envio": "Data Envio",
+    "usuario envio": "Usuário Envio",
+    "enviado": "Data Envio",
+    "suporte stn": "Suporte STN"
 }

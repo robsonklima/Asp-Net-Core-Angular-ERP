@@ -11,7 +11,7 @@ import { OrcamentoRevisaoDialogComponent } from 'app/modules/main/orcamento/orca
   templateUrl: './ordem-servico-detalhe-orcamentos.component.html',
   styles: [`
         .list-grid-orcamentos-os {
-            grid-template-columns: 100px 100px auto 130px 130px;
+            grid-template-columns: 100px 100px auto 180px 150px 130px 130px;
         }
     `],
   providers: [
@@ -25,7 +25,6 @@ import { OrcamentoRevisaoDialogComponent } from 'app/modules/main/orcamento/orca
 })
 export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
   isLoading: boolean = false;
-  valorPecasDesatualizado: boolean = false;
   @Input() orcamentos: Orcamento[] = [];
   @Input() os: OrdemServico;
   userSession: UserSession;

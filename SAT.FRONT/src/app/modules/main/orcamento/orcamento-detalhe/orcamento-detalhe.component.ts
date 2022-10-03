@@ -192,6 +192,24 @@ export class OrcamentoDetalheComponent implements OnInit {
 			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF
 		}
 
+		this.dadosLocalEnvioNF = {
+			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
+			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
+			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
+			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
+			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
+			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
+			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
+			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
+			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF,
+			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF,
+			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF,
+			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF,
+			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF,
+			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
+			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
+		}
+
 		this.dadosLocalAtendimento = {
 			tipo: OrcamentoDadosLocalEnum.ATENDIMENTO,
 			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
@@ -210,24 +228,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 			nroSerie: this.os?.equipamentoContrato?.numSerie,
 			motivoOrcamento: this.orcamento?.orcamentoMotivo?.descricao,
 			cnpj: this.os?.localAtendimento?.cnpj
-		}
-
-		this.dadosLocalEnvioNF = {
-			tipo: OrcamentoDadosLocalEnum.NOTA_FISCAL,
-			codLocalEnvioNFFaturamento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.codLocalEnvioNFFaturamento,
-			razaoSocial: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF,
-			cnpj: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF,
-			inscricaoEstadual: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF,
-			responsavel: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF,
-			email: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF,
-			fone: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF,
-			endereco: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF,
-			numero: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF,
-			bairro: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF,
-			cep: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF,
-			complemento: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF,
-			cidade: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade,
-			uf: this.orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF
 		}
 	}
 
@@ -382,7 +382,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			case 2:
 				dados = {
 					destinatarios: ['dss.orcamentos@perto.com.br'],
-					assuntoEmail: `COTAÇÃO DE PEÇAS ${this.orcamento.numero} ${this.orcamento?.codigoOrdemServico}`,
+					assuntoEmail: `Perto - Solicitação de Abertura Técnica`,
 					conteudoEmail:
 						`
 							<p>Solicito cotação para o atendimento abaixo</p> 
@@ -445,7 +445,14 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
+			debugger
+
 			if (data) {
+				this.orcamento.indEnvioCliente = 1;
+				this.orcamento.codusuarioEnvioCliente = this.userSession.usuario.codUsuario;
+				this.orcamento.dataHoraEnvioCliente = moment().format('yyyy-MM-DD HH:mm:ss');
+				this._orcamentoService.atualizar(this.orcamento).subscribe();
+
 				switch (tipoEnvio) {
 					case 1:
 						let exportacaoParam: Exportacao = {
@@ -462,6 +469,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 						break;
 
 					case 2:
+						debugger
+
 						this._emailService.enviarEmail(
 							{
 								assunto: data.assunto,

@@ -631,7 +631,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			...{
 				codEquip: this.obterModelo(form.codEquipContrato),
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioManut: this.userSession.usuario?.codUsuario
+				codUsuarioManut: this.userSession.usuario?.codUsuario,
+				codUsuarioManutencao: this.userSession.usuario?.codUsuario
 			}
 		};
 

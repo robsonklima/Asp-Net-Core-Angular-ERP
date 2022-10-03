@@ -245,7 +245,7 @@ namespace SAT.UTILS
         public void ComporInfraEstruturaSite(IContainer container)
         {
             var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
+            var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
 
             container.Table(table =>
                     {
@@ -298,7 +298,7 @@ namespace SAT.UTILS
         public void ComporConclusao(IContainer container)
         {
             var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            var laudo = laudos.FirstOrDefault(l => l.CodLaudoStatus == 2);
+            var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
 
             container.Table(table =>
                     {

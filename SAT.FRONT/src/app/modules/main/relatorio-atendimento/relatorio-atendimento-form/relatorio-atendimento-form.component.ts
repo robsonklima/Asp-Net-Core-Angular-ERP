@@ -581,17 +581,16 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		// Formata Relato Solução
 		ra.relatoSolucao = this.formatarRelatoSolucao(ra.relatorioAtendimentoDetalhes);
 		await this._raService.atualizar(ra).toPromise();
 
-		// Atualizar OS
 		const os: OrdemServico = {
 			...this.ordemServico,
 			...{
 				codStatusServico: form.codStatusServico,
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioManut: this.sessionData.usuario.codUsuario,
+				codUsuarioManutencao: this.sessionData.usuario.codUsuario,
 			}
 		};
 		await this._ordemServicoService.atualizar(os).toPromise();
@@ -668,6 +667,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 				codStatusServico: form.codStatusServico,
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioManut: this.sessionData.usuario.codUsuario,
+				codUsuarioManutencao: this.sessionData.usuario.codUsuario,
 				dataHoraFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? moment().format('YYYY-MM-DD HH:mm:ss') : null,
 				codUsuarioFechamento: form.codStatusServico == StatusServicoEnum.FECHADO ? this.sessionData.usuario.codUsuario : null
 			}

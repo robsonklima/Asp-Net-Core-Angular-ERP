@@ -74,6 +74,9 @@ export interface Orcamento
     incluirLaudoExportacao?: boolean;
     dataHoraFaturamento?: string;
     codUsuarioFaturamento?: string;
+    indEnvioCliente?: number;
+    codusuarioEnvioCliente?: string;
+    dataHoraEnvioCliente?: string;
     orcamentoMateriais?: OrcamentoMaterial[];
     orcamentoMaoDeObra?: OrcamentoMaoDeObraData[];
     orcamentoOutrosServicos?: OrcamentoOutroServico[];

@@ -108,6 +108,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		await this.obterOS();
 		this.obterHistorico();
 		this.obterCheckinsECheckouts();
+		this.obterHistoricoOS(this.codOS);
 		this.obterFotosRAT();
 		this.obterQtdLaudos();
 		this.obterDispBBBloqueioOS();
@@ -145,7 +146,16 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		}).toPromise();
 
 		this.historico.concat();
-		this.historico.push.apply(this.historico, cks.items);
+
+		const checkinCheckout = cks?.items.map((i) => {
+			return {
+				tipo: i.tipo,
+				dataHoraCadSmartphone: i.tipo == 'CHECKOUT' ? moment(i.dataHoraCadSmartphone).add('minutes', 2) : i.dataHoraCadSmartphone,
+				codUsuarioCad: i.codUsuarioTecnico
+			}
+		})
+
+		this.historico.push.apply(this.historico, checkinCheckout);
 		this.historico = this.historico
 			.sort((a, b) => (moment(a.dataHoraCadSmartphone || a.dataHoraCad) > moment(b.dataHoraCadSmartphone || b.dataHoraCad)) ? 1 : -1);
 	}
@@ -289,6 +299,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 						...{
 							dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 							codUsuarioManut: this.userSession.usuario.codUsuario,
+							codUsuarioManutencao: this.userSession.usuario.codUsuario,
 							codStatusServico: ultimoStatus,
 							codTecnico: null
 						}
@@ -327,7 +338,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 					...{
 						codStatusServico: statusServicoConst.ABERTO,
 						dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-						codUsuarioManut: this.userSession.usuario?.codUsuario
+						codUsuarioManut: this.userSession.usuario?.codUsuario,
+						codUsuarioManutencao: this.userSession.usuario?.codUsuario
 					}
 				};
 
@@ -401,10 +413,11 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this.isLoading = true;
 
 		this.os.indBloqueioReincidencia = this.os.indBloqueioReincidencia ? 0 : 1;
-		this.os.codUsuarioManut = this.userSession.usuario.codUsuario,
-			this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
+		this.os.codUsuarioManut = this.userSession.usuario.codUsuario;
+		this.os.codUsuarioManutencao = this.userSession.usuario.codUsuario;
+		this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
-			await this._ordemServicoService.atualizar(this.os).toPromise();
+		await this._ordemServicoService.atualizar(this.os).toPromise();
 		await this.obterDados();
 
 		this.isLoading = false;

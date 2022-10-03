@@ -697,5 +697,9 @@
     "salvar e finalizar": "Save and Finish",
     "cadastros faturamento": "Go to Billing Register",
     "valor percentual": "Percent Value",
-    "valor iss": "ISS Value"
+    "valor iss": "ISS Value",
+    "data envio": "Send Date",
+    "usuario envio": "User Sent",
+    "enviado": "Sent",
+    "suporte stn": "National Technician Support"
 }

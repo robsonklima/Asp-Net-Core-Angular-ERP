@@ -108,7 +108,8 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
       ...this.auditoria,
       ...form,
       ...{
-            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss')    
+            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+            codAuditoriaStatus: 1,    
         
       }
     };

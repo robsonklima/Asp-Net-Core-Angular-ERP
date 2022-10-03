@@ -674,6 +674,10 @@
                                                             <span *ngIf="hist.dataHoraCadSmartphone">
                                                                 Atualizado em: {{ hist.dataHoraCadSmartphone | date:'dd/MM/yy HH:mm:ss' }}
                                                             </span>
+
+                                                            <div *ngIf="hist.dataHoraCadSmartphone">
+                                                                Técnico: {{ hist.codUsuarioCad }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -38,6 +38,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 	async ngOnInit(): Promise<void> {
 		this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
+		this.obterAuditoria();
 	}
 
 	reciverFeedback(codFilho) {
@@ -101,7 +102,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>{
 			if(confirmacao){
-				this._auditoriaService.deletar(this.auditoria.codAuditoria).subscribe(() => {
+				this._auditoriaService.deletar(this.codAuditoria).subscribe(() => {
 					this._snack.exibirToast('Auditoria Excluída','sucess');
 					this._router.navigate(['/frota-tecnico/']);
 				})

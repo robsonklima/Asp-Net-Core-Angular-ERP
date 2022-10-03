@@ -2,6 +2,10 @@
     <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex items-center justify-between">
             <div class="text-lg font-medium mb-4">{{ obterTitulo() }}</div>
+            <button class="h-8 px-4 mb-2 text-sm text-white transition-colors duration-150 bg-orange-700 rounded-lg focus:shadow-outline hover:bg-orange-500"
+                mat-button matTooltip="Ir para Locais Faturamento" [routerLink]="'/orcamento/faturamento/'">
+                {{ t('cadastros faturamento') }}
+            </button>         
         </div>
 
         <div class="flex flex-col divide-y font-medium pointer-events-none" *ngIf="dadosLocal.razaoSocial">
@@ -108,15 +112,7 @@
 <div class="max-w-4xl" *ngIf="dadosLocal.tipo == 3">
     <fuse-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex items-center justify-between">
-            <div class="text-lg font-medium">{{ obterTitulo() }}</div>
-
-            <button
-                class="h-8 px-4 mb-2 text-sm text-white transition-colors duration-150 bg-orange-700 rounded-lg focus:shadow-outline hover:bg-orange-500"
-                mat-button
-                matTooltip="Ir para Locais Faturamento"
-                [routerLink]="'/orcamento/faturamento/'">
-                {{ t('cadastros faturamento') }}
-            </button>            
+            <div class="text-lg font-medium">{{ obterTitulo() }}</div> 
         </div>
 
         <div class="flex flex-col mt-4 divide-y font-medium pointer-events-none">

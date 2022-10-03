@@ -115,13 +115,13 @@ namespace SAT.SERVICES.Services
                             DataEmissao = faturamentoServico?.DataEmissaoNF,
                             DescNF = faturamentoServico?.DescricaoNotaFiscal,
                             IndFaturado = (double)faturamentoServico?.IndFaturado,
-                            CodFilial = orc.CodigoFilial,
-                            CaminhoDanfe = faturamentoServico.CaminhoDanfe,
-                            CodClienteBancada = faturamentoServico.CodClienteBancada,
-                            IndRegistroDanfe = faturamentoServico.IndRegistroDanfe,
-                            QtdePeca = faturamentoServico.QtdePeca,
-                            ValorPeca = faturamentoServico.ValorPeca,
-                            ValorServico = faturamentoServico.ValorServico                                                                                                        
+                            CodFilial = orc?.CodigoFilial,
+                            CaminhoDanfe = faturamentoServico?.CaminhoDanfe,
+                            CodClienteBancada = faturamentoServico?.CodClienteBancada,
+                            IndRegistroDanfe = faturamentoServico?.IndRegistroDanfe,
+                            QtdePeca = faturamentoServico?.QtdePeca,
+                            ValorPeca = faturamentoServico?.ValorPeca,
+                            ValorServico = faturamentoServico?.ValorServico                                                                                                        
                         });
                     }
                     else
@@ -131,12 +131,12 @@ namespace SAT.SERVICES.Services
                             Codigo = null,
                             Cliente = orc?.Cliente?.NomeFantasia,
                             Filial = orc?.OrdemServico?.Filial?.NomeFilial,
-                            CodOS = orc.CodigoOrdemServico,
-                            NumOSCliente = orc.OrdemServico?.NumOSCliente,
-                            NumOrcamento = orc.Numero,
-                            CodOrc = orc.CodOrc,                        
+                            CodOS = orc?.CodigoOrdemServico,
+                            NumOSCliente = orc?.OrdemServico?.NumOSCliente,
+                            NumOrcamento = orc?.Numero,
+                            CodOrc = orc?.CodOrc,                        
                             Tipo = OrcamentoFaturamentoTipoEnum.SERVICO,
-                            ValorServico = (orc.OutrosServicos.Sum(o => o.ValorTotal) + orc.MaoDeObra.ValorTotal).ToString()
+                            ValorServico = (orc?.OutrosServicos.Sum(o => o?.ValorTotal) + orc?.MaoDeObra?.ValorTotal).ToString()
                         });                            
                     }
 

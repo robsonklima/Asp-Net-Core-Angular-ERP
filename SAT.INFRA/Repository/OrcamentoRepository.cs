@@ -122,6 +122,7 @@ namespace SAT.INFRA.Repository
         public PagedList<Orcamento> ObterPorParametros(OrcamentoParameters parameters)
         {
             var query = _context.Orcamento
+                .Include(p => p.OrcamentoMotivo)
                 .Include(o => o.Filial!)
                 .Include(o => o.Cliente!)
                 .Include(o => o.OrdemServico)
@@ -288,7 +289,8 @@ namespace SAT.INFRA.Repository
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-            return PagedList<ViewOrcamentoLista>.ToPagedList(query, 1, 100000);
+            
+            return PagedList<ViewOrcamentoLista>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

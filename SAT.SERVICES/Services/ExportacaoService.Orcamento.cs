@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +39,6 @@ namespace SAT.SERVICES.Services
 
             var orcamentoImpressao = new OrcamentoPdfHelper(orcamento);
             var orcamentoPdf = GenerateFilePath($"ORÇAMENTO-{orcamento.Numero}.pdf");
-
-            if (File.Exists(orcamentoPdf))
-            {
-                File.Delete(orcamentoPdf);
-            }
             
             orcamentoImpressao.GeneratePdf(orcamentoPdf);
             arquivos.Add(orcamentoPdf);

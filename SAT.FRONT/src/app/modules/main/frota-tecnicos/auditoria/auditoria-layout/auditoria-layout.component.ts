@@ -4,7 +4,7 @@ import { Auditoria } from 'app/core/types/auditoria.types';
 import { MatDialog } from '@angular/material/dialog';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { first } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuditoriaUtilizacaoDialogComponent } from '../auditoria-utilizacao/auditoria-utilizacao-dialog/auditoria-utilizacao-dialog.component';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -32,6 +32,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 		private _snack: CustomSnackbarService,
 		private _auditoriaService: AuditoriaService,
 		private _userSvc: UserService,
+		private _formBuilder: FormBuilder,
 	) {
 		this.userSession = JSON.parse(this._userSvc.userSession);
 	 }
@@ -39,7 +40,19 @@ export class AuditoriaLayoutComponent implements OnInit {
 	async ngOnInit(): Promise<void> {
 		this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
 		this.obterAuditoria();
+		this.inicializarForm();
 	}
+
+	private inicializarForm() {
+		this.form = this._formBuilder.group({
+		  codAuditoria: [
+			{
+			  value: undefined,
+			  disabled: true
+			}
+		  ],
+		});
+	  }
 
 	reciverFeedback(codFilho) {
 		this.nroAuditoria = codFilho;
@@ -56,8 +69,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 	editarAuditoria(){    
 		const dialogRef = this._dialog.open(AuditoriaUtilizacaoDialogComponent, {
-		data:
-		{
+		data: {
 		  codAuditoria: this.codAuditoria,
 		}
 	  });
@@ -68,23 +80,23 @@ export class AuditoriaLayoutComponent implements OnInit {
 	  });}
 
 	finalizar(){  
-		  const form: any = this.form.getRawValue();
+		const form: any = this.form.getRawValue();
 
-		  let obj = {
-		    ...this.auditoria,
-		    ...form,
-		    ...{
-		      dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-		      codUsuarioManut: this.userSession.usuario.codUsuario,
-			  codAuditoriaStatus: 3,
-		    }
-		  };
-	  
-		  this._auditoriaService.atualizar(obj).subscribe(() => {
-		    this._snack.exibirToast("Auditoria finalizada com sucesso!", "success");
-		  }, e => {
-		    this.form.enable();
-		  });
+		let obj = {
+			...this.auditoria,
+			...form,
+			...{
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario.codUsuario,
+				codAuditoriaStatus: 3,
+			}
+		};
+	
+		this._auditoriaService.atualizar(obj).subscribe(() => {
+		this._snack.exibirToast("Auditoria finalizada com sucesso!", "success");
+		}, e => {
+			this.form.enable();
+		});
 	}
 	
 	excluir(){

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { SuporteSTNDetalheComponent } from './suporte-stn-detalhe/suporte-stn-detalhe.component';
-import { SuporteSTNListaComponent } from './suporte-stn-lista/suporte-stn-lista.component';
+import { OrdemServicoSTNDetalheComponent } from './ordem-servico-stn-detalhe/ordem-servico-stn-detalhe.component';
+import { OrdemServicoSTNListaComponent } from './ordem-servico-stn-lista/ordem-servico-stn-lista.component';
 
 export const suporteSTNRoutes: Route[] = [
     {
@@ -10,10 +10,10 @@ export const suporteSTNRoutes: Route[] = [
     },
     {
         path: 'lista',
-        component: SuporteSTNListaComponent
+        component: OrdemServicoSTNListaComponent
     },
     {
         path: 'detalhe/:codAtendimento',
-        component: SuporteSTNDetalheComponent
+        component: OrdemServicoSTNDetalheComponent
     }
 ];

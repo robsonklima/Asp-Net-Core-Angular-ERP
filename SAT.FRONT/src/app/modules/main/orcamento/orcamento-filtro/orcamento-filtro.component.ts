@@ -1,6 +1,6 @@
 import { LaudoStatus } from './../../../../core/types/laudo.types';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { ClienteService } from 'app/core/services/cliente.service';

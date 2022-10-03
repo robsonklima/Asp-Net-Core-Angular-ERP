@@ -701,5 +701,6 @@
     "data envio": "Send Date",
     "usuario envio": "User Sent",
     "enviado": "Sent",
-    "suporte stn": "National Technician Support"
+    "suporte stn": "National Technician Support",
+    "abertura stn": "Oppended STN"
 }

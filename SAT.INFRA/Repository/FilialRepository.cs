@@ -63,8 +63,8 @@ namespace SAT.INFRA.Repository
             return _context.Filial
                 .Include(i => i.Cidade!)
                     .ThenInclude(i => i.UnidadeFederativa!)
-                         .ThenInclude(i => i.Pais!)
-                         .DefaultIfEmpty()
+                        .ThenInclude(i => i.Pais!)
+                        .DefaultIfEmpty()
                 .FirstOrDefault(f => f.CodFilial == codigo);
         }
 

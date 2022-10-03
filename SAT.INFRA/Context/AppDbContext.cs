@@ -408,6 +408,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
             modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);
             modelBuilder.Entity<OrdemServicoSTN>(new OrdemServicoSTNMap().Configure);
+            modelBuilder.Entity<StatusServicoSTN>(new StatusServicoSTNMap().Configure);
+            modelBuilder.Entity<OrdemServicoSTNOrigem>(new OrdemServicoSTNOrigemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

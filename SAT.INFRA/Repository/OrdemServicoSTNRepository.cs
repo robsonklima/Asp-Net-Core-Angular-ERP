@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -51,17 +52,47 @@ namespace SAT.INFRA.Repository
 
         public OrdemServicoSTN ObterPorCodigo(int codAtendimento)
         {
-            return _context.OrdemServicoSTN.FirstOrDefault(p => p.CodAtendimento == codAtendimento);
+            return _context.OrdemServicoSTN
+                .Include(o => o.StatusSTN)
+                .Include(o => o.Usuario)
+                .Include(o => o.OrdemServicoSTNOrigem)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Filial)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.EquipamentoContrato)
+                        .ThenInclude(o => o.Equipamento)
+                .FirstOrDefault(p => p.CodAtendimento == codAtendimento);
         }
 
         public PagedList<OrdemServicoSTN> ObterPorParametros(OrdemServicoSTNParameters parameters)
         {
-            var query = _context.OrdemServicoSTN.AsQueryable();
+            var query = _context.OrdemServicoSTN
+                .Include(o => o.StatusSTN)
+                .Include(o => o.Usuario)
+                .Include(o => o.OrdemServicoSTNOrigem)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Filial)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.EquipamentoContrato)
+                        .ThenInclude(o => o.Equipamento)
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {
                 query = query.Where(p =>
-                    p.CodAtendimento.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
+                    p.CodAtendimento.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.CodOS.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.OrdemServico.CodCliente));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

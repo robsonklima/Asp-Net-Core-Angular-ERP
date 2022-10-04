@@ -80,7 +80,7 @@
 
                         <mat-select class="min-h-10" formControlName="codEquip" [disabled]="!modelos.length">
                             <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip">
-                                {{ modelo.nomeEquip }}
+                                {{ modelo.nomeEquip }} - {{ modelo.grupoEquipamento.nomeGrupoEquip }}
                             </mat-option>
                         </mat-select>
 

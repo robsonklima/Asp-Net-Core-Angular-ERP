@@ -9,12 +9,10 @@ namespace SAT.SERVICES.Services
     public class LocalEnvioNFFaturamentoService : ILocalEnvioNFFaturamentoService
     {
         private readonly ILocalEnvioNFFaturamentoRepository _localRepo;
-        private readonly ISequenciaRepository _seqRepo;
 
-        public LocalEnvioNFFaturamentoService(ILocalEnvioNFFaturamentoRepository localRepo, ISequenciaRepository seqRepo)
+        public LocalEnvioNFFaturamentoService(ILocalEnvioNFFaturamentoRepository localRepo)
         {
             _localRepo = localRepo;
-            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(LocalEnvioNFFaturamentoParameters parameters)
@@ -37,7 +35,6 @@ namespace SAT.SERVICES.Services
 
         public LocalEnvioNFFaturamento Criar(LocalEnvioNFFaturamento localEnvioNFFaturamento)
         {
-            localEnvioNFFaturamento.CodLocalEnvioNFFaturamento = _seqRepo.ObterContador("LocalEnvioNFFaturamento");
             _localRepo.Criar(localEnvioNFFaturamento);
             return localEnvioNFFaturamento;
         }

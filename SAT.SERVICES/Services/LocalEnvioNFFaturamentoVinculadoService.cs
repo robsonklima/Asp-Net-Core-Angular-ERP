@@ -36,7 +36,7 @@ namespace SAT.SERVICES.Services
         }
 
         public LocalEnvioNFFaturamentoVinculado Criar(LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado)
-        {
+        {            
             _localRepo.Criar(localEnvioNFFaturamentoVinculado);
             return localEnvioNFFaturamentoVinculado;
         }

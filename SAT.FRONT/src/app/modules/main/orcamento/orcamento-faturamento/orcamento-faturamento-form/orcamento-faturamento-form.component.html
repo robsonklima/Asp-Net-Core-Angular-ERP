@@ -90,7 +90,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('cnpj faturamento') }}</mat-label>
-                        <input matInput formControlName="cnpjFaturamento" mask="00.000.000/0000-00">
+                        <input matInput formControlName="cnpjFaturamento" mask="00.000.000/0000-00" [dropSpecialCharacters]="false">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
@@ -184,7 +184,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('cnpj envio nf') }}</mat-label>
-                        <input matInput formControlName="cnpjEnvioNF" mask="00.000.000/0000-00">
+                        <input matInput formControlName="cnpjEnvioNF" mask="00.000.000/0000-00" [dropSpecialCharacters]="false">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">

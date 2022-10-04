@@ -200,7 +200,7 @@ namespace SAT.UTILS
                             grid.Item(3).Text(t =>
                             {
                                 t.Span($"    UF: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.UnidadeFederativa.SiglaUF}").FontSize(8);
+                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.UnidadeFederativa?.SiglaUF}").FontSize(8);
                             });
                             
                             grid.Item(3).Text(t =>

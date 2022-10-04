@@ -199,6 +199,9 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 
 		const data = await this._contratoEquipamentoService.obterPorParametros(params).toPromise();
 		this.modelos = data.items.map(ce => ce.equipamento);
+
+		console.log(this.modelos);
+		
 	}
 
 	private async obterSLAs() {

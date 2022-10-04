@@ -635,6 +635,12 @@
                                                         </div>
                                                     </div>
 
+                                                    <div *ngIf="hist.tecnico?.nome" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+                                                        <div class="text-secondary" *ngIf="hist.tecnico?.fonePerto">
+                                                            Técnico Fone: {{ hist.tecnico?.fonePerto }}
+                                                        </div>
+                                                    </div>
+
                                                     <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
                                                         <div class="text-secondary" *ngIf="hist.cliente?.nomeFantasia">
                                                             Cliente: {{ hist.cliente?.nomeFantasia }}

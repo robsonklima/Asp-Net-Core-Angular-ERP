@@ -216,9 +216,6 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async persistirOrcamento(): Promise<any> {
-    console.log(this.orcamento);
-    
-
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();

@@ -89,6 +89,14 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodOS.HasValue) {
+                query = query.Where(p => p.CodOS == parameters.CodOS);
+            }
+
+            if (parameters.CodAtendimento.HasValue) {
+                query = query.Where(p => p.CodAtendimento == parameters.CodAtendimento);
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
                 int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

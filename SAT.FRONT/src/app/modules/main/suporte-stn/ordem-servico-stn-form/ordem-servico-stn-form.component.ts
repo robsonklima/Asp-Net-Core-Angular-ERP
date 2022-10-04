@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { OrdemServicoSTN } from 'app/core/types/ordem-servico-stn.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -21,6 +22,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   codAtendimento: number;
   os: OrdemServico;
   rat: RelatorioAtendimento;
+  atendimentos: OrdemServicoSTN[] = [];
   isAddMode: boolean;
   isLoading: boolean = false;
   userSession: UsuarioSessao;
@@ -43,7 +45,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
 
-    //this.obterOS(6886015);
+    this.obterDados(6886015);
 
     this.registrarEmitters();
     this._cdr.detectChanges();
@@ -65,15 +67,16 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 			, debounceTime(1000)
 			, distinctUntilChanged()
 		).subscribe((query: number) => {
-			this.obterOS(query);
+			this.obterDados(query);
 		});
   }
 
-  private async obterOS(codOS: number) {
+  private async obterDados(codOS: number) {
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
     this.rat = this.os?.relatoriosAtendimento[this.os.relatoriosAtendimento.length-1];
-    console.log(this.os);
+    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codOS: this.os.codOS }).toPromise()).items;
+    console.log(this.atendimentos);
     this.isLoading = false;
   }
 

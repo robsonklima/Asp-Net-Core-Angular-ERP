@@ -1,5 +1,5 @@
 <ng-container>
-    <div class="flex flex-col max-h-120">
+    <div class="flex flex-col max-h-120" *ngIf="!loading">
         <div class="text-lg font-bold">Revisão</div>
 
         <div class="mt-2">
@@ -348,4 +348,8 @@
             </button>
         </div>
     </div>
+
+    <mat-progress-spinner *ngIf="loading" [diameter]="24"
+        [mode]="'indeterminate'">
+    </mat-progress-spinner>
 </ng-container>

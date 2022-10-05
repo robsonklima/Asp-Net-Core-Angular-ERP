@@ -84,8 +84,11 @@ namespace SAT.INFRA.Repository
         public PagedList<LocalEnvioNFFaturamentoVinculado> ObterPorParametros(LocalEnvioNFFaturamentoVinculadoParameters parameters)
         {
             var locais = _context.LocalEnvioNFFaturamentoVinculado
-                                    .Include(l => l.LocalAtendimento)
-                                    .AsQueryable();
+                            .Include(l => l.LocalAtendimento)
+                            .Include(l => l.LocalEnvioNFFaturamento)
+                            .Include(l => l.LocalEnvioNFFaturamento.Cliente)
+                            .Include(l => l.LocalEnvioNFFaturamento.Contrato)
+                            .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
@@ -98,10 +101,17 @@ namespace SAT.INFRA.Repository
                     l =>
                     l.CodContrato == parameters.CodContrato.Value);
 
+            if (parameters.CodPosto.HasValue)
+                locais = locais.Where(
+                    l =>
+                    l.CodPosto == parameters.CodPosto.Value);
+
             if (parameters.CodLocalEnvioNFFaturamento.HasValue)
                 locais = locais.Where(
                     l =>
                     l.CodLocalEnvioNFFaturamento == parameters.CodLocalEnvioNFFaturamento.Value);
+
+            var teste = locais.ToQueryString();
 
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))

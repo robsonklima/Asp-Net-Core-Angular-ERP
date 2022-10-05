@@ -12,16 +12,16 @@ namespace SAT.INFRA.Mapping
             builder.HasKey(prop => prop.CodLocalEnvioNFFaturamento);
 
             builder
-                .HasOne(p => p.Cliente)
-                .WithOne()
-                .HasForeignKey<LocalEnvioNFFaturamento>("CodCliente")
-                .HasPrincipalKey<Cliente>("CodCliente");
+                .HasOne(prop => prop.Cliente)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodCliente)
+                .HasPrincipalKey(prop => prop.CodCliente);
 
             builder
-                .HasOne(p => p.Contrato)
-                .WithOne()
-                .HasForeignKey<LocalEnvioNFFaturamento>("CodContrato")
-                .HasPrincipalKey<Contrato>("CodContrato"); 
+                .HasOne(prop => prop.Contrato)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodContrato)
+                .HasPrincipalKey(prop => prop.CodContrato);
 
             builder
                 .HasOne(prop => prop.CidadeEnvioNF)

@@ -26,4 +26,5 @@ export interface LocalEnvioNFFaturamentoVinculadoParameters extends QueryStringP
 {
     codLocalEnvioNFFaturamento?: number;
     codContrato?: number;
+    codPosto?: number;
 };

@@ -13,6 +13,5 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public virtual LocalEnvioNFFaturamento LocalEnvioNFFaturamento { get; set; }
         public LocalAtendimento LocalAtendimento { get; set; }
-        // public Contrato Contrato { get; set; }
     }
 }

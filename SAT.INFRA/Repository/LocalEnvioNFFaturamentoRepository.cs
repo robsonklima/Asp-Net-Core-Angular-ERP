@@ -94,6 +94,16 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.UnidadeFederativa)        
                 .AsQueryable();
 
+            if (parameters.CodCliente.HasValue)
+                locais = locais.Where(
+                    l =>
+                    l.CodCliente == parameters.CodCliente.Value);
+
+            if (parameters.CodContrato.HasValue)
+                locais = locais.Where(
+                    l =>
+                    l.CodContrato == parameters.CodContrato.Value);
+
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(
                     l =>

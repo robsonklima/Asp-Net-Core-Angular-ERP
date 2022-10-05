@@ -53,5 +53,6 @@ export interface LocalEnvioNFFaturamentoData extends Meta
 
 export interface LocalEnvioNFFaturamentoParameters extends QueryStringParameters
 {
-    
+    codCliente?: number;
+    codContrato?: number;
 };

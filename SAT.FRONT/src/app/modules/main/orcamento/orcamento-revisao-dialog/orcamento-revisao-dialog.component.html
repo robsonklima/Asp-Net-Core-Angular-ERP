@@ -154,9 +154,9 @@
             </div>
         </div>
 
-        <div class="pt-5" *ngIf="orcamento?.maoDeObra">
+        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
             <div class="pb-2">
-                <strong>Mão de Obra</strong>
+                <strong>Local Faturamento</strong>
             </div>
     
             <div class="overflow-x-auto relative">
@@ -164,31 +164,173 @@
                     <tbody>
                         <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
-                                Valor da Hora Técnica
+                                Razao Social
                             </td>
     
                             <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                CEP
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento | mask:'00.000-000' || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Endereço
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento || "Não Informado" }}
                             </td>
                         </tr>
 
                         <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
-                                Previsão Horas (mín. 2 hrs) 
+                                Bairro
                             </td>
     
                             <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.previsaoHoras }}
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento || "Não Informado" }}
+                            </td>
+                        </tr>
+                        
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Cidade
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento || "Não Informado" }}
                             </td>
                         </tr>
 
                         <tr class="dark:border-gray-700 border-t-2">
                             <td class="py-1 font-medium text-left">
-                                Total Mão de Obra  
+                                CNPJ
                             </td>
     
                             <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Responsável
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                E-mail
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                <ng-container >
+                                    <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento || "Não Informado" }}</div>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
+            <div class="pb-2">
+                <strong>Local Envio NF</strong>
+            </div>
+    
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Razao Social
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                CEP
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF | mask:'00.000-000' || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Endereço
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Bairro
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+                        
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Cidade
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                CNPJ
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Responsável
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF || "Não Informado" }}
+                            </td>
+                        </tr>
+
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                E-mail
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                <ng-container >
+                                    <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF || "Não Informado" }}</div>
+                                </ng-container>
                             </td>
                         </tr>
                     </tbody>

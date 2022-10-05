@@ -7,9 +7,6 @@ import { Router } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
 import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { OrcamentoDeslocamentoService } from 'app/core/services/orcamento-deslocamento.service';
-import { OrcamentoMaoDeObraService } from 'app/core/services/orcamento-mao-de-obra.service';
-import { OrcamentoMaterialService } from 'app/core/services/orcamento-material.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { ContratoServicoData, ContratoServicoParameters } from 'app/core/types/contrato-servico.types';
 import { OrcamentoMaoDeObra } from 'app/core/types/orcamento-mao-de-obra.types';
@@ -21,6 +18,8 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { LocalEnvioNFFaturamentoVinculadoService } from 'app/core/services/local-envio-nf-faturamento-vinculado.service';
+import { LocalEnvioNFFaturamentoVinculado, LocalEnvioNFFaturamentoVinculadoParameters } from 'app/core/types/local-envio-nf-faturamento-vinculado.types';
 
 @Component({
   selector: 'app-orcamento-revisao-dialog',
@@ -29,6 +28,7 @@ import moment from 'moment';
 export class OrcamentoRevisaoDialogComponent implements OnInit {
   os: OrdemServico;
   orcamento: Orcamento;
+  locais: LocalEnvioNFFaturamentoVinculado;
   userSession: UserSession;
   isValorPecasDesatualizado: boolean = false;
   loading: boolean = true;
@@ -39,10 +39,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     private _router: Router,
     private _userService: UserService,
     private _orcamentoService: OrcamentoService,
-    private _orcMaterialService: OrcamentoMaterialService,
+    private _localEnvioNFFaturamentoVinculadoService: LocalEnvioNFFaturamentoVinculadoService,
     private _contratoServicoService: ContratoServicoService,
-    private _orcMaoDeObraService: OrcamentoMaoDeObraService,
-    private _orcDeslocamentoService: OrcamentoDeslocamentoService,
     private _snack: CustomSnackbarService
   ) {
     this.os = data?.os;
@@ -54,6 +52,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     await this.montaMaoDeObra();
     await this.montaDeslocamento();
     await this.montaMateriais();
+    await this.montaLocais();
     this.loading = false;
   }
 
@@ -184,6 +183,20 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     deslocamento.quantidadeHoraCadaSessentaKm = +(deslocamento.quantidadeKm / 60.0).toFixed(2);
     deslocamento.valorTotalKmDeslocamento = deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm;
     this.orcamento.orcamentoDeslocamento = deslocamento;
+  }
+
+  async montaLocais(){
+    const params: LocalEnvioNFFaturamentoVinculadoParameters = {
+      codContrato: this.os.codContrato,
+      codPosto: this.os.codPosto,
+    };
+
+    const data = await this._localEnvioNFFaturamentoVinculadoService
+        .obterPorParametros(params)
+        .toPromise();
+
+    this.locais = data.items.shift();
+    this.orcamento.localEnvioNFFaturamentoVinculado = this.locais;     
   }
 
   private obterValorMaterial(peca: Peca) {

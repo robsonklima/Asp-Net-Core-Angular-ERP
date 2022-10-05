@@ -66,7 +66,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       codigoOrdemServico: this.os?.codOS,
       codigoContrato: this.os?.codContrato,
       codigoMotivo: 1,
-      codigoStatus: 1,
+      codigoStatus: 6,
       codigoPosto: this.os?.codPosto,
       codigoCliente: this.os?.codCliente,
       codigoFilial: this.os?.codFilial,
@@ -216,9 +216,6 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async persistirOrcamento(): Promise<any> {
-    console.log(this.orcamento);
-    
-
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();

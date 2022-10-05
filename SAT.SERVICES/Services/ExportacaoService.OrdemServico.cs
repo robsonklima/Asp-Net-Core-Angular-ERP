@@ -227,12 +227,7 @@ namespace SAT.SERVICES.Services
             var os = _osRepo.ObterPorCodigo(Int32.Parse(parameters.CodOS));
             var osImpressao = new OrdemServicoPdfHelper(os);
             var osPdf = GenerateFilePath($"OS-{os.CodOS}.pdf");
-
-            if (File.Exists(osPdf))
-            {
-                File.Delete(osPdf);
-            }
-
+            
             osImpressao.GeneratePdf(osPdf);
 
             if (exportacao.Email != null)

@@ -1,3 +1,4 @@
+import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -33,6 +34,8 @@ import moment from 'moment';
 import Enumerable from 'linq';
 import { Agendamento } from 'app/core/types/agendamento.types';
 import { Orcamento, OrcamentoData, OrcamentoParameters } from 'app/core/types/orcamento.types';
+import { FileMime } from 'app/core/types/file.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -85,7 +88,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _fotoService: FotoService,
 		private _dispBBBloqueioOSService: DispBBBloqueioOSService,
 		private _integracaoCobraService: IntegracaoCobraService,
-		private _checkinCheckoutService: CheckinCheckoutService
+		private _checkinCheckoutService: CheckinCheckoutService,
+		private _exportacaoService: ExportacaoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -101,6 +105,17 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		}
 
 		this._cdr.detectChanges();
+	}
+
+	public exportar(){
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.PDF,
+			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
+			entityParameters: {
+				codOS: this.codOS
+			}
+		}
+		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 	}
 
 	private async obterDados() {

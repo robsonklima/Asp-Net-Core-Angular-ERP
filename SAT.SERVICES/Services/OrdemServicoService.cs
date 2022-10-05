@@ -100,7 +100,8 @@ namespace SAT.SERVICES.Services
                     IndIntegracao = os.IndIntegracao,
                     IndLiberacaoFechaduraCofre = os.IndLiberacaoFechaduraCofre,
                     NumReincidencia = os.NumReincidencia,
-                    IndStatusEnvioReincidencia = os.IndStatusEnvioReincidencia
+                    IndStatusEnvioReincidencia = os.IndStatusEnvioReincidencia,
+                    CodContrato = os.CodContrato
                 };
 
                 _ordemServicoRepo.Criar(novaOS);

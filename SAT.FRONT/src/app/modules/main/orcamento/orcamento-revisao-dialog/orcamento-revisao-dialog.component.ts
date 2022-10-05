@@ -66,7 +66,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       codigoOrdemServico: this.os?.codOS,
       codigoContrato: this.os?.codContrato,
       codigoMotivo: 1,
-      codigoStatus: 1,
+      codigoStatus: 6,
       codigoPosto: this.os?.codPosto,
       codigoCliente: this.os?.codCliente,
       codigoFilial: this.os?.codFilial,

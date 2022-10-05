@@ -1,5 +1,5 @@
 <ng-container>
-    <div class="flex flex-col overflow-auto">
+    <div class="flex flex-col max-h-120">
         <div class="text-lg font-bold">Revisão</div>
 
         <div class="mt-2">
@@ -11,7 +11,7 @@
                 <strong>Material a Ser Utilizado</strong>
             </div>
 
-            <div class="overflow-x-auto relative">
+            <div class="overflow-x-auto overflow-y-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                         <tr>
@@ -87,7 +87,7 @@
                 <strong>Deslocamento</strong>
             </div>
     
-            <div class="overflow-x-auto relative">
+            <div class="overflow-x-auto overflow-y-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <tbody>
                         <tr class="dark:border-gray-700 border-t-2">
@@ -159,7 +159,7 @@
                 <strong>Local Faturamento</strong>
             </div>
     
-            <div class="overflow-x-auto relative">
+            <div class="overflow-x-auto overflow-y-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <tbody>
                         <tr class="dark:border-gray-700 border-t-2">
@@ -251,7 +251,7 @@
                 <strong>Local Envio NF</strong>
             </div>
     
-            <div class="overflow-x-auto relative">
+            <div class="overflow-x-auto overflow-y-auto relative">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <tbody>
                         <tr class="dark:border-gray-700 border-t-2">
@@ -338,7 +338,7 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-end pt-8">
+        <div class="flex items-center justify-end pt-8 pb-8">
             <button class="px-6 mr-2" mat-button (click)="cancelar()">
                 Cancelar
             </button> 

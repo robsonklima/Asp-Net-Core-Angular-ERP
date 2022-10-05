@@ -711,7 +711,7 @@
                                 <fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-2"
                                     *ngFor="let r of os.relatoriosAtendimento; let i=index;">
                                     <div class="flex items-center justify-between mt-5">
-                                        <div class="text-xl font-medium">{{i+1}}&#xaa; RAT</div>
+                                        <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
                                         <div>
                                             <button mat-icon-button
                                                 [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"

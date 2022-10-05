@@ -1,4 +1,3 @@
-import { Cidade } from 'app/core/types/cidade.types';
 import { EmailService } from 'app/core/services/email.service';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';

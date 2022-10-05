@@ -224,26 +224,6 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     return this._orcamentoService.atualizar(this.orcamento).toPromise();
   }
 
-  async persistirDeslocamento(): Promise<any> {
-    return this._orcDeslocamentoService.criar(this.orcamento.orcamentoDeslocamento).toPromise();
-  }
-
-  async persistirMaoDeObra(): Promise<any> {
-    return await this._orcMaoDeObraService.criar(this.orcamento.maoDeObra).toPromise();
-  }
-
-  async persistirMateriais(): Promise<any> {
-    return new Promise(async (resolve, reject) =>{
-      for (const material of this.orcamento.materiais) {
-        material.peca = null;
-
-        await this._orcMaterialService.criar(material).toPromise();
-      }
-
-      resolve(null);
-    });
-  }
-
   navegarParaPeca(codPeca: string) {
     this._router.navigateByUrl('/peca/form/' + codPeca);
     

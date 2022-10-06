@@ -31,7 +31,7 @@ export const orcamentoRoutes: Route[] = [
     {
         path: 'faturamento/form/:codLocalEnvioNFFaturamento',
         component: OrcamentoFaturamentoFormComponent
-    },    
+    }, 
     {
         path: 'faturamento',
         component: OrcamentoFaturamentoListaComponent

@@ -2,7 +2,7 @@ import { LocalAtendimentoService } from 'app/core/services/local-atendimento.ser
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -60,6 +60,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		private _formBuilder: FormBuilder,
 		private _snack: CustomSnackbarService,
 		private _route: ActivatedRoute,
+		private _router: Router,
 		private _userService: UserService,
 		private _localEnvioNFFaturamentoService: LocalEnvioNFFaturamentoService,
 		private _localEnvioNFFaturamentoVinculadoService: LocalEnvioNFFaturamentoVinculadoService,
@@ -160,9 +161,9 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			}
 		};
 
-		this._localEnvioNFFaturamentoService.criar(obj).subscribe(() => {
+		this._localEnvioNFFaturamentoService.criar(obj).subscribe((local) => {
 			this._snack.exibirToast(`Local Envio NF Faturamento adicionado com sucesso!`, "success");
-			this._location.back();
+			this._router.navigate(['/orcamento/faturamento/form/' + local.codLocalEnvioNFFaturamento]);
 		});
 	}
 
@@ -192,7 +193,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 			.subscribe(() => {
 				this._snack.exibirToast('Local vinculado', 'success');
 				this.obterLocalEnvioNFFaturamento();
-
 			});
 	}
 
@@ -200,7 +200,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this._localEnvioNFFaturamentoService.obterPorCodigo(this.codLocalEnvioNFFaturamento)
 			.pipe(first())
 			.subscribe(data => {
-
 				this.registrarEmitters();
 				this.obterClientes(data.cliente.nomeFantasia);
 				this.obterContratos(data.contrato.nomeContrato);
@@ -373,7 +372,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this.formLocalEnvioNF.controls['foneEnvioNF'].setValue(this.formLocalEnvioNF.controls['foneFaturamento'].value);
 		this.formLocalEnvioNF.controls['faxEnvioNF'].setValue(this.formLocalEnvioNF.controls['faxFaturamento'].value);
 		this.formLocalEnvioNF.controls['razaoSocialEnvioNF'].setValue(this.formLocalEnvioNF.controls['razaoSocialFaturamento'].value);
-
 	}
 
 	ngOnDestroy() {

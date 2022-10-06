@@ -47,14 +47,14 @@ namespace SAT.SERVICES.Services
             {
                 _ordemServicoRepo.Atualizar(ordemServico);
 
-                _logger.Info("Chamado Atualizado pelo SAT 2.0: " + JsonConvert.SerializeObject(ordemServico));            
+                _logger.Info("Chamado Atualizado pelo SAT 2.0: " + ordemServico.CodOS);
 
                 return ordemServico;                
             }
             catch (Exception ex)
             {
                 
-                throw new Exception($"Erro ao atualizar chamado no SAT 2.0 {ex.Message}");
+                throw new Exception($"Erro ao atualizar chamado no SAT 2.0 { ex.Message }");
             }
         }
 

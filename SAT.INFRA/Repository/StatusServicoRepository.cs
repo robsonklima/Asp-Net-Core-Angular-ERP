@@ -19,12 +19,13 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Criar(StatusServico statusServico)
+        public StatusServico Criar(StatusServico statusServico)
         {
             try
             {
                 _context.Add(statusServico);
                 _context.SaveChanges();
+                return statusServico;
             }
             catch (Exception ex)
             {

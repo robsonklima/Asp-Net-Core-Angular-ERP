@@ -19,6 +19,7 @@ namespace SAT.INFRA.Context
         public DbSet<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhe { get; set; }
         public DbSet<RelatorioAtendimentoDetalhePeca> RelatorioAtendimentoDetalhePeca { get; set; }
         public DbSet<StatusServico> StatusServico { get; set; }
+        public DbSet<StatusServicoSTN> StatusServicoSTN { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Sequencia> Sequencia { get; set; }
         public DbSet<Tecnico> Tecnico { get; set; }

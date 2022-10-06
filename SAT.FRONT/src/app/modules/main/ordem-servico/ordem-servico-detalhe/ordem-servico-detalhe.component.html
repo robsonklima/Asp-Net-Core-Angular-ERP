@@ -190,6 +190,12 @@
                                                 <div>{{ os?.tecnico?.nome | titlecase }}</div>
                                             </div>
 
+                                            <div class="flex items-center justify-between py-3"
+                                                *ngIf="os?.tecnico?.fonePerto">
+                                                <div class="text-secondary">{{ t('tecnico fone') }}</div>
+                                                <div>{{ os?.tecnico?.fonePerto | titlecase }}</div>
+                                            </div>
+
                                             <div class="flex items-center justify-between py-3">
                                                 <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
                                                 <div>
@@ -632,12 +638,6 @@
                                                     <div *ngIf="hist.tecnico?.nome" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
                                                         <div class="text-secondary" *ngIf="hist.tecnico?.nome">
                                                             Técnico: {{ hist.tecnico?.nome }}
-                                                        </div>
-                                                    </div>
-
-                                                    <div *ngIf="hist.tecnico?.nome" class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
-                                                        <div class="text-secondary" *ngIf="hist.tecnico?.fonePerto">
-                                                            Técnico Fone: {{ hist.tecnico?.fonePerto }}
                                                         </div>
                                                     </div>
 

@@ -19,6 +19,7 @@ namespace SAT.INFRA.Context
         public DbSet<RelatorioAtendimentoDetalhe> RelatorioAtendimentoDetalhe { get; set; }
         public DbSet<RelatorioAtendimentoDetalhePeca> RelatorioAtendimentoDetalhePeca { get; set; }
         public DbSet<StatusServico> StatusServico { get; set; }
+        public DbSet<StatusServicoSTN> StatusServicoSTN { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Sequencia> Sequencia { get; set; }
         public DbSet<Tecnico> Tecnico { get; set; }
@@ -192,6 +193,7 @@ namespace SAT.INFRA.Context
         public DbSet<Conferencia> Conferencia { get; set; }
         public DbSet<ConferenciaParticipante> ConferenciaParticipante { get; set; }
         public DbSet<ArquivoBanrisul> ArquivoBanrisul { get; set; }
+        public DbSet<ProtocoloSTN> ProtocoloSTN { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -410,6 +412,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrdemServicoSTN>(new OrdemServicoSTNMap().Configure);
             modelBuilder.Entity<StatusServicoSTN>(new StatusServicoSTNMap().Configure);
             modelBuilder.Entity<OrdemServicoSTNOrigem>(new OrdemServicoSTNOrigemMap().Configure);
+            modelBuilder.Entity<ProtocoloSTN>(new ProtocoloSTNMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

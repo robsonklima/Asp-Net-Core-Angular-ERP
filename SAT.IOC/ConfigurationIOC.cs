@@ -161,6 +161,8 @@ public class ConfigurationIOC
         builder.RegisterType<MensagemTecnicoRepository>().As<IMensagemTecnicoRepository>();
         builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>();
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
+        builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
+        builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         #endregion
 
         #region Services
@@ -309,6 +311,8 @@ public class ConfigurationIOC
         builder.RegisterType<IntegracaoBanrisulService>().As<IIntegracaoBanrisulService>();
         builder.RegisterType<ArquivoBanrisulService>().As<IArquivoBanrisulService>();
         builder.RegisterType<OrdemServicoSTNService>().As<IOrdemServicoSTNService>();
+        builder.RegisterType<ProtocoloSTNService>().As<IProtocoloSTNService>();
+        builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         #endregion
 
         #region Utils Services

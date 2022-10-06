@@ -6,7 +6,7 @@ namespace SAT.INFRA.Interfaces
 {
     public interface IStatusServicoRepository
     {
-        void Criar(StatusServico statusServico);
+        StatusServico Criar(StatusServico statusServico);
         PagedList<StatusServico> ObterPorParametros(StatusServicoParameters parameters);
         void Deletar(int codigo);
         void Atualizar(StatusServico statusServico);

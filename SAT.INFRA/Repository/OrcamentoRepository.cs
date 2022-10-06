@@ -42,11 +42,13 @@ namespace SAT.INFRA.Repository
 
         public void Criar(Orcamento orcamento)
         {
-            _context.Add(orcamento);
+            _context.ChangeTracker.Clear();
+            orcamento.LocalEnvioNFFaturamentoVinculado = null;
+            _context.Add(orcamento);                
             _context.SaveChanges();
         }
 
-        public void Deletar(int codOrc)
+    public void Deletar(int codOrc)
         {
             Orcamento orcamento = _context
                 .Orcamento

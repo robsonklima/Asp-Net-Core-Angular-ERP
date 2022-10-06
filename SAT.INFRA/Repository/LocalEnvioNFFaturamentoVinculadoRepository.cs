@@ -3,7 +3,6 @@ using SAT.INFRA.Context;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq.Dynamic.Core;
@@ -43,6 +42,7 @@ namespace SAT.INFRA.Repository
         {
             try
             {
+                _context.ChangeTracker.Clear();
                 _context.Add(localEnvioNFFaturamentoVinculado);
                 _context.SaveChanges();
             }
@@ -54,11 +54,10 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codLocalEnvioNFFaturamento, int codPosto, int codContrato)
         {
-            LocalEnvioNFFaturamentoVinculado localEnvioNFFaturamentoVinculado = _context
-                                                                                    .LocalEnvioNFFaturamentoVinculado
-                                                                                        .FirstOrDefault(f => f.CodContrato == codContrato && 
-                                                                                                            f.CodLocalEnvioNFFaturamento == codLocalEnvioNFFaturamento && 
-                                                                                                            f.CodPosto == codPosto);
+            var localEnvioNFFaturamentoVinculado = _context.LocalEnvioNFFaturamentoVinculado
+                    .FirstOrDefault(f => f.CodContrato == codContrato && 
+                        f.CodLocalEnvioNFFaturamento == codLocalEnvioNFFaturamento && 
+                        f.CodPosto == codPosto);
 
             if (localEnvioNFFaturamentoVinculado != null)
             {
@@ -84,11 +83,11 @@ namespace SAT.INFRA.Repository
         public PagedList<LocalEnvioNFFaturamentoVinculado> ObterPorParametros(LocalEnvioNFFaturamentoVinculadoParameters parameters)
         {
             var locais = _context.LocalEnvioNFFaturamentoVinculado
-                            .Include(l => l.LocalAtendimento)
-                            .Include(l => l.LocalEnvioNFFaturamento)
-                            .Include(l => l.LocalEnvioNFFaturamento.Cliente)
-                            .Include(l => l.LocalEnvioNFFaturamento.Contrato)
-                            .AsQueryable();
+                .Include(l => l.LocalAtendimento)
+                .Include(l => l.LocalEnvioNFFaturamento)
+                .Include(l => l.LocalEnvioNFFaturamento.Cliente)
+                .Include(l => l.LocalEnvioNFFaturamento.Contrato)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 locais = locais.Where(

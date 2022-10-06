@@ -50,13 +50,9 @@ import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-se
 import { OrdemServicoDetalheOrcamentosComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
 import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NotificationsModule } from 'app/layout/common/notifications/notifications.module';
 
-const maskConfigFunction: () => Partial<IConfig> = () =>
-{
-    return {
-        validation: false,
-    };
-};
+const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
 @NgModule({
     declarations: [
@@ -111,7 +107,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         MatStepperModule,
         FuseAlertModule,
         MatProgressSpinnerModule,
-        FiltroModule
+        FiltroModule,
+        NotificationsModule
     ]
 })
 export class OrdemServicoModule

@@ -313,6 +313,7 @@ public class ConfigurationIOC
         builder.RegisterType<OrdemServicoSTNService>().As<IOrdemServicoSTNService>();
         builder.RegisterType<ProtocoloSTNService>().As<IProtocoloSTNService>();
         builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
+        builder.RegisterType<NLogService>().As<INLogService>();
         #endregion
 
         #region Utils Services

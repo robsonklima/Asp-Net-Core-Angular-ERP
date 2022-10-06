@@ -60,7 +60,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		protected _userService: UserService,
 		private _stringExtensions: StringExtensions,
 		private _exportacaoService: ExportacaoService,
-		private _snack: CustomSnackbarService
+		private _snack: CustomSnackbarService,
 	) {
 		super(_userService, 'ordem-servico')
 	}

@@ -26,6 +26,7 @@ namespace SAT.INFRA.Repository
                             .Include(t => t.TipoRota)
                             .Include(t => t.Regiao)
                             .Include(t => t.Usuario)
+                            .Include(t => t.Usuario.Perfil)
                             .Include(t => t.RegiaoAutorizada)
                             .Include(t => t.TecnicoCliente)
                                 .ThenInclude(tc => tc.Cliente);

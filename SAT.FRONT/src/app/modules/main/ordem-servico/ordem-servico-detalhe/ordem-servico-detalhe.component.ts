@@ -245,10 +245,10 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	}
 
 	public verificarPermissaoCancelamento(): boolean {
-		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA && this.os?.codStatusServico !== StatusServicoEnum.FECHADO && this.os?.codStatusServico !== StatusServicoEnum.CANCELADO)
+		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA && this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
-		if (this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO && this.os?.codStatusServico !== StatusServicoEnum.FECHADO && this.os?.codStatusServico !== StatusServicoEnum.CANCELADO)
+		if (this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO && this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
 		if (

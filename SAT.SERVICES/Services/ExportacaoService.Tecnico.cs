@@ -14,10 +14,12 @@ namespace SAT.SERVICES.Services {
                                 Codigo = tecnico.CodTecnico,
                                 Nome = tecnico.Nome ?? Constants.NENHUM_REGISTRO,
                                 Filial = tecnico.Filial?.NomeFilial ?? Constants.NENHUM_REGISTRO,
+                                Autorizada = tecnico.Autorizada?.NomeFantasia ?? Constants.NENHUM_REGISTRO,
+                                Perfil = tecnico.Usuario?.Perfil?.NomePerfil ?? Constants.NENHUM_REGISTRO,
                                 FonePerto = tecnico.FonePerto ?? Constants.NENHUM_REGISTRO,
                                 FoneParticular = tecnico.FoneParticular ?? Constants.NENHUM_REGISTRO,
                                 DataAdmissao = tecnico.DataAdmissao,
-                                IndAtivo = tecnico.IndAtivo == 1 ? "SIM" : "NÃO"
+                                Ativo = tecnico.IndAtivo == 1 ? "SIM" : "NÃO"
                             });
 
             var wsOs = Workbook.Worksheets.Add("Tecnicos");

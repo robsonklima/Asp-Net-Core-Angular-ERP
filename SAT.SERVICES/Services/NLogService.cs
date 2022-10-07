@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using SAT.MODELS.Entities;
@@ -30,7 +31,7 @@ namespace SAT.SERVICES.Services
                     }
             }
 
-            return registros;
+            return registros.OrderByDescending(r => r.Time).ToList();
         }
     }
 }

@@ -137,7 +137,7 @@ namespace SAT.SERVICES.Services
 
             }
 
-            string[] destinatarios = { "andre.figueiredo@perto.com.br", "ivan.medina@perto.com.br", "cesar.bessa@perto.com.br", "claudio.meurer@digicon.com.br", "silvana.ribeiro@perto.com.br" };
+            string[] destinatarios = { "ivan.medina@perto.com.br", "cesar.bessa@perto.com.br", "claudio.bosco@perto.com.br" };
 
             Email email = new()
             {

@@ -114,6 +114,7 @@ export const appRoutes: Route[] = [
             { path: 'frota-tecnico', loadChildren: () => import('app/modules/main/frota-tecnicos/frota-tecnicos.module').then(m => m.FrotaTecnicosModule) },
             { path: 'mensagem', loadChildren: () => import('app/modules/main/mensagem/mensagem.module').then(m => m.MensagemModule) },
             { path: 'suporte-stn', loadChildren: () => import('app/modules/main/suporte-stn/suporte-stn.module').then(m => m.SuporteSTNModule) },
+            { path: 'laboratorio', loadChildren: () => import('app/modules/main/laboratorio/laboratorio.module').then(m => m.LaboratorioModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

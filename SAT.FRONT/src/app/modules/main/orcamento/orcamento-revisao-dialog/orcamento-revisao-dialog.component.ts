@@ -92,8 +92,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
 
     for (const dp of detalhesPeca)
     {
-      var m: OrcamentoMaterial =
-      {
+      var m: OrcamentoMaterial = {
         codOrc: this.orcamento?.codOrc,
         codigoMagnus: dp?.peca?.codMagnus,
         codigoPeca: dp?.peca?.codPeca.toString(),

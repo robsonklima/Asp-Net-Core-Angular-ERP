@@ -5,8 +5,13 @@
         </div>
 
         <div class="flex place-content-end">
-            <button mat-icon-button [matTooltip]="t('novo')" (click)="criarOrcamento()" [disabled]="!os">
-                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
+            <button mat-icon-button [matTooltip]="t('novo orcamento')" (click)="criarOrcamento()" [disabled]="!os">
+                <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:cash'">
+                </mat-icon>
+            </button>
+
+            <button class="ml-2" mat-icon-button [matTooltip]="t('solicitar cotacao')" (click)="solicitarCotacao()" [disabled]="!os">
+                <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:inbox'">
                 </mat-icon>
             </button>
         </div>

@@ -54,6 +54,7 @@ import { OrcamentoPesquisaComponent } from "./orcamento-pesquisa/orcamento-pesqu
 import { OrcamentoFinanceiroFaturamentoListaComponent } from "./orcamento-financeiro/orcamento-financeiro-faturamento/orcamento-financeiro-faturamento-lista/orcamento-financeiro-faturamento-lista.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { OrcamentoRevisaoDialogComponent } from './orcamento-revisao-dialog/orcamento-revisao-dialog.component';
+import { OrcamentoCotacaoDialogComponent } from './orcamento-cotacao-dialog/orcamento-cotacao-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -80,7 +81,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         OrcamentoDetalhePedidoComponent,
         OrcamentoPesquisaComponent,
         OrcamentoFinanceiroFaturamentoListaComponent,
-        OrcamentoRevisaoDialogComponent
+        OrcamentoRevisaoDialogComponent,
+        OrcamentoCotacaoDialogComponent
     ],
     imports: [
         CommonModule,

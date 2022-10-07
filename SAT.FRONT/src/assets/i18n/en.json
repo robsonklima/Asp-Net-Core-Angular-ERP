@@ -705,5 +705,9 @@
     "abertura stn": "Oppended STN",
     "reincidencias": "Relapses",
     "criando": "Adding",
-    "novo atendimento": "New Order"
+    "novo atendimento": "New Order",
+    "solicitar cotacao": "Order Budget",
+    "novo orcamento": "New Budget",
+    "laboratório": "Laboratory",
+    "painel de controle": "Control Pannel"
 }

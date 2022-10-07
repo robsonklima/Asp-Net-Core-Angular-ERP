@@ -4,6 +4,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Orcamento } from 'app/core/types/orcamento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserSession } from 'app/core/user/user.types';
+import { OrcamentoCotacaoDialogComponent } from 'app/modules/main/orcamento/orcamento-cotacao-dialog/orcamento-cotacao-dialog.component';
 import { OrcamentoRevisaoDialogComponent } from 'app/modules/main/orcamento/orcamento-revisao-dialog/orcamento-revisao-dialog.component';
 
 @Component({
@@ -38,6 +39,15 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
   criarOrcamento() {
     this._dialog.open(OrcamentoRevisaoDialogComponent, {
       data: { os: this.os }
+    });
+  }
+
+  solicitarCotacao() {
+    this._dialog.open(OrcamentoCotacaoDialogComponent, {
+      width: '600px',
+      data: {
+        os: this.os
+      }
     });
   }
 }

@@ -62,7 +62,7 @@ export interface Orcamento
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];
     maoDeObra?: OrcamentoMaoDeObra;
-    outrosServicos?: OrcamentoOutroServico;
+    outrosServicos?: OrcamentoOutroServico[];
     descontos?: OrcamentoDesconto[];
     ordemServico?: OrdemServico;
     orcamentoStatus?: OrcamentoStatus;

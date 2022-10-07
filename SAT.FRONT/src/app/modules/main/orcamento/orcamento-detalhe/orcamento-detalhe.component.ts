@@ -426,10 +426,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 									<td><b>SÉRIE:</b></td> 
 									<td>${this.orcamento.ordemServico?.equipamentoContrato?.numSerie}</td> 
 								</tr> 
-								<tr> 
-									<td><b>OBS:</b></td> 
-									<td>${this.orcamento.outrosServicos?.descricao?? ''}</td> 
-								</tr> 
 							</table> 
 						`,
 				};

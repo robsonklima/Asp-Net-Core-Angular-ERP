@@ -54,6 +54,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     await this.montaDeslocamento();
     await this.montaMateriais();
     await this.montaLocais();
+    this._orcamentoService.calculaTotalizacao(this.orcamento)
     this.loading = false;
   }
 

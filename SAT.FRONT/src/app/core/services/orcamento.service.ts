@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoLista, ViewOrcamentoListaData } from '../types/orcamento.types';
 import Enumerable from 'linq';
+import _ from 'lodash';
 
 @Injectable({
     providedIn: 'root'
@@ -89,17 +90,30 @@ export class OrcamentoService
         );
     }
 
-    calculaTotalizacao(orcamento: Orcamento): Orcamento
-    {   
-        orcamento.valorTotal =
-            ((Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorTotal) +
-                orcamento?.maoDeObra?.valorTotal +
-                orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento +
-                orcamento?.orcamentoDeslocamento?.valorTotalKmRodado)) - Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal);
+    calculaTotalizacao(orcamento: Orcamento): Orcamento {  
+        const valorMateriais = _.sumBy(orcamento?.materiais, (material) => { return material?.valorTotal; });
+        const valorOutrosServicos = _.sumBy(orcamento?.outrosServicos, (servico) => { return servico?.valorTotal; });
+        const valorKmDeslocamento = orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento;
+        const valorKmRodado = orcamento?.orcamentoDeslocamento?.valorTotalKmRodado;
+        const valorMaoDeObra = orcamento?.maoDeObra?.valorTotal;
+        const valorDescontos = _.sumBy(orcamento?.descontos, (desconto) => { return desconto?.valorTotal; });
+        const valorDescontosMateriais = _.sumBy(orcamento?.materiais, (desconto) => { return desconto?.valorDesconto; });
+        
+        orcamento.valorTotal = (valorMateriais + valorOutrosServicos + valorKmDeslocamento + valorKmRodado + valorMaoDeObra) - valorDescontos;
+        orcamento.valorTotalDesconto = valorDescontos + valorDescontosMateriais;
 
-        orcamento.valorTotalDesconto =
-            Enumerable.from(orcamento?.descontos).sum(i => i.valorTotal) + Enumerable.from(orcamento?.orcamentoMateriais).sum(i => i?.valorDesconto);
+        if (orcamento.valorTotal)
+            orcamento.valorTotal = parseFloat(orcamento.valorTotal.toString());
 
+        if (orcamento.valorTotalDesconto)
+            orcamento.valorTotal = parseFloat(orcamento.valorTotalDesconto.toString());
+
+        if (isNaN(orcamento.valorTotal))
+            orcamento.valorTotal = 0;
+
+        if (isNaN(orcamento.valorTotalDesconto))
+            orcamento.valorTotalDesconto = 0;
+        
         return orcamento;
     }
 }

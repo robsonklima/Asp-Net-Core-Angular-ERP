@@ -26,7 +26,6 @@ export class OrcamentoCotacaoDialogComponent implements OnInit {
     private _emailService: EmailService
   ) {
     this.os = data?.os;
-    console.log(this.os);
     this.userSession = JSON.parse(this._userService.userSession);
   }
 

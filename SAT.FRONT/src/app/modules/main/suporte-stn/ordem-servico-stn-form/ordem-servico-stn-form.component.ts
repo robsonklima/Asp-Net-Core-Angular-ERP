@@ -76,7 +76,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
     this.rat = this.os?.relatoriosAtendimento[this.os.relatoriosAtendimento.length-1];
     this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codOS: this.os.codOS }).toPromise()).items;
-    console.log(this.atendimentos);
     this.isLoading = false;
   }
 

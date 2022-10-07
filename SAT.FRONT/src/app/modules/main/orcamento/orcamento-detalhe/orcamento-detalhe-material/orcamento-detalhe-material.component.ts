@@ -70,9 +70,9 @@ export class OrcamentoDetalheMaterialComponent implements IEditableItemList<Orca
 	}
 
 	async salvar(material: IEditableItem<OrcamentoMaterial>): Promise<void> {
-		material.item.valorDesconto = parseFloat((material.item.valorDesconto.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
-		material.item.quantidade = parseFloat((material.item.quantidade.toString().replace(/[^0-9,.]/g, '')).replace(',', '.'));
-		material.item.valorTotal = (material.item.valorUnitario * material.item.quantidade) - material.item.valorDesconto;
+		material.item.valorDesconto = parseFloat((material.item?.valorDesconto?.toString()?.replace(/[^0-9,.]/g, ''))?.replace(',', '.'));
+		material.item.quantidade = parseFloat((material.item?.quantidade?.toString()?.replace(/[^0-9,.]/g, ''))?.replace(',', '.'));
+		material.item.valorTotal = (material.item.valorUnitario * material.item.quantidade) - (material.item.valorDesconto || 0);
 
 		this._orcMaterialService.atualizar(material.item).subscribe(m => {
 			this._orcService.atualizarTotalizacao(m.codOrc);

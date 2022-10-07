@@ -20,6 +20,7 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { LocalEnvioNFFaturamentoVinculadoService } from 'app/core/services/local-envio-nf-faturamento-vinculado.service';
 import { LocalEnvioNFFaturamentoVinculado, LocalEnvioNFFaturamentoVinculadoParameters } from 'app/core/types/local-envio-nf-faturamento-vinculado.types';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-orcamento-revisao-dialog',
@@ -90,8 +91,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       .selectMany(i => i.relatorioAtendimentoDetalhePecas)
       .toArray();
 
-    for (const dp of detalhesPeca)
-    {
+    for (const dp of detalhesPeca) {
       var m: OrcamentoMaterial = {
         codOrc: this.orcamento?.codOrc,
         codigoMagnus: dp?.peca?.codMagnus,
@@ -109,7 +109,15 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         this.isValorPecasDesatualizado = true;
 
       m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);
-      materiais.push(m);
+      var materialJaEstaNaLista = _.find(materiais, { codigoPeca: m.codigoPeca });
+
+      if (materialJaEstaNaLista) {
+        const index = _.findIndex(materiais, { codigoPeca: m.codigoPeca });;
+        materiais[index].quantidade = materiais[index].quantidade + 1;
+        materiais[index].valorTotal = materiais[index].valorUnitario * materiais[index].quantidade;
+      } else {
+        materiais.push(m);
+      }
     };
 
     this.orcamento.materiais = materiais;

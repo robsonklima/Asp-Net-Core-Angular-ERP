@@ -1,6 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 import { appConfig } from 'app/core/config/app.config';
 import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
@@ -28,7 +27,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 	ordensServico: OrdemServico[] = [];
 	adiantamentos: DespesaAdiantamentoPeriodo[] = [];
 	tecnicoConta: TecnicoConta;
-	despesasView: ViewDespesaImpressaoItem[]; 
+	despesasView: ViewDespesaImpressaoItem[];
 
 	constructor(
 		private _route: ActivatedRoute,
@@ -46,7 +45,7 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 		this.despesaPeriodoTecnico = await this._despesaPeriodoTecnicoSvc.obterPorCodigo(this.codDespesaPeriodoTecnico).toPromise();
 		this.despesaPeriodoTecnico.despesas = this.despesaPeriodoTecnico.despesas
 			.sort((a, b) => (moment(a.relatorioAtendimento.dataHoraInicio) > moment(b.relatorioAtendimento.dataHoraInicio)) ? 1 : -1);
-		
+
 
 		this.despesasView = await this._despesaService.impressao({
 			codTecnico: this.despesaPeriodoTecnico.codTecnico.toString(),
@@ -71,11 +70,10 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 	}
 
 	async obterAdiantamentos() {
-		this.adiantamentos = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros(
-			{
-				codTecnico: this.despesaPeriodoTecnico.codTecnico,
-				codDespesaPeriodo: this.despesaPeriodoTecnico.codDespesaPeriodo
-			}).toPromise()).items;
+		this.adiantamentos = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
+			codTecnico: this.despesaPeriodoTecnico.codTecnico,
+			codDespesaPeriodo: this.despesaPeriodoTecnico.codDespesaPeriodo
+		}).toPromise()).items;
 	}
 
 	async obterOS() {
@@ -209,20 +207,14 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 	}
 
 	obterTotalAdiantamentos() {
-		var adiantamentos = Enumerable.from(this.adiantamentos)
-			.where(i => i.despesaAdiantamento.indAtivo == statusConst.ATIVO);
-
+		var adiantamentos = Enumerable.from(this.adiantamentos).where(i => i.despesaAdiantamento.indAtivo == statusConst.ATIVO);
 		var recebido = adiantamentos.sum(i => i.despesaAdiantamento.valorAdiantamento);
 		var utilizado = adiantamentos.sum(i => i.valorAdiantamentoUtilizado);
-
-		return recebido - utilizado;
+		const saldo = recebido - utilizado;
+		return saldo > utilizado ? utilizado : saldo;
 	}
 
 	obterTotalViaDeposito() {
-		// var despesas = this.obterTotalDespesaSemKM();
-		// var adiantamentos = this.obterTotalAdiantamentos();
-		// var deposito = despesas - adiantamentos;
-
 		return this.obterTotalDespesaSemKM();
 	}
 }

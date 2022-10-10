@@ -586,7 +586,7 @@
                         </mat-tab>
 
                         <!-- ATUALIZACOES -->
-                        <mat-tab [disabled]="!historico?.length" *ngIf="!this.perfilCliente" >
+                        <mat-tab [disabled]="!historico?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!historico?.length">
                                     {{ t('log') }}

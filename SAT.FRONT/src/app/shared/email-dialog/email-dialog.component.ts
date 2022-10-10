@@ -51,8 +51,8 @@ export class EmailDialogComponent {
         if (this.userSession && !data?.nomeRemetente)
             this.nomeRemetente = this.userSession?.usuario?.nomeUsuario || this.nomeRemetente;
 
-        if (data.destinatarios.length) {
-            data.destinatarios.forEach(email => {
+        if (data?.destinatarios?.length) {
+            data?.destinatarios?.forEach(email => {
                 this.emails.push(email);
             });
         }
@@ -60,14 +60,19 @@ export class EmailDialogComponent {
         this.criarForm();
     }
 
-
     add(event: MatChipInputEvent): void {
+        console.log(event.value);
+        
+
         const value = (event.value || '').trim();
 
         if (value)
             this.emails.push(value);
 
         event.chipInput!.clear();
+
+        console.log(this.emails);
+        
     }
 
     criarForm() {

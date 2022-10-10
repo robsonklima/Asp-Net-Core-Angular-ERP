@@ -145,6 +145,9 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.ORDEM_SERVICO:
                     return GerarPdfOrdemServico(exportacao);
 
+                case ExportacaoTipoEnum.ORDEM_SERVICO_RESUMIDO:
+                    return GerarPdfOrdemServicoResumido(exportacao);
+
                 default:
                     return null;
             }

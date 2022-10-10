@@ -9,6 +9,8 @@ using Newtonsoft.Json.Linq;
 using SAT.UTILS;
 using System.IO;
 using QuestPDF.Fluent;
+using System.Net;
+using SelectPdf;
 
 namespace SAT.SERVICES.Services
 {
@@ -241,6 +243,40 @@ namespace SAT.SERVICES.Services
 
             byte[] file = File.ReadAllBytes(osPdf);
             return new FileContentResult(file, "application/pdf");
+        }
+
+        private IActionResult GerarPdfOrdemServicoResumido(Exportacao exportacao)
+        {
+
+            var arquivos = new List<string>();
+
+            var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
+            
+
+            using (WebClient wc = new())
+            {
+                var pathHTML = GenerateFilePath($"OS-{parameters.CodOS}.html");
+                var pathPDF = GenerateFilePath($"OS-{parameters.CodOS}.pdf");
+                var url = string.Format(@"https://sat.perto.com.br/prjSATWebOLD/ImprimeOS.asp?CodOs={0}", parameters.CodOS);
+                byte[] data = wc.DownloadData(url);
+
+                HtmlToPdf converter = new HtmlToPdf();
+                PdfDocument doc = converter.ConvertUrl(string.Format(pathHTML, parameters.CodOS, "html"));
+                doc.Save(string.Format(pathPDF, parameters.CodOS, "pdf"));
+                doc.Close();
+
+                if (exportacao.Email != null)
+                {
+                    arquivos.Add(pathPDF);
+                    exportacao.Email.Anexos = arquivos;
+
+                    _emaiLService.Enviar(exportacao.Email);
+                    return new NoContentResult();
+                }
+
+                byte[] file = File.ReadAllBytes(pathPDF.Replace("html", "pdf"));
+                return new FileContentResult(file, "application/pdf");
+            }
         }
     }
 }

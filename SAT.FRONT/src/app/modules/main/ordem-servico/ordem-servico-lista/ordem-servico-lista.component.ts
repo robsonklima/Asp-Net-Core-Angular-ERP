@@ -137,9 +137,10 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	loadFilter(): void {
 		super.loadFilter();
 
-		if (this.userSession?.usuario?.codFilial && this.userSession?.usuario?.codCliente && this.filter)
+		if (this.userSession?.usuario?.codFilial && this.userSession?.usuario?.codCliente && this.userSession?.usuario?.codContrato && this.filter)
 			this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
 			this.filter.parametros.codClientes = this.userSession?.usuario?.codCliente;
+			this.filter.parametros.codContratos = this.userSession?.usuario?.codContrato;
 	}
 
 	public async exportar() {

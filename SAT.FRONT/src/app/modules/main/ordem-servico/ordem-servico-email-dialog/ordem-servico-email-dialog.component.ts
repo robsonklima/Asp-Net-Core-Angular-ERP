@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { fuseAnimations } from '@fuse/animations';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { EmailService } from 'app/core/services/email.service';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
@@ -24,7 +24,7 @@ export class OrdemServicoEmailDialogComponent extends EmailDialogComponent
     @Inject(MAT_DIALOG_DATA) protected data: any,
     protected _dialog: MatDialog,
     protected _dialogRef: MatDialogRef<EmailDialogComponent>,
-    protected _snack: MatSnackBar,
+    protected _snack: CustomSnackbarService,
     protected _formBuilder: FormBuilder,
     protected _userService: UserService,
     protected _emailSvc: EmailService)

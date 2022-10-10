@@ -2,23 +2,19 @@ import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { appConfig } from 'app/core/config/app.config';
 import { EmailService } from 'app/core/services/email.service';
-import { Email, EmailAddress } from 'app/core/types/email.types';
+import { Email } from 'app/core/types/email.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ENTER, COMMA, SEMICOLON } from '@angular/cdk/keycodes';
-import Enumerable from 'linq';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
     selector: 'app-email-dialog',
     templateUrl: './email-dialog.component.html'
 })
 export class EmailDialogComponent {
-    protected snackConfigDanger: MatSnackBarConfig = { duration: 1500, panelClass: 'danger', verticalPosition: 'top', horizontalPosition: 'right' };
-    protected snackConfigSuccess: MatSnackBarConfig = { duration: 1500, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
-
     public form: FormGroup;
     protected userSession: UserSession;
     protected assuntoEmail: string = 'Lorem ipsum';
@@ -36,7 +32,7 @@ export class EmailDialogComponent {
         @Inject(MAT_DIALOG_DATA) protected data: any,
         protected dialogRef: MatDialogRef<EmailDialogComponent>,
         protected _formBuilder: FormBuilder,
-        protected _snack: MatSnackBar,
+        protected _snack: CustomSnackbarService,
         protected _userService: UserService,
         protected _emailSvc: EmailService) {
         if (data) {
@@ -89,6 +85,11 @@ export class EmailDialogComponent {
 
     check(event: any) {
         this.incluirLaudoExportacao = event;
+    }
+
+    CopiarEmails() {
+        navigator.clipboard.writeText(this.emails.join(';'));
+		this._snack.exibirToast('Informação Copiada', 'info');
     }
 
     async confirmar() {

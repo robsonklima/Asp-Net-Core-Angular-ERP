@@ -15,9 +15,23 @@ namespace SAT.SERVICES.Services
     {
         protected void GerarPlanilhaOrcamento(OrcamentoParameters parameters)
         {
-            var orcamentos = _orcamentoRepo.ObterPorParametros(parameters);
+            var orcamentos = _orcamentoRepo.ObterPorView(parameters);
             var sheet = orcamentos.Select(orcamento => new {
                 Numero = orcamento.Numero,
+                CodOrc = orcamento.CodOrc,
+                DataOrcamento = orcamento.DataOrcamento,
+                CodOS = orcamento.CodOS,
+                DataAbertura = orcamento.DataAbertura,
+                StatusOS = orcamento.StatusOS,
+                StatusLaudo = orcamento.StatusLaudo,
+                NomeLocal = orcamento.NomeLocal,
+                Intervencao = orcamento.Intervencao,
+                Autorizada = orcamento.Autorizada,
+                Regiao = orcamento.Regiao,
+                Cliente = orcamento.Cliente,
+                Equipamento = orcamento.Equipamento,
+                NumSerie = orcamento.NumSerie,
+                NumOSCliente = orcamento.NumOSCliente
             });
 
             var wsOs = Workbook.Worksheets.Add("orcamentos");

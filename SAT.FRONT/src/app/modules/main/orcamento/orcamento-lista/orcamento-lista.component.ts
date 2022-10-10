@@ -4,7 +4,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrcamentoParameters, OrcamentoTipoIntervencao, ViewOrcamentoListaData } from 'app/core/types/orcamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -42,6 +45,7 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 	constructor(
 		private _orcamentoSvc: OrcamentoService,
 		private _cdr: ChangeDetectorRef,
+		private _exportacaoService: ExportacaoService,
 		protected _userService: UserService
 	) {
 		super(_userService, 'orcamento');
@@ -125,6 +129,23 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 			codTipoIntervencao == OrcamentoTipoIntervencao.ORCAMENTO_REPROVADO) {
 			return 'white'
 		}
+	}
+
+	public async exportar() {
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.ORCAMENTO,
+			entityParameters: {
+				...this.filter?.parametros,
+				sortDirection: 'desc',
+				pageSize: 100000
+			}
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
+		this.isLoading = false;
 	}
 
 	paginar() {

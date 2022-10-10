@@ -278,6 +278,10 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.VALOR_COMBUSTIVEL:
                     GerarPlanilhaDespesaConfiguracaoCombustivel(((JObject)parameters).ToObject<DespesaConfiguracaoCombustivelParameters>());
                     break;
+
+                case ExportacaoTipoEnum.ORCAMENTO:
+                    GerarPlanilhaOrcamento(((JObject)parameters).ToObject<OrcamentoParameters>());
+                    break;
                     
                 default:
                     break;

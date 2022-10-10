@@ -561,7 +561,7 @@
                         </mat-tab>
 
                         <!-- ALERTAS -->
-                        <mat-tab [disabled]="!os?.alertas?.length" *ngIf="!this.perfilCliente">
+                        <mat-tab [disabled]="!os?.alertas?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!os?.alertas?.length">
                                     {{ t('alertas') }}

@@ -18,7 +18,6 @@ export class ExportacaoService {
 	private _objParams: any;
 
 	async exportar(mimeArquivo: FileMime, params: Exportacao = null) {
-
 		this._params = params.entityParameters;
 		this._objParams = params;
 		const data = await this.downloadExportacao();
@@ -29,7 +28,7 @@ export class ExportacaoService {
 		let exportacao = document.createElement("a");
 		exportacao.href = window.URL.createObjectURL(blob).toString();
 		exportacao.download = `${Object.keys(ExportacaoTipoEnum)[Object.values(ExportacaoTipoEnum).indexOf(params.tipoArquivo as unknown as ExportacaoTipoEnum)]}_${moment().format('DD-MM-yyyy_HH-mm-ss')}`;
-		exportacao.click()
+		exportacao.click();
 	}
 
 	private downloadExportacao(): Promise<any> {

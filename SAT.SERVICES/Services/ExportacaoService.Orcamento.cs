@@ -16,11 +16,9 @@ namespace SAT.SERVICES.Services
         protected void GerarPlanilhaOrcamento(OrcamentoParameters parameters)
         {
             var orcamentos = _orcamentoRepo.ObterPorParametros(parameters);
-            var sheet = orcamentos.Select(orcamento =>
-                            new
-                            {
-                                Numero = orcamento.Numero,
-                            });
+            var sheet = orcamentos.Select(orcamento => new {
+                Numero = orcamento.Numero,
+            });
 
             var wsOs = Workbook.Worksheets.Add("orcamentos");
             wsOs.Cell(2, 1).Value = sheet;
@@ -60,6 +58,7 @@ namespace SAT.SERVICES.Services
             }
 
             byte[] file = File.ReadAllBytes(orcamentoPdf);
+            
             return new FileContentResult(file, "application/pdf");
         }
     }

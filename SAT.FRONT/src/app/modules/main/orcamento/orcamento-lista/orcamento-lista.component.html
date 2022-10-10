@@ -24,8 +24,8 @@
 
                     <div matTooltip="{{ t('exportar') }}"
                         (click)="exportar()">
-                        <button class="ml-2" mat-icon-button>
-                            <mat-icon [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                        <button class="ml-4" mat-icon-button>
+                            <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                         </button>
                     </div>
 
@@ -176,7 +176,8 @@
                                                         [svgIcon]="'heroicons_outline:clipboard'">
                                                     </mat-icon>
                                                 </button>
-                                                <button class="cursor-pointer" [disabled]="!(orc?.codOrc)" [routerLink]="['/orcamento/detalhe/' + orc?.codOrc + '/' + orc?.codOS]">
+
+                                                <button class="cursor-pointer ml-2" [disabled]="!(orc?.codOrc)" [routerLink]="['/orcamento/detalhe/' + orc?.codOrc + '/' + orc?.codOS]">
                                                     <mat-icon class="max-w-5 max-h-5 text-blue-800"
                                                     [matTooltip]="t('ir para orcamento')"
                                                     [svgIcon]="'heroicons_outline:calculator'">

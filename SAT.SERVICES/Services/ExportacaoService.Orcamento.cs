@@ -51,7 +51,6 @@ namespace SAT.SERVICES.Services
 
             var orcamentoImpressao = new OrcamentoPdfHelper(orcamento);
             var orcamentoPdf = GenerateFilePath($"ORÇAMENTO-{orcamento.Numero}.pdf");
-            
             orcamentoImpressao.GeneratePdf(orcamentoPdf);
             arquivos.Add(orcamentoPdf);
 

@@ -117,6 +117,7 @@ namespace SAT.INFRA.Repository
                 if (!string.IsNullOrWhiteSpace(parameters.Filter))
                     equips = equips.Where(e =>
                         e.NumSerie.Contains(parameters.Filter) ||
+                        e.LocalAtendimento.NomeLocal.Contains(parameters.Filter) ||
                         e.AtmId.Contains(parameters.Filter));
 
                 if (parameters.CodEquipContrato.HasValue)

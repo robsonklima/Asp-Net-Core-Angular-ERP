@@ -309,12 +309,13 @@ namespace SAT.UTILS
                     if (detalhe != null) {
                         grid.Item(12).Text( tx =>
                         {
-                            tx.Span($"Tipo Serviço: {detalhe.TipoServico.NomeServico}").FontSize(8).Bold();
-                            var tipoServico = detalhe.TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
-                            tx.Span($"  ({tipoServico})").FontSize(8);
+                            tx.Span($"Tipo Serviço: {detalhe?.TipoServico?.NomeServico}").FontSize(8).Bold();
+                            if (!string.IsNullOrWhiteSpace(detalhe?.TipoServico?.NomeServico)) {
+                                var tipoServico = detalhe.TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
+                                tx.Span($"  ({tipoServico})").FontSize(8);
+                            }
                         });
                     }
-
                     
                     grid.Item(4).Text(t =>
                     {

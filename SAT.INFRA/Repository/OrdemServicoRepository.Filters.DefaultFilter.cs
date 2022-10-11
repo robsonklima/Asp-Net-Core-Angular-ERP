@@ -19,7 +19,8 @@ namespace SAT.INFRA.Repository
                     t.Cliente.NumBanco.Contains(parameters.Filter) ||
                     t.Cliente.NomeFantasia.Contains(parameters.Filter) ||
                     t.DefeitoRelatado.Contains(parameters.Filter) ||
-                    t.NumOSCliente.Contains(parameters.Filter));
+                    t.NumOSCliente.Contains(parameters.Filter) ||
+                    t.CodContrato.ToString().Contains(parameters.Filter));
 
             if (parameters.CodContrato.HasValue)
                 query = query.Where(os => os.CodContrato == parameters.CodContrato.Value);

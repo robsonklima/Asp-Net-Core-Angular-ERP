@@ -15,9 +15,7 @@ import { EmailDialogComponent } from 'app/shared/email-dialog/email-dialog.compo
   encapsulation: ViewEncapsulation.None,
 })
 
-export class OrdemServicoEmailDialogComponent extends EmailDialogComponent
-{
-
+export class OrdemServicoEmailDialogComponent extends EmailDialogComponent {
   os: OrdemServico;
 
   constructor (
@@ -30,19 +28,17 @@ export class OrdemServicoEmailDialogComponent extends EmailDialogComponent
     protected _emailSvc: EmailService)
   {
     super(data, _dialogRef, _formBuilder, _snack, _userService, _emailSvc);
-
-    this.os = data.os;
+    this.os = data?.os;
   }
 
   confirmar()
   {
-    this.assuntoEmail = `OS ${this.os.codOS}`;
+    this.assuntoEmail = `OS ${this.os?.codOS}`;
     this.conteudoEmail = this.obterImpressao();
     return super.confirmar();
   }
 
-  obterImpressao()
-  {
+  obterImpressao() {
     var contentToPrint = document?.getElementById("print-area")?.innerHTML;
     return `<html><body>${contentToPrint}</body></html>`;
   }

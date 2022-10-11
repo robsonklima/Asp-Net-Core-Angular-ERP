@@ -61,18 +61,12 @@ export class EmailDialogComponent {
     }
 
     add(event: MatChipInputEvent): void {
-        console.log(event.value);
-        
-
         const value = (event.value || '').trim();
 
         if (value)
             this.emails.push(value);
 
         event.chipInput!.clear();
-
-        console.log(this.emails);
-        
     }
 
     criarForm() {

@@ -32,6 +32,7 @@ export class ExportacaoService {
 	}
 
 	private downloadExportacao(): Promise<any> {
+		debugger
 		let params = new HttpParams();
 
 		Object.keys(this._params).forEach(key => {

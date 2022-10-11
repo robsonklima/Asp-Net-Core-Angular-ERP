@@ -171,7 +171,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			],
 		});
 	}
-
+	
 	private formatarLocais() {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,

@@ -31,6 +31,8 @@
         <div class="min-w-screen p-2" *ngIf="!isLoading">
             <div style=" font-size: 8px !important;">
                 <div class="text-center">
+
+
                     <div class="inline-block mr-2">
                         <div class="flex text-left font-mono">
                             <p class="font-bold mr-1">
@@ -40,33 +42,25 @@
                                 {{ despesaPeriodoTecnico?.tecnico?.nome | uppercase }}
                             </p>
                         </div>
-                        <div class="flex text-left font-mono">
-                            <p class="font-bold mr-1">
-                                {{ "CPF:"| uppercase }}
-                            </p>
-                            <p>
-                                {{ despesaPeriodoTecnico?.tecnico?.cpf | uppercase }}
-                            </p>
-                        </div>
-                        <div class="flex text-left font-mono">
-                            <p class="font-bold mr-1">
-                                {{ t('endereco') + ":"| uppercase }}
-                            </p>
-                            <p>
-                                {{ despesaPeriodoTecnico?.tecnico?.endereco + ", " +
-                                despesaPeriodoTecnico?.tecnico?.cidade?.nomeCidade + " - " +
-                                despesaPeriodoTecnico?.tecnico?.cidade?.unidadeFederativa?.siglaUF | uppercase }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="inline-block mr-2">
                         <div class="flex border-l text-left font-mono">
                             <p class="font-bold mr-1">
                                 {{ t('veiculo') + ":"| uppercase }}
                             </p>
                             <p>
                                 {{ obterCartaoCombustivel().carro }}
+                            </p>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="inline-block mr-2">
+                        <div class="flex text-left font-mono">
+                            <p class="font-bold mr-1">
+                                {{ "CPF:"| uppercase }}
+                            </p>
+                            <p>
+                                {{ despesaPeriodoTecnico?.tecnico?.cpf | uppercase }}
                             </p>
                         </div>
                         <div class="flex  text-left font-mono">
@@ -77,38 +71,25 @@
                                 {{ obterCartaoCombustivel().placa }}
                             </p>
                         </div>
+                    </div>
+
+                    <div class="inline-block mr-2">
+                        <div class="flex text-left font-mono">
+                            <p class="font-bold mr-1">
+                                {{ t('endereco') + ":"| uppercase }}
+                            </p>
+                            <p>
+                                {{ despesaPeriodoTecnico?.tecnico?.endereco + ", " +
+                                despesaPeriodoTecnico?.tecnico?.cidade?.nomeCidade + " - " +
+                                despesaPeriodoTecnico?.tecnico?.cidade?.unidadeFederativa?.siglaUF | uppercase }}
+                            </p>
+                        </div>
                         <div class="flex text-left font-mono">
                             <p class="font-bold mr-1">
                                 {{ t('ano') + ":" | uppercase }}
                             </p>
                             <p>
                                 {{ obterCartaoCombustivel().ano }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="inline-block mr-2">
-                        <div class="flex  text-left font-mono">
-                            <p class="font-bold mr-1">
-                                {{ t('cartao combustivel') + ":" | uppercase }}
-                            </p>
-                            <p>
-                                {{ obterCartaoCombustivel().numero }}
-                            </p>
-                        </div>
-                        <div class="flex  text-left font-mono">
-                            <p class="font-bold mr-1">
-                                {{ t('filial') + ":" | uppercase }}
-                            </p>
-                            <p>
-                                {{ despesaPeriodoTecnico?.tecnico?.filial?.nomeFilial | uppercase }}
-                            </p>
-                        </div>
-                        <div class="flex  text-left font-mono">
-                            <p class="font-bold mr-1">
-                                {{ t('centro de custo') + ":" | uppercase }}
-                            </p>
-                            <p>
-                                {{ centroDeCusto }}
                             </p>
                         </div>
                     </div>
@@ -124,6 +105,17 @@
                         </div>
                         <div class="flex  text-left font-mono">
                             <p class="font-bold mr-1">
+                                {{ t('cartao combustivel') + ":" | uppercase }}
+                            </p>
+                            <p>
+                                {{ obterCartaoCombustivel().numero }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="inline-block mr-2 ">
+                        <div class="flex  text-left font-mono">
+                            <p class="font-bold mr-1">
                                 {{ t('agencia') + ":" | uppercase }}
                             </p>
                             <p>
@@ -132,10 +124,30 @@
                         </div>
                         <div class="flex  text-left font-mono">
                             <p class="font-bold mr-1">
+                                {{ t('filial') + ":" | uppercase }}
+                            </p>
+                            <p>
+                                {{ despesaPeriodoTecnico?.tecnico?.filial?.nomeFilial | uppercase }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="inline-block mr-2 ">
+                        <div class="flex  text-left font-mono">
+                            <p class="font-bold mr-1">
                                 {{ t('conta') + ":" | uppercase }}
                             </p>
                             <p>
                                 {{ tecnicoConta?.numConta ?? "---" }}
+                            </p>
+                        </div>
+                        <div class="flex  text-left font-mono">
+                            <p class="font-bold mr-1">
+                                {{ t('centro de custo') + ":" | uppercase }}
+                            </p>
+                            <p>
+                                {{ centroDeCusto }}
                             </p>
                         </div>
                     </div>
@@ -144,150 +156,152 @@
         </div>
     </div>
 </div>
-<table>
-    <thead>
-        <tr>
-          <td>
-            <!--place holder for the fixed-position header-->
-            <div class="page-header-space"></div>
-          </td>
-        </tr>
-      </thead>
-    <tbody *transloco="let t">
-        <tr>
-            <td>
-                <div class="text-left print:p-0">
-                    <div class="min-w-screen p-10" *ngIf="!isLoading">
-                        <div style=" font-size: 8px !important;" class="mt-3">
-                            <div class="flex flex-auto mt-3">
-                                <div class="flex flex-col flex-auto sm:mb-18 sm:overflow-y-auto">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    class="border-l text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('data') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('dia') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('os') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('rat') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('cliente') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('local origem') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('local destino') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    H.I.
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    H.F.
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    KM PREVISTO
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    KM PERCORRIDO
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    NF
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('tipo') | uppercase }}
-                                                </th>
-                                                <th
-                                                    class="text-center font-semibold font-mono border-r border-b border-t">
-                                                    {{ t('valor') | uppercase }}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="font-size: 10px;">
-                                            <tr *ngFor="let despesa of despesasView">
-                                                <td class="text-center  font-mono border-l border-r border-b border-t">
-                                                    {{ despesa.dataHoraSolucao }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.diaSemana }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.codOS }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.numRAT }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa?.nomeCliente ?? 'ué' }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.localOrigem }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.localDestino }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.horaInicio }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.horaFim }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido < despesa.kmPrevisto ? 'bold' : 'normal'}">
-                                                    {{ despesa.kmPrevisto }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido > despesa.kmPrevisto ? 'bold' : 'normal'}">
-                                                    {{ despesa.kmPercorrido }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.numNF?? t('---') }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.nomeTipo }}
-                                                </td>
-                                                <td class="text-center  font-mono border-r border-b border-t">
-                                                    {{ despesa.despesaValor  | currency:'BRL':'symbol-narrow'  }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+<div class="page-content">
+    <table>
+        <thead>
+            <tr>
+              <td>
+                <!--place holder for the fixed-position header-->
+                <div class="page-header-space"></div>
+              </td>
+            </tr>
+          </thead>
+        <tbody *transloco="let t">
+            <tr>
+                <td>
+                    <div class="text-left print:p-0">
+                        <div class="min-w-screen" *ngIf="!isLoading">
+                            <div style="font-size: 8px !important;" class="mt-0">
+                                <div class="flex flex-auto mt-3">
+                                    <div class="flex flex-col flex-auto sm:mb-18 sm:overflow-y-auto">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th
+                                                        class="border-l text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('data') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('dia') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('os') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('rat') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('cliente') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('local origem') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('local destino') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        H.I.
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        H.F.
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        KM PREVISTO
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        KM PERCORRIDO
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        NF
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('tipo') | uppercase }}
+                                                    </th>
+                                                    <th
+                                                        class="text-center font-semibold font-mono border-r border-b border-t">
+                                                        {{ t('valor') | uppercase }}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="font-size: 10px;">
+                                                <tr *ngFor="let despesa of despesasView">
+                                                    <td class="text-center  font-mono border-l border-r border-b border-t">
+                                                        {{ despesa.dataHoraSolucao }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.diaSemana }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.codOS }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.numRAT }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa?.nomeCliente ?? 'ué' }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.localOrigem }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.localDestino }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.horaInicio }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.horaFim }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido < despesa.kmPrevisto ? 'bold' : 'normal'}">
+                                                        {{ despesa.kmPrevisto }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t" [ngStyle]="{'font-weight': despesa.kmPercorrido > despesa.kmPrevisto ? 'bold' : 'normal'}">
+                                                        {{ despesa.kmPercorrido }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.numNF?? t('---') }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.nomeTipo }}
+                                                    </td>
+                                                    <td class="text-center  font-mono border-r border-b border-t">
+                                                        {{ despesa.despesaValor  | currency:'BRL':'symbol-narrow'  }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-
-    <tfoot>
-        <tr>
-            <td>
-                <!--place holder for the fixed-position footer-->
-                <div class="page-footer-space"></div>
-            </td>
-        </tr>
-    </tfoot>
-
-</table>
+                </td>
+            </tr>
+        </tbody>
+    
+        <tfoot>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position footer-->
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 <div class="page-footer min-w-screen" *transloco="let t">
     <div class="text-center mt-3 mb-1 font-semibold">
@@ -461,66 +475,71 @@
                 TOTAIS
             </div>
             <div class="text-center">
-                <div class="inline-block border-b border-t border-r">
-                    <div
-                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ t('despesas') + ":" | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
+                        <p class="text-right">
                             {{ obterTotalDespesaSemKM() | currency:'BRL':'symbol-narrow' }}
                         </p>
                     </div>
-                    <div
-                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                </div>
+
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ t('adiantamentos') + ":" | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
+                        <p class="text-right">
                             {{ obterTotalAdiantamentos() | currency:'BRL':'symbol-narrow' }}
                         </p>
                     </div>
-                    <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                </div>
+
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ 'receber via depósito:' | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
+                        <p class="text-right">
                             {{ obterTotalViaDeposito() | currency:'BRL':'symbol-narrow' }}
                         </p>
                     </div>
                 </div>
 
-                <div class="inline-block border-b border-t border-r">
-                    <div
-                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ "percentual outros:" | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
-                            {{ (obterTotalDespesaSemKM() / obterTotalDespesa() * 100).toFixed(2) +
-                            "%" }}
+                        <p class="text-right">
+                            {{ (obterTotalDespesaSemKM() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
                         </p>
                     </div>
-                    <div
-                        class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
+                </div>
+
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ "percentual CB:" | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
-                            {{ (obterTotalCartaoCombustivel() / obterTotalDespesa() *
-                            100).toFixed(2) + "%" }}
+                        <p class="text-right">
+                            {{ (obterTotalCartaoCombustivel() / obterTotalDespesa() * 100).toFixed(2) + "%" }}
                         </p>
                     </div>
-                    <div class="grid grid-flow-col auto-cols-fr border-l text-left font-mono">
+                </div>
+
+                <div class="inline-block border-b border-t border-r max-w-21">
+                    <div class="grid grid-flow-col auto-cols-fr border-l border-b text-left font-mono">
                         <p class="font-bold">
                             {{ 'Crédito via CB:' | uppercase }}
                         </p>
-                        <p class="font-bold text-right">
+                        <p class="text-right">
                             {{ obterTotalCartaoCombustivel() | currency:'BRL':'symbol-narrow' }}
                         </p>
                     </div>
                 </div>
-            </div>
 
             <div style=" font-size: 8px !important;" class="mt-5">
                 <div class="text-center">

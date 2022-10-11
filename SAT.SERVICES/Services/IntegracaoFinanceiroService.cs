@@ -45,10 +45,11 @@ namespace SAT.SERVICES.Services
             {
                 var orcamentos = _integracaoFinanceiroRepo
                     .ObterOrcamentos(new IntegracaoFinanceiroParameters { 
-                        CodStatusServico = (int)StatusServicoEnum.FECHADO,
-                        CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
-                        TipoFaturamento = (TipoFaturamentoOrcEnum)tipo,
-                        AnoFechamento = DateTime.Now
+                        //CodStatusServico = (int)StatusServicoEnum.FECHADO,
+                        //CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
+                        // TipoFaturamento = (TipoFaturamentoOrcEnum)tipo,
+                        // AnoFechamento = DateTime.Now,
+                        CodOrc = 78675
                     })
                     .ToList();
 

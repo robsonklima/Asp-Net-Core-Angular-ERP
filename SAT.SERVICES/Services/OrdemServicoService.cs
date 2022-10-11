@@ -99,7 +99,8 @@ namespace SAT.SERVICES.Services
                     IndLiberacaoFechaduraCofre = os.IndLiberacaoFechaduraCofre,
                     NumReincidencia = os.NumReincidencia,
                     IndStatusEnvioReincidencia = os.IndStatusEnvioReincidencia,
-                    CodContrato = os.CodContrato
+                    CodContrato = os.CodContrato,
+                    NumOSQuarteirizada = $"Clonagem de {os.CodOS}"
                 };
 
                 _ordemServicoRepo.Criar(novaOS);

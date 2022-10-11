@@ -22,6 +22,11 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
+                    <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}"
+                        (click)="exportar()" [disabled]="!periodos?.items?.length || isLoading">
+                        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                    </button>
+
                     <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
@@ -160,6 +165,12 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
+
+                            <div *ngIf="!periodos?.items?.length && !isLoading"
+                                class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhuma despesa encontrada!
+                            </div>
+
                             <mat-paginator [hidden]="!periodos?.items?.length"
                                 class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                                 [ngClass]="{'pointer-events-none': isLoading}" [length]="periodos?.totalCount"

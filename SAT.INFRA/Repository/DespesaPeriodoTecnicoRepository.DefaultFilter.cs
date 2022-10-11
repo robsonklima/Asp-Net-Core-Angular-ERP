@@ -10,7 +10,6 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPadrao(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
-
             if (!string.IsNullOrEmpty(parameters.Filter))
                 query = query.Where(
                     t =>
@@ -46,6 +45,9 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivoPeriodo.HasValue)
                 query = query.Where(e => e.DespesaPeriodo.IndAtivo == parameters.IndAtivoPeriodo);
+
+            if (parameters.InicioPeriodo.HasValue && parameters.FimPeriodo.HasValue)
+                query = query.Where(e => e.DespesaPeriodo.DataInicio.Date >= parameters.InicioPeriodo && e.DespesaPeriodo.DataFim.Date <= parameters.FimPeriodo);
 
             if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus))
             {

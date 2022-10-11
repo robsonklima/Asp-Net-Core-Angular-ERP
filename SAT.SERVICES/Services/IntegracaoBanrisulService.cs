@@ -115,7 +115,7 @@ namespace SAT.SERVICES.Services
 
                     _exportacaoService.Exportar(new Exportacao {
                         FormatoArquivo = ExportacaoFormatoEnum.PDF,
-                        TipoArquivo = ExportacaoTipoEnum.ORDEM_SERVICO_RESUMIDO,
+                        TipoArquivo = ExportacaoTipoEnum.ORDEM_SERVICO,
                         EntityParameters = JObject.FromObject(parametros),
                         Email = email
                     });

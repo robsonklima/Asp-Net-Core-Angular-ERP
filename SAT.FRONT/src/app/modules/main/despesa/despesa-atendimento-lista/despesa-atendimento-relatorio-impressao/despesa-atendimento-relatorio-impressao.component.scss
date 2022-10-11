@@ -35,33 +35,39 @@
 }
 
 .logo-container {
-	width: 60px;
+	width: 45px;
 }
 
 .logo {
-	width: 60px;
-	height: 60px;
+	width: 45px;
+	height: 45px;
 	object-fit: fill;
 	position: absolute;
 }
 
 /* Styles go here */
 
-.page-header,
-.page-header-space {
-	height: 90px;
+.page-header {
+	height: 50px;
 }
 
-.page-footer,
-.page-footer-space {
-	height: 240px;
+.page-header-space {
+	height: 47px;
 }
 
 .page-footer {
-	font-size: 8px;
+	height: 60px;
+}
+
+.page-footer-space {
+	height: 0px;
+}
+
+.page-footer {
+	font-size: 6px;
 	position: fixed;
 	bottom: 0;
-	height: 240px;
+	height: 150px;
 	width: 100%;
 	border-top: 1px solid black;
 	/* for demo */
@@ -79,13 +85,17 @@
 	/* for demo */
 }
 
+.page-content {
+	height: 400px !important;
+}
+
 .page {
 	page-break-after: always;
 	width: 100%;
 }
 
 @page {
-	margin: 15mm
+	margin: 2mm
 }
 
 @media print {

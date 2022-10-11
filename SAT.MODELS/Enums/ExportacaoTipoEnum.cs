@@ -33,7 +33,6 @@ namespace SAT.MODELS.Enums
         FILIAL,
         TICKET,
         AUDITORIA,
-        VALOR_COMBUSTIVEL,
-        ORDEM_SERVICO_RESUMIDO
+        VALOR_COMBUSTIVEL
     }
 }

@@ -126,10 +126,8 @@ namespace SAT.SERVICES.Services
             {
                 case ExportacaoFormatoEnum.EXCEL:
                     return ExportExcel(exportacao.EntityParameters, exportacao.TipoArquivo);
-
                 case ExportacaoFormatoEnum.PDF:
                     return ExportPDF(exportacao);
-
                 default:
                     return null;
             }
@@ -141,13 +139,8 @@ namespace SAT.SERVICES.Services
             {
                 case ExportacaoTipoEnum.ORCAMENTO:
                     return GerarPdfOrcamento(exportacao);
-
                 case ExportacaoTipoEnum.ORDEM_SERVICO:
                     return GerarPdfOrdemServico(exportacao);
-
-                case ExportacaoTipoEnum.ORDEM_SERVICO_RESUMIDO:
-                    return GerarPdfOrdemServicoResumido(exportacao);
-
                 default:
                     return null;
             }

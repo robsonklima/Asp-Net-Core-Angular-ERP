@@ -19,14 +19,15 @@ export class AuditoriaDetalhesComponent implements OnInit {
 
 	
 	codAuditoria: number;
-  codAuditoriaVeiculo: number;
+  	codAuditoriaVeiculo: number;
 	auditoria: Auditoria;
-  auditoriaVeiculo: AuditoriaVeiculo;
+  	auditoriaVeiculo: AuditoriaVeiculo;
 	form: FormGroup;
 	isAddMode: boolean;
 	isLoading: boolean;
 	userSession: UsuarioSessao;
 	usuarios: Usuario[] = [];
+	finalidade: string;
 	searching: boolean;
 	protected _onDestroy = new Subject<void>();
 	clienteFilterCtrl: FormControl = new FormControl();
@@ -53,6 +54,7 @@ export class AuditoriaDetalhesComponent implements OnInit {
 				.subscribe(data => {
 					this.form.patchValue(data);
 					this.auditoria = data;
+					this.validarFinalidade(this.auditoria);
 				});
 	}
 
@@ -84,6 +86,19 @@ export class AuditoriaDetalhesComponent implements OnInit {
             finalidadesUso: [undefined],
             cnhValidade: [undefined],
 		});
+	}
+
+	private validarFinalidade(auditoria){
+		if(auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso === 1 )
+		{ 
+			this.finalidade = "Apenas Trabalho";
+		}
+		else
+		{
+			this.finalidade = "Trabalho/Particular";
+		}
+		console.log(auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso);
+
 	}
 
 	ngOnDestroy() {

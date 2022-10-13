@@ -8,19 +8,21 @@ import { appConfig } from 'app/core/config/app.config';
 import { Filterable } from 'app/core/filters/filterable';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
-import {
-  DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum
-} from 'app/core/types/despesa-periodo.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { DespesaCreditoCartaoStatusEnum, DespesaCreditosCartaoListView, DespesaPeriodoTecnico, DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import Enumerable from 'linq';
-import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
+import Enumerable from 'linq';
+import moment from 'moment';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
   selector: 'app-despesa-credito-cartao-lista',
@@ -52,6 +54,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     private _cdr: ChangeDetectorRef,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaProtocoloSvc: DespesaProtocoloService,
+    private _exportacaoService: ExportacaoService,
+    private _snack: CustomSnackbarService,
     private _dialog: MatDialog)
   {
     super(_userService, 'despesa-credito-cartao');
@@ -122,6 +126,8 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         codFilial: this.filter?.parametros.codFiliais,
         codDespesaProtocolo: this.filter?.parametros.codDespesaProtocolo,
         codCreditoCartaoStatus: this.filter?.parametros.codCreditoCartaoStatus,
+        inicioPeriodo: this.filter?.parametros.inicioPeriodo,
+        fimPeriodo: this.filter?.parametros.fimPeriodo,
         filter: filter
       }
     ).toPromise());
@@ -360,5 +366,23 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
 
   async reabrirProtocolo(codDespesaProtocolo: number)
   {
+
   }
+
+  async exportar() {
+    if (!this.filter.parametros.inicioPeriodo || !this.filter.parametros.fimPeriodo) 
+      return this._snack.exibirToast('Favor selecionar o período para exportar', 'error');
+
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO,
+			entityParameters: this.filter?.parametros
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam );
+
+		this.isLoading = false;
+	}
 }

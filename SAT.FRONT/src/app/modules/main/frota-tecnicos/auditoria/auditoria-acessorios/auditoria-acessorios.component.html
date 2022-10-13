@@ -15,7 +15,7 @@
           <th mat-header-cell *matHeaderCellDef>status</th>
           <td mat-cell *matCellDef="let acessorio">
             <mat-cell>
-              {{ acessorio.selecionado }}
+              {{ acessorio.selecionado ? 'Sim' : 'Não' }}
             </mat-cell>
           </td>
         </ng-container>

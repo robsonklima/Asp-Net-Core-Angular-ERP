@@ -98,6 +98,26 @@ export class AuditoriaLayoutComponent implements OnInit {
 			this.form.enable();
 		});
 	}
+
+	reabrir(){
+		const form: any = this.form.getRawValue();
+
+		let obj = {
+			...this.auditoria,
+			...form,
+			...{
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario.codUsuario,
+				codAuditoriaStatus: 2,
+			}
+		};
+	
+		this._auditoriaService.atualizar(obj).subscribe(() => {
+		this._snack.exibirToast("Auditoria reaberta com sucesso!", "success");
+		}, e => {
+			this.form.enable();
+		});
+	}
 	
 	excluir(){
 		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent,{

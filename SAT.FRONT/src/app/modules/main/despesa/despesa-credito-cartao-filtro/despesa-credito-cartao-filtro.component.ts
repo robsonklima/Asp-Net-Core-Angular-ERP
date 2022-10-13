@@ -39,7 +39,9 @@ export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements O
       codTecnicos: [undefined],
       codFiliais: [undefined],
       codDespesaProtocolo: [undefined],
-      codCreditoCartaoStatus: [undefined]
+      codCreditoCartaoStatus: [undefined],
+      inicioPeriodo: [undefined],
+      fimPeriodo: [undefined]
     });
 
     this.form.patchValue(this.filter?.parametros);

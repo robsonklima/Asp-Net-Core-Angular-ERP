@@ -49,6 +49,7 @@ namespace SAT.SERVICES.Services
         private readonly IRegiaoAutorizadaRepository _regiaoAutorizadaRepo;
         private readonly IFilialRepository _filialRepo;
         private readonly IAuditoriaRepository _auditoriaRepo;
+        private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -78,6 +79,7 @@ namespace SAT.SERVICES.Services
             ILocalAtendimentoRepository localAtendimentoRepo,
             IPecaRepository pecaRepo,
             IUsuarioRepository usuarioRepo,
+            IDespesaPeriodoTecnicoRepository despesaPeriodoTecnicoRepo,
             IRegiaoRepository regiaoRepo,
             IOrcamentoRepository orcamentoRepo,
             IRegiaoAutorizadaRepository regiaoAutorizadaRepo,
@@ -117,6 +119,7 @@ namespace SAT.SERVICES.Services
             _regiaoAutorizadaRepo = regiaoAutorizadaRepo;
             _filialRepo = filialRepo;
             _auditoriaRepo = auditoriaRepo;
+            _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -274,6 +277,10 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.ORCAMENTO:
                     GerarPlanilhaOrcamento(((JObject)parameters).ToObject<OrcamentoParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO:
+                    GerarPlanilhaDespesaPeriodoTecnico(((JObject)parameters).ToObject<DespesaPeriodoTecnicoParameters>());
                     break;
                     
                 default:

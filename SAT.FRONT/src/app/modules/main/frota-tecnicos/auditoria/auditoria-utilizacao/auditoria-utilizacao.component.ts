@@ -23,6 +23,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   form: FormGroup;
   userSession: UsuarioSessao;
   qtdLitros: number;
+  cor: boolean;
   tanques: AuditoriaVeiculoTanque[] = [];
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   configuracaoCombustivel: DespesaConfiguracaoCombustivel;
@@ -40,9 +41,10 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   async ngOnInit() {
     this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
     this.codAuditoriaVeiculo = +this._route.snapshot.paramMap.get('codAuditoriaVeiculo');
+    this.obterAuditoria();
     this.inicializarForm();
     this.registrarEmitters();
-    this.obterAuditoria();
+  
   }
 
   obterAuditoria(){
@@ -51,6 +53,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       .subscribe(data => {
         this.form.patchValue(data);
         this.auditoria = data;
+        this.validarCor(this.auditoria);
       });
   }
 
@@ -82,6 +85,31 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   }
 
   private registrarEmitters() {}
+
+  private validarCor(auditoria){
+    if(auditoria?.usuario?.Tecnico?.codFrotaFinalidadeUso === 1)
+    {
+      if((auditoria.usoParticular < 1)&&( auditoria.kmParticular < 1))
+      {
+        this.cor = false;
+      }
+      else
+      {
+        this.cor = true;
+      }
+    }
+    else
+    {
+      if((auditoria.kmParticularMes < 801)&&(auditoria.usoParticular < 1))
+      {
+        this.cor = false;
+      }
+      else{
+        this.cor = true;
+      }
+    }
+  }
+  
 
   ngOnDestroy() {
     this._onDestroy.next();

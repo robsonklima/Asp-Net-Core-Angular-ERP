@@ -45,8 +45,6 @@ namespace SAT.SERVICES.Services
             {
                 _ordemServicoRepo.Atualizar(ordemServico);
 
-                _logger.Info("Chamado Atualizado pelo SAT 2.0: " + ordemServico.CodOS);
-
                 return ordemServico;                
             }
             catch (Exception ex)

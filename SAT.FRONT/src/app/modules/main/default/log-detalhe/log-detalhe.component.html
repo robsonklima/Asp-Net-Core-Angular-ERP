@@ -1,0 +1,58 @@
+<div class="bg-card overflow-hidden shadow rounded-2xl px-6">
+    <div class="flex items-center justify-between mt-6 mb-4 sm:mr-10">
+        <div class="flex flex-col">
+            <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">
+                Logs
+            </div>
+
+            <div class="font-medium text-secondary">
+                Logs do ambiente SAT 2.0 (API e Task)
+            </div>
+        </div>
+
+        <div class="ml-7 lg:-mr-7">
+            <mat-button-toggle-group class="hidden sm:inline-flex" value="this-year" #tableSelector="matButtonToggleGroup">
+                <mat-button-toggle
+                    *ngFor="let opcao of opcoes; let i = index"
+                    (click)="filtrarPorTipo(opcao.valor)"
+                    class="px-1.5 rounded-full overflow-hidden border-none font-medium">
+                    {{ opcao.nome }}
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+
+    <table class="w-full table-auto text-md font-medium tracking-tight mb-4">
+        <thead *ngIf="logs.length" class="text-left">
+            <tr>
+                <th class="py-1 px-2">Hora</th>
+                <th class="py-1 px-2">Tipo</th>
+                <th class="py-1 px-2">Mensagem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let log of logsFiltrados; let i = index;">
+                <td class="py-1 px-2 border-b border-t border-zinc-300">
+                    {{ log.time | date:'HH:mm' }}
+                </td>
+
+                <td class="py-1 px-2 border-b border-t border-zinc-300 break-all truncate">
+                    <span>{{ log.level == 'ERROR' ? 'Erro' : 'Informação' }}</span>
+                </td>
+
+                <td class="py-1 px-2 border-b border-t border-zinc-300 text-left">
+                    <div class="text-xs text-gray-400">
+                        {{ log.nested.message }}
+                    </div>
+                </td>
+            </tr>
+
+            <tr *ngIf="!logs.length">
+                <td colspan="4" class="py-4 px-2 text-lg text-center">
+                    Nenhum log encontrado!
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

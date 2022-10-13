@@ -19,6 +19,8 @@ import { ServidoresComponent } from './servidores/servidores.component';
 import { DisponibilidadeComponent } from './disponibilidade/disponibilidade.component';
 import { OciosidadeComponent } from './ociosidade/ociosidade.component';
 import { UtilizacaoComponent } from './utilizacao/utilizacao.component';
+import { LogDetalheComponent } from './log-detalhe/log-detalhe.component';
+import { FuseCardModule } from '@fuse/components/card';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,8 @@ import { UtilizacaoComponent } from './utilizacao/utilizacao.component';
         ServidoresComponent,
         DisponibilidadeComponent,
         OciosidadeComponent,
-        UtilizacaoComponent
+        UtilizacaoComponent,
+        LogDetalheComponent
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),
@@ -43,7 +46,8 @@ import { UtilizacaoComponent } from './utilizacao/utilizacao.component';
         NgApexchartsModule,
         MatIconModule,
         MatTooltipModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        FuseCardModule
     ]
 })
 export class DefaultModule {

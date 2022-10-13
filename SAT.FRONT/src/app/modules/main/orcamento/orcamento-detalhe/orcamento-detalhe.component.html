@@ -150,7 +150,47 @@
                                                         {{ orcamento?.isMaterialEspecifico ? 'SIM' : 'NÃO' }}
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="flex items-center justify-between py-2">
+                                                    <div class="text-secondary">
+                                                        {{ t('valor total hora em deslocamento') }}
+                                                    </div>
+                                        
+                                                    <div class="truncate max-w-1/2">
+                                                        R$ {{ orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento || '0,00' }}
+                                                    </div>
+                                                </div>
 
+                                                <div class="flex items-center justify-between py-2">
+                                                    <div class="text-secondary">
+                                                        {{ t('valor total mão de obra') }}
+                                                    </div>
+                                        
+                                                    <div class="truncate max-w-1/2">
+                                                        R$ {{ orcamento?.maoDeObra?.valorTotal || '0,00' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between py-2">
+                                                    <div class="text-secondary">
+                                                        {{ t('valor total materiais') }}
+                                                    </div>
+                                        
+                                                    <div class="truncate max-w-1/2">
+                                                        R$ {{ materiais || '0,00' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex items-center justify-between py-2">
+                                                    <div class="text-secondary">
+                                                        {{ t('valor total serviços') }}
+                                                    </div>
+                                        
+                                                    <div class="truncate max-w-1/2">
+                                                        R$ {{ servicos || '0,00' }}
+                                                    </div>
+                                                </div>
+                                                
                                                 <div class="flex items-center justify-between py-2">
                                                     <div class="text-secondary">
                                                         {{ t('valor total desconto') }}

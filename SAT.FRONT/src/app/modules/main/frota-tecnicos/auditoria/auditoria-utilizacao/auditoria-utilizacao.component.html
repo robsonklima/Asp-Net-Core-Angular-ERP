@@ -2,9 +2,8 @@
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
         <form [formGroup]="form">
-            <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="auditoria">
-
-                <div class="flex items-center justify-between py-3">
+            <div class="flex flex-col mt-4 font-medium" *ngIf="auditoria">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Data inicial de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput readonly=“true” [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo">
@@ -12,56 +11,56 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('total de dias em uso') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="totalDiasEmUso" readonly=“true” [(ngModel)]="auditoria.totalDiasEmUso">
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Hodômetro data inicial') }} </div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroInicialRetirada" readonly=“true”>
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Hodômetro data final') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroPeriodoAuditado" readonly=“true”>
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km percorrido') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="kmPercorrido" readonly=“true” [(ngModel)]="auditoria.kmPercorrido">
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km compensado') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="kmCompensado" readonly=“true” [(ngModel)]="auditoria.kmCompensado">
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km ferias') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="kmFerias" readonly=“true” [(ngModel)]="auditoria.kmFerias">
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('KM Particular Total') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="kmParticular" readonly=“true” [(ngModel)]="auditoria.kmParticular">
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km particular por mes') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8"
                         [class.text-green-500]="cor"
@@ -78,9 +77,9 @@
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" 
         *transloco="let t">
         <form [formGroup]="form">
-            <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="auditoria">
+            <div class="flex flex-col mt-4 font-medium" *ngIf="auditoria">
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Data final de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput readonly=“true” [matDatepicker]="cadastroData" formControlName="dataHoraCad">
@@ -88,7 +87,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('creditos no cartao') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="creditosCartao" mask="separator.2" prefix="R$ "
@@ -97,7 +96,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('despesas cb') }}</div>
                         <mat-form-field class="fuse-mat-dense sm:col-span-8">
                             <input matInput formControlName="despesasSAT" [(ngModel)]="auditoria.despesasSAT"
@@ -106,7 +105,7 @@
                         </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('despesa cb compensadas') }}</div>
                         <mat-form-field class="fuse-mat-dense sm:col-span-8">
                             <input matInput formControlName="despesasCompensadasValor" [(ngModel)]="auditoria.despesasCompensadasValor"
@@ -114,7 +113,7 @@
                         </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('saldo cartao') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="saldoCartao" mask="separator.2" prefix="R$ "
@@ -123,7 +122,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('tanque(R$)') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="valorTanque" [(ngModel)]="auditoria.valorTanque"
@@ -132,7 +131,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('uso particular') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8"                        
                         [class.text-green-500]="cor"
@@ -143,9 +142,9 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex items-center justify-between py-3">
+                <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
-                    <textarea class="flex items-center justify-between py-3" matInput formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
+                    <textarea class="flex items-center justify-between" matInput formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
                 </div>
             </div>
         </form>

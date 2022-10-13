@@ -1,32 +1,29 @@
 import { AutorizadaService } from 'app/core/services/autorizada.service';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import * as L from "leaflet";
 import 'leaflet.markercluster';
 import { latLng, tileLayer, Map } from 'leaflet';
 import 'leaflet.heat/dist/leaflet-heat.js'
-import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { Filial } from 'app/core/types/filial.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { DashboardService } from 'app/core/services/dashboard.service';
-import { DashboardViewEnum, ViewDashboardDensidadeEquipamentos } from 'app/core/types/dashboard.types';
+import { DashboardViewEnum } from 'app/core/types/dashboard.types';
 import { UserService } from 'app/core/user/user.service';
-import { FilialService } from 'app/core/services/filial.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import moment from 'moment';
 import { statusConst } from 'app/core/types/status-types';
-import Enumerable from 'linq';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-densidade',
 	templateUrl: './densidade.component.html'
 })
 export class DensidadeComponent extends Filterable implements AfterViewInit, IFilterable {
-
 	@ViewChild('sidenav') sidenav: MatSidenav;
-
 	usuarioSessao: UsuarioSessao;
 	filiais: Filial[] = [];
 	map: Map;
@@ -51,67 +48,55 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 	constructor(
 		private _dashboardService: DashboardService,
 		private _autorizadaService: AutorizadaService,
+		private _cdr: ChangeDetectorRef,
 		protected _userService: UserService,
+		private _snack: CustomSnackbarService
 	) {
 		super(_userService, 'dashboard-densidade')
 		this.usuarioSessao = JSON.parse(this._userService.userSession);
 	}
 
 	ngAfterViewInit(): void {
-		this.selecionarFilial(this.filter?.parametros);
+		this.obterDados();
 		this.registerEmitters();
-	}
-
-	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-		});
+		this._cdr.detectChanges();
 	}
 
 	onSidenavClosed(): void {
 		super.loadFilter();
-		this.selecionarFilial(this.filter?.parametros);
+		this.obterDados();
 	}
 
 	async onMapReady(map: Map) {
 		this.loading = true;
 		this.map = map;
-
-		this.selecionarFilial(this.filter?.parametros);
-
+		this.obterDados();
 		this.loading = false;
 	}
 
-	public async selecionarFilial(params = null) {
-		this.loading = true;
+	public async obterDados() {
+		if (!this.filter?.parametros?.exibirAutorizadas && !this.filter?.parametros?.exibirEquipamentos && !this.filter?.parametros?.exibirTecnicos)
+			return this._snack.exibirToast('Favor selecionar o filtro', 'error');
 
+		this.loading = true;
 		this.limparMapa();
 
-		if (params.exibirEquipamentos)
-			await this.obterEquipamentosContrato(params)
-		if (params.exibirAutorizadas)
-			this.obterAutorizadas(params);
-		if (params.exibirTecnicos)
-			this.obterTecnicos(params);
+		if (this.filter?.parametros.exibirEquipamentos)
+			await this.obterEquipamentosContrato()
+		if (this.filter?.parametros.exibirAutorizadas)
+			this.obterAutorizadas();
+		if (this.filter?.parametros.exibirTecnicos)
+			this.obterTecnicos();
 
 		this.loading = false;
 	}
 
-	private limparMapa() {
-		this.map.eachLayer((layer) => {
-			if (layer instanceof L.MarkerClusterGroup ||
-				layer instanceof L.LayerGroup) {
-				this.map.removeLayer(layer);
-			}
-		})
-	}
-
-	private async obterTecnicos(params: any = null) {
+	private async obterTecnicos() {
 		const data = await this._dashboardService.obterViewPorParametros({
 			dashboardViewEnum: DashboardViewEnum.DENSIDADE_TECNICOS,
-			codFiliais: params.codFiliais,
-			codRegioes: params.codRegioes,
-			codAutorizadas: params.codAutorizadas,
+			codFiliais: this.filter?.parametros.codFiliais,
+			codRegioes: this.filter?.parametros.codRegioes,
+			codAutorizadas: this.filter?.parametros.codAutorizadas,
 		}).toPromise();
 
 		let markers: any[] = data.viewDashboardDensidadeTecnicos.filter(t => this.isFloat(+t.latitude) && this.isFloat(+t.longitude)).map((tecnico: any) => {
@@ -159,20 +144,17 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.map.invalidateSize();
 	}
 
-	private async obterEquipamentosContrato(params: any = null) {
-		const data = await this._dashboardService.obterViewPorParametros({
-			dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
-			codFilial: params.codFilial ?? this.usuarioSessao.usuario.codFilial,
-			codFiliais: params.codFiliais,
-			codRegioes: params.codRegioes,
-			codAutorizadas: params.codAutorizadas,
-			codClientes: params.codClientes,
-			codEquips: params.codEquips
-		}).toPromise();
+	private async obterEquipamentosContrato() {
+		this.filter.parametros = {
+			...this.filter?.parametros,
+			...{
+				dashboardViewEnum: DashboardViewEnum.DENSIDADE_EQUIPAMENTOS,
+				codFilial: this.filter?.parametros.codFilial ?? this.usuarioSessao.usuario.codFilial,
+			}
+		}
 
+		const data = await this._dashboardService.obterViewPorParametros(this.filter?.parametros).toPromise();
 		const densidade = data.viewDashboardDensidadeEquipamentos;
-
-
 		this.markers = densidade.filter(e => this.isFloat(+e.latitude) && this.isFloat(+e.longitude)).map((equip) => {
 			return {
 				lat: +equip.latitude,
@@ -211,13 +193,15 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 			let layer = L.marker(L.latLng([m.lat, m.lng]), { icon: icon }).bindPopup(m.toolTip);
 			this.markerClusterGroup.addLayer(layer).addTo(this.map);
 		});
+
+		this._cdr.detectChanges();
 	}
 
-	private async obterAutorizadas(params: any = null) {
+	private async obterAutorizadas() {
 		let autorizadaParams: AutorizadaParameters = {
 			indAtivo: statusConst.ATIVO,
-			codFiliais: params.codFiliais,
-			codAutorizadas: params.codAutorizadas,
+			codFiliais: this.filter?.parametros.codFiliais,
+			codAutorizadas: this.filter?.parametros.codAutorizadas,
 			pageSize: 1000
 		};
 		const data = await this._autorizadaService
@@ -262,6 +246,21 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.map.fitBounds(markers);
 		this.map.invalidateSize();
 
+	}
+
+	private limparMapa() {
+		this.map.eachLayer((layer) => {
+			if (layer instanceof L.MarkerClusterGroup ||
+				layer instanceof L.LayerGroup) {
+				this.map.removeLayer(layer);
+			}
+		})
+	}
+
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+		});
 	}
 
 	private isFloat(n) {

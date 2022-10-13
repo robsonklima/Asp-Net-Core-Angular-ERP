@@ -81,12 +81,18 @@ export class DensidadeComponent extends Filterable implements AfterViewInit, IFi
 		this.loading = true;
 		this.limparMapa();
 
-		if (this.filter?.parametros.exibirEquipamentos)
-			await this.obterEquipamentosContrato()
-		if (this.filter?.parametros.exibirAutorizadas)
+		if (this.userSession?.usuario?.filial?.codFilial) {
+			await this.obterEquipamentosContrato();
 			this.obterAutorizadas();
-		if (this.filter?.parametros.exibirTecnicos)
 			this.obterTecnicos();
+		} else {
+			if (this.filter?.parametros.exibirEquipamentos)
+				await this.obterEquipamentosContrato();
+			if (this.filter?.parametros.exibirAutorizadas)
+				this.obterAutorizadas();
+			if (this.filter?.parametros.exibirTecnicos)
+				this.obterTecnicos();
+		}
 
 		this.loading = false;
 	}

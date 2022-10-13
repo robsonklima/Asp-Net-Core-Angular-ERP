@@ -35,35 +35,46 @@ namespace SAT.SERVICES.Services
         public async void ExecutarAsync()
         {
             _token = await ObterTokenAsync();
-            var orcamentoFinanceiro = ObterDadosAsync("FGO78675");
-
+            //var orcamentoFinanceiro = ObterDadosAsync("FRS76611");
             await EnviarOrcamentosAsync();
         }
 
-        private async Task EnviarOrcamentosAsync() {
-            foreach (var tipo in Enum.GetValues(typeof(TipoFaturamentoOrcEnum)))  
-            {
-                var orcamentos = _integracaoFinanceiroRepo
-                    .ObterOrcamentos(new IntegracaoFinanceiroParameters { 
-                        //CodStatusServico = (int)StatusServicoEnum.FECHADO,
-                        //CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
-                        TipoFaturamento = (TipoFaturamentoOrcEnum)tipo,
-                        AnoFechamento = DateTime.Now,
-                        CodOrc = 78675
-                    })
-                    .ToList();
+        private async Task EnviarOrcamentosAsync() {    
 
-                for (int i = 0; i < orcamentos.Count; i++)
+            var orcamentos = _integracaoFinanceiroRepo
+                .ObterOrcamentos(new IntegracaoFinanceiroParameters { 
+                    //CodStatusServico = (int)StatusServicoEnum.FECHADO,
+                    //CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
+                    AnoFechamento = DateTime.Now,
+                    CodOrc = 76611
+                })
+                .ToList();
+
+            foreach (var orcamento in orcamentos)
+            {               
+                if (orcamento.TipoFaturamento == (int)TipoFaturamentoOrcEnum.SERVICO)
                 {
-                    orcamentos[i].Itens = _integracaoFinanceiroRepo
+                    orcamento.Itens = _integracaoFinanceiroRepo
                         .ObterOrcamentoItens(new IntegracaoFinanceiroParameters { 
-                            CodOrc = orcamentos[i].CodOrc, 
-                            TipoFaturamento = (TipoFaturamentoOrcEnum)tipo
+                            CodOrc = orcamento.CodOrc, 
+                            TipoFaturamento = TipoFaturamentoOrcEnum.SERVICO
                         })
                         .ToList();
 
-                    await EnviarOrcamentoAsync(orcamentos[i]);
+                    await EnviarOrcamentoAsync(orcamento);
                 }
+
+                if (orcamento.TipoFaturamento == (int)TipoFaturamentoOrcEnum.PRODUTO)
+                {
+                    orcamento.Itens = _integracaoFinanceiroRepo
+                        .ObterOrcamentoItens(new IntegracaoFinanceiroParameters { 
+                            CodOrc = orcamento.CodOrc, 
+                            TipoFaturamento = TipoFaturamentoOrcEnum.PRODUTO
+                        })
+                        .ToList();
+
+                    await EnviarOrcamentoAsync(orcamento);
+                }   
             } 
         }
 
@@ -82,6 +93,7 @@ namespace SAT.SERVICES.Services
                 if (retorno.Sucesso) {
                     _integracaoFinanceiroRepo.SalvarRetorno(new OrcIntegracaoFinanceiro {
                         CodOrc = orcamento.CodOrc,
+                        TipoFaturamento = orcamento.TipoFaturamento,
                         DataHoraCad = DateTime.Now
                     });
 

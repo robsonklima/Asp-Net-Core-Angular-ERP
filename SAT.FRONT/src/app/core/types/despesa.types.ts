@@ -1,5 +1,5 @@
 import { Cidade } from "./cidade.types";
-import { DespesaPeriodo, DespesaPeriodoTecnico } from "./despesa-periodo.types";
+import { DespesaPeriodo } from "./despesa-periodo.types";
 import { Filial } from "./filial.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { RelatorioAtendimento } from "./relatorio-atendimento.types";

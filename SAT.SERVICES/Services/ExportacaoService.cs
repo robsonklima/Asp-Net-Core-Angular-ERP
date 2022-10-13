@@ -50,6 +50,9 @@ namespace SAT.SERVICES.Services
         private readonly IFilialRepository _filialRepo;
         private readonly IAuditoriaRepository _auditoriaRepo;
         private readonly IDespesaPeriodoTecnicoRepository _despesaPeriodoTecnicoRepo;
+        private readonly IDespesaService _despesaService;
+        private readonly IDespesaAdiantamentoRepository _despesaAdiantamentoRepo;
+        private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -84,7 +87,10 @@ namespace SAT.SERVICES.Services
             IOrcamentoRepository orcamentoRepo,
             IRegiaoAutorizadaRepository regiaoAutorizadaRepo,
             IFilialRepository filialRepo,
-            IAuditoriaRepository auditoriaRepo
+            IDespesaService despesaService,
+            IAuditoriaRepository auditoriaRepo,
+            IDespesaAdiantamentoRepository despesaAdiantamentoRepo,
+            IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -120,6 +126,9 @@ namespace SAT.SERVICES.Services
             _filialRepo = filialRepo;
             _auditoriaRepo = auditoriaRepo;
             _despesaPeriodoTecnicoRepo = despesaPeriodoTecnicoRepo;
+            _despesaService = despesaService;
+            _despesaAdiantamentoRepo = despesaAdiantamentoRepo;
+            _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -144,6 +153,8 @@ namespace SAT.SERVICES.Services
                     return GerarPdfOrcamento(exportacao);
                 case ExportacaoTipoEnum.ORDEM_SERVICO:
                     return GerarPdfOrdemServico(exportacao);
+                case ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO:
+                    return GerarPdfDespesaPeriodoTecnico(exportacao);
                 default:
                     return null;
             }

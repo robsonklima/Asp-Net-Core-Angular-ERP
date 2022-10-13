@@ -72,6 +72,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodDespesaPeriodo.HasValue)
                 despesas = despesas.Where(e => e.CodDespesaPeriodo == parameters.CodDespesaPeriodo);
 
+            if (parameters.indAtivo.HasValue)
+                despesas = despesas.Where(e => e.IndAtivo == parameters.indAtivo);
+
             if (parameters.InicioPeriodo.HasValue) {
                 despesas = despesas.Where(d => d.DespesaPeriodo.DataInicio.Date >= Convert.ToDateTime(parameters.InicioPeriodo).Date);
             }

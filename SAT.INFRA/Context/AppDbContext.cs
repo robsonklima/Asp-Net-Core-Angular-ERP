@@ -413,6 +413,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<StatusServicoSTN>(new StatusServicoSTNMap().Configure);
             modelBuilder.Entity<OrdemServicoSTNOrigem>(new OrdemServicoSTNOrigemMap().Configure);
             modelBuilder.Entity<ProtocoloSTN>(new ProtocoloSTNMap().Configure);
+            modelBuilder.Entity<Despesa>(new DespesaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

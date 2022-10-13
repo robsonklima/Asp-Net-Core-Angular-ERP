@@ -6,22 +6,26 @@ import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-
 import { UserService } from 'app/core/user/user.service';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import localePt from '@angular/common/locales/pt';
 import { Filterable } from 'app/core/filters/filterable';
 import { MatSidenav } from '@angular/material/sidenav';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem,
+	DespesaPeriodoTecnicoParameters,
+	DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import moment from 'moment';
 import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
-import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { RoleEnum } from 'app/core/user/user.types';
+import moment from 'moment';
+import localePt from '@angular/common/locales/pt';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 registerLocaleData(localePt);
 
 @Component({
@@ -58,6 +62,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
 		private _tecnicoSvc: TecnicoService,
 		private _snack: CustomSnackbarService,
+		private _exportacaoService: ExportacaoService,
 		private _dialog: MatDialog) {
 		super(_userService, "despesa-atendimento");
 		this.codTecnico = this._route.snapshot.paramMap.get('codTecnico') || this.userSession.usuario?.codTecnico;
@@ -172,8 +177,21 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		});
 	}
 
-	imprimirRD(dpi: DespesaPeriodoTecnicoAtendimentoItem) {
-		this._router.navigateByUrl('despesa/despesa-relatorio-impressao/' + dpi.codDespesaPeriodoTecnico);
+	async imprimirRD(dpi: DespesaPeriodoTecnicoAtendimentoItem) {
+		this.isLoading = true;
+
+		const despesaParams: DespesaPeriodoTecnicoParameters = {
+			codDespesaPeriodoTecnico: dpi.codDespesaPeriodoTecnico
+		} 
+
+		const exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.PDF,
+			tipoArquivo: ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO,
+			entityParameters: despesaParams
+		}
+
+		await this._exportacaoService.exportar(FileMime.PDF, exportacaoParam );
+		this.isLoading = false;
 	}
 
 	imprimirObservacoes(dpi: DespesaPeriodoTecnicoAtendimentoItem) {
@@ -187,11 +205,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 	}
 
 	isTecnico() { return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_TECNICO_DE_CAMPO; };
+	
 	isLider() {
 		return this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER ||
 			this.userSession?.usuario?.codPerfil == RoleEnum.ADMIN ||
 			this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_COORDENADOR ||
 			this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER_DE_SETOR
-	};
-	isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null };
+	}
+
+	isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null }
 }

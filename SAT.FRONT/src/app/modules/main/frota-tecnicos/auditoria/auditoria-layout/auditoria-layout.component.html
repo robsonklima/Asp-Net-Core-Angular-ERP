@@ -2,55 +2,57 @@
 	<mat-drawer-content>
 		<div class="flex flex-col flex-auto min-w-0">
 			<div class="bg-card">
-				<div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-					<div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
-						*transloco="let t">
-						<div class="flex flex-auto items-center min-w-0">
-							<div class="flex-1 min-w-0">
-								<div class="flex flex-wrap items-center font-medium">
-									<div>
-										<a class="whitespace-nowrap text-primary-500" routerLink="/frota-tecnico/">
-											{{ t('auditorias') }}
-										</a>
-									</div>
-									<div class="flex items-center ml-1 whitespace-nowrap">
-										<mat-icon class="icon-size-5 text-secondary"
-											[svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-										<span class="ml-1 text-secondary">{{ t('auditoria') }}</span>
-									</div>
-								</div>
-								<div class="flex flex-col sm:flex-row flex-auto sm:items-end min-w-0 my-8 sm:my-4" *transloco="let t">
-									<h6 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
-										{{ codAuditoria }}
-									</h6>
-									<div class="flex row-end-1 mt-6 sm:mt-0 sm:ml-2 space-x-1">
-										<button *ngIf="auditoria.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-yellow-500 bg-white"
-											 mat-flat-button [matTooltip]="t('editar')" matTooltipPosition="above" (click)="editarAuditoria()">
-											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
-										</button>
-										<button *ngIf="auditoria.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('finalizar')" matTooltipPosition="above" (click)="finalizar()">
-											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
-										</button>
-										<button class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
-											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-										</button>
-										<button *ngIf="auditoria.codAuditoriaStatus == 3" class="fuse-mat-button-rounded text-silver-500 bg-white" mat-flat-button [matTooltip]="t('reabrir')" matTooltipPosition="above" (click)="reabrir()">
-											<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:lock-open'"></mat-icon>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
+                        *transloco="let t">
+                        <div class="flex flex-auto items-center min-w-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center font-medium">
+                                    <div>
+                                        <a class="whitespace-nowrap text-primary-500" routerLink="/auditoria">
+                                            {{ t('auditorias') }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary"
+                                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                                        <span class="ml-1 text-secondary">{{ t('auditoria') }}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <h6
+                                        class="text-2xl md:text-2xl font-extrabold tracking-tight leading-6 sm:leading-6 truncate">
+                                        {{ codAuditoria }} {{ auditoria?.usuario?.nomeUsuario ? '-' : '' }} {{ auditoria?.usuario?.nomeUsuario }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+                            <button *ngIf="auditoria?.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-yellow-500 bg-white"
+									mat-flat-button [matTooltip]="t('editar')" matTooltipPosition="above" (click)="editarAuditoria()">
+								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
+							</button>
+							<button *ngIf="auditoria?.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('finalizar')" matTooltipPosition="above" (click)="finalizar()">
+								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
+							</button>
+							<button class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
+								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+							</button>
+							<button *ngIf="auditoria?.codAuditoriaStatus == 3" class="fuse-mat-button-rounded text-silver-500 bg-white" mat-flat-button [matTooltip]="t('reabrir')" matTooltipPosition="above" (click)="reabrir()">
+								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:lock-open'"></mat-icon>
+							</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			<div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
 				<div class="w-full max-w-screen-xl mx-auto">
 					<mat-tab-group class="sm:px-2" [animationDuration]="'0'">
 						<mat-tab [label]="t('detalhes')">
 							<ng-template matTabContent>
-									<app-auditoria-detalhes (cod)="reciverFeedback($event)"></app-auditoria-detalhes>
+									<app-auditoria-detalhe (cod)="reciverFeedback($event)"></app-auditoria-detalhe>
 							</ng-template>
 						</mat-tab>
 

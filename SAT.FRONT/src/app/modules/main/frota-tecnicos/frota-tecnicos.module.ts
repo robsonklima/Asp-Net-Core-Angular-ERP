@@ -29,7 +29,7 @@ import { ValoresCombustivelFiltroComponent } from './valores-combustivel/valores
 import { frotaTecnicosRoutes } from './frota-tecnicos.routing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuditoriaLayoutComponent } from './auditoria/auditoria-layout/auditoria-layout.component';
-import { AuditoriaDetalhesComponent } from './auditoria/auditoria-detalhes/auditoria-detalhes.component';
+import { AuditoriaDetalheComponent } from './auditoria/auditoria-detalhe/auditoria-detalhe.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
 import { AuditoriaFotoComponent } from './auditoria/auditoria-foto/auditoria-foto.component';
@@ -53,7 +53,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     AuditoriaFormComponent,
     AuditoriaFiltroComponent,
     AuditoriaLayoutComponent,
-    AuditoriaDetalhesComponent,
+    AuditoriaDetalheComponent,
     AuditoriaFotoComponent,
     AuditoriaAcessoriosComponent,
     AuditoriaUtilizacaoComponent,

@@ -131,7 +131,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     const contratoServicoData: ContratoServicoData = await this._contratoServicoService.obterPorParametros({
       codEquip: this.orcamento?.codigoEquipamento,
       codSLA: this.orcamento?.codigoSla,
-      codServico: codServico
+      codServico: codServico,
+      codContrato: this.orcamento.codigoContrato
     }).toPromise();
 
     const contratoServico = contratoServicoData.items.shift();
@@ -152,7 +153,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     const contratoServicoKmRodadoParams: ContratoServicoParameters = {
       codEquip: this.orcamento?.codigoEquipamento,
       codSLA: this.orcamento?.codigoSla,
-      codServico: TipoServicoEnum.KM_RODADO
+      codServico: TipoServicoEnum.KM_RODADO,
+      codContrato: this.orcamento.codigoContrato
     };
 
     const contratoServicoKmRodadoData: ContratoServicoData = await this._contratoServicoService
@@ -164,6 +166,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     const contratoServicoHoraViagemParams: ContratoServicoParameters = {
       codEquip: this.orcamento?.codigoEquipamento,
       codSLA: this.orcamento?.codigoSla,
+      codContrato: this.orcamento.codigoContrato,
       codServico: TipoServicoEnum.HORA_DE_VIAGEM
     };
 

@@ -117,6 +117,7 @@ namespace SAT.SERVICES.Services
                 {
                     Filial = p.Tecnico?.Filial?.NomeFilial,
                     Tecnico = p.Tecnico.Nome,
+                    Fone = p.Tecnico.FonePerto,
                     Matricula = p.Tecnico?.Usuario?.NumCracha,
                     Regiao = p.Tecnico?.Regiao?.NomeRegiao,
                     Data = p.DataPlantao.ToShortDateString(),
@@ -137,7 +138,7 @@ namespace SAT.SERVICES.Services
 
             }
 
-            string[] destinatarios = { "ivan.medina@perto.com.br", "cesar.bessa@perto.com.br", "claudio.bosco@perto.com.br" };
+            string[] destinatarios = { "ivan.medina@perto.com.br", "cesar.bessa@perto.com.br", "claudio.bosco@perto.com.br" };            
 
             Email email = new()
             {

@@ -6,7 +6,7 @@
             </div>
 
             <div class="font-medium text-secondary">
-                Logs do ambiente SAT 2.0 (API e Task)
+                Logs do ambiente SAT 2.0 (API e Tasks) das últimas 2 horas
             </div>
         </div>
 
@@ -27,6 +27,7 @@
             <tr>
                 <th class="py-1 px-2">Hora</th>
                 <th class="py-1 px-2">Tipo</th>
+                <th class="py-1 px-2">Aplicação</th>
                 <th class="py-1 px-2">Mensagem</th>
             </tr>
         </thead>
@@ -39,6 +40,10 @@
 
                 <td class="py-1 px-2 border-b border-t border-zinc-300 break-all truncate">
                     <span>{{ log.level == 'ERROR' ? 'Erro' : 'Informação' }}</span>
+                </td>
+
+                <td class="py-1 px-2 border-b border-t border-zinc-300 break-all truncate">
+                    <span>{{ log.application }}</span>
                 </td>
 
                 <td class="py-1 px-2 border-b border-t border-zinc-300 text-left">

@@ -11,6 +11,7 @@ namespace SAT.MODELS.Entities
 
     public class NLogNested
     {
+        public string Application { get; set; }
         public string Message { get; set; }
     }
 }

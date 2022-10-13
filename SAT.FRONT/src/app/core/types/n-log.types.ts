@@ -7,6 +7,7 @@ export interface NLogRegistro {
 }
 
 export interface NLogNested {
+    application: string;
     message: string;
 }
 

@@ -169,7 +169,7 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
       this.auditoria.kmParticularMes = this.auditoria.kmParticular;
     }
     else{
-      this.auditoria.kmParticularMes = this.auditoria.kmParticular / this.auditoria.totalMesesEmUso;
+      this.auditoria.kmParticularMes = (this.auditoria.kmParticular / this.auditoria.totalDiasEmUso) * 30;
     }
 
     this.auditoria.usoParticular = this.auditoria.creditosCartao - this.auditoria.despesasSAT - this.auditoria.despesasCompensadasValor 

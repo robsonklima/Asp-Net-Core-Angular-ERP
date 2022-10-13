@@ -5,7 +5,7 @@
             <div class="flex flex-col gt-xs:flex-row">
                 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('retirada veiculo') }}</div>
+                    <div class="text-secondary">{{ t('Data inicial de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo" required [(ngModel)]="auditoria.dataHoraRetiradaVeiculo">
                         <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('data auditoria') }}</div>
+                    <div class="text-secondary">{{ t('Data final de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataHoraCad" required [(ngModel)]="auditoria.dataHoraCad">
                         <mat-datepicker-toggle matSuffix [for]="cadastroData"></mat-datepicker-toggle>
@@ -36,14 +36,14 @@
             <div class="flex flex-col gt-xs:flex-row">
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('odometro inicial') }} </div>
+                    <div class="text-secondary">{{ t('Hodômetro data inicial') }} </div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroInicialRetirada" [(ngModel)]="auditoria.odometroInicialRetirada">
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('odometro periodo') }}</div>
+                    <div class="text-secondary">{{ t('Hodômetro data final') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroPeriodoAuditado" [(ngModel)]="auditoria.odometroPeriodoAuditado">
                     </mat-form-field>

@@ -5,7 +5,7 @@
             <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="auditoria">
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('retirada veiculo') }}</div>
+                    <div class="text-secondary">{{ t('Data inicial de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput readonly=“true” [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo">
                         <mat-datepicker #contratoData></mat-datepicker>
@@ -20,14 +20,14 @@
                 </div>
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('odometro inicial') }} </div>
+                    <div class="text-secondary">{{ t('Hodômetro data inicial') }} </div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroInicialRetirada" readonly=“true”>
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('odometro periodo') }}</div>
+                    <div class="text-secondary">{{ t('Hodômetro data final') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="odometroPeriodoAuditado" readonly=“true”>
                     </mat-form-field>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('km particular') }}</div>
+                    <div class="text-secondary">{{ t('KM Particular Total') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput formControlName="kmParticular" readonly=“true” [(ngModel)]="auditoria.kmParticular">
                     </mat-form-field>
@@ -63,7 +63,9 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('km particular por mes') }}</div>
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8"
+                        [class.text-green-500]="cor"
+                        [class.text-red-500]="!cor">
                         <input matInput formControlName="kmParticularMes" readonly=“true” [(ngModel)]="auditoria.kmParticularMes">
                     </mat-form-field>
                 </div>
@@ -79,7 +81,7 @@
             <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="auditoria">
 
                 <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('data auditoria') }}</div>
+                    <div class="text-secondary">{{ t('Data final de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
                         <input matInput readonly=“true” [matDatepicker]="cadastroData" formControlName="dataHoraCad">
                         <mat-datepicker #cadastroData></mat-datepicker>
@@ -108,8 +110,7 @@
                     <div class="text-secondary">{{ t('despesa cb compensadas') }}</div>
                         <mat-form-field class="fuse-mat-dense sm:col-span-8">
                             <input matInput formControlName="despesasCompensadasValor" [(ngModel)]="auditoria.despesasCompensadasValor"
-                                 mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
-                                [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                                 mask="separator.2" prefix="R$ " decimalMarker="," readonly=“true”>
                         </mat-form-field>
                 </div>
 
@@ -122,24 +123,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('tanque(medidor)') }}</div>
-                    <mat-select class="flex items-center justify-between py-3"
-                        formControlName="codAuditoriaVeiculoTanque">
-                        <mat-option *ngFor="let tanque of tanques" [value]="tanque.codAuditoriaVeiculoTanque" readonly=“true”>
-                            <span>{{ tanque?.nome }}</span>
-                        </mat-option>
-                    </mat-select>
-                </div>
-
-                <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('tanque(litros)') }}</div>
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="qtdLitros" readonly=“true”
-                            [(ngModel)]="auditoria.auditoriaVeiculo?.auditoriaVeiculoTanque.qtdLitros">
-                    </mat-form-field>
-                </div> -->
-
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('tanque(R$)') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
@@ -151,7 +134,9 @@
 
                 <div class="flex items-center justify-between py-3">
                     <div class="text-secondary">{{ t('uso particular') }}</div>
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8"                        
+                        [class.text-green-500]="cor"
+                        [class.text-red-500]="!cor">
                         <input matInput formControlName="usoParticular" [(ngModel)]="auditoria.usoParticular"
                             mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
                             [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>

@@ -59,12 +59,12 @@
 
             <div class="flex items-center justify-between py-3">
                 <div class="text-secondary">{{ t('finalidade') }}</div>
-                <div>{{ auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso|| "Não informado" }} </div>
+                <div>{{ finalidade || "Não informado" }} </div>
             </div>
 
             <div class="flex items-center justify-between py-3">
                 <div class="text-secondary">{{ t('cnhValidade') }}</div>
-                <div> {{ auditoria?.usuario?.tecnico?.cnHvalidade | date:'dd/MM/yyyy' || "Não informado" }} </div>
+                <div> {{ auditoria?.usuario?.tecnico?.cnHvalidade || "Não informado" }} </div>
             </div>
         </div>
     </fuse-card>

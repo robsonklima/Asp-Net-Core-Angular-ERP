@@ -154,6 +154,47 @@
             </div>
         </div>
 
+        <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
+            <div class="pb-2">
+                <strong>Mão de Obra</strong>
+            </div>
+    
+            <div class="overflow-x-auto overflow-y-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Valor Hora Técnica
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Previsão de Horas
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.previsaoHoras }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Valor Total
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
         <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
             <div class="pb-2">
                 <strong>Local Faturamento</strong>
@@ -298,7 +339,7 @@
                             </td>
     
                             <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF || "Não Informado" }}
+                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade || "Não Informado" }}
                             </td>
                         </tr>
 
@@ -338,6 +379,100 @@
             </div>
         </div>
 
+        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
+            <div class="pb-2">
+                <strong>Local Atendimento</strong>
+            </div>
+    
+            <div class="overflow-x-auto overflow-y-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <tbody>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                CNPJ
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.cliente?.cnpj || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Numero do Contrato
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.equipamentoContrato?.contrato?.nroContrato || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Nome do Local
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.localAtendimento?.nomeLocal || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Agência
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.localAtendimento?.numAgencia || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Bairro
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.localAtendimento?.bairro || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Cidade
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.localAtendimento?.cidade?.nomeCidade || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                UF
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Equipamento
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.equipamentoContrato?.equipamento?.nomeEquip || "Não Informado" }}
+                            </td>
+                        </tr>
+                        <tr class="dark:border-gray-700 border-t-2">
+                            <td class="py-1 font-medium text-left">
+                                Numero de Série
+                            </td>
+    
+                            <td class="py-1 font-medium text-right">
+                                {{ os?.equipamentoContrato?.numSerie || "Não Informado" }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
         <div class="flex items-center justify-end pt-8 pb-8">
             <button class="px-6 mr-2" mat-button (click)="cancelar()">
                 Cancelar

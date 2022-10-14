@@ -106,7 +106,7 @@ export class OrcamentoService
             orcamento.valorTotal = parseFloat(orcamento.valorTotal.toString());
 
         if (orcamento.valorTotalDesconto)
-        orcamento.valorTotalDescontoDesconto = parseFloat(orcamento.valorTotalDesconto.toString());
+        orcamento.valorTotalDesconto = parseFloat(orcamento.valorTotalDesconto.toString());
 
         if (isNaN(orcamento.valorTotal))
             orcamento.valorTotal = 0;

@@ -47,6 +47,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 	isLoading: boolean = false;
 	status: OrcamentoStatus[] = [];
 	motivos: OrcamentoMotivo[] = [];
+	materiais: number;
+	servicos: number;
 	oldItem: any;
 	isEditing: boolean;
 	form: FormGroup;
@@ -106,6 +108,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 		this.os = await this._osService.obterPorCodigo(this.codOS).toPromise();
 		this.inicializarForm();
 		this.formatarLocais();
+		this.materiais = _.sumBy(this.orcamento?.materiais, (material) => { return material?.valorTotal; });
+		this.servicos = _.sumBy(this.orcamento?.outrosServicos, (servico) => { return servico?.valorTotal; });
 		this.isLoading = false;
 	}
 

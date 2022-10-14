@@ -15,6 +15,7 @@ namespace SAT.MODELS.Entities.Params
         public int? CodPontoPeriodo { get; set; }
         public string PAS { get; set; }
         public string CodTecnicos { get; set; }
+        public string CodFiliais { get; set; }
         public int? IndFerias { get; set; }
         public int? IndPonto { get; set; }
     }

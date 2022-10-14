@@ -170,6 +170,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => codTecnicos.Contains(u.Tecnico.CodTecnico.Value));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                int[] filiais = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(u => filiais.Contains(u.CodFilial.Value));
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

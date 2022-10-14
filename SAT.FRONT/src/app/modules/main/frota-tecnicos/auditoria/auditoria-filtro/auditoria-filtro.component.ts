@@ -77,6 +77,7 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 	async obterUsuarios(filtro: string = '') {
 		let params: UsuarioParameters = {
 			filter: filtro,
+			codPerfil: 35,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
 			pageSize: 1000

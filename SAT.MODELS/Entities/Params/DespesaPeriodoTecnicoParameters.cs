@@ -7,6 +7,7 @@ namespace SAT.MODELS.Entities.Params
     public class DespesaPeriodoTecnicoParameters : QueryStringParameters
     {
         public string CodTecnico { get; set; }
+        public int? CodDespesaPeriodoTecnico { get; set; }
         public string CodFilial { get; set; }
         public int? CodDespesaPeriodo { get; set; }
         public string CodDespesaProtocolo { get; set; }

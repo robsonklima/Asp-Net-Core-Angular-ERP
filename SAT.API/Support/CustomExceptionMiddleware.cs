@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using NLog;
+using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
@@ -41,7 +42,12 @@ namespace SAT.API.Support
             context.Response.ContentType = "application/json";
             int statusCode = (int)HttpStatusCode.InternalServerError;
             var result = JsonConvert.SerializeObject(new { statusCode = statusCode, errorMessage = Constants.ERROR });
-            _logger.Error($"{statusCode} {ex.Message} {ex.InnerException}");
+            
+            _logger.Error()
+                .Message($"{statusCode} {ex.Message} {ex.InnerException}")
+                .Property("application", Constants.SISTEMA_NOME)
+                .Write();
+            
             string[] destinatarios = { Constants.EQUIPE_SAT_EMAIL };
             _emailService.Enviar(new Email() {
                 Assunto = "Erro durante o uso do SAT.V2",

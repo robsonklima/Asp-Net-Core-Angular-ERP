@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
     {
         public string Filial { get; set; }
         public string Tecnico { get; set; }
+        public string Fone { get; set; }
         public string Matricula { get; set; }
         public string Regiao { get; set; }
         public string Data { get; set; }

@@ -39,7 +39,9 @@ namespace SAT.SERVICES.Services
 
         public Despesa ObterPorCodigo(int codigo)
         {
-            return _despesaRepo.ObterPorCodigo(codigo);
+            var despesa = _despesaRepo.ObterPorCodigo(codigo);
+            
+            return despesa;
         }
 
         public ListViewModel ObterPorParametros(DespesaParameters parameters)

@@ -44,7 +44,7 @@ public partial class Worker : BackgroundService
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
                     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
                     
-                //_integracaoFinanceiroService.ExecutarAsync();
+                // _integracaoFinanceiroService.ExecutarAsync();
             }
             catch (Exception)
             {

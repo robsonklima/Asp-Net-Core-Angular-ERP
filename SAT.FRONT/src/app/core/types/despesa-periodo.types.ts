@@ -4,8 +4,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico, TecnicoCategoriaCredito } from "./tecnico.types";
 import { TicketLogPedidoCredito } from "./ticketlog-types";
 
-export interface DespesaPeriodo
-{
+export interface DespesaPeriodo {
     codDespesaPeriodo?: number;
     codDespesaConfiguracao: number;
     dataInicio: string;
@@ -17,26 +16,22 @@ export interface DespesaPeriodo
     dataHoraManut: string;
 }
 
-export interface DespesaPeriodoData extends Meta
-{
+export interface DespesaPeriodoData extends Meta {
     items: DespesaPeriodo[]
 };
 
-export interface DespesaPeriodoParameters extends QueryStringParameters
-{
+export interface DespesaPeriodoParameters extends QueryStringParameters {
     indAtivo?: number;
     inicioPeriodo?: string;
     fimPeriodo?: string;
 };
 
-export class DespesaPeriodoTecnicoStatus
-{
+export class DespesaPeriodoTecnicoStatus {
     codDespesaPeriodoTecnicoStatus: string;
     nomeDespesaPeriodoTecnicoStatus?: string;
 }
 
-export class DespesaPeriodoTecnico
-{
+export class DespesaPeriodoTecnico {
     codDespesaPeriodoTecnico?: number;
     codDespesaPeriodo: number;
     despesaPeriodo?: DespesaPeriodo;
@@ -66,13 +61,12 @@ export class DespesaPeriodoTecnico
     ticketLogPedidoCredito?: TicketLogPedidoCredito;
 }
 
-export interface DespesaPeriodoTecnicoData extends Meta
-{
+export interface DespesaPeriodoTecnicoData extends Meta {
     items: DespesaPeriodoTecnico[]
 };
 
-export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
-{
+export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters {
+    codDespesaPeriodoTecnico?: number;
     codTecnico?: string;
     codFilial?: string;
     codDespesaPeriodo?: number;
@@ -86,8 +80,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters
 };
 
 
-export interface DespesaCreditosCartaoListView 
-{
+export interface DespesaCreditosCartaoListView {
     protocolo: string;
     rd: number;
     liberacao: string;
@@ -108,8 +101,7 @@ export interface DespesaCreditosCartaoListView
     indErroAoCreditar: boolean;
 }
 
-export enum DespesaCreditoCartaoStatusEnum 
-{
+export enum DespesaCreditoCartaoStatusEnum {
     "ERRO AO CREDITAR" = 1,
     "PENDENTE" = 2,
     "CREDITADO" = 3,
@@ -117,8 +109,7 @@ export enum DespesaCreditoCartaoStatusEnum
     "VERIFICADO" = 4
 }
 
-export interface DespesaPeriodoTecnicoAtendimentoItem
-{
+export interface DespesaPeriodoTecnicoAtendimentoItem {
     codDespesaPeriodo: number;
     codDespesaPeriodoTecnico?: number;
     codTecnico: string;
@@ -132,20 +123,17 @@ export interface DespesaPeriodoTecnicoAtendimentoItem
     indAtivo: boolean;
 };
 
-export interface DespesaPeriodoTecnicoAtendimentoData extends Meta
-{
+export interface DespesaPeriodoTecnicoAtendimentoData extends Meta {
     items: DespesaPeriodoTecnicoAtendimentoItem[];
 };
 
-export enum DespesaPeriodoTecnicoStatusEnum
-{
+export enum DespesaPeriodoTecnicoStatusEnum {
     "LIBERADO PARA ANÁLISE" = "1",
     "APROVADO" = "2",
     "REPROVADO" = "3"
 }
 
-export enum DespesaPeriodoTecnicoFilterEnum
-{
+export enum DespesaPeriodoTecnicoFilterEnum {
     FILTER_PERIODOS_APROVADOS = 1,
     FILTER_CREDITOS_CARTAO = 2
 }

@@ -4,7 +4,7 @@ namespace SAT.MODELS.Entities.Constants
 {
     public class Constants
     {
-        public static string SISTEMA_NOME = "SAT";
+        public static string SISTEMA_NOME = "SAT 2.0";
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
         public static string BANRISUL_EMAIL = "tecnologia_suporte_service_desk@banrisul.com.br";        
@@ -212,5 +212,9 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
+        public static string[] LOGS_URLS = { 
+            "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",
+            "D:\\SAT\\Branch\\SAT.V2\\SAT.API\\Logs\\"
+        };
     }
 }

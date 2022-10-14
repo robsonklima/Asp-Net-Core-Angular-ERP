@@ -10,6 +10,8 @@ using System.Globalization;
 using System.Collections.Generic;
 using SAT.UTILS;
 using NLog;
+using NLog.Fluent;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.SERVICES.Services
 {
@@ -110,6 +112,10 @@ namespace SAT.SERVICES.Services
                 {
                     response.RequestValido = false;
                     response.Mensagem = "Código do usuário não encontrado";
+                    _logger.Error()
+                        .Message("Código do usuário não encontrado")
+                        .Property("application", Constants.SISTEMA_NOME)
+                        .Write();
                 }
                 else
                 {
@@ -136,7 +142,10 @@ namespace SAT.SERVICES.Services
             }
             catch (Exception ex)
             {
-                _logger.Error($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}");
+                _logger.Error()
+                    .Message($"Um erro ocorreu ao solicitar nova senha: {ex.Message} {ex.StackTrace} {ex.InnerException} {ex.Source}")
+                    .Property("application", "SAT 2.0 API")
+                    .Write();
                 response.RequestValido = false;
                 response.Mensagem = "Um erro ocorreu ao solicitar nova senha";
             }

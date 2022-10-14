@@ -12,10 +12,10 @@ import { AuditoriaVeiculo } from 'app/core/types/auditoria-veiculo.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
 
 @Component({
-	selector: 'app-auditoria-detalhes',
-	templateUrl: './auditoria-detalhes.component.html',
+	selector: 'app-auditoria-detalhe',
+	templateUrl: './auditoria-detalhe.component.html',
 })
-export class AuditoriaDetalhesComponent implements OnInit {
+export class AuditoriaDetalheComponent implements OnInit {
 
 	
 	codAuditoria: number;

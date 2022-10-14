@@ -81,7 +81,6 @@ namespace SAT.INFRA.Repository
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
             return query.AsNoTracking();
-
         }
 
         public List<ViewExportacaoChamadosUnificado> ObterViewPorOs(int[] osList)

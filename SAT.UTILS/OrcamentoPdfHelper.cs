@@ -63,7 +63,6 @@ namespace SAT.UTILS
             {
                 row.ConstantItem(280).Column(column =>
                 {
-
                     column.Item().Row(async cr =>
                     {
                         cr.Spacing(20);

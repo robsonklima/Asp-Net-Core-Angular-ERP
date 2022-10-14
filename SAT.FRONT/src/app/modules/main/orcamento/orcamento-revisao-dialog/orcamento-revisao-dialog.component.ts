@@ -106,7 +106,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      if(!dp?.peca?.isValorAtualizado)
+      if(!dp?.peca?.isValorAtualizado && !dp?.peca?.clientePeca)
         this.isValorPecasDesatualizado = true;
 
       m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);

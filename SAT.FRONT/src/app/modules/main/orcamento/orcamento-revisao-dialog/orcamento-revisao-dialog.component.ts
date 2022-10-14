@@ -65,7 +65,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   private montaOrcamento() {
     this.orcamento = {
       codigoOrdemServico: this.os?.codOS,
-      codigoContrato: this.os?.codContrato,
+      codigoContrato: this.os?.equipamentoContrato?.codContrato,
       codigoMotivo: 1,
       codigoStatus: 6,
       codigoPosto: this.os?.codPosto,
@@ -211,12 +211,26 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   private obterValorMaterial(peca: Peca) {
-    if (peca?.indValorFixo === 1)
-      return peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
+    let valorPeca: number = 0;
 
-    return this.orcamento?.isMaterialEspecifico === 1 ?
-      peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato)?.valorUnitario :
-      ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
+    if (peca?.indValorFixo === 1)
+      valorPeca = peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
+
+    if (this.orcamento?.isMaterialEspecifico === 1) {
+      const clientePeca = peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato);
+      
+      if (!clientePeca) {
+        this._snack.exibirToast('Este orçamento exige material específico e não foi configurado o valor da peça', 'error');
+      
+        valorPeca = 0;
+      } else {
+        valorPeca = clientePeca?.valorUnitario;
+      }
+    } else {
+      valorPeca = ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
+    }
+
+    return valorPeca;
   }
 
   private obterValorUnitarioFinanceiroMaterial(peca: Peca) {

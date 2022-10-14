@@ -419,6 +419,7 @@ namespace SAT.UTILS
                     decimal valorTotalDespesa = valorDespesaOutros + valorDespesaKM;
                     decimal valorAdiantamentoRecebido = _adiantamentos.Sum(i => i.DespesaAdiantamento.ValorAdiantamento);
                     decimal valorAdiantamentoUtilizado = _adiantamentos.Sum(i => i.ValorAdiantamentoUtilizado);
+                    decimal valorAReceberViaDeposito = valorDespesaOutros - valorAdiantamentoUtilizado < 0 ? 0 : valorDespesaOutros - valorAdiantamentoUtilizado;
                     decimal saldoAdiantamento = valorAdiantamentoRecebido - valorAdiantamentoUtilizado;
                     decimal percentualOutros = Math.Round((valorDespesaOutros / valorTotalDespesa * 100), 2);;
                     decimal percentualDespesaCB = Math.Round((valorDespesaKM / valorTotalDespesa * 100), 2);
@@ -455,7 +456,7 @@ namespace SAT.UTILS
                         });
                         table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
                             t.Span("Receber via Depósito: ").FontSize(6).Bold();
-                            t.Span(string.Format("{0:C}", valorDespesaOutros)).FontSize(6);
+                            t.Span(string.Format("{0:C}", valorAReceberViaDeposito)).FontSize(6);
                         });
                         table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
                             t.Span("Crédito via CB: ").FontSize(6).Bold();

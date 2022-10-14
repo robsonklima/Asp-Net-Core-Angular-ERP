@@ -39,7 +39,13 @@
                 </td>
 
                 <td class="py-1 px-2 border-b border-t border-zinc-300 break-all truncate">
-                    <span>{{ log.level == 'ERROR' ? 'Erro' : 'Informação' }}</span>
+                    <span
+                        class="py-1 px-2 rounded font-semibold"
+                        [class.text-black]="!log.level"
+                        [class.text-red-600]="log.level === 'ERROR'"
+                        [class.text-blue-600]="log.level === 'INFO'">
+                        {{ log.level == 'ERROR' ? 'Erro' : 'Informação' }}
+                    </span>
                 </td>
 
                 <td class="py-1 px-2 border-b border-t border-zinc-300 break-all truncate">
@@ -47,7 +53,7 @@
                 </td>
 
                 <td class="py-1 px-2 border-b border-t border-zinc-300 text-left">
-                    <div class="text-xs text-gray-400">
+                    <div  class="text-xs text-gray-400">
                         {{ log.nested.message }}
                     </div>
                 </td>

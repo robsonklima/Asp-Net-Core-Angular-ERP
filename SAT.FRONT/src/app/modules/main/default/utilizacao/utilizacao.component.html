@@ -26,39 +26,7 @@
                                         [svgIcon]="'heroicons_solid:users'"></mat-icon>
 
                                     <div class="ml-1.5 text-md mt-0.5 text-secondary">
-                                        {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'Logado' : 'Logados' }} 
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <ng-container>
-                                <div class="flex items-center pr-4">
-                                    <mat-icon class="icon-size-5 text-hint"
-                                        class="icon-size-5 text-green-600"
-                                        [svgIcon]="'heroicons_solid:user-add'"></mat-icon>
-                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                        {{ ((usuariosLogados.usuariosLogados / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <ng-container>
-                                <div class="flex items-center pr-4">
-                                    <mat-icon class="icon-size-5 text-hint"
-                                        [svgIcon]="'heroicons_solid:user-group'"></mat-icon>
-
-                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                        {{ usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados }} Ociosos
-                                    </div>
-                                </div>
-                            </ng-container>
-
-                            <ng-container>
-                                <div class="flex items-center">
-                                    <mat-icon class="icon-size-5 text-hint"
-                                        [svgIcon]="'heroicons_solid:user-remove'"></mat-icon>
-                                    <div class="ml-1.5 mt-0.5 text-md text-secondary">
-                                        {{ (((usuariosLogados.usuariosAtivos - usuariosLogados.usuariosLogados) / usuariosLogados.usuariosAtivos) * 100).toFixed(2) }}%
+                                        {{ usuariosLogados.usuariosLogados }} {{ usuariosLogados.usuariosLogados === 1 ? 'usuário logado' : 'usuários logados' }} 
                                     </div>
                                 </div>
                             </ng-container>

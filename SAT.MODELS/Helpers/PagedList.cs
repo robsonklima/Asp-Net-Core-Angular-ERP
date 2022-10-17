@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.MODELS.Helpers
 {
@@ -29,9 +30,13 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize, comparer);
             }
+            catch(InvalidCastException ex)
+            {
+                throw new Exception(Constants.ERROR, ex);
+            }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao Listar Dados", ex);
+                throw new Exception(Constants.ERROR, ex);
             }
         }
 
@@ -43,9 +48,13 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
-            catch (Exception)
+            catch(InvalidCastException ex)
             {
-                throw;
+                throw new Exception(Constants.ERROR, ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Constants.ERROR, ex);
             }
         }
     }

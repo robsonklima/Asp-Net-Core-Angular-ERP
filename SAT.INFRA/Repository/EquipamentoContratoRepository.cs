@@ -102,7 +102,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(e => e.TipoContrato)
                     .Include(e => e.Equipamento)
                         .ThenInclude(e => e.Equivalencia)
-                    .Include(e => e.ContratoEquipamento)
+                    .Include(e => e.ContratoEquipamento!).DefaultIfEmpty()
                     .Include(e => e.AcordoNivelServico)
                     .Include(e => e.GrupoEquipamento)
                     .Include(e => e.RegiaoAutorizada)

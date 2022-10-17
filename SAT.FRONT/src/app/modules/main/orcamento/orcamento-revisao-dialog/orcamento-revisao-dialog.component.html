@@ -1,490 +1,494 @@
-<ng-container>
-    <div class="flex flex-col max-h-120" *ngIf="!loading">
-        <div class="text-lg font-bold">Revisão</div>
+<h2 mat-dialog-title>Revisão</h2>
 
-        <div class="mt-2">
-            Favor revisar os dados para a criação de um orçamento para o chamado {{ os.codOS }}
-        </div>
-
-        <div class="pt-5" *ngIf="orcamento?.materiais?.length">
-            <div class="pb-2">
-                <strong>Material a Ser Utilizado</strong>
-            </div>
-
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="py-1 pr-2 text-center">
-                                #
-                            </th>
-
-                            <th scope="col" class="py-1 dark:bg-gray-800">
-                                Código
-                            </th>
-
-                            <th scope="col" class="py-1">
-                                Descrição
-                            </th>
-
-                            <th scope="col" class="py-1 text-center">
-                                Vlr. Unit.
-                            </th>
-
-                            <th scope="col" class="py-1 text-center">
-                                Vlr. Total.
-                            </th>
-
-                            <th scope="col" class="py-1 text-center">
-                                Qtd.
-                            </th>
-
-                            <th scope="col" class="py-1 text-center">
-                                Valor Unit. Vencido
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2" *ngFor="let material of orcamento?.materiais; let i=index">
-                            <td class="py-1 pr-2 font-medium text-center">
-                                {{ i+1 }}
-                            </td>
-
-                            <th scope="row" class="py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
-                                <a class="text-blue-600 cursor-pointer" (click)="navegarParaPeca(material.codigoPeca)">
-                                    {{ material.codigoMagnus }}
-                                </a>
-                            </th>
-
-                            <td class="py-1">
-                                {{ material.descricao }}
-                            </td>
-
-                            <td class="py-1 text-center">
-                                {{ material.valorUnitario | currency:'BRL':'symbol-narrow' }}
-                            </td>
-
-                            <td class="py-1 text-center">
-                                {{ material.valorTotal | currency:'BRL':'symbol-narrow' }}
-                            </td>
-
-                            <td class="py-1 text-center">
-                                {{ material.quantidade }}
-                            </td>
-
-                            <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
-                                {{ material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
-            <div class="pb-2">
-                <strong>Deslocamento</strong>
+<mat-dialog-content class="mat-typography">
+    <ng-container>
+        <div class="flex flex-col max-h-160" *ngIf="!loading">
+            <div>
+                Favor revisar os dados para a criação de um orçamento para o chamado {{ os.codOS }}
             </div>
     
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor unitário do KM Rodado (ida e volta)
-                            </td>
+            <div class="pt-5" *ngIf="orcamento?.materiais?.length">
+                <div class="pb-2">
+                    <strong>Material a Ser Utilizado</strong>
+                </div>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.valorUnitarioKmRodado | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="py-1 pr-2 text-center">
+                                    #
+                                </th>
     
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor Total KM Rodado 
-                            </td>
+                                <th scope="col" class="py-1 dark:bg-gray-800">
+                                    Código
+                                </th>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.valorTotalKmRodado | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
+                                <th scope="col" class="py-1">
+                                    Descrição
+                                </th>
     
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor Hora em Deslocamento 
-                            </td>
+                                <th scope="col" class="py-1 text-center">
+                                    Vlr. Unit.
+                                </th>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
+                                <th scope="col" class="py-1 text-center">
+                                    Vlr. Total.
+                                </th>
     
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor Total Hora em Deslocamento 
-                            </td>
+                                <th scope="col" class="py-1 text-center">
+                                    Qtd.
+                                </th>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
+                                <th scope="col" class="py-1 text-center">
+                                    Valor Unit. Vencido
+                                </th>
+                            </tr>
+                        </thead>
     
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                KM
-                            </td>
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2" *ngFor="let material of orcamento?.materiais; let i=index">
+                                <td class="py-1 pr-2 font-medium text-center">
+                                    {{ i+1 }}
+                                </td>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.quantidadeKm }}
-                            </td>
-                        </tr>
+                                <th scope="row" class="py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
+                                    <a class="text-blue-600 cursor-pointer" (click)="navegarParaPeca(material.codigoPeca)">
+                                        {{ material.codigoMagnus }}
+                                    </a>
+                                </th>
     
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Quantidade 1 hora cada 60 KM Rodado
-                            </td>
+                                <td class="py-1">
+                                    {{ material.descricao }}
+                                </td>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
-            <div class="pb-2">
-                <strong>Mão de Obra</strong>
-            </div>
+                                <td class="py-1 text-center">
+                                    {{ material.valorUnitario | currency:'BRL':'symbol-narrow' }}
+                                </td>
     
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor Hora Técnica
-                            </td>
+                                <td class="py-1 text-center">
+                                    {{ material.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                </td>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Previsão de Horas
-                            </td>
+                                <td class="py-1 text-center">
+                                    {{ material.quantidade }}
+                                </td>
     
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.previsaoHoras }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Valor Total
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
-            <div class="pb-2">
-                <strong>Local Faturamento</strong>
+                                <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
+                                    {{ !material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
     
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Razao Social
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                CEP
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento | mask:'00.000-000' || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Endereço
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Bairro
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-                        
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Cidade
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                CNPJ
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Responsável
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                E-mail
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                <ng-container >
-                                    <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento || "Não Informado" }}</div>
-                                </ng-container>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
-            <div class="pb-2">
-                <strong>Local Envio NF</strong>
-            </div>
-    
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Razao Social
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                CEP
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF | mask:'00.000-000' || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Endereço
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Bairro
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF || "Não Informado" }}
-                            </td>
-                        </tr>
-                        
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Cidade
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                CNPJ
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Responsável
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF || "Não Informado" }}
-                            </td>
-                        </tr>
-
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                E-mail
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                <ng-container >
-                                    <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF || "Não Informado" }}</div>
-                                </ng-container>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
-            <div class="pb-2">
-                <strong>Local Atendimento</strong>
-            </div>
-    
-            <div class="overflow-x-auto overflow-y-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <tbody>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                CNPJ
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.cliente?.cnpj || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Numero do Contrato
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.equipamentoContrato?.contrato?.nroContrato || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Nome do Local
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.localAtendimento?.nomeLocal || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Agência
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.localAtendimento?.numAgencia || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Bairro
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.localAtendimento?.bairro || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Cidade
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.localAtendimento?.cidade?.nomeCidade || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                UF
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Equipamento
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.equipamentoContrato?.equipamento?.nomeEquip || "Não Informado" }}
-                            </td>
-                        </tr>
-                        <tr class="dark:border-gray-700 border-t-2">
-                            <td class="py-1 font-medium text-left">
-                                Numero de Série
-                            </td>
-    
-                            <td class="py-1 font-medium text-right">
-                                {{ os?.equipamentoContrato?.numSerie || "Não Informado" }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
+                <div class="pb-2">
+                    <strong>Deslocamento</strong>
+                </div>
         
-        <div class="flex items-center justify-end pt-8 pb-8">
-            <button class="px-6 mr-2" mat-button (click)="cancelar()">
-                Cancelar
-            </button> 
-
-            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading || isValorPecasDesatualizado">
-                Criar
-            </button>
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor unitário do KM Rodado (ida e volta)
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.valorUnitarioKmRodado | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+        
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor Total KM Rodado 
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.valorTotalKmRodado | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+        
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor Hora em Deslocamento 
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.valorHoraDeslocamento | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+        
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor Total Hora em Deslocamento 
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+        
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    KM
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.quantidadeKm }}
+                                </td>
+                            </tr>
+        
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Quantidade 1 hora cada 60 KM Rodado
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.orcamentoDeslocamento?.quantidadeHoraCadaSessentaKm }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="pt-5" *ngIf="orcamento?.orcamentoDeslocamento">
+                <div class="pb-2">
+                    <strong>Mão de Obra</strong>
+                </div>
+        
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor Hora Técnica
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.maoDeObra?.valorHoraTecnica | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Previsão de Horas
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.maoDeObra?.previsaoHoras }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Valor Total
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.maoDeObra?.valorTotal | currency:'BRL':'symbol-narrow' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+    
+            <div class="pt-5">
+                <div class="pb-2">
+                    <strong>Local Faturamento</strong>
+                </div>
+        
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Razao Social
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    CEP
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento | mask:'00.000-000' || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Endereço
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Bairro
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+                            
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Cidade
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    CNPJ
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Responsável
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    E-mail
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    <ng-container >
+                                        <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento || "Não Informado" }}</div>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="pt-5">
+                <div class="pb-2">
+                    <strong>Local Envio NF</strong>
+                </div>
+        
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Razao Social
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    CEP
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF | mask:'00.000-000' || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Endereço
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Bairro
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF || "Não Informado" }}
+                                </td>
+                            </tr>
+                            
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Cidade
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    CNPJ
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Responsável
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF || "Não Informado" }}
+                                </td>
+                            </tr>
+    
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    E-mail
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    <ng-container >
+                                        <div>{{ orcamento?.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF || "Não Informado" }}</div>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="pt-5" *ngIf="orcamento?.localEnvioNFFaturamentoVinculado">
+                <div class="pb-2">
+                    <strong>Local Atendimento</strong>
+                </div>
+        
+                <div class="overflow-x-auto overflow-y-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <tbody>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    CNPJ
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.cliente?.cnpj || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Numero do Contrato
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.equipamentoContrato?.contrato?.nroContrato || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Nome do Local
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.localAtendimento?.nomeLocal || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Agência
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.localAtendimento?.numAgencia || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Bairro
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.localAtendimento?.bairro || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Cidade
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.localAtendimento?.cidade?.nomeCidade || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    UF
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Equipamento
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.equipamentoContrato?.equipamento?.nomeEquip || "Não Informado" }}
+                                </td>
+                            </tr>
+                            <tr class="dark:border-gray-700 border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Numero de Série
+                                </td>
+        
+                                <td class="py-1 font-medium text-right">
+                                    {{ os?.equipamentoContrato?.numSerie || "Não Informado" }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+    
+        <div class="flex justify-center items-center min-h-36" *ngIf="loading">
+            <div class="text-center">
+                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+        </div>
+    </ng-container>
+</mat-dialog-content>
 
-    <mat-progress-spinner *ngIf="loading" [diameter]="24"
-        [mode]="'indeterminate'">
-    </mat-progress-spinner>
-</ng-container>
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button> 
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading || isValorPecasDesatualizado">
+        Criar
+    </button>
+</mat-dialog-actions>

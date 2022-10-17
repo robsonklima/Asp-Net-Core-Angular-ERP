@@ -135,17 +135,16 @@
                         <mat-tab label="{{ t('detalhes') }}">
                             <ng-template matTabContent>
                                 <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
-                                    <fuse-card
-                                        class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                         <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('abertura') }}</div>
                                                 <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3"
+                                            <div class="flex items-center justify-between py-1"
                                                 *ngIf="os?.usuarioCadastro">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
@@ -153,50 +152,50 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('aberto por') }}</div>
                                                 <div>
                                                     {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('nome solicitante') }}</div>
                                                 <div>
                                                     {{ os?.nomeSolicitante || 'Não Informado' }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.usuarioCad">
+                                            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
                                                 <div class="text-secondary">{{ t('telefone solicitante') }}</div>
                                                 <div>
                                                     {{ os?.telefoneSolicitante || 'Não Informado' }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('os cliente') }}</div>
                                                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('os quarteirizada') }}</div>
                                                 <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3"
+                                            <div class="flex items-center justify-between py-1"
                                                 *ngIf="os?.tecnico?.nome">
                                                 <div class="text-secondary">{{ t('tecnico') }}</div>
                                                 <div>{{ os?.tecnico?.nome | titlecase }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3"
+                                            <div class="flex items-center justify-between py-1"
                                                 *ngIf="os?.tecnico?.fonePerto">
                                                 <div class="text-secondary">{{ t('tecnico fone') }}</div>
                                                 <div>{{ os?.tecnico?.fonePerto | titlecase }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
                                                 <div>
                                                     <span
@@ -206,7 +205,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('status de servico') }}</div>
                                                 <div>
                                                     <span
@@ -218,33 +217,33 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3" *ngIf="os?.codStatusServico === 3">
+                                            <div class="flex items-center justify-between py-1" *ngIf="os?.codStatusServico === 3">
                                                 <div class="text-secondary">{{ t('fechamento') }}</div>
                                                 <div>{{ os?.dataHoraFechamento | date:'dd/MM/yyyy HH:mm' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('os cliente') }}</div>
                                                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('cliente') }}</div>
                                                 <div>{{ os?.cliente?.nomeFantasia || '--' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('reincidencia') }}</div>
                                                 <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('sugestao') }}</div>
                                                 <div>{{ os?.sugestaoOS || 'Não Informado' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('exige laudo') }}</div>
                                                 <div>{{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}</div>
                                             </div>
@@ -254,7 +253,7 @@
                                             <div class="text-lg font-medium">{{ t('defeito') }}</div>
                                         </div>
                                         <div class="flex mt-2 border-t">
-                                            <div class="py-3">
+                                            <div class="py-1">
                                                 <ng-container>
                                                     <div>{{ os?.defeitoRelatado }}</div>
                                                 </ng-container>
@@ -265,7 +264,7 @@
                                             <div class="text-lg font-medium">{{ t('motivo cancelamento') }}</div>
                                         </div>
                                         <div class="flex mt-2 border-t text-justify" *ngIf="os?.motivoCancelamento">
-                                            <div class="py-3">
+                                            <div class="py-1">
                                                 <ng-container>
                                                     <div>{{ os?.motivoCancelamento }}</div>
                                                 </ng-container>
@@ -276,7 +275,7 @@
                                             <div class="text-lg font-medium">{{ t('observacao') }}</div>
                                         </div>
                                         <div class="flex mt-2 border-t text-justify">
-                                            <div class="py-3">
+                                            <div class="py-1">
                                                 <ng-container>
                                                     <div>{{ os?.observacaoCliente || 'Não Informado' }}</div>
                                                 </ng-container>
@@ -287,7 +286,7 @@
                                             <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
                                         </div>
                                         <div class="flex mt-2 border-t text-justify">
-                                            <div class="py-3">
+                                            <div class="py-1">
                                                 <ng-container>
                                                     <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>
                                                 </ng-container>
@@ -297,29 +296,27 @@
 
                                     <fuse-card
                                         class="flex flex-col flex-auto col-span-3 p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                        <div class="text-lg font-medium mt-2">{{ t('local') }}/{{ t('equipamento') }}
-                                        </div>
-
-                                        <div class="flex mt-4">
-                                            <div class="pt-2">
-                                                <ng-container>
-                                                    <div>
-                                                        {{ os?.cliente?.nomeFantasia }} -
-                                                        {{ (os?.localAtendimento?.nomeLocal || t('nao informado')) }}
-                                                    </div>
-                                                </ng-container>
-                                            </div>
+                                        <div class="text-lg font-medium mt-2">
+                                            {{ t('local') }}/{{ t('equipamento') }}
                                         </div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
+                                                <div class="text-secondary">{{ t('local') }}</div>
+                                                <div>
+                                                    {{ os?.cliente?.nomeFantasia }} -
+                                                    {{ (os?.localAtendimento?.nomeLocal || t('nao informado')) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('agencia') }}</div>
                                                 <div>{{ os?.localAtendimento?.numAgencia || '--' }}/{{
                                                     os?.localAtendimento?.dcPosto || '--' }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('equipamento') }}</div>
                                                 <div>
                                                     <span class="cursor-help"
@@ -331,7 +328,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('serie') }}</div>
                                                 <div>
                                                     <span>
@@ -340,7 +337,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('serie cliente') }}</div>
                                                 <div>
                                                     <span>
@@ -349,7 +346,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('sla') }}</div>
                                                 <div>
                                                     <span class="cursor-help"
@@ -360,7 +357,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3"
+                                            <div class="flex items-center justify-between py-1"
                                                 *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
                                                 <div class="text-secondary">{{ t('fim sla') }}</div>
                                                 <div>
@@ -369,40 +366,40 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('contrato') }}</div>
                                                 <div>
                                                     {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('filial') }}</div>
                                                 <div>{{ os?.filial?.nomeFilial || 'Não Informado'}}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('autorizada') }}</div>
                                                 <div>{{ os?.autorizada?.nomeFantasia || 'Não Informado'}}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('regiao') }}</div>
                                                 <div>{{ os?.regiao?.nomeRegiao || 'Não Informado'}}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('distancia da pat') }}</div>
                                                 <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Necessário Agendamento com Carro Forte</div>
                                                 <div>{{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}</div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Atendimento Sábado, Domingo e Feriado</div>
                                                 <div>{{ os?.equipamentoContrato?.pontoEstrategico == 2 ? 'Sim' : 'Não' }}</div>
                                             </div>
@@ -413,44 +410,44 @@
                                         </div>
 
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="os?.chamado">
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('estabelecimento') }}</div>
                                                 <div>
                                                     {{ os?.numAgenciaBanco }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('rede') }}</div>
                                                 <div>
                                                     {{ os?.redeEquipamento }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('terminal') }}</div>
                                                 <div>
                                                     {{ os?.numTerminal }}
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('defeito') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.defeitoPOS?.nomeDefeitoPOS }}
 
                                                 </div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('tipo de comunicacao') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.tipoComunicacaoTela.toString() }}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('versao') }}</div>
                                                 <div>
                                                     {{ os?.numAgenciaNI }}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('data-autenticacao') }}</div>
                                                 <div *ngIf="os?.chamado?.chamadoDadosAdicionais?.autenticacao">
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.autenticacao | date:'dd/MM/yyyy HH:mm' }}
@@ -459,25 +456,25 @@
                                                     {{ 'Não Informado'}}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('simcard') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.simCard || 'Não Informado' }}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('operadora telefonia') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.operadoraTelefonia?.nomeOperadoraTelefonia }}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('ddd') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.ddd || 'Não Informado' }}
                                                 </div>
                                             </div>                                                                                                                         
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">{{ t('numero') }}</div>
                                                 <div>
                                                     {{ os?.chamado?.chamadoDadosAdicionais?.numero || 'Não Informado' }}
@@ -490,7 +487,7 @@
                                         </div>
 
                                         <div class="flex mt-2 border-t">
-                                            <div class="py-3">
+                                            <div class="py-1">
                                                 <ng-container>
                                                     <div>
                                                         <span>Logradouro:</span>
@@ -546,12 +543,12 @@
                                     </div>
 
                                     <div class="flex flex-col mt-4 divide-y font-medium">
-                                        <div class="flex items-center justify-between py-3">
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Data</div>
                                             <div>{{ agendamento?.dataAgendamento | date:'dd/MM/yyyy HH:mm' }}</div>
                                         </div>
 
-                                        <div class="flex items-center justify-between py-3">
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Usuário</div>
                                             <div>{{ agendamento?.codUsuarioAgendamento }}</div>
                                         </div>
@@ -585,7 +582,7 @@
                             </ng-template>
                         </mat-tab>
 
-                        <!-- ATUALIZACOES -->
+                        <!-- LOGS -->
                         <mat-tab [disabled]="!historico?.length">
                             <ng-template matTabLabel>
                                 <span [class.opacity-50]="!historico?.length">
@@ -712,6 +709,7 @@
                                     *ngFor="let r of os.relatoriosAtendimento; let i=index;">
                                     <div class="flex items-center justify-between mt-5">
                                         <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
+                                        
                                         <div>
                                             <button mat-icon-button
                                                 [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
@@ -721,40 +719,49 @@
                                             </button>
                                         </div>
                                     </div>
+
                                     <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                                        <div class="flex items-center justify-between py-3">
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Número</div>
                                             <div>{{ r?.numRAT }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Técnico</div>
                                             <div>{{ r?.tecnico?.nome | titlecase }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Status</div>
                                             <div> {{ r?.statusServico?.nomeStatusServico || 'Não Informado'}} </div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Solicitação</div>
                                             <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Horas Gastas</div>
+
                                             <div>
                                                 {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não Informado' }}
                                             </div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Horário atendimento</div>
                                             <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não Informado' }} - {{ r?.dataHoraSolucao ?
                                                 (r?.dataHoraSolucao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Intervalo</div>
                                             <div> {{ r?.horarioInicioIntervalo ? (r?.horarioInicioIntervalo) : 'Não Informado' }} - {{ r?.horarioTerminoIntervalo ?
                                                 (r?.horarioTerminoIntervalo) : 'Não Informado' }}</div>
                                         </div>
-                                        <div class="flex items-center justify-between py-3">
+
+                                        <div class="flex items-center justify-between py-1">
                                             <div class="text-secondary">Acompanhante</div>
                                             <div> {{ r?.nomeAcompanhante || 'Não Informado' }} </div>
                                         </div>
@@ -763,8 +770,9 @@
                                     <div class="flex items-center justify-between mt-8">
                                         <div class="text-lg font-medium">Observação</div>
                                     </div>
+
                                     <div class="flex mt-2 border-t">
-                                        <div class="py-3">
+                                        <div class="py-1">
                                             <ng-container>
                                                 <div class="italic text-secondary"> {{ r.obsRAT || 'Não Informado' }}
                                                 </div>
@@ -775,28 +783,33 @@
                                     <div class="flex items-center justify-between mt-8">
                                         <div class="text-lg font-medium">Solução</div>
                                     </div>
+
                                     <div class="flex mt-2 border-t">
-                                        <div class="py-3">
+                                        <div class="py-1">
                                             <ng-container>
                                                 <div class="italic text-secondary"> {{ r.relatoSolucao || 'Não Informado' }}
                                                 </div>
                                             </ng-container>
                                         </div>
-                                    </div>                                    
+                                    </div> 
+
                                     <div class="flex items-center justify-between mt-8">
                                         <div class="text-lg font-medium">Detalhes</div>
                                     </div>
+
                                     <div *ngFor="let r of let detalhe of r.relatorioAtendimentoDetalhes; let i=index;">
                                         <div class="flex flex-col items-start mt-2">
                                             <div class="text-lg font-medium">{{i+1}}&ordm; Detalhe</div>
                                         </div>
+
                                         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Serviço</div>
                                                 <div>{{ detalhe?.tipoServico?.codETipoServico }} -
                                                     {{ detalhe?.tipoServico?.nomeServico }}</div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Causa</div>
                                                 <div>
                                                     {{ detalhe?.causa?.codECausa }} -
@@ -804,34 +817,36 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex items-center justify-between py-3">
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Defeito</div>
                                                 <div> {{ detalhe?.defeito?.codEDefeito }} -
                                                     {{ detalhe?.defeito?.nomeDefeito | titlecase }}</div>
                                             </div>
-                                            <div class="flex items-center justify-between py-3">
+
+                                            <div class="flex items-center justify-between py-1">
                                                 <div class="text-secondary">Ação</div>
                                                 <div>{{ detalhe?.acao?.codEAcao }} -
                                                     {{ detalhe?.acao?.nomeAcao | titlecase }}</div>
                                             </div>
                                         </div>
-                                        <div class="mb-8" *ngIf="detalhe?.relatorioAtendimentoDetalhePecas?.length">
+                                        <div class="mb-8 text-sm" *ngIf="detalhe?.relatorioAtendimentoDetalhePecas?.length">
                                             <div class="flex items-center justify-between mt-8">
                                                 <div class="text-lg font-medium">Peças</div>
                                             </div>
+
                                             <div class="mt-4 border-b font-medium grid grid-flow-row grid-cols-8 p-1">
                                                 <div class="col-span-1">Cód.Magnus</div>
                                                 <div class="col-span-4">Nome</div>
-                                                <div class="col-span-1">Quantidade</div>
-                                                <div class="col-span-2">Status Peça</div>
+                                                <div class="col-span-1 text-center">Quantidade</div>
+                                                <div class="col-span-2 text-right">Status Peça</div>
                                             </div>
+
                                             <div class="text-secondary border-b grid grid-flow-row grid-cols-8 p-1"
-                                                *ngFor=" let peca of
-                                            detalhe.relatorioAtendimentoDetalhePecas;">
+                                                *ngFor=" let peca of detalhe.relatorioAtendimentoDetalhePecas;">
                                                 <div class="col-span-1">{{ peca?.peca?.codMagnus }}</div>
                                                 <div class="col-span-4">{{ peca?.peca?.nomePeca | uppercase }}</div>
-                                                <div class="col-span-1"> {{ peca?.qtdePecas }} </div>
-                                                <div class="col-span-2"> {{ peca?.descStatus || "PEÇA PENDENTE" | uppercase  }}</div>
+                                                <div class="col-span-1 text-center"> {{ peca?.qtdePecas }} </div>
+                                                <div class="col-span-2 text-right"> {{ peca?.descStatus || "PEÇA PENDENTE" | uppercase  }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -928,77 +943,77 @@
                                             </div>
     
                                             <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">RAT</div>
                                                     <div>{{ r.numRAT }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Técnico</div>
                                                     <div>{{ r.tecnico.nome }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Matrícula do Cliente</div>
                                                     <div>{{ laudo.matriculaCliente }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Matrícula do Cliente</div>
                                                     <div>{{ laudo.nomeCliente }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Data de Cadastro</div>
                                                     <div>{{ laudo.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Ativo</div>
                                                     <div>{{ laudo.indAtivo === 1 ? 'SIM' : 'NÂO'}}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Status</div>
                                                     <div>{{ laudo.laudoStatus.nomeStatus  }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Última Modificação</div>
                                                     <div>{{ laudo.codUsuarioManut }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Possui Ar Condicionado?</div>
                                                     <div>{{ laudo.indPossuiArCond === 1 ? 'SIM' : 'NÂO'}}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Temperatura</div>
                                                     <div>{{ laudo.temperatura }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Possui No-Break?</div>
                                                     <div>{{ laudo.indPossuiNobreak === 1 ? 'SIM' : 'NÂO'}}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Rede Estabilizada?</div>
                                                     <div>{{ laudo.indRedeEstabilizada === 1 ? 'SIM' : 'NÂO'}}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Tensão com Carga</div>
                                                     <div>{{ laudo.tensaoComCarga }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Tensão sem Carga</div>
                                                     <div>{{ laudo.tensaoSemCarga }}</div>
                                                 </div>
     
-                                                <div class="flex items-center justify-between py-3">
+                                                <div class="flex items-center justify-between py-1">
                                                     <div class="text-secondary">Tensão entre Terra e Neutro</div>
                                                     <div>{{ laudo.tensaoTerraENeutro }}</div>
                                                 </div>

@@ -58,6 +58,8 @@ export class DefaultComponent implements OnInit, OnDestroy
                 return perfil === PerfilEnum.ADM_DO_SISTEMA;
             case 'UTILIZACAO':
                 return perfil === PerfilEnum.ADM_DO_SISTEMA;
+            case 'LOGS':
+                return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
             case 'BOAS_VINDAS':
                 return perfil !== PerfilEnum.ADM_DO_SISTEMA && perfil !== PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
             default:

@@ -91,6 +91,8 @@ export class OrcamentoService
     }
 
     calculaTotalizacao(orcamento: Orcamento): Orcamento {  
+        debugger
+
         const valorMateriais = _.sumBy(orcamento?.materiais, (material) => { return material?.valorTotal; });
         const valorOutrosServicos = _.sumBy(orcamento?.outrosServicos, (servico) => { return servico?.valorTotal; });
         const valorKmDeslocamento = orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento;
@@ -103,10 +105,10 @@ export class OrcamentoService
         orcamento.valorTotalDesconto = valorDescontos + valorDescontosMateriais;
 
         if (orcamento.valorTotal)
-            orcamento.valorTotal = parseFloat(orcamento.valorTotal.toString());
+            orcamento.valorTotal = orcamento.valorTotal;
 
         if (orcamento.valorTotalDesconto)
-        orcamento.valorTotalDesconto = parseFloat(orcamento.valorTotalDesconto.toString());
+        orcamento.valorTotalDesconto = orcamento.valorTotalDesconto;
 
         if (isNaN(orcamento.valorTotal))
             orcamento.valorTotal = 0;

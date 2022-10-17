@@ -106,10 +106,13 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      if(!dp?.peca?.isValorAtualizado && !dp?.peca?.clientePeca)
+      const clientePeca = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
+        cp.codContrato == this.os?.equipamentoContrato?.codContrato);
+
+      if(!dp?.peca?.isValorAtualizado && !clientePeca)
         this.isValorPecasDesatualizado = true;
 
-      m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);
+      m.valorTotal = (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
       var materialJaEstaNaLista = _.find(materiais, { codigoPeca: m.codigoPeca });
 
       if (materialJaEstaNaLista) {
@@ -178,8 +181,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
 
     var deslocamento: OrcamentoDeslocamento = {
       codOrc: this.orcamento?.codOrc,
-      valorUnitarioKmRodado: contratoServicoKmRodado?.valor || 0,
-      valorHoraDeslocamento: contratoServicoHoraViagem?.valor || 0,
+      valorUnitarioKmRodado: contratoServicoKmRodado?.valor || 0.00,
+      valorHoraDeslocamento: contratoServicoHoraViagem?.valor || 0.00,
       latitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.latitude,
       longitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.longitude,
       latitudeDestino: this.os?.localAtendimento?.latitude,
@@ -190,16 +193,16 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       data: moment().format('yyyy-MM-DD HH:mm:ss')
     }
 
-    deslocamento.valorTotalKmRodado = deslocamento.quantidadeKm * deslocamento.valorUnitarioKmRodado;
-    deslocamento.quantidadeHoraCadaSessentaKm = +(deslocamento.quantidadeKm / 60.0).toFixed(2);
-    deslocamento.valorTotalKmDeslocamento = deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm;
+    deslocamento.valorTotalKmRodado = (deslocamento.quantidadeKm * deslocamento.valorUnitarioKmRodado);
+    deslocamento.quantidadeHoraCadaSessentaKm = (deslocamento.quantidadeKm / 60.0);
+    deslocamento.valorTotalKmDeslocamento = (deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm);
     this.orcamento.orcamentoDeslocamento = deslocamento;
   }
 
   async montaLocais(){
     const params: LocalEnvioNFFaturamentoVinculadoParameters = {
-      codContrato: this.os.codContrato,
-      codPosto: this.os.codPosto,
+      codContrato: this.os?.equipamentoContrato?.codContrato,
+      codPosto: this.os?.equipamentoContrato?.codPosto,
     };
 
     const data = await this._localEnvioNFFaturamentoVinculadoService
@@ -211,7 +214,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   private obterValorMaterial(peca: Peca) {
-    let valorPeca: number = 0;
+    let valorPeca: any = 0;
 
     if (peca?.indValorFixo === 1)
       valorPeca = peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;

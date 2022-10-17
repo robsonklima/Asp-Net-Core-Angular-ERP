@@ -8,14 +8,14 @@ export interface OrcamentoMaterial
     codigoMagnus: string;
     codigoPeca: string;
     descricao: string;
-    valorUnitario: number;
-    valorDesconto?: number;
-    valorTotal?: number;
+    valorUnitario: any;
+    valorDesconto?: any;
+    valorTotal?: any;
     quantidade: number;
     dataCadastro: string;
     usuarioCadastro: string;
     valorIpi: number;
-    valorUnitarioFinanceiro: number;
+    valorUnitarioFinanceiro: any;
     seqItemPedido?: number;
     peca?: Peca;
 }

@@ -72,8 +72,6 @@ export class ClientePecaListaComponent extends Filterable implements AfterViewIn
 		this.obterDados();
 	}
 
-	ngOnInit(): void { }
-
 	ngAfterViewInit(): void {
 		this.registerEmitters();
 		this.obterDados();
@@ -89,7 +87,7 @@ export class ClientePecaListaComponent extends Filterable implements AfterViewIn
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;
@@ -104,16 +102,15 @@ export class ClientePecaListaComponent extends Filterable implements AfterViewIn
 		this._cdr.detectChanges();
 	}
 
-	public async obterDados(filtro: string = '') {
-		this.isLoading = true;
-
+	public async obterDados(filter: string = '') {
+		this.isLoading = true;		
 		const params: ClientePecaParameters =
 		{
 			pageNumber: this.paginator?.pageIndex + 1,
 			sortActive: this.sort?.active,
 			sortDirection: this.sort?.direction || 'desc',
 			pageSize: this.paginator?.pageSize,
-			filter: filtro
+			filter: filter
 		}
 
 		const data: ClientePecaData = await this._clientePecaService.obterPorParametros({

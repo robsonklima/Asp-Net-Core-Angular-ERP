@@ -1,1 +1,73 @@
-<p>Módulo em desenvolvimento!</p>
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+    <div class="dark bg-card dark:border-b">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-6 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container *transloco="let t">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
+                                Painel de Controle
+                            </div>
+                        </ng-container>
+
+                        <div class="flex items-center">
+                            <div class="ml-0.5 leading-6 truncate text-secondary">Técnicos disponíveis, bancadas e peças aguardando reparo</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                        class="fuse-mat-button-rounded bg-accent-600"
+                        mat-flat-button
+                        [color]="'accent'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        <span class="ml-2">Mensagens</span>
+                    </button>
+                    
+                    <button
+                        class="fuse-mat-button-rounded"
+                        mat-flat-button
+                        [color]="'primary'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                        <span class="ml-2 pr-1">Configurações</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Project selector -->
+            <div class="flex items-center">
+                <div class="px-4 py-2 rounded-tl-xl overflow-hidden bg-hover">
+                    <div class="sm:text-lg leading-6 truncate">{{ visualizacao }}</div>
+                </div>
+                <div class="ml-px rounded-tr-xl bg-hover">
+                    <button
+                        [matMenuTriggerFor]="projectsMenu"
+                        mat-icon-button>
+                        <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
+                    </button>
+                    <mat-menu #projectsMenu="matMenu">
+                        <button mat-menu-item (click)="visualizacao='Técnicos Disponíveis'">
+                            Técnicos Disponíveis
+                        </button>
+
+                        <button mat-menu-item (click)="visualizacao='Itens Aguardando Reparo'">
+                            Itens Aguardando Reparo
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-painel-controle-tecnicos *ngIf="visualizacao=='Técnicos Disponíveis'"></app-painel-controle-tecnicos>
+    
+    <app-painel-controle-pecas *ngIf="visualizacao=='Itens Aguardando Reparo'"></app-painel-controle-pecas>
+</div>

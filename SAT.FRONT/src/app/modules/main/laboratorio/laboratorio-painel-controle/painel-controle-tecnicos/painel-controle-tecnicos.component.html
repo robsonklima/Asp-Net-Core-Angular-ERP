@@ -1,0 +1,129 @@
+<div class="flex flex-auto p-6 sm:p-10">
+    <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
+        <!-- Filters -->
+        <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
+            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
+                <mat-select
+                    [value]="'all'">
+                    <mat-option [value]="'all'">Todos</mat-option>
+
+                    <ng-container>
+                        <mat-option>Titulo</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                [floatLabel]="'always'">
+                <mat-icon
+                    matPrefix
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+
+                <input
+                    placeholder="Buscar por bancada ou técnico"
+                    matInput
+                    #query>
+            </mat-form-field>
+
+            <mat-slide-toggle
+                class="mt-8 sm:mt-0 sm:ml-auto"
+                [color]="'primary'">
+                Somente Atrasos
+            </mat-slide-toggle>
+        </div>
+        <!-- Courses -->
+        <ng-container>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
+                <ng-container>
+                    <!-- Course -->
+                    <div class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
+                        <div class="flex flex-col p-6">
+                            <div class="flex items-center justify-between">
+                                <!-- Course category -->
+                                <ng-container>
+                                    <div class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-blue-800 bg-blue-100">
+                                        Status
+                                    </div>
+                                </ng-container>
+
+                                <!-- Completed at least once -->
+                                <div class="flex items-center">
+                                    <ng-container>
+                                        <mat-icon
+                                            class="icon-size-5 text-green-600"
+                                            [svgIcon]="'heroicons_solid:badge-check'"
+                                            [matTooltip]="'You completed this course at least once'"></mat-icon>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <!-- Course title & description -->
+                            <div class="mt-4 text-lg font-medium">BRYAN SILVA DE FRAGA</div>
+                            <div class="mt-0.5 line-clamp-2 text-secondary">Bancada 3</div>
+                            <div class="w-12 h-1 my-6 border-t-2"></div>
+
+                            <!-- Course time -->
+                            <div class="flex items-center leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                <div class="ml-1.5">12 minutos</div>
+                            </div>
+                            
+                            <!-- Course completion -->
+                            <div class="flex items-center mt-2 leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+
+                                <ng-container>
+                                    <div class="ml-1.5">
+                                        <span>Texto</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="flex flex-col w-full mt-auto">
+                            <!-- Course progress -->
+                            <div class="relative h-0.5">
+                                <div class="z-10 absolute inset-x-0 h-6 -mt-3"></div>
+
+                                <mat-progress-bar
+                                    class="h-0.5"
+                                    [value]="(100 * 2) / 4"></mat-progress-bar>
+                            </div>
+
+                            <!-- Course launch button -->
+                            <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
+                                <button
+                                    mat-stroked-button>
+                                    <span class="inline-flex items-center">
+                                        <ng-container>
+                                            <span>Continue</span>
+                                        </ng-container>
+
+                                        <mat-icon
+                                            class="ml-1.5 icon-size-5"
+                                            [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+
+        <!-- No courses -->
+        <ng-template>
+            <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                <mat-icon
+                    class="icon-size-20"
+                    [svgIcon]="'iconsmind:file_search'"></mat-icon>
+                <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">No courses found!</div>
+            </div>
+        </ng-template>
+    </div>
+</div>

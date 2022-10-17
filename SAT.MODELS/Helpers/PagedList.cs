@@ -19,7 +19,7 @@ namespace SAT.MODELS.Helpers
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            AddRange(comparer != null ? items.Distinct(comparer) : items);
+            AddRange(comparer != null ? items?.Distinct(comparer) : items);
         }
 
         public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize, IEqualityComparer<T> comparer = null)

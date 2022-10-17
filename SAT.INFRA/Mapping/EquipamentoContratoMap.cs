@@ -8,9 +8,7 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<EquipamentoContrato> builder)
         {
-            builder
-                .ToTable("EquipamentoContrato");
-
+            builder.ToTable("EquipamentoContrato");
             builder.Ignore(p => p.Mtbf);
 
             builder
@@ -37,14 +35,14 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(prop => prop.GrupoEquipamento)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodGrupoEquip)
-                .HasPrincipalKey(prop => prop.CodGrupoEquip);
+                .HasForeignKey(prop => new { prop.CodTipoEquip, prop.CodGrupoEquip })
+                .HasPrincipalKey(prop => new { prop.CodTipoEquip, prop.CodGrupoEquip });
 
             builder
                 .HasOne(prop => prop.Equipamento)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodEquip)
-                .HasPrincipalKey(prop => prop.CodEquip);
+                .HasForeignKey(prop => new { prop.CodEquip, prop.CodTipoEquip, prop.CodGrupoEquip })
+                .HasPrincipalKey(prop => new { prop.CodEquip, prop.CodTipoEquip, prop.CodGrupoEquip });
 
             builder
                 .HasOne(prop => prop.AcordoNivelServico)

@@ -40,6 +40,7 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { laboratorioRoutes } from './laboratorio.routing';
 import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
 import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
+import { PainelControleTecnicosItensComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos-itens/painel-controle-tecnicos-itens.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -52,7 +53,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
   declarations: [
     LaboratorioPainelControleComponent,
     PainelControlePecasComponent,
-    PainelControleTecnicosComponent
+    PainelControleTecnicosComponent,
+    PainelControleTecnicosItensComponent
   ],
   imports: [
     CommonModule,

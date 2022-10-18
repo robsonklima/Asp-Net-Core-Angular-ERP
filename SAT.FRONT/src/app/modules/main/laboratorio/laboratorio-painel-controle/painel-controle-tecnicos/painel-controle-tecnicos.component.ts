@@ -5,6 +5,8 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { fromEvent, interval, Subject } from 'rxjs';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { PainelControleTecnicosItensComponent } from './painel-controle-tecnicos-itens/painel-controle-tecnicos-itens.component';
 
 @Component({
   selector: 'app-painel-controle-tecnicos',
@@ -20,6 +22,7 @@ export class PainelControleTecnicosComponent implements AfterViewInit {
 
   constructor(
     private _bancadaLaboratorioService: BancadaLaboratorioService,
+    public dialog: MatDialog,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -83,6 +86,14 @@ export class PainelControleTecnicosComponent implements AfterViewInit {
     const tempoReparoPeca = moment.duration(tecnico.tempoReparoPeca).asMinutes();
     const percentualEvolucao = (tempoEmReparo / tempoReparoPeca * 100).toFixed(2)
     return +percentualEvolucao <= 100 ? percentualEvolucao : 100;
+  }
+
+  public abrirItens(tecBancada: ViewLaboratorioTecnicoBancada) {
+    this.dialog.open(PainelControleTecnicosItensComponent, {
+      data: {
+        tecnicoBancada: tecBancada,
+      },
+    });
   }
 
   ngOnDestroy() {

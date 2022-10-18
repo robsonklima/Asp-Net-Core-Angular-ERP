@@ -23,9 +23,9 @@
         </div>
         
         <ng-container>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 sm:mt-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 sm:mt-10" cdkScrollable>
                 <ng-container>
-                    <div *ngFor="let tecnico of tecnicosFiltered" class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
+                    <div *ngFor="let tecnico of tecnicosFiltered" class="flex flex-col h-112 shadow rounded-2xl overflow-hidden bg-card">
                         <div class="flex flex-col p-6">
                             <div class="flex items-center justify-between">
                                 <ng-container>
@@ -72,30 +72,30 @@
                                 <mat-icon
                                     class="icon-size-5 text-hint"
                                     [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                <div class="ml-1.5">{{ tecnico.tempoEmReparo }} em reparo</div>
+                                <div class="ml-2.5">{{ tecnico.tempoEmReparo }} em reparo</div>
                             </div>
 
                             <div *ngIf="tecnico.tempoReparoPeca != '00:00'" class="flex items-center leading-5 text-md text-secondary">
                                 <mat-icon
                                     class="icon-size-5 text-hint"
                                     [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                <div class="ml-1.5">{{ tecnico.tempoReparoPeca }} estimado</div>
+                                <div class="ml-2.5">{{ tecnico.tempoReparoPeca }} estimado</div>
                             </div>
 
                             <div *ngIf="tecnico.tempoOcioso" class="flex items-center leading-5 text-md text-red-500">
                                 <mat-icon
                                     class="icon-size-5 text-red-500"
                                     [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                <div class="ml-1.5">{{ tecnico.tempoOcioso }} ocioso</div>
+                                <div class="ml-2.5">{{ tecnico.tempoOcioso }} ocioso</div>
                             </div>
-                            
+
                             <div *ngIf="tecnico.emReparo" class="flex items-center mt-2 leading-5 text-md text-secondary">
-                                <mat-icon
-                                    class="icon-size-5 text-hint"
-                                    [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                                <div class="text-3xl font-semibold pl-1">
+                                    {{ tecnico.qtdEmReparo }}
+                                </div>
 
                                 <ng-container>
-                                    <div class="ml-1.5">
+                                    <div class="ml-3.5">
                                         <span>{{ tecnico.emReparo }}</span>
                                     </div>
                                 </ng-container>
@@ -112,17 +112,12 @@
                                     [value]="obterEvolucaoReparo(tecnico)"></mat-progress-bar>
                             </div>
 
-                            <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
-                                <button
-                                    mat-stroked-button>
+                            <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent justify-between">
+                                <button mat-icon-button (click)="abrirItens(tecnico)">
                                     <span class="inline-flex items-center">
-                                        <ng-container>
-                                            <span>Detalhes</span>
-                                        </ng-container>
-
-                                        <mat-icon
-                                            class="ml-1.5 icon-size-5"
-                                            [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                        </svg>
                                     </span>
                                 </button>
                             </div>

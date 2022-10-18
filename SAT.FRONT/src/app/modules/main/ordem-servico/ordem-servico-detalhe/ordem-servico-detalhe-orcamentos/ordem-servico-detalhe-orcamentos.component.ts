@@ -44,7 +44,7 @@ export class OrdemServicoDetalheOrcamentosComponent implements OnInit {
 
   solicitarCotacao() {
     this._dialog.open(OrcamentoCotacaoDialogComponent, {
-      width: '600px',
+      width: '800px',
       data: {
         os: this.os
       }

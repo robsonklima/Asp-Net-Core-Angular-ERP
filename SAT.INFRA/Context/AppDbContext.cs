@@ -194,6 +194,11 @@ namespace SAT.INFRA.Context
         public DbSet<ConferenciaParticipante> ConferenciaParticipante { get; set; }
         public DbSet<ArquivoBanrisul> ArquivoBanrisul { get; set; }
         public DbSet<ProtocoloSTN> ProtocoloSTN { get; set; }
+        public DbSet<Integracao> Integracao { get; set; }
+        public DbSet<ORItem> ORItem { get; set; }
+        public DbSet<ORStatus> ORStatus { get; set; }
+        public DbSet<ORTipo> ORTipo { get; set; }
+        public DbSet<BancadaLaboratorio> BancadaLaboratorio { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -249,6 +254,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
         public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
+        public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -414,6 +420,12 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OrdemServicoSTNOrigem>(new OrdemServicoSTNOrigemMap().Configure);
             modelBuilder.Entity<ProtocoloSTN>(new ProtocoloSTNMap().Configure);
             modelBuilder.Entity<Despesa>(new DespesaMap().Configure);
+            modelBuilder.Entity<Integracao>(new IntegracaoMap().Configure);
+            modelBuilder.Entity<ViewLaboratorioTecnicoBancada>(new ViewLaboratorioTecnicoBancadaMap().Configure);
+            modelBuilder.Entity<ORItem>(new ORItemMap().Configure);
+            modelBuilder.Entity<ORStatus>(new ORStatusMap().Configure);
+            modelBuilder.Entity<ORTipo>(new ORTipoMap().Configure);
+            modelBuilder.Entity<BancadaLaboratorio>(new BancadaLaboratorioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

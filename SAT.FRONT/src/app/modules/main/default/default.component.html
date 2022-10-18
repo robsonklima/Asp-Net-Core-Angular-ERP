@@ -50,7 +50,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab label="Logs">
+                <mat-tab label="Logs" *ngIf="verificarPermissaoAcessoSlide('LOGS')">
                     <ng-template matTabContent>
                         <app-log-detalhe></app-log-detalhe>
                     </ng-template>

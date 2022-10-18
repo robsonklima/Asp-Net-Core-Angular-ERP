@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './laboratorio-painel-controle.component.html'
 })
 export class LaboratorioPainelControleComponent implements OnInit {
+  visualizacao: string = 'Técnicos Disponíveis';
+
   constructor() { }
 
   ngOnInit(): void {

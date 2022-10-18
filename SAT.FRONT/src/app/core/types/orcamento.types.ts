@@ -52,8 +52,8 @@ export interface Orcamento
     numero?: string;
     data?: string;
     valorIss: number;
-    valorTotal?: number;
-    valorTotalDesconto?: number;
+    valorTotal?: any;
+    valorTotalDesconto?: any;
     dataCadastro?: string;
     usuarioCadastro?: string;
     dataEnvioAprovacao?: string;
@@ -179,12 +179,12 @@ export interface OrcamentoDeslocamento
 {
     codOrcDeslocamento?: number;
     codOrc: number;
-    quantidadeHoraCadaSessentaKm?: number;
+    quantidadeHoraCadaSessentaKm?: any;
     valorUnitarioKmRodado: number;
     quantidadeKm?: number;
-    valorTotalKmRodado?: number;
-    valorTotalKmDeslocamento?: number;
-    valorHoraDeslocamento: number;
+    valorTotalKmRodado?: any;
+    valorTotalKmDeslocamento?: any;
+    valorHoraDeslocamento: any;
     latitudeOrigem: string;
     longitudeOrigem: string;
     latitudeDestino: string;

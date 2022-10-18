@@ -38,6 +38,8 @@ import { LaboratorioPainelControleComponent } from './laboratorio-painel-control
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { laboratorioRoutes } from './laboratorio.routing';
+import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
+import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -48,10 +50,13 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
 
 @NgModule({
   declarations: [
-    LaboratorioPainelControleComponent
+    LaboratorioPainelControleComponent,
+    PainelControlePecasComponent,
+    PainelControleTecnicosComponent
   ],
   imports: [
     CommonModule,
+        CommonModule,
         RouterModule.forChild(laboratorioRoutes),
         NgxMaskModule.forRoot(maskConfigFunction),
         MatButtonToggleModule,

@@ -102,23 +102,25 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(e => e.TipoContrato)
                     .Include(e => e.Equipamento)
                         .ThenInclude(e => e.Equivalencia)
-                    .Include(e => e.ContratoEquipamento)
+                    .Include(e => e.ContratoEquipamento!).DefaultIfEmpty()
                     .Include(e => e.AcordoNivelServico)
-                    .Include(e => e.GrupoEquipamento)
                     .Include(e => e.RegiaoAutorizada)
                         .ThenInclude(e => e.Filial)
                     .Include(e => e.RegiaoAutorizada)
                         .ThenInclude(e => e.Autorizada)
                     .Include(e => e.RegiaoAutorizada)
                         .ThenInclude(e => e.Regiao)
-                    .Include(e => e.TipoEquipamento)
+                    .Include(e => e.GrupoEquipamento!)
+                    .Include(e => e.TipoEquipamento!)
                     .AsQueryable();
 
                 if (!string.IsNullOrWhiteSpace(parameters.Filter))
+                {
                     equips = equips.Where(e =>
                         e.NumSerie.Contains(parameters.Filter) ||
                         e.LocalAtendimento.NomeLocal.Contains(parameters.Filter) ||
                         e.AtmId.Contains(parameters.Filter));
+                }
 
                 if (parameters.CodEquipContrato.HasValue)
                     equips = equips.Where(e => e.CodEquipContrato == parameters.CodEquipContrato);
@@ -213,6 +215,11 @@ namespace SAT.INFRA.Repository
                     equips = equips.Where(e => codigos.Any(p => p == e.CodEquip.ToString()));
                 }
 
+                if (!string.IsNullOrEmpty(parameters.NomeLocal))
+                {
+                    equips = equips.Where(e => e.LocalAtendimento.NomeLocal.Contains(parameters.NomeLocal));
+                }
+
                 if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                     equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
@@ -220,7 +227,7 @@ namespace SAT.INFRA.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message, ex.InnerException);
             }
         }
     }

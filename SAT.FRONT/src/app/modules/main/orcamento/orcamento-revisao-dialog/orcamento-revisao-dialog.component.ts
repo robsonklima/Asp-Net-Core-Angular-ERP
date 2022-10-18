@@ -65,7 +65,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   private montaOrcamento() {
     this.orcamento = {
       codigoOrdemServico: this.os?.codOS,
-      codigoContrato: this.os?.codContrato,
+      codigoContrato: this.os?.equipamentoContrato?.codContrato,
       codigoMotivo: 1,
       codigoStatus: 6,
       codigoPosto: this.os?.codPosto,
@@ -106,10 +106,13 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      if(!dp?.peca?.isValorAtualizado)
+      const clientePeca = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
+        cp.codContrato == this.os?.equipamentoContrato?.codContrato);
+
+      if(!dp?.peca?.isValorAtualizado && !clientePeca)
         this.isValorPecasDesatualizado = true;
 
-      m.valorTotal = +((m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0)).toFixed(2);
+      m.valorTotal = (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
       var materialJaEstaNaLista = _.find(materiais, { codigoPeca: m.codigoPeca });
 
       if (materialJaEstaNaLista) {
@@ -178,28 +181,28 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
 
     var deslocamento: OrcamentoDeslocamento = {
       codOrc: this.orcamento?.codOrc,
-      valorUnitarioKmRodado: contratoServicoKmRodado?.valor || 0,
-      valorHoraDeslocamento: contratoServicoHoraViagem?.valor || 0,
-      latitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.latitude,
-      longitudeOrigem: this.os?.regiaoAutorizada?.autorizada?.longitude,
-      latitudeDestino: this.os?.localAtendimento?.latitude,
-      longitudeDestino: this.os?.localAtendimento?.longitude,
+      valorUnitarioKmRodado: contratoServicoKmRodado?.valor || 0.00,
+      valorHoraDeslocamento: contratoServicoHoraViagem?.valor || 0.00,
+      latitudeOrigem: (this.os?.regiaoAutorizada?.autorizada?.latitude).replace(",","."),
+      longitudeOrigem: (this.os?.regiaoAutorizada?.autorizada?.longitude).replace(",","."),
+      latitudeDestino: (this.os?.localAtendimento?.latitude).replace(",","."),
+      longitudeDestino: (this.os?.localAtendimento?.longitude).replace(",","."),
       quantidadeKm: this.os?.localAtendimento?.distanciaKmPatRes * 2,
       usuarioCadastro: this.userSession?.usuario.codUsuario,
       dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       data: moment().format('yyyy-MM-DD HH:mm:ss')
     }
 
-    deslocamento.valorTotalKmRodado = deslocamento.quantidadeKm * deslocamento.valorUnitarioKmRodado;
-    deslocamento.quantidadeHoraCadaSessentaKm = +(deslocamento.quantidadeKm / 60.0).toFixed(2);
-    deslocamento.valorTotalKmDeslocamento = deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm;
+    deslocamento.valorTotalKmRodado = (deslocamento.quantidadeKm * deslocamento.valorUnitarioKmRodado);
+    deslocamento.quantidadeHoraCadaSessentaKm = (deslocamento.quantidadeKm / 60.0);
+    deslocamento.valorTotalKmDeslocamento = (deslocamento.valorHoraDeslocamento * deslocamento.quantidadeHoraCadaSessentaKm);
     this.orcamento.orcamentoDeslocamento = deslocamento;
   }
 
   async montaLocais(){
     const params: LocalEnvioNFFaturamentoVinculadoParameters = {
-      codContrato: this.os.codContrato,
-      codPosto: this.os.codPosto,
+      codContrato: this.os?.equipamentoContrato?.codContrato,
+      codPosto: this.os?.equipamentoContrato?.codPosto,
     };
 
     const data = await this._localEnvioNFFaturamentoVinculadoService
@@ -211,12 +214,26 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   private obterValorMaterial(peca: Peca) {
-    if (peca?.indValorFixo === 1)
-      return peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
+    let valorPeca: any = 0;
 
-    return this.orcamento?.isMaterialEspecifico === 1 ?
-      peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato)?.valorUnitario :
-      ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
+    if (peca?.indValorFixo === 1)
+      valorPeca = peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
+
+    if (this.orcamento?.isMaterialEspecifico === 1) {
+      const clientePeca = peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato);
+      
+      if (!clientePeca) {
+        this._snack.exibirToast('Este orçamento exige material específico e não foi configurado o valor da peça', 'error');
+      
+        valorPeca = 0;
+      } else {
+        valorPeca = clientePeca?.valorUnitario;
+      }
+    } else {
+      valorPeca = ((peca?.valPeca + (peca?.valPeca * (peca?.valIPI / 100.0))) * 1.025) / appConfig.parametroReajusteValorOrcamento;
+    }
+
+    return valorPeca;
   }
 
   private obterValorUnitarioFinanceiroMaterial(peca: Peca) {

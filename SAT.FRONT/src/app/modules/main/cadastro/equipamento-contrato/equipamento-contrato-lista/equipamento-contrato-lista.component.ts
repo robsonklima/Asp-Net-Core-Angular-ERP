@@ -76,7 +76,6 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 		this.obterDados();
 	}
 
-
 	ngAfterViewInit() {
 		interval(3 * 60 * 1000)
 			.pipe(

@@ -23,5 +23,6 @@ namespace SAT.MODELS.Entities.Params
         public string CodEquipamentos { get; set; }
         public string NumSerie { get; set; }
         public string AtmId { get; set; }
+        public string NomeLocal { get; set; }
     }
 }

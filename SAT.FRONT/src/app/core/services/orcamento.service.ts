@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoLista, ViewOrcamentoListaData } from '../types/orcamento.types';
-import Enumerable from 'linq';
+import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoListaData } from '../types/orcamento.types';
 import _ from 'lodash';
 
 @Injectable({
@@ -103,10 +102,10 @@ export class OrcamentoService
         orcamento.valorTotalDesconto = valorDescontos + valorDescontosMateriais;
 
         if (orcamento.valorTotal)
-            orcamento.valorTotal = parseFloat(orcamento.valorTotal.toString());
+            orcamento.valorTotal = orcamento.valorTotal;
 
         if (orcamento.valorTotalDesconto)
-        orcamento.valorTotalDesconto = parseFloat(orcamento.valorTotalDesconto.toString());
+        orcamento.valorTotalDesconto = orcamento.valorTotalDesconto;
 
         if (isNaN(orcamento.valorTotal))
             orcamento.valorTotal = 0;

@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using SAT.INFRA.Interfaces;
 using SAT.INFRA.Repository;
 using SAT.SERVICES.Interfaces;
@@ -12,6 +11,7 @@ public class ConfigurationIOC
     public static void Load(ContainerBuilder builder)
     {
         #region Repositories
+
         builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
@@ -162,10 +162,14 @@ public class ConfigurationIOC
         builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>();
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
         builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
-        builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
+        builder.RegisterType<IntegracaoRepository>().As<IIntegracaoRepository>();
+        builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
+        builder.RegisterType<BancadaLaboratorioRepository>().As<IBancadaLaboratorioRepository>();
+        
         #endregion
 
         #region Services
+
         builder.RegisterType<ImportacaoService>().As<IImportacaoService>();
         builder.RegisterType<ImportacaoConfiguracaoService>().As<IImportacaoConfiguracaoService>();
         builder.RegisterType<ImportacaoTipoService>().As<IImportacaoTipoService>();
@@ -314,6 +318,11 @@ public class ConfigurationIOC
         builder.RegisterType<ProtocoloSTNService>().As<IProtocoloSTNService>();
         builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         builder.RegisterType<NLogService>().As<INLogService>();
+        builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
+        builder.RegisterType<IntegracaoService>().As<IIntegracaoService>();
+        builder.RegisterType<ORItemService>().As<IORItemService>();
+        builder.RegisterType<BancadaLaboratorioService>().As<IBancadaLaboratorioService>();
+
         #endregion
 
         #region Utils Services

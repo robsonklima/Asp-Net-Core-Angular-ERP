@@ -250,6 +250,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
         public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
+        public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -416,6 +417,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ProtocoloSTN>(new ProtocoloSTNMap().Configure);
             modelBuilder.Entity<Despesa>(new DespesaMap().Configure);
             modelBuilder.Entity<Integracao>(new IntegracaoMap().Configure);
+            modelBuilder.Entity<ViewLaboratorioTecnicoBancada>(new ViewLaboratorioTecnicoBancadaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

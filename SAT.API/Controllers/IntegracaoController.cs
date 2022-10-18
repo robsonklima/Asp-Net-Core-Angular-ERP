@@ -38,7 +38,7 @@ namespace SAT.API.Controllers
 
         [HttpGet("Equipamentos")]
         [AllowAnonymous]
-        public IntegracaoViewModel ObterEquipamentos([FromQuery] IntegracaoParameters parameters)
+        public List<IntegracaoEquipamentoContrato> ObterEquipamentos([FromQuery] IntegracaoParameters parameters)
         {
             return _integracaoService.ConsultarEquipamentos(parameters);
         }

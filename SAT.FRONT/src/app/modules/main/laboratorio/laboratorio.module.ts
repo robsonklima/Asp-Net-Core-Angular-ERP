@@ -56,6 +56,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
   ],
   imports: [
     CommonModule,
+        CommonModule,
         RouterModule.forChild(laboratorioRoutes),
         NgxMaskModule.forRoot(maskConfigFunction),
         MatButtonToggleModule,

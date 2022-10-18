@@ -1,20 +1,8 @@
 <div class="flex flex-auto p-6 sm:p-10">
-    <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
-        <!-- Filters -->
+    <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-7xl mx-auto">
         <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
-                <mat-select
-                    [value]="'all'">
-                    <mat-option [value]="'all'">Todos</mat-option>
-
-                    <ng-container>
-                        <mat-option>Titulo</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-
             <mat-form-field
-                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0"
                 [floatLabel]="'always'">
                 <mat-icon
                     matPrefix
@@ -23,85 +11,113 @@
 
                 <input
                     placeholder="Buscar por bancada ou técnico"
-                    matInput
-                    #query>
+                    #searchInputControl matInput>
             </mat-form-field>
 
             <mat-slide-toggle
                 class="mt-8 sm:mt-0 sm:ml-auto"
-                [color]="'primary'">
+                [color]="'primary'"
+                (change)="onToggleAtraso($event)">
                 Somente Atrasos
             </mat-slide-toggle>
         </div>
-        <!-- Courses -->
+        
         <ng-container>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 sm:mt-10">
                 <ng-container>
-                    <!-- Course -->
-                    <div class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
+                    <div *ngFor="let tecnico of tecnicosFiltered" class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
                         <div class="flex flex-col p-6">
                             <div class="flex items-center justify-between">
-                                <!-- Course category -->
                                 <ng-container>
-                                    <div class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-blue-800 bg-blue-100">
-                                        Status
+                                    <div *ngIf="tecnico.statusReparo == 'NO_PRAZO'" 
+                                        class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100">
+                                        No Prazo
+                                    </div>
+
+                                    <div *ngIf="tecnico.statusReparo == 'ATRASADO'"
+                                        class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-red-800 bg-red-100">
+                                        Atrasado
+                                    </div>
+
+                                    <div *ngIf="tecnico.tempoOcioso"
+                                        class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-gray-800 bg-gray-100">
+                                        Ocioso
                                     </div>
                                 </ng-container>
 
-                                <!-- Completed at least once -->
                                 <div class="flex items-center">
                                     <ng-container>
-                                        <mat-icon
-                                            class="icon-size-5 text-green-600"
-                                            [svgIcon]="'heroicons_solid:badge-check'"
-                                            [matTooltip]="'You completed this course at least once'"></mat-icon>
+                                        <svg *ngIf="tecnico.statusReparo == 'NO_PRAZO' && !tecnico.tempoOcioso" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
+                                        </svg>
+                                          
+                                        <svg *ngIf="tecnico.statusReparo == 'ATRASADO'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384" />
+                                        </svg>
                                     </ng-container>
                                 </div>
                             </div>
-                            <!-- Course title & description -->
-                            <div class="mt-4 text-lg font-medium">BRYAN SILVA DE FRAGA</div>
-                            <div class="mt-0.5 line-clamp-2 text-secondary">Bancada 3</div>
+
+                            <div class="mt-4 text-lg font-medium truncate">
+                                {{ tecnico.nome }}
+                            </div>
+
+                            <div class="mt-0.5 line-clamp-2 text-secondary">
+                                Bancada <span class="text-3xl">{{ tecnico.numBancada }}</span>
+                            </div>
+
                             <div class="w-12 h-1 my-6 border-t-2"></div>
 
-                            <!-- Course time -->
-                            <div class="flex items-center leading-5 text-md text-secondary">
+                            <div *ngIf="tecnico.tempoEmReparo" class="flex items-center leading-5 text-md text-secondary">
                                 <mat-icon
                                     class="icon-size-5 text-hint"
                                     [svgIcon]="'heroicons_solid:clock'"></mat-icon>
-                                <div class="ml-1.5">12 minutos</div>
+                                <div class="ml-1.5">{{ tecnico.tempoEmReparo }} em reparo</div>
+                            </div>
+
+                            <div *ngIf="tecnico.tempoReparoPeca != '00:00'" class="flex items-center leading-5 text-md text-secondary">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                <div class="ml-1.5">{{ tecnico.tempoReparoPeca }} estimado</div>
+                            </div>
+
+                            <div *ngIf="tecnico.tempoOcioso" class="flex items-center leading-5 text-md text-red-500">
+                                <mat-icon
+                                    class="icon-size-5 text-red-500"
+                                    [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                <div class="ml-1.5">{{ tecnico.tempoOcioso }} ocioso</div>
                             </div>
                             
-                            <!-- Course completion -->
-                            <div class="flex items-center mt-2 leading-5 text-md text-secondary">
+                            <div *ngIf="tecnico.emReparo" class="flex items-center mt-2 leading-5 text-md text-secondary">
                                 <mat-icon
                                     class="icon-size-5 text-hint"
                                     [svgIcon]="'heroicons_solid:cog'"></mat-icon>
 
                                 <ng-container>
                                     <div class="ml-1.5">
-                                        <span>Texto</span>
+                                        <span>{{ tecnico.emReparo }}</span>
                                     </div>
                                 </ng-container>
                             </div>
                         </div>
-                        <!-- Footer -->
+                        
                         <div class="flex flex-col w-full mt-auto">
-                            <!-- Course progress -->
-                            <div class="relative h-0.5">
+                            <div class="relative h-2">
                                 <div class="z-10 absolute inset-x-0 h-6 -mt-3"></div>
 
                                 <mat-progress-bar
-                                    class="h-0.5"
-                                    [value]="(100 * 2) / 4"></mat-progress-bar>
+                                    class="h-2"
+                                    [color]="'warn'"
+                                    [value]="obterEvolucaoReparo(tecnico)"></mat-progress-bar>
                             </div>
 
-                            <!-- Course launch button -->
                             <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
                                 <button
                                     mat-stroked-button>
                                     <span class="inline-flex items-center">
                                         <ng-container>
-                                            <span>Continue</span>
+                                            <span>Detalhes</span>
                                         </ng-container>
 
                                         <mat-icon
@@ -114,16 +130,17 @@
                     </div>
                 </ng-container>
             </div>
-        </ng-container>
 
-        <!-- No courses -->
-        <ng-template>
-            <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
-                <mat-icon
-                    class="icon-size-20"
-                    [svgIcon]="'iconsmind:file_search'"></mat-icon>
-                <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">No courses found!</div>
+            <div class="w-full flex justify-center items-center min-h-78" *ngIf="loading">
+                <div class="text-center">
+                    <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
+                </div>
             </div>
-        </ng-template>
+
+            <div *ngIf="!tecnicosFiltered.length && !loading"
+                class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                Nenhum técnico encontrado!
+            </div>
+        </ng-container>
     </div>
 </div>

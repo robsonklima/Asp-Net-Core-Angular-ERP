@@ -1,5 +1,4 @@
-﻿
-using Autofac;
+﻿using Autofac;
 using SAT.INFRA.Interfaces;
 using SAT.INFRA.Repository;
 using SAT.SERVICES.Interfaces;
@@ -12,6 +11,7 @@ public class ConfigurationIOC
     public static void Load(ContainerBuilder builder)
     {
         #region Repositories
+
         builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
@@ -164,10 +164,12 @@ public class ConfigurationIOC
         builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
         builder.RegisterType<IntegracaoRepository>().As<IIntegracaoRepository>();
         builder.RegisterType<LaboratorioRepository>().As<ILaboratorioRepository>();
+        builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
         
         #endregion
 
         #region Services
+
         builder.RegisterType<ImportacaoService>().As<IImportacaoService>();
         builder.RegisterType<ImportacaoConfiguracaoService>().As<IImportacaoConfiguracaoService>();
         builder.RegisterType<ImportacaoTipoService>().As<IImportacaoTipoService>();
@@ -319,6 +321,8 @@ public class ConfigurationIOC
         builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         builder.RegisterType<IntegracaoService>().As<IIntegracaoService>();
         builder.RegisterType<LaboratorioService>().As<ILaboratorioService>();
+        builder.RegisterType<ORItemService>().As<IORItemService>();
+
         #endregion
 
         #region Utils Services

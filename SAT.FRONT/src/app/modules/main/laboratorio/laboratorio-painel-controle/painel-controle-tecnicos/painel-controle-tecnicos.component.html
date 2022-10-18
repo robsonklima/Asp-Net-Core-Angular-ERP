@@ -29,7 +29,7 @@
                         <div class="flex flex-col p-6">
                             <div class="flex items-center justify-between">
                                 <ng-container>
-                                    <div *ngIf="tecnico.statusReparo == 'NO_PRAZO'" 
+                                    <div *ngIf="tecnico.statusReparo == 'NO_PRAZO' && !tecnico.tempoOcioso" 
                                         class="pt-1 pb-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100">
                                         No Prazo
                                     </div>
@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="mt-0.5 line-clamp-2 text-secondary">
-                                Bancada <span class="text-3xl">{{ tecnico.numBancada }}</span>
+                                Bancada <span class="text-3xl font-semibold">{{ tecnico.numBancada }}</span>
                             </div>
 
                             <div class="w-12 h-1 my-6 border-t-2"></div>
@@ -108,7 +108,7 @@
 
                                 <mat-progress-bar
                                     class="h-2"
-                                    [color]="'warn'"
+                                    [color]="obterEvolucaoReparo(tecnico) > 70 ? 'warn' : 'primary'"
                                     [value]="obterEvolucaoReparo(tecnico)"></mat-progress-bar>
                             </div>
 

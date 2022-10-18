@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LaboratorioService } from 'app/core/services/laboratorio.service';
 import { ViewLaboratorioTecnicoBancada } from 'app/core/types/laboratorio.types';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 import Enumerable from 'linq';
 import moment from 'moment';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-painel-controle-tecnicos',
@@ -62,14 +62,12 @@ export class PainelControleTecnicosComponent implements OnInit {
   }
 
   public obterEvolucaoReparo(tecnico: ViewLaboratorioTecnicoBancada) {
-    if (!tecnico.tempoEmReparo || !tecnico.tempoEmReparo)
+    if (!tecnico.tempoEmReparo || !tecnico.tempoEmReparo || tecnico.tempoReparoPeca == '00:00')
       return 0;
 
     const tempoEmReparo = moment.duration(tecnico.tempoEmReparo).asMinutes();
     const tempoReparoPeca = moment.duration(tecnico.tempoReparoPeca).asMinutes();
-
     const percentualEvolucao = (tempoEmReparo / tempoReparoPeca * 100).toFixed(2)
-  
     return +percentualEvolucao <= 100 ? percentualEvolucao : 100;
   }
 }

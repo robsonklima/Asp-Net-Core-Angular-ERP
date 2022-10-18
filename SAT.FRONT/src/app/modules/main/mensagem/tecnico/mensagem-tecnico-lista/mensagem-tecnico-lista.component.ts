@@ -49,7 +49,7 @@ export class MensagemTecnicoListaComponent extends Filterable implements AfterVi
 		private _snack: CustomSnackbarService,
 		private _mensagemTecnicoService: MensagemTecnicoService
 	) {
-		super(_userService, 'cidade')
+		super(_userService, 'mensagem-tecnico')
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 

@@ -47,7 +47,7 @@ export class ClienteBancadaListaComponent extends Filterable implements AfterVie
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: ClienteBancadaData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	constructor(
 		protected _userService: UserService,
@@ -91,7 +91,7 @@ export class ClienteBancadaListaComponent extends Filterable implements AfterVie
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

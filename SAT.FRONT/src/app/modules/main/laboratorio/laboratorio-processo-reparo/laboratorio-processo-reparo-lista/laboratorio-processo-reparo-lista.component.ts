@@ -17,11 +17,23 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-laboratorio-processo-reparo-lista',
-  templateUrl: './laboratorio-processo-reparo-lista.component.html',
+  	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-          grid-template-columns: 64px 128px auto 256px 128px 128px 64px 256px 64px;
-    }`
+            grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
+            
+            @screen sm {
+                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
+            }
+        
+            @screen md {
+                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
+            }
+        
+            @screen lg {
+                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
+            }
+        }`
 	]
 })
 
@@ -126,7 +138,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 		let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-			tipoArquivo: ExportacaoTipoEnum.OR,
+			tipoArquivo: ExportacaoTipoEnum.OR_ITEM,
 			entityParameters: this.filter?.parametros
 		}
 		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam);

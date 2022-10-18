@@ -110,16 +110,18 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(e => e.Autorizada)
                     .Include(e => e.RegiaoAutorizada)
                         .ThenInclude(e => e.Regiao)
-                    .Include(e => e.GrupoEquipamento!)
-                    .Include(e => e.TipoEquipamento!)
+                    .Include(e => e.Equipamento)
+                        .ThenInclude(e => e.GrupoEquipamento!)
+                    .Include(e => e.Equipamento)
+                        .ThenInclude(e => e.TipoEquipamento!)
                     .AsQueryable();
 
                 if (!string.IsNullOrWhiteSpace(parameters.Filter))
                 {
                     equips = equips.Where(e =>
-                        e.NumSerie.Contains(parameters.Filter) ||
-                        e.LocalAtendimento.NomeLocal.Contains(parameters.Filter) ||
-                        e.AtmId.Contains(parameters.Filter));
+                        e.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                        e.LocalAtendimento.NomeLocal.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                        e.AtmId.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
                 }
 
                 if (parameters.CodEquipContrato.HasValue)

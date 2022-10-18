@@ -45,7 +45,7 @@ export class RegiaoListaComponent extends Filterable implements AfterViewInit, I
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: RegiaoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	selectedItem: Regiao | null = null;
 	userSession: UserSession;
 
@@ -80,7 +80,7 @@ export class RegiaoListaComponent extends Filterable implements AfterViewInit, I
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

@@ -45,7 +45,7 @@ export class TipoEquipamentoListaComponent extends Filterable implements AfterVi
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: TipoEquipamentoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	selectedItem: TipoEquipamento | null = null;
 	userSession: UserSession;
 
@@ -90,7 +90,7 @@ export class TipoEquipamentoListaComponent extends Filterable implements AfterVi
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

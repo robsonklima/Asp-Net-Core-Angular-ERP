@@ -69,6 +69,7 @@ namespace SAT.INFRA.Repository
                             l =>
                             l.CodLiderTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                             l.CodUsuarioLider.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                            l.UsuarioLider.NomeUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                             l.Tecnico.Nome.Contains(parameters.Filter)
                 );
             }

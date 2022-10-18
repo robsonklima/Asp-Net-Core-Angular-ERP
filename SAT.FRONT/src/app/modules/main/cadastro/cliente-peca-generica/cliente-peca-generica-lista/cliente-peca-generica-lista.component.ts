@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { PecaParameters, PecaStatus } from 'app/core/types/peca.types';
+import { PecaStatus } from 'app/core/types/peca.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ClientePecaGenericaData, ClientePecaGenericaParameters } from 'app/core/types/cliente-peca-generica.types';
@@ -11,7 +11,6 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { UserService } from 'app/core/user/user.service';
-import { ClientePecaData } from 'app/core/types/cliente-peca.types';
 import { FileMime } from 'app/core/types/file.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
@@ -42,7 +41,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 export class ClientePecaGenericaListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: ClientePecaGenericaData;
 	byteArray;
@@ -92,7 +91,7 @@ export class ClientePecaGenericaListaComponent extends Filterable implements Aft
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

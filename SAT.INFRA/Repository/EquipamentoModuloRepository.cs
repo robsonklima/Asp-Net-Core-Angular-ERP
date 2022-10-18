@@ -97,27 +97,18 @@ namespace SAT.INFRA.Repository
             if (parameters.Filter != null)
             {
                  equipamentoModulo = equipamentoModulo.Where(
-                //     c =>
-                //     c.Equipamento.NomeEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                //     c.Causa.CodECausa.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                //     c.Equipamento.DescEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-                    em =>
-                    em.Equipamento.NomeEquip.Contains(parameters.Filter)||
-                    em.Causa.CodECausa.Contains(parameters.Filter) ||
-                    em.Equipamento.DescEquip.Contains(parameters.Filter)
-
-                );
+                    c =>
+                    c.Equipamento.NomeEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.Equipamento.TipoEquipamento.NomeTipoEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.Causa.CodECausa.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.CodConfigEquipModulos.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+               );
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodECausa))
             {
                 equipamentoModulo = equipamentoModulo.Where(w => w.CodECausa == parameters.CodECausa);
             }
-
-            // if (parameters.CodEquips.HasValue)
-            // {
-            //     equipamentoModulo = equipamentoModulo.Where(w => w.CodEquip == parameters.CodEquip);
-            // }
 
              if (!string.IsNullOrWhiteSpace(parameters.CodTipoEquips))
             {

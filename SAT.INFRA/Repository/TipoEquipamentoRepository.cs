@@ -86,6 +86,7 @@ namespace SAT.INFRA.Repository
                 tipos = tipos.Where(
                             t =>
                             t.NomeTipoEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                            t.CodETipoEquip.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                             t.CodTipoEquip.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }

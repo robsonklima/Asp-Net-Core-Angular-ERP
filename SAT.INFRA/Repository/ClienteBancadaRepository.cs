@@ -65,6 +65,15 @@ namespace SAT.INFRA.Repository
                       .ThenInclude(i => i.Pais)
                 .AsQueryable();
 
+            if (!string.IsNullOrEmpty(parameters.Filter))
+                clientBancadas = clientBancadas.Where(
+                    s =>
+                    s.CodClienteBancada.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.Cidade.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.Contato.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.NomeCliente.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+             );
+
             if (parameters.IndAtivo != null)
             {
                 clientBancadas = clientBancadas.Where(p => p.IndAtivo == parameters.IndAtivo.Value);

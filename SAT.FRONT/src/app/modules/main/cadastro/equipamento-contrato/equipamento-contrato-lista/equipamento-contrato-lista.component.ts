@@ -43,7 +43,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 export class EquipamentoContratoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: EquipamentoContratoData;
 	isLoading: boolean = false;
@@ -115,6 +115,7 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 		this.isLoading = true;
 		const params: EquipamentoContratoParameters = {
 			pageNumber: this.paginator.pageIndex + 1,
+			sortActive: this.sort?.active,
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filter

@@ -47,7 +47,7 @@ export class ClienteListaComponent extends Filterable implements AfterViewInit, 
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: ClienteData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	constructor(
 		private _cdr: ChangeDetectorRef,
@@ -90,7 +90,7 @@ export class ClienteListaComponent extends Filterable implements AfterViewInit, 
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

@@ -5,5 +5,7 @@ namespace SAT.MODELS.Entities.Params
     public class ORItemParameters : QueryStringParameters
     {
         public int? CodOR { get; set; }
+        public string CodTiposOR { get; set; }
+        public string CodStatus { get; set; }
     }
 }

@@ -118,8 +118,6 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		}).toPromise();
 
 		this.dataSourceData = data;
-    console.log(data);
-    
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}

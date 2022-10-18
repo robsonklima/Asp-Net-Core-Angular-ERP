@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoLista, ViewOrcamentoListaData } from '../types/orcamento.types';
-import Enumerable from 'linq';
+import { OrcamentoParameters, OrcamentoData, Orcamento, OrcamentoAprovacao, ViewOrcamentoListaData } from '../types/orcamento.types';
 import _ from 'lodash';
 
 @Injectable({
@@ -91,8 +90,6 @@ export class OrcamentoService
     }
 
     calculaTotalizacao(orcamento: Orcamento): Orcamento {  
-        debugger
-
         const valorMateriais = _.sumBy(orcamento?.materiais, (material) => { return material?.valorTotal; });
         const valorOutrosServicos = _.sumBy(orcamento?.outrosServicos, (servico) => { return servico?.valorTotal; });
         const valorKmDeslocamento = orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento;

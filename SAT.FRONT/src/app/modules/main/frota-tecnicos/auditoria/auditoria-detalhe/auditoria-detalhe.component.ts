@@ -97,8 +97,6 @@ export class AuditoriaDetalheComponent implements OnInit {
 		{
 			this.finalidade = "Trabalho/Particular";
 		}
-		console.log(auditoria?.usuario?.tecnico?.codFrotaFinalidadeUso);
-
 	}
 
 	ngOnDestroy() {

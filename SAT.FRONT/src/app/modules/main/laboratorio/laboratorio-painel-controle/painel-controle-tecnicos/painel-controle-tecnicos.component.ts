@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LaboratorioService } from 'app/core/services/laboratorio.service';
-import { ViewLaboratorioTecnicoBancada } from 'app/core/types/laboratorio.types';
+import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
+import { ViewLaboratorioTecnicoBancada } from 'app/core/types/bancada-laboratorio.types';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import Enumerable from 'linq';
@@ -18,14 +18,12 @@ export class PainelControleTecnicosComponent implements OnInit {
   loading: boolean = true;
 
   constructor(
-    private _laboratorioService: LaboratorioService
+    private _bancadaLaboratorioService: BancadaLaboratorioService
   ) { }
 
   async ngOnInit() {
-    this.tecnicos = await this._laboratorioService.obterTecnicosBancada().toPromise();
+    this.tecnicos = await this._bancadaLaboratorioService.obterTecnicosBancada().toPromise();
     this.tecnicosFiltered = Enumerable.from(this.tecnicos).orderBy(i => i.numBancada).toArray();
-    console.log(this.tecnicosFiltered);
-    
     this.registrarEmitters();
     this.loading = false;
   }

@@ -77,7 +77,8 @@ export class AuditoriaLayoutComponent implements OnInit {
 	  dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
 		if (confirmacao)
 		  this.obterAuditoria();
-	  });}
+	  });
+	}
 
 	finalizar(){  
 		const form: any = this.form.getRawValue();

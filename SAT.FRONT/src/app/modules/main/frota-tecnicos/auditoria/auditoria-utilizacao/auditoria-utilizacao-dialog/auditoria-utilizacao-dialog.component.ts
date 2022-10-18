@@ -192,7 +192,7 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
 
     this._auditoriaService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Auditoria atualizada com sucesso!", "success");
-      this._location.back();
+      this.dialogRef.close(true);
     }, e => {
       this.form.enable();
     });

@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
 import { ViewLaboratorioTecnicoBancada } from 'app/core/types/bancada-laboratorio.types';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, Subject } from 'rxjs';
 import Enumerable from 'linq';
 import moment from 'moment';
 
@@ -10,22 +10,38 @@ import moment from 'moment';
   selector: 'app-painel-controle-tecnicos',
   templateUrl: './painel-controle-tecnicos.component.html'
 })
-export class PainelControleTecnicosComponent implements OnInit {
+export class PainelControleTecnicosComponent implements AfterViewInit {
   tecnicos: ViewLaboratorioTecnicoBancada[] = [];
   tecnicosFiltered: ViewLaboratorioTecnicoBancada[] = [];
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
   somenteAtrasos: boolean;
   loading: boolean = true;
+  protected _onDestroy = new Subject<void>();
 
   constructor(
-    private _bancadaLaboratorioService: BancadaLaboratorioService
+    private _bancadaLaboratorioService: BancadaLaboratorioService,
+    private _cdr: ChangeDetectorRef
   ) { }
 
-  async ngOnInit() {
+  async ngAfterViewInit() {
+    interval(3 * 60 * 1000)
+			.pipe(
+				startWith(0),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(() => {
+				this.obterDados();
+			});
+    
+    this.registrarEmitters();
+  }
+
+  private async obterDados() {
+    this.loading = true;
     this.tecnicos = await this._bancadaLaboratorioService.obterTecnicosBancada().toPromise();
     this.tecnicosFiltered = Enumerable.from(this.tecnicos).orderBy(i => i.numBancada).toArray();
-    this.registrarEmitters();
     this.loading = false;
+    this._cdr.detectChanges();
   }
 
   private registrarEmitters() {
@@ -68,4 +84,9 @@ export class PainelControleTecnicosComponent implements OnInit {
     const percentualEvolucao = (tempoEmReparo / tempoReparoPeca * 100).toFixed(2)
     return +percentualEvolucao <= 100 ? percentualEvolucao : 100;
   }
+
+  ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 }

@@ -209,6 +209,15 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('numero bem cliente') }}</mat-label>
+                        <input matInput formControlName="numSerieCliente">
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">

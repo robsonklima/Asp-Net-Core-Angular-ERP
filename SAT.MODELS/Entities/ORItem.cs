@@ -36,5 +36,6 @@ namespace SAT.MODELS.Entities {
         public int? CodStatusOR { get; set; }
         public ORStatus StatusOR { get; set; }
         public int? IndPrioridade { get; set; }
+        public int? DiasEmReparo { get; set; }
     }
 }

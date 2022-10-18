@@ -1,55 +1,46 @@
-import { isNgTemplate } from '@angular/compiler';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
-import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { MensagemTecnicoService } from 'app/core/services/mensagem-tecnico.service';
+import { ORItemService } from 'app/core/services/or-item.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { MensagemTecnico, MensagemTecnicoData, MensagemTecnicoParameters } from 'app/core/types/mensagem-tecnico.types';
+import { ORItemData, ORItemParameters } from 'app/core/types/or-item.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-mensagem-tecnico-lista',
-	templateUrl: './mensagem-tecnico-lista.component.html',
+	selector: 'app-laboratorio-processo-reparo-lista',
+  templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
-		`.list-grid-mensagem-tecnico {
-          grid-template-columns: 64px 64px auto 64px;
-    	}`
-	],
-	encapsulation: ViewEncapsulation.None,
-	animations: fuseAnimations
+		`.list-grid-reparo {
+          grid-template-columns: 64px 128px auto 256px 128px 128px 64px 256px 64px;
+    }`
+	]
 })
 
-export class MensagemTecnicoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+export class LaboratorioProcessoReparoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
-	dataSourceData: MensagemTecnicoData;
+	dataSourceData: ORItemData;
 	isLoading: boolean = false;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-	selectedItem: MensagemTecnico | null = null;
 	userSession: UserSession;
 
 	constructor(
 		protected _userService: UserService,
 		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
-		private _dialog: MatDialog,
-		private _snack: CustomSnackbarService,
-		private _mensagemTecnicoService: MensagemTecnicoService
+		private _orItemService: ORItemService
 	) {
-		super(_userService, 'mensagem-tecnico')
+		super(_userService, 'processo-reparo')
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
@@ -101,68 +92,44 @@ export class MensagemTecnicoListaComponent extends Filterable implements AfterVi
 
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
-		const parametros: MensagemTecnicoParameters = {
+		const parametros: ORItemParameters = {
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active,
-			sortDirection: 'asc',
+			sortActive: this.sort.active || 'codORItem',
+			sortDirection: this.sort.direction || 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro
 		}
 
-		const data: MensagemTecnicoData = await this._mensagemTecnicoService.obterPorParametros({
+		const data: ORItemData = await this._orItemService.obterPorParametros({
 			...parametros,
 			...this.filter?.parametros
 		}).toPromise();
 
 		this.dataSourceData = data;
+    console.log(data);
+    
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
+
+  calcularDiasEmReparo(inicio: string) {
+    if (inicio)
+      return moment.duration(moment(inicio).diff(moment())).asDays();
+  }
 
 	paginar() {
 		this.obterDados();
 	}
 
-	marcarTodos(ev: any) {
-		this.dataSourceData?.items.forEach(x => x.selecionado = ev.target.checked)
-	}
-
-	isTodosMarcados() {
-		return this.dataSourceData?.items.every(p => p.selecionado);
-	}
-
-	isAlgumMarcado() {
-		return this.dataSourceData?.items.some(p => p.selecionado);
-	}
-
-	async deletar() {
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: `Deseja remover a(s) mensagem(s) selecionada(s)?`,
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
-
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao)
-			{
-				this.isLoading = true;
-				for (const msg of this.dataSourceData?.items) {
-					if (msg.selecionado) await this._mensagemTecnicoService.deletar(msg.codMensagemTecnico).toPromise();
-				}
-		
-				this._snack.exibirToast(`Registro(s) deletado(s) com sucesso!`, "success");
-				this.obterDados();
-				this.isLoading = false;
-			}
-		});
-	}
-
 	public async exportar() {
-		
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.OR,
+			entityParameters: this.filter?.parametros
+		}
+		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam);
+		this.isLoading = false;
 	}
 }

@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -18,6 +21,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(ORItemParameters parameters)
         {
             var itens = _ORItemRepo.ObterPorParametros(parameters);
+            itens = ObterDiasEmReparo(itens);
 
             var lista = new ListViewModel
             {
@@ -53,6 +57,19 @@ namespace SAT.SERVICES.Services
         public ORItem ObterPorCodigo(int codigo)
         {
             return _ORItemRepo.ObterPorCodigo(codigo);
+        }
+
+        private PagedList<ORItem> ObterDiasEmReparo(PagedList<ORItem> itens) 
+        {
+            for (int i = 0; i < itens.Count; i++)
+            {
+                if (itens[i].DataConfLab.HasValue)
+                    itens[i].DiasEmReparo = (int)(DateTime.Now - itens[i].DataConfLab.Value).TotalDays;
+                else
+                    itens[i].DiasEmReparo = (int)(DateTime.Now - itens[i].DataHoraCad).TotalDays;
+            }
+
+            return itens;
         }
     }
 }

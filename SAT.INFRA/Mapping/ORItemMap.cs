@@ -52,6 +52,8 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodStatusOR)
                 .HasPrincipalKey(prop => prop.CodStatus);
+
+            builder.Ignore(p => p.DiasEmReparo);
         }
     }
 }

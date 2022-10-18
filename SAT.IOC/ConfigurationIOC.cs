@@ -166,6 +166,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
         builder.RegisterType<BancadaLaboratorioRepository>().As<IBancadaLaboratorioRepository>();
         builder.RegisterType<ORRepository>().As<IORRepository>();
+        builder.RegisterType<ORStatusRepository>().As<IORStatusRepository>();
+        builder.RegisterType<ORTipoRepository>().As<IORTipoRepository>();
         
         #endregion
 
@@ -324,6 +326,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORItemService>().As<IORItemService>();
         builder.RegisterType<BancadaLaboratorioService>().As<IBancadaLaboratorioService>();
         builder.RegisterType<ORService>().As<IORService>();
+        builder.RegisterType<ORStatusService>().As<IORStatusService>();
+        builder.RegisterType<ORTipoService>().As<IORTipoService>();
 
         #endregion
 

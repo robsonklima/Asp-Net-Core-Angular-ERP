@@ -10,6 +10,18 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("OR");
             builder.HasKey(i => i.CodOR);
+
+            builder
+                .HasMany(prop => prop.ORItens)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodOR)
+                .HasPrincipalKey(prop => prop.CodOR);
+
+            builder
+                .HasOne(prop => prop.ORStatus)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodStatusOR)
+                .HasPrincipalKey(prop => prop.CodStatus);
         }
     }
 }

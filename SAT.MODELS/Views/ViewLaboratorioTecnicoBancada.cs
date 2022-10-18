@@ -10,5 +10,6 @@ namespace SAT.MODELS.Views {
         public int NumBancada { get; set; }
         public string TempoReparoPeca { get; set; }
         public string StatusReparo { get; set; }
+        public int? CodOR { get; set; }
     }
 }

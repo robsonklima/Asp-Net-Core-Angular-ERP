@@ -163,7 +163,6 @@ public class ConfigurationIOC
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
         builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
         builder.RegisterType<IntegracaoRepository>().As<IIntegracaoRepository>();
-        builder.RegisterType<LaboratorioRepository>().As<ILaboratorioRepository>();
         builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
         builder.RegisterType<BancadaLaboratorioRepository>().As<IBancadaLaboratorioRepository>();
         
@@ -321,7 +320,6 @@ public class ConfigurationIOC
         builder.RegisterType<NLogService>().As<INLogService>();
         builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         builder.RegisterType<IntegracaoService>().As<IIntegracaoService>();
-        builder.RegisterType<LaboratorioService>().As<ILaboratorioService>();
         builder.RegisterType<ORItemService>().As<IORItemService>();
         builder.RegisterType<BancadaLaboratorioService>().As<IBancadaLaboratorioService>();
 

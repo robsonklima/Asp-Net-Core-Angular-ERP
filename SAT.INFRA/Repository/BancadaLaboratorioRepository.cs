@@ -5,6 +5,8 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using SAT.MODELS.Entities.Params;
+using System.Collections.Generic;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Repository
 {
@@ -65,6 +67,11 @@ namespace SAT.INFRA.Repository
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<BancadaLaboratorio>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada()
+        {
+            return _context.ViewLaboratorioTecnicoBancada.ToList();
         }
     }
 }

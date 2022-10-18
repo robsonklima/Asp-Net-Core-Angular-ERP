@@ -1,6 +1,8 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.Entities.Params;
+using System.Collections.Generic;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -11,5 +13,6 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         void Atualizar(BancadaLaboratorio lab);
         BancadaLaboratorio ObterPorCodigo(int codigo);
+        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada();
     }
 }

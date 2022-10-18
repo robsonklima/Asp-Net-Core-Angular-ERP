@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
+using SAT.MODELS.Views;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 
@@ -50,5 +52,9 @@ namespace SAT.API.Controllers
         {
             _bancadaLaboratorioRepo.Deletar(numBancada);
         }
+
+        [HttpGet("TecnicosBancada")]
+        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada() =>
+            _bancadaLaboratorioRepo.ObterTecnicosBancada();
     }
 }

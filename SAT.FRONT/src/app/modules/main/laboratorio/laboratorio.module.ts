@@ -41,6 +41,9 @@ import { laboratorioRoutes } from './laboratorio.routing';
 import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
 import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
 import { PainelControleTecnicosItensComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos-itens/painel-controle-tecnicos-itens.component';
+import { LaboratorioProcessoReparoListaComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/laboratorio-processo-reparo-lista.component';
+import { LaboratorioProcessoReparoFiltroComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-filtro/laboratorio-processo-reparo-filtro.component';
+import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -54,7 +57,10 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioPainelControleComponent,
     PainelControlePecasComponent,
     PainelControleTecnicosComponent,
-    PainelControleTecnicosItensComponent
+    PainelControleTecnicosItensComponent,
+    LaboratorioProcessoReparoListaComponent,
+    LaboratorioProcessoReparoFiltroComponent,
+    LaboratorioProcessoReparoDetalheComponent
   ],
   imports: [
     CommonModule,

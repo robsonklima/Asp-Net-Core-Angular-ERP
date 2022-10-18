@@ -39,6 +39,7 @@ export interface ORItem {
     codStatusOR: number | null;
     statusOR: ORStatus;
     indPrioridade: number | null;
+    diasEmReparo: number;
 }
 
 export interface ORItemData extends Meta {

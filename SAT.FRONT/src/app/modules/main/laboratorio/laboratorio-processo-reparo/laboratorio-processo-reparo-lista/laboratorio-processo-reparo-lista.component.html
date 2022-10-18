@@ -1,0 +1,140 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-laboratorio-processo-reparo-filtro [sidenav]="sidenav"></app-laboratorio-processo-reparo-filtro>
+    </mat-drawer>
+
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent" *transloco="let t">
+        <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                {{ t('processo de reparo') }}
+            </div>
+
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+                </mat-form-field>
+
+                <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                    [routerLink]="['/mensagem/tecnico/form']">
+                    <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                </button>
+
+                <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()" *ngIf="dataSourceData?.items.length">
+                    <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                </button>
+
+                <button class="ml-4" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto uppercase">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid" *transloco="let t">
+                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear *transloco="let t">
+                                <div [mat-sort-header]="'codOR'">
+                                    {{ t('codigo') }}
+                                </div>
+
+                                <div>
+                                    {{ t('peca') }}
+                                </div>
+
+                                <div>
+                                    {{ t('descricao') }}
+                                </div>
+
+                                <div>
+                                    {{ t('status') }}
+                                </div>
+
+                                <div>
+                                    {{ t('serie') }}
+                                </div>
+
+                                <div>
+                                    {{ t('cadastro') }}
+                                </div>
+
+                                <div>
+                                    {{ t('filial') }}
+                                </div>
+
+                                <div>
+                                    {{ t('usuario') }}
+                                </div>
+
+                                <div>
+                                    {{ t('dias em reparo') }}
+                                </div>
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
+                                    <div class="list-grid-reparo grid h-10 pt-3 gap-4 py-3 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="text-blue-600">
+                                            <a [routerLink]="'/laboratorio/processo-reparo/' + item.codOR">{{ item.codOR }}</a>
+                                        </div>
+
+                                        <div>
+                                            {{ item?.peca?.codMagnus || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.peca?.nomePeca || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.statusOR?.descStatus || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.numSerie || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.dataHoraCad | date:'dd/MM HH:mm' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.ordemServico?.filial?.nomeFilial || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.usuarioTecnico?.nomeUsuario || '--' }}
+                                        </div>
+
+                                        <div>
+                                            {{ item?.diasEmReparo }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <div *ngIf="!dataSourceData?.items.length && !isLoading"
+                            class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                            Nenhuma ordem de reparo encontrada!
+                        </div>
+
+                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                            [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                            (page)="paginar()">
+                        </mat-paginator>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</mat-drawer-container>

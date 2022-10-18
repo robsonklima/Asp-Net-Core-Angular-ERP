@@ -53,33 +53,40 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.Peca)
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
-                .Include(or => or.OrdemServico)
+                .Include(or => or.OrdemServico.Filial)
+                .Include(or => or.StatusOR)
                 .FirstOrDefault(p => p.CodORItem == codigo);
         }
 
         public PagedList<ORItem> ObterPorParametros(ORItemParameters parameters)
         {
-            var ORItemes = _context.ORItem
+            var query = _context.ORItem
                 .Include(or => or.Peca)
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
-                .Include(or => or.OrdemServico)
+                .Include(or => or.OrdemServico.Filial)
+                .Include(or => or.StatusOR)
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                ORItemes = ORItemes.Where(
+                query = query.Where(
                     p =>
                     p.CodORItem.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
-            if (parameters.SortActive != null && parameters.SortDirection != null)
+            if (parameters.CodOR.HasValue) 
             {
-                ORItemes = ORItemes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+                query = query.Where(or => or.CodOR == parameters.CodOR);
             }
 
-            return PagedList<ORItem>.ToPagedList(ORItemes, parameters.PageNumber, parameters.PageSize);
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+
+            return PagedList<ORItem>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

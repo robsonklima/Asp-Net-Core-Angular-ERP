@@ -34,6 +34,7 @@ namespace SAT.MODELS.Enums
         TICKET,
         AUDITORIA,
         VALOR_COMBUSTIVEL,
-        DESPESA_PERIODO_TECNICO
+        DESPESA_PERIODO_TECNICO,
+        OR
     }
 }

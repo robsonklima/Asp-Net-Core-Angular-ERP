@@ -1,5 +1,7 @@
 import { Route } from '@angular/router';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
+import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
+import { LaboratorioProcessoReparoListaComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/laboratorio-processo-reparo-lista.component';
 
 export const laboratorioRoutes: Route[] = [
     {
@@ -10,5 +12,13 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'painel-controle',
         component: LaboratorioPainelControleComponent
+    },
+    {
+        path: 'processo-reparo',
+        component: LaboratorioProcessoReparoListaComponent
+    } ,
+    {
+        path: 'processo-reparo/:codOR',
+        component: LaboratorioProcessoReparoDetalheComponent
     }    
 ];

@@ -24,7 +24,7 @@ namespace SAT.API.Controllers
         [HttpGet]
         public ListViewModel Get([FromQuery] ORParameters parameters)
         {
-            return orService.ObterPorParametros(parameters);
+            return _orService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codOR}")]

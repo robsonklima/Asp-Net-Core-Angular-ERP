@@ -159,6 +159,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			indVerao: [undefined],
 			indPAE: [undefined],
 			pontoEstrategico: [undefined],
+			numSerieCliente: [undefined],
 		});
 	}
 

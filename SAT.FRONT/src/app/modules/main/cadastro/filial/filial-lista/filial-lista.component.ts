@@ -46,7 +46,7 @@ export class FilialListaComponent extends Filterable implements AfterViewInit, I
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: FilialData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	constructor(
 		protected _userService: UserService,
@@ -79,7 +79,7 @@ export class FilialListaComponent extends Filterable implements AfterViewInit, I
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

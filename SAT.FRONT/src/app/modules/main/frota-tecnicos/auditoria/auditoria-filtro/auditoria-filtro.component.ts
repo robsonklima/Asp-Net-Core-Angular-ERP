@@ -9,9 +9,7 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
 import { AuditoriaStatus, AuditoriaStatusParameters } from 'app/core/types/auditoria-status.types';
-import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { AuditoriaStatusService } from 'app/core/services/auditoria-status.service';
-import { UsuarioService } from 'app/core/services/usuario.service';
 
 @Component({
 	selector: 'app-auditoria-filtro',
@@ -22,15 +20,12 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 	@Input() sidenav: MatSidenav;
 	filiais: Filial[] = [];
 	filialFilterCtrl: FormControl = new FormControl();
-	usuarios: Usuario[] = [];
-	usuariosFilterCtrl: FormControl = new FormControl();
 	stats: AuditoriaStatus[] = [];
 	statsFilterCtrl: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _filialService: FilialService,
-		private _usuarioService: UsuarioService,
 		private _auditoriaStatusService: AuditoriaStatusService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
@@ -46,7 +41,6 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 
 	async loadData() {
 		this.obterFiliais();
-		this.obterUsuarios();
 		this.obterAuditoriaStatus();
 		this.registrarEmitters();
 	}
@@ -54,7 +48,6 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			codFiliais: [undefined],
-			codUsuarios: [undefined],
 			codAuditoriaStats: [undefined],
 		});
 		
@@ -72,20 +65,6 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 			.obterPorParametros(params)
 			.toPromise();
 		this.filiais = data.items;
-	}
-
-	async obterUsuarios(filtro: string = '') {
-		let params: UsuarioParameters = {
-			filter: filtro,
-			codPerfil: 35,
-			sortActive: 'nomeUsuario',
-			sortDirection: 'asc',
-			pageSize: 1000
-		};
-		const data = await this._usuarioService
-			.obterPorParametros(params)
-			.toPromise();
-		this.usuarios = data.items;
 	}
 
 	async obterAuditoriaStatus(filtro: string = '') {
@@ -110,16 +89,6 @@ export class AuditoriaFiltroComponent extends FilterBase implements OnInit, IFil
 			)
 			.subscribe(() => {
 				this.obterFiliais(this.filialFilterCtrl.value);
-			});
-
-		this.usuariosFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterUsuarios(this.usuariosFilterCtrl.value);
 			});
 
 		this.statsFilterCtrl.valueChanges

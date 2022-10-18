@@ -103,7 +103,7 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		const parametros: AuditoriaParameters = {
 
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active || 'codAuditoria',
+			sortActive: this.sort.active || 'codAuditoria' || 'nomeUsuario',
 			sortDirection: 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro

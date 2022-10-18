@@ -37,27 +37,6 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('técnico') }}</mat-label>
-                    <mat-select formControlName="codUsuarios" multiple="true">
-
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="usuariosFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUsuarios, usuarios,
-                            'codUsuario')" [value]="0">
-                            TODAS
-                        </mat-option>
-
-                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario ">
-                            {{ usuario.nomeUsuario }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="codAuditoriaStats" multiple="true">
 

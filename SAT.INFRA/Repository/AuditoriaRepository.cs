@@ -102,7 +102,8 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
             {
                 auditorias = auditorias.Where(a =>
-                    a.CodAuditoria.ToString().Contains(parameters.Filter));
+                    a.CodAuditoria.ToString().Contains(parameters.Filter) ||
+                    a.Usuario.NomeUsuario.Contains(parameters.Filter));
             }
 
             if (parameters.CodAuditoriaStatus != null)

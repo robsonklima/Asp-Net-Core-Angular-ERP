@@ -48,5 +48,6 @@ export enum ExportacaoTipoEnum {
     AUDITORIA,
     VALOR_COMBUSTIVEL,
     DESPESA_PERIODO_TECNICO,
-    OR
+    OR,
+    OR_ITEM
 }

@@ -54,6 +54,7 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaAdiantamentoRepository _despesaAdiantamentoRepo;
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IORRepository _orRepo;
+        private readonly IORItemRepository _orItemRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -92,7 +93,8 @@ namespace SAT.SERVICES.Services
             IAuditoriaRepository auditoriaRepo,
             IDespesaAdiantamentoRepository despesaAdiantamentoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
-            IORRepository orRepo
+            IORRepository orRepo,
+            IORItemRepository orItemRepo
         )
         {
             _emaiLService = emaiLService;
@@ -132,6 +134,7 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoRepo = despesaAdiantamentoRepo;
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _orRepo = orRepo;
+            _orItemRepo = orItemRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -299,6 +302,10 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.OR:
                     GerarPlanilhaOR(((JObject)parameters).ToObject<ORParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.OR_ITEM:
+                    GerarPlanilhaORItem(((JObject)parameters).ToObject<ORItemParameters>());
                     break;
                     
                 default:

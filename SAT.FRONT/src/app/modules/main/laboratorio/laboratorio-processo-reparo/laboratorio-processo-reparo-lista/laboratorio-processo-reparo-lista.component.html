@@ -39,81 +39,81 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid" *transloco="let t">
-                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                 matSort matSortDisableClear *transloco="let t">
-                                <div [mat-sort-header]="'codOR'">
+                                <div class="flex items-left ml-2" [mat-sort-header]="'codOR'">
                                     {{ t('codigo') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left">
                                     {{ t('peca') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left -ml-4">
                                     {{ t('descricao') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left ml-16">
                                     {{ t('status') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left ml-6">
                                     {{ t('serie') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left ml-6">
                                     {{ t('cadastro') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left">
                                     {{ t('filial') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-left">
                                     {{ t('usuario') }}
                                 </div>
 
-                                <div>
+                                <div class="flex items-center -ml-5">
                                     {{ t('dias em reparo') }}
                                 </div>
                             </div>
 
                             <ng-container>
                                 <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
-                                    <div class="list-grid-reparo grid h-10 pt-3 gap-4 py-3 text-sm md:px-8 border-b hover:bg-gray-100">
-                                        <div class="text-blue-600">
+                                    <div class="list-grid-reparo grid h-10 pt-3 py-3 text-sm md:px-8 border-b">
+                                        <div class="flex items-left text-blue-600">
                                             <a [routerLink]="'/laboratorio/processo-reparo/' + item.codOR">{{ item.codOR }}</a>
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.peca?.codMagnus || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.peca?.nomePeca || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.statusOR?.descStatus || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.numSerie || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.dataHoraCad | date:'dd/MM HH:mm' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.ordemServico?.filial?.nomeFilial || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.usuarioTecnico?.nomeUsuario || '--' }}
                                         </div>
 
-                                        <div>
+                                        <div class="flex items-left">
                                             {{ item?.diasEmReparo }}
                                         </div>
                                     </div>

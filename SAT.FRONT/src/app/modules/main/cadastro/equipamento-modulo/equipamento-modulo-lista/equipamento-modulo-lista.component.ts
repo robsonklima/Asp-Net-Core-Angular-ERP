@@ -45,7 +45,7 @@ export class EquipamentoModuloListaComponent extends Filterable implements After
 
 	@ViewChild('sidenav') public sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: EquipamentoModuloData;
 	isLoading: boolean = false;

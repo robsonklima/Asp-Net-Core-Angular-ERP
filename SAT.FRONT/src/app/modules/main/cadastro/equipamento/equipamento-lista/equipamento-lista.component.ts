@@ -45,7 +45,7 @@ export class EquipamentoListaComponent extends Filterable implements AfterViewIn
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: EquipamentoData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	userSession: UserSession;
 
 	constructor(
@@ -89,7 +89,7 @@ export class EquipamentoListaComponent extends Filterable implements AfterViewIn
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

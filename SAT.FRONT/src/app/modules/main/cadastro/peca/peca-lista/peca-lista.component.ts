@@ -43,7 +43,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 export class PecaListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
 	@ViewChild('sidenav') public sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: PecaData;
 	byteArray;
@@ -85,7 +85,7 @@ export class PecaListaComponent extends Filterable implements OnInit, AfterViewI
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;

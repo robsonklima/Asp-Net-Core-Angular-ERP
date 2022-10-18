@@ -38,7 +38,7 @@ export class SLAListaComponent implements AfterViewInit {
   @ViewChild(MatSort) private sort: MatSort;
   dataSourceData: AcordoNivelServicoData;
   isLoading: boolean = false;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -58,7 +58,7 @@ export class SLAListaComponent implements AfterViewInit {
       ).subscribe((text: string) => {
         this.paginator.pageIndex = 0;
         this.searchInputControl.nativeElement.val = text;
-        this.obterDados();
+        this.obterDados(text);
       });
 
       this.sort.disableClear = true;
@@ -73,7 +73,7 @@ export class SLAListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  async obterDados() {
+  async obterDados(filtro: string = '') {
     this.isLoading = true;
 
     this.dataSourceData = await this._slaService.obterPorParametros({

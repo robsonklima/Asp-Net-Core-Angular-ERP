@@ -13,7 +13,7 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-cidade-lista',
@@ -48,7 +48,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: CidadeData;
 	isLoading: boolean = false;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	selectedItem: Cidade | null = null;
 	userSession: UserSession;
 
@@ -93,7 +93,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;
@@ -112,7 +112,7 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 		this.isLoading = true;
 		const parametros: CidadeParameters = {
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active,
+			sortActive: 'codCidade' || 'nomeCidade',
 			sortDirection: 'asc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro
@@ -126,7 +126,6 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
-
 
 
 	paginar() {

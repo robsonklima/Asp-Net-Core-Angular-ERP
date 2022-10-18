@@ -90,7 +90,10 @@ namespace SAT.INFRA.Repository
                 cidades = cidades.Where(
                     s =>
                     s.CodCidade.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.UnidadeFederativa.SiglaUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.UnidadeFederativa.NomeUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.Filial.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             
             if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))

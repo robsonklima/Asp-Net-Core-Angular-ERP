@@ -36,6 +36,7 @@ namespace SAT.INFRA.Repository
                     ra => ra.CodAutorizada.ToString().Equals(parameters.Filter) ||
                           ra.Autorizada.NomeFantasia.Contains(parameters.Filter) ||
                           ra.Regiao.NomeRegiao.Contains(parameters.Filter) ||
+                          ra.Cidade.NomeCidade.Contains(parameters.Filter) ||
                           ra.Filial.NomeFilial.Contains(parameters.Filter)
                 );
             }

@@ -18,6 +18,7 @@ namespace SAT.MODELS.Entities {
         public int? CodCliente { get; set; }
         public Cliente Cliente { get; set; }
         public string CodTecnico { get; set; }
+        public Usuario UsuarioTecnico { get; set; }
         public string DefeitoRelatado { get; set; }
         public string RelatoSolucao { get; set; }
         public int? CodDefeito { get; set; }

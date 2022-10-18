@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -9,6 +10,7 @@ namespace SAT.MODELS.Entities
         public int? CodOrigem { get; set; }
         public int? CodDestino { get; set; }
         public int CodStatusOR { get; set; }
+        public ORStatus ORStatus { get; set; }
         public string NumNF { get; set; }
         public string Volumes { get; set; }
         public int? CodModal { get; set; }
@@ -18,5 +20,6 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string Minuta { get; set; }
         public int? CodTransportadora { get; set; }
+        public List<ORItem> ORItens { get; set; }
     }
 }

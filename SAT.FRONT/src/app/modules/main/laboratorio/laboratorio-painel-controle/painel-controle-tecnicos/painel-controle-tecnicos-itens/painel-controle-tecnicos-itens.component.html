@@ -1,7 +1,84 @@
-<h2 mat-dialog-title>Itens da Ordem</h2>
+<h2 mat-dialog-title>Itens da Ordem {{ or?.codOR }} - {{ tecnicoBancada.nome }}</h2>
 
 <mat-dialog-content class="mat-typography">
-    <span>{{ tecnicoBancada.nome }}</span>
+    <div class="overflow-x-auto overflow-y-auto relative">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-md text-gray-700 uppercase">
+                <tr>
+                    <th scope="col" class="py-1 pr-2 text-center">
+                        #
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        OR
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        Item
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        CodMagnus
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        Status
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        Data Início
+                    </th>
+
+                    <th scope="col" class="py-1 text-center">
+                        Data Fim
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="dark:border-gray-700 border-t-2" *ngFor="let item of or?.orItens; let i=index">
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ i+1 }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item.codOR }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item.codORItem }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item?.peca?.codMagnus }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item?.statusOR?.descStatus }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item?.dataConfLog || '--' }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ item?.dataConfLab || '--' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="w-full flex justify-center items-center min-h-78" *ngIf="loading">
+            <div class="text-center">
+                <mat-progress-spinner [diameter]="48" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!or?.orItens?.length && !loading"
+            class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+            Nenhum item encontrado!
+        </div>
+    </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

@@ -8,4 +8,5 @@ export interface ViewLaboratorioTecnicoBancada {
     numBancada: number;
     tempoReparoPeca: string;
     statusReparo: string;
+    codOR?: number;
 }

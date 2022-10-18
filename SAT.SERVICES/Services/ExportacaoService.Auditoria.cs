@@ -21,7 +21,7 @@ namespace SAT.SERVICES.Services {
                                 MesesEmUso = aud?.TotalMesesEmUso,
                                 ValorCombustível = aud?.ValorCombustivel,
                                 CreditosCartão = aud?.CreditosCartao,
-                                DespesasSat = aud?.DespesasSat,
+                                DespesasSAT = aud?.DespesasSAT,
                                 DespesasCompensadas = aud?.DespesasCompensadasValor,
                                 OdometroInicialRetirada = aud?.OdometroInicialRetirada,
                                 OdometroPeriodoAuditado = aud?.OdometroPeriodoAuditado,

@@ -58,11 +58,11 @@
                     </td>
 
                     <td class="py-1 pr-2 font-medium text-center">
-                        {{ item?.dataConfLog || '--' }}
+                        {{ (item?.dataConfLog | date:'dd/MM HH:mm') || '--' }}
                     </td>
 
                     <td class="py-1 pr-2 font-medium text-center">
-                        {{ item?.dataConfLab || '--' }}
+                        {{ (item?.dataConfLab | date:'dd/MM HH:mm') || '--' }}
                     </td>
                 </tr>
             </tbody>

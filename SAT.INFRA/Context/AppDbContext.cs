@@ -198,6 +198,7 @@ namespace SAT.INFRA.Context
         public DbSet<ORItem> ORItem { get; set; }
         public DbSet<ORStatus> ORStatus { get; set; }
         public DbSet<ORTipo> ORTipo { get; set; }
+        public DbSet<BancadaLaboratorio> BancadaLaboratorio { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -424,6 +425,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORItem>(new ORItemMap().Configure);
             modelBuilder.Entity<ORStatus>(new ORStatusMap().Configure);
             modelBuilder.Entity<ORTipo>(new ORTipoMap().Configure);
+            modelBuilder.Entity<BancadaLaboratorio>(new BancadaLaboratorioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

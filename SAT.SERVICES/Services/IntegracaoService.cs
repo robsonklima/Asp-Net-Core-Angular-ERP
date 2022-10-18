@@ -28,21 +28,18 @@ namespace SAT.SERVICES.Services
             return _integracaoRepo.Criar(ordem);
         }
 
-        public IntegracaoViewModel ConsultarEquipamentos(IntegracaoParameters parameters)
+        public List<IntegracaoEquipamentoContrato> ConsultarEquipamentos(IntegracaoParameters parameters)
         {
             if (!parameters.CodCliente.HasValue)
                 throw new Exception("Favor informar o código do cliente");
 
-            var retorno = new IntegracaoViewModel
-            {
-                Equipamentos = MontaEquipamentosContrato(parameters)    
-            };
-
-            return retorno;
+            return MontaEquipamentosContrato(parameters);
         }
 
-        private List<IntegracaoEquipamentoContrato> MontaEquipamentosContrato(IntegracaoParameters parameters) {
-            var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters {
+        private List<IntegracaoEquipamentoContrato> MontaEquipamentosContrato(IntegracaoParameters parameters)
+        {
+            var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters
+            {
                 CodClientes = parameters.CodCliente.ToString(),
                 NumSerie = parameters.NumSerie,
                 NomeLocal = parameters.NomeLocal,
@@ -51,8 +48,10 @@ namespace SAT.SERVICES.Services
 
             return equipamentos
                 .Select(x => new IntegracaoEquipamentoContrato
-                { 
-                    NumSerie = x.NumSerie, LocalAtendimento = new IntegracaoLocalAtendimento { 
+                {
+                    NumSerie = x.NumSerie,
+                    LocalAtendimento = new IntegracaoLocalAtendimento
+                    {
                         NomeLocal = x.LocalAtendimento.NomeLocal,
                         NumAgencia = x.LocalAtendimento.NumAgencia,
                         DCPosto = x.LocalAtendimento.DCPosto,

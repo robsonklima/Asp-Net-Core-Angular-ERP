@@ -84,13 +84,13 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposOR))
             {
                 int[] cods = parameters.CodTiposOR.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                query = query.Where(q => cods.ToString().Contains(q.CodTipoOR.ToString()));
+                query = query.Where(q => cods.Contains((int)q.CodTipoOR));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodStatus))
             {
                 int[] cods = parameters.CodStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                query = query.Where(q => cods.ToString().Contains(q.CodStatus.ToString()));
+                query = query.Where(q => cods.Contains((int)q.CodStatus));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

@@ -20,7 +20,7 @@ namespace SAT.MODELS.Entities
         public double? ValorCombustivel { get; set; }
         public DateTime? DataRetiradaVeiculo { get; set; }
         public double? CreditosCartao { get; set; }
-        public double? DespesasSat { get; set; }
+        public double? DespesasSAT { get; set; }
         public int? TotalDiasEmUso { get; set; }
         public double? DespesasCompensadasValor { get; set; }
         public double? OdometroInicialRetirada { get; set; }

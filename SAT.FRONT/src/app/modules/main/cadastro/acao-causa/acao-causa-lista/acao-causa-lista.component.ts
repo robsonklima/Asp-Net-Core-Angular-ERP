@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { AcaoComponenteService } from 'app/core/services/acao-componente.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { AcaoComponente, AcaoComponenteData } from 'app/core/types/acao-componente.types';
+import { AcaoComponente, AcaoComponenteData, AcaoComponenteParameters } from 'app/core/types/acao-componente.types';
 import { AcaoParameters } from 'app/core/types/acao.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
@@ -96,7 +96,7 @@ export class AcaoCausaListaComponent extends Filterable implements AfterViewInit
 			).subscribe((text: string) => {
 				this.paginator.pageIndex = 0;
 				this.searchInputControl.nativeElement.val = text;
-				this.obterDados();
+				this.obterDados(text);
 			});
 
 			this.sort.disableClear = true;
@@ -113,9 +113,9 @@ export class AcaoCausaListaComponent extends Filterable implements AfterViewInit
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
 
-		const parametros: AcaoParameters = {
+		const parametros: AcaoComponenteParameters = {
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: 'codAcaoComponente',
+			sortActive: 'codAcaoComponente' || 'codECausa' || 'nomeAcao' || 'nomeCausa',
 			sortDirection: 'asc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro

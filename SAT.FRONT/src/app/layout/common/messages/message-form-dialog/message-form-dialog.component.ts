@@ -38,8 +38,6 @@ export class MessageFormDialogComponent implements OnInit {
     this.criarForm();
     this.registrarEmitters();
     this.usuarios = await (await this.obterUsuarios()).items;
-    console.log(this.usuarios);
-    
   }
 
   criarForm() {

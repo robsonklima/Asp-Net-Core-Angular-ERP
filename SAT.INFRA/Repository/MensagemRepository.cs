@@ -79,6 +79,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodUsuarioDestinatario)) 
+            {
+                query = query.Where(p => p.CodUsuarioDestinatario == parameters.CodUsuarioDestinatario);;
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

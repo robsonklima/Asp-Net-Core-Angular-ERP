@@ -44,7 +44,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
         interval(1 * 60 * 1000)
             .pipe(startWith(0))
             .subscribe(() => {
-                this._mensagemService.obterPorParametros({})
+                this._mensagemService
+                    .obterPorParametros({ codUsuarioDestinatario: this.userSession.usuario.codUsuario })
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((messages: MensagemData) => {
                         this.messages = messages.items;

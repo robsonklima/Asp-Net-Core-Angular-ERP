@@ -59,6 +59,7 @@ namespace SAT.INFRA.Repository
         public Mensagem ObterPorCodigo(int codigo)
         {
             return _context.Mensagem
+                .Include(m => m.UsuarioRemetente)
                 .Include(m => m.UsuarioDestinatario)
                 .FirstOrDefault(p => p.CodMsg == codigo);
         }
@@ -66,6 +67,7 @@ namespace SAT.INFRA.Repository
         public PagedList<Mensagem> ObterPorParametros(MensagemParameters parameters)
         {
             var query = _context.Mensagem
+                .Include(m => m.UsuarioRemetente)
                 .Include(m => m.UsuarioDestinatario)
                 .AsQueryable();
 

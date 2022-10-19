@@ -712,5 +712,7 @@
     "painel de controle": "Control Pannel",
     "numero bem cliente": "Client Serial Number",
     "processo de reparo": "Repair Process",
-    "dias em reparo": "Repair Days"
+    "dias em reparo": "Repair Days",
+    "conteudo": "Content",
+    "destinatario": "Recipient"
 }

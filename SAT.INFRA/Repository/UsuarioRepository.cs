@@ -178,6 +178,18 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => filiais.Contains(u.CodFilial.Value));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))
+            {
+                int[] perfis = parameters.CodPerfisNotIn.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(u => !perfis.Contains(u.CodPerfil.Value));
+            }
+
+            if (parameters.UltimoAcessoInicio.HasValue)
+                query = query.Where(r => r.UltimoAcesso >= parameters.UltimoAcessoInicio);
+
+            if (parameters.UltimoAcessoFim.HasValue)
+                query = query.Where(r => r.UltimoAcesso <= parameters.UltimoAcessoFim);
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

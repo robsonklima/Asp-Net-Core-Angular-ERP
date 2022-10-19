@@ -12,6 +12,6 @@ namespace SAT.MODELS.Entities
         public Usuario UsuarioDestinatario { get; set; }
         public DateTime DataHoraCad { get; set; }
         public byte? IndLeitura { get; set; }
-        public DateTime DataHoraLeitura { get; set; }
+        public DateTime? DataHoraLeitura { get; set; }
     }
 }

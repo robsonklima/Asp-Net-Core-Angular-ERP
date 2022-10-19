@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities.Helpers;
+﻿using System;
+using SAT.MODELS.Entities.Helpers;
 
 namespace SAT.MODELS.Entities.Params
 {
@@ -18,5 +19,8 @@ namespace SAT.MODELS.Entities.Params
         public string CodFiliais { get; set; }
         public int? IndFerias { get; set; }
         public int? IndPonto { get; set; }
+        public string CodPerfisNotIn { get; set; }
+        public DateTime? UltimoAcessoInicio { get; set; }
+        public DateTime? UltimoAcessoFim { get; set; }
     }
 }

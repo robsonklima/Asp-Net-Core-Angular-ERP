@@ -2,208 +2,180 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatButton } from '@angular/material/button';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { interval, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { MensagemService } from 'app/core/services/mensagem.service';
+import { Mensagem, MensagemData } from 'app/core/types/mensagem.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
+import moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageFormDialogComponent } from './message-form-dialog/message-form-dialog.component';
 
 @Component({
-    selector       : 'messages',
-    templateUrl    : './messages.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'messages',
+    templateUrl: './messages.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'messages'
+    exportAs: 'messages'
 })
-export class MessagesComponent implements OnInit, OnDestroy
-{
+export class MessagesComponent implements OnInit, OnDestroy {
     @ViewChild('messagesOrigin') private _messagesOrigin: MatButton;
     @ViewChild('messagesPanel') private _messagesPanel: TemplateRef<any>;
 
-    messages: any[];
+    messages: Mensagem[];
     unreadCount: number = 0;
+    userSession: UserSession;
     private _overlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        //private _messagesService: MessagesService,
+        private _mensagemService: MensagemService,
+        private _userService: UserService,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef
-    )
-    {
+        private _viewContainerRef: ViewContainerRef,
+        private _dialog: MatDialog
+    ) {
+        this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Subscribe to message changes
-        // this._messagesService.messages$
-        //     .pipe(takeUntil(this._unsubscribeAll))
-        //     .subscribe((messages: any[]) => {
-
-        //         // Load the messages
-        //         this.messages = messages;
-
-        //         // Calculate the unread count
-        //         this._calculateUnreadCount();
-
-        //         // Mark for check
-        //         this._changeDetectorRef.markForCheck();
-        //     });
+    ngOnInit(): void {
+        interval(1 * 60 * 1000)
+            .pipe(startWith(0))
+            .subscribe(() => {
+                this._mensagemService.obterPorParametros({})
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((messages: MensagemData) => {
+                        this.messages = messages.items;
+                        this._calculateUnreadCount();
+                        this._changeDetectorRef.markForCheck();        
+                    });
+            });
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
+    ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
 
-        // Dispose the overlay
-        if ( this._overlayRef )
+        if (this._overlayRef)
         {
             this._overlayRef.dispose();
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Open the messages panel
-     */
-    openPanel(): void
-    {
-        // Return if the messages panel or its origin is not defined
-        if ( !this._messagesPanel || !this._messagesOrigin )
+    openPanel(): void {
+        if (!this._messagesPanel || !this._messagesOrigin)
         {
             return;
         }
 
-        // Create the overlay if it doesn't exist
-        if ( !this._overlayRef )
+        if (!this._overlayRef)
         {
             this._createOverlay();
         }
 
-        // Attach the portal to the overlay
         this._overlayRef.attach(new TemplatePortal(this._messagesPanel, this._viewContainerRef));
     }
 
-    /**
-     * Close the messages panel
-     */
-    closePanel(): void
-    {
+    closePanel(): void {
         this._overlayRef.detach();
     }
 
-    /**
-     * Mark all messages as read
-     */
-    markAllAsRead(): void
-    {
-        // Mark all as read
-        //this._messagesService.markAllAsRead().subscribe();
+    markAllAsRead(): void {
+        for (const msg of this.messages) {
+            msg.indLeitura = 1;
+            msg.dataHoraLeitura = moment().format('YYYY-MM-DD HH:mm:ss');
+
+            this._mensagemService.atualizar(msg);
+        }
+
+        this._calculateUnreadCount();
+        this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Toggle read status of the given message
-     */
-    toggleRead(message: any): void
-    {
-        // Toggle the read status
-        message.read = !message.read;
-
-        // Update the message
-        //this._messagesService.update(message.id, message).subscribe();
+    toggleRead(message: Mensagem): void {
+        message.indLeitura = +!message.indLeitura;
+        message.dataHoraLeitura = moment().format('YYYY-MM-DD HH:mm:ss');
+        
+        const index = this.messages.findIndex(item => item.codMsg === message.codMsg);
+        
+        this._mensagemService.atualizar(message).subscribe(() => {
+            this.messages[index] = message;
+            this._calculateUnreadCount();
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
-    delete(message: any): void
-    {
-        // Delete the message
-        //this._messagesService.delete(message.id).subscribe();
+    delete(message: Mensagem): void {
+        const index = this.messages.findIndex(item => item.codMsg === message.codMsg);
+
+        this._mensagemService.deletar(message.codMsg).subscribe(() =>
+        {
+            this.messages.splice(index, 1);
+            this._calculateUnreadCount();
+            this._changeDetectorRef.markForCheck();
+        });
     }
-   
-    trackByFn(index: number, item: any): any
-    {
+
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Create the overlay
-     */
-    private _createOverlay(): void
-    {
-        // Create the overlay
+    
+    private _createOverlay(): void {
         this._overlayRef = this._overlay.create({
-            hasBackdrop     : true,
-            backdropClass   : 'fuse-backdrop-on-mobile',
-            scrollStrategy  : this._overlay.scrollStrategies.block(),
+            hasBackdrop: true,
+            backdropClass: 'fuse-backdrop-on-mobile',
+            scrollStrategy: this._overlay.scrollStrategies.block(),
             positionStrategy: this._overlay.position()
-                                  .flexibleConnectedTo(this._messagesOrigin._elementRef.nativeElement)
-                                  .withLockedPosition()
-                                  .withPush(true)
-                                  .withPositions([
-                                      {
-                                          originX : 'start',
-                                          originY : 'bottom',
-                                          overlayX: 'start',
-                                          overlayY: 'top'
-                                      },
-                                      {
-                                          originX : 'start',
-                                          originY : 'top',
-                                          overlayX: 'start',
-                                          overlayY: 'bottom'
-                                      },
-                                      {
-                                          originX : 'end',
-                                          originY : 'bottom',
-                                          overlayX: 'end',
-                                          overlayY: 'top'
-                                      },
-                                      {
-                                          originX : 'end',
-                                          originY : 'top',
-                                          overlayX: 'end',
-                                          overlayY: 'bottom'
-                                      }
-                                  ])
+                .flexibleConnectedTo(this._messagesOrigin._elementRef.nativeElement)
+                .withLockedPosition()
+                .withPush(true)
+                .withPositions([
+                    {
+                        originX: 'start',
+                        originY: 'bottom',
+                        overlayX: 'start',
+                        overlayY: 'top'
+                    },
+                    {
+                        originX: 'start',
+                        originY: 'top',
+                        overlayX: 'start',
+                        overlayY: 'bottom'
+                    },
+                    {
+                        originX: 'end',
+                        originY: 'bottom',
+                        overlayX: 'end',
+                        overlayY: 'top'
+                    },
+                    {
+                        originX: 'end',
+                        originY: 'top',
+                        overlayX: 'end',
+                        overlayY: 'bottom'
+                    }
+                ])
         });
 
-        // Detach the overlay from the portal on backdrop click
         this._overlayRef.backdropClick().subscribe(() => {
             this._overlayRef.detach();
         });
     }
 
-    /**
-     * Calculate the unread count
-     *
-     * @private
-     */
-    private _calculateUnreadCount(): void
-    {
+    onSendMessage() {
+        this._dialog.open(MessageFormDialogComponent, {
+            width: '600px'
+        });
+    }
+    
+    private _calculateUnreadCount(): void {
         let count = 0;
 
-        if ( this.messages && this.messages.length )
+        if (this.messages && this.messages.length)
         {
-            count = this.messages.filter(message => !message.read).length;
+            count = this.messages.filter(message => !message.indLeitura).length;
         }
 
         this.unreadCount = count;

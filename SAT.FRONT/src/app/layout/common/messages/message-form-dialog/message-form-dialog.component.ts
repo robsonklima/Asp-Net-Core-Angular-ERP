@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { MensagemService } from 'app/core/services/mensagem.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
+import { Mensagem } from 'app/core/types/mensagem.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioData, UsuarioParameters, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -17,13 +18,16 @@ import { MessagesComponent } from '../messages.component';
   templateUrl: './message-form-dialog.component.html',
 })
 export class MessageFormDialogComponent implements OnInit {
+  mensagem: Mensagem;
   form: FormGroup;
   usuarios: Usuario[] = [];
   usuarioSessao: UsuarioSessao;
+  loading: boolean = true;
   usuarioFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
   
   constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
     private _mensagemService: MensagemService,
     private _usuarioService: UsuarioService,
     public _dialogRef: MatDialogRef<MessagesComponent>,
@@ -32,18 +36,23 @@ export class MessageFormDialogComponent implements OnInit {
     private _snack: CustomSnackbarService,
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
+    this.mensagem = data?.mensagem;
   }
 
   async ngOnInit() {
     this.criarForm();
     this.registrarEmitters();
     this.usuarios = await (await this.obterUsuarios()).items;
+    this.loading = false;
   }
 
   criarForm() {
     this.form = this._formBuilder.group({
+      codUsuarioDestinatario: [{ 
+        value: this.mensagem?.codUsuarioRemetente, disabled: this.mensagem?.codUsuarioRemetente }, 
+        [Validators.required]
+      ],
       conteudo: ['', [Validators.required]],
-      codUsuarioDestinatario: ['', [Validators.required]]
     });
   }
 

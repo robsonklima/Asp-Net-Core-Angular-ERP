@@ -254,6 +254,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewIntegracaoFinanceiroOrcamento> ViewIntegracaoFinanceiroOrcamento { get; set; }
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
+        public DbSet<Mensagem> Mensagem { get; set; }
         public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
         public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
         
@@ -428,6 +429,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORTipo>(new ORTipoMap().Configure);
             modelBuilder.Entity<BancadaLaboratorio>(new BancadaLaboratorioMap().Configure);
             modelBuilder.Entity<OR>(new ORMap().Configure);
+            modelBuilder.Entity<Mensagem>(new MensagemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

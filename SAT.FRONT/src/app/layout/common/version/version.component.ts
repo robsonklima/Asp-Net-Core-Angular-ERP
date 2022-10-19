@@ -1,5 +1,5 @@
 import { OverlayRef } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { VersaoService } from 'app/core/services/versao.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
@@ -22,7 +22,6 @@ export class VersionComponent implements OnInit, OnDestroy {
 
     constructor(
         private _versaoService: VersaoService,
-        private _cdr: ChangeDetectorRef,
         private _dialog: MatDialog,
     ) {}
 

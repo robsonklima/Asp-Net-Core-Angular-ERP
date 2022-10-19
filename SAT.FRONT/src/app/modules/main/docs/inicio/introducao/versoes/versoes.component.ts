@@ -22,7 +22,7 @@ export class VersoesComponent implements OnInit
             .obterPorParametros({ 
                 sortDirection: 'desc',
                 sortActive: 'codSatVersao',
-                pageSize: 10
+                pageSize: 30
             })
             .toPromise();
 

@@ -213,5 +213,5 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 			this.userSession?.usuario?.codPerfil == RoleEnum.FILIAL_LIDER_DE_SETOR
 	}
 
-	isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null }
+	isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null && dpi?.status?.nomeDespesaPeriodoTecnicoStatus != 'REPROVADO'; }
 }

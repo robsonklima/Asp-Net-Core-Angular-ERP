@@ -70,6 +70,7 @@ import { DespesaConfiguracaoListaComponent } from './despesa-configuracao-lista/
 import { DespesaConfiguracaoFormComponent } from './despesa-configuracao-form/despesa-configuracao-form.component';
 import { FiltroModule } from '../filtros/filtro.module';
 import { DespesaAdiantamentoSolicitacaoComponent } from './despesa-adiantamento-solicitacao/despesa-adiantamento-solicitacao.component';
+import { DespesaProtocoloFormComponent } from './despesa-protocolo-form/despesa-protocolo-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -113,7 +114,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaCartaoCombustivelFormComponent,
       DespesaConfiguracaoListaComponent,
       DespesaConfiguracaoFormComponent,
-      DespesaAdiantamentoSolicitacaoComponent
+      DespesaAdiantamentoSolicitacaoComponent,
+      DespesaProtocoloFormComponent
     ],
   imports: [
     RouterModule.forChild(despesaRoutes),

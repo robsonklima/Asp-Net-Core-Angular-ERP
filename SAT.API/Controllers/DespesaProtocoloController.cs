@@ -34,5 +34,17 @@ namespace SAT.API.Controllers
         [HttpPut]
         public void Put([FromBody] DespesaProtocolo despesaProtocolo) =>
            _protocoloService.Atualizar(despesaProtocolo);
+
+        [HttpPost]
+        public void Post([FromBody] DespesaProtocolo despesaProtocolo)
+        {
+            _protocoloService.Criar(despesaProtocolo);
+        }
+        
+        [HttpDelete("{codDespesaProtocolo}")]
+        public void Delete(int codDespesaProtocolo)
+        {
+            _protocoloService.Deletar(codDespesaProtocolo);
+        }
     }
 }

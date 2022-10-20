@@ -31,14 +31,30 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Criar(DespesaProtocolo protocolo)
+        public DespesaProtocolo Criar(DespesaProtocolo protocolo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Add(protocolo);
+                _context.SaveChanges();
+                return protocolo;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
-        public void Deletar(int codigo)
+        public void Deletar(int codDespesaProtocolo)
         {
-            throw new NotImplementedException();
+            DespesaProtocolo dp = _context.DespesaProtocolo
+                .FirstOrDefault(dp => dp.CodDespesaProtocolo == codDespesaProtocolo);
+
+            if (dp != null)
+            {
+                _context.DespesaProtocolo.Remove(dp);
+                _context.SaveChanges();
+            }
         }
 
         public DespesaProtocolo ObterPorCodigo(int codigo)

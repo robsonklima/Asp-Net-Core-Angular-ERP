@@ -22,9 +22,9 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <!-- <button class="ml-2" mat-icon-button (click)="sidenav.toggle()">
-                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-                    </button> -->
+                    <button class="ml-2" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/despesa/protocolos/form']">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
                 </div>
             </div>
             <div class="flex flex-auto overflow-hidden">

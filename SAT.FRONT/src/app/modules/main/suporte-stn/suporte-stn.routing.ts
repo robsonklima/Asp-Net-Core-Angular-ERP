@@ -16,4 +16,9 @@ export const suporteSTNRoutes: Route[] = [
         path: 'form',
         component: OrdemServicoStnFormComponent
     }
+    ,
+    {
+        path: 'form/:codAtendimento',
+        component: OrdemServicoStnFormComponent
+    }
 ];

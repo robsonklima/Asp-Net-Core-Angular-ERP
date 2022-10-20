@@ -43,7 +43,7 @@
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()">
+                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()" *ngIf="!atendimentos.length">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
                 </button>
 
@@ -284,15 +284,15 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Status Protocolo STN
-                            </div>
-                
-                            <div class="truncate max-w-1/2">
-                                
-                            </div>
-                        </div>
+                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                            <mat-label>{{ t('status protocolo stn') }}</mat-label>
+                            <mat-select class="min-h-10" formControlName="codStatusServicoSTN" [disabled]="!statusServicosSTN.length">
+                                <mat-option *ngFor="let statusServicoSTN of statusServicosSTN" [value]="statusServicoSTN.codStatusServicoSTN">
+                                    {{ statusServicoSTN.descStatusServicoSTN }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>{{ t('preencher campo') }}</mat-error>
+                        </mat-form-field>                           
                     </div>
                 </fuse-card>
             </div>

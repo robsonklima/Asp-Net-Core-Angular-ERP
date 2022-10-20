@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -14,14 +14,16 @@ import { fromEvent, Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { OrdemServicoStnHistoricoComponent } from '../ordem-servico-stn-historico/ordem-servico-stn-historico.component';
-import { Location } from '@angular/common';
 import { FormGroup } from '@angular/forms';
+import { StatusServicoSTN, StatusServicoSTNParameters } from 'app/core/types/status-servico-stn.types';
+import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
 })
 export class OrdemServicoStnFormComponent implements AfterViewInit {
   codAtendimento: number;
+  statusServicosSTN: StatusServicoSTN[] = [];
   os: OrdemServico;
   rat: RelatorioAtendimento;
   atendimentos: OrdemServicoSTN[] = [];
@@ -38,10 +40,11 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _route: ActivatedRoute,
     private _ordemServicoSTNService: OrdemServicoSTNService,
     private _ordemServicoService: OrdemServicoService,
+    private _statusServicoSTNService: StatusServicoSTNService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _dialog: MatDialog,
-    private _location: Location
+    private _router: Router
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -49,16 +52,15 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
-
-    //this.obterDados(6928411);
-
-    this.registrarEmitters();
-    this._cdr.detectChanges();
+    this.registrarEmitters();  
+    this._cdr.detectChanges();    
+    this.obterStatusServicoSTN();
 
     if (!this.isAddMode) {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
         .pipe(first())
         .subscribe(data => {
+          console.log(data);
           
         });
     }
@@ -84,6 +86,17 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.isLoading = false;
   }
 
+  private async obterStatusServicoSTN() {
+    const params: StatusServicoSTNParameters = {
+      sortActive: 'descStatusServicoSTN',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
+    this.statusServicosSTN = data.items;
+  }
+
+
   abrirHistorico() {
     const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {
       data: {}
@@ -95,68 +108,31 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   }
 
   salvar(): void {
-    this.isAddMode ? this.criar() : this.atualizar();
+    this.isAddMode ? this.criar() : this.atualizar();  
   }
 
   atualizar(): void {
-   
-
-    // let obj = {
-    //   ...this.turno,
-    //   ...form,
-    //   ...{
-    //     horaInicio1: moment().format(`yyyy-MM-DD ${form.horaInicio1}`),
-    //     horaFim1: moment().format(`yyyy-MM-DD ${form.horaFim1}`),
-    //     horaInicio2: moment().format(`yyyy-MM-DD ${form.horaInicio2}`),
-    //     horaFim2: moment().format(`yyyy-MM-DD ${form.horaFim2}`),
-    //     dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-    //     codUsuarioManut: this.userSession.usuario.codUsuario,
-    //     indAtivo: +form.indAtivo
-    //   }
-    // };
-    
-    // this._turnoService.atualizar(obj).subscribe(() => {
-    //   this._snack.exibirToast(`Turno atualizado com sucesso!`, "success");
-    //   this._location.back();
-    // });
+    this._snack.exibirToast(`Atualização!`, "success");
   }
 
-  criar(): void {
-        //const form: any = this.form.getRawValue();
-
+  criar(): void {     
         let obj: OrdemServicoSTN = {
           ...this.ordemServicoSTN,
-          //...form,
           ...{
-            codAtendimento: 0,
             CodOS: this.os.codOS,
             DataHoraAberturaSTN: moment().format('YYYY-MM-DD HH:mm:ss'),
-            DataHoraFechamentoSTN: null,
             CodStatusSTN: 2,
-            CodTipoCausa: null,
-            CodGrupoCausa: null,
-            CodDefeito: null,
-            CodCausa: null,
-            CodAcao: null,
             CodTecnico: 'SEM TRANSFERENCIA',
-            CodUsuarioCad: 'ealmanca',
-            CodUsuarioManut: null,
-            CodOrigemChamadoSTN: null,
+            CodUsuarioCad: this.userSession.usuario.codUsuario,
             IndAtivo: 1,
             NumReincidenciaAoAssumir: 0,
-            DataHoraManut: null,
             NumTratativas: 0,
-            IndEvitaPendencia: null,
-            IndPrimeiraLigacao: null,
-            NomeSolicitante: null,
-            ObsSistema: null
           }
         };    
 
-        this._ordemServicoSTNService.criar(obj).subscribe(() => {
-
+        this._ordemServicoSTNService.criar(obj).subscribe((atendimento) => {
           this._snack.exibirToast(`Chamado STN adicionado com sucesso!`, "success");
-          this._location.back();
+          this._router.navigate(['/suporte-stn/form/' + atendimento.codAtendimento]);
         });
   }
 

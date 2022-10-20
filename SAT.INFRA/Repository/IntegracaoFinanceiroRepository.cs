@@ -41,6 +41,9 @@ namespace SAT.INFRA.Repository
             if (parameters.TipoFaturamento != null)
                 orcamentos = orcamentos.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
 
+            if (parameters.IndFaturamento.HasValue)
+                orcamentos = orcamentos.Where(o => o.IndFaturamento == parameters.IndFaturamento);                
+
             return orcamentos;
         }
 
@@ -54,6 +57,9 @@ namespace SAT.INFRA.Repository
 
             if (parameters.TipoFaturamento != null)
                 itens = itens.Where(o => o.TipoFaturamento == (int)parameters.TipoFaturamento);
+
+            if (parameters.IndFaturamento.HasValue)
+                itens = itens.Where(o => o.IndFaturamento == parameters.IndFaturamento);                  
 
             itens = itens.OrderBy(i => i.SeqItemPedido);
 

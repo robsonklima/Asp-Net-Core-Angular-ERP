@@ -165,9 +165,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
         });
     }
 
-    onSendMessage() {
+    onSendMessage(mensagem: Mensagem = null) {
         this._dialog.open(MessageFormDialogComponent, {
-            width: '600px'
+            width: '600px',
+            data: {
+                mensagem: mensagem
+            }
         });
     }
     

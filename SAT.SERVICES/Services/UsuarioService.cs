@@ -21,28 +21,29 @@ namespace SAT.SERVICES.Services
         private readonly IUsuarioRepository _usuarioRepo;
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
+        private readonly IUsuarioLoginRepository _usuarioLoginRepo;
 
         public UsuarioService(
             IUsuarioRepository usuarioRepository,
             IConfiguration config,
-            ITokenService tokenService
+            ITokenService tokenService,
+            IUsuarioLoginRepository usuarioLoginRepo
         )
         {
             _usuarioRepo = usuarioRepository;
             _config = config;
             _tokenService = tokenService;
+            _usuarioLoginRepo = usuarioLoginRepo;
         }
 
         public UsuarioLoginViewModel Login(Usuario usuario)
         {
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
             var navegacoes = CarregarNavegacoes(usuarioLogado);
+            RegistrarAcesso(usuarioLogado);
 
             if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
-
-            usuarioLogado.UltimoAcesso = DateTime.Now;
-            _usuarioRepo.Atualizar(usuarioLogado);
 
             return new UsuarioLoginViewModel()
             {
@@ -182,23 +183,29 @@ namespace SAT.SERVICES.Services
             return navegacoes;
         }
 
-        public UsuariosLogadosViewModel ObterUsuariosLogados()
-        {
-            var usuariosAtivos = _usuarioRepo.ObterPorParametros(new UsuarioParameters() { IndAtivo = 1 });
-
-            var dataRange = DateTime.Now.AddHours(-4);
-            var usuariosLogados = usuariosAtivos.Where(u => u.UltimoAcesso >= dataRange);
-
-            return new UsuariosLogadosViewModel()
-            {
-                UsuariosAtivos = usuariosAtivos.Count(),
-                UsuariosLogados = usuariosLogados.Count()
-            };
-        }
-
         public void DesbloquearAcesso(string codUsuario)
         {
             this._usuarioRepo.DesbloquearAcesso(codUsuario);
+        }
+
+        private void RegistrarAcesso(Usuario usuarioLogado) 
+        {
+            try
+            {
+                usuarioLogado.UltimoAcesso = DateTime.Now;
+                _usuarioRepo.Atualizar(usuarioLogado);
+
+                var login = new UsuarioLogin {
+                    CodUsuario = usuarioLogado?.CodUsuario,
+                    DataHoraCad = DateTime.Now
+                };
+
+                _usuarioLoginRepo.Criar(login);   
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao registrar acesso do usuário", ex);
+            }
         }
     }
 }

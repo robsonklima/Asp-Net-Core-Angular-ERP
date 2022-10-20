@@ -1,15 +1,23 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="relative bg-card border-b">
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+    <div class="dark bg-card dark:border-b">
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-0 sm:my-12">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-6 sm:my-12">
                 <div class="flex flex-auto items-center min-w-0">
                     <div class="flex flex-col min-w-0 ml-4">
                         <ng-container *transloco="let t">
-                            <div
-                                class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
                                 {{ obterMensagemBoasVindas() }}
                             </div>
                         </ng-container>
+
+                        <div class="flex items-center">
+                            <div class="ml-0.5 leading-6 truncate text-secondary">
+                                Perfil {{ sessionData.usuario.perfil.nomePerfil }}, {{ sessionData.usuario.usuarioDispositivos.length }} dispositivos cadastrados
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -24,8 +32,14 @@
                     Em breve serão exibidas aqui informações pertinentes aos seus processos.
                 </p>
             </div>
-
+            
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
+                    <ng-template matTabContent>
+                        <app-utilizacao></app-utilizacao>
+                    </ng-template>
+                </mat-tab>
+
                 <mat-tab label="Serviços" *ngIf="verificarPermissaoAcessoSlide('SERVICOS')">
                     <ng-template matTabContent>
                         <app-servicos></app-servicos>
@@ -53,12 +67,6 @@
                 <mat-tab label="Logs" *ngIf="verificarPermissaoAcessoSlide('LOGS')">
                     <ng-template matTabContent>
                         <app-log-detalhe></app-log-detalhe>
-                    </ng-template>
-                </mat-tab>
-
-                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
-                    <ng-template matTabContent>
-                        <app-utilizacao></app-utilizacao>
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>

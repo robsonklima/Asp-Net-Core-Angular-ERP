@@ -15,7 +15,6 @@ import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { StringExtensions } from 'app/core/extensions/string.extensions';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
 @Component({

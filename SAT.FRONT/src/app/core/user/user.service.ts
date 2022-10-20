@@ -85,13 +85,6 @@ export class UserService {
     );
   }
 
-  obterUsuariosLogados(): Observable<UsuariosLogados> {
-    const url = `${c.api}/Usuario/UsuariosLogados`;
-    return this.http.get<UsuariosLogados>(url).pipe(
-      map((obj) => obj)
-    );
-  }
-
   atualizaFiltrosUsuario(usuario: User): Observable<Usuario> {
     return this.obterPorCodigo(usuario.codUsuario);
   }

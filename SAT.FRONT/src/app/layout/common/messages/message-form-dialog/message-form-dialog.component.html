@@ -6,7 +6,7 @@
             {{ mensagem?.conteudo }}, {{ mensagem?.usuarioRemetente?.nomeUsuario }}
         </div>
 
-        <form class="flex flex-col overflow-hidden uppercase" [formGroup]="form" *transloco="let t">
+        <form class="flex flex-col overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('destinatario') }}</mat-label>
@@ -18,8 +18,8 @@
                             </ngx-mat-select-search>
                         </mat-option>
 
-                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
-                            {{ usuario.nomeUsuario }}
+                        <mat-option class="uppercase" *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
+                            {{ usuario.nomeUsuario }} - <span class="font-light text-hint">{{ usuario?.perfil?.nomePerfil }}</span>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

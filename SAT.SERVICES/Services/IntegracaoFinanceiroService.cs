@@ -45,7 +45,7 @@ namespace SAT.SERVICES.Services
                 .ObterOrcamentos(new IntegracaoFinanceiroParameters { 
                     CodStatusServico = (int)StatusServicoEnum.FECHADO,
                     CodTipoIntervencao = (int)TipoIntervencaoEnum.ORC_APROVADO,
-                    AnoFechamento = DateTime.Now
+                    IndFaturamento = 1
                 })
                 .ToList();
 

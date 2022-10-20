@@ -5,6 +5,7 @@ namespace SAT.MODELS.Views {
     public class ViewIntegracaoFinanceiroOrcamento
     {
         public int CodOrc { get; set; }
+        public int IndFaturamento { get; set; }
         public DateTime DataHoraFechamento { get; set; }
         public int CodTipoIntervencao { get; set; }
         public int CodStatusServico { get; set; }

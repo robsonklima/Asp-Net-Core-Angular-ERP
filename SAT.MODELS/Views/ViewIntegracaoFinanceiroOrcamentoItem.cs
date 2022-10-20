@@ -2,6 +2,7 @@ namespace SAT.MODELS.Views {
     public class ViewIntegracaoFinanceiroOrcamentoItem
     {
         public int CodOrc { get; set; }
+        public int IndFaturamento { get; set; }        
         public int TipoFaturamento { get; set; }
         public string CodItem { get; set; }
         public int Quantidade { get; set; }

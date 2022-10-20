@@ -47,6 +47,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
                 this._mensagemService
                     .obterPorParametros({ 
                         codUsuarioDestinatario: this.userSession.usuario.codUsuario,
+                        indLeitura: 0,
                         sortActive: 'codMsg',
                         sortDirection: 'desc',
                         pageSize: 100

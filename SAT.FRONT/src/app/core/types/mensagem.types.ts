@@ -19,4 +19,5 @@ export interface MensagemData extends Meta {
 
 export interface MensagemParameters extends QueryStringParameters {
     codUsuarioDestinatario?: string;
+    indLeitura?: number;
 };

@@ -94,7 +94,7 @@
                                         </div>
 
                                         <div class="flex items-left">
-                                            {{ item?.statusOR?.descStatus || '--' }}
+                                            {{ item?.statusOR?.descStatus?.match(/\b(\w)/g).join('') || '--' }}
                                         </div>
 
                                         <div class="flex items-left">

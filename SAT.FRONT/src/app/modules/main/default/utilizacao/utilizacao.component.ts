@@ -58,25 +58,6 @@ export class UtilizacaoComponent implements OnInit {
     this.loading = false;
   }
 
-  obterPerfis() {
-    this.perfisAtivos = _(this.usuariosAtivos)
-      .groupBy(usuario => usuario?.perfil?.nomePerfil)
-      .map((value, key) => ({nomePerfil: key, usuarios: value}))
-      .value();
-
-    this.perfisOnline = _(this.usuariosOnline)
-      .groupBy(usuario => usuario?.perfil?.nomePerfil)
-      .map((value, key) => ({nomePerfil: key, usuarios: value}))
-      .value();
-  }
-
-  obterAcessosPorData() {
-    this.acessosPorData = _(this.acessos)
-      .groupBy(acesso => moment(acesso?.dataHoraCad).format('DD/MM/YY'))
-      .map((value, key) => ({ data: key, acessos: value.length }))
-      .value();
-  }
-
   async obterUsuarios(): Promise<UsuarioData> {
 		let params: UsuarioParameters = {
 			indAtivo: statusConst.ATIVO,
@@ -100,6 +81,25 @@ export class UtilizacaoComponent implements OnInit {
 			.obterPorParametros(params)
 			.toPromise();
 	}
+
+  obterPerfis() {
+    this.perfisAtivos = _(this.usuariosAtivos)
+      .groupBy(usuario => usuario?.perfil?.nomePerfil)
+      .map((value, key) => ({nomePerfil: key, usuarios: value}))
+      .value();
+
+    this.perfisOnline = _(this.usuariosOnline)
+      .groupBy(usuario => usuario?.perfil?.nomePerfil)
+      .map((value, key) => ({nomePerfil: key, usuarios: value}))
+      .value();
+  }
+
+  obterAcessosPorData() {
+    this.acessosPorData = _(this.acessos)
+      .groupBy(acesso => moment(acesso?.dataHoraCad).format('DD/MM/YY'))
+      .map((value, key) => ({ data: key, acessos: value.length }))
+      .value();
+  }
 
   obterUsuariosAtivos(parametro: number=-365) {
     const dataFiltro = moment().add('days', parametro);
@@ -170,8 +170,6 @@ export class UtilizacaoComponent implements OnInit {
         }
       },
       yaxis: {
-        min: 0,
-        max: 100,
         labels: {}
       },
       legend: {
@@ -184,7 +182,7 @@ export class UtilizacaoComponent implements OnInit {
     };
   }
 
-  public onUsuarios(usuarios: Usuario[]) {
+  onUsuarios(usuarios: Usuario[]) {
     this._dialog.open(UtilizacaoUsuariosDialogComponent, {
       data: {
         usuarios: usuarios,

@@ -1,8 +1,8 @@
 <div class="flex-auto">
     <div class="w-full max-w-screen-xl mx-auto">
         <ng-container>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="usuarios.length">
-                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="usuarios.length && !loading">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Usuários que efetuaram login no período selecionado
@@ -11,6 +11,7 @@
                             <mat-button-toggle-group
                                 value="this-week"
                                 #githubIssuesWeekSelector="matButtonToggleGroup">
+                                <mat-button-toggle value="last-week" (click)="obterUsuariosAtivos(-7)">Semanal</mat-button-toggle>
                                 <mat-button-toggle value="last-week" (click)="obterUsuariosAtivos(-30)">Mensal</mat-button-toggle>
                                 <mat-button-toggle value="last-week" (click)="obterUsuariosAtivos(-90)">Trimestral</mat-button-toggle>
                                 <mat-button-toggle value="last-week" (click)="obterUsuariosAtivos(-180)">Semestral</mat-button-toggle>
@@ -47,12 +48,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="loading">
+                    Carregando...
+                </div>
             </div>
 
-            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="usuarios.length">
-                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="usuarios.length && !loading">
                     <div class="flex flex-col sm:flex-row items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        <div class="text-lg tracking-tight leading-6 truncate font-semibold">
                             Usuários online
                         </div>
                     </div>
@@ -70,7 +75,7 @@
                                     </div>
                                 </div>
                                 
-                                <div *ngFor="let perfil of perfisOnline" (click)="onUsuarios(perfil.usuarios)" class="col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-600">
+                                <div *ngFor="let perfil of perfisOnline" (click)="onUsuarios(perfil.usuarios)" class="cursor-pointer col-span-2 sm:col-span-1 flex flex-col items-center justify-center py-8 px-1 rounded-2xl bg-green-50 text-green-600">
                                     <div class="text-5xl font-semibold leading-none tracking-tight">
                                         {{ perfil.usuarios.length }}
                                     </div>
@@ -83,10 +88,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="flex justify-center items-center min-h-30 bg-gray-100" *ngIf="loading">
-                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
         </ng-container>
     </div>

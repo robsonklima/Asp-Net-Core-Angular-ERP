@@ -18,7 +18,7 @@ export class UtilizacaoComponent implements OnInit {
   usuariosOnline: Usuario[] = [];
   perfisAtivos: any;
   perfisOnline: any;
-  loading: boolean;
+  loading: boolean = true;
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -30,6 +30,7 @@ export class UtilizacaoComponent implements OnInit {
     this.usuariosOnline = this.obterUsuariosOnline();
     this.obterUsuariosAtivos();
     this.obterPerfis();
+    this.loading = false;
   }
 
   obterPerfis() {

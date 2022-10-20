@@ -6,6 +6,8 @@ import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.
 import Enumerable from 'linq';
 import _ from 'lodash';
 import moment from 'moment';
+import { interval, Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 import { UtilizacaoUsuariosDialogComponent } from './utilizacao-usuarios-dialog/utilizacao-usuarios-dialog.component';
 
 @Component({
@@ -19,6 +21,7 @@ export class UtilizacaoComponent implements OnInit {
   perfisAtivos: any;
   perfisOnline: any;
   loading: boolean = true;
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -26,6 +29,17 @@ export class UtilizacaoComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    interval(3 * 60 * 1000)
+			.pipe(
+				startWith(0),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(() => {
+				this.obterDados();
+			});
+  }
+
+  private async obterDados() {
     this.usuarios = (await this.obterUsuarios()).items;
     this.usuariosOnline = this.obterUsuariosOnline();
     this.obterUsuariosAtivos();
@@ -85,4 +99,9 @@ export class UtilizacaoComponent implements OnInit {
       },
     });
   }
+
+  ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	}
 }

@@ -22,7 +22,10 @@ namespace SAT.SERVICES.Services
 
         public DespesaProtocolo Criar(DespesaProtocolo protocolo)
         {
-            _protocoloRepo.Criar(protocolo);
+            protocolo =  _protocoloRepo.Criar(protocolo);
+
+            protocolo.NomeProtocolo = $"{ protocolo.NomeProtocolo } - { protocolo.CodDespesaProtocolo }";
+            _protocoloRepo.Atualizar(protocolo);
 
             return protocolo;
         }

@@ -69,12 +69,6 @@ namespace SAT.API.Controllers
             return response.RequestValido ? Ok(response) : BadRequest(response);
         }
 
-        [HttpGet("UsuariosLogados")]
-        public UsuariosLogadosViewModel GetUsuariosLogados(string codUsuario)
-        {
-            return _usuarioService.ObterUsuariosLogados();
-        }
-
 
         [HttpPost]
         [Route("DesbloquearAcesso/{codUsuario}")]

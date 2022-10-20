@@ -21,6 +21,8 @@ import { OciosidadeComponent } from './ociosidade/ociosidade.component';
 import { UtilizacaoComponent } from './utilizacao/utilizacao.component';
 import { LogDetalheComponent } from './log-detalhe/log-detalhe.component';
 import { FuseCardModule } from '@fuse/components/card';
+import { UtilizacaoUsuariosDialogComponent } from './utilizacao/utilizacao-usuarios-dialog/utilizacao-usuarios-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,8 @@ import { FuseCardModule } from '@fuse/components/card';
         DisponibilidadeComponent,
         OciosidadeComponent,
         UtilizacaoComponent,
-        LogDetalheComponent
+        LogDetalheComponent,
+        UtilizacaoUsuariosDialogComponent
     ],
     imports: [
         RouterModule.forChild(defaultRoutes),
@@ -47,7 +50,8 @@ import { FuseCardModule } from '@fuse/components/card';
         MatIconModule,
         MatTooltipModule,
         MatProgressBarModule,
-        FuseCardModule
+        FuseCardModule,
+        MatDialogModule
     ]
 })
 export class DefaultModule {

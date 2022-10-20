@@ -103,6 +103,12 @@ namespace SAT.INFRA.Mapping
             builder
                 .Property(p => p.FoneParticular)
                 .HasColumnName("Fax");
+
+            builder
+                .HasMany(p => p.Acessos)
+                .WithOne()
+                .HasForeignKey(i => i.CodUsuario)
+                .HasPrincipalKey(i => i.CodUsuario);
         }
     }
 }

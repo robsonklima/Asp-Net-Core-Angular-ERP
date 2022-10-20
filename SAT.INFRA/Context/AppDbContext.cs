@@ -200,6 +200,7 @@ namespace SAT.INFRA.Context
         public DbSet<ORTipo> ORTipo { get; set; }
         public DbSet<BancadaLaboratorio> BancadaLaboratorio { get; set; }
         public DbSet<OR> OR { get; set; }
+        public DbSet<UsuarioLogin> UsuarioLogin { get; set; }
 
         // Views
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
@@ -430,6 +431,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<BancadaLaboratorio>(new BancadaLaboratorioMap().Configure);
             modelBuilder.Entity<OR>(new ORMap().Configure);
             modelBuilder.Entity<Mensagem>(new MensagemMap().Configure);
+            modelBuilder.Entity<UsuarioLogin>(new UsuarioLoginMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

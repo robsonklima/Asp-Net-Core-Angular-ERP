@@ -18,6 +18,7 @@ import { DespesaPeriodoListaComponent } from "./despesa-periodo-lista/despesa-pe
 import { DespesaProtocoloDetalheComponent } from "./despesa-protocolo-detalhe/despesa-protocolo-detalhe.component";
 import { DespesaProtocoloListaComponent } from "./despesa-protocolo-lista/despesa-protocolo-lista.component";
 import { DespesaTecnicoListaComponent } from "./despesa-tecnico-lista/despesa-tecnico-lista.component";
+import { DespesaProtocoloFormComponent } from './despesa-protocolo-form/despesa-protocolo-form.component';
 
 export const despesaRoutes: Route[] = [
     {
@@ -88,6 +89,10 @@ export const despesaRoutes: Route[] = [
     {
         path: 'protocolos',
         component: DespesaProtocoloListaComponent
+    },
+    {
+        path: 'protocolos/form',
+        component: DespesaProtocoloFormComponent
     },
     {
         path: 'protocolos/detalhe/:codDespesaProtocolo',

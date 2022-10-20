@@ -64,5 +64,6 @@ namespace SAT.MODELS.Entities
         public List<FiltroUsuario> FiltroUsuario { get; set; }
         public List<UsuarioDispositivo> UsuarioDispositivos { get; set; }
         public UsuarioSeguranca UsuarioSeguranca { get; set; }
+        public List<UsuarioLogin> Acessos { get; set; }
     }
 }

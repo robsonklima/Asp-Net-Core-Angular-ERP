@@ -63,6 +63,8 @@ export class Usuario {
     pontosUsuario?: PontoUsuario[];
     filtroUsuario?: FiltroUsuarioData[];
     usuarioSeguranca: UsuarioSeguranca;
+    usuarioDispositivos: any[];
+    ultimoAcesso: string;
 }
 
 export interface UsuarioData extends Meta {

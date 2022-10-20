@@ -39,4 +39,11 @@ export class DespesaProtocoloService
             `${c.api}/DespesaProtocolo`, despesaProtocolo)
             .pipe(map((obj) => obj));
     }
+
+    criar(despesaProtocolo: DespesaProtocolo): Observable<DespesaProtocolo> 
+    {
+        return this.http.post<DespesaProtocolo>(`${c.api}/DespesaProtocolo`, despesaProtocolo).pipe(
+          map((obj) => obj)
+        );
+      }
 }

@@ -169,6 +169,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORStatusRepository>().As<IORStatusRepository>();
         builder.RegisterType<ORTipoRepository>().As<IORTipoRepository>();
         builder.RegisterType<MensagemRepository>().As<IMensagemRepository>();
+        builder.RegisterType<UsuarioLoginRepository>().As<IUsuarioLoginRepository>();
         
         #endregion
 
@@ -330,6 +331,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORStatusService>().As<IORStatusService>();
         builder.RegisterType<ORTipoService>().As<IORTipoService>();
         builder.RegisterType<MensagemService>().As<IMensagemService>();
+        builder.RegisterType<UsuarioLoginService>().As<IUsuarioLoginService>();
 
         #endregion
 

@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Listagem de Usuários</h2>
+
+<mat-dialog-content class="mat-typography">
+    <div class="overflow-x-auto overflow-y-auto relative">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-md text-gray-700 uppercase">
+                <tr>
+                    <th scope="col" class="py-1 pr-2 text-center">
+                        #
+                    </th>
+
+                    <th scope="col" class="py-1 pr-2 text-left">
+                        Nome
+                    </th>
+
+                    <th scope="col" class="py-1 pr-2 text-left">
+                        Perfil
+                    </th>
+
+                    <th scope="col" class="py-1 pr-2 text-center">
+                        Último Acesso
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="dark:border-gray-700 border-t-2" *ngFor="let usuario of usuarios; let i=index">
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ i+1 }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-left">
+                        {{ usuario.nomeUsuario | uppercase }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-left">
+                        {{ usuario.perfil.nomePerfil | uppercase }}
+                    </td>
+
+                    <td class="py-1 pr-2 font-medium text-center">
+                        {{ usuario.ultimoAcesso | date:'dd/MM/yyyy HH:mm' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="!usuarios?.length"
+            class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+            Nenhum usuário encontrado!
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fechar</button>
+</mat-dialog-actions>

@@ -9,11 +9,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Prometheus;
 using SAT.API.Support;
 using SAT.INFRA.Context;
 using SAT.IOC;
 using SAT.MODELS.Entities.Constants;
-using System;
 using System.Text;
 
 namespace SAT.API
@@ -100,6 +107,20 @@ namespace SAT.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SAT_Api v1"));
             }
 
+             var counter = Metrics.CreateCounter("satv2_api", "Counts requests to the WebApiMetrics API endpoints",
+                new CounterConfiguration
+                {
+                    LabelNames = new[] { "method", "endpoint" }
+                });
+
+            app.Use((context, next) =>
+            {
+                counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
+                return next();
+            });
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();
             app.UseHttpsRedirection();
             app.UseCustomExceptionMiddleware();
             app.UseRouting();

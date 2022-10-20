@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { UsuarioLoginService } from 'app/core/services/usuario-login.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { statusConst } from 'app/core/types/status-types';
+import { UsuarioLogin, UsuarioLoginData, UsuarioLoginParameters } from 'app/core/types/usuario-login.types';
 import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import Enumerable from 'linq';
 import _ from 'lodash';
@@ -16,6 +18,8 @@ import { UtilizacaoUsuariosDialogComponent } from './utilizacao-usuarios-dialog/
 })
 export class UtilizacaoComponent implements OnInit {
   usuarios: Usuario[] = [];
+  acessos: UsuarioLogin[] = [];
+  acessosPorData: any[] = [];
   usuariosAtivos: Usuario[] = [];
   usuariosOnline: Usuario[] = [];
   perfisAtivos: any;
@@ -25,6 +29,7 @@ export class UtilizacaoComponent implements OnInit {
 
   constructor(
     private _usuarioService: UsuarioService,
+    private _usuarioLoginService: UsuarioLoginService,
     private _dialog: MatDialog
   ) { }
 
@@ -44,6 +49,8 @@ export class UtilizacaoComponent implements OnInit {
     this.usuariosOnline = this.obterUsuariosOnline();
     this.obterUsuariosAtivos();
     this.obterPerfis();
+    this.acessos = (await this.obterAcessos()).items;
+    this.obterAcessosPorData();
     this.loading = false;
   }
 
@@ -59,6 +66,13 @@ export class UtilizacaoComponent implements OnInit {
       .value();
   }
 
+  obterAcessosPorData() {
+    this.acessosPorData = _(this.acessos)
+      .groupBy(acesso => moment(acesso?.dataHoraCad).format('DD/MM/YY'))
+      .map((value, key) => ({ data: key, acessos: value }))
+      .value();
+  }
+
   async obterUsuarios(): Promise<UsuarioData> {
 		let params: UsuarioParameters = {
 			indAtivo: statusConst.ATIVO,
@@ -69,6 +83,16 @@ export class UtilizacaoComponent implements OnInit {
 		};
 
 		return await this._usuarioService
+			.obterPorParametros(params)
+			.toPromise();
+	}
+
+  async obterAcessos(): Promise<UsuarioLoginData> {
+		let params: UsuarioLoginParameters = {
+      dataHoraCadInicio: moment().subtract(1, 'month').format('YYYY-MM-DD HH:mm:ss')
+		};
+
+		return await this._usuarioLoginService
 			.obterPorParametros(params)
 			.toPromise();
 	}

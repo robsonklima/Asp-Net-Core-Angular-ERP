@@ -4,16 +4,16 @@
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div>
-                    {{ codContrato ?  t('contrato') : t('equipamentos') }}
+                    <a class="whitespace-nowrap text-primary" [routerLink]="'/equipamento-contrato/'">
+                        {{ codContrato ?  t('contrato') : t('equipamentos') }}
+                    </a>
                 </div>       
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
-                    <a class="whitespace-nowrap text-primary" [routerLink]="codContrato ? '/contrato/' + codContrato : ''">
-                        {{  codContrato ?
-                            codContrato  : 
-                            (isAddMode ? t('novo') : t('atualizando'))  }}
-                    </a>
+                    <span>
+                        {{  codContrato ? codContrato  :  (isAddMode ? t('novo') : t('atualizando'))  }}
+                    </span>
                 </div>
                 <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">

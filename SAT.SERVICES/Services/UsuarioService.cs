@@ -182,20 +182,6 @@ namespace SAT.SERVICES.Services
             return navegacoes;
         }
 
-        public UsuariosLogadosViewModel ObterUsuariosLogados()
-        {
-            var usuariosAtivos = _usuarioRepo.ObterPorParametros(new UsuarioParameters() { IndAtivo = 1 });
-
-            var dataRange = DateTime.Now.AddHours(-4);
-            var usuariosLogados = usuariosAtivos.Where(u => u.UltimoAcesso >= dataRange);
-
-            return new UsuariosLogadosViewModel()
-            {
-                UsuariosAtivos = usuariosAtivos.Count(),
-                UsuariosLogados = usuariosLogados.Count()
-            };
-        }
-
         public void DesbloquearAcesso(string codUsuario)
         {
             this._usuarioRepo.DesbloquearAcesso(codUsuario);

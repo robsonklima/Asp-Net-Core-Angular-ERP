@@ -9,11 +9,13 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { OrdemServicoStnHistoricoComponent } from '../ordem-servico-stn-historico/ordem-servico-stn-historico.component';
-
+import { Location } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -23,9 +25,11 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   os: OrdemServico;
   rat: RelatorioAtendimento;
   atendimentos: OrdemServicoSTN[] = [];
+  ordemServicoSTN: OrdemServicoSTN;
   isAddMode: boolean;
   isLoading: boolean = false;
   userSession: UsuarioSessao;
+  form: FormGroup;
   @ViewChild('codOSInputControl') codOSInputControl: ElementRef;
   protected _onDestroy = new Subject<void>();
 
@@ -36,7 +40,8 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoService: OrdemServicoService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _location: Location
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -45,7 +50,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
 
-    this.obterDados(6886015);
+    //this.obterDados(6928411);
 
     this.registrarEmitters();
     this._cdr.detectChanges();
@@ -94,7 +99,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   }
 
   atualizar(): void {
-    // const form: any = this.form.getRawValue();
+   
 
     // let obj = {
     //   ...this.turno,
@@ -117,26 +122,42 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   }
 
   criar(): void {
-    // const form = this.form.getRawValue();
+        //const form: any = this.form.getRawValue();
 
-    // let obj = {
-    //   ...this.turno,
-    //   ...form,
-    //   ...{
-    //     horaInicio1: moment().format(`yyyy-MM-DD ${form.horaInicio1}`),
-    //     horaFim1: moment().format(`yyyy-MM-DD ${form.horaFim1}`),
-    //     horaInicio2: moment().format(`yyyy-MM-DD ${form.horaInicio2}`),
-    //     horaFim2: moment().format(`yyyy-MM-DD ${form.horaFim2}`),
-    //     dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-    //     codUsuarioCad: this.userSession.usuario.codUsuario,
-    //     indAtivo: +form.indAtivo
-    //   }
-    // };
+        let obj: OrdemServicoSTN = {
+          ...this.ordemServicoSTN,
+          //...form,
+          ...{
+            codAtendimento: 0,
+            CodOS: this.os.codOS,
+            DataHoraAberturaSTN: moment().format('YYYY-MM-DD HH:mm:ss'),
+            DataHoraFechamentoSTN: null,
+            CodStatusSTN: 2,
+            CodTipoCausa: null,
+            CodGrupoCausa: null,
+            CodDefeito: null,
+            CodCausa: null,
+            CodAcao: null,
+            CodTecnico: 'SEM TRANSFERENCIA',
+            CodUsuarioCad: 'ealmanca',
+            CodUsuarioManut: null,
+            CodOrigemChamadoSTN: null,
+            IndAtivo: 1,
+            NumReincidenciaAoAssumir: 0,
+            DataHoraManut: null,
+            NumTratativas: 0,
+            IndEvitaPendencia: null,
+            IndPrimeiraLigacao: null,
+            NomeSolicitante: null,
+            ObsSistema: null
+          }
+        };    
 
-    // this._turnoService.criar(obj).subscribe(() => {
-    //   this._snack.exibirToast(`Turno adicionado com sucesso!`, "success");
-    //   this._location.back();
-    // });
+        this._ordemServicoSTNService.criar(obj).subscribe(() => {
+
+          this._snack.exibirToast(`Chamado STN adicionado com sucesso!`, "success");
+          this._location.back();
+        });
   }
 
   ngOnDestroy() {

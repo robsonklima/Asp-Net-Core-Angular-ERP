@@ -43,7 +43,7 @@
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()" [disabled]="!os || !rat">
+                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
                 </button>
 

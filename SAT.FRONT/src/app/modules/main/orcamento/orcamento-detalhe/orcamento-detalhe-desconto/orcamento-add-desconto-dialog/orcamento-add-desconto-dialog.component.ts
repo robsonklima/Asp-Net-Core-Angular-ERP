@@ -47,7 +47,6 @@ export class OrcamentoAddDescontoDialogComponent implements OnInit
     this.form = this._formBuilder.group({
       codOrc: [this.codOrc, [Validators.required]],
       nomeCampo: [undefined, [Validators.required]],
-      nomeTipo: [undefined, [Validators.required]],
       valor: [undefined, [Validators.required]],
       motivo: [undefined, [Validators.required]]
     });

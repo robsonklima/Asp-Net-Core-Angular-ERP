@@ -73,7 +73,7 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
-	ngOnInit(): void {		
+	ngOnInit(): void {
 		this.isLoading = true;
 		this.codLocalEnvioNFFaturamento = +this._route.snapshot.paramMap.get('codLocalEnvioNFFaturamento');
 		this.isAddMode = !this.codLocalEnvioNFFaturamento;
@@ -179,7 +179,6 @@ export class OrcamentoFaturamentoFormComponent implements OnInit {
 	}
 
 	salvarLocalEnvioNf(localEnvioNf: any) {
-
 		let novoLocal: LocalEnvioNFFaturamentoVinculado = {
 			codLocalEnvioNFFaturamento: this.codLocalEnvioNFFaturamento,
 			codPosto: localEnvioNf.codPosto,

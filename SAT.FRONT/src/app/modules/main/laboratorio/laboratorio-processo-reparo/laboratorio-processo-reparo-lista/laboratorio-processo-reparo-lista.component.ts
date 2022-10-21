@@ -16,6 +16,7 @@ import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import _ from 'lodash';
 import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -26,19 +27,7 @@ import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-
 	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            
-            @screen sm {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
-        
-            @screen md {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
-        
-            @screen lg {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 64px;
         }`
 	]
 })
@@ -50,7 +39,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	dataSourceData: ORItemData;
 	isLoading: boolean = false;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-	usuarios: Usuario[] = [];
+	usuariosTecnicos: Usuario[] = [];
 	itemSelecionado: ORItem;
 	userSession: UserSession;
 
@@ -128,7 +117,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			...this.filter?.parametros
 		}).toPromise();
 
-		this.usuarios = (await this.obterUsuarios()).items;
+		this.usuariosTecnicos = (await this.obterUsuariosTecnicos()).items;
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();
@@ -151,12 +140,12 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		this.isLoading = false;
 	}
 
-	async obterUsuarios(): Promise<UsuarioData> {
+	async obterUsuariosTecnicos(): Promise<UsuarioData> {
 		let params: UsuarioParameters = {
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
-			codPerfil: 61,
+			codPerfis: "63,61,80",
 		};
 
 		return await this._usuarioService
@@ -167,25 +156,25 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	obterCorStatus(cod: number): string {
 		switch (cod) {
 			case orStatusConst.CONFERENCIA_LABORATORIO:
-				return 'bg-black-200';
+				return 'bg-black-200 border-black-400 border-1';
 			case orStatusConst.AGUARDANDO_REPARO:
-				return 'bg-white';
+				return 'bg-white border-grey-200 border-1';
 			case orStatusConst.TRANSFERENCIA_CD_ESTOQUE:
-				return 'bg-grey-100';
+				return 'bg-grey-100 border-grey-300 border-1';
 			case orStatusConst.PARCIAL_FALTA_DE_INSUMO:
-				return 'bg-orange-100';
+				return 'bg-orange-100 border-orange-300 border-1';
 			case orStatusConst.PECA_LIBERADA:
-				return '#66cc00';
+				return 'bg-green-200 border-green-400 border-1';
 			case orStatusConst.REAPROVEITAMENTO_SUCATA:
-				return 'bg-grey-400';
+				return 'bg-grey-400 border-grey-600 border-1';
 			case orStatusConst.EM_REPARO:
-				return 'bg-yellow-100';
+				return 'bg-yellow-100 border-yellow-300 border-1';
 			case orStatusConst.TRANSFERIDO_TECNICO:
-				return 'bg-yellow-200';
+				return 'bg-yellow-200 border-yellow-400 border-1';
 			case orStatusConst.SUPORTE:
-				return 'bg-blue-200';
+				return 'bg-blue-200 border-blue-400 border-1';
 			case orStatusConst.OR_ENCERRADA:
-				return 'bg-green-100';
+				return 'bg-green-100 border-green-300 border-1';
 			default:
 				return '';
 		}
@@ -193,15 +182,23 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 	abrirForm(item: ORItem) {
 		const dialogRef = this._dialog.open(LaboratorioProcessoReparoFormComponent, {
+			width: '640px',
 			data: {
 				item: item
 			},
-			width: '640px'
 		});
 
 		dialogRef.afterClosed().subscribe(confirmacao => {
 			if (confirmacao) this.obterDados();
 		});
+	}
+
+	toggleSelecionarTodos(e: any) {
+		this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+	}
+
+	toggleTranferencia() {
+		return _.find(this.dataSourceData?.items, { selecionado: true });
 	}
 
 	paginar() {

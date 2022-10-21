@@ -1,0 +1,36 @@
+<form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
+        <mat-step [formGroupName]="'step'" [stepControl]="form.get('step')"  #horizontalStepperStep>
+            <ng-template matStepLabel>Técnico</ng-template>
+            <div class="flex flex-col gt-xs:flex-row">
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                    <mat-label>{{ t('tecnico') }}</mat-label>
+                    <mat-select formControlName="codUsuario" #modeloSelect>
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="usuarioFiltro">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario" matTooltip="{{ usuario.nomeUsuario }}" matTooltipPosition="right">
+                            <span>{{ usuario.nomeUsuario }}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('bancada') }}</div>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="numBancada" mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex justify-end mt-8">
+                <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep.stepControl.invalid"
+                    [color]="'primary'" type="button" (click)="salvar()">
+                    {{ t('salvar') }}
+                </button>
+            </div>
+        </mat-step>
+</form>

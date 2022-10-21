@@ -72,7 +72,7 @@ export class UtilizacaoComponent implements OnInit {
 
   obterAcessosPorData() {
     this.acessosPorData = _(this.acessos)
-      .groupBy(acesso => moment(acesso?.dataHoraCad).format('DD/MM/YY'))
+      .groupBy(acesso => moment(acesso?.dataHoraCad).format('DD/MM'))
       .map((value, key) => ({ data: key, acessos: value.length }))
       .value();
   }

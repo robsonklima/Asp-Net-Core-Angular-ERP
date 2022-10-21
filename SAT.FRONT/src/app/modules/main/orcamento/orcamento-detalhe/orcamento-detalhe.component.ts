@@ -618,35 +618,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 	}
 
-	clonarOS() {
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja clonar a OS?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
-
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {
-				this.isLoading = true;
-
-				this._osService.clonar(this.os).subscribe((os: OrdemServico) => {
-					this._snack.exibirAlerta(`OS ${os.codOS} clonada com sucesso!`);
-
-					this.isLoading = false;
-				}, e => {
-					this._snack.exibirToast(`Erro ao clonar a OS ${this.os.codOS}!`);
-
-					this.isLoading = false;
-				});
-			}
-		});
-	}
-
 	isEqual(): boolean {
 		return _.isEqual(this.orcamento, this.oldItem);
 	}

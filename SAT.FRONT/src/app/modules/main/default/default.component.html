@@ -20,6 +20,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                        class="fuse-mat-button-rounded"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [routerLink]="['/configuracoes/' + sessionData.usuario.codUsuario]">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                        <span class="ml-2 pr-1">Meu Perfil</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -34,12 +46,6 @@
             </div>
             
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
-                    <ng-template matTabContent>
-                        <app-utilizacao></app-utilizacao>
-                    </ng-template>
-                </mat-tab>
-
                 <mat-tab label="Serviços" *ngIf="verificarPermissaoAcessoSlide('SERVICOS')">
                     <ng-template matTabContent>
                         <app-servicos></app-servicos>
@@ -67,6 +73,12 @@
                 <mat-tab label="Logs" *ngIf="verificarPermissaoAcessoSlide('LOGS')">
                     <ng-template matTabContent>
                         <app-log-detalhe></app-log-detalhe>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab label="Utilização" *ngIf="verificarPermissaoAcessoSlide('UTILIZACAO')">
+                    <ng-template matTabContent>
+                        <app-utilizacao></app-utilizacao>
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>

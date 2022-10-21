@@ -50,7 +50,7 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(prop => prop.StatusOR)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodStatusOR)
+                .HasForeignKey(prop => prop.CodStatus)
                 .HasPrincipalKey(prop => prop.CodStatus);
 
             builder.Ignore(p => p.DiasEmReparo);

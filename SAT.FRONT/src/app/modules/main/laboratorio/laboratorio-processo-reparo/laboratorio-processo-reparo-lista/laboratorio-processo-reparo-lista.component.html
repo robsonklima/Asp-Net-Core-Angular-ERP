@@ -19,7 +19,7 @@
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                 </mat-form-field>
 
-                <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                <button class="ml-6" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
                     [routerLink]="['/mensagem/tecnico/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
@@ -39,10 +39,14 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid" *transloco="let t">
-                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50"
                                 matSort matSortDisableClear *transloco="let t">
-                                <div class="flex items-left ml-2" [mat-sort-header]="'codOR'">
+                                <div class="flex items-center ml-2" [mat-sort-header]="'codOR'">
                                     {{ t('codigo') }}
+                                </div>
+
+                                <div class="flex items-left ml-2">
+                                    {{ t('item') }}
                                 </div>
 
                                 <div class="flex items-left">
@@ -53,48 +57,58 @@
                                     {{ t('descricao') }}
                                 </div>
 
-                                <div class="flex items-left ml-16">
+                                <div class="flex items-center ml-16">
                                     {{ t('status') }}
                                 </div>
 
-                                <div class="flex items-left ml-6">
+                                <div class="flex items-left ml-10">
                                     {{ t('serie') }}
                                 </div>
 
-                                <div class="flex items-left ml-6">
+                                <div class="flex items-left ml-10">
                                     {{ t('cadastro') }}
                                 </div>
 
-                                <div class="flex items-left">
+                                <div class="flex items-left ml-8">
                                     {{ t('filial') }}
                                 </div>
 
-                                <div class="flex items-left">
+                                <div class="flex items-left ml-3">
                                     {{ t('usuario') }}
                                 </div>
 
-                                <div class="flex items-center -ml-5">
+                                <div class="flex items-center -ml-2">
                                     {{ t('dias em reparo') }}
+                                </div>
+
+                                <div class="flex items-center -ml-5">
+                                    {{ t('acoes') }}
                                 </div>
                             </div>
 
                             <ng-container>
                                 <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
-                                    <div class="list-grid-reparo grid h-10 pt-3 py-3 text-sm md:px-8 border-b">
-                                        <div class="flex items-left text-blue-600">
-                                            <a [routerLink]="'/laboratorio/processo-reparo/' + item.codOR">{{ item.codOR }}</a>
+                                    <div class="list-grid-reparo grid h-10 pt-3 py-3 text-sm md:px-8 border-b {{ obterCorStatus(item.codStatus) }}">
+                                        <div class="flex items-center text-blue-600 cursor-pointer" (click)="abrirForm(item)">
+                                            {{ item.codOR }}
+                                        </div>
+
+                                        <div class="flex items-left">
+                                            {{ item.codORItem }}
                                         </div>
 
                                         <div class="flex items-left">
                                             {{ item?.peca?.codMagnus || '--' }}
                                         </div>
 
-                                        <div class="flex items-left">
+                                        <div class="flex items-left truncate">
                                             {{ item?.peca?.nomePeca || '--' }}
                                         </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.statusOR?.descStatus || '--' }}
+                                        <div class="flex items-center">
+                                            <span [matTooltip]="item?.statusOR?.descStatus">
+                                                {{ item?.statusOR?.abrev || '--' }}
+                                            </span>
                                         </div>
 
                                         <div class="flex items-left">
@@ -110,11 +124,15 @@
                                         </div>
 
                                         <div class="flex items-left">
-                                            {{ item?.usuarioTecnico?.nomeUsuario || '--' }}
+                                            {{ item?.usuarioTecnico?.nomeUsuario?.split(' ')[0] || '--' }}
                                         </div>
 
                                         <div class="flex items-left">
                                             {{ item?.diasEmReparo }}
+                                        </div>
+
+                                        <div class="flex items-center">
+                                            <input type="checkbox" name="selecionado" [checked]="false" value="0">
                                         </div>
                                     </div>
                                 </ng-container>

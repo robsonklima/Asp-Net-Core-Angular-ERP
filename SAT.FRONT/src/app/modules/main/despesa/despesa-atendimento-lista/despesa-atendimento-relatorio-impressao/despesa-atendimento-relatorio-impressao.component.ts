@@ -55,7 +55,8 @@ export class DespesaAtendimentoRelatorioImpressaoComponent implements OnInit {
 		await this.obterOS();
 		await this.obterAdiantamentos();
 		await this.obterContaTecnico();
-
+		await this.obterTotalFerramenta();
+		
 		this.isLoading = false;
 	}
 

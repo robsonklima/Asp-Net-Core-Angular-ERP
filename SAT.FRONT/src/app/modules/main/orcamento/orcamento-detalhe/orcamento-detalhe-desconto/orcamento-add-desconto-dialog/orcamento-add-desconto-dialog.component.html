@@ -19,16 +19,6 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>{{ t('tipo') }}</mat-label>
-                    <mat-select formControlName="nomeTipo">
-                        <mat-option *ngFor="let campo of nomesCampo" [value]="campo">
-                            {{ campo }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>{{ t('preencher campo') }}</mat-error>
-                </mat-form-field>
-
-                <mat-form-field>
                     <mat-label>{{ t('valor') }}</mat-label>
                     <input matInput mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$"
                         [showMaskTyped]="false" [dropSpecialCharacters]="true" autocomplete="off"

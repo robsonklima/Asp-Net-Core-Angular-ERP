@@ -7,5 +7,6 @@ namespace SAT.MODELS.Entities.Params
         public int? CodOR { get; set; }
         public string CodTiposOR { get; set; }
         public string CodStatus { get; set; }
+        public string CodMagnus { get; set; }
     }
 }

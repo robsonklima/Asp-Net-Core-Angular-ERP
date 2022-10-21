@@ -1,0 +1,52 @@
+<div class="flex flex-auto">
+
+    <form
+        class="flex flex-col flex-auto overflow-y-auto"
+        [formGroup]="form">
+
+        <div class="flex items-center justify-between -ml-4">
+            <div class="pr-4 pl-3.5">
+                <ng-container>
+                    <div class="flex items-center justify-center">
+                        <span class="ml-2 font-semibold">Item de Reparo</span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="flex items-center">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="moreMenu">
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button
+                        (click)="salvar()"
+                        mat-menu-item>
+                        <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                        <span>A</span>
+                    </button>
+                </mat-menu>
+
+                <button mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <mat-divider class="mt-6 mb-8"></mat-divider>
+
+        <div>
+            <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                <mat-label>A</mat-label>
+                <textarea
+                    matInput
+                    [formControlName]="'title'"
+                    [spellcheck]="false"
+                    matTextareaAutosize
+                    #titleField></textarea>
+            </mat-form-field>
+        </div>
+    </form>
+</div>

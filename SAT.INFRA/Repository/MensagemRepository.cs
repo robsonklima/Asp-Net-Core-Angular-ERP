@@ -84,6 +84,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(p => p.CodUsuarioDestinatario == parameters.CodUsuarioDestinatario);;
             }
 
+            if (parameters.IndLeitura.HasValue) 
+            {
+                query = query.Where(p => p.IndLeitura == parameters.IndLeitura);;
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

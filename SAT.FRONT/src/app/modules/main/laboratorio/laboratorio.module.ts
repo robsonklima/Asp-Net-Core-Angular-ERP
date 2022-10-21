@@ -44,6 +44,7 @@ import { PainelControleTecnicosItensComponent } from './laboratorio-painel-contr
 import { LaboratorioProcessoReparoListaComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/laboratorio-processo-reparo-lista.component';
 import { LaboratorioProcessoReparoFiltroComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-filtro/laboratorio-processo-reparo-filtro.component';
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
+import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -60,7 +61,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     PainelControleTecnicosItensComponent,
     LaboratorioProcessoReparoListaComponent,
     LaboratorioProcessoReparoFiltroComponent,
-    LaboratorioProcessoReparoDetalheComponent
+    LaboratorioProcessoReparoDetalheComponent,
+    LaboratorioProcessoReparoFormComponent,
   ],
   imports: [
     CommonModule,

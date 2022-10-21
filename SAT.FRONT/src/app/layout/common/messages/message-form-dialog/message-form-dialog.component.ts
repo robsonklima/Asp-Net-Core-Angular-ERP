@@ -64,6 +64,7 @@ export class MessageFormDialogComponent implements OnInit {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioRemetente: this.usuarioSessao.usuario.codUsuario,
+        indLeitura: 0
       }
     };
 

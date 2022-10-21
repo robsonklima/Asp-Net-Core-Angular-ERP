@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MonitoramentoHistoricoService } from 'app/core/services/monitoramento-historico.service';
-import { monitoramentoTipoConst } from 'app/core/types/monitoramento.types';
-import moment from 'moment';
 import { ApexOptions } from 'ng-apexcharts';
+import moment from 'moment';
 
 @Component({
   selector: 'app-disponibilidade',

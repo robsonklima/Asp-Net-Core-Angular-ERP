@@ -44,4 +44,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
   salvar() {
     
   }
+
+  fechar() {
+    this._dialogRef.close();
+  }
 }

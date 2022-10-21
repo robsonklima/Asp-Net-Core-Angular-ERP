@@ -99,6 +99,16 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.isLoading = false;
   }
 
+  private async obterOrdemServicoSTNOrigem() {
+    const params: OrdemServicoSTNOrigemParameters = {
+      sortActive: 'descStatusServicoSTN',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._ordemServicoSTNOrigemService.obterPorParametros(params).toPromise();
+    this.ordemServicoSTNOrigem = data.items;    
+  }  
+
   abrirHistorico() {
     const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {
       data: {}

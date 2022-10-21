@@ -1,38 +1,33 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { Filterable } from 'app/core/filters/filterable';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { ORItemService } from 'app/core/services/or-item.service';
+import { UsuarioService } from 'app/core/services/usuario.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { ORItemData, ORItemParameters } from 'app/core/types/or-item.types';
+import { ORItem, ORItemData, ORItemParameters } from 'app/core/types/or-item.types';
+import { orStatusConst } from 'app/core/types/or-status.types';
+import { statusConst } from 'app/core/types/status-types';
+import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import _ from 'lodash';
 import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 
 @Component({
 	selector: 'app-laboratorio-processo-reparo-lista',
-  	templateUrl: './laboratorio-processo-reparo-lista.component.html',
+	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
-            
-            @screen sm {
-                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
-            }
-        
-            @screen md {
-                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
-            }
-        
-            @screen lg {
-                grid-template-columns: 72px 128px auto 256px 128px 128px 64px 256px 112px;
-            }
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 64px;
         }`
 	]
 })
@@ -44,40 +39,28 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	dataSourceData: ORItemData;
 	isLoading: boolean = false;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
+	usuariosTecnicos: Usuario[] = [];
+	itemSelecionado: ORItem;
 	userSession: UserSession;
 
 	constructor(
 		protected _userService: UserService,
 		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
-		private _orItemService: ORItemService
+		private _dialog: MatDialog,
+		private _orItemService: ORItemService,
+		private _usuarioService: UsuarioService
 	) {
 		super(_userService, 'processo-reparo')
 		this.userSession = JSON.parse(this._userService.userSession);
-	}
-
-	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterDados();
-		})
-	}
-
-	loadFilter(): void {
-		super.loadFilter();
-	}
-
-	onSidenavClosed(): void {
-		if (this.paginator) this.paginator.pageIndex = 0;
-		this.loadFilter();
-		this.obterDados();
 	}
 
 	ngAfterViewInit(): void {
 		this.registerEmitters();
 		this.obterDados();
 
-		if (this.sort && this.paginator) {
+		if (this.sort && this.paginator)
+		{
 			fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
 				map((event: any) => {
 					return event.target.value;
@@ -102,6 +85,23 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		this._cdr.detectChanges();
 	}
 
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		});
+	}
+
+	loadFilter(): void {
+		super.loadFilter();
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
 		const parametros: ORItemParameters = {
@@ -117,21 +117,18 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			...this.filter?.parametros
 		}).toPromise();
 
+		this.usuariosTecnicos = (await this.obterUsuariosTecnicos()).items;
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
 
-  calcularDiasEmReparo(inicio: string) {
-    if (inicio)
-      return moment.duration(moment(inicio).diff(moment())).asDays();
-  }
-
-	paginar() {
-		this.obterDados();
+	calcularDiasEmReparo(inicio: string) {
+		if (inicio)
+			return moment.duration(moment(inicio).diff(moment())).asDays();
 	}
 
-	public async exportar() {
+	async exportar() {
 		this.isLoading = true;
 
 		let exportacaoParam: Exportacao = {
@@ -139,7 +136,72 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			tipoArquivo: ExportacaoTipoEnum.OR_ITEM,
 			entityParameters: this.filter?.parametros
 		}
-		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam);
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 		this.isLoading = false;
+	}
+
+	async obterUsuariosTecnicos(): Promise<UsuarioData> {
+		let params: UsuarioParameters = {
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeUsuario',
+			sortDirection: 'asc',
+			codPerfis: "63,61,80",
+		};
+
+		return await this._usuarioService
+			.obterPorParametros(params)
+			.toPromise();
+	}
+
+	obterCorStatus(cod: number): string {
+		switch (cod) {
+			case orStatusConst.CONFERENCIA_LABORATORIO:
+				return 'bg-black-200 border-black-400 border-1';
+			case orStatusConst.AGUARDANDO_REPARO:
+				return 'bg-white border-grey-200 border-1';
+			case orStatusConst.TRANSFERENCIA_CD_ESTOQUE:
+				return 'bg-grey-100 border-grey-300 border-1';
+			case orStatusConst.PARCIAL_FALTA_DE_INSUMO:
+				return 'bg-orange-100 border-orange-300 border-1';
+			case orStatusConst.PECA_LIBERADA:
+				return 'bg-green-200 border-green-400 border-1';
+			case orStatusConst.REAPROVEITAMENTO_SUCATA:
+				return 'bg-grey-400 border-grey-600 border-1';
+			case orStatusConst.EM_REPARO:
+				return 'bg-yellow-100 border-yellow-300 border-1';
+			case orStatusConst.TRANSFERIDO_TECNICO:
+				return 'bg-yellow-200 border-yellow-400 border-1';
+			case orStatusConst.SUPORTE:
+				return 'bg-blue-200 border-blue-400 border-1';
+			case orStatusConst.OR_ENCERRADA:
+				return 'bg-green-100 border-green-300 border-1';
+			default:
+				return '';
+		}
+	}
+
+	abrirForm(item: ORItem) {
+		const dialogRef = this._dialog.open(LaboratorioProcessoReparoFormComponent, {
+			width: '640px',
+			data: {
+				item: item
+			},
+		});
+
+		dialogRef.afterClosed().subscribe(confirmacao => {
+			if (confirmacao) this.obterDados();
+		});
+	}
+
+	toggleSelecionarTodos(e: any) {
+		this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+	}
+
+	toggleTranferencia() {
+		return _.find(this.dataSourceData?.items, { selecionado: true });
+	}
+
+	paginar() {
+		this.obterDados();
 	}
 }

@@ -17,9 +17,16 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ordem reparo') }}</mat-label>
                     <input matInput formControlName="codOR">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:bookmark'">
                     </mat-icon>
                 </mat-form-field>   
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('peca') }}</mat-label>
+                    <input matInput formControlName="codMagnus">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:cog'">
+                    </mat-icon>
+                </mat-form-field>  
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo') }}</mat-label>

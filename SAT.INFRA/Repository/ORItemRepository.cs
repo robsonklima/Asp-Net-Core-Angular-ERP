@@ -72,13 +72,23 @@ namespace SAT.INFRA.Repository
             {
                 query = query.Where(
                     p =>
-                    p.CodORItem.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    p.CodORItem.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.Peca.NomePeca.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.Peca.CodMagnus.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.StatusOR.DescStatus.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.UsuarioTecnico.NomeUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
             if (parameters.CodOR.HasValue) 
             {
                 query = query.Where(or => or.CodOR == parameters.CodOR);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodMagnus)) 
+            {
+                query = query.Where(or => or.Peca.CodMagnus.Contains(parameters.CodMagnus));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposOR))

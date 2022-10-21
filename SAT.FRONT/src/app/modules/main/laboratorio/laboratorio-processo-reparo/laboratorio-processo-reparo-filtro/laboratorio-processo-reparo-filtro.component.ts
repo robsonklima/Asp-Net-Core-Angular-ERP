@@ -47,6 +47,7 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
       codOR: [undefined],
       codTiposOR: [undefined],
       codStatus: [undefined],
+      codMagnus: [undefined],
     });
 
     this.form.patchValue(this.filter?.parametros);

@@ -46,6 +46,7 @@ import { LaboratorioProcessoReparoFiltroComponent } from './laboratorio-processo
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
 import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada/laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
+import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -64,7 +65,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioProcessoReparoFiltroComponent,
     LaboratorioProcessoReparoDetalheComponent,
     LaboratorioBancadaComponent,
-    LaboratorioBancadaDialogComponent
+    LaboratorioBancadaDialogComponent,
+    LaboratorioProcessoReparoFormComponent,
   ],
   imports: [
     CommonModule,

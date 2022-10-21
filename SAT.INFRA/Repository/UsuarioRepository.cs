@@ -99,12 +99,17 @@ namespace SAT.INFRA.Repository
             }
 
 
-             if (!string.IsNullOrWhiteSpace(parameters.CodCargos))
+            if (!string.IsNullOrWhiteSpace(parameters.CodCargos))
             {
                 int[] cods = parameters.CodCargos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(dc => cods.Contains(dc.CodCargo.Value));
             }
 
+             if (!string.IsNullOrWhiteSpace(parameters.CodPerfis))
+            {
+                int[] cods = parameters.CodPerfis.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CodPerfil.Value));
+            }
 
             if (parameters.CodUsuario != null)
             {

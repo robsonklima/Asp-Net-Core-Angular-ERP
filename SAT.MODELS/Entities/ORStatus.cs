@@ -4,6 +4,7 @@ namespace SAT.MODELS.Entities
     {
         public int CodStatus { get; set; }
         public string DescStatus { get; set; }
+        public string Abrev { get; set; }
         public int? IndAtivo { get; set; }
     }
 }

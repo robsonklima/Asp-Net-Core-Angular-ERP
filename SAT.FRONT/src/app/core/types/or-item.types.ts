@@ -47,5 +47,8 @@ export interface ORItemData extends Meta {
 };
 
 export interface ORItemParameters extends QueryStringParameters {
-
+    codOR?: number;
+    codTiposOR?: string;
+    codStatus?: string;
+    codMagnus?: string;
 }

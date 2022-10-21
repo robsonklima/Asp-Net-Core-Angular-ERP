@@ -43,17 +43,19 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes') }}</p>
                     <p class="text-secondary">{{ t('informacoes') }}</p>
-                </div>          
+                </div>
 
                 <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-8">
                     <div class="sm:col-span-2 mt-8">
-                        <mat-slide-toggle formControlName="indAtivo" [(ngModel)]="indAtivo" (change)="obterEquipamentosContrato()">
+                        <mat-slide-toggle formControlName="indAtivo" [(ngModel)]="indAtivo"
+                            (change)="obterEquipamentosContrato()">
                             {{ indAtivo ? 'Equipamentos Ativos' : 'Equipamentos Inativos' }}
                         </mat-slide-toggle>
                     </div>
-                </div>  
+                </div>
 
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
                         <mat-select formControlName="codCliente">
@@ -75,12 +77,12 @@
                         <mat-select formControlName="atmId">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"
-                                    [formControl]="atmIdFilterCtrl">
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="atmIdFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let equipamento of atmsIds" [value]="equipamento?.codEquipContrato">
-                                {{ equipamento?.numSerie || equipamento?.atmId }} - {{ equipamento?.cliente?.nomeFantasia }}
+                                {{ equipamento?.numSerie || equipamento?.atmId }} - {{
+                                equipamento?.cliente?.nomeFantasia }}
                             </mat-option>
                         </mat-select>
                         <mat-error>Preencher este campo</mat-error>
@@ -107,15 +109,16 @@
                         </mat-select>
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>       
+                    </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento contrato') }}</mat-label>
-                        
+
                         <mat-select formControlName="codEquipContrato" [disabled]="!equipamentosContrato?.length">
                             <mat-option>
-                                <ngx-mat-select-search [formControl]="equipamentosContratoFilterCtrl" [searching]="searching"
-                                    placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
+                                <ngx-mat-select-search [formControl]="equipamentosContratoFilterCtrl"
+                                    [searching]="searching" placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
 
@@ -125,7 +128,7 @@
                                     [class.text-green-500]="equipamentoContrato?.indAtivo">
                                     [N.S] {{ equipamentoContrato?.numSerie || 'N/I' }}
                                 </span>
-                            
+
                                 <span class="opacity-60">
                                     {{ equipamentoContrato?.equipamento?.nomeEquip || 'N/I' }}
                                 </span>
@@ -133,12 +136,12 @@
                         </mat-select>
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>                            
+                    </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12" >
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('endereco') }}</mat-label>
                         <input matInput formControlName="enderecoLocal">
-                    </mat-form-field>                    
+                    </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('contrato') }}</mat-label>
@@ -147,7 +150,7 @@
                                 {{ contrato?.nomeContrato }}
                             </mat-option>
                         </mat-select>
-                    </mat-form-field> 
+                    </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento') }}</mat-label>
@@ -156,7 +159,7 @@
                                 {{ equipamento?.nomeEquip }}
                             </mat-option>
                         </mat-select>
-                    </mat-form-field>                                       
+                    </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tipo de intervencao') }}</mat-label>
@@ -330,7 +333,7 @@
                         <span>
                             {{ t('limpar') }}
                         </span>
-                    </button>                    
+                    </button>
                     <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}

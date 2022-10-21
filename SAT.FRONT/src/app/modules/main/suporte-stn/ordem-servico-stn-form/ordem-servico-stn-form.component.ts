@@ -20,6 +20,7 @@ import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.se
 import { ProtocoloSTN } from 'app/core/types/protocolo-stn.types';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
+import { debounce } from 'lodash';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -32,7 +33,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   atendimentos: OrdemServicoSTN[] = [];
   ultimoAtendimento: OrdemServicoSTN;
   ordemServicoSTN: OrdemServicoSTN;
-  ordemServicoSTNOrigem: OrdemServicoSTNOrigem[] = [];
+  ordemServicoSTNOrigens: OrdemServicoSTNOrigem[] = [];
   protocoloSTN: ProtocoloSTN;
   isAddMode: boolean;
   isLoading: boolean = false;
@@ -60,9 +61,12 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
-
+    this.obterDados(6953280);
+    this.inicializarForm();
     this.registrarEmitters();  
     this._cdr.detectChanges();    
+    this.obterOrdemServicoSTNOrigem();
+    this.obterStatusServicosSTN();
 
     if (!this.isAddMode) {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
@@ -99,15 +103,35 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.isLoading = false;
   }
 
+	private inicializarForm(): void {
+		this.form = this._formBuilder.group({
+			codStatusServicoSTN: [undefined],
+      indPrimeiraLigacao: [undefined],
+      nomeSolicitante: [undefined],
+      CodOrigemChamadoSTN: [undefined]
+		});
+	}
+
   private async obterOrdemServicoSTNOrigem() {
     const params: OrdemServicoSTNOrigemParameters = {
-      sortActive: 'descStatusServicoSTN',
+      sortActive: 'descOrigemChamadoSTN',
       sortDirection: 'asc'
     }
 
     const data = await this._ordemServicoSTNOrigemService.obterPorParametros(params).toPromise();
-    this.ordemServicoSTNOrigem = data.items;    
+    this.ordemServicoSTNOrigens = data.items;    
   }  
+
+  private async obterStatusServicosSTN() {
+    const params: StatusServicoSTNParameters = {
+      sortActive: 'descStatusServicoSTN',
+      sortDirection: 'asc'
+    }
+
+    const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
+    this.statusServicosSTN = data.items;    
+  }  
+
 
   abrirHistorico() {
     const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {

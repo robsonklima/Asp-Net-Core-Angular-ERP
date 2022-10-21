@@ -257,6 +257,7 @@ namespace SAT.INFRA.Context
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
         public DbSet<Mensagem> Mensagem { get; set; }
         public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
+        public DbSet<OrdemServicoSTNOrigem> OrdemServicoSTNOrigem { get; set; }
         public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

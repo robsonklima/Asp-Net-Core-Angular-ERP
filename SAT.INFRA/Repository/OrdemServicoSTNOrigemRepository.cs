@@ -31,8 +31,8 @@ namespace SAT.INFRA.Repository
             if (parameters.Filter != null)
             {
                 query = query.Where(o =>
-                    o.CodOrigemChamadoSTN.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    o.DescOrigemChamadoSTN.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                        o.CodOrigemChamadoSTN.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                        o.DescOrigemChamadoSTN.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

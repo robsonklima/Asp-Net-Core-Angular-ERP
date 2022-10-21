@@ -16,6 +16,7 @@ import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import _ from 'lodash';
 import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -50,7 +51,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	dataSourceData: ORItemData;
 	isLoading: boolean = false;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-	usuarios: Usuario[] = [];
+	usuariosTecnicos: Usuario[] = [];
 	itemSelecionado: ORItem;
 	userSession: UserSession;
 
@@ -128,7 +129,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			...this.filter?.parametros
 		}).toPromise();
 
-		this.usuarios = (await this.obterUsuarios()).items;
+		this.usuariosTecnicos = (await this.obterUsuariosTecnicos()).items;
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();
@@ -151,7 +152,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		this.isLoading = false;
 	}
 
-	async obterUsuarios(): Promise<UsuarioData> {
+	async obterUsuariosTecnicos(): Promise<UsuarioData> {
 		let params: UsuarioParameters = {
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
@@ -193,15 +194,23 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 	abrirForm(item: ORItem) {
 		const dialogRef = this._dialog.open(LaboratorioProcessoReparoFormComponent, {
+			width: '640px',
 			data: {
 				item: item
 			},
-			width: '640px'
 		});
 
 		dialogRef.afterClosed().subscribe(confirmacao => {
 			if (confirmacao) this.obterDados();
 		});
+	}
+
+	toggleSelecionarTodos(e: any) {
+		this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+	}
+
+	toggleTranferencia() {
+		return _.find(this.dataSourceData?.items, { selecionado: true });
 	}
 
 	paginar() {

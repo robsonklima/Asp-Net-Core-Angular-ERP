@@ -40,6 +40,7 @@ export interface ORItem {
     statusOR: ORStatus;
     indPrioridade: number | null;
     diasEmReparo: number;
+    selecionado: boolean;
 }
 
 export interface ORItemData extends Meta {

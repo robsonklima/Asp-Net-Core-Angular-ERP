@@ -1,10 +1,12 @@
 <mat-drawer-container class="flex-auto h-full">
-    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+    <mat-drawer class="w-full md:w-160" [position]="'end'" #sidenav>
         <app-laboratorio-processo-reparo-filtro [sidenav]="sidenav"></app-laboratorio-processo-reparo-filtro>
     </mat-drawer>
 
-    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent" *transloco="let t">
-        <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div
+            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
             <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                 <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
             </div>
@@ -19,12 +21,21 @@
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 ml-4">
+                    <mat-select placeholder="Técnico" [disabled]="!toggleTranferencia()">
+                        <mat-option *ngFor="let usuario of usuariosTecnicos" [value]="usuario.codUsuario">
+                            {{ usuario.nomeUsuario | uppercase }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <button class="ml-6" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
                     [routerLink]="['/mensagem/tecnico/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
 
-                <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()" *ngIf="dataSourceData?.items.length">
+                <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()"
+                    *ngIf="dataSourceData?.items.length">
                     <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                 </button>
 
@@ -37,120 +48,120 @@
         <div class="flex flex-auto overflow-hidden">
             <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto uppercase">
                 <ng-container>
-                    <ng-container>
-                        <div class="grid" *transloco="let t">
-                            <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50"
-                                matSort matSortDisableClear *transloco="let t">
-                                <div class="flex items-center ml-2" [mat-sort-header]="'codOR'">
-                                    {{ t('codigo') }}
-                                </div>
-
-                                <div class="flex items-left ml-2">
-                                    {{ t('item') }}
-                                </div>
-
-                                <div class="flex items-left">
-                                    {{ t('peca') }}
-                                </div>
-
-                                <div class="flex items-left -ml-4">
-                                    {{ t('descricao') }}
-                                </div>
-
-                                <div class="flex items-center ml-16">
-                                    {{ t('status') }}
-                                </div>
-
-                                <div class="flex items-left ml-10">
-                                    {{ t('serie') }}
-                                </div>
-
-                                <div class="flex items-left ml-10">
-                                    {{ t('cadastro') }}
-                                </div>
-
-                                <div class="flex items-left ml-8">
-                                    {{ t('filial') }}
-                                </div>
-
-                                <div class="flex items-left ml-3">
-                                    {{ t('usuario') }}
-                                </div>
-
-                                <div class="flex items-center -ml-2">
-                                    {{ t('dias em reparo') }}
-                                </div>
-
-                                <div class="flex items-center -ml-5">
-                                    {{ t('acoes') }}
-                                </div>
+                    <div class="grid" *transloco="let t">
+                        <div class="list-grid-reparo z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50"
+                            matSort matSortDisableClear *transloco="let t">
+                            <div class="flex items-center ml-2" [mat-sort-header]="'codOR'">
+                                {{ t('codigo') }}
                             </div>
 
-                            <ng-container>
-                                <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
-                                    <div class="list-grid-reparo grid h-10 pt-3 py-3 text-sm md:px-8 border-b {{ obterCorStatus(item.codStatus) }}">
-                                        <div class="flex items-center text-blue-600 cursor-pointer" (click)="abrirForm(item)">
-                                            {{ item.codOR }}
-                                        </div>
+                            <div class="flex items-left ml-2">
+                                {{ t('item') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item.codORItem }}
-                                        </div>
+                            <div class="flex items-left">
+                                {{ t('peca') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.peca?.codMagnus || '--' }}
-                                        </div>
+                            <div class="flex items-left -ml-4">
+                                {{ t('descricao') }}
+                            </div>
 
-                                        <div class="flex items-left truncate">
-                                            {{ item?.peca?.nomePeca || '--' }}
-                                        </div>
+                            <div class="flex items-center ml-16">
+                                {{ t('status') }}
+                            </div>
 
-                                        <div class="flex items-center">
-                                            <span [matTooltip]="item?.statusOR?.descStatus">
-                                                {{ item?.statusOR?.abrev || '--' }}
-                                            </span>
-                                        </div>
+                            <div class="flex items-left ml-10">
+                                {{ t('serie') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.numSerie || '--' }}
-                                        </div>
+                            <div class="flex items-left ml-10">
+                                {{ t('cadastro') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.dataHoraCad | date:'dd/MM HH:mm' }}
-                                        </div>
+                            <div class="flex items-left ml-8">
+                                {{ t('filial') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.ordemServico?.filial?.nomeFilial || '--' }}
-                                        </div>
+                            <div class="flex items-left ml-3">
+                                {{ t('usuario') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.usuarioTecnico?.nomeUsuario?.split(' ')[0] || '--' }}
-                                        </div>
+                            <div class="flex items-center -ml-2">
+                                {{ t('dias em reparo') }}
+                            </div>
 
-                                        <div class="flex items-left">
-                                            {{ item?.diasEmReparo }}
-                                        </div>
+                            <div class="flex items-center -ml-7">
+                                <mat-checkbox color="primary" (change)="toggleSelecionarTodos($event)"></mat-checkbox>
+                            </div>
+                        </div>
 
-                                        <div class="flex items-center">
-                                            <input type="checkbox" name="selecionado" [checked]="false" value="0">
-                                        </div>
+                        <ng-container>
+                            <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
+                                <div
+                                    class="list-grid-reparo grid h-10 pt-3 py-3 text-sm md:px-8 border-b {{ obterCorStatus(item.codStatus) }}">
+                                    <div class="flex items-center text-blue-600 cursor-pointer"
+                                        (click)="abrirForm(item)">
+                                        {{ item.codOR }}
                                     </div>
-                                </ng-container>
+
+                                    <div class="flex items-left">
+                                        {{ item.codORItem }}
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.peca?.codMagnus || '--' }}
+                                    </div>
+
+                                    <div class="flex items-left truncate">
+                                        {{ item?.peca?.nomePeca || '--' }}
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <span [matTooltip]="item?.statusOR?.descStatus">
+                                            {{ item?.statusOR?.abrev || '--' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.numSerie || '--' }}
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.dataHoraCad | date:'dd/MM HH:mm' }}
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.ordemServico?.filial?.nomeFilial || '--' }}
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.usuarioTecnico?.nomeUsuario?.split(' ')[0] || '--' }}
+                                    </div>
+
+                                    <div class="flex items-left">
+                                        {{ item?.diasEmReparo }}
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <mat-checkbox color="primary" [(ngModel)]="item.selecionado"></mat-checkbox>
+                                    </div>
+                                </div>
                             </ng-container>
-                        </div>
+                        </ng-container>
+                    </div>
 
-                        <div *ngIf="!dataSourceData?.items.length && !isLoading"
-                            class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
-                            Nenhuma ordem de reparo encontrada!
-                        </div>
+                    <div *ngIf="!dataSourceData?.items.length && !isLoading"
+                        class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                        Nenhuma ordem de reparo encontrada!
+                    </div>
 
-                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
-                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                            [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
-                            (page)="paginar()">
-                        </mat-paginator>
-                    </ng-container>
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        (page)="paginar()">
+                    </mat-paginator>
                 </ng-container>
             </div>
         </div>

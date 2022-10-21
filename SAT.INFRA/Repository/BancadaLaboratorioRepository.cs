@@ -55,16 +55,14 @@ namespace SAT.INFRA.Repository
 
         public PagedList<BancadaLaboratorio> ObterPorParametros(BancadaLaboratorioParameters parameters)
         {
-            IQueryable<BancadaLaboratorio> query = _context.BancadaLaboratorio.AsQueryable();
+            IQueryable<BancadaLaboratorio> query = _context.BancadaLaboratorio
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
                 query = query.Where(
                     s =>
                     s.NumBancada.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
-
-            if (parameters.SortActive != null && parameters.SortDirection != null)
-                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 
             return PagedList<BancadaLaboratorio>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }

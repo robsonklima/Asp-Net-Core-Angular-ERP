@@ -44,6 +44,8 @@ import { PainelControleTecnicosItensComponent } from './laboratorio-painel-contr
 import { LaboratorioProcessoReparoListaComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/laboratorio-processo-reparo-lista.component';
 import { LaboratorioProcessoReparoFiltroComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-filtro/laboratorio-processo-reparo-filtro.component';
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
+import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
+import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada/laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -60,7 +62,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     PainelControleTecnicosItensComponent,
     LaboratorioProcessoReparoListaComponent,
     LaboratorioProcessoReparoFiltroComponent,
-    LaboratorioProcessoReparoDetalheComponent
+    LaboratorioProcessoReparoDetalheComponent,
+    LaboratorioBancadaComponent,
+    LaboratorioBancadaDialogComponent
   ],
   imports: [
     CommonModule,
@@ -101,6 +105,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         MatProgressSpinnerModule,
         MatTooltipModule,
         FiltroModule,
+        DragDropModule,
         NgxMatSelectSearchModule
   ]
 })

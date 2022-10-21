@@ -156,13 +156,25 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };
 				var dp = this.criaDespesaPeriodoTecnico(dpi);
 
-				this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() => {
-					this._snack.exibirToast('Período liberado com sucesso!', 'success');
-					this.obterDados();
-				},
-					e => {
-						this._snack.exibirToast('Erro ao liberar período.', 'error');
-					});
+				if(dp?.codDespesaPeriodoTecnico != null){
+					this._despesaPeriodoTecnicoSvc.atualizar(dp).subscribe(() => {
+						this._snack.exibirToast('Período liberado com sucesso!', 'success');
+						this.obterDados();
+					},
+						e => {
+							this._snack.exibirToast('Erro ao liberar período.', 'error');
+						});
+				}
+				else
+				{
+					this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() => {
+						this._snack.exibirToast('Período liberado com sucesso!', 'success');
+						this.obterDados();
+						},
+						e => {
+							this._snack.exibirToast('Erro ao liberar período.', 'error');
+						});
+					}
 			}
 		});
 	}

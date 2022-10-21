@@ -27,19 +27,7 @@ import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-
 	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            
-            @screen sm {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
-        
-            @screen md {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
-        
-            @screen lg {
-                grid-template-columns: 72px 72px 128px auto 94px 128px 108px 64px 156px 112px 64px;
-            }
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 64px;
         }`
 	]
 })
@@ -157,7 +145,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
-			codPerfil: 61,
+			codPerfis: "63,61,80",
 		};
 
 		return await this._usuarioService
@@ -168,25 +156,25 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	obterCorStatus(cod: number): string {
 		switch (cod) {
 			case orStatusConst.CONFERENCIA_LABORATORIO:
-				return 'bg-black-200';
+				return 'bg-black-200 border-black-400 border-1';
 			case orStatusConst.AGUARDANDO_REPARO:
-				return 'bg-white';
+				return 'bg-white border-grey-200 border-1';
 			case orStatusConst.TRANSFERENCIA_CD_ESTOQUE:
-				return 'bg-grey-100';
+				return 'bg-grey-100 border-grey-300 border-1';
 			case orStatusConst.PARCIAL_FALTA_DE_INSUMO:
-				return 'bg-orange-100';
+				return 'bg-orange-100 border-orange-300 border-1';
 			case orStatusConst.PECA_LIBERADA:
-				return '#66cc00';
+				return 'bg-green-200 border-green-400 border-1';
 			case orStatusConst.REAPROVEITAMENTO_SUCATA:
-				return 'bg-grey-400';
+				return 'bg-grey-400 border-grey-600 border-1';
 			case orStatusConst.EM_REPARO:
-				return 'bg-yellow-100';
+				return 'bg-yellow-100 border-yellow-300 border-1';
 			case orStatusConst.TRANSFERIDO_TECNICO:
-				return 'bg-yellow-200';
+				return 'bg-yellow-200 border-yellow-400 border-1';
 			case orStatusConst.SUPORTE:
-				return 'bg-blue-200';
+				return 'bg-blue-200 border-blue-400 border-1';
 			case orStatusConst.OR_ENCERRADA:
-				return 'bg-green-100';
+				return 'bg-green-100 border-green-300 border-1';
 			default:
 				return '';
 		}

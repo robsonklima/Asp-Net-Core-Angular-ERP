@@ -92,6 +92,7 @@ export interface UsuarioParameters extends QueryStringParameters {
     codPerfisNotIn?: string;
     ultimoAcessoInicio?: string;
     ultimoAcessoFim?: string;
+    codPerfis?: string;
 };
 
 export interface UsuariosLogados {

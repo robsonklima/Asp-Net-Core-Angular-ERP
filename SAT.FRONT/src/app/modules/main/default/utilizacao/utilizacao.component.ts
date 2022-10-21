@@ -127,7 +127,7 @@ export class UtilizacaoComponent implements OnInit {
     this.chartLine = {
       series: [
         {
-          name: "Processador",
+          name: "Acessos",
           data: values
         }
       ],

@@ -72,7 +72,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
 					const data = await this._usuarioService.obterPorParametros({
 						sortActive: 'NomeUsuario',
 						sortDirection: 'asc',
-                        codPerfil: 61 || 63,
+            codPerfis: "61,63",
 						filter: query,
 						pageSize: 100,
 					}).toPromise();
@@ -95,7 +95,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
   private async obterUsuarios() {
     const params: UsuarioParameters = {
         sortActive: 'nomeUsuario',
-        codPerfil: 61 || 63,
+        codPerfis: "61,63",
         sortDirection: 'asc',
         indAtivo: statusConst.ATIVO,
         pageSize: 100

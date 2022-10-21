@@ -9,7 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public string NomeUsuario { get; set; }
         public string Email { get; set; }
         public int? CodFilial { get; set; }
-        public int? CodPerfil { get; set; }
         public string CodPerfis { get; set; }
         public string CodCargos { get; set; }
         public int? IndAtivo { get; set; }

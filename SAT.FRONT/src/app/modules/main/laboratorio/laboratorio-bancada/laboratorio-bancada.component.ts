@@ -55,7 +55,9 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
   private async obterUsuarios(){
     const data: UsuarioData = await this._usuarioService.obterPorParametros({
         indAtivo: 1,
-        codPerfil: 63 || 61,
+        codPerfis: "63,61",
+        sortActive: "nomeUsuario",
+        sortDirection: "asc"
     }).toPromise();
     this.usuarios = data.items;
     console.log(this.usuarios);

@@ -11,6 +11,7 @@ import { TecnicoService } from 'app/core/services/tecnico.service';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { statusConst } from 'app/core/types/status-types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 
 @Component({
@@ -60,7 +61,7 @@ export class LiderTecnicoFiltroComponent extends FilterBase implements OnInit, I
 
 	async obterUsuarios(filtro: string = '') {
 		let params: UsuarioParameters = {
-			codPerfil: 82,
+			codPerfis: PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR.toString(),
 			indAtivo: statusConst.ATIVO,
 			filter: filtro,
 			sortActive: 'nomeUsuario',

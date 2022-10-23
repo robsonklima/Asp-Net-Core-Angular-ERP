@@ -170,8 +170,6 @@ export class UtilizacaoComponent implements OnInit {
         }
       },
       yaxis: {
-        min: 0,
-        max: 100,
         labels: {}
       },
       legend: {
@@ -184,7 +182,7 @@ export class UtilizacaoComponent implements OnInit {
     };
   }
 
-  public onUsuarios(usuarios: Usuario[]) {
+  onUsuarios(usuarios: Usuario[]) {
     this._dialog.open(UtilizacaoUsuariosDialogComponent, {
       data: {
         usuarios: usuarios,

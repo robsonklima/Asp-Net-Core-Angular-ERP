@@ -67,7 +67,7 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
 					const data = await this._usuarioService.obterPorParametros({
 						sortActive: 'NomeUsuario',
 						sortDirection: 'asc',
-            codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+            codPerfis: PerfilEnum.FILIAL_TECNICO_DE_CAMPO.toString(),
 						filter: query,
 						pageSize: 100,
 					}).toPromise();
@@ -91,7 +91,7 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
   private async obterUsuarios() {
 		const params: UsuarioParameters = {
 			sortActive: 'nomeUsuario',
-      codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+      codPerfis: PerfilEnum.FILIAL_TECNICO_DE_CAMPO.toString(),
 			sortDirection: 'asc',
 			indAtivo: statusConst.ATIVO,
 			pageSize: 100

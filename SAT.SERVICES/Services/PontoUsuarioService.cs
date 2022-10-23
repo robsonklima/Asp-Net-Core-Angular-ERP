@@ -86,7 +86,7 @@ namespace SAT.SERVICES.Services
                 });
 
                 var usuarios = _usuarioRepo.ObterPorParametros(new UsuarioParameters {
-                    CodPerfil = (int)PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+                    CodPerfis = PerfilEnum.FILIAL_TECNICO_DE_CAMPO.ToString(),
                     IndAtivo = 1
                 });
 

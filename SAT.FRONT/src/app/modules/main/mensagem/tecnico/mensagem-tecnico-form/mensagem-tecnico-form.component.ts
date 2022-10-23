@@ -81,7 +81,7 @@ export class MensagemTecnicoFormComponent implements OnInit, OnDestroy {
       sortActive: 'NomeUsuario', 
       sortDirection: 'ASC', 
       pageSize: 500, 
-      codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO
+      codPerfis: PerfilEnum.FILIAL_TECNICO_DE_CAMPO.toString()
     }).toPromise();
 
     this.usuarios = data.items;

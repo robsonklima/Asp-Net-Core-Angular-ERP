@@ -161,6 +161,8 @@ public class ConfigurationIOC
         builder.RegisterType<MensagemTecnicoRepository>().As<IMensagemTecnicoRepository>();
         builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>();
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
+        builder.RegisterType<OrdemServicoSTNOrigemRepository>().As<IOrdemServicoSTNOrigemRepository>();
+        builder.RegisterType<StatusServicoSTNRepository>().As<IStatusServicoSTNRepository>();        
         builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
         builder.RegisterType<IntegracaoRepository>().As<IIntegracaoRepository>();
         builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
@@ -320,10 +322,10 @@ public class ConfigurationIOC
         builder.RegisterType<IntegracaoBanrisulService>().As<IIntegracaoBanrisulService>();
         builder.RegisterType<ArquivoBanrisulService>().As<IArquivoBanrisulService>();
         builder.RegisterType<OrdemServicoSTNService>().As<IOrdemServicoSTNService>();
+        builder.RegisterType<OrdemServicoSTNOrigemService>().As<IOrdemServicoSTNOrigemService>();
         builder.RegisterType<ProtocoloSTNService>().As<IProtocoloSTNService>();
         builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         builder.RegisterType<NLogService>().As<INLogService>();
-        builder.RegisterType<StatusServicoSTNService>().As<IStatusServicoSTNService>();
         builder.RegisterType<IntegracaoService>().As<IIntegracaoService>();
         builder.RegisterType<ORItemService>().As<IORItemService>();
         builder.RegisterType<BancadaLaboratorioService>().As<IBancadaLaboratorioService>();

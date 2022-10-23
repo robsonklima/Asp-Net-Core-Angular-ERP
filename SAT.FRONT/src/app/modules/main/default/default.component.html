@@ -20,6 +20,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                        class="fuse-mat-button-rounded"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [routerLink]="['/configuracoes/' + sessionData.usuario.codUsuario]">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                        <span class="ml-2 pr-1">Meu Perfil</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

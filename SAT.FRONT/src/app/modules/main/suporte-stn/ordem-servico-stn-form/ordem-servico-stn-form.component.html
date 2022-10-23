@@ -1,5 +1,6 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
@@ -28,7 +29,7 @@
                     </span>
                 </div>
             </div>
-            
+
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     Atendimento
@@ -43,11 +44,13 @@
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()" *ngIf="!atendimentos.length">
+                <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()"
+                    *ngIf="!atendimentos.length">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
                 </button>
 
-                <button class="ml-3" mat-icon-button matTooltip="{{ t('historico') }}" (click)="abrirHistorico()" [disabled]="!os || !rat">
+                <button class="ml-3" mat-icon-button matTooltip="{{ t('historico') }}" (click)="abrirHistorico()"
+                    [disabled]="!os || !rat">
                     <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-duplicate'"></mat-icon>
                 </button>
             </div>
@@ -61,8 +64,10 @@
                 Digite o chamado para iniciar
             </div>
 
-            <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
-                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
+            <div class="grid lg:grid-cols-12 sm:grid-cols-1 md:grid-cols-6 gap-12 w-full min-w-0">
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 
+                    sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden"
+                    *ngIf="os">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados OS Perto</p>
                     </div>
@@ -72,7 +77,7 @@
                             <div class="text-secondary">
                                 Código da OS
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.codOS }}
                             </div>
@@ -82,7 +87,7 @@
                             <div class="text-secondary">
                                 Data Hora Abertura
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}
                             </div>
@@ -92,7 +97,7 @@
                             <div class="text-secondary">
                                 Status
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.statusServico?.nomeStatusServico }}
                             </div>
@@ -102,7 +107,7 @@
                             <div class="text-secondary">
                                 intervenção
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.tipoIntervencao?.nomTipoIntervencao }}
                             </div>
@@ -112,7 +117,7 @@
                             <div class="text-secondary">
                                 Cliente
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.cliente?.nomeFantasia }}
                             </div>
@@ -122,7 +127,7 @@
                             <div class="text-secondary">
                                 Filial
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.filial?.nomeFilial }}
                             </div>
@@ -132,7 +137,7 @@
                             <div class="text-secondary">
                                 Local de Atendimento
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.localAtendimento?.nomeLocal | uppercase }}
                             </div>
@@ -142,7 +147,7 @@
                             <div class="text-secondary">
                                 Reincidência
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 0
                             </div>
@@ -152,7 +157,7 @@
                             <div class="text-secondary">
                                 Qtd. OS 90 Dias
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 0
                             </div>
@@ -162,7 +167,7 @@
                             <div class="text-secondary">
                                 MTBF 90 Dias
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 0
                             </div>
@@ -170,7 +175,9 @@
                     </div>
                 </fuse-card>
 
-                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="rat">
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 
+                    flex-auto bg-card shadow rounded-2xl overflow-hidden"
+                    *ngIf="rat">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados Atendimento Campo</p>
                     </div>
@@ -180,7 +187,7 @@
                             <div class="text-secondary">
                                 Equipamento
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.equipamento?.codEEquip }}
                             </div>
@@ -190,7 +197,7 @@
                             <div class="text-secondary">
                                 Número Série
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ os?.equipamentoContrato?.numSerie }}
                             </div>
@@ -200,7 +207,7 @@
                             <div class="text-secondary">
                                 Técnico de Campo
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ rat?.tecnico?.nome }}
                             </div>
@@ -210,7 +217,7 @@
                             <div class="text-secondary">
                                 Tel. Técnico
                             </div>
-                
+
                             <div class="truncate max-w-1/2">
                                 {{ rat?.tecnico?.fonePerto }}
                             </div>
@@ -220,7 +227,7 @@
                             <div class="text-secondary">
                                 Relato do Cliente
                             </div>
-                
+
                             <div class="max-w-1/2 text-right">
                                 {{ os?.defeitoRelatado }}
                             </div>
@@ -230,7 +237,7 @@
                             <div class="text-secondary">
                                 Relato do Técnico
                             </div>
-                
+
                             <div class="max-w-1/2 text-right">
                                 {{ rat?.relatoSolucao }}
                             </div>
@@ -238,62 +245,88 @@
                     </div>
                 </fuse-card>
 
-                <fuse-card class="flex flex-col col-span-2 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12
+                    flex-auto bg-card shadow rounded-2xl overflow-hidden"
+                    *ngIf="os">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Atendimento Tratativa STN</p>
                     </div>
 
-                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Protocolo Atend. STN
-                            </div>
-                
-                            <div class="truncate max-w-1/2">
-                                
-                            </div>
-                        </div>
+                    <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+                        <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                            <div class="flex items-center justify-between py-1">
+                                <div class="text-secondary">
+                                    Protocolo Atend. STN
+                                </div>
 
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Data Hora Abert.
+                                <div class="truncate max-w-1/2">
+                                    {{ ultimoAtendimento?.codAtendimento }}
+                                </div>
                             </div>
-                
-                            <div class="truncate max-w-1/2">
-                                
-                            </div>
-                        </div>
 
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Origem Chamado
-                            </div>
-                
-                            <div class="truncate max-w-1/2">
-                                
-                            </div>
-                        </div>
+                            <div class="flex items-center justify-between py-1">
+                                <div class="text-secondary">
+                                    Data Hora Abert.
+                                </div>
 
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Demanda em fila de espera?
+                                <div class="truncate max-w-1/2">
+                                    {{ ultimoAtendimento?.dataHoraAberturaSTN | date:'dd/MM/yyyy HH:mm' }}
+                                </div>
                             </div>
-                
-                            <div class="truncate max-w-1/2">
-                                
-                            </div>
-                        </div>
 
-                        <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                            <mat-label>{{ t('status protocolo stn') }}</mat-label>
-                            <mat-select class="min-h-10" formControlName="codStatusServicoSTN" [disabled]="!statusServicosSTN.length">
-                                <mat-option *ngFor="let statusServicoSTN of statusServicosSTN" [value]="statusServicoSTN.codStatusServicoSTN">
-                                    {{ statusServicoSTN.descStatusServicoSTN }}
-                                </mat-option>
-                            </mat-select>
-                            <mat-error>{{ t('preencher campo') }}</mat-error>
-                        </mat-form-field>                           
-                    </div>
+                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                                <mat-label>Origem Chamado</mat-label>
+
+                                <mat-select class="min-h-10" formControlName="CodOrigemChamadoSTN"
+                                    [disabled]="!ordemServicoSTNOrigens.length">
+                                    <mat-option *ngFor="let ordemServicoSTNOrigem of ordemServicoSTNOrigens"
+                                        [value]="ordemServicoSTNOrigem.CodOrigemChamadoSTN">
+                                        {{ ordemServicoSTNOrigem.descOrigemChamadoSTN }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div class="flex items-center justify-between py-1">
+                                <div class="text-secondary">
+                                    Demanda em fila de espera?
+                                </div>
+
+                                <div class="truncate max-w-1/2">
+                                    <mat-checkbox class="mb-1" [color]="'primary'"
+                                        [formControlName]="'indPrimeiraLigacao'"></mat-checkbox>
+                                </div>
+                            </div>
+
+                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                                <mat-label>Status Protocolo STN</mat-label>
+
+                                <mat-select class="min-h-10" formControlName="codStatusServicoSTN"
+                                    [disabled]="!statusServicosSTN.length">
+                                    <mat-option *ngFor="let statusServicoSTN of statusServicosSTN"
+                                        [value]="statusServicoSTN.codStatusServicoSTN">
+                                        {{ statusServicoSTN.descStatusServicoSTN }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                                <mat-label> Nome Solicitante </mat-label>
+
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
+                                </mat-icon>
+                                <input matInput formControlName="nomeSolicitante" maxlength="50">
+                            </mat-form-field>
+
+                            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
+                                [disabled]="!form.valid">
+                                <span *ngIf="!form.disabled">
+                                    {{ t('salvar') }}
+                                </span>
+                                <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                                </mat-progress-spinner>
+                            </button>
+                        </div>
+                    </form>
                 </fuse-card>
             </div>
         </div>

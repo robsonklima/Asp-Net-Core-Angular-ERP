@@ -28,6 +28,7 @@ export interface ClientePecaData extends Meta {
 export interface ClientePecaParameters extends QueryStringParameters {
     codClientePeca?: number;
     codMagnus?: string;
+    codPeca?: number;
     codCliente?: number;
     codContrato?: number;
 };

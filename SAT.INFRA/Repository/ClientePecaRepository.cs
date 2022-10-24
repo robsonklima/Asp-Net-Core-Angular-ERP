@@ -116,6 +116,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(a => a.CodClientePeca == parameters.CodClientePeca);
             }
 
+            if (parameters.CodPeca.HasValue)
+            {
+                query = query.Where(a => a.CodPeca == parameters.CodPeca);
+            }
+
             if (parameters.CodContrato.HasValue)
             {
                 query = query.Where(a => a.CodContrato == parameters.CodContrato);

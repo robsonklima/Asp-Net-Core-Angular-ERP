@@ -1,0 +1,149 @@
+<div *ngFor="let r of relatoriosAtendimento; let i=index;">
+    <fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-4" *ngIf="r.laudos.length">
+        <div *ngFor="let laudo of r.laudos;">
+            <div class="flex items-center justify-between mt-5">
+                <div class="text-xl font-medium">
+                    <span>
+                        Laudo
+                    </span>
+
+                    <span class="text-secondary">
+                        RAT {{ r.numRAT }}
+                    </span>
+                </div>
+
+                <div>
+                    <button mat-icon-button
+                        [routerLink]="['/relatorio-atendimento/form/'+codOS+'/'+r.codRAT+'/impressao-laudo/'+laudo.codLaudo]"
+                        matTooltip="Imprimir">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'">
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">RAT</div>
+                    <div>{{ r.numRAT }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Técnico</div>
+                    <div>{{ r.tecnico.nome }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Matrícula do Cliente</div>
+                    <div>{{ laudo.matriculaCliente }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Matrícula do Cliente</div>
+                    <div>{{ laudo.nomeCliente }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Data de Cadastro</div>
+                    <div>{{ laudo.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Ativo</div>
+                    <div>{{ laudo.indAtivo === 1 ? 'SIM' : 'NÂO'}}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Status</div>
+                    <div>{{ laudo.laudoStatus.nomeStatus }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Última Modificação</div>
+                    <div>{{ laudo.codUsuarioManut }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Possui Ar Condicionado?</div>
+                    <div>{{ laudo.indPossuiArCond === 1 ? 'SIM' : 'NÂO'}}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Temperatura</div>
+                    <div>{{ laudo.temperatura }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Possui No-Break?</div>
+                    <div>{{ laudo.indPossuiNobreak === 1 ? 'SIM' : 'NÂO'}}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Rede Estabilizada?</div>
+                    <div>{{ laudo.indRedeEstabilizada === 1 ? 'SIM' : 'NÂO'}}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Tensão com Carga</div>
+                    <div>{{ laudo.tensaoComCarga }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Tensão sem Carga</div>
+                    <div>{{ laudo.tensaoSemCarga }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">Tensão entre Terra e Neutro</div>
+                    <div>{{ laudo.tensaoTerraENeutro }}</div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-8" *ngIf="laudo.relatoCliente">
+                <div class="text-lg font-medium">Relato do Cliente</div>
+            </div>
+
+            <div class="flex mt-2 border-t" *ngIf="laudo.relatoCliente">
+                <div class="pt-3">
+                    <ng-container>
+                        <div class="italic text-secondary">
+                            {{ laudo.relatoCliente }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-8" *ngIf="laudo.conclusao">
+                <div class="text-lg font-medium">Conclusão</div>
+            </div>
+
+            <div class="flex mt-2 border-t" *ngIf="laudo.conclusao">
+                <div class="pt-3">
+                    <ng-container>
+                        <div class="italic text-secondary">
+                            {{ laudo.conclusao }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-8" *ngIf="laudo.justificativa">
+                <div class="text-lg font-medium">Justificativa</div>
+            </div>
+
+            <div class="flex mt-2 border-t" *ngIf="laudo.justificativa">
+                <div class="pt-3">
+                    <ng-container>
+                        <div class="italic text-secondary">
+                            {{ laudo.justificativa }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </fuse-card>
+</div>
+
+<div *ngIf="!laudos?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+    Nenhum laudo encontrado!
+</div>

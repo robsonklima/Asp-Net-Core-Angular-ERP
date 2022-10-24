@@ -5,25 +5,21 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AgendaTecnicoService } from 'app/core/services/agenda-tecnico.service';
 import { AgendamentoService } from 'app/core/services/agendamento.service';
-import { CheckinCheckoutService } from 'app/core/services/checkin-checout.service';
-import { ClientePecaService } from 'app/core/services/cliente-peca.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DispBBBloqueioOSService } from 'app/core/services/disp-bb-bloqueio-os.service';
-import { FotoService } from 'app/core/services/foto.service';
 import { IntegracaoCobraService } from 'app/core/services/integracao-cobra.service';
-import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrdemServicoHistoricoService } from 'app/core/services/ordem-servico-historico.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { AgendaTecnico, AgendaTecnicoTipoEnum } from 'app/core/types/agenda-tecnico.types';
-import { Agendamento } from 'app/core/types/agendamento.types';
 import { CheckinCheckout } from 'app/core/types/checkin-checkout.types';
-import { ClientePeca } from 'app/core/types/cliente-peca.types';
 import { DispBBBloqueioOS, DispBBBloqueioOSParameters } from 'app/core/types/DispBBBloqueioOS.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
+import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
+import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
+import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { FileMime } from 'app/core/types/file.types';
-import { Foto } from 'app/core/types/foto.types';
 import { Orcamento } from 'app/core/types/orcamento.types';
-import { OrdemServicoHistoricoData } from 'app/core/types/ordem-servico-historico.types';
 import { OrdemServico, StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
@@ -34,10 +30,6 @@ import { RoleEnum } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
-import { OrdemServicoAgendamentoComponent } from '../ordem-servico-agendamento/ordem-servico-agendamento.component';
-import { OrdemServicoCancelamentoComponent } from '../ordem-servico-cancelamento/ordem-servico-cancelamento.component';
-import { OrdemServicoEmailDialogComponent } from '../ordem-servico-email-dialog/ordem-servico-email-dialog.component';
-import { ExportacaoService } from './../../../../core/services/exportacao.service';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -78,7 +70,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	constructor(
 		private _route: ActivatedRoute,
 		private _ordemServicoService: OrdemServicoService,
-		private _orcamentoService: OrcamentoService,
 		private _osHistoricoService: OrdemServicoHistoricoService,
 		private _agendamentoService: AgendamentoService,
 		private _userService: UserService,
@@ -86,11 +77,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _agendaTecnicoService: AgendaTecnicoService,
-		private _ordemServicoHistoricoSvc: OrdemServicoHistoricoService,
-		private _fotoService: FotoService,
 		private _dispBBBloqueioOSService: DispBBBloqueioOSService,
 		private _integracaoCobraService: IntegracaoCobraService,
-		private _checkinCheckoutService: CheckinCheckoutService,
 		private _exportacaoService: ExportacaoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -123,70 +111,12 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	private async obterDados() {
 		this.isLoading = true; 0
 		await this.obterOS();
-		this.obterHistorico();
-		this.obterCheckinsECheckouts();
-		this.obterHistoricoOS(this.codOS);
-		this.obterFotosRAT();
-		this.obterQtdLaudos();
 		this.obterDispBBBloqueioOS();
-		this.obterOrcamentos();
 		this.isLoading = false;
-	}
-
-	async obterOrcamentos() {
- 		const data = await this._orcamentoService.obterPorParametros({
-			codigoOrdemServico: this.codOS
-		}).toPromise();
-
-		this.orcamentos = data.items;
 	}
 
 	private async obterOS() {
 		this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-	}
-
-	private async obterHistorico() {
-		const historico = await this._osHistoricoService.obterPorParametros({
-			codOS: this.codOS,
-			sortDirection: 'asc',
-			sortActive: 'dataHoraCad'
-		}).toPromise();
-
-		this.historico.push.apply(this.historico, historico.items);
-	}
-
-	private async obterCheckinsECheckouts() {
-		const cks = await this._checkinCheckoutService.obterPorParametros({
-			codOS: this.codOS,
-			sortDirection: 'asc',
-			sortActive: 'dataHoraCad'
-		}).toPromise();
-
-		this.historico.concat();
-
-		const checkinCheckout = cks?.items.map((i) => {
-			return {
-				tipo: i.tipo,
-				dataHoraCadSmartphone: i.tipo == 'CHECKOUT' ? moment(i.dataHoraCadSmartphone).add('minutes', 2) : i.dataHoraCadSmartphone,
-				codUsuarioCad: i.codUsuarioTecnico
-			}
-		})
-
-		this.historico.push.apply(this.historico, checkinCheckout);
-		this.historico = this.historico
-			.sort((a, b) => (moment(a.dataHoraCadSmartphone || a.dataHoraCad) > moment(b.dataHoraCadSmartphone || b.dataHoraCad)) ? 1 : -1);
-	}
-
-	private obterHistoricoOS(codOS: number): Promise<OrdemServicoHistoricoData> {
-		return new Promise((resolve, reject) => {
-			this._ordemServicoHistoricoSvc
-				.obterPorParametros({ codOS: codOS })
-				.subscribe((historico: OrdemServicoHistoricoData) => {
-					resolve(historico);
-				}, () => {
-					reject();
-				});
-		})
 	}
 
 	async agendar() {
@@ -301,7 +231,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
 
-				this.obterHistoricoOS(this.codOS).then(async (historico) => {
+				this._osHistoricoService.obterPorParametros({codOS: this.codOS}).subscribe(async (historico) => {
 					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
 					if (historicoOS.length)
@@ -370,42 +300,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				});
 			}
 		});
-	}
-
-	private async obterFotosRAT() {
-		for (const [i, rat] of this.os.relatoriosAtendimento.entries()) {
-			if (!rat.numRAT || !rat.codOS) return;
-
-			this.os.relatoriosAtendimento[i].fotos =
-				(await this._fotoService.obterPorParametros(
-					{
-						codOS: rat.codOS,
-						numRAT: rat.numRAT,
-						sortActive: 'CodRATFotoSmartphone',
-						sortDirection: 'desc'
-					}
-				).toPromise()).items.filter(f => !f.modalidade.includes('ASSINATURA'));
-
-			this.qtdFotos = this.qtdFotos + this.os.relatoriosAtendimento[i].fotos.length;
-		}
-	}
-
-	private obterQtdLaudos() {
-		this.os.relatoriosAtendimento.forEach((rat) => {
-			this.qtdLaudos += rat.laudos.length;
-		});
-	}
-
-	filtrarFotosRAT(tipo: string, fotos: Foto[]): Foto[] {
-		let fotosFiltered: Foto[];
-
-		if (tipo === 'RAT') {
-			fotosFiltered = fotos.filter(f => !f.modalidade.includes('LAUDO'));
-		} else if (tipo === 'LAUDO') {
-			fotosFiltered = fotos.filter(f => f.modalidade.includes('LAUDO'));
-		}
-
-		return fotosFiltered;
 	}
 
 	private criarAgendaTecnico() {
@@ -482,27 +376,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this.isLoading = false;
 	}
 
-	public removerAgendamento(agendamento: Agendamento) {
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja remover este agendamento?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
-	
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-			if (confirmacao) {
-				this._agendamentoService.deletar(agendamento.codAgendamento).subscribe(() => {
-					this.obterOS();
-				});
-			}
-		});
-	}
-
 	public reprocessarIntegracaoBRB() {
 		this.isLoading = true;
 
@@ -544,12 +417,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			TipoIntervencaoEnum.ORC_REPROVADO]
 
 		return orcamentos.includes(this.os?.codTipoIntervencao);
-	}
-
-	getTimeFromMins(mins) {
-		var h = mins / 60 | 0,
-			m = mins % 60 | 0;
-		return moment.utc().hours(h).minutes(m).format("HH:mm");
 	}
 
 	trocarTab(tab: any) {

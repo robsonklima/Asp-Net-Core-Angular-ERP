@@ -1,8 +1,8 @@
 import { Orcamento, OrcamentoDeslocamento, OrcamentoMotivoEnum } from 'app/core/types/orcamento.types';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OrdemServicoDetalheOrcamentosComponent } 
-  from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
+import { OrdemServicoOrcamentosComponent } 
+  from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-orcamentos/ordem-servico-orcamentos.component';
 import { Router } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
 import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
@@ -38,7 +38,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    public _dialogRef: MatDialogRef<OrdemServicoDetalheOrcamentosComponent>,
+    public _dialogRef: MatDialogRef<OrdemServicoOrcamentosComponent>,
     private _router: Router,
     private _userService: UserService,
     private _orcamentoService: OrcamentoService,

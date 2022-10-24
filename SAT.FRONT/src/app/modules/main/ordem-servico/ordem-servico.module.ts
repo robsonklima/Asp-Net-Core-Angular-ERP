@@ -47,10 +47,17 @@ import { OrdemServicoCancelamentoComponent } from './ordem-servico-cancelamento/
 import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/ordem-servico-email-dialog.component';
 import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-foto.component';
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
-import { OrdemServicoDetalheOrcamentosComponent } from './ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
+import { OrdemServicoOrcamentosComponent } from './ordem-servico-detalhe/ordem-servico-orcamentos/ordem-servico-orcamentos.component';
 import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NotificationsModule } from 'app/layout/common/notifications/notifications.module';
+import { OrdemServicoInfoComponent } from './ordem-servico-detalhe/ordem-servico-info/ordem-servico-info.component';
+import { OrdemServicoRatsComponent } from './ordem-servico-detalhe/ordem-servico-rats/ordem-servico-rats.component';
+import { OrdemServicoAgendamentosComponent } from './ordem-servico-detalhe/ordem-servico-agendamentos/ordem-servico-agendamentos.component';
+import { OrdemServicoAlertasComponent } from './ordem-servico-detalhe/ordem-servico-alertas/ordem-servico-alertas.component';
+import { OrdemServicoLogsComponent } from './ordem-servico-detalhe/ordem-servico-logs/ordem-servico-logs.component';
+import { OrdemServicoRATFotosComponent } from './ordem-servico-detalhe/ordem-servico-rat-fotos/ordem-servico-rat-fotos.component';
+import { OrdemServicoLaudosComponent } from './ordem-servico-detalhe/ordem-servico-laudos/ordem-servico-laudos.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -60,7 +67,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
         OrdemServicoFormComponent,
         OrdemServicoDetalheComponent,
         OrdemServicoImpressaoComponent,
-        OrdemServicoFotosComponent,
         OrdemServicoTransferenciaComponent,
         OrdemServicoAgendamentoComponent,
         OrdemServicoFiltroComponent,
@@ -68,9 +74,17 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
         OrdemServicoCancelamentoComponent,
         OrdemServicoEmailDialogComponent,
         OrdemServicoFotoComponent,
+        OrdemServicoFotosComponent,
         OrdemServicoPesquisaComponent,
-        OrdemServicoDetalheOrcamentosComponent,
-        OrdemServicoLaudoComponent
+        OrdemServicoOrcamentosComponent,
+        OrdemServicoLaudoComponent,
+        OrdemServicoLaudosComponent,
+        OrdemServicoInfoComponent,
+        OrdemServicoRatsComponent,
+        OrdemServicoRATFotosComponent,
+        OrdemServicoAgendamentosComponent,
+        OrdemServicoAlertasComponent,
+        OrdemServicoLogsComponent
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

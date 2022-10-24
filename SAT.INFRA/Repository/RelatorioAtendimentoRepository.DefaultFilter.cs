@@ -20,6 +20,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodRAT.HasValue)
                 relatorios = relatorios.Where(r => r.CodRAT == parameters.CodRAT);
 
+            if (parameters.CodOS.HasValue)
+                relatorios = relatorios.Where(r => r.CodOS == parameters.CodOS);
+
             if (parameters.DataInicio.HasValue)
                 relatorios = relatorios.Where(r => r.DataHoraInicio.Date >= parameters.DataInicio.Value.Date);
 

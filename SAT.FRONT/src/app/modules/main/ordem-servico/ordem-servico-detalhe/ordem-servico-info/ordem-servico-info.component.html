@@ -1,0 +1,371 @@
+<div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0" *transloco="let t">
+    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="text-lg font-medium mt-2">{{ t('chamado') }}</div>
+
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('abertura') }}</div>
+                <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCadastro">
+                <div class="text-secondary">{{ t('aberto por') }}</div>
+                <div>
+                    {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Não informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
+                <div class="text-secondary">{{ t('aberto por') }}</div>
+                <div>
+                    {{ os?.usuarioCad?.nomeUsuario || os?.codUsuarioCad || "Não informado" }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
+                <div class="text-secondary">{{ t('nome solicitante') }}</div>
+                <div>
+                    {{ os?.nomeSolicitante || 'Não Informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.usuarioCad">
+                <div class="text-secondary">{{ t('telefone solicitante') }}</div>
+                <div>
+                    {{ os?.telefoneSolicitante || 'Não Informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('os cliente') }}</div>
+                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('os quarteirizada') }}</div>
+                <div>{{ os?.numOSQuarteirizada || 'Não Informada' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.tecnico?.nome">
+                <div class="text-secondary">{{ t('tecnico') }}</div>
+                <div>{{ os?.tecnico?.nome | titlecase }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.tecnico?.fonePerto">
+                <div class="text-secondary">{{ t('tecnico fone') }}</div>
+                <div>{{ os?.tecnico?.fonePerto | titlecase }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('tipo de intervencao') }}</div>
+                <div>
+                    <span class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1">
+                        {{ os?.tipoIntervencao?.nomTipoIntervencao }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('status de servico') }}</div>
+                <div>
+                    <span class="mt-1 px-1.5 rounded text-sm font-semibold leading-5 p-1"
+                        [style.background-color]="os?.statusServico?.corFundo"
+                        [style.color]="os?.statusServico?.corFonte">
+                        {{ os?.statusServico?.nomeStatusServico }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1" *ngIf="os?.codStatusServico === 3">
+                <div class="text-secondary">{{ t('fechamento') }}</div>
+                <div>{{ os?.dataHoraFechamento | date:'dd/MM/yyyy HH:mm' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('os cliente') }}</div>
+                <div>{{ os?.numOSCliente || 'Não Informado' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('cliente') }}</div>
+                <div>{{ os?.cliente?.nomeFantasia || '--' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('reincidencia') }}</div>
+                <div>{{ os?.numReincidencia ? os?.numReincidencia : t('nenhuma') }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('sugestao') }}</div>
+                <div>{{ os?.sugestaoOS || 'Não Informado' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('exige laudo') }}</div>
+                <div>{{ os?.indOSIntervencaoEquipamento ? 'Sim' : 'Não' }}</div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8">
+            <div class="text-lg font-medium">{{ t('defeito') }}</div>
+        </div>
+        <div class="flex mt-2 border-t">
+            <div class="py-1">
+                <ng-container>
+                    <div>{{ os?.defeitoRelatado }}</div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8" *ngIf="os?.motivoCancelamento">
+            <div class="text-lg font-medium">{{ t('motivo cancelamento') }}</div>
+        </div>
+        <div class="flex mt-2 border-t text-justify" *ngIf="os?.motivoCancelamento">
+            <div class="py-1">
+                <ng-container>
+                    <div>{{ os?.motivoCancelamento }}</div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8">
+            <div class="text-lg font-medium">{{ t('observacao') }}</div>
+        </div>
+        <div class="flex mt-2 border-t text-justify">
+            <div class="py-1">
+                <ng-container>
+                    <div>{{ os?.observacaoCliente || 'Não Informado' }}</div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8">
+            <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
+        </div>
+        <div class="flex mt-2 border-t text-justify">
+            <div class="py-1">
+                <ng-container>
+                    <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>
+                </ng-container>
+            </div>
+        </div>
+    </fuse-card>
+
+    <fuse-card class="flex flex-col flex-auto col-span-3 p-6 bg-card shadow rounded-2xl overflow-hidden">
+        <div class="text-lg font-medium mt-2">
+            {{ t('local') }}/{{ t('equipamento') }}
+        </div>
+
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('local') }}</div>
+                <div>
+                    {{ os?.cliente?.nomeFantasia }} -
+                    {{ (os?.localAtendimento?.nomeLocal || t('nao informado')) }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('agencia') }}</div>
+                <div>{{ os?.localAtendimento?.numAgencia || '--' }}/{{
+                    os?.localAtendimento?.dcPosto || '--' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('equipamento') }}</div>
+                <div>
+                    <span class="cursor-help" [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
+                        matTooltipPosition="above">
+                        {{ os?.equipamento?.nomeEquip ||
+                        os?.equipamentoContrato?.equipamento?.nomeEquip || '--' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('serie') }}</div>
+                <div>
+                    <span>
+                        {{ os?.equipamentoContrato?.numSerie || t('nao informado') }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('serie cliente') }}</div>
+                <div>
+                    <span>
+                        {{ os?.equipamentoContrato?.numSerieCliente || t('nao informado') }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('sla') }}</div>
+                <div>
+                    <span class="cursor-help" [matTooltip]="os?.equipamentoContrato?.acordoNivelServico?.descSLA"
+                        matTooltipPosition="above">
+                        {{ os?.equipamentoContrato?.acordoNivelServico?.nomeSLA || 'Não Informado' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1"
+                *ngIf="os?.prazosAtendimento[os.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento">
+                <div class="text-secondary">{{ t('fim sla') }}</div>
+                <div>
+                    {{ (os?.prazosAtendimento[os.prazosAtendimento?.length -
+                    1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('contrato') }}</div>
+                <div>
+                    {{ os?.equipamentoContrato?.contrato?.nomeContrato || 'Não Informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('filial') }}</div>
+                <div>{{ os?.filial?.nomeFilial || 'Não Informado'}}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('autorizada') }}</div>
+                <div>{{ os?.autorizada?.nomeFantasia || 'Não Informado'}}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('regiao') }}</div>
+                <div>{{ os?.regiao?.nomeRegiao || 'Não Informado'}}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('distancia da pat') }}</div>
+                <div>{{ os?.localAtendimento?.distanciaKmPatRes || 'Não Informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Necessário Agendamento com Carro Forte</div>
+                <div>{{ os?.equipamentoContrato?.indSemat ? 'Sim' : 'Não' }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Atendimento Sábado, Domingo e Feriado</div>
+                <div>{{ os?.equipamentoContrato?.pontoEstrategico == 2 ? 'Sim' : 'Não' }}</div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8" *ngIf="os?.chamado">
+            <div class="text-lg font-medium">POS</div>
+        </div>
+
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="os?.chamado">
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('estabelecimento') }}</div>
+                <div>
+                    {{ os?.numAgenciaBanco }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('rede') }}</div>
+                <div>
+                    {{ os?.redeEquipamento }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('terminal') }}</div>
+                <div>
+                    {{ os?.numTerminal }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('defeito') }}</div>
+                <div>
+                    {{ os?.chamado?.defeitoPOS?.nomeDefeitoPOS }}
+
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('tipo de comunicacao') }}</div>
+                <div>
+                    {{ os?.chamado?.chamadoDadosAdicionais?.tipoComunicacaoTela.toString() }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('versao') }}</div>
+                <div>
+                    {{ os?.numAgenciaNI }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('data-autenticacao') }}</div>
+                <div *ngIf="os?.chamado?.chamadoDadosAdicionais?.autenticacao">
+                    {{ os?.chamado?.chamadoDadosAdicionais?.autenticacao | date:'dd/MM/yyyy HH:mm' }}
+                </div>
+                <div *ngIf="!os?.chamado?.chamadoDadosAdicionais?.autenticacao">
+                    {{ 'Não Informado'}}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('simcard') }}</div>
+                <div>
+                    {{ os?.chamado?.chamadoDadosAdicionais?.simCard || 'Não Informado' }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('operadora telefonia') }}</div>
+                <div>
+                    {{ os?.chamado?.operadoraTelefonia?.nomeOperadoraTelefonia }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('ddd') }}</div>
+                <div>
+                    {{ os?.chamado?.chamadoDadosAdicionais?.ddd || 'Não Informado' }}
+                </div>
+            </div>
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">{{ t('numero') }}</div>
+                <div>
+                    {{ os?.chamado?.chamadoDadosAdicionais?.numero || 'Não Informado' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-8">
+            <div class="text-lg font-medium">{{ t('endereco') }}</div>
+        </div>
+
+        <div class="flex mt-2 border-t">
+            <div class="py-1">
+                <ng-container>
+                    <div>
+                        <span>Logradouro:</span>
+                        {{ os?.localAtendimento?.endereco || 'Não Informado' }}
+                    </div>
+
+                    <div>
+                        <span>Cidade:</span>
+                        {{ os?.localAtendimento?.cidade?.nomeCidade || 'Não Informado' }}
+                    </div>
+
+                    <div>
+                        <span>UF:</span>
+                        {{ os?.localAtendimento?.cidade?.unidadeFederativa?.siglaUF || 'Não Informado' }}
+                    </div>
+
+                    <div>
+                        <span>CEP:</span>
+                        {{ os?.localAtendimento?.cep || 'Não Informado' }}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </fuse-card>
+</div>

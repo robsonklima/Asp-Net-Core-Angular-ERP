@@ -239,7 +239,7 @@ namespace SAT.SERVICES.Services
         private List<Usuario> ObterUsuarios(AgendaTecnicoParameters parameters) {
             return _usuarioRepo.ObterPorParametros(new UsuarioParameters() {
                 CodFilial = parameters.CodFilial,
-                CodPerfis = PerfilEnum.FILIAL_TECNICO_DE_CAMPO.ToString(),
+                CodPerfis = parameters.CodTecnicos,
                 IndAtivo = 1,
                 PAS = parameters.PAS,
                 IndFerias = parameters.IndFerias,

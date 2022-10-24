@@ -1,0 +1,13 @@
+<div class="flex flex-col flex-auto p-6 pt-px w-2/3">
+    <fuse-alert *ngFor="let alerta of os.alertas" class="mt-4" [type]="alerta?.tipo"
+        [appearance]="'border'">
+        <span fuseAlertTitle>{{ alerta?.titulo }}</span>
+        <div class="rounded mt-2 text-justify" *ngFor="let desc of alerta?.descricao">
+            {{ desc }}
+        </div>
+    </fuse-alert>
+</div>
+
+<div *ngIf="!os.alertas?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+    Nenhum alerta encontrado!
+</div>

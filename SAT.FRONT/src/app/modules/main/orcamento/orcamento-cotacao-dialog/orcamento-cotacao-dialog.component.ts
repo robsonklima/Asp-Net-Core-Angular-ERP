@@ -7,7 +7,7 @@ import { EmailService } from 'app/core/services/email.service';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { OrdemServicoDetalheOrcamentosComponent } from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
+import { OrdemServicoOrcamentosComponent } from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-orcamentos/ordem-servico-orcamentos.component';
 
 @Component({
   selector: 'app-orcamento-cotacao-dialog',
@@ -20,7 +20,7 @@ export class OrcamentoCotacaoDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    public _dialogRef: MatDialogRef<OrdemServicoDetalheOrcamentosComponent>,
+    public _dialogRef: MatDialogRef<OrdemServicoOrcamentosComponent>,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
     private _emailService: EmailService

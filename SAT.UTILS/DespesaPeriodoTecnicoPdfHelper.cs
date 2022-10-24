@@ -526,10 +526,10 @@ namespace SAT.UTILS
                             t.Span("Data").FontSize(6);
                         });
                         table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
-                            t.Span("Coordenador").FontSize(6);
+                            t.Span("Líder").FontSize(6);
                         });
                         table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
-                            t.Span("Líder").FontSize(6);
+                            t.Span("Coordenador").FontSize(6);
                         });
                         table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
                             t.Span("Gerência").FontSize(6);

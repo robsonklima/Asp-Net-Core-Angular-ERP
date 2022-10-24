@@ -11,3 +11,9 @@
 <div *ngIf="!os.alertas?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
     Nenhum alerta encontrado!
 </div>
+
+<div class="flex justify-center items-center min-h-60" *ngIf="isLoading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

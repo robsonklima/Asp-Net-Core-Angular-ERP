@@ -31,8 +31,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.criarForm();
-    console.log(this.item);
-    
   }
 
   criarForm() {

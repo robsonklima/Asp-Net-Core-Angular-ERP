@@ -98,8 +98,8 @@ export class OrcamentoService
         const valorDescontos = _.sumBy(orcamento?.descontos, (desconto) => { return desconto?.valorTotal; });
         const valorDescontosMateriais = _.sumBy(orcamento?.materiais, (desconto) => { return desconto?.valorDesconto; });
         
-        orcamento.valorTotal = (valorMateriais + valorOutrosServicos + valorKmDeslocamento + valorKmRodado + valorMaoDeObra) - valorDescontos;
         orcamento.valorTotalDesconto = valorDescontos + valorDescontosMateriais;
+        orcamento.valorTotal = (valorMateriais + valorOutrosServicos + valorKmDeslocamento + valorKmRodado + valorMaoDeObra) - orcamento.valorTotalDesconto;
 
         if (orcamento.valorTotal)
             orcamento.valorTotal = orcamento.valorTotal;

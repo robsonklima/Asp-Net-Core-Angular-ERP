@@ -145,3 +145,9 @@
         </div>
     </div>
 </fuse-card>
+
+<div class="flex justify-center items-center min-h-60" *ngIf="isLoading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

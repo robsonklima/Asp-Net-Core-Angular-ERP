@@ -290,7 +290,7 @@
                                 <div class="text-secondary">
                                     Demanda em fila de espera?
                                 </div>
-
+                                
                                 <div class="truncate max-w-1/2">
                                     <mat-checkbox class="mb-1" [color]="'primary'"
                                         [formControlName]="'indPrimeiraLigacao'"></mat-checkbox>
@@ -299,7 +299,7 @@
 
                             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                                 <mat-label>Status Protocolo STN</mat-label>
-
+                                
                                 <mat-select class="min-h-10" formControlName="codStatusServicoSTN"
                                     [disabled]="!statusServicosSTN.length">
                                     <mat-option *ngFor="let statusServicoSTN of statusServicosSTN"

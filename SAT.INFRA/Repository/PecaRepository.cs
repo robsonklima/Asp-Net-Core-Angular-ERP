@@ -57,7 +57,9 @@ namespace SAT.INFRA.Repository
 
         public Peca ObterPorCodigo(int codigo)
         {
-            return _context.Peca.FirstOrDefault(p => p.CodPeca == codigo);
+            return _context.Peca
+            .Include(cp => cp.ClientePeca!)
+            .FirstOrDefault(p => p.CodPeca == codigo);
         }
 
         public IQueryable<Peca> ObterQuery(PecaParameters parameters)

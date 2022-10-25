@@ -43,6 +43,7 @@ namespace SAT.SERVICES.Services
         public UsuarioLoginViewModel Login(Usuario usuario)
         {
             var usuarioLogado = _usuarioRepo.Login(usuario: usuario);
+            usuarioLogado.Foto = _fotoService.BuscarFotoUsuario(usuarioLogado.CodUsuario);
             var navegacoes = CarregarNavegacoes(usuarioLogado);
             RegistrarAcesso(usuarioLogado);
 
@@ -59,7 +60,9 @@ namespace SAT.SERVICES.Services
 
         public Usuario ObterPorCodigo(string codigo)
         {
-            return _usuarioRepo.ObterPorCodigo(codigo);
+            var usuario = _usuarioRepo.ObterPorCodigo(codigo);
+            usuario.Foto = _fotoService.BuscarFotoUsuario(usuario.CodUsuario);
+            return usuario;
         }
 
         public ListViewModel ObterPorParametros(UsuarioParameters parameters)

@@ -694,6 +694,50 @@ namespace SAT.SERVICES.Services
             return texto.ToString();
         }
 
+        private string GetHtmlEmailResolucao(IntegracaoBanrisulAtendimento atendimento, String mensagem)
+        {
+            StringBuilder texto = new StringBuilder();
+
+            texto.Append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" >");
+            texto.Append("<html>");
+            texto.Append("	<body>");
+            texto.Append("			<font style=\"FONT-SIZE: 12pt\">");
+            texto.Append("				<div align=\"center\">");
+            texto.AppendFormat("            {0}", mensagem);
+            texto.Append("				</div>");
+            texto.Append("			</font>");
+            texto.Append("			<br>");
+            texto.Append("			<table style=\"BORDER-BOTTOM: black 1px solid; BORDER-LEFT: black 1px solid; BORDER-TOP: black 1px solid; BORDER-RIGHT: black 1px solid ;FONT-SIZE: 10pt; FONT-FAMILY: verdana\" align=\"center\">");
+            texto.Append("				<tr>");
+            texto.Append("					<td style=\"BACKGROUND-COLOR: #47699b; COLOR: white\" align=\"center\" colspan=\"2\">");
+            texto.Append("						<font style=\"FONT-WEIGHT: bold\">");
+            texto.Append("							Dados do chamado");
+            texto.Append("						</font>");
+            texto.Append("					</td>");
+            texto.Append("				</tr>");
+            texto.Append("				<tr>");
+            texto.Append("					<td align=\"right\">Número Chamado:</td>");
+            texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroIncidente.Valor);
+            texto.Append("				</tr>");
+            texto.Append("				<tr>");
+            texto.Append("					<td align=\"right\">Agência:</td>");
+            texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
+            texto.Append("				</tr>");
+            texto.Append("				<tr>");
+            texto.Append("					<td align=\"right\">Posto:</td>");
+            texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
+            texto.Append("				</tr>");
+            texto.Append("				<tr>");
+            texto.Append("					<td align=\"right\">Número Série Equipamento:</td>");
+            texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroSerie.Valor);
+            texto.Append("				</tr>");
+            texto.Append("			</table>");
+            texto.Append("	</body>");
+            texto.Append("</html>");
+
+            return texto.ToString();
+        }
+
         private void EnviaEmailAbertura(IntegracaoBanrisulAtendimento atendimento, OrdemServico ordemServico, bool reaberto = false)
         {
             string assunto = "Integração Banrisul ATM - Situação chamado cliente " +
@@ -753,7 +797,7 @@ namespace SAT.SERVICES.Services
                     break;
             }
 
-            string texto = GetHtmlEmailAbertura(atendimento, mensagem);
+            string texto = GetHtmlEmailResolucao(atendimento, mensagem);
 
             string[] destinatarios = { "equipe.sat@perto.com.br", "giane.santos@perto.com.br", destinatario };
 

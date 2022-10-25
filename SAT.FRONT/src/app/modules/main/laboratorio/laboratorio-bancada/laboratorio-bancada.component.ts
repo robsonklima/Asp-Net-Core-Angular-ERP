@@ -49,7 +49,6 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
     }
     const data: BancadaLaboratorioData = await this._bancadaLaboratorioService.obterPorParametros(params).toPromise();
     this.bancadas = data.items;
-    console.log(this.bancadas);
   }
 
   private async obterUsuarios(){
@@ -60,13 +59,10 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
         sortDirection: "asc"
     }).toPromise();
     this.usuarios = data.items;
-    console.log(this.usuarios);
   }
 
   drop(event: CdkDragDrop<string[]>){
     moveItemInArray(this.bancadas, event.previousIndex, event.currentIndex);
-
-    console.log(this.bancadas);
     
     // let obj = {
     //     ...this.bancadas,

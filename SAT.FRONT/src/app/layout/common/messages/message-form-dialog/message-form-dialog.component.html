@@ -19,7 +19,9 @@
                         </mat-option>
 
                         <mat-option class="uppercase" *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
-                            {{ usuario.nomeUsuario }} - <span class="font-light text-hint">{{ usuario?.perfil?.nomePerfil }}</span>
+                            {{ usuario.nomeUsuario }} - 
+                            <span class="font-light text-hint">{{ usuario?.perfil?.nomePerfil }}</span> -
+                            <span> {{ usuario.ultimoAcesso | date:'dd/MM/yyyy HH:mm'}} </span>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

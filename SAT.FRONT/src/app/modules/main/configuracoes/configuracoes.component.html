@@ -65,17 +65,17 @@
                                 <div class="container mx-auto relative">
 
                                     <img *ngIf="dadosFotoUsuario?.base64"
-                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm"
+                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm hover:opacity-40"
                                         src="{{'data:image/jpg;base64,' + dadosFotoUsuario.base64}}"
                                         alt="foto do usuário" />
 
                                     <img *ngIf="!dadosFotoUsuario?.base64"
-                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm"
+                                        class="w-24 h-24 rounded-full border border-gray-100 shadow-sm hover:opacity-40"
                                         src="assets/images/avatars/profile.jpg" alt="foto do usuário" />
 
                                     <div *ngIf="showEdit"
-                                        class="pointer-events-none w-1/2 h-1/3 absolute bottom-0 left-1/4">
-                                        <mat-icon style="color: white;" [svgIcon]="'heroicons_outline:camera'">
+                                        class="pointer-events-none w-1/2 h-1/3 absolute bottom-2 left-1/4">
+                                        <mat-icon class="text-orange-600" [svgIcon]="'heroicons_outline:pencil-alt'">
                                         </mat-icon>
                                     </div>
                                 </div>

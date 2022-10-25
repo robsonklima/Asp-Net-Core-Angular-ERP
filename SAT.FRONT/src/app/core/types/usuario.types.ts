@@ -1,3 +1,4 @@
+import { ImagemPerfilModel } from "app/modules/main/dialog/dialog-alterar-foto-perfil/dialog-alterar-foto-perfil.component";
 import { Cargo } from "./cargo.types";
 import { Cidade } from "./cidade.types";
 import { Filial } from "./filial.types";
@@ -65,6 +66,7 @@ export class Usuario {
     usuarioSeguranca: UsuarioSeguranca;
     usuarioDispositivos: any[];
     ultimoAcesso: string;
+    foto: ImagemPerfilModel;
 }
 
 export interface UsuarioData extends Meta {

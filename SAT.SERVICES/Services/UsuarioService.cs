@@ -23,18 +23,21 @@ namespace SAT.SERVICES.Services
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
         private readonly IUsuarioLoginRepository _usuarioLoginRepo;
+        private readonly IFotoService _fotoService;
 
         public UsuarioService(
             IUsuarioRepository usuarioRepository,
             IConfiguration config,
             ITokenService tokenService,
-            IUsuarioLoginRepository usuarioLoginRepo
+            IUsuarioLoginRepository usuarioLoginRepo,
+            IFotoService fotoService
         )
         {
             _usuarioRepo = usuarioRepository;
             _config = config;
             _tokenService = tokenService;
             _usuarioLoginRepo = usuarioLoginRepo;
+            _fotoService = fotoService;
         }
 
         public UsuarioLoginViewModel Login(Usuario usuario)
@@ -62,6 +65,11 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(UsuarioParameters parameters)
         {
             var usuarios = _usuarioRepo.ObterPorParametros(parameters);
+
+            for (int i = 0; i < usuarios.Count; i++)
+            {
+                usuarios[i].Foto = _fotoService.BuscarFotoUsuario(usuarios[i].CodUsuario);
+            }
 
             var lista = new ListViewModel
             {

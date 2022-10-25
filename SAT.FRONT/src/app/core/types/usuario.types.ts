@@ -66,6 +66,7 @@ export class Usuario {
     usuarioSeguranca: UsuarioSeguranca;
     usuarioDispositivos: any[];
     ultimoAcesso: string;
+    foto: ImagemPerfilModel;
 }
 
 export interface UsuarioData extends Meta {

@@ -271,7 +271,7 @@ namespace SAT.UTILS
             container.BorderTop(1).BorderColor(Colors.Grey.Lighten1).Padding(10).Grid(grid =>
             {
                 int index = 1;
-                OrdemServico.RelatoriosAtendimento.ForEach((rel) =>
+                OrdemServico?.RelatoriosAtendimento?.ForEach((rel) =>
                 {
                     grid.VerticalSpacing(5);
                     grid.HorizontalSpacing(10);

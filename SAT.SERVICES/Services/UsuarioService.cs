@@ -12,6 +12,7 @@ using SAT.UTILS;
 using NLog;
 using NLog.Fluent;
 using SAT.MODELS.Entities.Constants;
+using System.IO;
 
 namespace SAT.SERVICES.Services
 {
@@ -61,6 +62,11 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(UsuarioParameters parameters)
         {
             var usuarios = _usuarioRepo.ObterPorParametros(parameters);
+
+            for (int i = 0; i < usuarios.Count; i++)
+            {
+                usuarios[i].Foto = BuscarFotoUsuario(usuarios[i].CodUsuario);
+            }
 
             var lista = new ListViewModel
             {
@@ -206,6 +212,39 @@ namespace SAT.SERVICES.Services
             {
                 throw new Exception("Erro ao registrar acesso do usuário", ex);
             }
+        }
+
+        public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
+        {
+            string target = Directory.GetCurrentDirectory() + "/Upload";
+
+			if (!new DirectoryInfo(target).Exists)
+			{
+				Directory.CreateDirectory(target);
+			}
+
+            string imgPath = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == codUsuario);
+
+            string base64 = string.Empty;
+            string extension = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(imgPath))
+            {
+                extension = Path.GetExtension(imgPath);
+                byte[] bytes = File.ReadAllBytes(imgPath);
+
+                if (bytes.Length > 0)
+                {
+                    base64 = Convert.ToBase64String(bytes);
+                }
+            }
+
+            return new ImagemPerfilModel()
+            {
+                Base64 = base64,
+                CodUsuario = codUsuario,
+                Mime = Path.GetExtension(extension)
+            };
         }
     }
 }

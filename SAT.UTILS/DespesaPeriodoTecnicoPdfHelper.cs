@@ -420,7 +420,7 @@ namespace SAT.UTILS
                     decimal valorAdiantamentoRecebido = _adiantamentos.Sum(i => i.DespesaAdiantamento.ValorAdiantamento);
                     decimal valorAdiantamentoUtilizado = _adiantamentos.Sum(i => i.ValorAdiantamentoUtilizado);
                     decimal valorAReceberViaDeposito = valorDespesaOutros - valorAdiantamentoUtilizado < 0 ? 0 : valorDespesaOutros - valorAdiantamentoUtilizado;
-                    decimal saldoAdiantamento = valorAdiantamentoRecebido - valorAdiantamentoUtilizado;
+                    decimal saldoAdiantamento = valorTotalDespesa - valorAdiantamentoUtilizado;
                     decimal percentualOutros = Math.Round((valorDespesaOutros / valorTotalDespesa * 100), 2);;
                     decimal percentualDespesaCB = Math.Round((valorDespesaKM / valorTotalDespesa * 100), 2);
 

@@ -8,7 +8,7 @@ export interface Foto
     nomeFoto: string;
     modalidade: string;
     dataHoraCad: string;
-    base64: string;
+    base64: any;
 }
 
 export interface FotoData extends Meta

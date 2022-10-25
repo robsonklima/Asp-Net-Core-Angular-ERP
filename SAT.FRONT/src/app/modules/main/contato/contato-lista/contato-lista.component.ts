@@ -15,12 +15,12 @@ export class ContatoListaComponent implements OnInit {
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	constructor(
-		private _usuarioService: UsuarioService,
+		private _usuarioService: UsuarioService
 	) { }
 
 	async ngOnInit() {
 		this.usuarios = (await this.obterUsuarios()).items;
-
+		
 		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
 			map((event: any) => {
 				return event.target.value;

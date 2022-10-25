@@ -57,7 +57,7 @@ namespace SAT.SERVICES.Services
         {
             if (!string.IsNullOrWhiteSpace(foto.Base64))
             {
-                string target = Directory.GetCurrentDirectory() + "/Upload";
+                string target = Directory.GetCurrentDirectory() + "/Upload/FotosPerfil";
 
                 if (!Directory.Exists(target))
                 {
@@ -81,7 +81,7 @@ namespace SAT.SERVICES.Services
 
         public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
         {
-            string target = Directory.GetCurrentDirectory() + "/Upload";
+            string target = Directory.GetCurrentDirectory() + "/Upload/FotosPerfil";
 
 			if (!new DirectoryInfo(target).Exists)
 			{

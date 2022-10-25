@@ -63,11 +63,6 @@ namespace SAT.SERVICES.Services
         {
             var usuarios = _usuarioRepo.ObterPorParametros(parameters);
 
-            for (int i = 0; i < usuarios.Count; i++)
-            {
-                usuarios[i].Foto = BuscarFotoUsuario(usuarios[i].CodUsuario);
-            }
-
             var lista = new ListViewModel
             {
                 Items = usuarios,
@@ -216,11 +211,11 @@ namespace SAT.SERVICES.Services
 
         public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
         {
-            string target = Directory.GetCurrentDirectory() + "/Upload";
+            string target = "E:\\AppTecnicos\\Fotos";
 
 			if (!new DirectoryInfo(target).Exists)
 			{
-				Directory.CreateDirectory(target);
+				return null;
 			}
 
             string imgPath = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == codUsuario);

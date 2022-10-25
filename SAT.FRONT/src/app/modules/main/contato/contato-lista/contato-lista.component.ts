@@ -7,21 +7,21 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-contato-lista',
-  templateUrl: './contato-lista.component.html'
+	selector: 'app-contato-lista',
+	templateUrl: './contato-lista.component.html'
 })
 export class ContatoListaComponent implements OnInit {
-  usuarios: Usuario[] = [];
-  @ViewChild('searchInputControl') searchInputControl: ElementRef;
+	usuarios: Usuario[] = [];
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
-  constructor(
-    private _usuarioService: UsuarioService,
-  ) { }
+	constructor(
+		private _usuarioService: UsuarioService,
+	) { }
 
-  async ngOnInit() {
-    this.usuarios = (await this.obterUsuarios()).items;
+	async ngOnInit() {
+		this.usuarios = (await this.obterUsuarios()).items;
 
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
 			map((event: any) => {
 				return event.target.value;
 			})
@@ -30,16 +30,17 @@ export class ContatoListaComponent implements OnInit {
 		).subscribe(async (text: string) => {
 			this.usuarios = (await this.obterUsuarios(text)).items;
 		});
-  }
+	}
 
-  async obterUsuarios(filtro: string=''): Promise<UsuarioData> {
+	async obterUsuarios(filtro: string = ''): Promise<UsuarioData> {
 		let params: UsuarioParameters = {
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
-      codPerfisNotIn: "34,81,87,90,93,97,98",
-      filter: filtro,
-      ultimoAcessoInicio: moment().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss')
+			codPerfisNotIn: "34,81,87,90,93,97,98",
+			pageSize: 10,
+			filter: filtro,
+			ultimoAcessoInicio: moment().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss')
 		};
 
 		return await this._usuarioService

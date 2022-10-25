@@ -38,7 +38,6 @@ export class ContatoListaComponent implements OnInit {
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
 			codPerfisNotIn: "34,81,87,90,93,97,98",
-			pageSize: 10,
 			filter: filtro,
 			ultimoAcessoInicio: moment().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss')
 		};

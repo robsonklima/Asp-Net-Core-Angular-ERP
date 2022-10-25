@@ -140,6 +140,7 @@ namespace SAT.INFRA.Repository
                 .Include(os => os.Tecnico)
                 .Include(os => os.PrazosAtendimento)
                 .Include(os => os.OrdensServicoRelatorioInstalacao)
+                .Include(os => os.Agendamentos)
                 .AsNoTracking()
                 .FirstOrDefault(os => os.CodOS == codigo);
         }

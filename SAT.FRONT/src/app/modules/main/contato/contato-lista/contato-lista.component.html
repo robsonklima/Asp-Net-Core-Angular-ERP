@@ -15,16 +15,18 @@
             <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
                 <div class="flex-auto">
                     <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full min-w-50">
-                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                        <mat-icon class="icon-size-5" matPrefix
+                            [svgIcon]="isLoading ? 'feather:loader' : 'heroicons_solid:search'"></mat-icon>
+
                         <input matInput #searchInputControl [autocomplete]="'off'"
-                            [placeholder]="'Pesquisar'">
+                            [placeholder]="'Pesquisar'" [disabled]="isLoading">
                     </mat-form-field>
                 </div>
             </div>
         </div>
 
         <div class="relative">
-            <ng-container *ngIf="usuarios.length; else noContacts">
+            <ng-container *ngIf="usuarios.length">
                 <ng-container *ngFor="let usuario of usuarios; let i = index;">
                     <a class="z-20 bg-white flex items-center px-6 py-4 md:px-8 border-b">
                         <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
@@ -73,11 +75,17 @@
                 </ng-container>
             </ng-container>
 
-            <ng-template #noContacts>
+            <div *ngIf="!usuarios.length && !isLoading">
                 <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                     Nenhum contato encontrado!
                 </div>
-            </ng-template>
+            </div>
+
+            <div *ngIf="isLoading">
+                <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                    Carregando...
+                </div>
+            </div>
         </div>
     </div>
 </div>

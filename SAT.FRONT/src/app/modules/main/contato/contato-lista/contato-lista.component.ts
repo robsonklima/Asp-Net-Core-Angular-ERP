@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 export class ContatoListaComponent implements OnInit {
 	usuarios: Usuario[] = [];
+	isLoading: boolean;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 
 	constructor(
@@ -19,8 +20,13 @@ export class ContatoListaComponent implements OnInit {
 	) { }
 
 	async ngOnInit() {
+		this.isLoading = true;
 		this.usuarios = (await this.obterUsuarios()).items;
-		
+		this.registrarEmitters();
+		this.isLoading = false;
+	}
+
+	private registrarEmitters() {
 		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
 			map((event: any) => {
 				return event.target.value;
@@ -28,7 +34,9 @@ export class ContatoListaComponent implements OnInit {
 			, debounceTime(1000)
 			, distinctUntilChanged()
 		).subscribe(async (text: string) => {
+			this.isLoading = true;
 			this.usuarios = (await this.obterUsuarios(text)).items;
+			this.isLoading = false;
 		});
 	}
 

@@ -225,6 +225,9 @@ namespace SAT.SERVICES.Services
 
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
             var os = _osRepo.ObterPorCodigo(Int32.Parse(parameters.CodOS));
+            os.RelatoriosAtendimento = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters {
+                CodOS = os.CodOS
+            });
             var osImpressao = new OrdemServicoPdfHelper(os);
             var osPdf = GenerateFilePath($"OS-{os.CodOS}.pdf");
             

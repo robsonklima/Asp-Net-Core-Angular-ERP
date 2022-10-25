@@ -42,19 +42,29 @@
                                     {{ usuario.perfil?.nomePerfil }}
                                 </span>
                                 
-                                <span class="ml-1" *ngIf="usuario.filial?.nomeFilial">
+                                <span class="ml-1 font-semibold" *ngIf="usuario.filial?.nomeFilial">
                                     {{ usuario.filial?.nomeFilial }}
                                 </span> 
 
                                 <span class="ml-1" *ngIf="usuario.email">
-                                    {{ usuario.email }}
+                                    <a
+                                        [matTooltip]="'E-mail'"
+                                        class="text-blue-400 lowercase"
+                                        [href]="'mailto:' + usuario.email">
+                                        {{ usuario.email }}
+                                    </a>
                                 </span>
                                 
                                 <span class="ml-1" *ngIf="usuario.fone">
-                                    {{ usuario.fone }} 
+                                    <a
+                                        [matTooltip]="'Telefone'"
+                                        class="text-green-400"
+                                        [href]="'tel:' + usuario.fone">
+                                        {{ usuario.fone }} 
+                                    </a>
                                 </span> 
 
-                                <span class="ml-1" *ngIf="usuario.ramal">
+                                <span [matTooltip]="'Ramal'" class="ml-1 text-indigo-500" *ngIf="usuario.ramal">
                                     {{ usuario.ramal }}
                                 </span>
                             </div>

@@ -55,6 +55,7 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IORRepository _orRepo;
         private readonly IORItemRepository _orItemRepo;
+        private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -94,7 +95,8 @@ namespace SAT.SERVICES.Services
             IDespesaAdiantamentoRepository despesaAdiantamentoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
             IORRepository orRepo,
-            IORItemRepository orItemRepo
+            IORItemRepository orItemRepo,
+            IRelatorioAtendimentoRepository relatorioAtendimentoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -135,6 +137,7 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _orRepo = orRepo;
             _orItemRepo = orItemRepo;
+            _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 

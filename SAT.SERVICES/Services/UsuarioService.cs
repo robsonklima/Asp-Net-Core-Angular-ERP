@@ -208,38 +208,5 @@ namespace SAT.SERVICES.Services
                 throw new Exception("Erro ao registrar acesso do usuário", ex);
             }
         }
-
-        public ImagemPerfilModel BuscarFotoUsuario(string codUsuario)
-        {
-            string target = "E:\\AppTecnicos\\Fotos";
-
-			if (!new DirectoryInfo(target).Exists)
-			{
-				return null;
-			}
-
-            string imgPath = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == codUsuario);
-
-            string base64 = string.Empty;
-            string extension = string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(imgPath))
-            {
-                extension = Path.GetExtension(imgPath);
-                byte[] bytes = File.ReadAllBytes(imgPath);
-
-                if (bytes.Length > 0)
-                {
-                    base64 = Convert.ToBase64String(bytes);
-                }
-            }
-
-            return new ImagemPerfilModel()
-            {
-                Base64 = base64,
-                CodUsuario = codUsuario,
-                Mime = Path.GetExtension(extension)
-            };
-        }
     }
 }

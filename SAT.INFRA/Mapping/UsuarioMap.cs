@@ -109,8 +109,6 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey(i => i.CodUsuario)
                 .HasPrincipalKey(i => i.CodUsuario);
-
-            builder.Ignore(p => p.Foto);
         }
     }
 }

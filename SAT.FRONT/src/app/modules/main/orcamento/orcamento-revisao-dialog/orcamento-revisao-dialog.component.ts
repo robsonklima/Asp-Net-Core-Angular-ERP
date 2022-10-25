@@ -23,6 +23,8 @@ import { LocalEnvioNFFaturamentoVinculado, LocalEnvioNFFaturamentoVinculadoParam
 import _ from 'lodash';
 import { ClientePecaService } from 'app/core/services/cliente-peca.service';
 import { ClientePecaData } from 'app/core/types/cliente-peca.types';
+import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
+import { RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 
 @Component({
   selector: 'app-orcamento-revisao-dialog',
@@ -45,6 +47,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     private _localEnvioNFFaturamentoVinculadoService: LocalEnvioNFFaturamentoVinculadoService,
     private _contratoServicoService: ContratoServicoService,
     private _clientePecaService: ClientePecaService,
+    private _relatorioAtendimentoService: RelatorioAtendimentoService,
     private _snack: CustomSnackbarService
   ) {
     this.os = data?.os;
@@ -52,6 +55,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.os.relatoriosAtendimento = (await this.obterRelatoriosAtendimento()).items;
     this.montaOrcamento();
     await this.montaMaoDeObra();
     await this.montaDeslocamento();
@@ -93,7 +97,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     var detalhesPeca = Enumerable.from(this.os.relatoriosAtendimento)
       .selectMany(i => i.relatorioAtendimentoDetalhes)
       .selectMany(i => i.relatorioAtendimentoDetalhePecas)
-      .toArray();
+      .toArray();  
 
     for (const dp of detalhesPeca) {
       const clientePecaObrigatorio = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
@@ -280,6 +284,10 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();
+  }
+
+  private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {
+    return await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise();
   }
 
   navegarParaPeca(codPeca: string) {

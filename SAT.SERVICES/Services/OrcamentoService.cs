@@ -109,7 +109,7 @@ namespace SAT.SERVICES.Services
 
             _emailService.Enviar(new Email {
                 EmailDestinatarios = destinatarios,
-                Assunto = $"Perto - Orçamento Nro { orcamento.Numero } da OS { os.CodOS }",
+                Assunto = $"Perto - Orçamento Nro { orcamento.Numero } da OS { os.CodOS } - {(aprovacao.IsAprovado == true ? "Aprovado" : "Reprovado")}",
                 Corpo = $@"Enviado por { aprovacao.Nome }, departamento: { aprovacao.Departamento }, email:  { aprovacao.Email }, 
                     motivo: { aprovacao.Motivo }, fone: { aprovacao.Telefone }, ramal: { aprovacao.Ramal }",
             });

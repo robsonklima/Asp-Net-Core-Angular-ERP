@@ -8,10 +8,8 @@
             <div class="text-secondary text-xs mt-1">{{ formatarModalidadeFoto(foto.modalidade) }}</div>
         </div>
     </div>
+</div>
 
-    <div class="prose prose-sm max-w-3xl" *ngIf=" !fotos?.length">
-        <p>
-            {{ t('nenhum registro encontrado') }}
-        </p>
-    </div>
+<div *ngIf="!fotos?.length" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+    Nenhuma foto encontrada!
 </div>

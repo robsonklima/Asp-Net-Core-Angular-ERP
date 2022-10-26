@@ -13,41 +13,42 @@ import { PerfilEnum } from 'app/core/types/perfil.types';
     animations: fuseAnimations,
 })
 
-export class DefaultComponent implements OnInit, OnDestroy
-{
+export class DefaultComponent implements OnInit, OnDestroy {
     sessionData: UsuarioSessao;
     protected _onDestroy = new Subject<void>();
 
     constructor(
         private _userService: UserService
-    )
-    {
+    ) {
         this.sessionData = JSON.parse(this._userService.userSession);
     }
 
-    ngOnInit(): void
-    {
-        
+    ngOnInit(): void {
+
     }
 
     obterMensagemBoasVindas(): string {
         const hoje = new Date()
         const horaCorrente = hoje.getHours();
-        const nomeUsuario = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift().charAt(0).toUpperCase() + this.sessionData?.usuario?.nomeUsuario?.slice(1);
+        const primeiroNome = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift();
 
-        if (horaCorrente < 12) {
-            return `Bom dia, ${nomeUsuario}!`;
-        } else if (horaCorrente < 18) {
-            return `Boa tarde, ${nomeUsuario}!`;
-        } else {
-            return `Boa noite, ${nomeUsuario}!`;
+        if (horaCorrente < 12)
+        {
+            return `Bom dia ${primeiroNome}`;
+        } else if (horaCorrente < 18)
+        {
+            return `Boa tarde ${primeiroNome}`;
+        } else
+        {
+            return `Boa noite ${primeiroNome}`;
         }
     }
 
     verificarPermissaoAcessoSlide(slide: string): boolean {
         const perfil = this.sessionData.usuario.codPerfil;
 
-        switch (slide) {
+        switch (slide)
+        {
             case 'SERVICOS':
                 return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
             case 'SERVIDORES':
@@ -67,8 +68,7 @@ export class DefaultComponent implements OnInit, OnDestroy
         }
     }
 
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
     }

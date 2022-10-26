@@ -424,9 +424,6 @@ namespace SAT.UTILS
                     decimal percentualOutros = Math.Round((valorDespesaOutros / valorTotalDespesa * 100), 2);;
                     decimal percentualDespesaCB = Math.Round((valorDespesaKM / valorTotalDespesa * 100), 2);
 
-                    if (saldoAdiantamento > valorAdiantamentoUtilizado)
-                        saldoAdiantamento = valorAdiantamentoUtilizado;
-
                     table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(8).Table(table =>
                     {
                         table.ColumnsDefinition(columns =>
@@ -448,7 +445,7 @@ namespace SAT.UTILS
                         });
                         table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
                             t.Span("Adiantamentos: ").FontSize(6).Bold();
-                            t.Span(string.Format("{0:C}", saldoAdiantamento)).FontSize(6);
+                            t.Span(string.Format("{0:C}", valorAdiantamentoUtilizado)).FontSize(6);
                         });
                         table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
                             t.Span("Percentual CB: ").FontSize(6).Bold();

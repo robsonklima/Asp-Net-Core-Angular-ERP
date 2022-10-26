@@ -15,7 +15,7 @@ export class DialogAlterarFotoPerfilComponent implements OnInit {
 
   loading: boolean = false;
   extensoes: string[] = ['image/png', 'image/jpeg'];
-  tamanhoMaximo: number = 2097152; //2mb
+  tamanhoMaximo: number = 2097152;
 
   constructor(
     private _snack: CustomSnackbarService,

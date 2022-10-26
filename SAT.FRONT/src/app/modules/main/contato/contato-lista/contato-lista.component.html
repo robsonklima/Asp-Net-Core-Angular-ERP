@@ -1,0 +1,91 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto">
+    <div class="flex-auto">
+        <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
+            <div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Contatos</div>
+                <div class="ml-0.5 font-medium text-secondary">
+                    <ng-container>
+                        {{ usuarios.length }}
+                    </ng-container>
+
+                    {{ usuarios.length == 1 ? 'Contato' : 'Contatos' }}
+                </div>
+            </div>
+
+            <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                <div class="flex-auto">
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full min-w-50">
+                        <mat-icon class="icon-size-5" matPrefix
+                            [svgIcon]="isLoading ? 'feather:loader' : 'heroicons_solid:search'"></mat-icon>
+
+                        <input matInput #searchInputControl [autocomplete]="'off'"
+                            [placeholder]="'Pesquisar'" [disabled]="isLoading">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative">
+            <ng-container *ngIf="usuarios.length">
+                <ng-container *ngFor="let usuario of usuarios; let i = index;">
+                    <a class="z-20 bg-white flex items-center px-6 py-4 md:px-8 border-b">
+                        <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                            <ng-container>
+                                <img  class="object-cover w-full h-full"
+                                    [src]="usuario?.foto?.base64 ? 'data:image/jpg;base64,' + usuario?.foto?.base64 : 'assets/images/avatars/profile.jpg'"/>
+                            </ng-container>
+                        </div>
+
+                        <div class="min-w-0 ml-4">
+                            <div class="font-medium leading-5 truncate uppercase">{{ usuario.nomeUsuario.trim() }}</div>
+                            
+                            <div class="leading-5 truncate text-secondary">
+                                <span *ngIf="usuario.perfil?.nomePerfil">
+                                    {{ usuario.perfil?.nomePerfil }}
+                                </span>
+                                
+                                <span class="ml-1 font-semibold" *ngIf="usuario.filial?.nomeFilial">
+                                    {{ usuario.filial?.nomeFilial }}
+                                </span> 
+
+                                <span class="ml-1" *ngIf="usuario.email">
+                                    <a
+                                        [matTooltip]="'E-mail'"
+                                        class="text-blue-400 lowercase"
+                                        [href]="'mailto:' + usuario.email">
+                                        {{ usuario.email }}
+                                    </a>
+                                </span>
+                                
+                                <span class="ml-1" *ngIf="usuario.fone">
+                                    <a
+                                        [matTooltip]="'Telefone'"
+                                        class="text-green-400"
+                                        [href]="'tel:' + usuario.fone">
+                                        {{ usuario.fone }} 
+                                    </a>
+                                </span> 
+
+                                <span [matTooltip]="'Ramal'" class="ml-1 text-indigo-500" *ngIf="usuario.ramal">
+                                    {{ usuario.ramal }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </ng-container>
+            </ng-container>
+
+            <div *ngIf="!usuarios.length && !isLoading">
+                <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                    Nenhum contato encontrado!
+                </div>
+            </div>
+
+            <div *ngIf="isLoading">
+                <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
+                    Carregando...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

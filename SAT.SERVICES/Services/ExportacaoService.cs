@@ -55,6 +55,8 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaAdiantamentoPeriodoRepository _despesaAdiantamentoPeriodoRepo;
         private readonly IORRepository _orRepo;
         private readonly IORItemRepository _orItemRepo;
+        private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
+        private readonly ITicketLogPedidoCreditoRepository _ticketLogPedidoCreditoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -94,7 +96,9 @@ namespace SAT.SERVICES.Services
             IDespesaAdiantamentoRepository despesaAdiantamentoRepo,
             IDespesaAdiantamentoPeriodoRepository despesaAdiantamentoPeriodoRepo,
             IORRepository orRepo,
-            IORItemRepository orItemRepo
+            IORItemRepository orItemRepo,
+            IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
+            ITicketLogPedidoCreditoRepository ticketLogPedidoCreditoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -135,6 +139,8 @@ namespace SAT.SERVICES.Services
             _despesaAdiantamentoPeriodoRepo = despesaAdiantamentoPeriodoRepo;
             _orRepo = orRepo;
             _orItemRepo = orItemRepo;
+            _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
+            _ticketLogPedidoCreditoRepo = ticketLogPedidoCreditoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -306,6 +312,14 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.OR_ITEM:
                     GerarPlanilhaORItem(((JObject)parameters).ToObject<ORItemParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.PEDIDOS_CREDITO:
+                    GerarPlanilhaTicketLogPedidoCredito(((JObject)parameters).ToObject<TicketLogPedidoCreditoParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.ORDEM_REPARO:
+                    GerarPlanilhaOrdemReparo(((JObject)parameters).ToObject<ORParameters>());
                     break;
                     
                 default:

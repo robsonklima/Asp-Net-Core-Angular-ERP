@@ -138,12 +138,11 @@ export class DefeitoListaComponent extends Filterable implements AfterViewInit, 
 
     let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-			tipoArquivo: ExportacaoTipoEnum.DEFEITO,
+			tipoArquivo: ExportacaoTipoEnum.PEDIDOS_CREDITO,
 			entityParameters: {}
 		}
 
 		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
     this.isLoading = false;
   }
-  
 }

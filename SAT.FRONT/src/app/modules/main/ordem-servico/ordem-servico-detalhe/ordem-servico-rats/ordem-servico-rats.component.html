@@ -1,0 +1,153 @@
+<fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-2"
+    *ngFor="let r of rats; let i=index;">
+    <div class="flex items-center justify-between mt-5">
+        <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
+
+        <div>
+            <button mat-icon-button [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
+                matTooltip="Editar RAT">
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Número</div>
+            <div>{{ r?.numRAT }}</div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Técnico</div>
+            <div>{{ r?.tecnico?.nome | titlecase }}</div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Status</div>
+            <div> {{ r?.statusServico?.nomeStatusServico || 'Não Informado'}} </div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Solicitação</div>
+            <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Horas Gastas</div>
+
+            <div>
+                {{ r?.qtdeHorasTecnicas ? (getTimeFromMins(r?.qtdeHorasTecnicas)) : 'Não Informado' }}
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Horário atendimento</div>
+            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não Informado' }} - {{
+                r?.dataHoraSolucao ?
+                (r?.dataHoraSolucao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Intervalo</div>
+            <div> {{ r?.horarioInicioIntervalo ? (r?.horarioInicioIntervalo) : 'Não Informado' }} - {{
+                r?.horarioTerminoIntervalo ?
+                (r?.horarioTerminoIntervalo) : 'Não Informado' }}</div>
+        </div>
+
+        <div class="flex items-center justify-between py-1">
+            <div class="text-secondary">Acompanhante</div>
+            <div> {{ r?.nomeAcompanhante || 'Não Informado' }} </div>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between mt-8">
+        <div class="text-lg font-medium">Observação</div>
+    </div>
+
+    <div class="flex mt-2 border-t">
+        <div class="py-1">
+            <ng-container>
+                <div class="italic text-secondary"> {{ r.obsRAT || 'Não Informado' }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between mt-8">
+        <div class="text-lg font-medium">Solução</div>
+    </div>
+
+    <div class="flex mt-2 border-t">
+        <div class="py-1">
+            <ng-container>
+                <div class="italic text-secondary"> {{ r.relatoSolucao || 'Não Informado' }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between mt-8">
+        <div class="text-lg font-medium">Detalhes</div>
+    </div>
+
+    <div *ngFor="let r of let detalhe of r.relatorioAtendimentoDetalhes; let i=index;">
+        <div class="flex flex-col items-start mt-2">
+            <div class="text-lg font-medium">{{i+1}}&ordm; Detalhe</div>
+        </div>
+
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Serviço</div>
+                <div>{{ detalhe?.tipoServico?.codETipoServico }} -
+                    {{ detalhe?.tipoServico?.nomeServico }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Causa</div>
+                <div>
+                    {{ detalhe?.causa?.codECausa }} -
+                    {{ detalhe?.causa?.nomeCausa || 'Não Informado' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Defeito</div>
+                <div> {{ detalhe?.defeito?.codEDefeito }} -
+                    {{ detalhe?.defeito?.nomeDefeito | titlecase }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">Ação</div>
+                <div>{{ detalhe?.acao?.codEAcao }} -
+                    {{ detalhe?.acao?.nomeAcao | titlecase }}</div>
+            </div>
+        </div>
+        <div class="mb-8 text-sm" *ngIf="detalhe?.relatorioAtendimentoDetalhePecas?.length">
+            <div class="flex items-center justify-between mt-8">
+                <div class="text-lg font-medium">Peças</div>
+            </div>
+
+            <div class="mt-4 border-b font-medium grid grid-flow-row grid-cols-8 p-1">
+                <div class="col-span-1">Cód.Magnus</div>
+                <div class="col-span-4">Nome</div>
+                <div class="col-span-1 text-center">Quantidade</div>
+                <div class="col-span-2 text-right">Status Peça</div>
+            </div>
+
+            <div class="text-secondary border-b grid grid-flow-row grid-cols-8 p-1"
+                *ngFor=" let peca of detalhe.relatorioAtendimentoDetalhePecas;">
+                <div class="col-span-1">{{ peca?.peca?.codMagnus }}</div>
+                <div class="col-span-4">{{ peca?.peca?.nomePeca | uppercase }}</div>
+                <div class="col-span-1 text-center"> {{ peca?.qtdePecas }} </div>
+                <div class="col-span-2 text-right"> {{ peca?.descStatus || "PEÇA PENDENTE" | uppercase }}</div>
+            </div>
+        </div>
+    </div>
+</fuse-card>
+
+<div class="flex justify-center items-center min-h-60" *ngIf="isLoading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>

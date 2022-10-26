@@ -81,7 +81,8 @@ namespace SAT.INFRA.Repository
 
         public IQueryable<RelatorioAtendimento> ObterQuery(RelatorioAtendimentoParameters parameters)
         {
-            IQueryable<RelatorioAtendimento> relatorios = _context.RelatorioAtendimento.AsQueryable();
+            IQueryable<RelatorioAtendimento> relatorios = _context.RelatorioAtendimento
+                .AsQueryable();
 
             relatorios = AplicarIncludes(relatorios, parameters.Include);
             relatorios = AplicarFiltros(relatorios, parameters);

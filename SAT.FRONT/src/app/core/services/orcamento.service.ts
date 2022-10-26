@@ -74,7 +74,7 @@ export class OrcamentoService
     }
 
     atualizarTotalizacao(codOrcamento: number)
-    {
+    {        
         this.obterPorCodigo(codOrcamento).subscribe(orc =>
         {
             orc = this.calculaTotalizacao(orc);
@@ -89,17 +89,16 @@ export class OrcamentoService
         );
     }
 
-    calculaTotalizacao(orcamento: Orcamento): Orcamento {  
+    calculaTotalizacao(orcamento: Orcamento): Orcamento {          
         const valorMateriais = _.sumBy(orcamento?.materiais, (material) => { return material?.valorTotal; });
         const valorOutrosServicos = _.sumBy(orcamento?.outrosServicos, (servico) => { return servico?.valorTotal; });
         const valorKmDeslocamento = orcamento?.orcamentoDeslocamento?.valorTotalKmDeslocamento;
         const valorKmRodado = orcamento?.orcamentoDeslocamento?.valorTotalKmRodado;
         const valorMaoDeObra = orcamento?.maoDeObra?.valorTotal;
         const valorDescontos = _.sumBy(orcamento?.descontos, (desconto) => { return desconto?.valorTotal; });
-        const valorDescontosMateriais = _.sumBy(orcamento?.materiais, (desconto) => { return desconto?.valorDesconto; });
-        
-        orcamento.valorTotal = (valorMateriais + valorOutrosServicos + valorKmDeslocamento + valorKmRodado + valorMaoDeObra) - valorDescontos;
-        orcamento.valorTotalDesconto = valorDescontos + valorDescontosMateriais;
+
+        orcamento.valorTotalDesconto = valorDescontos;
+        orcamento.valorTotal = (valorMateriais + valorOutrosServicos + valorKmDeslocamento + valorKmRodado + valorMaoDeObra) - orcamento.valorTotalDesconto;
 
         if (orcamento.valorTotal)
             orcamento.valorTotal = orcamento.valorTotal;

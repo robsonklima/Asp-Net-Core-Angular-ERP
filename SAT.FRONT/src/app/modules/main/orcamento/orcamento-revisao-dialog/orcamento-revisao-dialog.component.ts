@@ -1,8 +1,8 @@
 import { Orcamento, OrcamentoDeslocamento, OrcamentoMotivoEnum } from 'app/core/types/orcamento.types';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OrdemServicoDetalheOrcamentosComponent } 
-  from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-detalhe-orcamentos/ordem-servico-detalhe-orcamentos.component';
+import { OrdemServicoOrcamentosComponent } 
+  from '../../ordem-servico/ordem-servico-detalhe/ordem-servico-orcamentos/ordem-servico-orcamentos.component';
 import { Router } from '@angular/router';
 import { appConfig } from 'app/core/config/app.config';
 import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
@@ -21,6 +21,10 @@ import moment from 'moment';
 import { LocalEnvioNFFaturamentoVinculadoService } from 'app/core/services/local-envio-nf-faturamento-vinculado.service';
 import { LocalEnvioNFFaturamentoVinculado, LocalEnvioNFFaturamentoVinculadoParameters } from 'app/core/types/local-envio-nf-faturamento-vinculado.types';
 import _ from 'lodash';
+import { ClientePecaService } from 'app/core/services/cliente-peca.service';
+import { ClientePecaData } from 'app/core/types/cliente-peca.types';
+import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
+import { RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 
 @Component({
   selector: 'app-orcamento-revisao-dialog',
@@ -36,12 +40,14 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    public _dialogRef: MatDialogRef<OrdemServicoDetalheOrcamentosComponent>,
+    public _dialogRef: MatDialogRef<OrdemServicoOrcamentosComponent>,
     private _router: Router,
     private _userService: UserService,
     private _orcamentoService: OrcamentoService,
     private _localEnvioNFFaturamentoVinculadoService: LocalEnvioNFFaturamentoVinculadoService,
     private _contratoServicoService: ContratoServicoService,
+    private _clientePecaService: ClientePecaService,
+    private _relatorioAtendimentoService: RelatorioAtendimentoService,
     private _snack: CustomSnackbarService
   ) {
     this.os = data?.os;
@@ -49,6 +55,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.os.relatoriosAtendimento = (await this.obterRelatoriosAtendimento()).items;
     this.montaOrcamento();
     await this.montaMaoDeObra();
     await this.montaDeslocamento();
@@ -90,33 +97,42 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     var detalhesPeca = Enumerable.from(this.os.relatoriosAtendimento)
       .selectMany(i => i.relatorioAtendimentoDetalhes)
       .selectMany(i => i.relatorioAtendimentoDetalhePecas)
-      .toArray();
+      .toArray();  
 
     for (const dp of detalhesPeca) {
+      const clientePecaObrigatorio = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
+        cp.codContrato == this.os?.equipamentoContrato?.codContrato);
+
+      var valorUnitarioPeca;
+
+      if(clientePecaObrigatorio){
+        valorUnitarioPeca = (await this.obterClientePeca(dp?.peca.codPeca))?.items?.shift()?.valorUnitario;
+      }
+      else{
+        valorUnitarioPeca = this.obterValorMaterial(dp?.peca);
+      }
+
       var m: OrcamentoMaterial = {
         codOrc: this.orcamento?.codOrc,
         codigoMagnus: dp?.peca?.codMagnus,
         codigoPeca: dp?.peca?.codPeca.toString(),
         descricao: dp?.peca?.nomePeca,
         quantidade: dp?.qtdePecas,
-        valorUnitario: this.obterValorMaterial(dp?.peca),
+        valorUnitario: valorUnitarioPeca || 0.00,
         valorUnitarioFinanceiro: this.obterValorUnitarioFinanceiroMaterial(dp?.peca),
         valorIpi: dp?.peca?.valIPI,
         usuarioCadastro: this.userSession?.usuario?.codUsuario,
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      const clientePeca = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
-        cp.codContrato == this.os?.equipamentoContrato?.codContrato);
-
-      if(!dp?.peca?.isValorAtualizado && !clientePeca)
+      if(!dp?.peca?.isValorAtualizado && !clientePecaObrigatorio)
         this.isValorPecasDesatualizado = true;
 
       m.valorTotal = (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);
       var materialJaEstaNaLista = _.find(materiais, { codigoPeca: m.codigoPeca });
 
       if (materialJaEstaNaLista) {
-        const index = _.findIndex(materiais, { codigoPeca: m.codigoPeca });;
+        const index = _.findIndex(materiais, { codigoPeca: m.codigoPeca });
         materiais[index].quantidade = materiais[index].quantidade + 1;
         materiais[index].valorTotal = materiais[index].valorUnitario * materiais[index].quantidade;
       } else {
@@ -125,6 +141,14 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     };
 
     this.orcamento.materiais = materiais;
+  }
+
+  private async obterClientePeca(codPeca): Promise<ClientePecaData> {
+    return await this._clientePecaService.obterPorParametros({
+      codCliente: this.orcamento?.codigoCliente,
+      codContrato: this.os?.equipamentoContrato?.codContrato,
+      codPeca: codPeca
+    }).toPromise();
   }
 
   async montaMaoDeObra() {
@@ -220,8 +244,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       valorPeca = peca?.clientePecaGenerica?.valorUnitario || peca?.valPeca;
 
     if (this.orcamento?.isMaterialEspecifico === 1) {
-      const clientePeca = peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato);
-      
+      const clientePeca = peca?.clientePeca?.find(i => i.codCliente == this.orcamento?.codigoCliente && i?.codContrato == this.orcamento?.codigoContrato); 
+
       if (!clientePeca) {
         this._snack.exibirToast('Este orçamento exige material específico e não foi configurado o valor da peça', 'error');
       
@@ -260,6 +284,10 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
     this.orcamento = (await this._orcamentoService.criar(this.orcamento).toPromise());
     this.orcamento.numero = this.os?.filial?.nomeFilial + this.orcamento?.codOrc;
     return this._orcamentoService.atualizar(this.orcamento).toPromise();
+  }
+
+  private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {
+    return await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise();
   }
 
   navegarParaPeca(codPeca: string) {

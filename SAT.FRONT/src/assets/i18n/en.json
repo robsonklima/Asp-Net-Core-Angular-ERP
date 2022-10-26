@@ -715,5 +715,8 @@
     "dias em reparo": "Repair Days",
     "conteudo": "Content",
     "destinatario": "Recipient",
-    "ordem reparo": "Repair Order"
+    "ordem reparo": "Repair Order",
+    "ordens de reparo": "Repair Orders",
+    "contatos": "Contacts",
+    "pedidos de crédito": "Credit Orders"
 }

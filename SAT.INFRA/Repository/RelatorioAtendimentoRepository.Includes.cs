@@ -29,7 +29,15 @@ namespace SAT.INFRA.Repository
                         .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)
                         .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Acao)
                         .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Defeito)
-                        .Include(r => r.StatusServico);
+                        .Include(r => r.StatusServico)
+                        .Include(rat => rat.RelatorioAtendimentoDetalhes)
+                            .ThenInclude(rat => rat.RelatorioAtendimentoDetalhePecas)
+                                .ThenInclude(rat => rat.Peca)
+                        .Include(a => a.TipoServico)
+                        .Include(a => a.Laudos)
+                            .ThenInclude(a => a.LaudosSituacao)
+                        .Include(a => a.Laudos)
+                            .ThenInclude(a => a.LaudoStatus);
                     break;
             }
 

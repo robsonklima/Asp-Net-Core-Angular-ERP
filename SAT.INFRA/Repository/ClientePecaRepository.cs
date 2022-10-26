@@ -161,6 +161,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => cods.Contains(os.Cliente.CodCliente));
             }                        
 
+            if (parameters.CodPeca.HasValue)
+            {
+                query = query.Where(a => a.CodPeca == parameters.CodPeca);
+            }
+
             return PagedList<ClientePeca>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

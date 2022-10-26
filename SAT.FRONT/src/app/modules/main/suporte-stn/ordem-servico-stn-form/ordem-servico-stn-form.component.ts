@@ -72,7 +72,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
         .pipe(first())
         .subscribe(data => {
-          console.log(data);
           
         });
     }

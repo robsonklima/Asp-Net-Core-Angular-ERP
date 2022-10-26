@@ -3,7 +3,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using SAT.INFRA.Interfaces;
 
@@ -40,5 +39,17 @@ namespace SAT.INFRA.Repository
 
             return PagedList<TicketLogPedidoCredito>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
+
+        public void Deletar(int cod)
+        {
+            TicketLogPedidoCredito t = _context.TicketLogPedidoCredito.FirstOrDefault(t => t.CodTicketLogPedidoCredito == cod);
+
+            if (t != null)
+            {
+                _context.TicketLogPedidoCredito.Remove(t);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

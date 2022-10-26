@@ -46,7 +46,6 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 	async obterDados() {
 	  this.modulos = (await this._ticketModuloService.obterPorParametros(null).toPromise()).items
 	  this.status = (await this._ticketStatusService.obterPorParametros(null).toPromise()).items
-	  this.prioridades = (await this._ticketPrioridadeService.obterPorParametros(null).toPromise()).items
 	  this.classificacoes = (await this._ticketClassificacaoService.obterPorParametros(null).toPromise()).items
 	}
 

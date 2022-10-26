@@ -100,8 +100,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       .toArray();  
 
     for (const dp of detalhesPeca) {
-      const clientePecaObrigatorio = !dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
-        cp.codContrato == this.os?.equipamentoContrato?.codContrato);
+      const clientePecaObrigatorio = dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
+        cp.codContrato == this.os?.equipamentoContrato?.codContrato);      
 
       var valorUnitarioPeca;
 

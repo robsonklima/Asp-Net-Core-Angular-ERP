@@ -49,5 +49,6 @@ export enum ExportacaoTipoEnum {
     VALOR_COMBUSTIVEL,
     DESPESA_PERIODO_TECNICO,
     OR,
-    OR_ITEM
+    OR_ITEM,
+    PEDIDOS_CREDITO
 }

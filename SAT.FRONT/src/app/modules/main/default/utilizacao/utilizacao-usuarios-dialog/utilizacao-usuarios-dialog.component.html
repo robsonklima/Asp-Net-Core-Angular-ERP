@@ -26,7 +26,10 @@
             <tbody>
                 <tr class="dark:border-gray-700 border-t-2" *ngFor="let usuario of usuarios; let i=index">
                     <td class="py-1 pr-2 font-medium text-center">
-                        {{ i+1 }}
+                        <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                            <img  class="object-cover w-full h-full"
+                                [src]="usuario?.foto?.base64 ? 'data:image/jpg;base64,' + usuario?.foto?.base64 : 'assets/images/avatars/profile.jpg'"/>
+                        </div>
                     </td>
 
                     <td class="py-1 pr-2 font-medium text-left">

@@ -26,8 +26,9 @@ declare var L: any;
 export class LaboratorioBancadaDialogComponent implements OnInit {
   form: FormGroup;
   userSession: UserSession;
-  codAuditoria: number;
+  codBancadaLaboratorio: number;
   bancada: BancadaLaboratorio;
+  bancadas: BancadaLaboratorio[] = [];
   mapsPlaceholder: any = [];
   usuarios: Usuario[] = [];
   protected _onDestroy = new Subject<void>();
@@ -42,11 +43,17 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private _snack: CustomSnackbarService,
     private _location: Location,
-    private dialogRef: MatDialogRef<LaboratorioBancadaDialogComponent>) 
-    {
-    this.userSession = JSON.parse(this._userSvc.userSession);
-  }
-
+    private dialogRef: MatDialogRef<LaboratorioBancadaDialogComponent>) {
+      if (data)
+      {
+          this.bancadas = data;
+          console.log(data);
+          
+      }
+  
+      this.userSession = JSON.parse(this._userSvc.userSession);
+    }
+  
   async ngOnInit() {
     this.obterUsuarios();
     this.criarForm();
@@ -55,10 +62,8 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
 
   criarForm(){
     this.form = this._formBuilder.group({
-        step: this._formBuilder.group({
           codUsuario: [undefined, Validators.required],
           numBancada: [undefined, Validators.required],
-        }),
       });
   }
 
@@ -91,7 +96,6 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
 				}
 			);
   }
-
   private async obterUsuarios() {
     const params: UsuarioParameters = {
         sortActive: 'nomeUsuario',
@@ -116,7 +120,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
       }
     };
 
-    this._bancadaLaboratorioService.atualizar(obj).subscribe(() => {
+    this._bancadaLaboratorioService.criar(obj).subscribe(() => {
       this._snack.exibirToast("Usuário inserido com sucesso!", "success");
       this.dialogRef.close(true);
     }, e => {

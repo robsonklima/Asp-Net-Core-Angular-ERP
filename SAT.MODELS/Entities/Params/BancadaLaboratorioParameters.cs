@@ -4,9 +4,11 @@ namespace SAT.MODELS.Entities.Params
 {
     public class BancadaLaboratorioParameters : QueryStringParameters
     {
+        public int CodBancadaLaboratorio { get; set; }
         public int NumBancada { get; set; }
         public string CodUsuario { get; set; }
         public int NumBancadas { get; set; }
         public string CodUsuarios { get; set; }
+        public byte? IndUsuarioAtivo { get; set; }
     }
 }

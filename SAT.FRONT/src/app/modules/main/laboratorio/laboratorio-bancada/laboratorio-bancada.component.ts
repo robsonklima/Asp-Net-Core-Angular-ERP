@@ -1,14 +1,15 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { UsuarioService } from 'app/core/services/usuario.service';
 import { BancadaLaboratorio, BancadaLaboratorioData, BancadaLaboratorioParameters } from 'app/core/types/bancada-laboratorio.types';
-import { Usuario, UsuarioData, UsuarioSessao } from 'app/core/types/usuario.types';
+import { statusConst } from 'app/core/types/status-types';
+import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import _ from 'lodash';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
 
@@ -20,15 +21,15 @@ import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada-dialog/
 export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
   private userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
+  codBancadaLaboratorio: number;
   bancadas: BancadaLaboratorio[];
-  bancadaOrdenada: BancadaLaboratorio[];
   usuarios: Usuario[];
 
   public form: FormGroup;
 
   constructor(
     private _bancadaLaboratorioService: BancadaLaboratorioService,
-    private _usuarioService: UsuarioService,
+    private _snack: CustomSnackbarService,
     private _dialog: MatDialog,
     private _userService: UserService,
 
@@ -37,36 +38,37 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
 }
 
   async ngOnInit() {
-    this.obterBancadas();
-    this.obterUsuarios();
-    
+    this.bancadas = (await this.obterBancadas()).items;
+    this.fix();
   }
 
-  private async obterBancadas(){
+  private async obterBancadas(): Promise<BancadaLaboratorioData> {
     const params: BancadaLaboratorioParameters = {
         sortActive: 'numBancada',
-        sortDirection: 'asc'
+        sortDirection: 'asc',
+        indUsuarioAtivo: statusConst.ATIVO
     }
-    const data: BancadaLaboratorioData = await this._bancadaLaboratorioService.obterPorParametros(params).toPromise();
-    this.bancadas = data.items;
-    console.log(this.bancadas);
+    return await this._bancadaLaboratorioService.obterPorParametros(params).toPromise();
   }
 
-  private async obterUsuarios(){
-    const data: UsuarioData = await this._usuarioService.obterPorParametros({
-        indAtivo: 1,
-        codPerfis: "63,61",
-        sortActive: "nomeUsuario",
-        sortDirection: "asc"
-    }).toPromise();
-    this.usuarios = data.items;
-    console.log(this.usuarios);
+  fix() {
+    const array = new Array(24);
+
+    for (let i = 0; i < array.length; i++) {
+      const bancada = _.find(this.bancadas, { numBancada: i+1 });
+
+      array[i] = bancada;
+    }    
+
+    this.bancadas = array;
   }
 
   drop(event: CdkDragDrop<string[]>){
-    moveItemInArray(this.bancadas, event.previousIndex, event.currentIndex);
-
+    const aux = this.bancadas[event.previousIndex];
+    this.bancadas[event.previousIndex] = this.bancadas[event.currentIndex];
+    this.bancadas[event.currentIndex] = aux;
     console.log(this.bancadas);
+    
     
     // let obj = {
     //     ...this.bancadas,

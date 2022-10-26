@@ -105,8 +105,6 @@ export class PedidosCreditoComponent implements AfterViewInit {
 		}).toPromise();
 
 		this.dataSourceData = data;
-		console.log(data.items);
-		
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}

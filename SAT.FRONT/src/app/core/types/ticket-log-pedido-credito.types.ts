@@ -1,4 +1,6 @@
+import { DespesaPeriodoTecnico } from "./despesa-periodo.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Usuario } from "./usuario.types";
 
 export interface TicketLogPedidoCredito {
     codTicketLogPedidoCredito: number;
@@ -10,6 +12,8 @@ export interface TicketLogPedidoCredito {
     observacao: string;
     codUsuarioCad: string;
     dataHoraCad: string | null;
+    usuarioCadastro: Usuario;
+    despesaPeriodoTecnico: DespesaPeriodoTecnico;
 }
 
 export interface TicketLogPedidoCreditoData extends Meta

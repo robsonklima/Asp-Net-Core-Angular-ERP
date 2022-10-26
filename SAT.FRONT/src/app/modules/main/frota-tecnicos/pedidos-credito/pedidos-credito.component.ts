@@ -1,16 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { TicketLogPedidoCreditoService } from 'app/core/services/ticket-log-pedido-credito.service';
-import { AcaoData } from 'app/core/types/acao.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
-import { TicketLogPedidoCreditoData, TicketLogPedidoCreditoParameters } from 'app/core/types/ticket-log-pedido-credito.types';
+import { TicketLogPedidoCredito, TicketLogPedidoCreditoData, TicketLogPedidoCreditoParameters } from 'app/core/types/ticket-log-pedido-credito.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -18,23 +19,21 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	selector: 'app-pedidos-credito',
 	templateUrl: './pedidos-credito.component.html',
 	styles: [
-		`
-    .list-grid-pedidos-credito {
-      grid-template-columns: 142px 80px 50% 25% 42px;
-      
-      @screen sm {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  
-      @screen md {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  
-      @screen lg {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  }
-    `
+		`.list-grid-pedidos-credito {
+			grid-template-columns: 96px 96px 96px auto 104px 144px 86px;
+			
+			@screen sm {
+				grid-template-columns: 96px 96px 96px auto 104px 144px 86px;
+			}
+		
+			@screen md {
+				grid-template-columns: 96px 96px 96px auto 104px 144px 86px;
+			}
+		
+			@screen lg {
+				grid-template-columns: 96px 96px 96px auto 104px 144px 86px;
+			}
+		}`
 	],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations
@@ -52,7 +51,9 @@ export class PedidosCreditoComponent implements AfterViewInit {
 		private _pedidoCreditoService: TicketLogPedidoCreditoService,
 		private _cdr: ChangeDetectorRef,
 		private _exportacaoService: ExportacaoService,
-		private _userService: UserService
+		private _snack: CustomSnackbarService,
+		private _userService: UserService,
+		private _dialog: MatDialog
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -104,6 +105,8 @@ export class PedidosCreditoComponent implements AfterViewInit {
 		}).toPromise();
 
 		this.dataSourceData = data;
+		console.log(data.items);
+		
 		this.isLoading = false;
 		this._cdr.detectChanges();
 	}
@@ -124,6 +127,32 @@ export class PedidosCreditoComponent implements AfterViewInit {
 	paginar() {
 		this.obterDados();
 	}
+
+	deletar(pedido: TicketLogPedidoCredito) {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+			  titulo: 'Confirmação',
+			  message: `Deseja remover o pedido ${ pedido.codDespesaPeriodoTecnico } 
+			  	no valor de R$ ${ pedido.valor } para o cartão ${ pedido.numeroCartao }?`,
+			  buttonText: {
+				ok: 'Sim',
+				cancel: 'Não'
+			  }
+			},
+			backdropClass: 'static'
+		  });
+	  
+		  dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
+		  {
+			if (confirmacao)
+			{
+			  this._pedidoCreditoService.deletar(pedido.codTicketLogPedidoCredito).toPromise();
+			  this._snack.exibirToast('Pedido excluido com sucesso', 'success');
+			  this.obterDados();
+			}
+		  });
+	}
+
 	ngOnDestroy() {
 		this._onDestroy.next();
 		this._onDestroy.complete();

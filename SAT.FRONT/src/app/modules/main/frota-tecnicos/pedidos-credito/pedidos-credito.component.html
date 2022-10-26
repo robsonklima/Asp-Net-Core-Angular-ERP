@@ -13,11 +13,6 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>
-
-            <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button
-                matTooltip="{{ t('exportar') }}">
-                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
-            </button>
         </div>
     </div>
 
@@ -31,14 +26,66 @@
                             <div class="md:block" [mat-sort-header]="'codTicketLogPedidoCredito'">
                                 {{ t('codigo') }}
                             </div>
+
+                            <div class="md:block" [mat-sort-header]="'codDespesaPeriodoTecnico'">
+                                {{ t('despesa') }}
+                            </div>
+
+                            <div class="md:block" [mat-sort-header]="'valor'">
+                                {{ t('valor') }}
+                            </div>
+
+                            <div class="md:block" [mat-sort-header]="'numeroCartao'">
+                                {{ t('cartao combustivel') }}
+                            </div>
+
+                            <div class="md:block" [mat-sort-header]="'indProcessado'">
+                                {{ t('integrado') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('usuario') }}
+                            </div>
+
+                            <div class="md:block">
+                                {{ t('acoes') }}
+                            </div>
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let pedido of dataSourceData?.items">
-                                <div class="list-grid-pedidos-credito grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
+                                <div class="list-grid-pedidos-credito grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b"
                                     *transloco="let t">
-                                    <div class="flex items-center">
+                                    <div class="flex">
                                         {{ pedido.codTicketLogPedidoCredito }}
+                                    </div>
+
+                                    <div class="flex">
+                                        {{ pedido.codDespesaPeriodoTecnico }}
+                                    </div>
+
+                                    <div class="flex">
+                                        {{ pedido.valor | currency:'BRL':'symbol-narrow' }}
+                                    </div>
+
+                                    <div class="flex">
+                                        {{ pedido.numeroCartao }}
+                                    </div>
+
+                                    <div class="flex">
+                                        {{ pedido.indProcessado ? (pedido.dataHoraProcessamento | date:'dd/MM HH:mm') : 'NÃO' }}
+                                    </div>
+
+                                    <div class="flex">
+                                        {{ pedido.codUsuarioCad }}
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button (click)="deletar(pedido)" 
+                                            class="mt-0.5 bg-transparent hover:bg-red-400 text-red-600 font-semibold hover:text-white px-4 h-6 border 
+                                                border-red-500 hover:border-transparent rounded">
+                                            Deletar
+                                        </button>
                                     </div>
                                 </div>
                             </ng-container>

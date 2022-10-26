@@ -51,6 +51,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.OR
                 .Include(or => or.ORStatus)
+                .Include(or => or.Destino)
                 .Include(or => or.ORItens)
                     .ThenInclude(i => i.Peca)
                 .Include(or => or.ORItens)
@@ -61,7 +62,12 @@ namespace SAT.INFRA.Repository
         public PagedList<OR> ObterPorParametros(ORParameters parameters)
         {
             var ORes = _context.OR
+                .Include(or => or.ORStatus)
+                .Include(or => or.Destino)
                 .Include(or => or.ORItens)
+                    .ThenInclude(i => i.Peca)
+                .Include(or => or.ORItens)
+                    .ThenInclude(i => i.StatusOR)
                 .AsQueryable();
 
             if (parameters.Filter != null)

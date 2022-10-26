@@ -47,6 +47,9 @@ import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-process
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
 import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada/laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
 import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
+import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
+import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
+import { LaboratorioOrdemReparoFiltroComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-filtro/laboratorio-ordem-reparo-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -67,6 +70,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioBancadaComponent,
     LaboratorioBancadaDialogComponent,
     LaboratorioProcessoReparoFormComponent,
+    LaboratorioOrdemReparoListaComponent,
+    LaboratorioOrdemReparoFormComponent,
+    LaboratorioOrdemReparoFiltroComponent,
   ],
   imports: [
     CommonModule,

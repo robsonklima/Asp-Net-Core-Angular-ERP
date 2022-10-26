@@ -9,6 +9,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraOR { get; set; }
         public int? CodOrigem { get; set; }
         public int? CodDestino { get; set; }
+        public ORDestino Destino { get; set; }
         public int CodStatusOR { get; set; }
         public ORStatus ORStatus { get; set; }
         public string NumNF { get; set; }

@@ -9,7 +9,15 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<BancadaLaboratorio> builder)
         {
             builder.ToTable("BancadaLaboratorio");
-            builder.HasNoKey();
+            
+            builder.
+                HasKey(i => new { i.CodBancadaLaboratorio });
+
+            builder
+                .HasOne(prop => prop.Usuario)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuario)
+                .HasPrincipalKey(prop => prop.CodUsuario);
 
             builder
                 .HasOne(prop => prop.UsuarioCadastro)

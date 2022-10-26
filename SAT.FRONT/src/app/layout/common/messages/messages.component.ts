@@ -173,7 +173,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     onSendMessage(mensagem: Mensagem = null) {
         this._dialog.open(MessageFormDialogComponent, {
-            width: '600px',
+            width: '800px',
             data: {
                 mensagem: mensagem
             }

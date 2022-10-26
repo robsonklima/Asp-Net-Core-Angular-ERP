@@ -19,8 +19,10 @@
                         </mat-option>
 
                         <mat-option class="uppercase" *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
-                            {{ usuario.nomeUsuario }} - 
-                            <span class="font-light text-hint">{{ usuario?.perfil?.nomePerfil }}</span> -
+                            <span>{{ usuario.nomeUsuario }} - </span>
+
+                            <span class="font-light text-hint">{{ usuario?.perfil?.nomePerfil }} - </span>
+
                             <span> {{ usuario.ultimoAcesso | date:'dd/MM/yyyy HH:mm'}} </span>
                         </mat-option>
                     </mat-select>
@@ -32,7 +34,7 @@
                         maxlength="1000"></textarea>
                     <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                     <mat-error>{{ t('preencher campo') }}</mat-error>
-                </mat-form-field> 
+                </mat-form-field>
             </div>
         </form>
     </div>
@@ -46,5 +48,6 @@
 
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
+
     <button mat-button (click)="salvar()" [disabled]="!form?.valid" cdkFocusInitial>Enviar</button>
 </mat-dialog-actions>

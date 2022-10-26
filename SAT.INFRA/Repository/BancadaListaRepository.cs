@@ -5,7 +5,6 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {

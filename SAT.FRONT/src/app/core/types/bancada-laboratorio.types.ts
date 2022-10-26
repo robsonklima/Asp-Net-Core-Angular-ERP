@@ -2,13 +2,13 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Usuario } from "./usuario.types";
 
 export class BancadaLaboratorio {
+    codBancadaLaboratorio : number;
     codUsuario : String;
     numBancada : number;
     usuario?: Usuario;
-    UsuarioCadastro? : Usuario;
-    CodUsuarioCad : string;
+    usuarioCadastro? : Usuario;
+    codUsuarioCad : string;
     dataHoraCad : string;
-    
 }
 
 export interface BancadaLaboratorioData extends Meta {
@@ -18,6 +18,7 @@ export interface BancadaLaboratorioData extends Meta {
 export interface BancadaLaboratorioParameters extends QueryStringParameters {
     codUsuario?: String;
     numBancada?: number;
+    indUsuarioAtivo?: number;
 };
 
 export interface ViewLaboratorioTecnicoBancada {

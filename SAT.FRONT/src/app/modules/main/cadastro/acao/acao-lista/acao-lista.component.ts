@@ -44,7 +44,6 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 	animations: fuseAnimations
 })
 export class AcaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
@@ -61,7 +60,6 @@ export class AcaoListaComponent extends Filterable implements AfterViewInit, IFi
 		protected _userService: UserService
 	) {
 		super(_userService, 'acao')
-		//this.userSession = JSON.parse(this._userService.userSession);
 	}
 	registerEmitters(): void {
 		this.sidenav.closedStart.subscribe(() => {

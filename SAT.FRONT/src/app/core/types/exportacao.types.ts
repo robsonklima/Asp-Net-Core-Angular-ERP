@@ -50,5 +50,6 @@ export enum ExportacaoTipoEnum {
     DESPESA_PERIODO_TECNICO,
     OR,
     OR_ITEM,
-    PEDIDOS_CREDITO
+    PEDIDOS_CREDITO,
+    ORDEM_REPARO
 }

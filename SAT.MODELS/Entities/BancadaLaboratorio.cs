@@ -4,7 +4,9 @@ namespace SAT.MODELS.Entities
 {
     public class BancadaLaboratorio
     {
+        public int CodBancadaLaboratorio { get; set; }
         public string CodUsuario { get; set; }
+        public Usuario Usuario { get; set; }
         public int? NumBancada { get; set; }
         public string CodUsuarioCad { get; set; }
         public Usuario UsuarioCadastro { get; set; }

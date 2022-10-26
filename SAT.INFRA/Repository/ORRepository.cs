@@ -61,8 +61,9 @@ namespace SAT.INFRA.Repository
 
         public PagedList<OR> ObterPorParametros(ORParameters parameters)
         {
-            var ORes = _context.OR
+            var query = _context.OR
                 .Include(or => or.ORStatus)
+                .Include(or => or.UsuarioCadastro)
                 .Include(or => or.Destino)
                 .Include(or => or.ORItens)
                     .ThenInclude(i => i.Peca)
@@ -72,18 +73,30 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Filter != null)
             {
-                ORes = ORes.Where(
+                query = query.Where(
                     p =>
-                    p.CodOR.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    p.CodOR.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.ORStatus.DescStatus.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodStatus))
+            {
+                int[] cods = parameters.CodStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(q => cods.Contains(q.CodStatusOR));
+            }
+
+            if (parameters.CodOR.HasValue)
+            {
+                query = query.Where(q => q.CodOR == parameters.CodOR);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                ORes = ORes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
-            return PagedList<OR>.ToPagedList(ORes, parameters.PageNumber, parameters.PageSize);
+            return PagedList<OR>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

@@ -8,14 +8,11 @@ import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { Acao } from 'app/core/types/acao.types';
 import { AcaoService } from 'app/core/services/acao.service';
 
-
-
 @Component({
 	selector: 'app-acao-filtro',
 	templateUrl: './acao-filtro.component.html'
 })
 export class AcaoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
-	
 	@Input() sidenav: MatSidenav;
 	acoes: Acao[];
 	protected _onDestroy = new Subject<void>();
@@ -32,38 +29,30 @@ export class AcaoFiltroComponent extends FilterBase implements OnInit, IFilterBa
 		this.obterDados();
 		this.createForm();
 		this.loadData();
-		
+
 	}
 	async obterDados() {
-	  this.acoes = (await this._acaoService.obterPorParametros(null).toPromise()).items
-	  
+		this.acoes = (await this._acaoService.obterPorParametros(null).toPromise()).items
 	}
 
 	async loadData() {
-
 		this.registrarEmitters();
 	}
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			indAtivo: [undefined],
-			
-
 		});
+
 		this.form.patchValue(this.filter?.parametros);
 	}
 
-
-
 	private registrarEmitters() {
-	
-			
 
 	}
 
 	limpar() {
 		super.limpar();
-
 	}
 
 	ngOnDestroy() {

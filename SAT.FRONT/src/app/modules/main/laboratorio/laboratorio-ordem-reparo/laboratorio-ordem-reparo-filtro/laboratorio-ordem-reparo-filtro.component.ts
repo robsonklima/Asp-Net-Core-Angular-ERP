@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ORStatusService } from 'app/core/services/or-status.service';
-import { ORTipoService } from 'app/core/services/or-tipo.service';
 import { ORStatus, ORStatusParameters } from 'app/core/types/or-status.types';
 import { ORTipo } from 'app/core/types/or-tipo.types';
 import { Subject } from 'rxjs';
@@ -23,7 +22,6 @@ export class LaboratorioOrdemReparoFiltroComponent extends FilterBase implements
   protected _onDestroy = new Subject<void>();
 
   constructor(
-    private _orTipoService: ORTipoService,
     private _orStatusService: ORStatusService,
     protected _userService: UserService,
     protected _formBuilder: FormBuilder
@@ -50,9 +48,7 @@ export class LaboratorioOrdemReparoFiltroComponent extends FilterBase implements
     this.form.patchValue(this.filter?.parametros);
   }
 
-  private registrarEmitters() {
-    
-  }
+  private registrarEmitters() {}
 
   async obterStatus(filtro: string = '') {
 		let params: ORStatusParameters = {

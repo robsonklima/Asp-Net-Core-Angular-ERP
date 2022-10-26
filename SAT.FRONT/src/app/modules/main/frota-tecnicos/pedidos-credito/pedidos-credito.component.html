@@ -13,6 +13,11 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>
+
+            <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button
+                matTooltip="{{ t('exportar') }}">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+            </button>
         </div>
     </div>
 

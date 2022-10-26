@@ -20,7 +20,7 @@
                 </mat-form-field>
 
                 <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-                    [routerLink]="['/ordem-reparo/form']">
+                    [routerLink]="['/laboratorio/ordem-reparo/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
 
@@ -55,7 +55,19 @@
                                 </div>
 
                                 <div class="md:block">
+                                    {{ t('cadastro') }}
+                                </div>
+
+                                <div class="md:block">
+                                    {{ t('data') }}
+                                </div>
+
+                                <div class="md:block">
                                     {{ t('itens') }}
+                                </div>
+
+                                <div class="md:block">
+                                    {{ t('acoes') }}
                                 </div>
                             </div>
 
@@ -63,7 +75,7 @@
                                 <ng-container *ngFor="let or of dataSourceData?.items">
                                     <div class="list-grid-ordem-reparo grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b"
                                         *transloco="let t">
-                                        <div class="flex ml-1">
+                                        <div class="flex ml-1 font-semibold">
                                             {{ or.codOR }}
                                         </div>
 
@@ -75,8 +87,25 @@
                                             {{ or.destino.destino }}
                                         </div>
 
+                                        <div class="flex uppercase">
+                                            {{ or.usuarioCadastro.nomeUsuario }}
+                                        </div>
+
                                         <div class="flex">
+                                            {{ or.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}
+                                        </div>
+
+                                        <div class="flex font-semibold">
                                             {{ or.orItens.length }}
+                                        </div>
+
+                                        <div class="flex">
+                                            <button
+                                                [routerLink]="['/laboratorio/ordem-reparo/form/' + or.codOR]"
+                                                class="mt-1 bg-transparent hover:bg-blue-400 text-blue-600 font-semibold
+                                                hover:text-white px-4 h-6 border border-blue-500 hover:border-transparent rounded">
+                                            Editar
+                                        </button>
                                         </div>
                                     </div>
                                 </ng-container>

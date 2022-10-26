@@ -18,6 +18,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataExpedicao { get; set; }
         public byte IndAtivo { get; set; }
         public string CodUsuarioCad { get; set; }
+        public Usuario UsuarioCadastro { get; set; }
         public DateTime DataHoraCad { get; set; }
         public string Minuta { get; set; }
         public int? CodTransportadora { get; set; }

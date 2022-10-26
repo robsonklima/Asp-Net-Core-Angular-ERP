@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
+import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
@@ -30,5 +31,13 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'ordem-reparo',
         component: LaboratorioOrdemReparoListaComponent
-    }     
+    },
+    {
+        path: 'ordem-reparo/form',
+        component: LaboratorioOrdemReparoFormComponent
+    },
+    {
+        path: 'ordem-reparo/form/:codOR',
+        component: LaboratorioOrdemReparoFormComponent
+    }
 ];

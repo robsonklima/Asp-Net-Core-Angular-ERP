@@ -116,13 +116,7 @@ export class LaboratorioOrdemReparoListaComponent extends Filterable implements 
 			...this.filter?.parametros
 		}
 
-		console.log(parametros);
-		
-
 		const data = await this._orService.obterPorParametros(parametros).toPromise();
-
-
-
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();

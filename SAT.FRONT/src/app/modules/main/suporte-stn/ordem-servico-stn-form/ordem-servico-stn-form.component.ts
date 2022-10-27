@@ -6,7 +6,7 @@ import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.serv
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServicoSTN } from 'app/core/types/ordem-servico-stn.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
-import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -21,6 +21,7 @@ import { ProtocoloSTN } from 'app/core/types/protocolo-stn.types';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { debounce } from 'lodash';
+import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -50,6 +51,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoService: OrdemServicoService,
     private _statusServicoSTNService: StatusServicoSTNService,
     private _ordemServicoSTNOrigemService: OrdemServicoSTNOrigemService,
+    private _relatorioAtendimentoService: RelatorioAtendimentoService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _dialog: MatDialog,
@@ -61,17 +63,14 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
-    this.obterDados(6953280);
     this.inicializarForm();
     this.registrarEmitters();  
-    this._cdr.detectChanges();    
-    this.obterOrdemServicoSTNOrigem();
-    this.obterStatusServicosSTN();
-
+    this.obterDados(6953280);
+    
     if (!this.isAddMode) {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
         .pipe(first())
-        .subscribe(data => {
+        .subscribe(() => {
           
         });
     }
@@ -89,17 +88,20 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 		});
   }
 
-  private async obterDados(codOS: number) {
+  private async obterDados(codOS: number) {    
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-    this.rat = this.os?.relatoriosAtendimento[this.os.relatoriosAtendimento.length-1];
+    this.rat = (await this.obterRelatoriosAtendimento()).items.shift();
     this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ 
       codOS: this.os.codOS,
       sortActive: 'codAtendimento',
       sortDirection: 'desc'
     }).toPromise()).items;
     this.ultimoAtendimento = this.atendimentos.shift();   
+    this.obterOrdemServicoSTNOrigem();
+    this.obterStatusServicosSTN();
     this.isLoading = false;
+    this._cdr.detectChanges();    
   }
 
 	private inicializarForm(): void {
@@ -129,8 +131,13 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 
     const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
     this.statusServicosSTN = data.items;    
+    console.log(this.statusServicosSTN);
+    
   }  
 
+  private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {
+    return await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise();
+  }
 
   abrirHistorico() {
     const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {

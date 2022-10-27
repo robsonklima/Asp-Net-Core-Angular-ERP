@@ -66,8 +66,7 @@
 
             <div class="grid lg:grid-cols-12 sm:grid-cols-1 md:grid-cols-6 gap-12 w-full min-w-0">
                 <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 
-                    sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden"
-                    *ngIf="os">
+                    sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados OS Perto</p>
                     </div>
@@ -176,8 +175,7 @@
                 </fuse-card>
 
                 <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 
-                    flex-auto bg-card shadow rounded-2xl overflow-hidden"
-                    *ngIf="rat">
+                    flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="rat">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">Dados Atendimento Campo</p>
                     </div>
@@ -245,61 +243,31 @@
                     </div>
                 </fuse-card>
 
-                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12
-                    flex-auto bg-card shadow rounded-2xl overflow-hidden"
-                    *ngIf="os">
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 
+                    flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">Atendimento Tratativa STN</p>
+                        <p class="text-lg font-medium">Dados Atendimento Campo</p>
                     </div>
 
                     <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
-                        <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
-                            <div class="flex items-center justify-between py-1">
-                                <div class="text-secondary">
-                                    Protocolo Atend. STN
-                                </div>
-
-                                <div class="truncate max-w-1/2">
-                                    {{ ultimoAtendimento?.codAtendimento }}
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between py-1">
-                                <div class="text-secondary">
-                                    Data Hora Abert.
-                                </div>
-
-                                <div class="truncate max-w-1/2">
-                                    {{ ultimoAtendimento?.dataHoraAberturaSTN | date:'dd/MM/yyyy HH:mm' }}
-                                </div>
-                            </div>
+                        <div
+                            class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                                 <mat-label>Origem Chamado</mat-label>
 
-                                <mat-select class="min-h-10" formControlName="CodOrigemChamadoSTN"
+                                <mat-select class="min-h-10" formControlName="codOrigemChamadoSTN"
                                     [disabled]="!ordemServicoSTNOrigens.length">
                                     <mat-option *ngFor="let ordemServicoSTNOrigem of ordemServicoSTNOrigens"
-                                        [value]="ordemServicoSTNOrigem.CodOrigemChamadoSTN">
+                                        [value]="ordemServicoSTNOrigem.codOrigemChamadoSTN">
                                         {{ ordemServicoSTNOrigem.descOrigemChamadoSTN }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
 
-                            <div class="flex items-center justify-between py-1">
-                                <div class="text-secondary">
-                                    Demanda em fila de espera?
-                                </div>
-                                
-                                <div class="truncate max-w-1/2">
-                                    <mat-checkbox class="mb-1" [color]="'primary'"
-                                        [formControlName]="'indPrimeiraLigacao'"></mat-checkbox>
-                                </div>
-                            </div>
-
                             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                                 <mat-label>Status Protocolo STN</mat-label>
-                                
+
                                 <mat-select class="min-h-10" formControlName="codStatusServicoSTN"
                                     [disabled]="!statusServicosSTN.length">
                                     <mat-option *ngFor="let statusServicoSTN of statusServicosSTN"
@@ -315,15 +283,27 @@
                                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                                 </mat-icon>
                                 <input matInput formControlName="nomeSolicitante" maxlength="50">
-                            </mat-form-field>
+                            </mat-form-field>                       
 
+                        </div>
+
+                        <div class="p-8">
+                            <div class="flex flex-col gt-xs:flex-row">
+                                <div class="flex flex-col">
+                                    <mat-checkbox class="mb-1" [color]="'primary'"
+                                    [formControlName]="'indPrimeiraLigacao'">
+                                    Demanda em fila de espera?
+                                </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                             <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
                                 [disabled]="!form.valid">
                                 <span *ngIf="!form.disabled">
                                     {{ t('salvar') }}
                                 </span>
-                                <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                                </mat-progress-spinner>
                             </button>
                         </div>
                     </form>

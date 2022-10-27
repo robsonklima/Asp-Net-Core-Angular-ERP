@@ -14,15 +14,15 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('filial') }}</mat-label>
-                    <mat-select formControlName="codFiliais" multiple="true">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
+                    <mat-label >{{ t('filial') }}</mat-label>
+                    <mat-select  formControlName="codFiliais" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="filialFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
+                        <mat-option  class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
                             'codFilial')" [value]="0">
                             TODAS
                         </mat-option>
@@ -32,15 +32,15 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('regiao') }}</mat-label>
-                    <mat-select formControlName="codRegioes" multiple="true">
+                    <mat-select  formControlName="codRegioes" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="regiaoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
+                        <mat-option  class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
                             'codRegiao')" [value]="0">
                             TODAS
                         </mat-option>
@@ -50,7 +50,8 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('autorizada') }}</mat-label>
                     <mat-select formControlName="codAutorizadas" multiple="true">
                         <mat-option>
@@ -88,7 +89,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo de intervencao') }}</mat-label>
                     <mat-select formControlName="codTiposIntervencao" multiple="true">
                         <mat-option>
@@ -108,7 +109,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tecnico') }}</mat-label>
                     <mat-select formControlName="codTecnicos" multiple="true">
                         <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -133,7 +134,7 @@
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
+                        <mat-option *ngIf="!this.validaCliente" class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
                         'codCliente')" [value]="0">
                             TODAS
                         </mat-option>
@@ -180,14 +181,14 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('nro serie') }}</mat-label>
                     <input matInput formControlName="numSerie">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('pa') }}</mat-label>
                     <mat-select formControlName="pas" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.pas, pas,
@@ -200,7 +201,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ponto estrategico') }}</mat-label>
                     <mat-select formControlName="pontosEstrategicos" multiple="true">
                         <mat-option [value]="pontosEstrategicos.NAO">
@@ -217,7 +218,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('data de abertura') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerAbertura">
                         <input formControlName="dataAberturaInicio" matStartDate placeholder="Início">
@@ -227,7 +228,7 @@
                     <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente"  class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('data de fechamento') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerFechamento">
                         <input formControlName="dataFechamentoInicio" matStartDate placeholder="Início">
@@ -237,7 +238,7 @@
                     <mat-date-range-picker #pickerFechamento></mat-date-range-picker>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('data do atendimento') }}</mat-label>
                     <mat-date-range-input [rangePicker]="pickerSolucao">
                         <input formControlName="dataHoraSolucaoInicio" matStartDate placeholder="Início">
@@ -247,7 +248,7 @@
                     <mat-date-range-picker #pickerSolucao></mat-date-range-picker>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os perto') }}</mat-label>
                     <mat-chip-list #chipList>
                         <mat-chip *ngFor="let os of chamadosPerto" (removed)="remove(os)">
@@ -265,28 +266,28 @@
                     >
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os cliente') }}</mat-label>
                     <input matInput formControlName="numOSCliente" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os quarteirizada') }}</mat-label>
                     <input matInput formControlName="numOSQuarteirizada" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:office-building'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('defeito') }}</mat-label>
                     <input matInput formControlName="defeito" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:annotation'">
                     </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field *ngIf="!this.validaCliente" class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('solucao') }}</mat-label>
                     <input matInput formControlName="solucao" maxlength="20">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:annotation'">

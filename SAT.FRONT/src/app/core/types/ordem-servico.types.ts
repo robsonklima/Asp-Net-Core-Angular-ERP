@@ -188,6 +188,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
     codStatusServicos?: string,
     codTiposIntervencao?: string;
     codClientes?: string;
+    codCliente?: number;
     codFiliais?: string;
     pa?: number;
     dataTransfInicio?: string;

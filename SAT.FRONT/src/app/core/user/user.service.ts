@@ -36,13 +36,14 @@ export class UserService {
     var session = JSON.parse(localStorage.getItem('userSession'));
     var user = session.usuario;
     if (user.codPerfil == PerfilEnum.CLIENTE ||
-        user.codPerfil == PerfilEnum.CLIENTE_BASICO_BIOMETRIA ||
+        user.codPerfil == PerfilEnum.CLIENTE_INTERMEDIARIO ||
         user.codPerfil == PerfilEnum.CLIENTE_BASICO_C_RESTRICOES ||
-        user.codPerfil == PerfilEnum.CLIENTE_BASICO_S_ABERTURA ||
+        user.codPerfil == PerfilEnum.CLIENTE_BASICO ||
         user.codPerfil == PerfilEnum.CLIENTE_BÁSICO ||
         user.codPerfil == PerfilEnum.CLIENTE_CORREIOS ||
         user.codPerfil == PerfilEnum.CLIENTE_PEÇAS_EXPORTAÇÃO ||
-        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA
+        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA ||
+        user.codPerfil == PerfilEnum.CLIENTE_AVANCADO
         ) {
       return true;
     }

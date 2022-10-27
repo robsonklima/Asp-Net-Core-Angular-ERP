@@ -52,6 +52,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	tecnicos: Tecnico[] = [];
 	locaisAtendimento: LocalAtendimento[] = [];
 	pas: number[] = [];
+	validaCliente: boolean = this._userService.isCustomer;
 	pontosEstrategicos: any;
 	clienteFilterCtrl: FormControl = new FormControl();
 	filialFilterCtrl: FormControl = new FormControl();
@@ -214,6 +215,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeFantasia',
 			sortDirection: 'asc',
+			codCliente: this.userSession?.usuario?.codCliente,
 			pageSize: 1000
 		};
 

@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { Location } from '@angular/common';
-import { BancadaLaboratorio } from 'app/core/types/bancada-laboratorio.types';
+import { BancadaLaboratorio, BancadaLaboratorioData, BancadaLaboratorioParameters } from 'app/core/types/bancada-laboratorio.types';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { statusConst } from 'app/core/types/status-types';
@@ -29,10 +29,12 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
   codBancadaLaboratorio: number;
   bancada: BancadaLaboratorio;
   bancadas: BancadaLaboratorio[] = [];
+  numBancada: number;
   mapsPlaceholder: any = [];
   usuarios: Usuario[] = [];
   protected _onDestroy = new Subject<void>();
   usuarioFiltro: FormControl = new FormControl();
+  bancadaFiltro: FormControl = new FormControl();
   searching: boolean;
 
   constructor(
@@ -46,9 +48,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<LaboratorioBancadaDialogComponent>) {
       if (data)
       {
-          this.bancadas = data;
-          console.log(data);
-          
+          this.numBancada = data.numBancada;
       }
   
       this.userSession = JSON.parse(this._userSvc.userSession);
@@ -63,7 +63,6 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
   criarForm(){
     this.form = this._formBuilder.group({
           codUsuario: [undefined, Validators.required],
-          numBancada: [undefined, Validators.required],
       });
   }
 
@@ -107,7 +106,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
     const data = await this._usuarioService.obterPorParametros(params).toPromise();
     this.usuarios = data.items;
     }
-
+  
   salvar(){
     const form: any = this.form.getRawValue();
 
@@ -117,6 +116,7 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
+        numBancada: this.numBancada,
       }
     };
 

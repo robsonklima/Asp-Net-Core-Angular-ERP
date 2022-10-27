@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,10 +6,10 @@ import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { BancadaLaboratorio, BancadaLaboratorioData, BancadaLaboratorioParameters } from 'app/core/types/bancada-laboratorio.types';
 import { statusConst } from 'app/core/types/status-types';
-import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import _ from 'lodash';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
 
@@ -20,12 +20,10 @@ import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada-dialog/
 })
 export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
   private userSession: UsuarioSessao;
+  form: FormGroup;
   protected _onDestroy = new Subject<void>();
   codBancadaLaboratorio: number;
   bancadas: BancadaLaboratorio[];
-  usuarios: Usuario[];
-
-  public form: FormGroup;
 
   constructor(
     private _bancadaLaboratorioService: BancadaLaboratorioService,
@@ -33,9 +31,9 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _userService: UserService,
 
-  ){ 
-    this.userSession = JSON.parse(this._userService.userSession); 
-}
+  ) {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
 
   async ngOnInit() {
     this.bancadas = (await this.obterBancadas()).items;
@@ -44,9 +42,9 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
 
   private async obterBancadas(): Promise<BancadaLaboratorioData> {
     const params: BancadaLaboratorioParameters = {
-        sortActive: 'numBancada',
-        sortDirection: 'asc',
-        indUsuarioAtivo: statusConst.ATIVO
+      sortActive: 'numBancada',
+      sortDirection: 'asc',
+      indUsuarioAtivo: statusConst.ATIVO
     }
     return await this._bancadaLaboratorioService.obterPorParametros(params).toPromise();
   }
@@ -55,42 +53,63 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
     const array = new Array(24);
 
     for (let i = 0; i < array.length; i++) {
-      const bancada = _.find(this.bancadas, { numBancada: i+1 });
+      const bancada = _.find(this.bancadas, { numBancada: i + 1 });
 
       array[i] = bancada;
-    }    
+    }
 
     this.bancadas = array;
   }
 
-  drop(event: CdkDragDrop<string[]>){
+  async drop(event: CdkDragDrop<string[]>) {
     const aux = this.bancadas[event.previousIndex];
     this.bancadas[event.previousIndex] = this.bancadas[event.currentIndex];
+    this.bancadas[event.previousIndex].numBancada = event.previousIndex + 1;
     this.bancadas[event.currentIndex] = aux;
-    console.log(this.bancadas);
-    
-    
-    // let obj = {
-    //     ...this.bancadas,
-    //     ...{
-    //             numBancada: event.currentIndex + 1,
-    //       }
-    //   };
-  
-    // this._bancadaLaboratorioService.atualizar(obj).subscribe(() => {
-    //   }, e => {
-    //     this.obterBancadas();
-    //   });
+    this.bancadas[event.currentIndex].numBancada = event.currentIndex + 1;
+    this.atualizar(this.bancadas[event.previousIndex]);
+    this.atualizar(this.bancadas[event.currentIndex]);
   }
 
-  novoTecnico(){
-    const dialogRef = this._dialog.open(LaboratorioBancadaDialogComponent, {});
-	
-	  dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-		if (confirmacao)
-		  this.obterBancadas();
-	  });
+  novoTecnico(bancada) {
+    const dialogRef = this._dialog.open(LaboratorioBancadaDialogComponent, {
+      data: {
+        numBancada: bancada,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao)
+        this.ngOnInit();
+    });
   }
+
+  async atualizar(bancada: BancadaLaboratorio): Promise<BancadaLaboratorio> {
+    return this._bancadaLaboratorioService.atualizar(bancada).toPromise();
+  }
+
+  excluir(codBancadaLaboratorio) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        mensagem: 'Deseja confirmar a exclusão deste técnico?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
+        this._bancadaLaboratorioService.deletar(codBancadaLaboratorio).subscribe(() => {
+          this._snack.exibirToast('Técnico Excluído', 'sucess');
+          this.ngOnInit();
+        })
+      }
+    });
+  }
+
 
   ngOnDestroy() {
     this._onDestroy.next();

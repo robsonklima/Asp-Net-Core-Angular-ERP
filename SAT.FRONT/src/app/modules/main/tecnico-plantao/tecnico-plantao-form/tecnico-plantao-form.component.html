@@ -88,6 +88,10 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
                 </div>
+                
+                <div *ngIf="!form.valid">
+                    <app-formulario-erros [form]="form"></app-formulario-erros>
+                </div>
 
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button [routerLink]="['/tecnico-plantao']" mat-button [disabled]="!form.valid || form.disabled">

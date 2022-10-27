@@ -26,6 +26,8 @@ import localePt from '@angular/common/locales/pt';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
+import { DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
 registerLocaleData(localePt);
 
 @Component({
@@ -53,6 +55,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 	codTecnico: string;
 	periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
 	tecnico: Tecnico;
+	despesaPeriodoTecnico: DespesaPeriodoTecnico;
 
 	constructor(
 		protected _userService: UserService,
@@ -135,6 +138,14 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		return dp;
 	}
 
+	// async obterDespesaPeriodoTecnico() {
+	// 	this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
+	// 		{
+	// 		  codTecnico: this.codTecnico,
+	// 		  codDespesaPeriodo: 947
+	// 		}).toPromise());	
+	// }
+
 	async obterTecnico() {
 		this.tecnico = (await this._tecnicoSvc.obterPorCodigo(+this.codTecnico).toPromise());
 	}
@@ -153,7 +164,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
 		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
 			if (confirmacao) {
-				dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };
+				dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };	
 				var dp = this.criaDespesaPeriodoTecnico(dpi);
 
 				if(dp?.codDespesaPeriodoTecnico != null){
@@ -174,7 +185,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 						e => {
 							this._snack.exibirToast('Erro ao liberar período.', 'error');
 						});
-					}
+				}
 			}
 		});
 	}

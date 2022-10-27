@@ -67,16 +67,18 @@ export class DespesaAtendimentoAdiantamentoDialogComponent implements OnInit
 
     this.adiantamentosPeriodo = (await this._despesaAdiantamentoPeriodoService.obterPorParametros(
       {
-        codDespesaPeriodo: this.codPeriodo,
+        codTecnico: this.codTecnico,
         indAtivoAdiantamento: statusConst.ATIVO
       }).toPromise());
   }
 
   obterValorUtilizado(da: DespesaAdiantamento)
   {
-    return Enumerable.from(this.adiantamentosPeriodo.items)
+    var adiantamentoUtilizado = Enumerable.from(this.adiantamentosPeriodo.items)
       .where(i => i.codDespesaAdiantamento == da.codDespesaAdiantamento)
       .sum(i => i.valorAdiantamentoUtilizado);
+
+    return adiantamentoUtilizado;
   }
 
   fechar()

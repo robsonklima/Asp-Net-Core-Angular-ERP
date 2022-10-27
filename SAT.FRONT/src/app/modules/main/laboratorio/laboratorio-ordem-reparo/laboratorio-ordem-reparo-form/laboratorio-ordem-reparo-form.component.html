@@ -51,7 +51,11 @@
                                 </ngx-mat-select-search>
                             </mat-option>
     
-                            <mat-option [matTooltip]="peca.codMagnus + ', ' + peca.nomePeca" class="uppercase" *ngFor="let peca of pecas" [value]="peca.codPeca">
+                            <mat-option 
+                                class="uppercase"
+                                [matTooltip]="peca.codMagnus + ' ' + peca.nomePeca"
+                                *ngFor="let peca of pecas"
+                                [value]="peca.codPeca">
                                 <span class="font-bold">{{ peca.codMagnus }} </span>
                                 <span class="ml-1">{{ peca.nomePeca }} </span>
                             </mat-option>

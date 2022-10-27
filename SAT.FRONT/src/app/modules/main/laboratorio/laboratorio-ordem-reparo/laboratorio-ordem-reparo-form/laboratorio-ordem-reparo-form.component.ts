@@ -10,7 +10,7 @@ import { Peca, PecaData, PecaParameters } from 'app/core/types/peca.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
-import { debounceTime, delay, first, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, first, map, take, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-laboratorio-ordem-reparo-form',
@@ -26,6 +26,7 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
   pecas: Peca[] = [];
   pecaFilterCtrl: FormControl = new FormControl();
   isLoading: boolean;
+  pageSize: number = 10;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -45,7 +46,6 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
     this.isAddMode = !this.codOR;
     this.inicializarForm();
     this.registrarEmitters();
-    this.pecas = (await this.obterPecas()).items;
 
     if (!this.isAddMode) {
       this._orService.obterPorCodigo(this.codOR)
@@ -64,11 +64,13 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  async obterPecas(filtro: string=''): Promise<PecaData> {
+  async obterPecas(filtro): Promise<PecaData> {
+    if (!filtro) return;
+
 		let params: PecaParameters = {
 			sortActive: 'nomePeca',
 			sortDirection: 'asc',
-      pageSize: 10,
+      pageSize: this.pageSize,
       filter: filtro
 		};
 
@@ -82,20 +84,17 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
 			.pipe(
 				tap(() => this.isLoading = true),
 				debounceTime(700),
+        distinctUntilChanged(),
+        delay(500),
 				map(async query => {
-					return (await this.obterPecas(query)).items.slice();
+          return (await this.obterPecas(query))?.items?.slice();
 				}),
-				delay(500),
 				takeUntil(this._onDestroy)
 			)
 			.subscribe(async data => {
-        
-        
-				this.pecas = await data;
-
-        const formTemValor = +this.form.controls['codPeca'].value;
-        
-        console.log(formTemValor, this.pecas);
+        const registros = await data;
+        if (registros) this.pecas = registros;
+        this.isLoading = false;
 			});
   }
 

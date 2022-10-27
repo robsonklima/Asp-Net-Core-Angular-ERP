@@ -719,6 +719,7 @@
     "ordens de reparo": "Repair Orders",
     "contatos": "Contacts",
     "pedidos de crédito": "Credit Orders",
-    "itens": "Items"
-
+    "itens": "Items",
+    "ordem de reparo": "Repair Order",
+    "cadastro de pecas que ja estao no laboratorio": "Registration of parts that are already in the Laboratory"
 }

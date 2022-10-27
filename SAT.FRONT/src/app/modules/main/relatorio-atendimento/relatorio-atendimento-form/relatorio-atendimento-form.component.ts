@@ -147,7 +147,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		this.tecnicosFiltro.valueChanges
 			.pipe(
 				tap(() => this.searching = true),
-				takeUntil(this._onDestroy),
 				debounceTime(700),
 				map(async query => {
 					const data = await this._tecnicoService.obterPorParametros({

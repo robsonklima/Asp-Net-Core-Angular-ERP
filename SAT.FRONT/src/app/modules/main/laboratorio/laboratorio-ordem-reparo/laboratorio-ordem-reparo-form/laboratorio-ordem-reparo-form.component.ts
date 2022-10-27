@@ -1,14 +1,131 @@
-import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ORService } from 'app/core/services/or.service';
+import { PecaService } from 'app/core/services/peca.service';
+import { OR } from 'app/core/types/OR.types';
+import { Peca, PecaData, PecaParameters } from 'app/core/types/peca.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { Subject } from 'rxjs';
+import { debounceTime, delay, first, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-laboratorio-ordem-reparo-form',
-  templateUrl: './laboratorio-ordem-reparo-form.component.html'
+  templateUrl: './laboratorio-ordem-reparo-form.component.html',
+  encapsulation: ViewEncapsulation.None
 })
-export class LaboratorioOrdemReparoFormComponent implements OnInit {
+export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
+  usuarioSessao: UsuarioSessao;
+  codOR: number;
+  isAddMode: boolean;
+  form: FormGroup;
+  or: OR;
+  pecas: Peca[] = [];
+  pecaFilterCtrl: FormControl = new FormControl();
+  isLoading: boolean;
+  protected _onDestroy = new Subject<void>();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private _userService: UserService,
+    private _formBuilder: FormBuilder,
+    private _orService: ORService,
+    private _snack: CustomSnackbarService,
+    private _location: Location,
+    private _pecaService: PecaService,
+    private _route: ActivatedRoute
+  ) {
+    this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
+  async ngOnInit() {
+    this.codOR = +this._route.snapshot.paramMap.get('codDefeito');
+    this.isAddMode = !this.codOR;
+    this.inicializarForm();
+    this.registrarEmitters();
+    this.pecas = (await this.obterPecas()).items;
+
+    if (!this.isAddMode) {
+      this._orService.obterPorCodigo(this.codOR)
+        .pipe(first())
+        .subscribe(data => {
+          this.or = data;
+          this.form.patchValue(this.or);
+        })
+    }
+  }
+
+  private inicializarForm() {
+    this.form = this._formBuilder.group({
+      codPeca: [null, [Validators.required]],
+      quantidade: [null, [Validators.required]],
+    });
+  }
+
+  async obterPecas(filtro: string=''): Promise<PecaData> {
+		let params: PecaParameters = {
+			sortActive: 'nomePeca',
+			sortDirection: 'asc',
+      pageSize: 10,
+      filter: filtro
+		};
+
+		return await this._pecaService
+			.obterPorParametros(params)
+			.toPromise();
+	}
+
+  private registrarEmitters() {
+    this.pecaFilterCtrl.valueChanges
+			.pipe(
+				tap(() => this.isLoading = true),
+				debounceTime(700),
+				map(async query => {
+					return (await this.obterPecas(query)).items.slice();
+				}),
+				delay(500),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(async data => {
+        
+        
+				this.pecas = await data;
+
+        const formTemValor = +this.form.controls['codPeca'].value;
+        
+        console.log(formTemValor, this.pecas);
+			});
+  }
+
+  salvar(): void {
+    const form: any = this.form.getRawValue();
+
+    let obj = {
+      ...this.or,
+      ...form,
+      ...{
+        indAtivo: +form.indAtivo,
+      }
+    };
+
+    if (this.isAddMode) {
+      this._orService.criar(obj).subscribe(() => {
+        this._snack.exibirToast("Registro criado com sucesso!", "success");
+        this._location.back();
+      })
+    } else {
+      this._orService.atualizar(obj).subscribe(() => {
+        this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+        this._location.back();
+      })
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
 }
+

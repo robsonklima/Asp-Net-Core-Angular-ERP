@@ -26,7 +26,6 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
   pecas: Peca[] = [];
   pecaFilterCtrl: FormControl = new FormControl();
   isLoading: boolean;
-  pageSize: number = 10;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -70,7 +69,7 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
 		let params: PecaParameters = {
 			sortActive: 'nomePeca',
 			sortDirection: 'asc',
-      pageSize: this.pageSize,
+      pageSize: 120,
       filter: filtro
 		};
 

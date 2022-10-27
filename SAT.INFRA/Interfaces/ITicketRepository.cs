@@ -7,6 +7,5 @@ namespace SAT.INFRA.Interfaces {
         PagedList<Ticket> ObterPorParametros(TicketParameters parameters);
         Ticket ObterPorCodigo(int codTicket);
         void Atualizar(Ticket ticket);
-
     }
 }

@@ -1,6 +1,8 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { ORDestino } from "./or-destino-types";
 import { ORItem } from "./or-item.types";
 import { ORStatus } from "./or-status.types";
+import { Usuario } from "./usuario.types";
 
 export interface OR {
     codOR: number;
@@ -19,6 +21,8 @@ export interface OR {
     minuta: string;
     codTransportadora: number | null;
     orItens: ORItem[];
+    destino: ORDestino;
+    usuarioCadatro: Usuario;
 }
 
 export interface ORData extends Meta {
@@ -26,5 +30,6 @@ export interface ORData extends Meta {
 };
 
 export interface ORParameters extends QueryStringParameters {
-
+    codStatus?: string;
+    codOR?: number;
 }

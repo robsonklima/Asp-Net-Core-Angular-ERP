@@ -49,5 +49,10 @@ namespace SAT.SERVICES.Services
 
             return false;
         }
+
+        public void Deletar(int codigo)
+        {
+            _ticketLogPedidoCreditoRepo.Deletar(codigo);
+        }
     }
 }

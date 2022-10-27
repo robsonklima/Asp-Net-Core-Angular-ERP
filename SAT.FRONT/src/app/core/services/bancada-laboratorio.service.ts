@@ -33,8 +33,8 @@ export class BancadaLaboratorioService {
     )
   }
 
-  obterPorCodigo(codUsuario: string): Observable<BancadaLaboratorio> {
-    const url = `${c.api}/BancadaLaboratorio/${codUsuario}`;
+  obterPorCodigo(codBancadaLaboratorio: string): Observable<BancadaLaboratorio> {
+    const url = `${c.api}/BancadaLaboratorio/${codBancadaLaboratorio}`;
     return this.http.get<BancadaLaboratorio>(url).pipe(
       map((obj) => obj)
     );
@@ -54,8 +54,8 @@ export class BancadaLaboratorioService {
     );
   }
 
-  deletar(codUsuario: number): Observable<BancadaLaboratorio> {
-    const url = `${c.api}/BancadaLaboratorio/${codUsuario}`;
+  deletar(codBancadaLaboratorio: number): Observable<BancadaLaboratorio> {
+    const url = `${c.api}/BancadaLaboratorio/${codBancadaLaboratorio}`;
 
     return this.http.delete<BancadaLaboratorio>(url).pipe(
       map((obj) => obj)

@@ -8,6 +8,7 @@
                     {{ t('bancada') }}
                 </h2>
             </div>
+
             <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
                 <button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('novo')" matTooltipPosition="above" (click)="novoTecnico()">
                     <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
@@ -19,8 +20,8 @@
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-3xl">
             <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let bancada of bancadas" cdkDrag>
-                    {{bancada.numBancada}} - {{bancada.codUsuario}}
+                <div class="example-box" [cdkDragDisabled]="!bancada" *ngFor="let bancada of bancadas; let i=index" cdkDrag>
+                    {{ i+1 }} - {{ bancada?.usuario?.nomeUsuario | uppercase }}
                 </div>
             </div>
         </div>

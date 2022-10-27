@@ -40,34 +40,10 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-     
-
-        // public Ticket Criar(Ticket ticket)
-        // {
-        //     // _ticketRepo.Criar(ticket);
-        //     return null;
-        //     // return ticket;
-        // }
-
-        // public void Deletar(int codigo)
-        // {
-        //     return null;
-        //     // _ticketRepo.Deletar(codigo);
-        // }
-
-
         public TicketClassificacao Atualizar(TicketClassificacao ticketClassificacao)
         {
-
             _ticketClassificacaoRepo.Atualizar(ticketClassificacao);
             return ticketClassificacao;
         }
-
-        // public Ticket Criar(EquipamentoContrato equipamentoContrato)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-
-
     }
 }

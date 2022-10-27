@@ -39,6 +39,7 @@ import { AuditoriaUtilizacaoComponent } from './auditoria/auditoria-utilizacao/a
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { AuditoriaUtilizacaoDialogComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao-dialog/auditoria-utilizacao-dialog.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { PedidosCreditoComponent } from './pedidos-credito/pedidos-credito.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -61,6 +62,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
+    PedidosCreditoComponent,
   ],
   imports: [
     CommonModule,

@@ -741,5 +741,8 @@
     "conteudo": "Conteúdo",
     "destinatario": "Destinatário",
     "ordem reparo": "Ordem de Reparo",
-    "contatos": "Contatos"
+    "ordens de reparo": "Ordens de Reparo",
+    "contatos": "Contatos",
+    "pedidos de crédito": "Pedidos de Crédito",
+    "itens": "Itens"
 }

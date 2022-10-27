@@ -40,12 +40,4 @@ export class TicketStatusService {
       map((obj) => obj)
     );
   }
-
-//   deletar(codEquipContrato: number): Observable<EquipamentoContrato> {
-//     const url = `${c.api}/EquipamentoContrato/${codEquipContrato}`;
-    
-//     return this.http.delete<EquipamentoContrato>(url).pipe(
-//       map((obj) => obj)
-//     );
-// }
 }

@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { Filterable } from 'app/core/filters/filterable';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
 	selector: 'app-equipamento-contrato-lista',
@@ -54,7 +55,7 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 		private _cdr: ChangeDetectorRef,
 		private _equipamentoContratoService: EquipamentoContratoService,
 		private _exportacaoService: ExportacaoService,
-
+		private _snack: CustomSnackbarService
 	) {
 		super(_userService, 'equipamento-contrato')
 	}
@@ -120,14 +121,19 @@ export class EquipamentoContratoListaComponent extends Filterable implements Aft
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filter
 		};
-		const data: EquipamentoContratoData = await this._equipamentoContratoService
+		
+		await this._equipamentoContratoService
 			.obterPorParametros({
 				...params,
 				...this.filter?.parametros
 			})
-			.toPromise();
-		this.dataSourceData = data;
-		this.isLoading = false;
+			.subscribe((data) => {
+				this.dataSourceData = data;
+				this.isLoading = false;
+			}, () => {
+				this._snack.exibirToast('Erro ao consultar os equipamentos', 'error');
+				this.isLoading = false;
+			});
 	}
 
 	async exportar() {

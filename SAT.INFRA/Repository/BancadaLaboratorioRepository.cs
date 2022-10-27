@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(BancadaLaboratorio BancadaLaboratorio)
         {
             _context.ChangeTracker.Clear();
-            BancadaLaboratorio c = _context.BancadaLaboratorio.FirstOrDefault(c => c.NumBancada == BancadaLaboratorio.NumBancada);
+            BancadaLaboratorio c = _context.BancadaLaboratorio.FirstOrDefault(c => c.CodBancadaLaboratorio == BancadaLaboratorio.CodBancadaLaboratorio);
 
             if (c != null)
             {
@@ -40,7 +40,7 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int num)
         {
-            BancadaLaboratorio c = _context.BancadaLaboratorio.FirstOrDefault(c => c.NumBancada == num);
+            BancadaLaboratorio c = _context.BancadaLaboratorio.FirstOrDefault(c => c.CodBancadaLaboratorio == num);
 
             if (c != null)
             {
@@ -54,7 +54,7 @@ namespace SAT.INFRA.Repository
             return _context.BancadaLaboratorio
                 .Include(b => b.UsuarioCadastro)
                 .Include(b => b.Usuario)
-                .FirstOrDefault(c => c.NumBancada == codigo);
+                .FirstOrDefault(c => c.CodBancadaLaboratorio == codigo);
         }
 
         public PagedList<BancadaLaboratorio> ObterPorParametros(BancadaLaboratorioParameters parameters)

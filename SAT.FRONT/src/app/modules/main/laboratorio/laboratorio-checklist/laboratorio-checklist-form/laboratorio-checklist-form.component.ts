@@ -183,7 +183,9 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
 			if (confirmacao) {
 				this._orChecklistItemService.deletar(codigo).subscribe(() => {
           this._snack.exibirToast("Atividade excluída com sucesso!", "success");
-          this.ngOnInit();
+          setTimeout(() => {
+            this.ngOnInit();
+          }, 1200);
         });
 			}
 		});

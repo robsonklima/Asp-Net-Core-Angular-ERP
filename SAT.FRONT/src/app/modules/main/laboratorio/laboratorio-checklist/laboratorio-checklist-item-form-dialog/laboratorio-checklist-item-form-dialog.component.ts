@@ -57,8 +57,8 @@ export class LaboratorioChecklistItemFormDialogComponent implements OnInit {
       nivel: [undefined, Validators.required],
       parametro: [undefined],
       realizacao: [undefined, Validators.required],
-      codMagnus: [undefined, Validators.required],
-      pn_Mei: [undefined, Validators.required],
+      codMagnus: [undefined],
+      pn_Mei: [undefined],
       passoObrigatorio: [undefined],
     });
   }
@@ -87,7 +87,7 @@ export class LaboratorioChecklistItemFormDialogComponent implements OnInit {
       this.form.enable();
     });
 
-    this.dialogRef.close(obj);
+    this.dialogRef.close(true);
   }
 
   private atualizar() {
@@ -110,6 +110,6 @@ export class LaboratorioChecklistItemFormDialogComponent implements OnInit {
       this.form.enable();
     });
 
-    this.dialogRef.close(obj);
+    this.dialogRef.close(true);
   }
 }

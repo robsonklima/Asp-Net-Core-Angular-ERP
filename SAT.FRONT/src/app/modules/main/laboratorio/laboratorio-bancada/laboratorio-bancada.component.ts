@@ -6,8 +6,8 @@ import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { BancadaLaboratorio, BancadaLaboratorioData, BancadaLaboratorioParameters } from 'app/core/types/bancada-laboratorio.types';
 import { statusConst } from 'app/core/types/status-types';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import _ from 'lodash';
 import { Subject } from 'rxjs';
@@ -19,11 +19,12 @@ import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada-dialog/
   styleUrls: ['./laboratorio-bancada.component.scss']
 })
 export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
-  private userSession: UsuarioSessao;
   form: FormGroup;
   protected _onDestroy = new Subject<void>();
   codBancadaLaboratorio: number;
-  bancadas: BancadaLaboratorio[];
+  isLoading: boolean = true;
+  userSession: UserSession;
+  bancadas: BancadaLaboratorio[] = [];
 
   constructor(
     private _bancadaLaboratorioService: BancadaLaboratorioService,
@@ -38,6 +39,7 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.bancadas = (await this.obterBancadas()).items;
     this.fix();
+    this.isLoading = false;
   }
 
   private async obterBancadas(): Promise<BancadaLaboratorioData> {
@@ -109,7 +111,6 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   ngOnDestroy() {
     this._onDestroy.next();

@@ -1,8 +1,14 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="absolute inset-x-0 bottom-0">
-        </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div class="flex items-center whitespace-nowrap">
+                    <span class="ml-1 text-secondary">
+                        Configuração das Bancadas dos Técnicos
+                    </span>
+                </div>
+            </div>
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ t('bancada') }}
@@ -11,18 +17,25 @@
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
+    <div class="flex-auto p-6 sm:p-10" *ngIf="bancadas.length">
         <div class="max-w-3xl">
             <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" [cdkDragDisabled]="!bancada" *ngFor="let bancada of bancadas; let i=index" cdkDrag>
-                    {{ i+1 }} - {{ bancada?.usuario?.nomeUsuario | uppercase }}
+                <div class="example-box uppercase" [cdkDragDisabled]="!bancada" *ngFor="let bancada of bancadas; let i=index" cdkDrag>
+                    <span class="truncate">
+                        <span class="text-xl font-bold ml-2 mr-3">
+                            {{ i+1 }}
+                        </span>
+
+                        <span>
+                            {{ bancada?.usuario?.nomeUsuario || 'Disponível' }}
+                        </span>
+                    </span>
+
                     <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
                         <button *ngIf="!bancada" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('novo')" matTooltipPosition="above" (click)="novoTecnico(i+1)">
                             <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                         </button>
-                    </div>
-                    
-                    <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+
                         <button *ngIf="bancada" class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir(bancada.codBancadaLaboratorio)">
                             <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>
@@ -30,5 +43,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <div *ngIf="!bancadas?.length && isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+        Carregando...
     </div>
 </div>

@@ -1,21 +1,19 @@
-import { Inject, Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { UsuarioService } from 'app/core/services/usuario.service';
+import { BancadaLaboratorio } from 'app/core/types/bancada-laboratorio.types';
+import { statusConst } from 'app/core/types/status-types';
+import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import 'leaflet';
 import 'leaflet-routing-machine';
-import _ from 'lodash';
-import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import moment from 'moment';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { Location } from '@angular/common';
-import { BancadaLaboratorio, BancadaLaboratorioData, BancadaLaboratorioParameters } from 'app/core/types/bancada-laboratorio.types';
-import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
-import { UsuarioService } from 'app/core/services/usuario.service';
-import { statusConst } from 'app/core/types/status-types';
-import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
+import { Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
 declare var L: any;
 
 @Component({
@@ -44,70 +42,66 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
     private _bancadaLaboratorioService: BancadaLaboratorioService,
     private _usuarioService: UsuarioService,
     private _snack: CustomSnackbarService,
-    private _location: Location,
     private dialogRef: MatDialogRef<LaboratorioBancadaDialogComponent>) {
-      if (data)
-      {
-          this.numBancada = data.numBancada;
-      }
-  
-      this.userSession = JSON.parse(this._userSvc.userSession);
-    }
-  
+    if (data) this.numBancada = data.numBancada;
+    this.userSession = JSON.parse(this._userSvc.userSession);
+  }
+
   async ngOnInit() {
     this.obterUsuarios();
     this.criarForm();
     this.registrarEmitters();
   }
 
-  criarForm(){
+  criarForm() {
     this.form = this._formBuilder.group({
-          codUsuario: [undefined, Validators.required],
-      });
+      codUsuario: [undefined, Validators.required],
+    });
   }
 
-  async registrarEmitters(){
+  async registrarEmitters() {
     this.usuarioFiltro.valueChanges
-			.pipe(filter(query => !!query),
-				tap(() => this.searching = true),
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				map(async query => {
-					const data = await this._usuarioService.obterPorParametros({
-						sortActive: 'NomeUsuario',
-						sortDirection: 'asc',
+      .pipe(filter(query => !!query),
+        tap(() => this.searching = true),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._usuarioService.obterPorParametros({
+            sortActive: 'NomeUsuario',
+            sortDirection: 'asc',
             codPerfis: "61,63",
-						filter: query,
-						pageSize: 100,
-					}).toPromise();
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
 
-					return data.items.slice();
-				}),
-				delay(500),
-				takeUntil(this._onDestroy)
-			)
-			.subscribe(async data => {
-				this.searching = false;
-				this.usuarios = await data;
-			},
-				() => {
-					this.searching = false;
-				}
-			);
+          return data.items.slice();
+        }),
+        delay(500),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.searching = false;
+        this.usuarios = await data;
+      },
+        () => {
+          this.searching = false;
+        }
+      );
   }
+
   private async obterUsuarios() {
     const params: UsuarioParameters = {
-        sortActive: 'nomeUsuario',
-        codPerfis: "61,63",
-        sortDirection: 'asc',
-        indAtivo: statusConst.ATIVO,
-        pageSize: 100
+      sortActive: 'nomeUsuario',
+      codPerfis: "61,63",
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      pageSize: 100
     }
     const data = await this._usuarioService.obterPorParametros(params).toPromise();
     this.usuarios = data.items;
-    }
-  
-  salvar(){
+  }
+
+  salvar() {
     const form: any = this.form.getRawValue();
 
     let obj = {
@@ -123,11 +117,10 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
     this._bancadaLaboratorioService.criar(obj).subscribe(() => {
       this._snack.exibirToast("Usuário inserido com sucesso!", "success");
       this.dialogRef.close(true);
-    }, e => {
+    }, () => {
       this.form.enable();
     });
 
     this.dialogRef.close(true);
   }
-
 }

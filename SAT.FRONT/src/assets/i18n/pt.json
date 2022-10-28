@@ -563,6 +563,7 @@
     "nome sla": "Nome SLA",
     "desc sla": "Descrição SLA",
     "dados sla": "Dados SLA",
+    "tempo": "Tempo",
     "tempo inicio": "Tempo de ínicio",
     "tempo reparo": "Tempo de reparo",
     "tempo solucao": "Tempo de solução",

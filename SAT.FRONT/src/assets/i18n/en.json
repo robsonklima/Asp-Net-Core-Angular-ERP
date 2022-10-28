@@ -549,6 +549,7 @@
     "nome sla": "SLA Name",
     "desc sla": "SLA Description",
     "dados sla": "SLA Data",
+    "tempo": "Time",
     "tempo inicio": "Begin time",
     "tempo reparo": "Repair time",
     "tempo solucao": "Solution time",

@@ -54,7 +54,11 @@
                                     {{ t('itens') }}
                                 </div>
 
-                                <div class="md:block truncate">
+                                <div class="text-center" [mat-sort-header]="'tempoReparo'">
+                                    {{ t('tempo') }}
+                                </div>
+
+                                <div class="md:block truncate" [mat-sort-header]="'dataHoraCad'">
                                     {{ t('cadastro') }}
                                 </div>
 
@@ -84,6 +88,10 @@
                                             [class.font-bold]="c.itens?.length"
                                             [class.text-blue-700]="c.itens?.length">
                                             {{ c.itens?.length }}
+                                        </div>
+
+                                        <div>
+                                            {{ c.tempoReparo ? obterTempo(c.tempoReparo) : '' }}
                                         </div>
 
                                         <div class="flex truncate" 

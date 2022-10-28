@@ -12,6 +12,7 @@ SAT.FRONT/.idea/SAT.FRONT.iml
 SAT.FRONT/.idea/vcs.xml
 SAT.FRONT/.idea/inspectionProfiles/Project_Default.xml
 SAT.FRONT/src/app/core/config/app.config.ts
+SAT.FRONT/src/environments/
 SAT.API/Logs/
 *.mp4
 SAT.FRONT/src/environments/environment.ts

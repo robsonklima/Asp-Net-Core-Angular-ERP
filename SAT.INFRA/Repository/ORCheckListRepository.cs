@@ -52,6 +52,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.ORCheckList
                 .Include(c => c.UsuarioCadastro)
+                .Include(c => c.Peca)
                 .Include(c => c.Itens)
                     .ThenInclude(i => i.Peca)
                 .FirstOrDefault(c => c.CodORCheckList == cod);
@@ -60,6 +61,7 @@ namespace SAT.INFRA.Repository
         public PagedList<ORCheckList> ObterPorParametros(ORCheckListParameters parameters)
         {
             var query = _context.ORCheckList
+                .Include(c => c.Peca)
                 .Include(c => c.Itens)
                     .ThenInclude(i => i.Peca)
                 .Include(c => c.UsuarioCadastro)

@@ -25,18 +25,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './laboratorio-checklist-lista.component.html',
   styles: [
     `.list-grid-or-checklist {
-			grid-template-columns: 72px auto 64px 98px 264px 156px 96px;
+			grid-template-columns: 72px auto 64px 68px 264px 156px 96px;
 			
 			@screen sm {
-				grid-template-columns: 72px auto 64px 98px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 264px 156px 96px;
 			}
 		
 			@screen md {
-				grid-template-columns: 72px auto 64px 98px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 264px 156px 96px;
 			}
 		
 			@screen lg {
-				grid-template-columns: 72px auto 64px 98px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 264px 156px 96px;
 			}
 		}`
   ],
@@ -111,8 +111,6 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
       this.dataSourceData = data;
       this.isLoading = false;
       this._cdr.detectChanges();
-      console.log(data);
-      
     }, () => {
       this._snack.exibirToast('Erro ao carregar os dados', 'error');
       this.isLoading = false;

@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>
+    {{ isAddMode ? 'Cadastro de Atividade' : 'Editando a Atividade' }}
+</h2>
+
+<mat-dialog-content class="mat-typography" *transloco="let t">
+    <form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
+        <ng-template matStepLabel>
+            Técnico
+        </ng-template>
+    
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('descricao') }}</mat-label>
+                <input matInput formControlName="descricao">
+            </mat-form-field> 
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('acao') }}</mat-label>
+                <input matInput formControlName="acao">
+            </mat-form-field> 
+
+            <div class="fuse-mat-dense sm:col-span-12 justify-between mb-6 ml-1">
+                <div>
+                    <mat-label>{{ t('nivel') }}</mat-label>
+                </div>
+                <div class="mt-2">
+                    <mat-radio-group formControlName="nivel">
+                        <mat-radio-button value="1">1</mat-radio-button>
+                        <mat-radio-button value="2" class="ml-4">2</mat-radio-button>
+                        <mat-radio-button value="3" class="ml-4">3</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('parametro') }}</mat-label>
+                <input matInput formControlName="parametro">
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('realizacao') }}</mat-label>
+                <textarea matInput formControlName="realizacao" [placeholder]="t('realizacao')" [rows]="2"
+                    maxlength="1000"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('cod magnus') }}</mat-label>
+                <input matInput formControlName="codMagnus">
+            </mat-form-field> 
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('mei') }}</mat-label>
+                <input matInput formControlName="pn_Mei">
+            </mat-form-field> 
+
+            <div class="fuse-mat-dense sm:col-span-12 justify-between mt-2 ml-1">
+                <mat-checkbox class="mb-1" [color]="'primary'"
+                    [formControlName]="'passoObrigatorio'">
+                    Procedimento Obrigatório?
+                </mat-checkbox>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" *transloco="let t">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
+    {{ t('salvar') }}
+  </button>
+</mat-dialog-actions>
+
+

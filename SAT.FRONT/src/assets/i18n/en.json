@@ -724,5 +724,12 @@
     "ordem de reparo": "Repair Order",
     "cadastro de pecas que ja estao no laboratorio": "Registration of parts that are already in the Laboratory",
     "fechamento": "Closed",
-    "check lists": "Check Lists"
+    "check lists": "Check Lists",
+    "check list": "Check List",
+    "atividades": "Activities",
+    "solicitacoes": "Orders",
+    "parametro": "Parameter",
+    "realizacao": "Done",
+    "nivel": "Level",
+    "mei": "MEI"
 }

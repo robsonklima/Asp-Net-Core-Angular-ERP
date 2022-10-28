@@ -51,6 +51,10 @@
                                 </div>
 
                                 <div class="text-center">
+                                    {{ t('peca') }}
+                                </div>
+
+                                <div class="text-center">
                                     {{ t('itens') }}
                                 </div>
 
@@ -81,6 +85,10 @@
 
                                         <div class="flex truncate">
                                             {{ c.descricao }}
+                                        </div>
+
+                                        <div class="truncate text-center">
+                                            {{ c.peca?.codMagnus || 'N/I' }}
                                         </div>
 
                                         <div class="text-center"

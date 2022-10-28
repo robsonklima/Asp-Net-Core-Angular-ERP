@@ -72,15 +72,7 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
     this.registrarEmitters();
 
     if (!this.isAddMode) {
-      this._orChecklistService.obterPorCodigo(this.codORCheckList)
-        .pipe(first())
-        .subscribe(async data => {
-          this.checkList = data;
-          this.formCheckList.patchValue(this.checkList);
-          this.pecas = (await this.obterPecas(this.checkList?.peca?.codPeca))?.items;
-        }, () => {
-          this._snack.exibirToast('Erro ao carregar o checklist', 'error');
-        });
+      this.obterCheckList();
     }
   }
 
@@ -91,6 +83,18 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
       descricao: [null, [Validators.required]],
       indAtivo: [statusConst.ATIVO, [Validators.required]],
     });
+  }
+
+  private obterCheckList() {
+    this._orChecklistService.obterPorCodigo(this.codORCheckList)
+      .pipe(first())
+      .subscribe(async data => {
+        this.checkList = data;
+        this.formCheckList.patchValue(this.checkList);
+        this.pecas = (await this.obterPecas(this.checkList?.peca?.codPeca))?.items;
+      }, () => {
+        this._snack.exibirToast('Erro ao carregar o checklist', 'error');
+      });
   }
 
   async obterPecas(filtro): Promise<PecaData> {
@@ -162,7 +166,7 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao) {
-        this.ngOnInit();
+        this.obterCheckList();
       }
     });
   }
@@ -184,7 +188,7 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
 				this._orChecklistItemService.deletar(codigo).subscribe(() => {
           this._snack.exibirToast("Atividade excluída com sucesso!", "success");
           setTimeout(() => {
-            this.ngOnInit();
+            this.obterCheckList();
           }, 1200);
         });
 			}

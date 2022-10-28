@@ -1,25 +1,36 @@
-<form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
-            <ng-template matStepLabel>Técnico</ng-template>
-            <div class="flex flex-col gt-xs:flex-row">
+<h2 mat-dialog-title>
+    Selecione o Técnico
+</h2>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-5">
-                    <mat-label>{{ t('tecnico') }}</mat-label>
-                    <mat-select formControlName="codUsuario" #modeloSelect>
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="usuarioFiltro">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario" matTooltip="{{ usuario.nomeUsuario }}" matTooltipPosition="right">
-                            <span>{{ usuario.nomeUsuario || 'Disponível' }}</span>
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+<mat-dialog-content class="mat-typography" *transloco="let t">
+    <form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
+        <ng-template matStepLabel>
+            Técnico
+        </ng-template>
+    
+        <div class="flex flex-col gt-xs:flex-row">
+            <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                <mat-label>{{ t('tecnico') }}</mat-label>
+                <mat-select formControlName="codUsuario" #modeloSelect>
+                    <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="usuarioFiltro">
+                        </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario"
+                        matTooltip="{{ usuario.nomeUsuario }}" matTooltipPosition="right">
+                        <span class="uppercase">{{ usuario.nomeUsuario || 'Disponível' }}</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
 
-            </div>
-            <div class="flex justify-end mt-8">
-                <button class="px-8" type="button" (click)="salvar()">
-                    {{ t('salvar') }}
-                </button>
-            </div>
-</form>
+<mat-dialog-actions align="end" *transloco="let t">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">{{ t('salvar') }}</button>
+</mat-dialog-actions>
+
+

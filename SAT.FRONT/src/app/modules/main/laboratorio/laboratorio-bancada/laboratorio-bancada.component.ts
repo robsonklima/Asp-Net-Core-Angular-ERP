@@ -77,7 +77,8 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(LaboratorioBancadaDialogComponent, {
       data: {
         numBancada: bancada,
-      }
+      },
+      width: '540px'
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {

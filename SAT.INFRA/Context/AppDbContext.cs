@@ -78,6 +78,8 @@ namespace SAT.INFRA.Context
         public DbSet<PontoMovel> PontoMovel { get; set; }
         public DbSet<PontoMovelTipoHorario> PontoMovelTipoHorario { get; set; }
         public DbSet<PontoPeriodo> PontoPeriodo { get; set; }
+        public DbSet<ORCheckList> ORCheckList { get; set; }
+        public DbSet<ORCheckListItem> ORCheckListItem { get; set; }
         public DbSet<PontoPeriodoIntervaloAcessoData> PontoPeriodoIntervaloAcessoData { get; set; }
         public DbSet<PontoPeriodoModoAprovacao> PontoPeriodoModoAprovacao { get; set; }
         public DbSet<PontoPeriodoStatus> PontoPeriodoStatus { get; set; }
@@ -435,6 +437,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Mensagem>(new MensagemMap().Configure);
             modelBuilder.Entity<UsuarioLogin>(new UsuarioLoginMap().Configure);
             modelBuilder.Entity<ORDestino>(new ORDestinoMap().Configure);
+            modelBuilder.Entity<ORCheckList>(new ORCheckListMap().Configure);
+            modelBuilder.Entity<ORCheckListItem>(new ORCheckListItemMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

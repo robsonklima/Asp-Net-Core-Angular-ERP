@@ -172,6 +172,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORTipoRepository>().As<IORTipoRepository>();
         builder.RegisterType<MensagemRepository>().As<IMensagemRepository>();
         builder.RegisterType<UsuarioLoginRepository>().As<IUsuarioLoginRepository>();
+        builder.RegisterType<ORCheckListRepository>().As<IORCheckListRepository>();
+        builder.RegisterType<ORCheckListItemRepository>().As<IORCheckListItemRepository>();
         
         #endregion
 
@@ -334,6 +336,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORTipoService>().As<IORTipoService>();
         builder.RegisterType<MensagemService>().As<IMensagemService>();
         builder.RegisterType<UsuarioLoginService>().As<IUsuarioLoginService>();
+        builder.RegisterType<ORCheckListService>().As<IORCheckListService>();
+        builder.RegisterType<ORCheckListItemService>().As<IORCheckListItemService>();
 
         #endregion
 

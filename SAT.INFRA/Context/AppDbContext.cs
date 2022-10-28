@@ -455,5 +455,11 @@ namespace SAT.INFRA.Context
                         .HasForeignKey<DespesaPeriodoTecnico>("CodDespesaPeriodoTecnico")
                         .HasPrincipalKey<DespesaProtocoloPeriodoTecnico>("CodDespesaPeriodoTecnico");
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.EnableDetailedErrors();
+        }
     }
 }

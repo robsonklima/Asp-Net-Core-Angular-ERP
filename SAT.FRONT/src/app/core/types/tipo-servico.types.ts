@@ -29,5 +29,6 @@ export enum TipoServicoEnum
     ATIVACAO = 26,
     HORA_TECNICA = 47,
     KM_RODADO = 48,
-    HORA_DE_VIAGEM = 49
+    HORA_DE_VIAGEM = 49,
+    MANUTENCAO_MENSAL = 50
 }

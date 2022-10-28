@@ -37,9 +37,12 @@ export interface ContratoServicoData extends Meta {
 };
 
 export interface ContratoServicoParameters extends QueryStringParameters {
-    codContrato?: number;
-    codContratoServico?: number;
-    codSLA?: number;
-    codEquip?: number;
-    codServico?: number;
-};
+    codContrato?: number | null;
+    codContratoServico?: number | null;
+    codContratos?: string;
+    codTipoEquip?: number | null;
+    codGrupoEquip?: number | null;
+    codEquip?: number | null;
+    codServico?: number | null;
+    codSLA?: number | null;
+}

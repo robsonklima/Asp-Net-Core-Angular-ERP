@@ -99,6 +99,10 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
+                    <div class="sm:col-span-6 pt-8 text-secondary">
+                        Valor do Serviço: {{ (contratoServico?.valor | currency:'BRL':'symbol-narrow') || 'Não Informado.' }}
+                    </div>
+
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('filial') }}</mat-label>
 

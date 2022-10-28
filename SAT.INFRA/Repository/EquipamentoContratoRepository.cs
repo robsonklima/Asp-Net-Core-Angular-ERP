@@ -100,8 +100,6 @@ namespace SAT.INFRA.Repository
                     .Include(e => e.Cliente)
                     .Include(e => e.Contrato)
                     .ThenInclude(e => e.TipoContrato)
-                    .Include(e => e.Equipamento)
-                        .ThenInclude(e => e.Equivalencia)
                     .Include(e => e.ContratoEquipamento!).DefaultIfEmpty()
                     .Include(e => e.AcordoNivelServico)
                     .Include(e => e.RegiaoAutorizada)
@@ -110,10 +108,10 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(e => e.Autorizada)
                     .Include(e => e.RegiaoAutorizada)
                         .ThenInclude(e => e.Regiao)
+                    .Include(e => e.GrupoEquipamento!).DefaultIfEmpty()
+                    .Include(e => e.TipoEquipamento!).DefaultIfEmpty()
                     .Include(e => e.Equipamento)
-                        .ThenInclude(e => e.GrupoEquipamento!)
-                    .Include(e => e.Equipamento)
-                        .ThenInclude(e => e.TipoEquipamento!)
+                        .ThenInclude(e => e.Equivalencia)
                     .AsQueryable();
 
                 if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -229,7 +227,7 @@ namespace SAT.INFRA.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex.InnerException);
+                throw new Exception(ex.Message, ex);
             }
         }
     }

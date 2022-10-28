@@ -1,22 +1,16 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class ContratoEquipamento
     {
         public int CodContrato { get; set; }
-        [ForeignKey("CodContrato")]
         public Contrato Contrato { get; set; }
         public int CodTipoEquip { get; set; }
-        [ForeignKey("CodTipoEquip")]
         public TipoEquipamento TipoEquipamento { get; set; }
         public int CodGrupoEquip { get; set; }
-        [ForeignKey("CodGrupoEquip")]
         public GrupoEquipamento GrupoEquipamento { get; set; }
         public int CodEquip { get; set; }
-        [ForeignKey("CodEquip")]
         public Equipamento Equipamento { get; set; }
         public int QtdEquip { get; set; }
         public decimal VlrUnitario { get; set; }

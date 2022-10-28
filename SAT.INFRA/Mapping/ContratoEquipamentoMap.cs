@@ -10,6 +10,30 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("ContratoEquipamento");
             builder.HasKey(prop => new { prop.CodContrato, prop.CodGrupoEquip, prop.CodTipoEquip, prop.CodEquip});
+
+            builder
+                .HasOne(prop => prop.TipoEquipamento)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodTipoEquip)
+                .HasPrincipalKey(prop => prop.CodTipoEquip);
+
+            builder
+                .HasOne(prop => prop.GrupoEquipamento)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodGrupoEquip)
+                .HasPrincipalKey(prop => prop.CodGrupoEquip);
+
+            builder
+                .HasOne(prop => prop.Contrato)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodContrato)
+                .HasPrincipalKey(prop => prop.CodContrato);
+
+            builder
+                .HasOne(prop => prop.Equipamento)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodEquip)
+                .HasPrincipalKey(prop => prop.CodEquip);
         }
     }
 }

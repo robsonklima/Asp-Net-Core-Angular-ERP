@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
+import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
 import { ContratoSLAService } from 'app/core/services/contrato-sla.service';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -16,8 +17,9 @@ import { AcordoNivelServico } from 'app/core/types/acordo-nivel-servico.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
+import { ContratoServicoParameters } from 'app/core/types/contrato-servico.types';
 import { ContratoSLAParameters } from 'app/core/types/contrato-sla.types';
-import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
+import { Contrato, ContratoParameters, ContratoServico } from 'app/core/types/contrato.types';
 import { EquipamentoContrato, PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
@@ -25,6 +27,7 @@ import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/loc
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
 import { statusConst } from 'app/core/types/status-types';
+import { TipoServicoEnum } from 'app/core/types/tipo-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -51,8 +54,9 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 	filiais: Filial[] = [];
 	locais: LocalAtendimento[] = [];
 	locaisFiltro: FormControl = new FormControl();
-	pontosEstrategicos: any[] = []
+	pontosEstrategicos: any[] = [];
 	userSession: UsuarioSessao;
+	contratoServico: ContratoServico;
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -69,6 +73,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		private _localAtendimentoService: LocalAtendimentoService,
 		private _filialService: FilialService,
+		private _contratoServicoService: ContratoServicoService,
 		private _userService: UserService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -108,6 +113,10 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			this.obterLocais();
 		});
 
+		this.form.controls['codSLA'].valueChanges.subscribe(async () => {
+			this.obterContratoServico();
+		});
+
 		this.locaisFiltro.valueChanges.pipe(
 			filter(query => !!query),
 			debounceTime(700),
@@ -124,6 +133,21 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 					this.equipamentoContrato = data;
 				});
 		}
+	}
+
+	private obterContratoServico() {
+		const parametros: ContratoServicoParameters = {
+			codContrato: this.form.controls['codContrato'].value,
+			codEquip: this.form.controls['codEquip'].value,
+			codSLA: this.form.controls['codSLA'].value,
+			codServico: TipoServicoEnum.MANUTENCAO_MENSAL
+		}
+
+		this._contratoServicoService
+			.obterPorParametros(parametros)
+			.subscribe((cs) => {
+				this.contratoServico = cs?.items?.shift();
+			});
 	}
 
 	private inicializarForm() {

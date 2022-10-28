@@ -66,11 +66,15 @@ export class LaboratorioBancadaComponent implements OnInit, OnDestroy {
   async drop(event: CdkDragDrop<string[]>) {
     const aux = this.bancadas[event.previousIndex];
     this.bancadas[event.previousIndex] = this.bancadas[event.currentIndex];
-    this.bancadas[event.previousIndex].numBancada = event.previousIndex + 1;
     this.bancadas[event.currentIndex] = aux;
-    this.bancadas[event.currentIndex].numBancada = event.currentIndex + 1;
-    this.atualizar(this.bancadas[event.previousIndex]);
-    this.atualizar(this.bancadas[event.currentIndex]);
+    if(this.bancadas[event.previousIndex]){
+      this.bancadas[event.previousIndex].numBancada = event.previousIndex + 1;
+      this.atualizar(this.bancadas[event.previousIndex]);
+    }
+    if(this.bancadas[event.currentIndex]){
+      this.bancadas[event.currentIndex].numBancada = event.currentIndex + 1;
+      this.atualizar(this.bancadas[event.currentIndex]);
+    }
   }
 
   novoTecnico(bancada) {

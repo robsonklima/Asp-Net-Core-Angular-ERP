@@ -64,6 +64,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 	contratoFilterCtrl: FormControl = new FormControl();
 	atmIdFilterCtrl: FormControl = new FormControl();
 	equipamentosContratoFilterCtrl: FormControl = new FormControl();
+	validaCliente: boolean = this._userService.isCustomer;
 	loading: boolean = true;
 	indAtivo: boolean = true;
 	protected _onDestroy = new Subject<void>();
@@ -174,12 +175,12 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 	}
 
 	private async obterTiposIntervencao() {
-		this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
-			indAtivo: statusConst.ATIVO,
-			pageSize: 100,
-			sortActive: 'nomTipoIntervencao',
-			sortDirection: 'asc'
-		}).toPromise()).items;
+			this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({
+				indAtivo: statusConst.ATIVO,
+				pageSize: 100,
+				sortActive: 'nomTipoIntervencao',
+				sortDirection: 'asc'
+			}).toPromise()).items;
 	}
 
 	public obterTiposIntervencaoPorPerfil(): TipoIntervencao[] {

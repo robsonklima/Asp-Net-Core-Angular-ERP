@@ -97,6 +97,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => !cods.Contains(os.CodStatusServico));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodTipoIntervencaoNotIn))
+            {
+                int[] codigos = parameters.CodTipoIntervencaoNotIn.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                query = query.Where(e => !codigos.Contains(e.CodTipoIntervencao));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodOS))
             {
                 int[] cods = parameters.CodOS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

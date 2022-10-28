@@ -1,1 +1,110 @@
-<p>laboratorio-checklist-lista works!</p>
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-laboratorio-checklist-filtro [sidenav]="sidenav"></app-laboratorio-checklist-filtro>
+    </mat-drawer>
+
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div
+            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('check lists') }}</div>
+
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                </mat-form-field>
+
+                <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                    [routerLink]="['/laboratorio/ordem-reparo/form']">
+                    <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                </button>
+
+                <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button
+                    matTooltip="{{ t('exportar') }}">
+                    <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                </button>
+
+                <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid uppercase" *transloco="let t">
+                            <div class="list-grid-or-checklist z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear *transloco="let t">
+                                <div class="md:block ml-1" [mat-sort-header]="'codORCheckList'">
+                                    {{ t('codigo') }}
+                                </div>
+
+                                <div class="md:block truncate" [mat-sort-header]="'descricao'">
+                                    {{ t('descricao') }}
+                                </div>
+
+                                <div class="md:block truncate">
+                                    {{ t('cadastro') }}
+                                </div>
+
+                                <div class="md:block truncate">
+                                    {{ t('data') }}
+                                </div>
+
+                                <div>
+                                    {{ t('acoes') }}
+                                </div>
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let c of dataSourceData?.items">
+                                    <div class="list-grid-or-checklist grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b"
+                                        *transloco="let t">
+                                        <div class="flex ml-1 font-semibold">
+                                            {{ c.codORCheckList }}
+                                        </div>
+
+                                        <div class="flex">
+                                            {{ c.descricao }}
+                                        </div>
+
+                                        <div class="flex truncate" [class.font-light]="!c.usuarioCadastro?.nomeUsuario">
+                                            {{ c.usuarioCadastro?.nomeUsuario || 'Não Informado' }}
+                                        </div>
+
+                                        <div class="sm:block">
+                                            {{ c.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}
+                                        </div>
+
+                                        <div class="flex">
+                                            <button
+                                                [routerLink]="['/laboratorio/checklist/form/' + c.codORCheckList]"
+                                                class="mt-1 bg-transparent hover:bg-blue-400 text-blue-600 font-semibold
+                                                hover:text-white px-4 h-6 border border-blue-500 hover:border-transparent rounded">
+                                            Editar
+                                        </button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                            [pageSize]="30" [pageSizeOptions]="[10, 30, 50, 100]" [showFirstLastButtons]="true"
+                            (page)="paginar()">
+                        </mat-paginator>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</mat-drawer-container>

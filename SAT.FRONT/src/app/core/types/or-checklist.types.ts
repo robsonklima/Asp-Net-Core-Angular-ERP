@@ -1,7 +1,8 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Usuario } from "./usuario.types";
 
 export interface ORCheckList {
-    codORChecklist: number;
+    codORCheckList: number;
     descricao: string;
     codMagnus: string;
     codPeca: number;
@@ -11,6 +12,7 @@ export interface ORCheckList {
     codOritem: number | null;
     codORCheckListItem: string;
     tempoReparo: number | null;
+    usuarioCadastro: Usuario;
 }
 
 export interface ORCheckListData extends Meta {
@@ -18,5 +20,9 @@ export interface ORCheckListData extends Meta {
 };
 
 export interface ORCheckListParameters extends QueryStringParameters {
-
+    codORCheckList?: number | null;
+    descricao?: string;
+    codUsuariosCad?: string;
+    dataHoraCadInicio?: string;
+    dataHoraCadFim?: string;
 }

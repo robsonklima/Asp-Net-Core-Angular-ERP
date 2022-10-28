@@ -205,6 +205,7 @@ export interface OrdemServicoParameters extends QueryStringParameters
     dataHoraSolucaoInicio?: string;
     dataHoraSolucaoFim?: string;
     numSerie?: string;
+    codTipoIntervencaoNotIn?: string;
 };
 
 export enum OrdemServicoIncludeEnum

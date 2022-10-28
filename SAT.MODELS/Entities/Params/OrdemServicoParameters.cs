@@ -51,5 +51,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? DataHoraSolucaoFim { get; set; }
         public string Defeito { get; set; }
         public string Solucao { get; set; }
+        public string CodTipoIntervencaoNotIn { get; set; }
     }
 }

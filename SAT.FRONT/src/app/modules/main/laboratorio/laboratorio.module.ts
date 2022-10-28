@@ -50,6 +50,9 @@ import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-r
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
 import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoFiltroComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-filtro/laboratorio-ordem-reparo-filtro.component';
+import { LaboratorioCheckListListaComponent } from './laboratorio-checklist/laboratorio-checklist-lista/laboratorio-checklist-lista.component';
+import { LaboratorioChecklistFormComponent } from './laboratorio-checklist/laboratorio-checklist-form/laboratorio-checklist-form.component';
+import { LaboratorioChecklistFiltroComponent } from './laboratorio-checklist/laboratorio-checklist-filtro/laboratorio-checklist-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -73,6 +76,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioOrdemReparoListaComponent,
     LaboratorioOrdemReparoFormComponent,
     LaboratorioOrdemReparoFiltroComponent,
+    LaboratorioCheckListListaComponent,
+    LaboratorioChecklistFormComponent,
+    LaboratorioChecklistFiltroComponent,
   ],
   imports: [
     CommonModule,

@@ -85,23 +85,6 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		this._cdr.detectChanges();
 	}
 
-	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterDados();
-		});
-	}
-
-	loadFilter(): void {
-		super.loadFilter();
-	}
-
-	onSidenavClosed(): void {
-		if (this.paginator) this.paginator.pageIndex = 0;
-		this.loadFilter();
-		this.obterDados();
-	}
-
 	async obterDados(filtro: string = '') {
 		this.isLoading = true;
 		const parametros: ORItemParameters = {
@@ -199,6 +182,23 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 	toggleTranferencia() {
 		return _.find(this.dataSourceData?.items, { selecionado: true });
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+  
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+		this.onSidenavClosed();
+		this.obterDados();
+		})
+	}
+
+	loadFilter(): void {
+		super.loadFilter();
 	}
 
 	paginar() {

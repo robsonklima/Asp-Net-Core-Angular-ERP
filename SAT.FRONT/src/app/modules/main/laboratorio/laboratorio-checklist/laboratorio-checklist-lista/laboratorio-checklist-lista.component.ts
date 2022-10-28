@@ -24,18 +24,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './laboratorio-checklist-lista.component.html',
   styles: [
     `.list-grid-or-checklist {
-			grid-template-columns: 80px auto 240px 156px 96px;
+			grid-template-columns: 72px auto 240px 156px 96px;
 			
 			@screen sm {
-				grid-template-columns: 80px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 240px 156px 96px;
 			}
 		
 			@screen md {
-				grid-template-columns: 80px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 240px 156px 96px;
 			}
 		
 			@screen lg {
-				grid-template-columns: 80px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 240px 156px 96px;
 			}
 		}`
   ],
@@ -62,18 +62,6 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
   ) {
     super(_userService, 'laboratorio-checklist');
     this.userSession = JSON.parse(this._userService.userSession);
-  }
-
-  onSidenavClosed(): void {
-    if (this.paginator) this.paginator.pageIndex = 0;
-    this.obterDados();
-  }
-
-  registerEmitters(): void {
-    this.sidenav.closedStart.subscribe(() => {
-      this.onSidenavClosed();
-      this.obterDados();
-    })
   }
 
   async ngAfterViewInit() {
@@ -169,6 +157,23 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
       }
     });
   }
+
+  onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+		this.loadFilter();
+		this.obterDados();
+	}
+  
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
+
+  loadFilter(): void {
+		super.loadFilter();
+	}
 
   ngOnDestroy() {
     this._onDestroy.next();

@@ -127,7 +127,6 @@ export class CidadeListaComponent extends Filterable implements AfterViewInit, I
 		this._cdr.detectChanges();
 	}
 
-
 	paginar() {
 		this.obterDados();
 	}

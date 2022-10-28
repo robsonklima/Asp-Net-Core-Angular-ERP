@@ -42,6 +42,8 @@ export class LaboratorioChecklistFiltroComponent extends FilterBase implements O
   createForm(): void {
     this.form = this._formBuilder.group({
       codORCheckList: [undefined],
+      dataHoraCadInicio: [undefined],
+      dataHoraCadFim: [undefined],
     });
 
     this.form.patchValue(this.filter?.parametros);

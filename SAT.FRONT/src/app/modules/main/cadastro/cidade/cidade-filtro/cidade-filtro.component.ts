@@ -85,9 +85,6 @@ export class CidadeFiltroComponent extends FilterBase implements OnInit, IFilter
 		this.ufs = data.items;
 	}
 
-
-
-
 	private registrarEmitters() {
 		this.filialFilterCtrl.valueChanges
 		.pipe(
@@ -108,13 +105,10 @@ export class CidadeFiltroComponent extends FilterBase implements OnInit, IFilter
 		.subscribe(() => {
 			this.obterUFs(this.ufFilterCtrl.value);
 		});
-
-
 	}
 
 	limpar() {
 		super.limpar();
-
 	}
 
 	ngOnDestroy() {

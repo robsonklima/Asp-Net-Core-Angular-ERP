@@ -245,59 +245,59 @@ namespace SAT.UTILS
 
                     _impressao.Itens.ForEach(item =>
                     {
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.DataHoraSolucao).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.DiaSemana).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span($"{item.CodOS}").FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.NumRAT).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.NomeCliente).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.LocalOrigem).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.LocalDestino).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.HoraInicio).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.HoraFim).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span($"{item.KmPrevisto}").FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span($"{item.KmPercorrido}").FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.NumNF).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(item.NomeTipo).FontSize(6);
                         });
-                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten1 : Colors.Grey.Lighten5)
+                        table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span($"{item.DespesaValor}").FontSize(6);
                         });

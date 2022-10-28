@@ -122,7 +122,7 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
 
     let exportacaoParam: Exportacao = {
       formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-      tipoArquivo: ExportacaoTipoEnum.ORDEM_REPARO,
+      tipoArquivo: ExportacaoTipoEnum.OR_CHECKLIST,
       entityParameters: {}
     }
 

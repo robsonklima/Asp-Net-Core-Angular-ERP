@@ -57,6 +57,7 @@ namespace SAT.SERVICES.Services
         private readonly IORItemRepository _orItemRepo;
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly ITicketLogPedidoCreditoRepository _ticketLogPedidoCreditoRepo;
+        private readonly IORCheckListRepository _orCheckListRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -98,7 +99,8 @@ namespace SAT.SERVICES.Services
             IORRepository orRepo,
             IORItemRepository orItemRepo,
             IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
-            ITicketLogPedidoCreditoRepository ticketLogPedidoCreditoRepo
+            ITicketLogPedidoCreditoRepository ticketLogPedidoCreditoRepo,
+            IORCheckListRepository orCheckListRepo
         )
         {
             _emaiLService = emaiLService;
@@ -141,6 +143,7 @@ namespace SAT.SERVICES.Services
             _orItemRepo = orItemRepo;
             _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
             _ticketLogPedidoCreditoRepo = ticketLogPedidoCreditoRepo;
+            _orCheckListRepo = orCheckListRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -320,6 +323,10 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.ORDEM_REPARO:
                     GerarPlanilhaOrdemReparo(((JObject)parameters).ToObject<ORParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.OR_CHECKLIST:
+                    GerarPlanilhaORCheckList(((JObject)parameters).ToObject<ORCheckListParameters>());
                     break;
                     
                 default:

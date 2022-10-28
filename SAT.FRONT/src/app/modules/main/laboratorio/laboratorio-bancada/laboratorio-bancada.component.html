@@ -31,13 +31,13 @@
                         </span>
                     </span>
 
-                    <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-                        <button *ngIf="!bancada" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('novo')" matTooltipPosition="above" (click)="novoTecnico(i+1)">
-                            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1 mr-1">
+                        <button *ngIf="!bancada" class="fuse-mat-button-rounded" mat-icon-button [matTooltip]="t('novo')" matTooltipPosition="above" (click)="novoTecnico(i+1)">
+                            <mat-icon class="icon-size-6 text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                         </button>
 
-                        <button *ngIf="bancada" class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir(bancada.codBancadaLaboratorio)">
-                            <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                        <button *ngIf="bancada" class="fuse-mat-button-rounded" mat-icon-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir(bancada.codBancadaLaboratorio)">
+                            <mat-icon class="icon-size-6 text-red-500" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>
                     </div>
                 </div>

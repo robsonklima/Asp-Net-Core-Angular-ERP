@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { ORCheckListItem } from "./or-checklist-item.types";
 import { Usuario } from "./usuario.types";
 
 export interface ORCheckList {
@@ -13,6 +14,7 @@ export interface ORCheckList {
     codORCheckListItem: string;
     tempoReparo: number | null;
     usuarioCadastro: Usuario;
+    itens: ORCheckListItem[];
 }
 
 export interface ORCheckListData extends Meta {

@@ -1,4 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { Peca } from "./peca.types";
 
 export interface ORCheckListItem {
     codORCheckListItem: number;
@@ -8,9 +9,10 @@ export interface ORCheckListItem {
     acao: string;
     parametro: string;
     realizacao: string;
-    pnMei: string;
+    pn_Mei: string;
     codORCheckList: number | null;
     passoObrigatorio: number | null;
+    peca: Peca;
 }
 
 export interface ORCheckListItemData extends Meta {

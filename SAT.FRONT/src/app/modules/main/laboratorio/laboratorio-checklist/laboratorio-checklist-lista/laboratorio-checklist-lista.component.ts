@@ -24,18 +24,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './laboratorio-checklist-lista.component.html',
   styles: [
     `.list-grid-or-checklist {
-			grid-template-columns: 72px auto 240px 156px 96px;
+			grid-template-columns: 72px auto 64px 264px 156px 96px;
 			
 			@screen sm {
-				grid-template-columns: 72px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 64px 264px 156px 96px;
 			}
 		
 			@screen md {
-				grid-template-columns: 72px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 64px 264px 156px 96px;
 			}
 		
 			@screen lg {
-				grid-template-columns: 72px auto 240px 156px 96px;
+				grid-template-columns: 72px auto 64px 264px 156px 96px;
 			}
 		}`
   ],

@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -49,12 +50,14 @@ namespace SAT.INFRA.Repository
         public ORCheckListItem ObterPorCodigo(int cod)
         {
             return _context.ORCheckListItem
+                .Include(i => i.Peca)
                 .FirstOrDefault(c => c.CodORCheckListItem == cod);
         }
 
         public PagedList<ORCheckListItem> ObterPorParametros(ORCheckListItemParameters parameters)
         {
             var query = _context.ORCheckListItem
+                .Include(i => i.Peca)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))

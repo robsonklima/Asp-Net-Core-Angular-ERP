@@ -10,6 +10,12 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("ORCheckListItem");
             builder.HasKey(i => i.CodORCheckListItem);
+
+            builder
+                .HasOne(prop => prop.Peca)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodMagnus)
+                .HasPrincipalKey(prop => prop.CodMagnus);
         }
     }
 }

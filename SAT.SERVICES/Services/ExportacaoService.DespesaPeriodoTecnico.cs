@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,8 @@ using Newtonsoft.Json.Linq;
 using QuestPDF.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Enums;
+using SAT.MODELS.ViewModels;
 using SAT.UTILS;
 
 namespace SAT.SERVICES.Services {
@@ -60,7 +63,46 @@ namespace SAT.SERVICES.Services {
                 IndAdiantamentoAtivo = 1
             });
 
-            var despesaImpressao = new DespesaPeriodoTecnicoPdfHelper(despesa, itens, adiantamentos);
+            decimal despesaKM = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.KM).Sum(i => i.DespesaValor);
+            decimal despesaOutros = itens.Where(i => i.CodDespesaTipo != (int)DespesaTipoEnum.KM).Sum(i => i.DespesaValor);
+            decimal totalDespesa = despesaOutros + despesaKM;
+            decimal adiantamentoRecebido = adiantamentos.Sum(i => i.DespesaAdiantamento.ValorAdiantamento);
+            decimal adiantamentoUtilizado = adiantamentos.Sum(i => i.ValorAdiantamentoUtilizado);
+
+            DespesaPeriodoTecnicoImpressaoModel despesaPeriodoTecnicoModel = new DespesaPeriodoTecnicoImpressaoModel {
+                Despesa = despesa,
+                Adiantamentos = adiantamentos,
+                Itens = itens,
+                AluguelCarro = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.ALUGUEL_CARRO).Sum(i => i.DespesaValor),
+                Correio = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.CORREIO).Sum(i => i.DespesaValor),
+                Frete = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.FRETE).Sum(i => i.DespesaValor),
+                Outros = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.OUTROS).Sum(i => i.DespesaValor),
+                Pedagio = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.PEDAGIO).Sum(i => i.DespesaValor),
+                Taxi = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.TAXI).Sum(i => i.DespesaValor),
+                CartaoTelefonico = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.CARTAO_TEL).Sum(i => i.DespesaValor),
+                Estacionamento = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.ESTACIONAMENTO).Sum(i => i.DespesaValor),
+                Hotel = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.HOTEL).Sum(i => i.DespesaValor),
+                PassagemAerea = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.PA).Sum(i => i.DespesaValor),
+                CartaoCombustivel = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.KM).Sum(i => i.DespesaValor),
+                Telefone = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.TELEFONE).Sum(i => i.DespesaValor),
+                Combustivel = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.COMBUSTIVEL).Sum(i => i.DespesaValor),
+                Ferramentas = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.FERRAMENTAS).Sum(i => i.DespesaValor),
+                Onibus = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.ONIBUS).Sum(i => i.DespesaValor),
+                PecasComponentes = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.PECAS).Sum(i => i.DespesaValor),
+                Refeicao = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.REFEICAO).Sum(i => i.DespesaValor),
+                Internet = itens.Where(i => i.CodDespesaTipo == (int)DespesaTipoEnum.INTERNET).Sum(i => i.DespesaValor),
+                DespesaKM = despesaKM,
+                DespesaOutros = despesaOutros,
+                TotalDespesa = totalDespesa,
+                AdiantamentoRecebido = adiantamentoRecebido,
+                AdiantamentoUtilizado = adiantamentoUtilizado,
+                AReceberViaDeposito = despesaOutros - adiantamentoUtilizado < 0 ? 0 : despesaOutros - adiantamentoUtilizado,
+                SaldoAdiantamento = adiantamentoRecebido - adiantamentoUtilizado,
+                PercentualOutros = Math.Round((despesaOutros / totalDespesa * 100), 2),
+                PercentualDespesaCB = Math.Round((despesaKM / totalDespesa * 100), 2)
+            };
+
+            var despesaImpressao = new DespesaPeriodoTecnicoPdfHelper(despesaPeriodoTecnicoModel);
             var despesaPdf = GenerateFilePath($"DESPESA-{despesa.CodDespesaPeriodoTecnico}.pdf");
             despesaImpressao.GeneratePdf(despesaPdf);
             byte[] file = File.ReadAllBytes(despesaPdf);

@@ -50,6 +50,10 @@
                                     {{ t('descricao') }}
                                 </div>
 
+                                <div class="text-center">
+                                    {{ t('itens') }}
+                                </div>
+
                                 <div class="md:block truncate">
                                     {{ t('cadastro') }}
                                 </div>
@@ -58,7 +62,7 @@
                                     {{ t('data') }}
                                 </div>
 
-                                <div>
+                                <div class="text-center">
                                     {{ t('acoes') }}
                                 </div>
                             </div>
@@ -71,22 +75,32 @@
                                             {{ c.codORCheckList }}
                                         </div>
 
-                                        <div class="flex">
+                                        <div class="flex truncate">
                                             {{ c.descricao }}
                                         </div>
 
-                                        <div class="flex truncate" [class.font-light]="!c.usuarioCadastro?.nomeUsuario">
-                                            {{ c.usuarioCadastro?.nomeUsuario || 'Não Informado' }}
+                                        <div class="text-center"
+                                            [class.font-light]="!c.itens?.length"
+                                            [class.font-bold]="c.itens?.length"
+                                            [class.text-blue-700]="c.itens?.length">
+                                            {{ c.itens?.length }}
+                                        </div>
+
+                                        <div class="flex truncate" 
+                                            [class.font-light]="!c.usuarioCadastro?.nomeUsuario">
+                                            <span class="text-ellipsis">
+                                                {{ c.usuarioCadastro?.nomeUsuario || 'Não Informado' }}
+                                            </span>
                                         </div>
 
                                         <div class="sm:block">
                                             {{ c.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}
                                         </div>
 
-                                        <div class="flex">
+                                        <div class="text-center">
                                             <button
                                                 [routerLink]="['/laboratorio/checklist/form/' + c.codORCheckList]"
-                                                class="mt-1 bg-transparent hover:bg-blue-400 text-blue-600 font-semibold
+                                                class="mt-1 pt-0.5 bg-transparent hover:bg-blue-400 text-blue-600 font-semibold
                                                 hover:text-white px-4 h-6 border border-blue-500 hover:border-transparent rounded">
                                             Editar
                                         </button>

@@ -52,12 +52,16 @@ namespace SAT.INFRA.Repository
         {
             return _context.ORCheckList
                 .Include(c => c.UsuarioCadastro)
+                .Include(c => c.Itens)
+                    .ThenInclude(i => i.Peca)
                 .FirstOrDefault(c => c.CodORCheckList == cod);
         }
 
         public PagedList<ORCheckList> ObterPorParametros(ORCheckListParameters parameters)
         {
             var query = _context.ORCheckList
+                .Include(c => c.Itens)
+                    .ThenInclude(i => i.Peca)
                 .Include(c => c.UsuarioCadastro)
                 .AsQueryable();
 

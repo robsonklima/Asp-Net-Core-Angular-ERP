@@ -26,7 +26,9 @@
                             {{ i+1 }}
                         </span>
 
-                        <span>
+                        <span
+                            [class.text-green-500]="!bancada?.usuario?.nomeUsuario"
+                            [class.font-semibold]="!bancada?.usuario?.nomeUsuario">
                             {{ bancada?.usuario?.nomeUsuario || 'Disponível' }}
                         </span>
                     </span>

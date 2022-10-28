@@ -16,6 +16,7 @@ namespace SAT.MODELS.Entities.Params
         public string CodStatusServicos { get; set; }
         public string CodTiposIntervencao { get; set; }
         public string CodClientes { get; set; }
+        public int? CodCliente { get; set; }
         public string CodFiliais { get; set; }
         public string CodAutorizadas { get; set; }
         public string CodEquipamentos { get; set; }

@@ -185,15 +185,15 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   private inicializarForm() {
 
     this.form = this._formBuilder.group({
-      codUsuario: [undefined, Validators.required],
+      codUsuario: [undefined],
       nomeUsuario: [undefined, Validators.required],
       cpf: [undefined, Validators.required],
-      endereco: [undefined, [Validators.required]],
-      bairro: [undefined, [Validators.required]],
-      cep: [undefined, [Validators.required]],
-      codUF: [undefined, [Validators.required]],
-      codPais: [undefined, [Validators.required]],
-      codCidade: [undefined, Validators.required],
+      endereco: [undefined],
+      bairro: [undefined],
+      cep: [undefined, Validators.required],
+      codUF: [undefined],
+      codPais: [undefined],
+      codCidade: [undefined],
       senha: [undefined, Validators.required],
       confirmarSenha: [undefined, Validators.required],
       indAtivo: [undefined],

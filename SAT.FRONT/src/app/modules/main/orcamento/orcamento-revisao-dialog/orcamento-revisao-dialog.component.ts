@@ -99,16 +99,10 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
       .selectMany(i => i.relatorioAtendimentoDetalhePecas)
       .toArray();  
 
-    for (const dp of detalhesPeca) {
-      const clientePecaObrigatorio = dp?.peca?.clientePeca?.find(cp => cp.codCliente == this.orcamento?.codigoCliente && 
-        cp.codContrato == this.os?.equipamentoContrato?.codContrato);      
+      for (const dp of detalhesPeca) {
+      var valorUnitarioPeca = (await this.obterClientePeca(dp?.peca.codPeca))?.items?.shift()?.valorUnitario;
 
-      var valorUnitarioPeca;
-
-      if(clientePecaObrigatorio){
-        valorUnitarioPeca = (await this.obterClientePeca(dp?.peca.codPeca))?.items?.shift()?.valorUnitario;
-      }
-      else{
+      if(!valorUnitarioPeca){
         valorUnitarioPeca = this.obterValorMaterial(dp?.peca);
       }
 
@@ -125,7 +119,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         dataCadastro: moment().format('yyyy-MM-DD HH:mm:ss'),
       }
 
-      if(!dp?.peca?.isValorAtualizado && !clientePecaObrigatorio)
+      if(!dp?.peca?.isValorAtualizado && !valorUnitarioPeca)
         this.isValorPecasDesatualizado = true;
 
       m.valorTotal = (m.quantidade * m.valorUnitario) - (m.valorDesconto ?? 0);

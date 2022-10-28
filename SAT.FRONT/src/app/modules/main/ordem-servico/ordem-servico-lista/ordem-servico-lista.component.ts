@@ -107,6 +107,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			sortActive: this.filter?.parametros?.sortActive || this.sort.active || 'codOS',
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
+			codCliente: this.userSession?.usuario?.codCliente,
 			include: OrdemServicoIncludeEnum.OS_LISTA,
 			filter: filter
 		};

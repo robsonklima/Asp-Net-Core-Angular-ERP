@@ -563,6 +563,7 @@
     "nome sla": "Nome SLA",
     "desc sla": "Descrição SLA",
     "dados sla": "Dados SLA",
+    "tempo": "Tempo",
     "tempo inicio": "Tempo de ínicio",
     "tempo reparo": "Tempo de reparo",
     "tempo solucao": "Tempo de solução",
@@ -748,5 +749,12 @@
     "ordem de reparo": "Ordem de Reparo",
     "cadastro de pecas que ja estao no laboratorio": "Cadastro de peças que já estão no Laboratório",
     "fechamento": "Fechamento",
-    "check lists": "Check Lists"
+    "check lists": "Check Lists",
+    "check list": "Check List",
+    "atividades": "Atividades",
+    "solicitacoes": "Solicitações",
+    "parametro": "Parâmetro",
+    "realizacao": "Realização",
+    "nivel": "Nível",
+    "mei": "MEI"
 }

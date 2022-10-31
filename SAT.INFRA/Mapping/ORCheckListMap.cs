@@ -18,6 +18,12 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodUsuario);
 
             builder
+                .HasOne(prop => prop.Peca)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodPeca)
+                .HasPrincipalKey(prop => prop.CodPeca);
+
+            builder
                 .HasMany(prop => prop.Itens)
                 .WithOne()
                 .HasForeignKey(prop => prop.CodORCheckList)

@@ -116,7 +116,7 @@ export class UtilizacaoComponent implements OnInit {
     return Enumerable
       .from(this.usuarios)
       .where(u => moment(u.ultimoAcesso) >= moment()
-      .add('hour', -6))
+      .add('hour', -4))
       .toArray();
   }
 

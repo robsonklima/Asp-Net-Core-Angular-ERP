@@ -16,6 +16,7 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { StringExtensions } from 'app/core/extensions/string.extensions';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 
 @Component({
 	selector: 'ordem-servico-lista',
@@ -108,6 +109,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			codCliente: this.userSession?.usuario?.codCliente,
+			codTipoIntervencaoNotIn: this.validaCliente ? `${TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO},${TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA}` : null,
 			include: OrdemServicoIncludeEnum.OS_LISTA,
 			filter: filter
 		};
@@ -136,12 +138,11 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	loadFilter(): void {
 		super.loadFilter();
 
-		if (this.userSession?.usuario?.codFilial && this.userSession?.usuario?.codCliente && this.userSession?.usuario?.codContrato && this.filter)
-			{
-				this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
-				this.filter.parametros.codClientes = this.userSession?.usuario?.codCliente;
-				this.filter.parametros.codContratos = this.userSession?.usuario?.codContrato;
-			}
+		if (this.userSession?.usuario?.codFilial && this.userSession?.usuario?.codCliente && this.userSession?.usuario?.codContrato && this.filter) {
+			this.filter.parametros.codFiliais = this.userSession?.usuario?.codFilial;
+			this.filter.parametros.codClientes = this.userSession?.usuario?.codCliente;
+			this.filter.parametros.codContratos = this.userSession?.usuario?.codContrato;
+		}
 	}
 
 	public async exportar() {
@@ -289,5 +290,3 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		this.selectedItem = null;
 	}
 }
-
-

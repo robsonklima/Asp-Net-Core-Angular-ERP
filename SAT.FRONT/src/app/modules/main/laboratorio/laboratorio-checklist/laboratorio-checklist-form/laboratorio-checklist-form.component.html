@@ -1,1 +1,236 @@
-<p>laboratorio-checklist-form works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div class="flex items-center whitespace-nowrap">
+                    <span class="ml-1 text-secondary">
+                        Laboratório
+                    </span>
+
+                    <mat-icon class="-mt-1 icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                </div>
+
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/checklist">
+                        {{ t('check lists') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="-mt-1 icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="-mt-1 icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codORCheckList }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('check list') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto sm:pt-5 sm:p-10">
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+            <mat-tab [label]="t('check list')">
+                <ng-template matTabContent>
+                    <div class="max-w-3xl">
+                        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="formCheckList">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                                <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
+                            </div>
+
+                            <div
+                                class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                                <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                                    <mat-label>{{ t('descricao') }}</mat-label>
+                                    <input matInput formControlName="descricao">
+                                    <mat-error>
+                                        {{ t('preencher campo') }}
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="fuse-mat-dense sm:col-span-9">
+                                    <mat-label>{{ t('peca') }}</mat-label>
+                                    <mat-select formControlName="codPeca">
+                                        <mat-option>
+                                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                                noEntriesFoundLabel="'nenhum registro encontrado'"
+                                                [formControl]="pecaFilterCtrl">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+
+                                        <mat-option class="uppercase"
+                                            [matTooltip]="peca.codMagnus + ' ' + peca.nomePeca"
+                                            *ngFor="let peca of pecas" [value]="peca.codPeca">
+                                            <span class="font-bold">{{ peca.codMagnus }} </span>
+                                            <span class="ml-1">{{ peca.nomePeca }} </span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                                    <mat-label>{{ t('tempo reparo') }}</mat-label>
+                                    <input matInput formControlName="tempoReparo" type="number">
+                                    <mat-error>
+                                        {{ t('preencher campo') }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+                                <p class="text-lg font-medium">{{ t('opcoes') }}</p>
+                            </div>
+                            <div class="p-8">
+                                <div class="flex flex-col gt-xs:flex-row">
+                                    <div class="flex flex-col">
+                                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                                            {{ t('ativo') }}
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                                <button [routerLink]="['/laboratorio/checklist']" mat-button>
+                                    {{ t('cancelar') }}
+                                </button>
+
+                                <button class="px-6" mat-button [color]="'primary'" (click)="salvarCheckList()"
+                                    [disabled]="!formCheckList?.valid">
+                                    {{ t('salvar') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab [label]="t('atividades')">
+                <ng-template matTabContent>
+                    <div class="max-w-8xl">
+                        <div class="flex-auto">
+                            <div class="grid h-240">
+                                <div class="overflow-hidden sm:overflow-y-auto">
+                                    <ng-container>
+                                        <div class="grid">
+                                            <div class="list-grid-checklist-itens-form sticky z-10 top-0 grid py-4 px-8 shadow text-sm font-semibold text-secondary bg-gray-50"
+                                                matSort matSortDisableClear *transloco="let t">
+                                                <div>
+                                                    {{ t('codigo') }}
+                                                </div>
+
+                                                <div>
+                                                    {{ t('descricao') }}
+                                                </div>
+
+                                                <div>
+                                                    {{ t('parametro') }}
+                                                </div>
+
+                                                <div>
+                                                    {{ t('acao') }}
+                                                </div>
+
+                                                <div>
+                                                    {{ t('realizacao') }}
+                                                </div>
+
+                                                <div class="text-center">
+                                                    {{ t('nivel') }}
+                                                </div>
+
+                                                <div class="text-center">
+                                                    {{ t('acoes') }}
+                                                </div>
+                                            </div>
+
+                                            <ng-container *ngFor="let item of checkList?.itens; let i=index">
+                                                <div
+                                                    class="list-grid-checklist-itens-form grid items-center border-b text-xs md:px-8 bg-white">
+                                                    <div>
+                                                        {{ item.codORCheckListItem }}
+                                                    </div>
+
+                                                    <div class="truncate">
+                                                        {{ item.descricao || 'N/I' }}
+                                                    </div>
+
+                                                    <div class="truncate">
+                                                        {{ item.parametro || 'N/I' }}
+                                                    </div>
+
+                                                    <div class="truncate">
+                                                        {{ item.acao || 'N/I' }}
+                                                    </div>
+
+                                                    <div class="truncate" [matTooltip]="item.realizacao">
+                                                        {{ item.realizacao || 'N/I' }}
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        {{ item.nivel }}
+                                                    </div>
+
+                                                    <div class="flex justify-between text-center">
+                                                        <button mat-icon-button [matTooltip]="t('editar')"
+                                                            matTooltipPosition="above"
+                                                            (click)="abrirCheckListItemForm(item)">
+                                                            <mat-icon class="icon-size-5 text-blue-500"
+                                                                [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+                                                        </button>
+
+                                                        <button mat-icon-button [matTooltip]="t('excluir')"
+                                                            matTooltipPosition="above"
+                                                            (click)="excluirCheckListItem(item.codORCheckListItem)">
+                                                            <mat-icon class="icon-size-5 text-red-500"
+                                                                [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+
+                                        <div
+                                            class="p-2 sm:p-8 border-t text-2xl font-semibold tracking-tight text-center bg-gray-50">
+                                            <div class="w-full text-center">
+                                                <button mat-raised-button class="bg-green-600 text-white"
+                                                    (click)="abrirCheckListItemForm()">
+                                                    Nova Atividade
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab [label]="t('solicitacoes')">
+                <ng-template matTabContent>
+                    <div class="max-w-3xl">
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

@@ -38,6 +38,7 @@ namespace SAT.MODELS.Enums
         OR,
         OR_ITEM,
         PEDIDOS_CREDITO,
-        ORDEM_REPARO
+        ORDEM_REPARO,
+        OR_CHECKLIST
     }
 }

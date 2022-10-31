@@ -10,6 +10,7 @@ namespace SAT.MODELS.Entities
         public string Descricao { get; set; }
         public string CodMagnus { get; set; }
         public int CodPeca { get; set; }
+        public Peca Peca { get; set; }
         public byte IndAtivo { get; set; }
         public string CodUsuarioCad { get; set; }
         public Usuario UsuarioCadastro { get; set; }

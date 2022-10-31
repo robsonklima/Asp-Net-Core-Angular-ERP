@@ -131,8 +131,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 
     const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
     this.statusServicosSTN = data.items;    
-    console.log(this.statusServicosSTN);
-    
   }  
 
   private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {

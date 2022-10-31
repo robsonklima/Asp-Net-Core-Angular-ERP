@@ -51,5 +51,6 @@ export enum ExportacaoTipoEnum {
     OR,
     OR_ITEM,
     PEDIDOS_CREDITO,
-    ORDEM_REPARO
+    ORDEM_REPARO,
+    OR_CHECKLIST
 }

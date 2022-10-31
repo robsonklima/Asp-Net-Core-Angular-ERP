@@ -16,6 +16,7 @@ import { OR, ORParameters } from 'app/core/types/OR.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -24,18 +25,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './laboratorio-checklist-lista.component.html',
   styles: [
     `.list-grid-or-checklist {
-			grid-template-columns: 72px auto 64px 264px 156px 96px;
+			grid-template-columns: 72px auto 64px 68px 68px 264px 156px 96px;
 			
 			@screen sm {
-				grid-template-columns: 72px auto 64px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 68px 264px 156px 96px;
 			}
 		
 			@screen md {
-				grid-template-columns: 72px auto 64px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 68px 264px 156px 96px;
 			}
 		
 			@screen lg {
-				grid-template-columns: 72px auto 64px 264px 156px 96px;
+				grid-template-columns: 72px auto 64px 68px 68px 264px 156px 96px;
 			}
 		}`
   ],
@@ -110,8 +111,6 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
       this.dataSourceData = data;
       this.isLoading = false;
       this._cdr.detectChanges();
-      console.log(data);
-      
     }, () => {
       this._snack.exibirToast('Erro ao carregar os dados', 'error');
       this.isLoading = false;
@@ -123,7 +122,7 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
 
     let exportacaoParam: Exportacao = {
       formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-      tipoArquivo: ExportacaoTipoEnum.ORDEM_REPARO,
+      tipoArquivo: ExportacaoTipoEnum.OR_CHECKLIST,
       entityParameters: {}
     }
 
@@ -169,6 +168,10 @@ export class LaboratorioCheckListListaComponent extends Filterable implements Af
       this.onSidenavClosed();
       this.obterDados();
     })
+  }
+
+  obterTempo(minutos: number) {
+    return moment.utc().startOf('day').add(minutos, 'minutes').format('HH:mm')
   }
 
   loadFilter(): void {

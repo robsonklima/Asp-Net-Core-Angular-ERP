@@ -20,7 +20,7 @@
                 </mat-form-field>
 
                 <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-                    [routerLink]="['/laboratorio/ordem-reparo/form']">
+                    [routerLink]="['/laboratorio/checklist/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
 
@@ -51,10 +51,18 @@
                                 </div>
 
                                 <div class="text-center">
+                                    {{ t('peca') }}
+                                </div>
+
+                                <div class="text-center">
                                     {{ t('itens') }}
                                 </div>
 
-                                <div class="md:block truncate">
+                                <div class="text-center" [mat-sort-header]="'tempoReparo'">
+                                    {{ t('tempo') }}
+                                </div>
+
+                                <div class="md:block truncate" [mat-sort-header]="'dataHoraCad'">
                                     {{ t('cadastro') }}
                                 </div>
 
@@ -79,11 +87,19 @@
                                             {{ c.descricao }}
                                         </div>
 
+                                        <div class="truncate text-center">
+                                            {{ c.peca?.codMagnus || 'N/I' }}
+                                        </div>
+
                                         <div class="text-center"
                                             [class.font-light]="!c.itens?.length"
                                             [class.font-bold]="c.itens?.length"
                                             [class.text-blue-700]="c.itens?.length">
                                             {{ c.itens?.length }}
+                                        </div>
+
+                                        <div>
+                                            {{ c.tempoReparo ? obterTempo(c.tempoReparo) : '' }}
                                         </div>
 
                                         <div class="flex truncate" 

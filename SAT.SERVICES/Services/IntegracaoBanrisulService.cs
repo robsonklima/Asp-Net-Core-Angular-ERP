@@ -402,6 +402,8 @@ namespace SAT.SERVICES.Services
                     .Message("A data de abertura é inválida ou não foi informada")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (atendimento.StatusIncidente.Valor.ToUpper().Equals("CAC"))
@@ -412,6 +414,8 @@ namespace SAT.SERVICES.Services
                     .Message("Chamado de cancelamento ignorado. Status do incidente: CAC")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (string.IsNullOrWhiteSpace(atendimento.NumeroSerie.Valor))
@@ -422,6 +426,8 @@ namespace SAT.SERVICES.Services
                     .Message("Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento.")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             EquipamentoContrato equipamento = new();
@@ -441,6 +447,8 @@ namespace SAT.SERVICES.Services
                     .Message("O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema.")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (equipamentos.Count() > 1)
@@ -451,6 +459,8 @@ namespace SAT.SERVICES.Services
                     .Message("Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (equipamentos.Count() == 1)
@@ -466,6 +476,8 @@ namespace SAT.SERVICES.Services
                     .Message("Não foi possível encontrar a agência no e-mail de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (atendimento.CodigoLocalEquipamento.Valor.Length < 5)
@@ -476,6 +488,8 @@ namespace SAT.SERVICES.Services
                     .Message("O código da agência informado no e-mail deve conter 5 posições")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             LocalAtendimento local = new();
@@ -495,6 +509,8 @@ namespace SAT.SERVICES.Services
                     .Message("A agência encontrada no e-mail não está cadastrada no sistema")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (locais.Count() > 1)
@@ -505,6 +521,8 @@ namespace SAT.SERVICES.Services
                     .Message("Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             if (locais.Count() == 1)
@@ -520,6 +538,8 @@ namespace SAT.SERVICES.Services
                     .Message("Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;                    
             }
 
             var p = new OrdemServicoParameters
@@ -541,6 +561,8 @@ namespace SAT.SERVICES.Services
                     .Message("Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return;
             }
 
             if (!string.IsNullOrWhiteSpace(atendimento.DataHoraAgendamento.Valor))

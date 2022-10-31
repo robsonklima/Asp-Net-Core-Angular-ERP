@@ -55,7 +55,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 	codTecnico: string;
 	periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
 	tecnico: Tecnico;
-	despesaPeriodoTecnico: DespesaPeriodoTecnico;
+	despesaPeriodoTecnico: DespesaPeriodoTecnico [] = [];
 
 	constructor(
 		protected _userService: UserService,
@@ -138,13 +138,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		return dp;
 	}
 
-	// async obterDespesaPeriodoTecnico() {
-	// 	this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
-	// 		{
-	// 		  codTecnico: this.codTecnico,
-	// 		  codDespesaPeriodo: 947
-	// 		}).toPromise());	
-	// }
+	async obterDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem) {		
+		this.despesaPeriodoTecnico = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
+			{
+			  codTecnico: this.codTecnico,
+			  codDespesaPeriodo: dpi.codDespesaPeriodo
+			}).toPromise()).items;			
+	}
 
 	async obterTecnico() {
 		this.tecnico = (await this._tecnicoSvc.obterPorCodigo(+this.codTecnico).toPromise());
@@ -165,9 +165,9 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
 			if (confirmacao) {
 				dpi.status = { codDespesaPeriodoTecnicoStatus: this.periodoLiberado };	
-				var dp = this.criaDespesaPeriodoTecnico(dpi);
-
-				if(dp?.codDespesaPeriodoTecnico != null){
+				var dpt = this.obterDespesaPeriodoTecnico(dpi);
+				
+				if(dpt){
 					this._despesaPeriodoTecnicoSvc.atualizar(dp).subscribe(() => {
 						this._snack.exibirToast('Período liberado com sucesso!', 'success');
 						this.obterDados();
@@ -178,6 +178,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				}
 				else
 				{
+					var dp = this.criaDespesaPeriodoTecnico(dpi);
 					this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() => {
 						this._snack.exibirToast('Período liberado com sucesso!', 'success');
 						this.obterDados();

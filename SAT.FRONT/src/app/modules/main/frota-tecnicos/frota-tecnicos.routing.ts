@@ -9,6 +9,7 @@ import { ValoresCombustivelListaComponent } from './valores-combustivel/valores-
 import { CartaoCombustivelListaComponent } from './cartoes-combustivel/cartao-combustivel-lista/cartao-combustivel-lista.component';
 import { CartaoCombustivelFormComponent } from './cartoes-combustivel/cartao-combustivel-form/cartao-combustivel-form.component';
 import { CartaoCombustivelDetalheComponent } from './cartoes-combustivel/cartao-combustivel-detalhe/cartao-combustivel-detalhe.component';
+import { TransacoesCartaoListaComponent } from './transacoes-cartao/transacoes-cartao-lista/transacoes-cartao-lista.component';
 
 export const frotaTecnicosRoutes: Route[] = [
     {
@@ -64,4 +65,8 @@ export const frotaTecnicosRoutes: Route[] = [
         path: 'cartoes-combustivel/detalhe/:codDespesaCartaoCombustivel',
         component: CartaoCombustivelDetalheComponent
     },
+    {
+        path: 'transacoes-cartao',
+        component: TransacoesCartaoListaComponent
+    }
 ];

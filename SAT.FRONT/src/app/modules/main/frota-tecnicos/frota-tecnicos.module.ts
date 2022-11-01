@@ -47,6 +47,8 @@ import { CartaoCombustivelDetalheComponent } from './cartoes-combustivel/cartao-
 import { CartaoCombustivelDialogComponent } from './cartoes-combustivel/cartao-combustivel-detalhe/cartao-combustivel-dialog/cartao-combustivel-dialog.component';
 import { CartaoCombustivelFormComponent } from './cartoes-combustivel/cartao-combustivel-form/cartao-combustivel-form.component';
 import { CartaoCombustivelListaComponent } from './cartoes-combustivel/cartao-combustivel-lista/cartao-combustivel-lista.component';
+import { TransacoesCartaoListaComponent } from './transacoes-cartao/transacoes-cartao-lista/transacoes-cartao-lista.component';
+import { TransacoesCartaoFiltroComponent } from './transacoes-cartao/transacoes-cartao-filtro/transacoes-cartao-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -76,7 +78,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     PedidosCreditoComponent,
     CreditoCartaoListaComponent,
     CreditoCartaoFiltroComponent,
-    CreditoCreditarDialogComponent
+    CreditoCreditarDialogComponent,
+    TransacoesCartaoListaComponent,
+    TransacoesCartaoFiltroComponent
   ],
   imports: [
     CommonModule,

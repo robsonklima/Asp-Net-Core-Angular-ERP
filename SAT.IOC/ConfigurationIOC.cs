@@ -174,6 +174,7 @@ public class ConfigurationIOC
         builder.RegisterType<UsuarioLoginRepository>().As<IUsuarioLoginRepository>();
         builder.RegisterType<ORCheckListRepository>().As<IORCheckListRepository>();
         builder.RegisterType<ORCheckListItemRepository>().As<IORCheckListItemRepository>();
+        builder.RegisterType<TicketLogTransacaoRepository>().As<ITicketLogTransacaoRepository>();
         
         #endregion
 
@@ -338,6 +339,7 @@ public class ConfigurationIOC
         builder.RegisterType<UsuarioLoginService>().As<IUsuarioLoginService>();
         builder.RegisterType<ORCheckListService>().As<IORCheckListService>();
         builder.RegisterType<ORCheckListItemService>().As<IORCheckListItemService>();
+        builder.RegisterType<TicketLogTransacaoService>().As<ITicketLogTransacaoService>();
 
         #endregion
 

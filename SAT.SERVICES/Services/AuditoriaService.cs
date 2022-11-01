@@ -68,6 +68,24 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
+        public ListViewModel ObterPorView(AuditoriaParameters parameters)
+        {
+            var auditorias = _auditoriaRepo.ObterPorView(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = auditorias,
+                TotalCount = auditorias.TotalCount,
+                CurrentPage = auditorias.CurrentPage,
+                PageSize = auditorias.PageSize,
+                TotalPages = auditorias.TotalPages,
+                HasNext = auditorias.HasNext,
+                HasPrevious = auditorias.HasPrevious
+            };
+
+            return lista;
+        }
+
         private int ConsultarDespesasPendentes(Auditoria auditoria) {
 
             var despesasPendentes = _despesaPeriodoTecnicoRepo.ObterPorParametros(new DespesaPeriodoTecnicoParameters {

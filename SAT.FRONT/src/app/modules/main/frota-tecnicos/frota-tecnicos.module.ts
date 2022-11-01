@@ -40,6 +40,9 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { AuditoriaUtilizacaoDialogComponent } from './auditoria/auditoria-utilizacao/auditoria-utilizacao-dialog/auditoria-utilizacao-dialog.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { PedidosCreditoComponent } from './pedidos-credito/pedidos-credito.component';
+import { CreditoCartaoListaComponent } from './creditos-cartao/credito-cartao-lista/credito-cartao-lista.component';
+import { CreditoCartaoFiltroComponent } from './creditos-cartao/credito-cartao-filtro/credito-cartao-filtro.component';
+import { CreditoCreditarDialogComponent } from './creditos-cartao/credito-cartao-lista/credito-creditar-dialog/credito-creditar-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -63,6 +66,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
     PedidosCreditoComponent,
+    CreditoCartaoListaComponent,
+    CreditoCartaoFiltroComponent,
+    CreditoCreditarDialogComponent
   ],
   imports: [
     CommonModule,

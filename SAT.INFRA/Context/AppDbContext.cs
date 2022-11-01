@@ -204,8 +204,7 @@ namespace SAT.INFRA.Context
         public DbSet<OR> OR { get; set; }
         public DbSet<UsuarioLogin> UsuarioLogin { get; set; }
         public DbSet<ORDestino> ORDestino { get; set; }
-
-        // Views
+        public DbSet<TicketLogTransacao> TicketLogTransacao { get; set; }
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }
@@ -262,6 +261,7 @@ namespace SAT.INFRA.Context
         public DbSet<OrdemServicoSTN> OrdemServicoSTN { get; set; }
         public DbSet<OrdemServicoSTNOrigem> OrdemServicoSTNOrigem { get; set; }
         public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
+        public DbSet<AuditoriaView> AuditoriaView { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -439,6 +439,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORDestino>(new ORDestinoMap().Configure);
             modelBuilder.Entity<ORCheckList>(new ORCheckListMap().Configure);
             modelBuilder.Entity<ORCheckListItem>(new ORCheckListItemMap().Configure);
+            modelBuilder.Entity<TicketLogTransacao>(new TicketLogTransacaoMap().Configure);
+            modelBuilder.Entity<AuditoriaView>(new AuditoriaViewMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -53,15 +53,12 @@ import { DespesaProtocoloFiltroComponent } from './despesa-protocolo-filtro/desp
 import { DespesaProtocoloDetalheComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe.component';
 import { DespesaProtocoloDetalhePeriodosDialogComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-periodos-dialog/despesa-protocolo-detalhe-periodos-dialog.component';
 import { DespesaProtocoloDetalheImpressaoComponent } from './despesa-protocolo-detalhe/despesa-protocolo-detalhe-impressao/despesa-protocolo-detalhe-impressao.component';
-import { DespesaCreditoCartaoListaComponent } from './despesa-credito-cartao-lista/despesa-credito-cartao-lista.component';
-import { DespesaCreditoCartaoFiltroComponent } from './despesa-credito-cartao-filtro/despesa-credito-cartao-filtro.component';
 import { DespesaPeriodoListaComponent } from './despesa-periodo-lista/despesa-periodo-lista.component';
 import { DespesaPeriodoFiltroComponent } from './despesa-periodo-filtro/despesa-periodo-filtro.component';
 import { DespesaAtendimentoReprovacaoListaComponent } from './despesa-atendimento-lista/despesa-atendimento-reprovacao-lista/despesa-atendimento-reprovacao-lista.component';
 import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-lista/despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
 import { DespesaAtendimentoRelatorioImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-relatorio-impressao/despesa-atendimento-relatorio-impressao.component';
 import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-lista/despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
-import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-cartao-lista/despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
 import { DespesaAdiantamentoConsultaComponent } from './despesa-adiantamento-consulta/despesa-adiantamento-consulta.component';
 import { DespesaPeriodoFormComponent } from './despesa-periodo-form/despesa-periodo-form.component';
 import { DespesaAdiantamentoFormComponent } from './despesa-adiantamento-form/despesa-adiantamento-form.component';
@@ -99,15 +96,12 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
       DespesaProtocoloDetalheComponent,
       DespesaProtocoloDetalhePeriodosDialogComponent,
       DespesaProtocoloDetalheImpressaoComponent,
-      DespesaCreditoCartaoListaComponent,
-      DespesaCreditoCartaoFiltroComponent,
       DespesaPeriodoListaComponent,
       DespesaPeriodoFiltroComponent,
       DespesaAtendimentoReprovacaoListaComponent,
       DespesaAtendimentoAdiantamentoDialogComponent,
       DespesaAtendimentoRelatorioImpressaoComponent,
       DespesaAtendimentoObservacaoImpressaoComponent,
-      DespesaCreditoCreditarDialogComponent,
       DespesaAdiantamentoConsultaComponent,
       DespesaPeriodoFormComponent,
       DespesaAdiantamentoFormComponent,

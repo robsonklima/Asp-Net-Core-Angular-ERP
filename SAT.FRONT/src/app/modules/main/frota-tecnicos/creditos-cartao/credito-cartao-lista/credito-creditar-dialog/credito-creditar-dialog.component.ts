@@ -12,13 +12,13 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import moment from 'moment';
 
 @Component({
-  selector: 'app-despesa-credito-creditar-dialog',
-  templateUrl: './despesa-credito-creditar-dialog.component.html',
+  selector: 'app-credito-creditar-dialog',
+  templateUrl: './credito-creditar-dialog.component.html',
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaCreditoCreditarDialogComponent {
+export class CreditoCreditarDialogComponent {
   despesaCreditosCartaoListView: DespesaCreditosCartaoListView;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
   isLoading: boolean = false;
@@ -28,7 +28,7 @@ export class DespesaCreditoCreditarDialogComponent {
     @Inject(MAT_DIALOG_DATA) private data: any,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _ticketLogPeridoCreditoSvc: TicketLogPedidoCreditoService,
-    private _dialogRef: MatDialogRef<DespesaCreditoCreditarDialogComponent>,
+    private _dialogRef: MatDialogRef<CreditoCreditarDialogComponent>,
     private _matDialog: MatDialog,
     private _userSvc: UserService) {
     if (data) {

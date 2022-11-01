@@ -59,6 +59,10 @@
                                     {{ t('tecnico') }}
                                 </div>
 
+                                <div [mat-sort-header]="'quilometrosPorLitro'">
+                                    {{ t('consumo') }}
+                                </div>
+
                                 <div [mat-sort-header]="'odometroAnterior'">
                                     {{ t('odometro anterior') }}
                                 </div>
@@ -96,16 +100,21 @@
                                             {{ auditoria.nomeUsuario || t('nao informado') }}
                                         </div>
 
+                                        <div class="truncate" [matTooltip]="'Consumo Atual KM/Litro'">
+                                            {{ auditoria.quilometrosPorLitro || '' }}
+                                        </div>
+
                                         <div class="truncate font-semibold" [matTooltip]="'Quilometragem da Última Auditoria'">
-                                            {{ auditoria.odometroAnterior }}
+                                            {{ auditoria.odometroAnterior || '' }}
                                         </div>
 
                                         <div class="truncate font-semibold" [matTooltip]="'Quilometragem Atual'">
-                                            {{ auditoria.odometroAtual }}
+                                            {{ auditoria.odometroAtual || '' }}
                                         </div>
 
-                                        <div class="truncate font-semibold" [class.text-red-600]="auditoria.qtdDespesasPendentes">
-                                            {{ auditoria.qtdDespesasPendentes }}
+                                        <div class="truncate font-semibold" [class.text-red-600]="auditoria.qtdDespesasPendentes"
+                                            [matTooltip]="'Despesas Pendentes'">
+                                            {{ auditoria.qtdDespesasPendentes || '' }}
                                         </div>
 
                                         <div>

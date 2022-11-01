@@ -4,6 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { Filterable } from 'app/core/filters/filterable';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { Auditoria, AuditoriaParameters, AuditoriaViewData } from 'app/core/types/auditoria.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
@@ -19,7 +20,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './auditoria-lista.component.html',
 	styles: [
 		`.list-grid-auditoria {
-			grid-template-columns: 68px 248px 74px auto 148px 148px 120px 64px;
+			grid-template-columns: 68px 248px 74px auto 120px 148px 148px 120px 64px;
 		}`
 	],
 	changeDetection: ChangeDetectionStrategy.Default,
@@ -40,7 +41,8 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		protected _userService: UserService,
 		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
-		private _auditoriaService: AuditoriaService
+		private _auditoriaService: AuditoriaService,
+		private _snack: CustomSnackbarService
 	) {
 		super(_userService, 'auditoria')
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -103,14 +105,17 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 			filter: filtro
 		}
 
-		const data: AuditoriaViewData = await this._auditoriaService.obterPorView({
+		await this._auditoriaService.obterPorView({
 			...parametros,
 			...this.filter?.parametros
-		}).toPromise();
-		
-		this.dataSourceData.next(data);
-		this.isLoading = false;
-		this._cdr.detectChanges();
+		}).subscribe((data) => {
+			this.dataSourceData.next(data);
+			this.isLoading = false;
+			this._cdr.detectChanges();
+		}, () => {
+			this._snack.exibirToast('Erro ao consultar as auditorias', 'error');
+			this.isLoading = false;
+		});
 	}
 
 	paginar() {

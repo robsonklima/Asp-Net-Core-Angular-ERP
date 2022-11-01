@@ -171,17 +171,6 @@ namespace SAT.INFRA.Repository
                 auditorias = auditorias.Where(a => a.CodAuditoriaStatus == parameters.CodAuditoriaStatus);
             };
 
-            if (parameters.CodAuditoriaVeiculo != null)
-            {
-                auditorias = auditorias.Where(a => a.CodAuditoriaVeiculo == parameters.CodAuditoriaVeiculo);
-            };
-
-            if (!string.IsNullOrWhiteSpace(parameters.CodAuditoriaVeiculoTanque))
-            {
-                int[] cods = parameters.CodAuditoriaVeiculoTanque.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                auditorias = auditorias.Where(dc => cods.Contains(dc.CodAuditoriaVeiculoTanque));
-            };
-
             if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
             {
                 int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

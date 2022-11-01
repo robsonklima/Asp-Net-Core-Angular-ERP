@@ -53,17 +53,14 @@ export interface AuditoriaView {
     nomeUsuario: string;
     codAuditoriaStatus: number;
     nomeAuditoriaStatus: string;
-    codAuditoriaVeiculo: number;
-    placa: string;
     numeroCartao: string;
-    codAuditoriaVeiculoTanque: number;
-    nomeAuditoriaVeiculoTanque: string;
     codFilial: number;
     nomeFilial: string;
     qtdDiasAuditoriaAnterior: number | null;
     qtdDespesasPendentes: number | null;
     odometroAnterior: number | null;
     odometroAtual: number | null;
+    quilometrosPorLitro?: number;
 }
 
 export interface AuditoriaViewData extends Meta {

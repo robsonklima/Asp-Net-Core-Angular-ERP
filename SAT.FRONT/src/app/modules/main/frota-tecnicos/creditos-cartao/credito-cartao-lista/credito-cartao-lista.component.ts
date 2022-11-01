@@ -43,7 +43,7 @@ export class CreditoCartaoListaComponent extends Filterable implements AfterView
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
   isLoading: boolean = false;
   periodos: DespesaPeriodoTecnicoData;
   listview: DespesaCreditosCartaoListView[] = [];

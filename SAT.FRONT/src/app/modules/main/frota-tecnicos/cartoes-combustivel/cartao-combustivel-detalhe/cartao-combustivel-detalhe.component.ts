@@ -21,13 +21,13 @@ export class CartaoCombustivelDetalheComponent implements AfterViewInit
   historico: DespesaCartaoCombustivelTecnico[] = [];
   userSession: UsuarioSessao;
   displayedColumns: string[] = ['tecnico', 'inicio de uso'];
-  isHistoricoLoading: boolean;
+  isHistoricoLoading: boolean = true;
 
   constructor (
     private _route: ActivatedRoute,
     private _cartaoCombustivelSvc: DespesaCartaoCombustivelService,
     private _tecnicoSvc: TecnicoService,
-    private _cartaoCombustivelControleSvc: DespesaCartaoCombustivelTecnicoService,
+    private _despesaCartaoCombustivelTecnicoSvc: DespesaCartaoCombustivelTecnicoService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
@@ -59,10 +59,8 @@ export class CartaoCombustivelDetalheComponent implements AfterViewInit
 
   private async obterHistorico()
   {
-    this.isHistoricoLoading = true;
-
     this.historico =
-      Enumerable.from((await this._cartaoCombustivelControleSvc
+      Enumerable.from((await this._despesaCartaoCombustivelTecnicoSvc
         .obterPorParametros({ codDespesaCartaoCombustivel: this.cartao?.codDespesaCartaoCombustivel })
         .toPromise()).items)
         .orderBy(i => i.dataHoraInicio)

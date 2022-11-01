@@ -14,17 +14,26 @@
                                             {{ t('cartoes combustivel') }}
                                         </a>
                                     </div>
+                                    
                                     <div class="flex items-center ml-1 whitespace-nowrap">
                                         <mat-icon class="icon-size-5 text-secondary"
                                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                                         <span class="ml-1 text-secondary">{{ t('cartao') }}</span>
+                                    </div>
+
+                                    <div class="flex items-center ml-1 whitespace-nowrap">
+                                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                                        </mat-icon>
+                                        <span class="ml-1 text-secondary">
+                                            #{{ codDespesaCartaoCombustivel }}
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div class="mt-2">
                                     <h2
                                         class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                        {{ codDespesaCartaoCombustivel }}
+                                        {{ cartao?.numero | mask: '0000 0000 0000 0000' }}
                                     </h2>
                                 </div>
                             </div>
@@ -33,13 +42,13 @@
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
 
                             <button [matTooltip]="t('editar')" matTooltipPosition="above"
-                                class="fuse-mat-button-rounded bg-gray-200" mat-icon-button
+                                class="fuse-mat-button-rounded bg-orange-200" mat-icon-button
                                 [routerLink]="['/frota-tecnico/cartoes-combustivel/form/'+codDespesaCartaoCombustivel]">
-                                <mat-icon class="text-black-500" [svgIcon]="'heroicons_outline:document-add'">
+                                <mat-icon class="icon-size-3" class="text-black-500" [svgIcon]="'heroicons_outline:pencil'">
                                 </mat-icon>
                             </button>
 
-                            <button class="fuse-mat-button-rounded bg-green-200" mat-flat-button
+                            <button class="fuse-mat-button-rounded bg-green-200" mat-icon-button
                                 [matTooltip]="t('vincular tecnico')" matTooltipPosition="above"
                                 (click)="vincularNovoTecnico()">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user-add'"></mat-icon>
@@ -106,23 +115,19 @@
                                     </div>
                                 </fuse-card>
 
-                                <!-- <fuse-card
-                                        class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"> -->
-                                <div class="p-6">
+                                <fuse-card
+                                    class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-center justify-between">
-                                        <div class="text-2xl font-semibold leading-tight">
-                                            {{ t('historico de uso do cartao') }}</div>
+                                        <div class="text-2xl font-semibold leading-tight">{{ t('historico de uso do cartao') }}</div>
                                     </div>
 
-
                                     <div class="flex flex-col my-2">
-                                        <div class="flex justify-center align-middle items-center"
-                                            *ngIf="isHistoricoLoading">
+                                        <div class="flex justify-center align-middle items-center pt-40" *ngIf="isHistoricoLoading">
                                             <mat-progress-spinner diameter="50" [mode]="'indeterminate'">
                                             </mat-progress-spinner>
                                         </div>
-                                        <table mat-table [dataSource]="historico" [tHead]="" class="mat-elevation-z2"
-                                            *ngIf="!isHistoricoLoading">
+
+                                        <table class="mt-4" mat-table [dataSource]="historico" [tHead]="" *ngIf="!isHistoricoLoading">
                                             <ng-container matColumnDef="tecnico">
                                                 <th mat-header-cell *matHeaderCellDef class="bg-gray-50 text-black">
                                                     {{ t('tecnico') }} </th>
@@ -140,8 +145,7 @@
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                         </table>
                                     </div>
-                                </div>
-                                <!-- </fuse-card> -->
+                                </fuse-card>
                             </div>
                         </div>
                     </div>

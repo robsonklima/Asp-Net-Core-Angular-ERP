@@ -1,3 +1,5 @@
+import { Meta, QueryStringParameters } from "./generic.types";
+
 export interface TicketLogTransacao {
     codTicketLogTransacao: number;
     quilometrosPorLitro: number;
@@ -46,4 +48,17 @@ export interface TicketLogTransacao {
     codigoServicoOrdemServico: number;
     controlaHorimetro: string;
     dataHoraConsulta: string;
+}
+
+export interface TicketLogTransacaoData extends Meta {
+    items: TicketLogTransacao[];
+};
+
+export interface TicketLogTransacaoParameters extends QueryStringParameters {
+    dataInicio?: string;
+    dataFim?: string;
+    responsavel?: string;
+    cidade?: string;
+    uf?: string;
+    numeroCartao?: string;
 }

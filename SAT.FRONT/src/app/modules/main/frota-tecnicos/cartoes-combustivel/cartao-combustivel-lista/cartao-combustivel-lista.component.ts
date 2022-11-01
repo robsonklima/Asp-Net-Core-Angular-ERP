@@ -12,6 +12,7 @@ import { fromEvent } from 'rxjs';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { MatSort } from '@angular/material/sort';
 registerLocaleData(localePt);
 
 @Component({
@@ -33,7 +34,7 @@ registerLocaleData(localePt);
 export class CartaoCombustivelListaComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
-
+  @ViewChild(MatSort) sort: MatSort;
   isLoading: boolean = false;
   cartoes: DespesaCartaoCombustivelData;
 
@@ -57,8 +58,8 @@ export class CartaoCombustivelListaComponent implements AfterViewInit {
     this.cartoes = (await this._cartaoCombustivelSvc.obterPorParametros({
       pageNumber: this.paginator.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
-      sortActive: 'codDespesaCartaoCombustivel',
-      sortDirection: 'desc',
+      sortActive: this.sort.active || 'codDespesaCartaoCombustivel',
+			sortDirection: this.sort.direction || 'desc',
       filter: filter
     }).toPromise());
   }

@@ -59,6 +59,7 @@ namespace SAT.SERVICES.Services
         private readonly ITicketLogPedidoCreditoRepository _ticketLogPedidoCreditoRepo;
         private readonly IORCheckListRepository _orCheckListRepo;
         private readonly IDespesaCartaoCombustivelRepository _despesaCartaoCombustivelRepo;
+        private readonly ITicketLogTransacaoRepository _ticketLogTransacaoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -102,7 +103,8 @@ namespace SAT.SERVICES.Services
             IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
             ITicketLogPedidoCreditoRepository ticketLogPedidoCreditoRepo,
             IORCheckListRepository orCheckListRepo,
-            IDespesaCartaoCombustivelRepository despesaCartaoCombustivelRepo
+            IDespesaCartaoCombustivelRepository despesaCartaoCombustivelRepo,
+            ITicketLogTransacaoRepository ticketLogTransacaoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -147,6 +149,7 @@ namespace SAT.SERVICES.Services
             _ticketLogPedidoCreditoRepo = ticketLogPedidoCreditoRepo;
             _orCheckListRepo = orCheckListRepo;
             _despesaCartaoCombustivelRepo = despesaCartaoCombustivelRepo;
+            _ticketLogTransacaoRepo = ticketLogTransacaoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -334,6 +337,10 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.DESPESA_CARTAO_COMBUSTIVEL:
                     GerarPlanilhaDespesaCartaoCombustivel(((JObject)parameters).ToObject<DespesaCartaoCombustivelParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.TICKET_LOG_TRANSACAO:
+                    GerarPlanilhaTicketLogTransacao(((JObject)parameters).ToObject<TicketLogTransacaoParameters>());
                     break;
                     
                 default:

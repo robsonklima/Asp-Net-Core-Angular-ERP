@@ -29,10 +29,10 @@ import { CreditoCreditarDialogComponent } from './credito-creditar-dialog/credit
   templateUrl: './credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 50px 50px 50px auto 30px 30px 115px 125px 60px 105px 105px 75px 40px 60px;
-            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 125px 60px 105px 105px 75px 40px 60px; }
-            @screen md { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 125px 60px 105px 105px 75px 40px 60px; }
-            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 125px 60px 105px 105px 75px 40px 60px; }
+            grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px;
+            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
+            @screen md { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
+            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,

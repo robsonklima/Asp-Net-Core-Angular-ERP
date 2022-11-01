@@ -19,7 +19,7 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-icon-button [routerLink]="['/despesa/cartoes-combustivel/form']">
+                    <button class="ml-4" mat-icon-button [routerLink]="['/frota-tecnico/cartoes-combustivel/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>
@@ -41,7 +41,7 @@
                                 <ng-container *ngIf="cartoes?.items.length">
                                     <ng-container *ngFor="let cc of cartoes?.items">
                                         <a
-                                            [routerLink]="'/despesa/cartoes-combustivel/detalhe/' + cc.codDespesaCartaoCombustivel">
+                                            [routerLink]="'/frota-tecnico/cartoes-combustivel/detalhe/' + cc.codDespesaCartaoCombustivel">
                                             <div class="list-grid-despesa-cartao-combustivel grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                                 *transloco="let t">
                                                 <div class="hidden md:block truncate">

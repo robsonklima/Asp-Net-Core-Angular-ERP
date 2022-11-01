@@ -12,11 +12,11 @@ import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-despesa-cartao-combustivel-form',
-  templateUrl: './despesa-cartao-combustivel-form.component.html'
+  selector: 'app-cartao-combustivel-form',
+  templateUrl: './cartao-combustivel-form.component.html'
 })
 
-export class DespesaCartaoCombustivelFormComponent implements OnInit, OnDestroy
+export class CartaoCombustivelFormComponent implements OnInit, OnDestroy
 {
   codDespesaCartaoCombustivel: number;
   despesaCartaoCombustivel: DespesaCartaoCombustivel;

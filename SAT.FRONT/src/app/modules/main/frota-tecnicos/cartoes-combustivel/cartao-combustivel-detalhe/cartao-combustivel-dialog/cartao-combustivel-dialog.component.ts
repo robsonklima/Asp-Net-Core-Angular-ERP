@@ -11,10 +11,10 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-despesa-cartao-combustivel-dialog',
-  templateUrl: './despesa-cartao-combustivel-dialog.component.html'
+  selector: 'app-cartao-combustivel-dialog',
+  templateUrl: './cartao-combustivel-dialog.component.html'
 })
-export class DespesaCartaoCombustivelDialogComponent implements OnInit
+export class CartaoCombustivelDialogComponent implements OnInit
 {
   form: FormGroup;
   tecnicos: Tecnico[] = [];
@@ -23,7 +23,7 @@ export class DespesaCartaoCombustivelDialogComponent implements OnInit
 
   constructor (
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<DespesaCartaoCombustivelDialogComponent>,
+    private dialogRef: MatDialogRef<CartaoCombustivelDialogComponent>,
     private _formBuilder: FormBuilder,
     private _tecnicoService: TecnicoService,
     private _userService: UserService,

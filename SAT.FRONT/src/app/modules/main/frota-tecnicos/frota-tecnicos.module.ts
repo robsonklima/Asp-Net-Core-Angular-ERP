@@ -43,6 +43,10 @@ import { PedidosCreditoComponent } from './pedidos-credito/pedidos-credito.compo
 import { CreditoCartaoListaComponent } from './creditos-cartao/credito-cartao-lista/credito-cartao-lista.component';
 import { CreditoCartaoFiltroComponent } from './creditos-cartao/credito-cartao-filtro/credito-cartao-filtro.component';
 import { CreditoCreditarDialogComponent } from './creditos-cartao/credito-cartao-lista/credito-creditar-dialog/credito-creditar-dialog.component';
+import { CartaoCombustivelDetalheComponent } from './cartoes-combustivel/cartao-combustivel-detalhe/cartao-combustivel-detalhe.component';
+import { CartaoCombustivelDialogComponent } from './cartoes-combustivel/cartao-combustivel-detalhe/cartao-combustivel-dialog/cartao-combustivel-dialog.component';
+import { CartaoCombustivelFormComponent } from './cartoes-combustivel/cartao-combustivel-form/cartao-combustivel-form.component';
+import { CartaoCombustivelListaComponent } from './cartoes-combustivel/cartao-combustivel-lista/cartao-combustivel-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -65,6 +69,10 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     ValoresCombustivelListaComponent,
     ValoresCombustivelFormComponent,
     ValoresCombustivelFiltroComponent,
+    CartaoCombustivelDetalheComponent,
+    CartaoCombustivelListaComponent,
+    CartaoCombustivelDialogComponent,
+    CartaoCombustivelFormComponent,
     PedidosCreditoComponent,
     CreditoCartaoListaComponent,
     CreditoCartaoFiltroComponent,

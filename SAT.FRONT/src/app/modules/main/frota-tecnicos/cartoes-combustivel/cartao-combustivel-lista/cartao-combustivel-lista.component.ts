@@ -12,8 +12,8 @@ import { fromEvent } from 'rxjs';
 registerLocaleData(localePt);
 
 @Component({
-  selector: 'app-despesa-cartao-combustivel-lista',
-  templateUrl: './despesa-cartao-combustivel-lista.component.html',
+  selector: 'app-cartao-combustivel-lista',
+  templateUrl: './cartao-combustivel-lista.component.html',
   styles: [`
         .list-grid-despesa-cartao-combustivel {
             grid-template-columns: auto 80px;
@@ -27,7 +27,7 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaCartaoCombustivelListaComponent implements AfterViewInit
+export class CartaoCombustivelListaComponent implements AfterViewInit
 {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;

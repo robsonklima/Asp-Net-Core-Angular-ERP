@@ -52,5 +52,6 @@ export enum ExportacaoTipoEnum {
     OR_ITEM,
     PEDIDOS_CREDITO,
     ORDEM_REPARO,
-    OR_CHECKLIST
+    OR_CHECKLIST,
+    DESPESA_CARTAO_COMBUSTIVEL
 }

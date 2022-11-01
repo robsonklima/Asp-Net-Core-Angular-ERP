@@ -19,7 +19,11 @@
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-4" mat-icon-button [routerLink]="['/frota-tecnico/cartoes-combustivel/form']">
+                    <button (click)="exportar()" class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}">
+                        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                    </button>
+
+                    <button class="ml-2" mat-icon-button [routerLink]="['/frota-tecnico/cartoes-combustivel/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
                 </div>
@@ -34,6 +38,27 @@
                                     <div>
                                         {{ t('numero do cartao') }}
                                     </div>
+
+                                    <div>
+                                        {{ t('carro') }}
+                                    </div>
+
+                                    <div>
+                                        {{ t('placa') }}
+                                    </div>
+
+                                    <div>
+                                        {{ t('ano') }}
+                                    </div>
+
+                                    <div>
+                                        {{ t('cor') }}
+                                    </div>
+
+                                    <div>
+                                        {{ t('combustivel') }}
+                                    </div>
+
                                     <div>
                                         {{ t('ativo') }}
                                     </div>
@@ -47,6 +72,27 @@
                                                 <div class="hidden md:block truncate">
                                                     {{ cc.numero | mask: '0000 0000 0000 0000'}}
                                                 </div>
+
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.carro}}
+                                                </div>
+
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.placa}}
+                                                </div>
+
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.ano}}
+                                                </div>
+
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.cor}}
+                                                </div>
+
+                                                <div class="hidden md:block truncate">
+                                                    {{ cc.combustivel}}
+                                                </div>
+
                                                 <div class="hidden md:block truncate">
                                                     {{ cc.indAtivo ? "SIM" : "NÃO" }}
                                                 </div>

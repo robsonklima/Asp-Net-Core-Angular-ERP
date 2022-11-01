@@ -9,6 +9,9 @@ import { DespesaCartaoCombustivelData } from 'app/core/types/despesa-cartao-comb
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 registerLocaleData(localePt);
 
 @Component({
@@ -16,10 +19,10 @@ registerLocaleData(localePt);
   templateUrl: './cartao-combustivel-lista.component.html',
   styles: [`
         .list-grid-despesa-cartao-combustivel {
-            grid-template-columns: auto 80px;
-            @screen sm { grid-template-columns: auto 80px;}
-            @screen md { grid-template-columns: auto 80px; }
-            @screen lg { grid-template-columns: auto 80px; }
+            grid-template-columns: 140px auto 80px 80px 110px 130px 80px;
+            @screen sm { grid-template-columns: 140px auto 80px 80px 110px 130px 80px;}
+            @screen md { grid-template-columns: 140px auto 80px 80px 110px 130px 80px; }
+            @screen lg { grid-template-columns: 140px auto 80px 80px 110px 130px 80px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
@@ -27,21 +30,20 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class CartaoCombustivelListaComponent implements AfterViewInit
-{
+export class CartaoCombustivelListaComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
   isLoading: boolean = false;
   cartoes: DespesaCartaoCombustivelData;
 
-  constructor (
+  constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
+    private _exportacaoService: ExportacaoService,
     private _cartaoCombustivelSvc: DespesaCartaoCombustivelService) { }
 
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     this.obterDados();
 
     if (this.paginator)
@@ -51,8 +53,7 @@ export class CartaoCombustivelListaComponent implements AfterViewInit
     this._cdr.detectChanges();
   }
 
-  private async obterCartoes(filter: string)
-  {
+  private async obterCartoes(filter: string) {
     this.cartoes = (await this._cartaoCombustivelSvc.obterPorParametros({
       pageNumber: this.paginator.pageIndex + 1,
       pageSize: this.paginator?.pageSize,
@@ -62,24 +63,20 @@ export class CartaoCombustivelListaComponent implements AfterViewInit
     }).toPromise());
   }
 
-  public async obterDados(filter: string = null)
-  {
+  public async obterDados(filter: string = null) {
     this.isLoading = true;
     this.obterCartoes(filter);
     this.isLoading = false;
   }
 
-  registerEmitters(): void
-  {
+  registerEmitters(): void {
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
+      map((event: any) => {
         return event.target.value;
       })
       , debounceTime(1000)
       , distinctUntilChanged()
-    ).subscribe((text: string) =>
-    {
+    ).subscribe((text: string) => {
       if (text && text != "")
       {
         this.paginator.pageIndex = 0;
@@ -88,8 +85,20 @@ export class CartaoCombustivelListaComponent implements AfterViewInit
     });
   }
 
-  public paginar()
-  {
+  public async exportar() {
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.DESPESA_CARTAO_COMBUSTIVEL,
+			entityParameters: {}
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
+    this.isLoading = false;
+	}
+
+  public paginar() {
     this.obterDados();
   }
 }

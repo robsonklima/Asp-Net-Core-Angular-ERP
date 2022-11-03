@@ -45,9 +45,6 @@ export class LaboratorioChecklistItemFormDialogComponent implements OnInit {
     this.criarForm();
     if (!this.isAddMode)
       this.form.patchValue(this.orCheckListItem);
-
-    console.log(this.orCheckListItem);
-
   }
 
   criarForm() {

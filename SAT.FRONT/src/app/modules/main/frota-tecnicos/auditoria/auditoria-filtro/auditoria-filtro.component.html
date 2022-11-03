@@ -39,25 +39,11 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="codAuditoriaStats" multiple="true">
-
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="statsFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codauditoriaStatus, stats,
-                            'codAuditoriaStatus')" [value]="0">
-                            TODAS
-                        </mat-option>
-
                         <mat-option *ngFor="let stat of stats" [value]="stat.codAuditoriaStatus ">
                             {{ stat.nome }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
-
             </div>
 
             <div class="mt-6 border-t"></div>

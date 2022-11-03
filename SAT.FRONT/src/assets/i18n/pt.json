@@ -756,5 +756,9 @@
     "parametro": "Parâmetro",
     "realizacao": "Realização",
     "nivel": "Nível",
-    "mei": "MEI"
+    "mei": "MEI",
+    "odometro atual": "Odômetro Atual",
+    "odometro anterior": "Odômetro Anterior",
+    "consumo": "Consumo",
+    "transacoes cartao": "Transações Cartão"
 }

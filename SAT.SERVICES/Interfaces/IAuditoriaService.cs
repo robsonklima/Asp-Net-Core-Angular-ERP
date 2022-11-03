@@ -7,6 +7,7 @@ namespace SAT.SERVICES.Interfaces
     public  interface IAuditoriaService
     {
         ListViewModel ObterPorParametros(AuditoriaParameters parameters);
+        ListViewModel ObterPorView(AuditoriaParameters parameters);
         Auditoria ObterPorCodigo(int codigo);
         void Criar(Auditoria auditoria);
         void Deletar(int codigoAuditoria);

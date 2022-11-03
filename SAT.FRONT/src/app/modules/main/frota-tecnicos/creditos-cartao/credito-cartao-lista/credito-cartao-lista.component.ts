@@ -19,50 +19,47 @@ import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { DespesaCreditoCreditarDialogComponent } from './despesa-credito-creditar-dialog/despesa-credito-creditar-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { CreditoCreditarDialogComponent } from './credito-creditar-dialog/credito-creditar-dialog.component';
 
 @Component({
-  selector: 'app-despesa-credito-cartao-lista',
-  templateUrl: './despesa-credito-cartao-lista.component.html',
+  selector: 'app-credito-cartao-lista',
+  templateUrl: './credito-cartao-lista.component.html',
   styles: [`
         .list-grid-despesa-credito-cartao {
-            grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px;
-            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
-            @screen md { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
-            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 75px 60px 85px 60px 75px 40px 60px; }
+            grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px;
+            @screen sm { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
+            @screen md { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
+            @screen lg { grid-template-columns: 50px 50px 50px auto 30px 30px 115px 145px 60px 105px 105px 75px 40px 60px; }
         }
     `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations,
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
-export class DespesaCreditoCartaoListaComponent extends Filterable implements AfterViewInit, IFilterable
-{
+export class CreditoCartaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
   isLoading: boolean = false;
   periodos: DespesaPeriodoTecnicoData;
   listview: DespesaCreditosCartaoListView[] = [];
 
-  constructor (
+  constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaProtocoloSvc: DespesaProtocoloService,
     private _exportacaoService: ExportacaoService,
     private _snack: CustomSnackbarService,
-    private _dialog: MatDialog)
-  {
+    private _dialog: MatDialog) {
     super(_userService, 'despesa-credito-cartao');
   }
 
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     this.obterDados();
 
     if (this.sort && this.paginator)
@@ -70,8 +67,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() =>
-      {
+      this.sort.sortChange.subscribe(() => {
         this.onSortChanged();
         this.obterDados();
       });
@@ -81,8 +77,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     this._cdr.detectChanges();
   }
 
-  public async obterDados(filter: string = null)
-  {
+  private async obterDados(filter: string = null) {
     this.isLoading = true;
 
     await this.obterPeriodosTecnico(filter);
@@ -92,31 +87,26 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     this.isLoading = false;
   }
 
-  registerEmitters(): void
-  {
+  registerEmitters(): void {
 
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
+      map((event: any) => {
         return event.target.value;
       })
       , debounceTime(1000)
       , distinctUntilChanged()
-    ).subscribe((filter: string) =>
-    {
+    ).subscribe((filter: string) => {
       this.paginator.pageIndex = 0;
       this.obterDados(filter);
     });
 
-    this.sidenav.closedStart.subscribe(() =>
-    {
+    this.sidenav.closedStart.subscribe(() => {
       this.onSidenavClosed();
       this.obterDados();
     })
   }
 
-  private async obterPeriodosTecnico(filter: string = null)
-  {
+  private async obterPeriodosTecnico(filter: string = null) {
     this.periodos = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
       {
         filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_CREDITOS_CARTAO,
@@ -139,13 +129,11 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     )
   }
 
-  private criarListView()
-  {
+  private criarListView() {
     this.listview = [];
 
     this.periodos.items
-      .forEach(p =>
-      {
+      .forEach(p => {
         this.listview.push(
           {
             protocolo: "P" + p.despesaProtocoloPeriodoTecnico?.codDespesaProtocolo,
@@ -170,12 +158,10 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       });
   }
 
-  compensaDespesasZeradas()
-  {
+  compensaDespesasZeradas() {
     Enumerable.from(this.listview)
       .where(d => d.combustivel <= 0 && !d.indCompensado)
-      .forEach(async d => 
-      {
+      .forEach(async d => {
         var despesa = Enumerable.from(this.periodos.items).
           firstOrDefault(i => i.codDespesaPeriodoTecnico == d.rd);
 
@@ -190,30 +176,26 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       })
   }
 
-  private obterCartaoAtual(p: DespesaPeriodoTecnico)
-  {
+  private obterCartaoAtual(p: DespesaPeriodoTecnico) {
     return Enumerable
       .from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.numero;
   }
 
-  private obterSaldoAtual(p: DespesaPeriodoTecnico)
-  {
+  private obterSaldoAtual(p: DespesaPeriodoTecnico) {
     return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.saldo;
   }
 
-  private obterHorarioSaldoAtual(p: DespesaPeriodoTecnico)
-  {
+  private obterHorarioSaldoAtual(p: DespesaPeriodoTecnico) {
     return Enumerable.from(p.tecnico.despesaCartaoCombustivelTecnico)
       .orderByDescending(i => i.dataHoraInicio)
       .firstOrDefault()?.despesaCartaoCombustivel?.ticketLogUsuarioCartaoPlaca?.dataHoraManut;
   }
 
-  private obterDespesasCombustivel(p: DespesaPeriodoTecnico)
-  {
+  private obterDespesasCombustivel(p: DespesaPeriodoTecnico) {
     return Enumerable.from(p.despesas).sum(i =>
       Enumerable.from(i.despesaItens)
         .where(i => i.indAtivo
@@ -221,38 +203,28 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         .sum(i => i.despesaValor));
   }
 
-  getCategoriaCredito(c: TecnicoCategoriaCreditoEnum)
-  {
+  getCategoriaCredito(c: TecnicoCategoriaCreditoEnum) {
     return TecnicoCategoriaCreditoEnum[c];
   }
 
-  paginar()
-  {
-    this.onPaginationChanged();
-    this.obterDados();
-  }
-
-  creditarRD(a: DespesaCreditosCartaoListView)
-  {
+  creditarRD(a: DespesaCreditosCartaoListView) {
     var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
       .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
 
-    const dialogRef = this._dialog.open(DespesaCreditoCreditarDialogComponent, {
+    const dialogRef = this._dialog.open(CreditoCreditarDialogComponent, {
       data: {
         despesaCreditosCartaoListView: a,
         despesaPeriodoTecnico: despesaPeriodoTecnico
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
         this.obterDados();
     });
   }
 
-  verificarRD(a: DespesaCreditosCartaoListView)
-  {
+  verificarRD(a: DespesaCreditosCartaoListView) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Verificação',
@@ -264,8 +236,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
         .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
 
@@ -274,16 +245,14 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
         despesaPeriodoTecnico.indVerificacao = 1;
         despesaPeriodoTecnico.codUsuarioVerificacao = this.userSession.usuario.codUsuario;
         despesaPeriodoTecnico.dataHoraVerificacao = moment().format('yyyy-MM-DD HH:mm:ss');
-        this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i =>
-        {
+        this._despesaPeriodoTecnicoSvc.atualizar(despesaPeriodoTecnico).subscribe(i => {
           this.fecharProtocolo(despesaPeriodoTecnico.despesaProtocoloPeriodoTecnico.codDespesaProtocolo);
         });
       }
     });
   }
 
-  cancelarVerificacaoRD(a: DespesaCreditosCartaoListView)
-  {
+  cancelarVerificacaoRD(a: DespesaCreditosCartaoListView) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Cancelar Verificação',
@@ -295,8 +264,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       var despesaPeriodoTecnico = Enumerable.from(this.periodos.items)
         .firstOrDefault(i => i.codDespesaPeriodoTecnico == a.rd);
 
@@ -310,8 +278,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     });
   }
 
-  getStatus(a: DespesaCreditosCartaoListView)
-  {
+  getStatus(a: DespesaCreditosCartaoListView) {
     if (a.indErroAoCreditar)
       return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum['ERRO AO CREDITAR']];
     else if (a.indCreditado)
@@ -322,8 +289,7 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     return DespesaCreditoCartaoStatusEnum[DespesaCreditoCartaoStatusEnum.PENDENTE];
   }
 
-  async fecharProtocolo(codDespesaProtocolo: number)
-  {
+  async fecharProtocolo(codDespesaProtocolo: number) {
     var protocolo = (await this._despesaProtocoloSvc
       .obterPorCodigo(codDespesaProtocolo)
       .toPromise());
@@ -364,25 +330,29 @@ export class DespesaCreditoCartaoListaComponent extends Filterable implements Af
     });
   }
 
-  async reabrirProtocolo(codDespesaProtocolo: number)
-  {
+  async reabrirProtocolo(codDespesaProtocolo: number) {
 
   }
 
   async exportar() {
-    if (!this.filter.parametros.inicioPeriodo || !this.filter.parametros.fimPeriodo) 
+    if (!this.filter.parametros.inicioPeriodo || !this.filter.parametros.fimPeriodo)
       return this._snack.exibirToast('Favor selecionar o período para exportar', 'error');
 
-		this.isLoading = true;
+    this.isLoading = true;
 
-		let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-			tipoArquivo: ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO,
-			entityParameters: this.filter?.parametros
-		}
+    let exportacaoParam: Exportacao = {
+      formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+      tipoArquivo: ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO,
+      entityParameters: this.filter?.parametros
+    }
 
-		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam );
+    await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
-		this.isLoading = false;
-	}
+    this.isLoading = false;
+  }
+
+  paginar() {
+    this.onPaginationChanged();
+    this.obterDados();
+  }
 }

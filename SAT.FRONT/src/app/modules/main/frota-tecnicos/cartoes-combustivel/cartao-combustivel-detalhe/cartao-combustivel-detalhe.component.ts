@@ -6,29 +6,28 @@ import { DespesaCartaoCombustivel, DespesaCartaoCombustivelTecnico } from 'app/c
 import { DespesaCartaoCombustivelService } from 'app/core/services/despesa-cartao-combustivel.service';
 import { DespesaCartaoCombustivelTecnicoService } from 'app/core/services/despesa-cartao-combustivel-tecnico.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DespesaCartaoCombustivelDialogComponent } from './despesa-cartao-combustivel-dialog/despesa-cartao-combustivel-dialog.component';
 import Enumerable from 'linq';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 
 @Component({
-  selector: 'app-despesa-cartao-combustivel-detalhe',
-  templateUrl: './despesa-cartao-combustivel-detalhe.component.html',
+  selector: 'app-cartao-combustivel-detalhe',
+  templateUrl: './cartao-combustivel-detalhe.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
+export class CartaoCombustivelDetalheComponent implements AfterViewInit
 {
   codDespesaCartaoCombustivel: number;
   cartao: DespesaCartaoCombustivel;
   historico: DespesaCartaoCombustivelTecnico[] = [];
   userSession: UsuarioSessao;
   displayedColumns: string[] = ['tecnico', 'inicio de uso'];
-  isHistoricoLoading: boolean;
+  isHistoricoLoading: boolean = true;
 
   constructor (
     private _route: ActivatedRoute,
     private _cartaoCombustivelSvc: DespesaCartaoCombustivelService,
     private _tecnicoSvc: TecnicoService,
-    private _cartaoCombustivelControleSvc: DespesaCartaoCombustivelTecnicoService,
+    private _despesaCartaoCombustivelTecnicoSvc: DespesaCartaoCombustivelTecnicoService,
     private _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog
@@ -60,10 +59,8 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
 
   private async obterHistorico()
   {
-    this.isHistoricoLoading = true;
-
     this.historico =
-      Enumerable.from((await this._cartaoCombustivelControleSvc
+      Enumerable.from((await this._despesaCartaoCombustivelTecnicoSvc
         .obterPorParametros({ codDespesaCartaoCombustivel: this.cartao?.codDespesaCartaoCombustivel })
         .toPromise()).items)
         .orderBy(i => i.dataHoraInicio)
@@ -77,7 +74,7 @@ export class DespesaCartaoCombustivelDetalheComponent implements AfterViewInit
 
   vincularNovoTecnico(): void
   {
-    const dialogRef = this._dialog.open(DespesaCartaoCombustivelDialogComponent, {
+    const dialogRef = this._dialog.open(CartaoCombustivelDetalheComponent, {
       data: { codDespesaCartaoCombustivel: this.codDespesaCartaoCombustivel }
     });
 

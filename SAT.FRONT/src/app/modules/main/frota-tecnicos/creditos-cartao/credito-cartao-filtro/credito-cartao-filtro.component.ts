@@ -13,10 +13,10 @@ import { UserService } from 'app/core/user/user.service';
 import { RoleEnum } from 'app/core/user/user.types';
 
 @Component({
-  selector: 'app-despesa-credito-cartao-filtro',
-  templateUrl: './despesa-credito-cartao-filtro.component.html'
+  selector: 'app-credito-cartao-filtro',
+  templateUrl: './credito-cartao-filtro.component.html'
 })
-export class DespesaCreditoCartaoFiltroComponent extends FilterBase implements OnInit, IFilterBase
+export class CreditoCartaoFiltroComponent extends FilterBase implements OnInit, IFilterBase
 {
   @Input() sidenav: MatSidenav;
   tecnicos: Tecnico[] = [];

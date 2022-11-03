@@ -1,6 +1,7 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Interfaces {
     public interface IAuditoriaRepository {
@@ -9,5 +10,6 @@ namespace SAT.INFRA.Interfaces {
         void Criar(Auditoria auditoria);
         void Deletar(int codigoAuditoria);
         void Atualizar(Auditoria auditoria);
+        PagedList<AuditoriaView> ObterPorView(AuditoriaParameters parameters);
     }
 }

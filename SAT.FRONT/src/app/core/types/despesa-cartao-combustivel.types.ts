@@ -1,5 +1,6 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Tecnico } from "./tecnico.types";
+import { TicketLogTransacao } from "./ticket-log-transacao.types";
 import { TicketLogUsuarioCartaoPlaca } from "./ticketlog-types";
 
 export class DespesaCartaoCombustivel
@@ -16,6 +17,7 @@ export class DespesaCartaoCombustivel
     dataHoraCad: Date;
     indAtivo: number;
     ticketLogUsuarioCartaoPlaca: TicketLogUsuarioCartaoPlaca;
+    transacoes: TicketLogTransacao[];
 }
 
 export interface DespesaCartaoCombustivelData extends Meta

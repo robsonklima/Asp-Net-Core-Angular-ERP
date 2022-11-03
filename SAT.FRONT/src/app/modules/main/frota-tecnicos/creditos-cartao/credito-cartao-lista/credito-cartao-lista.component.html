@@ -1,7 +1,7 @@
 <mat-drawer-container class="flex-auto h-full">
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
-        <app-despesa-credito-cartao-filtro [sidenav]="sidenav">
-        </app-despesa-credito-cartao-filtro>
+        <app-credito-cartao-filtro [sidenav]="sidenav">
+        </app-credito-cartao-filtro>
     </mat-drawer>
     <mat-drawer-content>
         <div
@@ -114,9 +114,8 @@
                                             <div class="pointer-events-none">
                                                 {{ a.indCompensado == 1 ? "N/A" : (a.integrado || "PENDENTE") }}
                                             </div>
-                                            <div class="truncate font-bold cursor-help"
-                                                [matTooltip]="a.obs | uppercase">
-                                                {{ a.obs }}
+                                            <div class="truncate font-semibold cursor-help" [matTooltip]="a.obs | uppercase">
+                                                {{ a.obs || 'Não' }}
                                             </div>
                                             <div class="pointer-events-none">
                                                 {{ a.inicio + " - " + a.fim }}

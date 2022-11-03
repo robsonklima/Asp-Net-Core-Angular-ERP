@@ -50,7 +50,7 @@ export class DespesaAdiantamentoPeriodoService
     criar(codDespesaAdiantamentoPeriodo: DespesaAdiantamentoPeriodo): Observable<DespesaAdiantamentoPeriodo>
     {
         return this.http.post<DespesaAdiantamentoPeriodo>(
-            `${c.api}/DespesaPeriodo`, codDespesaAdiantamentoPeriodo)
+            `${c.api}/DespesaAdiantamentoPeriodo`, codDespesaAdiantamentoPeriodo)
             .pipe(map((obj) => obj));
     }
 

@@ -21,12 +21,35 @@ namespace SAT.INFRA.Repository
 
         public void Atualizar(DespesaAdiantamentoPeriodo despesa)
         {
-            throw new NotImplementedException();
+            _context.ChangeTracker.Clear();
+            DespesaAdiantamentoPeriodo d = _context.DespesaAdiantamentoPeriodo.FirstOrDefault(l => l.CodDespesaAdiantamentoPeriodo == despesa.CodDespesaAdiantamentoPeriodo);
+
+            if (d != null)
+            {
+                _context.Entry(d).CurrentValues.SetValues(despesa);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
+            }
         }
 
         public void Criar(DespesaAdiantamentoPeriodo despesa)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Add(despesa);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
         }
 
         public void Deletar(int codigo)

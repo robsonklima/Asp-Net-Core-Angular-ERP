@@ -103,7 +103,7 @@
                         <ng-container>
                             <ng-container *ngFor="let item of dataSourceData?.items; let i=index">
                                 <div
-                                    class="list-grid-reparo z-10 grid items-center h-10 py-1 gap-4 px-6 text-sm md:px-8 border-b">
+                                    class="list-grid-reparo z-10 grid items-center h-11 py-1 gap-4 px-6 text-sm md:px-8 border-b">
                                     <div class="text-left">
                                         {{ item.codOR }}
                                     </div>
@@ -153,11 +153,13 @@
                                         <mat-slide-toggle color="primary" [(ngModel)]="item.selecionado"></mat-slide-toggle>
                                     </div>
 
-                                    <div class="text-center">
-                                        <button (click)="abrirForm(item)" 
-                                            class="bg-transparent hover:bg-blue-400 text-blue-600 font-semibold hover:text-white pt-0.5 px-4 h-6 border 
-                                                border-blue-500 hover:border-transparent rounded">
-                                            Editar
+                                    <div class="text-center -pt-1">
+                                        <button (click)="abrirForm(item)" mat-icon-button matTooltip="{{ t('editar') }}">
+                                            <mat-icon [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
+                                        </button>
+
+                                        <button (click)="abrirHistorico(item)" mat-icon-button matTooltip="{{ t('editar') }}">
+                                            <mat-icon [svgIcon]="'heroicons_outline:zoom-in'"></mat-icon>
                                         </button>
                                     </div>
                                 </div>

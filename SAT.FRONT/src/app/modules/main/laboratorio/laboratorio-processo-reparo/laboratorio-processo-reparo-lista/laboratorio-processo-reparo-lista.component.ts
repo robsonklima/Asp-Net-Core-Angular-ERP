@@ -27,7 +27,7 @@ import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-
 	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 64px;
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 92px;
         }`
 	]
 })
@@ -199,6 +199,10 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 	loadFilter(): void {
 		super.loadFilter();
+	}
+
+	abrirHistorico(item: ORItem) {
+
 	}
 
 	paginar() {

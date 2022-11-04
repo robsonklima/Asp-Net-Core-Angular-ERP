@@ -1,41 +1,27 @@
-<div class="flex flex-auto">
+<h2 mat-dialog-title>
+    Item de Reparo
+</h2>
 
-    <form
-        class="flex flex-col flex-auto overflow-y-auto"
-        [formGroup]="form">
-
-        <div class="flex items-center justify-between -ml-4">
-            <div class="pr-4 pl-3.5">
-                <ng-container>
-                    <div class="flex items-center justify-center">
-                        <span class="ml-2 font-semibold">Item de Reparo</span>
-                    </div>
-                </ng-container>
+<mat-dialog-content class="mat-typography" *transloco="let t">
+    <form class="flex flex-col overflow-hidden" [formGroup]="form">
+        <div class="flex-auto">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-6 overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-label>{{ t('codigo do item') }}</mat-label>
+                    <input matInput formControlName="codMagnus">
+                    <mat-error>
+                        {{ t('preencher campo') }}
+                    </mat-error>
+                </mat-form-field>
             </div>
-
-            <div class="flex items-center">
-                <button mat-icon-button class="text-green-600 bg-green-100" [matTooltip]="'Salvar'">
-                    <mat-icon [svgIcon]="'heroicons_outline:check'"></mat-icon>
-                </button>
-
-                <button mat-icon-button [matTooltip]="'Fechar'" (click)="fechar()">
-                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                </button>
-            </div>
-        </div>
-
-        <mat-divider class="mt-6 mb-8"></mat-divider>
-
-        <div>
-            <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
-                <mat-label>A</mat-label>
-                <textarea
-                    matInput
-                    [formControlName]="'title'"
-                    [spellcheck]="false"
-                    matTextareaAutosize
-                    #titleField></textarea>
-            </mat-form-field>
         </div>
     </form>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" *transloco="let t">
+    <button mat-button mat-dialog-close>Cancelar</button>
+
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
+        {{ t('salvar') }}
+    </button>
+</mat-dialog-actions>

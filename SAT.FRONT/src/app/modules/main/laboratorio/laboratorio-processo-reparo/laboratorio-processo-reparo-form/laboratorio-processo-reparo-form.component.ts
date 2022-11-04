@@ -35,15 +35,12 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 
   criarForm() {
     this.form = this._formBuilder.group({
-      
+      codMagnus: [undefined],
+      numSerie: [undefined],
     });
   }
 
   salvar() {
     
-  }
-
-  fechar() {
-    this._dialogRef.close();
   }
 }

@@ -7,8 +7,8 @@ namespace SAT.INFRA.Interfaces
     public interface IORTempoReparoRepository
     {
         PagedList<ORTempoReparo> ObterPorParametros(ORTempoReparoParameters parameters);
-        void Criar(ORTempoReparo tr);
-        void Atualizar(ORTempoReparo tr);
+        ORTempoReparo Criar(ORTempoReparo tr);
+        ORTempoReparo Atualizar(ORTempoReparo tr);
         void Deletar(int codigo);
         ORTempoReparo ObterPorCodigo(int codigo);
     }

@@ -31,9 +31,10 @@
         </div>
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-            <button (click)="toggleStatusReparo()" class="fuse-mat-button-rounded" mat-icon-button
-                [matTooltip]="'Iniciar Reparo'">
-                <mat-icon class="icon-size-10 text-green-500" [svgIcon]="'heroicons_outline:play'"></mat-icon>
+            <button *ngIf="item" (click)="toggleStatusReparo()" class="fuse-mat-button-rounded" mat-icon-button
+                [matTooltip]="!tempoReparo?.indAtivo ? 'Iniciar Reparo' : 'Finalizar Reparo'">
+                <mat-icon *ngIf="!tempoReparo?.indAtivo" class="icon-size-10 text-green-500" [svgIcon]="'heroicons_outline:play'"></mat-icon>
+                <mat-icon *ngIf="tempoReparo?.indAtivo" class="icon-size-10 text-red-500" [svgIcon]="'heroicons_outline:stop'"></mat-icon>
             </button>
         </div>
     </div>
@@ -41,7 +42,6 @@
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-3xl">
             <form *ngIf="item" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
-
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
                 </div>
@@ -159,6 +159,38 @@
                             <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
                         </div>
                     </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('check list') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('insumos') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('defeito') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('solucao') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
                 </div>
 
                 <div *ngIf="!form.valid">

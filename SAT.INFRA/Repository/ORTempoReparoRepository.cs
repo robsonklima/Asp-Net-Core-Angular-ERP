@@ -17,7 +17,7 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(ORTempoReparo tr)
+        public ORTempoReparo Atualizar(ORTempoReparo tr)
         {
             _context.ChangeTracker.Clear();
             ORTempoReparo p = _context.ORTempoReparo.FirstOrDefault(p => p.CodORTempoReparo == tr.CodORTempoReparo);
@@ -27,12 +27,15 @@ namespace SAT.INFRA.Repository
                 _context.Entry(p).CurrentValues.SetValues(tr);
                 _context.SaveChanges();
             }
+
+            return tr;
         }
 
-        public void Criar(ORTempoReparo tr)
+        public ORTempoReparo Criar(ORTempoReparo tr)
         {
             _context.Add(tr);
             _context.SaveChanges();
+            return tr;
         }
 
         public void Deletar(int cod)

@@ -9,7 +9,7 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(ORTempoReparoParameters parameters);
         ORTempoReparo Criar(ORTempoReparo tr);
         void Deletar(int codigo);
-        void Atualizar(ORTempoReparo tr);
+        ORTempoReparo Atualizar(ORTempoReparo tr);
         ORTempoReparo ObterPorCodigo(int codigo);
     }
 }

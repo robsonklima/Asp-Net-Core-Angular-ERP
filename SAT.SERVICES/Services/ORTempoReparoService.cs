@@ -35,9 +35,7 @@ namespace SAT.SERVICES.Services
 
         public ORTempoReparo Criar(ORTempoReparo tr)
         {
-            _orTempoReparoRepo.Criar(tr);
-
-            return tr;
+            return _orTempoReparoRepo.Criar(tr);
         }
 
         public void Deletar(int codigo)
@@ -45,9 +43,9 @@ namespace SAT.SERVICES.Services
             _orTempoReparoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(ORTempoReparo tr)
+        public ORTempoReparo Atualizar(ORTempoReparo tr)
         {
-            _orTempoReparoRepo.Atualizar(tr);
+            return _orTempoReparoRepo.Atualizar(tr);
         }
 
         public ORTempoReparo ObterPorCodigo(int codigo)

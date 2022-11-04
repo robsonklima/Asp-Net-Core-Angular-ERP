@@ -34,15 +34,15 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] ORTempoReparo tr)
+        public ORTempoReparo Post([FromBody] ORTempoReparo tr)
         {
-            _orTempoReparoService.Criar(tr);
+            return _orTempoReparoService.Criar(tr);
         }
 
         [HttpPut]
-        public void Put([FromBody] ORTempoReparo tr)
+        public ORTempoReparo Put([FromBody] ORTempoReparo tr)
         {
-            _orTempoReparoService.Atualizar(tr);
+            return _orTempoReparoService.Atualizar(tr);
         }
 
         [HttpDelete("{codORTempoReparo}")]

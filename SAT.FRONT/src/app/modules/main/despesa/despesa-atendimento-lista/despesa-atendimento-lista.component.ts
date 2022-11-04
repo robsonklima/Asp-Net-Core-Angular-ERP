@@ -199,37 +199,15 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		const despesas = this.atendimentos.items.filter((a) => a.codDespesaPeriodo == dpi.codDespesaPeriodo);
 		const adiantamentos = (this.adiantamentos.items);
 		const adiantamentosPeriodos = (this.adiantamentosPeriodos.items);
+		let totalDespesa = _.sum(despesas.map(d => d.totalDespesa));
 
 		for (const adiantamento of adiantamentos) {
 			const adiantamentosUtilizados = adiantamentosPeriodos.filter(u => u.codDespesaAdiantamento == adiantamento.codDespesaAdiantamento);
 			const saldo = adiantamento.valorAdiantamento - _.sum(adiantamentosUtilizados.map(au => au.valorAdiantamentoUtilizado));
-			let totalDespesa = _.sum(despesas.map(d => d.totalDespesa));
-			
+						
 			if (!saldo) continue;
 
 			if (saldo >= totalDespesa) {								
-				const adiantamentoUtilizado: DespesaAdiantamentoPeriodo = {
-					codDespesaAdiantamento: adiantamento.codDespesaAdiantamento,
-					codDespesaPeriodo: dpi.codDespesaPeriodo,
-					codUsuarioCad: this.userSession.usuario.codUsuario,
-					dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
-					valorAdiantamentoUtilizado: adiantamento.valorAdiantamento - totalDespesa
-				}
-
-				console.log(adiantamentoUtilizado);		
-				
-				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
-					.subscribe(() => {}, (e) => {
-						console.log(e);
-						
-
-						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
-					});
-
-				break;
-			} else {
-				totalDespesa = totalDespesa - saldo;
-
 				const adiantamentoUtilizado: DespesaAdiantamentoPeriodo = {
 					codDespesaAdiantamento: adiantamento.codDespesaAdiantamento,
 					codDespesaPeriodo: dpi.codDespesaPeriodo,
@@ -240,8 +218,25 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				
 				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
 					.subscribe(() => {}, (e) => {
-						console.log(e);
+						console.log(e);					
+						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
+					});
 
+				break;
+			} else {			
+				totalDespesa = totalDespesa - saldo;
+
+				const adiantamentoUtilizado: DespesaAdiantamentoPeriodo = {
+					codDespesaAdiantamento: adiantamento.codDespesaAdiantamento,
+					codDespesaPeriodo: dpi.codDespesaPeriodo,
+					codUsuarioCad: this.userSession.usuario.codUsuario,
+					dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+					valorAdiantamentoUtilizado: saldo
+				}
+				
+				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
+					.subscribe(() => {}, (e) => {
+						console.log(e);
 						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
 					});
 			}

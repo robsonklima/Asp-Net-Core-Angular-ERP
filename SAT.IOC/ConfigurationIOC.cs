@@ -175,6 +175,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORCheckListRepository>().As<IORCheckListRepository>();
         builder.RegisterType<ORCheckListItemRepository>().As<IORCheckListItemRepository>();
         builder.RegisterType<TicketLogTransacaoRepository>().As<ITicketLogTransacaoRepository>();
+        builder.RegisterType<ORTempoReparoRepository>().As<IORTempoReparoRepository>();
         
         #endregion
 
@@ -340,6 +341,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORCheckListService>().As<IORCheckListService>();
         builder.RegisterType<ORCheckListItemService>().As<IORCheckListItemService>();
         builder.RegisterType<TicketLogTransacaoService>().As<ITicketLogTransacaoService>();
+        builder.RegisterType<ORTempoReparoService>().As<IORTempoReparoService>();
 
         #endregion
 

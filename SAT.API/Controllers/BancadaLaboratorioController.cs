@@ -16,45 +16,45 @@ namespace SAT.API.Controllers
     [ApiController]
     public class BancadaLaboratorioController : ControllerBase
     {
-        private readonly IBancadaLaboratorioService _bancadaLaboratorioRepo;
+        private readonly IBancadaLaboratorioService _bancadaLaboratorioSvc;
 
         public BancadaLaboratorioController(IBancadaLaboratorioService bancadaLaboratorioService)
         {
-            _bancadaLaboratorioRepo = bancadaLaboratorioService;
+            _bancadaLaboratorioSvc = bancadaLaboratorioService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] BancadaLaboratorioParameters parameters)
         {
-            return _bancadaLaboratorioRepo.ObterPorParametros(parameters);
+            return _bancadaLaboratorioSvc.ObterPorParametros(parameters);
         }
 
         [HttpGet("{numBancada}")]
         public BancadaLaboratorio Get(int numBancada)
         {
-            return _bancadaLaboratorioRepo.ObterPorCodigo(numBancada);
+            return _bancadaLaboratorioSvc.ObterPorCodigo(numBancada);
         }
 
         [HttpPost]
         public BancadaLaboratorio Post([FromBody] BancadaLaboratorio lab)
         {
-            return _bancadaLaboratorioRepo.Criar(lab);
+            return _bancadaLaboratorioSvc.Criar(lab);
         }
 
         [HttpPut]
         public void Put([FromBody] BancadaLaboratorio lab)
         {
-            _bancadaLaboratorioRepo.Atualizar(lab);
+            _bancadaLaboratorioSvc.Atualizar(lab);
         }
 
         [HttpDelete("{numBancada}")]
         public void Delete(int numBancada)
         {
-            _bancadaLaboratorioRepo.Deletar(numBancada);
+            _bancadaLaboratorioSvc.Deletar(numBancada);
         }
 
         [HttpGet("TecnicosBancada")]
-        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada() =>
-            _bancadaLaboratorioRepo.ObterTecnicosBancada();
+        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada([FromQuery] BancadaLaboratorioParameters parameters) =>
+            _bancadaLaboratorioSvc.ObterPorView(parameters);
     }
 }

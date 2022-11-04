@@ -262,6 +262,7 @@ namespace SAT.INFRA.Context
         public DbSet<OrdemServicoSTNOrigem> OrdemServicoSTNOrigem { get; set; }
         public DbSet<ViewLaboratorioTecnicoBancada> ViewLaboratorioTecnicoBancada { get; set; }
         public DbSet<AuditoriaView> AuditoriaView { get; set; }
+        public DbSet<ORTempoReparo> ORTempoReparo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -441,6 +442,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORCheckListItem>(new ORCheckListItemMap().Configure);
             modelBuilder.Entity<TicketLogTransacao>(new TicketLogTransacaoMap().Configure);
             modelBuilder.Entity<AuditoriaView>(new AuditoriaViewMap().Configure);
+            modelBuilder.Entity<ORTempoReparo>(new ORTempoReparoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

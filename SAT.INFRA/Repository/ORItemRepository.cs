@@ -54,6 +54,7 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
                 .Include(or => or.OrdemServico.Filial)
+                .Include(or => or.TemposReparo)
                 .Include(or => or.StatusOR)
                 .FirstOrDefault(p => p.CodORItem == codigo);
         }
@@ -64,6 +65,7 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.Peca)
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
+                .Include(or => or.TemposReparo)
                 .Include(or => or.OrdemServico.Filial)
                 .Include(or => or.StatusOR)
                 .AsQueryable();

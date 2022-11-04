@@ -32,6 +32,7 @@ export interface ORItem {
     indAtivo: number;
     codUsuarioCad: string;
     usuarioCadastro: Usuario;
+    usuarioTecnico: Usuario;
     dataHoraCad: string;
     divergenciaDescricao: string;
     dataConfLab: string | null;

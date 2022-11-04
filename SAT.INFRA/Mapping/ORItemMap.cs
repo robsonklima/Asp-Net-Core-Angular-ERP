@@ -53,6 +53,12 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey(prop => prop.CodStatus)
                 .HasPrincipalKey(prop => prop.CodStatus);
 
+            builder
+                .HasMany(prop => prop.TemposReparo)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodORItem)
+                .HasPrincipalKey(prop => prop.CodORItem);
+
             builder.Ignore(p => p.DiasEmReparo);
         }
     }

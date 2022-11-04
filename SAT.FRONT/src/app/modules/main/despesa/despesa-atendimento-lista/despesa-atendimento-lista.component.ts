@@ -1,37 +1,38 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { fuseAnimations } from '@fuse/animations';
-import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
-import { UserService } from 'app/core/user/user.service';
-import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import { Filterable } from 'app/core/filters/filterable';
+import localePt from '@angular/common/locales/pt';
+import { AfterViewInit, ChangeDetectorRef, Component, LOCALE_ID, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
-import { IFilterable } from 'app/core/types/filtro.types';
+import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
+import { DespesaAdiantamentoService } from 'app/core/services/despesa-adiantamento.service';
+import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { TecnicoService } from 'app/core/services/tecnico.service';
+import { DespesaAdiantamentoData, DespesaAdiantamentoPeriodo, DespesaAdiantamentoPeriodoData } from 'app/core/types/despesa-adiantamento.types';
 import {
 	DespesaPeriodoTecnico, DespesaPeriodoTecnicoAtendimentoData, DespesaPeriodoTecnicoAtendimentoItem,
 	DespesaPeriodoTecnicoData,
 	DespesaPeriodoTecnicoParameters,
 	DespesaPeriodoTecnicoStatusEnum
 } from 'app/core/types/despesa-periodo.types';
-import { MatDialog } from '@angular/material/dialog';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
-import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
-import { Tecnico } from 'app/core/types/tecnico.types';
-import { TecnicoService } from 'app/core/services/tecnico.service';
-import { RoleEnum } from 'app/core/user/user.types';
-import moment from 'moment';
-import localePt from '@angular/common/locales/pt';
-import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
-import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
-import { DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoPeriodoData } from 'app/core/types/despesa-adiantamento.types';
-import { DespesaAdiantamentoService } from 'app/core/services/despesa-adiantamento.service';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { Tecnico } from 'app/core/types/tecnico.types';
+import { UserService } from 'app/core/user/user.service';
+import { RoleEnum } from 'app/core/user/user.types';
+import { SATUtils } from 'app/core/utils/utils';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import _ from 'lodash';
+import moment from 'moment';
+import { DespesaAtendimentoAdiantamentoDialogComponent } from './despesa-atendimento-adiantamento-dialog/despesa-atendimento-adiantamento-dialog.component';
+import { DespesaAtendimentoObservacaoImpressaoComponent } from './despesa-atendimento-observacao-impressao/despesa-atendimento-observacao-impressao.component';
 registerLocaleData(localePt);
 
 @Component({
@@ -56,6 +57,8 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
 	isLoading: boolean = false;
 	atendimentos: DespesaPeriodoTecnicoAtendimentoData;
+	adiantamentos: DespesaAdiantamentoData;
+	adiantamentosPeriodos: DespesaAdiantamentoPeriodoData;
 	codTecnico: string;
 	periodoLiberado: DespesaPeriodoTecnicoStatusEnum = DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
 	tecnico: Tecnico;
@@ -111,10 +114,28 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				}).toPromise());
 	}
 
+	private async obterAdiantamentos() {
+		this.adiantamentos = (await this._despesaAdiantamentoSvc
+			.obterPorParametros(
+				{
+					codTecnicos: this.codTecnico
+				}).toPromise());
+	}
+
+	private async obterAdiantamentosPeriodos() {
+		this.adiantamentosPeriodos = (await this._despesaAdiantamentoPeriodoSvc
+			.obterPorParametros(
+				{
+					codTecnico: 2610
+				}).toPromise());
+	}
+
 	public async obterDados() {
 		this.isLoading = true;
 
 		await this.obterDespesasPeriodoTecnico();
+		await this.obterAdiantamentos();
+		await this.obterAdiantamentosPeriodos();
 
 		this.isLoading = false;
 	}
@@ -150,10 +171,11 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				const dpt = (await this.obterDespesaPeriodoTecnico(dpi)).items.shift();
 
 				if (dpt) {
-						dpt.codDespesaPeriodoTecnicoStatus = 1;
-						this._despesaPeriodoTecnicoSvc.atualizar(dpt).subscribe(() => {
+					dpt.codDespesaPeriodoTecnicoStatus = 1;
+					this._despesaPeriodoTecnicoSvc.atualizar(dpt).subscribe(() => {
 						this._snack.exibirToast('Período liberado com sucesso!', 'success');
 						this.obterDados();
+						this.atualizaAdiantamentoUtilizado(dpi);
 					},
 						e => {
 							this._snack.exibirToast('Erro ao liberar período.', 'error');
@@ -163,6 +185,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 					this._despesaPeriodoTecnicoSvc.criar(dp).subscribe(() => {
 						this._snack.exibirToast('Período liberado com sucesso!', 'success');
 						this.obterDados();
+						this.atualizaAdiantamentoUtilizado(dpi);
 					},
 						e => {
 							this._snack.exibirToast('Erro ao liberar período.', 'error');
@@ -170,6 +193,59 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				}
 			}
 		});
+	}
+
+	atualizaAdiantamentoUtilizado(dpi: DespesaPeriodoTecnicoAtendimentoItem) {
+		const despesas = this.atendimentos.items.filter((a) => a.codDespesaPeriodo == dpi.codDespesaPeriodo);
+		const adiantamentos = (this.adiantamentos.items);
+		const adiantamentosPeriodos = (this.adiantamentosPeriodos.items);
+
+		for (const adiantamento of adiantamentos) {
+			const adiantamentosUtilizados = adiantamentosPeriodos.filter(u => u.codDespesaAdiantamento == adiantamento.codDespesaAdiantamento);
+			const saldo = adiantamento.valorAdiantamento - _.sum(adiantamentosUtilizados.map(au => au.valorAdiantamentoUtilizado));
+			let totalDespesa = _.sum(despesas.map(d => d.totalDespesa));
+			
+			if (!saldo) continue;
+
+			if (saldo >= totalDespesa) {								
+				const adiantamentoUtilizado: DespesaAdiantamentoPeriodo = {
+					codDespesaAdiantamento: adiantamento.codDespesaAdiantamento,
+					codDespesaPeriodo: dpi.codDespesaPeriodo,
+					codUsuarioCad: this.userSession.usuario.codUsuario,
+					dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+					valorAdiantamentoUtilizado: adiantamento.valorAdiantamento - totalDespesa
+				}
+
+				console.log(adiantamentoUtilizado);		
+				
+				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
+					.subscribe(() => {}, (e) => {
+						console.log(e);
+						
+
+						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
+					});
+
+				break;
+			} else {
+				totalDespesa = totalDespesa - saldo;
+
+				const adiantamentoUtilizado: DespesaAdiantamentoPeriodo = {
+					codDespesaAdiantamento: adiantamento.codDespesaAdiantamento,
+					codDespesaPeriodo: dpi.codDespesaPeriodo,
+					codUsuarioCad: this.userSession.usuario.codUsuario,
+					dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),
+					valorAdiantamentoUtilizado: totalDespesa
+				}
+				
+				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
+					.subscribe(() => {}, (e) => {
+						console.log(e);
+
+						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
+					});
+			}
+		}
 	}
 
 	criaDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): DespesaPeriodoTecnico {
@@ -195,13 +271,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
 	async obterTecnico() {
 		this.tecnico = (await this._tecnicoSvc.obterPorCodigo(+this.codTecnico).toPromise());
-	}
-
-	async obterAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem): Promise<DespesaAdiantamentoData> {
-		return (await this._despesaAdiantamentoSvc.obterPorParametros(
-			{
-				codTecnicos: this.codTecnico
-			}).toPromise());
 	}
 
 	listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem) {

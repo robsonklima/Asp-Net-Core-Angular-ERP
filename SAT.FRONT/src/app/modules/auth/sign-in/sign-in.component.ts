@@ -51,7 +51,7 @@ export class AuthSignInComponent implements OnInit {
 
         this.signInForm.get("senha").valueChanges.subscribe(txt => {
             const senhaForte = this._userSvc.verificarSenhaForte(txt);
-            if (!senhaForte) this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
+            //if (!senhaForte) this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
         });
     }
 

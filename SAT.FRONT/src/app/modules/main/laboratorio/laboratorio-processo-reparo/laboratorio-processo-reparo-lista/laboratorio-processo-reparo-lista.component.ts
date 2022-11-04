@@ -12,6 +12,7 @@ import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ORItem, ORItemData, ORItemParameters } from 'app/core/types/or-item.types';
 import { orStatusConst } from 'app/core/types/or-status.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -27,7 +28,7 @@ import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-
 	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 64px 156px 112px 64px 92px;
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 72px 98px 112px 60px 92px;
         }`
 	]
 })
@@ -92,12 +93,13 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			sortActive: this.sort.active || 'codORItem',
 			sortDirection: this.sort.direction || 'desc',
 			pageSize: this.paginator?.pageSize,
-			filter: filtro
+			filter: filtro,
+			nomeTecnico: this.isPerfilTecnico() ? this.userSession.usuario.nomeUsuario : undefined
 		}
 
 		const data: ORItemData = await this._orItemService.obterPorParametros({
+			...this.filter?.parametros,
 			...parametros,
-			...this.filter?.parametros
 		}).toPromise();
 
 		this.usuariosTecnicos = (await this.obterUsuariosTecnicos()).items;
@@ -109,6 +111,16 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	calcularDiasEmReparo(inicio: string) {
 		if (inicio)
 			return moment.duration(moment(inicio).diff(moment())).asDays();
+	}
+
+	isPerfilTecnico(): boolean {
+		if (this.userSession.usuario.codPerfil == PerfilEnum.BANCADA_TECNICO)
+			return true;
+
+		if (this.userSession.usuario.codPerfil == PerfilEnum.ASSISTENTE_LABORATORIO)
+			return true;
+
+		return false
 	}
 
 	async exportar() {
@@ -137,7 +149,8 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	}
 
 	obterCorStatus(cod: number): string {
-		switch (cod) {
+		switch (cod)
+		{
 			case orStatusConst.CONFERENCIA_LABORATORIO:
 				return 'bg-black-200 border-black-400 border-1';
 			case orStatusConst.AGUARDANDO_REPARO:
@@ -189,11 +202,11 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		this.loadFilter();
 		this.obterDados();
 	}
-  
+
 	registerEmitters(): void {
 		this.sidenav.closedStart.subscribe(() => {
-		this.onSidenavClosed();
-		this.obterDados();
+			this.onSidenavClosed();
+			this.obterDados();
 		})
 	}
 

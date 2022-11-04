@@ -52,4 +52,5 @@ export interface ORItemParameters extends QueryStringParameters {
     codTiposOR?: string;
     codStatus?: string;
     codMagnus?: string;
+    nomeTecnico?: string;
 }

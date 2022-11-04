@@ -9,6 +9,7 @@ import { ORTipoService } from 'app/core/services/or-tipo.service';
 import { ORStatusService } from 'app/core/services/or-status.service';
 import { ORTipo, ORTipoParameters } from 'app/core/types/or-tipo.types';
 import { ORStatus, ORStatusParameters } from 'app/core/types/or-status.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-filtro',
@@ -29,6 +30,7 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
     protected _formBuilder: FormBuilder
   ) {
     super(_userService, _formBuilder, 'processo-reparo');
+    this.userSession = JSON.parse(this._userService.userSession);
   }
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
 
   createForm(): void {
     this.form = this._formBuilder.group({
+      nomeTecnico: [undefined],
       codOR: [undefined],
       codTiposOR: [undefined],
       codStatus: [undefined],
@@ -51,6 +54,11 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
     });
 
     this.form.patchValue(this.filter?.parametros);
+
+    if (this.isPerfilTecnico()) {
+      this.form.controls['nomeTecnico'].disable();
+      this.form.controls['nomeTecnico'].setValue(this.userSession.usuario.nomeUsuario);
+    }
   }
 
   private registrarEmitters() {
@@ -86,6 +94,16 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
 
 		this.status = data.items;
 	}
+
+  isPerfilTecnico(): boolean {
+    if (this.userSession.usuario.codPerfil == +PerfilEnum.BANCADA_TECNICO)
+      return true;
+      
+    if (this.userSession.usuario.codPerfil == +PerfilEnum.ASSISTENTE_LABORATORIO)
+      return true;
+
+    return false
+  }
 
   limpar() {
     super.limpar();

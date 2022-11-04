@@ -91,6 +91,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(or => or.Peca.CodMagnus.Contains(parameters.CodMagnus));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.NomeTecnico)) 
+            {
+                query = query.Where(or => or.UsuarioTecnico.NomeUsuario.Contains(parameters.NomeTecnico));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposOR))
             {
                 int[] cods = parameters.CodTiposOR.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

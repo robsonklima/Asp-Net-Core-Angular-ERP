@@ -39,7 +39,7 @@ export class UserService {
         user.codPerfil == PerfilEnum.CLIENTE_INTERMEDIARIO ||
         user.codPerfil == PerfilEnum.CLIENTE_BASICO_C_RESTRICOES ||
         user.codPerfil == PerfilEnum.CLIENTE_BASICO ||
-        user.codPerfil == PerfilEnum.CLIENTE_BÁSICO ||
+        user.codPerfil == PerfilEnum.CLIENTE_BASICO ||
         user.codPerfil == PerfilEnum.CLIENTE_CORREIOS ||
         user.codPerfil == PerfilEnum.CLIENTE_PEÇAS_EXPORTAÇÃO ||
         user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA ||

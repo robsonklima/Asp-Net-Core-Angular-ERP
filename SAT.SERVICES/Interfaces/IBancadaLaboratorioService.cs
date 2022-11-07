@@ -13,6 +13,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(BancadaLaboratorio lab);
         BancadaLaboratorio ObterPorCodigo(int codigo);
-        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada();
+        public List<ViewLaboratorioTecnicoBancada> ObterPorView(BancadaLaboratorioParameters parameters);
     }
 }

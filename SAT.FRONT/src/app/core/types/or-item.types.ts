@@ -1,6 +1,7 @@
 import { Cliente } from "./cliente.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { ORStatus } from "./or-status.types";
+import { ORTempoReparo } from "./or-tempo-reparo.types";
 import { ORTipo } from "./or-tipo.types";
 import { OrdemServico } from "./ordem-servico.types";
 import { Peca } from "./peca.types";
@@ -32,6 +33,7 @@ export interface ORItem {
     indAtivo: number;
     codUsuarioCad: string;
     usuarioCadastro: Usuario;
+    usuarioTecnico: Usuario;
     dataHoraCad: string;
     divergenciaDescricao: string;
     dataConfLab: string | null;
@@ -41,6 +43,7 @@ export interface ORItem {
     indPrioridade: number | null;
     diasEmReparo: number;
     selecionado: boolean;
+    temposReparo: ORTempoReparo[];
 }
 
 export interface ORItemData extends Meta {

@@ -179,7 +179,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 
 	abrirForm(item: ORItem) {
 		const dialogRef = this._dialog.open(LaboratorioProcessoReparoFormComponent, {
-			width: '640px',
+			width: '768px',
 			data: {
 				item: item
 			},

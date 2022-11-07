@@ -50,18 +50,14 @@
             <div class="flex flex-col flex-auto sm:mb-18 overflow-y-auto uppercase">
                 <ng-container>
                     <div class="grid" *transloco="let t">
-                        <div class="list-grid-reparo z-99 sticky top-0 grid gap-4 pt-1 pb-1 px-6 md:px-8 shadow text-sm font-semibold text-secondary border-b-1 bg-gray-50"
+                        <div class="list-grid-reparo z-99 sticky top-0 grid gap-4 pt-2 pb-1 px-6 md:px-8 shadow text-sm font-semibold text-secondary border-b-1 bg-gray-50"
                             matSort matSortDisableClear *transloco="let t">
                             <div class="text-left" [mat-sort-header]="'codOR'">
-                                {{ t('codigo') }}
-                            </div>
-
-                            <div class="text-center">
-                                {{ t('item') }}
+                                {{ t('or') }}
                             </div>
 
                             <div class="text-left">
-                                {{ t('peca') }}
+                                Cód Item
                             </div>
 
                             <div class="text-left">
@@ -93,7 +89,7 @@
                             </div>
 
                             <div class="text-left">
-                                <mat-slide-toggle *ngIf="!isPerfilTecnico()" color="primary" (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
+                                <mat-slide-toggle class="-mt-1" *ngIf="!isPerfilTecnico()" color="primary" (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
                             </div>
 
                             <div class="text-center">
@@ -107,10 +103,6 @@
                                     class="list-grid-reparo z-10 grid items-center h-11 py-1 gap-4 px-6 text-sm md:px-8 border-b">
                                     <div class="text-left">
                                         {{ item.codOR }}
-                                    </div>
-
-                                    <div class="text-center">
-                                        {{ item.codORItem }}
                                     </div>
 
                                     <div class="text-left">

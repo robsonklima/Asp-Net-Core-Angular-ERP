@@ -1,0 +1,31 @@
+import { AfterViewInit, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { Subject } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+@Component({
+  selector: 'app-laboratorio-processo-reparo-historico',
+  templateUrl: './laboratorio-processo-reparo-historico.component.html'
+})
+export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewInit {
+  isLoading: boolean = false;
+  userSession: UsuarioSessao;
+  form: FormGroup;
+  protected _onDestroy = new Subject<void>();
+
+  constructor(
+    private _snack: CustomSnackbarService,
+    private _route: ActivatedRoute,
+    private _formBuilder: FormBuilder,
+    private _userService: UserService,
+    private _router: Router
+  ) {
+    this.userSession = JSON.parse(this._userService.userSession);
+  }
+
+  async ngAfterViewInit() { }
+
+  private registrarEmitters() { }
+}

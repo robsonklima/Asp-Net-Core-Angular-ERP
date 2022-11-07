@@ -22,6 +22,7 @@ import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
+import { LaboratorioProcessoReparoHistoricoComponent } from '../laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
 
 @Component({
 	selector: 'app-laboratorio-processo-reparo-lista',
@@ -215,7 +216,16 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	}
 
 	abrirHistorico(item: ORItem) {
+		const dialogRef = this._dialog.open(LaboratorioProcessoReparoHistoricoComponent, {
+			width: '1024px',
+			data: {
+				item : item
+			},
+		});
 
+		dialogRef.afterClosed().subscribe(confirmacao => {
+			if(confirmacao) this.obterDados();
+		});
 	}
 
 	paginar() {

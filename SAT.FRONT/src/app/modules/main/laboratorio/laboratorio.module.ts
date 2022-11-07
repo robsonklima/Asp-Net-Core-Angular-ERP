@@ -55,6 +55,7 @@ import { LaboratorioChecklistFormComponent } from './laboratorio-checklist/labor
 import { LaboratorioChecklistFiltroComponent } from './laboratorio-checklist/laboratorio-checklist-filtro/laboratorio-checklist-filtro.component';
 import { LaboratorioChecklistItemFormDialogComponent } from './laboratorio-checklist/laboratorio-checklist-item-form-dialog/laboratorio-checklist-item-form-dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { LaboratorioProcessoReparoHistoricoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -82,6 +83,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioChecklistFormComponent,
     LaboratorioChecklistFiltroComponent,
     LaboratorioChecklistItemFormDialogComponent,
+    LaboratorioProcessoReparoHistoricoComponent,
   ],
   imports: [
     CommonModule,

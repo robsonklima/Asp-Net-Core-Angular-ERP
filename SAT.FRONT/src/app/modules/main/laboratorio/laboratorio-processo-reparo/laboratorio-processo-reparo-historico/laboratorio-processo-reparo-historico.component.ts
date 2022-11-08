@@ -54,11 +54,7 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   async ngAfterViewInit() {
     this.or = await this._orService.obterPorCodigo(this.orItem.codOR).toPromise();
     this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
-    console.log(this.or);
-    console.log(this.orItem);
     await this.obterInsumos();
-    console.log(this.insumos);
-    
     
    }
   

@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+<div class="flex flex-col flex-auto max-h-160" *transloco="let t">
     <div class="flex-auto p-6 sm:p-10">
         <div class="w-full">
             <div class="grid lg:grid-cols-12 sm:grid-cols-1 md:grid-cols-6 gap-12 w-full min-w-0">
@@ -10,11 +10,21 @@
                     <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
                         <div class="flex items-center justify-between py-1">
                             <div class="text-secondary">
-                                Código da OS
+                                Código da OR
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                <!-- {{ os?.codOS }} -->
+                                {{ or?.codOR }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Status
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.orStatus?.descStatus || '----' }}
                             </div>
                         </div>
 
@@ -24,12 +34,196 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                <!-- {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }} -->
+                                {{ or?.dataHoraOR | date:'dd/MM/yyyy HH:mm' }}
                             </div>
                         </div>
 
                     </div>
                 </fuse-card>
+
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Dados de Transporte</p>
+                    </div>
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Filial de Origem
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ filial?.nomeFilial }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Filial de Destino
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.destino?.destino }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Minuta
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.minuta }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Nota Fiscal
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.numNF }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Volumes
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.volumes }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Transportadora
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ or?.orTransporte?.nomeTransportadora || '----' }}
+                            </div>
+                        </div>
+                    </div>
+                </fuse-card>
+
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Informações da Peça</p>
+                    </div>
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Código da Peça
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ orItem.codPeca || '----' }}
+                            </div>
+                        </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Descrição
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ orItem?.peca?.nomePeca || '----' }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Status
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ orItem?.statusOR?.descStatus || '----' }}
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Série
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ orItem?.numSerie || '----' }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Data Entrada Lab
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ orItem?.dataConfLab | date:'dd/MM/yyyy HH:mm' || '----' }}
+                        </div>
+                    </div>
+
+                    </div>
+                </fuse-card>
+
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Dados do Reparo</p>
+                    </div>
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Técnico
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ orItem?.usuarioTecnico?.nomeUsuario || '----' }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Defeito
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ orItem.codPeca || '----' }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Ação (Módulo)
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ orItem.codPeca || '----' }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Solução
+                            </div>
+
+                            <div class="truncate max-w-1/2">
+                                {{ orItem.codPeca || '----' }}
+                            </div>
+                        </div>
+
+                    </div>
+                </fuse-card>
+
+                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Resumo de Insumos</p>
+                    </div>
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        
+
+                    </div>
+                </fuse-card>
+
             </div>
         </div>
     </div>

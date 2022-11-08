@@ -143,7 +143,7 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
       ...this.or,
       ...{
         dataHoraOR: moment().format('YYYY-MM-DD HH:mm:ss'),
-        dataExpedicao: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataExpedicao: moment().min().format('YYYY-MM-DD HH:mm:ss'),
         codOrigem: 4,
         codDestino: 1,
         codStatusOR: 35,

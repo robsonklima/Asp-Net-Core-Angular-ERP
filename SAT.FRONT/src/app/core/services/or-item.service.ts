@@ -23,8 +23,8 @@ export class ORItemService {
         )
     }
 
-    obterPorCodigo(codOR: number): Observable<ORItem> {
-        const url = `${c.api}/ORItem/${codOR}`;
+    obterPorCodigo(codORItem: number): Observable<ORItem> {
+        const url = `${c.api}/ORItem/${codORItem}`;
         return this.http.get<ORItem>(url).pipe(
           map((obj) => obj)
         );

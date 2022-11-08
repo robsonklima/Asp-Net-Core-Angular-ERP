@@ -178,6 +178,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORTempoReparoRepository>().As<IORTempoReparoRepository>();
         builder.RegisterType<ORItemInsumoRepository>().As<IORItemInsumoRepository>();
         builder.RegisterType<ORTransporteRepository>().As<IORTransporteRepository>();
+        builder.RegisterType<ORDefeitoRepository>().As<IORDefeitoRepository>();
+        builder.RegisterType<ORSolucaoRepository>().As<IORSolucaoRepository>();
         
         #endregion
 
@@ -346,6 +348,8 @@ public class ConfigurationIOC
         builder.RegisterType<ORTempoReparoService>().As<IORTempoReparoService>();
         builder.RegisterType<ORItemInsumoService>().As<IORItemInsumoService>();
         builder.RegisterType<ORTransporteService>().As<IORTransporteService>();
+        builder.RegisterType<ORDefeitoService>().As<IORDefeitoService>();
+        builder.RegisterType<ORSolucaoService>().As<IORSolucaoService>();
 
         #endregion
 

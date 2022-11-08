@@ -1,5 +1,7 @@
 import { Cliente } from "./cliente.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { ORDefeito } from "./or-defeito.types";
+import { ORSolucao } from "./or-solucao.types";
 import { ORStatus } from "./or-status.types";
 import { ORTempoReparo } from "./or-tempo-reparo.types";
 import { ORTipo } from "./or-tipo.types";
@@ -44,6 +46,8 @@ export interface ORItem {
     diasEmReparo: number;
     selecionado: boolean;
     temposReparo: ORTempoReparo[];
+    orDefeito: ORDefeito;
+    orSolucao: ORSolucao;
 }
 
 export interface ORItemData extends Meta {

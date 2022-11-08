@@ -177,6 +177,7 @@ public class ConfigurationIOC
         builder.RegisterType<TicketLogTransacaoRepository>().As<ITicketLogTransacaoRepository>();
         builder.RegisterType<ORTempoReparoRepository>().As<IORTempoReparoRepository>();
         builder.RegisterType<ORItemInsumoRepository>().As<IORItemInsumoRepository>();
+        builder.RegisterType<ORTransporteRepository>().As<IORTransporteRepository>();
         
         #endregion
 
@@ -344,6 +345,7 @@ public class ConfigurationIOC
         builder.RegisterType<TicketLogTransacaoService>().As<ITicketLogTransacaoService>();
         builder.RegisterType<ORTempoReparoService>().As<IORTempoReparoService>();
         builder.RegisterType<ORItemInsumoService>().As<IORItemInsumoService>();
+        builder.RegisterType<ORTransporteService>().As<IORTransporteService>();
 
         #endregion
 

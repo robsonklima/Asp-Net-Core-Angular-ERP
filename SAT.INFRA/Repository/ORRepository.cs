@@ -56,6 +56,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(i => i.Peca)
                 .Include(or => or.ORItens)
                     .ThenInclude(i => i.StatusOR)
+                .Include(or => or.ORTransporte)
                 .FirstOrDefault(p => p.CodOR == codigo);
         }
 

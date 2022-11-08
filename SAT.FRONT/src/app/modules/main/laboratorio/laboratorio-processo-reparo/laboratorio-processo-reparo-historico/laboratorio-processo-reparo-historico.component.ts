@@ -9,6 +9,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { first } from 'rxjs/operators';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORItemService } from 'app/core/services/or-item.service';
+import { ORService } from 'app/core/services/or.service';
+import { OR, ORData } from 'app/core/types/OR.types';
+import { Filial } from 'app/core/types/filial.types';
+import { FilialService } from 'app/core/services/filial.service';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-historico',
@@ -18,7 +22,9 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   isLoading: boolean = false;
   userSession: UsuarioSessao;
   codORItem: number;
+  or: OR;
   orItem: ORItem;
+  filial: Filial;
   form: FormGroup;
   protected _onDestroy = new Subject<void>();
 
@@ -26,6 +32,8 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     @Inject(MAT_DIALOG_DATA) private data: any,
     private _snack: CustomSnackbarService,
     private _orItemService: ORItemService,
+    private _orService: ORService,
+    private _filialService: FilialService,
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
@@ -34,17 +42,18 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
       if (data)
       {
           this.orItem = data.item;
-          console.log(this.orItem);
-          console.log(data.item);
-          
-          
       }
   
       this.userSession = JSON.parse(this._userService.userSession);
     }
 
   async ngAfterViewInit() {
-    console.log(this.orItem.codOR);
+    this.or = await this._orService.obterPorCodigo(this.orItem.codOR).toPromise();
+    this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
+    console.log(this.or);
+    
+    
+    
     
    }
 

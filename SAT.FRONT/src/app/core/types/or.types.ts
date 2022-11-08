@@ -2,6 +2,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { ORDestino } from "./or-destino-types";
 import { ORItem } from "./or-item.types";
 import { ORStatus } from "./or-status.types";
+import { ORTransporte } from "./orTransporte.types";
 import { Usuario } from "./usuario.types";
 
 export interface OR {
@@ -23,10 +24,11 @@ export interface OR {
     orItens: ORItem[];
     destino: ORDestino;
     usuarioCadatro: Usuario;
+    orTransporte: ORTransporte;
 }
 
 export interface ORData extends Meta {
-    items: OR[];
+    items: OR[]
 };
 
 export interface ORParameters extends QueryStringParameters {

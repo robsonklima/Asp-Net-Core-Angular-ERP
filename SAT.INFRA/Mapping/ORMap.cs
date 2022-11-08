@@ -34,6 +34,12 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodDestino)
                 .HasPrincipalKey(prop => prop.CodDestino);
+
+            builder
+                .HasOne(prop => prop.ORTransporte)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodTransportadora)
+                .HasPrincipalKey(prop => prop.CodTransportadora);
         }
     }
 }

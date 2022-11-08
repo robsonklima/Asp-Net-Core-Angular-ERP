@@ -264,6 +264,7 @@ namespace SAT.INFRA.Context
         public DbSet<AuditoriaView> AuditoriaView { get; set; }
         public DbSet<ORTempoReparo> ORTempoReparo { get; set; }
         public DbSet<ORItemInsumo> ORItemInsumo { get; set; }
+        public DbSet<ORTransporte> ORTransporte { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -445,6 +446,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<AuditoriaView>(new AuditoriaViewMap().Configure);
             modelBuilder.Entity<ORTempoReparo>(new ORTempoReparoMap().Configure);
             modelBuilder.Entity<ORItemInsumo>(new ORItemInsumoMap().Configure);
+            modelBuilder.Entity<ORTransporte>(new ORTransporteMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

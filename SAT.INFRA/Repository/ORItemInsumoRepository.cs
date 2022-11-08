@@ -51,12 +51,14 @@ namespace SAT.INFRA.Repository
 
         public ORItemInsumo ObterPorCodigo(int cod)
         {
-            return _context.ORItemInsumo.FirstOrDefault(p => p.CodORItemInsumo == cod);
+            return _context.ORItemInsumo
+                .FirstOrDefault(p => p.CodORItemInsumo == cod);
         }
 
         public PagedList<ORItemInsumo> ObterPorParametros(ORItemInsumoParameters parameters)
         {
-            var query = _context.ORItemInsumo.AsQueryable();
+            var query = _context.ORItemInsumo
+                .AsQueryable();
 
             if (parameters.Filter != null)
             {
@@ -64,6 +66,16 @@ namespace SAT.INFRA.Repository
                     p =>
                     p.CodORItemInsumo.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+            }
+
+            if (parameters.CodORItem.HasValue) 
+            {
+                query = query.Where(or => or.CodORItem == parameters.CodORItem);
+            }
+
+            if (parameters.IndAtivo.HasValue) 
+            {
+                query = query.Where(or => or.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

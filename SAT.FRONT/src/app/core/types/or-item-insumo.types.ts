@@ -1,4 +1,6 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { ORStatus } from "./or-status.types";
+import { Peca } from "./peca.types";
 
 export interface ORItemInsumo {
     codORItemInsumo: number;
@@ -25,6 +27,8 @@ export interface ORItemInsumo {
     dataHoraCad: string;
     codStatusPendente: number | null;
     indLiberacao: number | null;
+    orStatus: ORStatus;
+    peca: Peca;
 }
 
 export interface ORItemInsumoData extends Meta {
@@ -32,5 +36,6 @@ export interface ORItemInsumoData extends Meta {
 };
 
 export interface ORItemInsumoParameters extends QueryStringParameters {
-    
+    codORItem: number;
+    indAtivo: number;
 }

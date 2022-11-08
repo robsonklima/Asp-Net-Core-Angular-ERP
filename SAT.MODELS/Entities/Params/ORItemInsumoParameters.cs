@@ -4,5 +4,7 @@ namespace SAT.MODELS.Entities.Params
 {
     public class ORItemInsumoParameters : QueryStringParameters
     {
+        public int? CodORItem { get; set; }
+        public int? IndAtivo { get; set; }
     }
 }

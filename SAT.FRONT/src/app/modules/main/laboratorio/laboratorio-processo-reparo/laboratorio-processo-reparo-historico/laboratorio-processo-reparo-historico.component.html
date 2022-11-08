@@ -219,7 +219,46 @@
                         <p class="text-lg font-medium">Resumo de Insumos</p>
                     </div>
                     <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
-                        
+                        <div class="grid  w-full min-w-0">
+                            <div class="p-8">
+                              <div class="flex flex-col gt-xs:flex-row " >
+                                <table mat-table [dataSource]="insumos">
+                                  <ng-container matColumnDef="nome">
+                                    <th mat-header-cell *matHeaderCellDef>Peça</th>
+                                    <td mat-cell *matCellDef="let insumo">
+                                        <mat-cell>
+                                          {{ insumo.codPeca  }}
+                                        </mat-cell>
+                                    </td>
+                                  </ng-container>
+                          
+                                  <ng-container matColumnDef="status">
+                                    <th mat-header-cell *matHeaderCellDef>OR</th>
+                                    <td mat-cell *matCellDef="let insumo">
+                                      <mat-cell>
+                                        {{ insumo.codORItem }}
+                                      </mat-cell>
+                                    </td>
+                                  </ng-container>
+                          
+                                  <ng-container matColumnDef="justificativa">
+                                    <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+                                    <td mat-cell *matCellDef="let insumo">
+                                      <mat-cell>
+                                        {{ insumo.quantidade }}
+                                      </mat-cell>
+                                    </td>
+                                  </ng-container>
+                          
+                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                <p >
+                                  Nenhum insumo encontrado
+                                </p>
+                              </div>
+                            </div>
+                          </div>
 
                     </div>
                 </fuse-card>

@@ -10,7 +10,9 @@ import { Peca, PecaData, PecaParameters } from 'app/core/types/peca.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, first, map, take, takeUntil, tap } from 'rxjs/operators';
+import { ORItem } from 'app/core/types/or-item.types'
+import { debounceTime, delay, distinctUntilChanged, first, map, takeUntil, tap } from 'rxjs/operators';
+import moment from 'moment';
 
 @Component({
   selector: 'app-laboratorio-ordem-reparo-form',
@@ -21,10 +23,11 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
   usuarioSessao: UsuarioSessao;
   codOR: number;
   isAddMode: boolean;
-  form: FormGroup;
   or: OR;
   pecas: Peca[] = [];
+  form: FormGroup;
   pecaFilterCtrl: FormControl = new FormControl();
+  pecaSelecionada: Peca;
   isLoading: boolean;
   protected _onDestroy = new Subject<void>();
 
@@ -59,7 +62,7 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
   private inicializarForm() {
     this.form = this._formBuilder.group({
       codPeca: [null, [Validators.required]],
-      quantidade: [null, [Validators.required]],
+      quantidade: [null, [Validators.required]]
     });
   }
 
@@ -97,16 +100,61 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
 			});
   }
 
+  montarItens() {
+    const qtd: number = +this.form.controls['quantidade'].value;
+    const codPeca: number = +this.form.controls['codPeca'].value;
+    const itens: ORItem[] = []; 
+
+    for (let i = 0; i < qtd; i++) {
+      const item: any = {
+        codPeca: codPeca,
+        pecaOR: this.pecaSelecionada,
+        dataHoraORItem: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codStatus: 15,
+        quantidade: 1,
+        indConfLog: 0,
+        indConfLab: 0,
+        indAtivo: 1,
+        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codStatusOR: 15
+      };
+
+      itens.push(item);      
+    }
+
+    if (!this.or) {
+      this.or = {
+        orItens: itens,
+        dataHoraOR: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
+        indAtivo: 1
+      };
+    } else {
+      this.or.orItens = itens;
+    }
+  }
+
   salvar(): void {
     const form: any = this.form.getRawValue();
 
     let obj = {
       ...this.or,
-      ...form,
       ...{
-        indAtivo: +form.indAtivo,
+        dataHoraOR: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataExpedicao: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codOrigem: 4,
+        codDestino: 1,
+        codStatusOR: 35,
+        numNF: '----',
+        codModal: 0,
+        indAtivo: 1,
+        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codTransportadora: 0        
       }
-    };
+  };    
 
     if (this.isAddMode) {
       this._orService.criar(obj).subscribe(() => {

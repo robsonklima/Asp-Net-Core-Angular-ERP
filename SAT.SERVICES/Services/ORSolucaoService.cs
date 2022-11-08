@@ -6,23 +6,23 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class ORService : IORService
+    public class ORSolucaoService : IORSolucaoService
     {
-        private readonly IORRepository _ORRepo;
+        private readonly IORSolucaoRepository _ORSolucaoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
 
-        public ORService(
-            IORRepository ORRepo,
+        public ORSolucaoService(
+            IORSolucaoRepository ORSolucaoRepo,
             ISequenciaRepository sequenciaRepo
         )
         {
-            _ORRepo = ORRepo;
+            _ORSolucaoRepo = ORSolucaoRepo;
             _sequenciaRepo = sequenciaRepo;
         }
 
-        public ListViewModel ObterPorParametros(ORParameters parameters)
+        public ListViewModel ObterPorParametros(ORSolucaoParameters parameters)
         {
-            var ORes = _ORRepo.ObterPorParametros(parameters);
+            var ORes = _ORSolucaoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
@@ -38,26 +38,26 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public OR Criar(OR or)
+        public ORSolucao Criar(ORSolucao orSolucao)
         {
-            _ORRepo.Criar(or);
+            _ORSolucaoRepo.Criar(orSolucao);
 
-            return or;
+            return orSolucao;
         }
 
         public void Deletar(int codigo)
         {
-            _ORRepo.Deletar(codigo);
+            _ORSolucaoRepo.Deletar(codigo);
         }
 
-        public void Atualizar(OR or)
+        public void Atualizar(ORSolucao orSolucao)
         {
-            _ORRepo.Atualizar(or);
+            _ORSolucaoRepo.Atualizar(orSolucao);
         }
 
-        public OR ObterPorCodigo(int codigo)
+        public ORSolucao ObterPorCodigo(int codigo)
         {
-            return _ORRepo.ObterPorCodigo(codigo);
+            return _ORSolucaoRepo.ObterPorCodigo(codigo);
         }
     }
 }

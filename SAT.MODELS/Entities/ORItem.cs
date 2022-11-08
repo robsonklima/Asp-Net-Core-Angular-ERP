@@ -39,5 +39,7 @@ namespace SAT.MODELS.Entities {
         public int? IndPrioridade { get; set; }
         public int? DiasEmReparo { get; set; }
         public List<ORTempoReparo> TemposReparo { get; set; }
+        public ORDefeito ORDefeito { get; set; }
+        public ORSolucao ORSolucao { get; set; }
     }
 }

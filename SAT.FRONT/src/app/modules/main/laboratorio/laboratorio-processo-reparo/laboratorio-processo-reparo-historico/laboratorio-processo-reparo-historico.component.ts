@@ -6,17 +6,14 @@ import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { first } from 'rxjs/operators';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORService } from 'app/core/services/or.service';
-import { OR, ORData } from 'app/core/types/OR.types';
+import { OR } from 'app/core/types/OR.types';
 import { Filial } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
-import { ORDefeito } from 'app/core/types/or-defeito.types';
-import { ORSolucao } from 'app/core/types/or-solucao.types';
-import { ORSolucaoService } from 'app/core/services/or-solucao.service';
-import { ORDefeitoService } from 'app/core/services/orDefeito.service';
+import { ORItemInsumo, ORItemInsumoParameters } from 'app/core/types/or-item-insumo.types';
+import { ORItemInsumoService } from 'app/core/services/or-item-insumo.service';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-historico',
@@ -29,10 +26,10 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   or: OR;
   orItem: ORItem;
   filial: Filial;
-  defeito: ORDefeito;
-  solucao: ORSolucao;
+  insumos: ORItemInsumo[];
   form: FormGroup;
   protected _onDestroy = new Subject<void>();
+  displayedColumns: string[] = ['nome', 'status', 'justificativa'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -40,8 +37,7 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     private _orItemService: ORItemService,
     private _orService: ORService,
     private _filialService: FilialService,
-    private _orSolucaoService: ORSolucaoService,
-    private _orDefeitoService: ORDefeitoService,
+    private _orItemInsumoService: ORItemInsumoService,
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
@@ -58,16 +54,18 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   async ngAfterViewInit() {
     this.or = await this._orService.obterPorCodigo(this.orItem.codOR).toPromise();
     this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
-    this.defeito = await this._orDefeitoService.obterPorCodigo(this.orItem?.codDefeito).toPromise();
-    this.solucao = await this._orSolucaoService.obterPorCodigo(this.orItem?.codSolucao).toPromise();
-    console.log(this.or);
-    console.log(this.orItem);
-    
-    
-    
-    
+    await this.obterInsumos();
     
    }
+  
+  private async obterInsumos(){
+    const params: ORItemInsumoParameters = {
+			codORItem: this.orItem.codORItem,
+      indAtivo: 1
+		}
+		const data = await this._orItemInsumoService.obterPorParametros(params).toPromise();
+		this.insumos = data.items;
+  }
 
   private registrarEmitters() { }
 }

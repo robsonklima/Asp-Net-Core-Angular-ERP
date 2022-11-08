@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ or?.dataHoraOR | date:'dd/MM/yyyy HH:mm' }}
+                                {{ or?.dataHoraOR | date:'dd/MM/yyyy HH:mm' || '----' }}
                             </div>
                         </div>
 
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ filial?.nomeFilial }}
+                                {{ filial?.nomeFilial || '----' }}
                             </div>
                         </div>
 
@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ or?.destino?.destino }}
+                                {{ or?.destino?.destino || '----' }}
                             </div>
                         </div>
 
@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ or?.minuta }}
+                                {{ or?.minuta || '----'  }}
                             </div>
                         </div>
 
@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ or?.numNF }}
+                                {{ or?.numNF || '----'  }}
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ or?.volumes }}
+                                {{ or?.volumes || '----'  }}
                             </div>
                         </div>
 
@@ -187,7 +187,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ orItem.codPeca || '----' }}
+                                {{ orItem?.orDefeito?.descricao || '----' }}
                             </div>
                         </div>
 
@@ -197,7 +197,7 @@
                             </div>
 
                             <div class="truncate max-w-1/2">
-                                {{ orItem.codPeca || '----' }}
+                                {{ orItem?.codAcao || '----' }}
                             </div>
                         </div>
 

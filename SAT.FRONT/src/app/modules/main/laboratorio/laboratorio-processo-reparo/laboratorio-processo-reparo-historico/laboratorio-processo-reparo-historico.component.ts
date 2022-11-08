@@ -51,6 +51,8 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     this.or = await this._orService.obterPorCodigo(this.orItem.codOR).toPromise();
     this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
     console.log(this.or);
+    console.log(this.orItem);
+    
     
     
     

@@ -56,6 +56,7 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.OrdemServico.Filial)
                 .Include(or => or.TemposReparo)
                 .Include(or => or.StatusOR)
+                .Include(or => or.ORDefeito)
                 .FirstOrDefault(p => p.CodORItem == codigo);
         }
 

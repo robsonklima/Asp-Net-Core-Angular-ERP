@@ -204,6 +204,7 @@ namespace SAT.INFRA.Context
         public DbSet<OR> OR { get; set; }
         public DbSet<UsuarioLogin> UsuarioLogin { get; set; }
         public DbSet<ORDestino> ORDestino { get; set; }
+        public DbSet<ItemXORCheckList> ItemXORCheckList { get; set; }
         public DbSet<TicketLogTransacao> TicketLogTransacao { get; set; }
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
@@ -451,6 +452,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORTransporte>(new ORTransporteMap().Configure);
             modelBuilder.Entity<ORDefeito>(new ORDefeitoMap().Configure);
             modelBuilder.Entity<ORSolucao>(new ORSolucaoMap().Configure);
+            modelBuilder.Entity<ItemXORCheckList>(new ItemXORCheckListMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

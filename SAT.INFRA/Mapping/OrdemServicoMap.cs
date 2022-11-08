@@ -10,7 +10,7 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("OS");
             builder.HasKey(prop => prop.CodOS);
-            
+
             builder
                 .Ignore(prop => prop.IndNumRATObrigatorio)
                 .Ignore(prop => prop.Fotos)

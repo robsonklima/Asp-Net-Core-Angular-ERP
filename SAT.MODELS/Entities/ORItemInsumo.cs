@@ -27,5 +27,8 @@ namespace SAT.MODELS.Entities {
         public DateTime DataHoraCad { get; set; }
         public int? CodStatusPendente { get; set; }
         public int? IndLiberacao { get; set; }
+        public Peca Peca { get; set; }
+        public ORStatus ORStatus { get; set; }
+
     }
 }

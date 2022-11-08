@@ -13,6 +13,10 @@ import { ORService } from 'app/core/services/or.service';
 import { OR, ORData } from 'app/core/types/OR.types';
 import { Filial } from 'app/core/types/filial.types';
 import { FilialService } from 'app/core/services/filial.service';
+import { ORDefeito } from 'app/core/types/or-defeito.types';
+import { ORSolucao } from 'app/core/types/or-solucao.types';
+import { ORSolucaoService } from 'app/core/services/or-solucao.service';
+import { ORDefeitoService } from 'app/core/services/orDefeito.service';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-historico',
@@ -25,6 +29,8 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   or: OR;
   orItem: ORItem;
   filial: Filial;
+  defeito: ORDefeito;
+  solucao: ORSolucao;
   form: FormGroup;
   protected _onDestroy = new Subject<void>();
 
@@ -34,6 +40,8 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     private _orItemService: ORItemService,
     private _orService: ORService,
     private _filialService: FilialService,
+    private _orSolucaoService: ORSolucaoService,
+    private _orDefeitoService: ORDefeitoService,
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
@@ -50,6 +58,8 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
   async ngAfterViewInit() {
     this.or = await this._orService.obterPorCodigo(this.orItem.codOR).toPromise();
     this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
+    this.defeito = await this._orDefeitoService.obterPorCodigo(this.orItem?.codDefeito).toPromise();
+    this.solucao = await this._orSolucaoService.obterPorCodigo(this.orItem?.codSolucao).toPromise();
     console.log(this.or);
     console.log(this.orItem);
     

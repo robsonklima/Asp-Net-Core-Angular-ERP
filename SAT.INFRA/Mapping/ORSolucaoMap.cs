@@ -4,15 +4,14 @@ using SAT.MODELS.Entities;
 
 namespace SAT.INFRA.Mapping
 {
-    public class ORDefeitoMap : IEntityTypeConfiguration<ORDefeito>
+    public class ORSolucaoMap : IEntityTypeConfiguration<ORSolucao>
     {
-        public void Configure(EntityTypeBuilder<ORDefeito> builder)
+        public void Configure(EntityTypeBuilder<ORSolucao> builder)
         {
-            builder.ToTable("ORDefeito");
-            builder.HasKey(i => i.CodDefeito);
+            builder.ToTable("ORSolucao");
+            builder.HasKey(i => i.CodSolucao);
 
             builder.Property(i => i.Descricao).HasColumnName("Desricao");
-
-        }
+       }
     }
 }

@@ -34,7 +34,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('prioridade') }}</mat-label>
-                    <mat-select formControlName="codPrioridada" multiple="true">
+                    <mat-select formControlName="codPrioridade" multiple="true">
                         <mat-option *ngFor="let prioridade of prioridades" [value]="prioridade.codPrioridade">
                             {{ prioridade.descricao }}
                         </mat-option>
@@ -49,7 +49,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
             </div>
 
             <div class="mt-6 border-t"></div>

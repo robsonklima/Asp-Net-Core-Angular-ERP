@@ -1,48 +1,45 @@
-import { UserService } from '../../../../../core/user/user.service';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { EquipamentoContratoData, EquipamentoContratoParameters } from 'app/core/types/equipamento-contrato.types';
+import { TicketService } from 'app/core/services/ticket.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { Filterable } from 'app/core/filters/filterable';
-import { TicketService } from 'app/core/services/ticket.service';
-import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
-import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { UserService } from '../../../../../core/user/user.service';
 
 @Component({
 	selector: 'app-ticket-lista',
 	templateUrl: './ticket-lista.component.html',
 	styles: [
-		/* language=SCSS */
 		`
-    .list-grid-contrato {
-      grid-template-columns: 70px 200px auto 180px 180px 110px 110px 110px;
-      
-      /* @screen sm {
-          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
-      }
+			.list-grid-contrato {
+			grid-template-columns: 60px 200px auto 180px 180px 110px 110px 110px;
+			
+			/* @screen sm {
+				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
+			}
 
-      @screen md {
-          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
-      }
+			@screen md {
+				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
+			}
 
-      @screen lg {
-          grid-template-columns: 72px 345px 240px 120px 120px 120px 120px 120px auto;
-      } */
-    }  
-    `
+			@screen lg {
+				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
+			} */
+			}  
+		`
 	],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations
 })
 export class TicketListaComponent extends Filterable implements AfterViewInit, IFilterable {
-
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
@@ -77,7 +74,6 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		this.loadFilter();
 		this.obterDados();
 	}
-
 
 	ngAfterViewInit() {
 		interval(3 * 60 * 1000)
@@ -121,7 +117,6 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
 			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
 			filter: filter,
-	
 		};
 
 		this.tickets = await this._ticketService

@@ -23,7 +23,8 @@
                     [routerLink]="['/ticket/form']">
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
-                <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
+                
+                <button class="ml-2" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
                     <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                 </button>
 
@@ -38,29 +39,36 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid">
-                            <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            <div class="list-grid-contrato z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div class="md:block" [mat-sort-header]="'codTicket'">
                                     {{ t('codigo') }}
                                 </div>
+
                                 <div class="md:block" [mat-sort-header]="'numSerie'">
                                     {{ t('titulo') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('descricao') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('usuario') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('modulo') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('status') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('classificacao') }}
                                 </div>
+
                                 <div class="md:block">
                                     {{ t('prioridade') }}
                                 </div>
@@ -83,35 +91,42 @@
 
                 <ng-container>
                     <ng-container *ngFor="let ticket of tickets?.items">
-                        <a [routerLink]="['/ticket/detalhe/' + ticket.codTicket]">
+                        <a [routerLink]="['/ticket/form/' + ticket.codTicket]">
                             <div class="list-grid-contrato grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
                                 *transloco="let t">
                                 <div class="flex">
                                     {{ ticket.codTicket || t('---') }}
                                 </div>
+
                                 <div class="flex">
                                     {{ ticket.titulo || t('---') }}
                                 </div>
+
                                 <div class="flex truncate">
                                     {{ ticket.descricao || t('---') }}
                                 </div>
+
                                 <div class="flex truncate">
-                                    {{ ticket.usuario?.nomeUsuario || t('---') }}
+                                    {{ ticket.usuarioCad?.nomeUsuario || t('---') }}
                                 </div>
+
                                 <div class="flex truncate">
                                     {{ ticket.ticketModulo?.descricao || t('---') }}
                                 </div>
+
                                 <div class="flex truncate">
                                     {{ ticket.ticketStatus?.descricao || t('---') }}
                                 </div>
+
                                 <div class="flex truncate">
                                     {{ ticket.ticketClassificacao?.descricao || t('---') }}
                                 </div>
+
                                 <div class="truncate rounded text-white text-center"
-                                [class.bg-gray-600]="ticket.ticketPrioridade?.codPrioridade == 4"
-                                [class.bg-green-600]="ticket.ticketPrioridade?.codPrioridade == 3"
-                                [class.bg-yellow-600]="ticket.ticketPrioridade?.codPrioridade == 2"
-                                [class.bg-red-600]="ticket.ticketPrioridade?.codPrioridade == 1">
+                                    [class.bg-gray-600]="ticket.ticketPrioridade?.codPrioridade == 4"
+                                    [class.bg-green-600]="ticket.ticketPrioridade?.codPrioridade == 3"
+                                    [class.bg-yellow-600]="ticket.ticketPrioridade?.codPrioridade == 2"
+                                    [class.bg-red-600]="ticket.ticketPrioridade?.codPrioridade == 1">
                                     {{ ticket.ticketPrioridade?.descricao || t('---') }}
                                 </div>
                             </div>

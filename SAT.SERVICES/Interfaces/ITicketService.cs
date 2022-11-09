@@ -9,5 +9,7 @@ namespace SAT.SERVICES.Interfaces
         ListViewModel ObterPorParametros(TicketParameters parameters);
         Ticket ObterPorCodigo(int codigo);
         Ticket Atualizar(Ticket ticket);
+        Ticket Criar(Ticket ticket);
+        Ticket Deletar(int codigo);
     }
 }

@@ -32,9 +32,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Notificacao notificacao)
+        public Notificacao Post([FromBody] Notificacao notificacao)
         {
-            _notificacaoService.Criar(notificacao);
+            return _notificacaoService.Criar(notificacao);
         }
 
         [HttpPut]

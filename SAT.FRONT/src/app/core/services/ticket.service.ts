@@ -25,6 +25,7 @@ export class TicketService {
 
   obterPorCodigo(codTicket: number): Observable<Ticket> {
     const url = `${c.api}/Ticket/${codTicket}`;
+    
     return this.http.get<Ticket>(url).pipe(
       map((obj) => obj)
     );  
@@ -38,16 +39,17 @@ export class TicketService {
 
   atualizar(ticket: Ticket): Observable<Ticket> {
     const url = `${c.api}/Ticket`;
+
     return this.http.put<Ticket>(url, ticket).pipe(
       map((obj) => obj)
     );
   }
 
-//   deletar(codEquipContrato: number): Observable<EquipamentoContrato> {
-//     const url = `${c.api}/EquipamentoContrato/${codEquipContrato}`;
+  deletar(codigo: number): Observable<Ticket> {
+    const url = `${c.api}/Ticket/${codigo}`;
     
-//     return this.http.delete<EquipamentoContrato>(url).pipe(
-//       map((obj) => obj)
-//     );
-// }
+    return this.http.delete<Ticket>(url).pipe(
+      map((obj) => obj)
+    );
+  }
 }

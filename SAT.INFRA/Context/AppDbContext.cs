@@ -452,6 +452,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORTransporte>(new ORTransporteMap().Configure);
             modelBuilder.Entity<ORDefeito>(new ORDefeitoMap().Configure);
             modelBuilder.Entity<ORSolucao>(new ORSolucaoMap().Configure);
+            modelBuilder.Entity<TicketAtendimento>(new TicketAtendimentoMap().Configure);
             modelBuilder.Entity<ItemXORCheckList>(new ItemXORCheckListMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

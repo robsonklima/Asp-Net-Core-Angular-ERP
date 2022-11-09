@@ -62,6 +62,7 @@ namespace SAT.INFRA.Repository
             return _context.ItemXORCheckList
                 .Include(i => i.ORItem)            
                 .Include(i => i.ORCheckList)
+                .Include(i => i.ORCheckListItem)
                 .FirstOrDefault(i => i.CodItemChecklist == codigo);
         }
 
@@ -70,6 +71,7 @@ namespace SAT.INFRA.Repository
             var itemXORCheckLists = _context.ItemXORCheckList
                 .Include(c => c.ORItem)            
                 .Include(c => c.ORCheckList)
+                .Include(i => i.ORCheckListItem)
                 .AsQueryable();
 
             if (parameters.CodItemChecklist.HasValue)

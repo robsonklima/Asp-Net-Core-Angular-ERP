@@ -88,9 +88,11 @@
                         <ng-container *ngIf="notification.titulo">
                             <div class="font-semibold line-clamp-1" [innerHTML]="notification.titulo"></div>
                         </ng-container>
+
                         <ng-container *ngIf="notification.descricao">
-                            <div class="line-clamp-2" [innerHTML]="notification.descricao"></div>
+                            <div [innerHTML]="notification.descricao"></div>
                         </ng-container>
+                        
                         <div class="mt-2 text-sm leading-none text-secondary">
                             {{ notification.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}
                         </div>

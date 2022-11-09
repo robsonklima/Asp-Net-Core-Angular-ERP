@@ -256,7 +256,7 @@
                                       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                     </table>
-                                    <p *ngIf="!insumos">
+                                    <p *ngIf="validarTabela(insumos)">
                                       Nenhum insumo encontrado
                                     </p>
                                </div>
@@ -309,8 +309,8 @@
                                       <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                                       <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                                     </table>
-                                    <p *ngIf="!checklists">
-                                      Nenhum insumo encontrado
+                                    <p *ngIf="validarTabela(checklists)">
+                                      Nenhum checklist encontrado
                                     </p>
                                </div>
                             </div>

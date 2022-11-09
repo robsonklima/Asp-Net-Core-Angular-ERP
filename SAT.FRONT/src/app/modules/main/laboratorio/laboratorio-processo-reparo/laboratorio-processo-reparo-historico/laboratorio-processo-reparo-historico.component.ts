@@ -12,6 +12,7 @@ import { ORItemInsumo, ORItemInsumoParameters } from 'app/core/types/or-item-ins
 import { ORItemInsumoService } from 'app/core/services/or-item-insumo.service';
 import { ItemXORCheckList, ItemXORCheckListParameters } from 'app/core/types/item-or-checklist.types';
 import { ItemXORCheckListService } from 'app/core/services/item-or-checklist.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-historico',
@@ -69,6 +70,10 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     }
     const data = await this._itemXChecklistService.obterPorParametros(params).toPromise();
     this.checklists = data.items;
+  }
+
+  validarTabela(objeto){
+    return _.isEmpty(objeto);
   }
 
   private registrarEmitters() { }

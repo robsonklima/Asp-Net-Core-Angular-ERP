@@ -180,6 +180,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORTransporteRepository>().As<IORTransporteRepository>();
         builder.RegisterType<ORDefeitoRepository>().As<IORDefeitoRepository>();
         builder.RegisterType<ORSolucaoRepository>().As<IORSolucaoRepository>();
+        builder.RegisterType<ItemXORCheckListRepository>().As<IItemXORCheckListRepository>();
         
         #endregion
 
@@ -350,6 +351,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORTransporteService>().As<IORTransporteService>();
         builder.RegisterType<ORDefeitoService>().As<IORDefeitoService>();
         builder.RegisterType<ORSolucaoService>().As<IORSolucaoService>();
+        builder.RegisterType<ItemXORCheckListService>().As<IItemXORCheckListService>();
 
         #endregion
 

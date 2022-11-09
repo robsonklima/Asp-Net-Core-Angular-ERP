@@ -22,6 +22,12 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodORCheckList)
                 .HasPrincipalKey(prop => prop.CodORCheckList);
+
+            builder
+                .HasOne(prop => prop.ORCheckListItem)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodORCheckListItem)
+                .HasPrincipalKey(prop => prop.CodORCheckListItem);
         }
     }
 }

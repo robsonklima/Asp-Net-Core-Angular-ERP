@@ -26,9 +26,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { TicketFiltroComponent } from './ticket-filtro/ticket-filtro.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
-import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
+import { TicketAtendimentoFormDialogComponent } from './ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -41,7 +42,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     TicketListaComponent,
     TicketFormComponent,
     TicketFiltroComponent,
-    TicketDetalheComponent
+    TicketAtendimentoFormDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +54,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatFormFieldModule,
     MatButtonModule,
     TranslocoModule,
+    MatDialogModule,
     SharedModule,
     FuseHighlightModule,
     MatTabsModule,

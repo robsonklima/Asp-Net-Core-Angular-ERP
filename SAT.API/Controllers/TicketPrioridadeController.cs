@@ -34,23 +34,10 @@ namespace SAT.API.Controllers
         {
             return _ticketPrioridadeService.ObterPorCodigo(codPrioridade);
         }
-
-        // [HttpPost]
-        // public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
-        // {
-        //     return _equipamentoContratoService.Criar(equipamentoContrato);
-        // }
-
         [HttpPut]
         public void Put([FromBody] TicketPrioridade ticketPrioridade)
         {
             _ticketPrioridadeService.Atualizar(ticketPrioridade);
         }
-
-        // [HttpDelete("{codEquipContrato}")]
-        // public void Delete(int codEquipContrato)
-        // {
-        //     _equipamentoContratoService.Deletar(codEquipContrato);
-        // }
     }
 }

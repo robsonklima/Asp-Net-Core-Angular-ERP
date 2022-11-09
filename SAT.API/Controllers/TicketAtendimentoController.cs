@@ -29,28 +29,28 @@ namespace SAT.API.Controllers
             return _ticketAtendimentoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{codTicketAtendimento}")]
-        public TicketAtendimento Get(int codTicketAtendimento)
+        [HttpGet("{codTicketAtend}")]
+        public TicketAtendimento Get(int codTicketAtend)
         {
-            return _ticketAtendimentoService.ObterPorCodigo(codTicketAtendimento);
+            return _ticketAtendimentoService.ObterPorCodigo(codTicketAtend);
         }
 
-        // [HttpPost]
-        // public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
-        // {
-        //     return _equipamentoContratoService.Criar(equipamentoContrato);
-        // }
+        [HttpPost]
+        public TicketAtendimento Post([FromBody] TicketAtendimento ticketAtendimento)
+        {
+            return _ticketAtendimentoService.Criar(ticketAtendimento);
+        }
 
-        // [HttpPut]
-        // public void Put([FromBody] EquipamentoContrato equipamentoContrato)
-        // {
-        //     _equipamentoContratoService.Atualizar(equipamentoContrato);
-        // }
+        [HttpPut]
+        public TicketAtendimento Put([FromBody] TicketAtendimento ticketAtendimento)
+        {
+            return _ticketAtendimentoService.Atualizar(ticketAtendimento);
+        }
 
-        // [HttpDelete("{codEquipContrato}")]
-        // public void Delete(int codEquipContrato)
-        // {
-        //     _equipamentoContratoService.Deletar(codEquipContrato);
-        // }
+        [HttpDelete("{codTicketAtend}")]
+        public TicketAtendimento Delete(int codTicketAtend)
+        {
+            return _ticketAtendimentoService.Deletar(codTicketAtend);
+        }
     }
 }

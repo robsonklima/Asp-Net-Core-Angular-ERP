@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>
+    Novo Atendimento
+</h1>
+
+<div mat-dialog-content *transloco="let t">
+    <form class="flex flex-col overflow-hidden" [formGroup]="form">
+        <fieldset [disabled]="isLoading || !ticket"
+            class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('status') }}</mat-label>
+
+                <mat-select class="min-h-10" formControlName="codStatus">
+                    <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
+                        {{ stat.descricao }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>Descricao</mat-label>
+                <textarea matInput formControlName="descricao" rows="3"
+                    placeholder="Descreva o atendimento..."></textarea>
+            </mat-form-field>
+        </fieldset>
+    </form>
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    
+    <button mat-button cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
+      Salvar
+    </button>
+</mat-dialog-actions>
+  

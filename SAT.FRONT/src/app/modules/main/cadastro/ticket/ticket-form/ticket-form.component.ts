@@ -1,18 +1,21 @@
 import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { TicketAtendimentoService } from 'app/core/services/ticket-atendimento.service';
 import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
 import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
 import { TicketPrioridadeService } from 'app/core/services/ticket-prioridade.service';
 import { TicketStatusService } from 'app/core/services/ticket-status.service';
 import { TicketService } from 'app/core/services/ticket.service';
-import { Ticket, TicketClassificacao, TicketModulo, TicketModuloParameters, TicketPrioridade, TicketStatus } from 'app/core/types/ticket.types';
+import { Ticket, TicketAtendimento, TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
+import { TicketAtendimentoFormDialogComponent } from '../ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
 
 @Component({
 	selector: 'app-ticket-form',
@@ -22,13 +25,13 @@ import { Subject } from 'rxjs';
 export class TicketFormComponent implements OnInit, OnDestroy {
 	codTicket: number;
 	isAddMode: boolean;
-	isLoading: boolean = false;
+	isLoading: boolean = true;
 	form: FormGroup;
-	tickets: Ticket;
-	modulos: TicketModulo[];
-	status: TicketStatus[];
-	classificacoes: TicketClassificacao[];
-	prioridades: TicketPrioridade[];
+	ticket: Ticket;
+	modulos: TicketModulo[] = [];
+	status: TicketStatus[] = [];
+	classificacoes: TicketClassificacao[] = [];
+	prioridades: TicketPrioridade[] = [];
 	userSession: UsuarioSessao;
 	titulo: String;
 	descricao: String;
@@ -39,64 +42,126 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		private _ticketService: TicketService,
 		private _ticketModuloService: TicketModuloService,
 		private _ticketStatusService: TicketStatusService,
+		private _ticketAtendimentoService: TicketAtendimentoService,
 		private _ticketPrioridadeService: TicketPrioridadeService,
 		private _ticketClassificacaoService: TicketClassificacaoService,
 		private _route: ActivatedRoute,
 		private _snack: CustomSnackbarService,
 		public _location: Location,
 		private _userService: UserService,
-		private _cdr: ChangeDetectorRef
+		private _dialog: MatDialog,
+    	private _router: Router
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
 	async ngOnInit() {
 		this.codTicket = +this._route.snapshot.paramMap.get('codTicket');
-		//this.isAddMode = !this.codTicket;
-
+		this.isAddMode = !this.codTicket;
 		this.inicializarForm();
 		this.obterDados();
-
 	}
 	private inicializarForm() {
 		this.form = this._formBuilder.group({
-
+			codStatus: [
+				{
+					value: this.isAddMode ? ticketStatusConst.AGUARDANDO : undefined,
+					disabled: this.isAddMode
+				},
+			],
 			codModulo: [undefined, Validators.required],
 			codClassificacao: [undefined, [Validators.required]],
-			codStatus: [undefined, Validators.required],
 			codPrioridade: [undefined, Validators.required],
-			titulo: [undefined],
-			descricao: [undefined],
-
+			titulo: [undefined, Validators.required],
+			descricao: [undefined, Validators.required],
 		});
 	}
+	
 	private async obterDados() {
-		this.isLoading = true;
-		this.modulos = (await this._ticketModuloService.obterPorParametros(null).toPromise()).items;
-		this.status = (await this._ticketStatusService.obterPorParametros(null).toPromise()).items;
-		this.classificacoes = (await this._ticketClassificacaoService.obterPorParametros(null).toPromise()).items;
+		this.modulos = (await this._ticketModuloService
+			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
+			.toPromise()).items;
+
+		this.status = (await this._ticketStatusService
+			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
+			.toPromise()).items;
+
+		this.classificacoes = (await this._ticketClassificacaoService
+			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
+			.toPromise()).items;
+
+		this.prioridades = (await this._ticketPrioridadeService
+			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
+			.toPromise()).items;
+
+		if (!this.isAddMode) {
+			this.ticket = await this._ticketService.obterPorCodigo(this.codTicket).toPromise();
+			this.form.patchValue(this.ticket);
+		}
+
 		this.isLoading = false;
 	}
 
 	salvar(): void {
-		this.criar();
+		this.isAddMode ? this.criar() : this.atualizar();
 	}
 
-	criar(): void {
-		const form = this.form.getRawValue();
-
+	private criar(): void {
 		let obj = {
-			...this.tickets,
-			...form,
+			...this.ticket,
+			...this.form.getRawValue(),
 			...{
-				datacadastro: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuario: this.userSession.usuario.codUsuario
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioCad: this.userSession.usuario.codUsuario
 			}
 		};
 
-		this._ticketService.criar(obj).subscribe(() => {
-			this._snack.exibirToast(`Ticket ${obj.codTicket} inserido com sucesso!`, "success");
-			this._location.back();
+		this._ticketService.criar(obj).subscribe(async (t) => {
+			const primeiroAtendimento: TicketAtendimento = {
+				codStatus: +ticketStatusConst.AGUARDANDO,
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				descricao: 'Ticket Aberto',
+				codTicket: t.codTicket
+			};
+
+			await this._ticketAtendimentoService.criar(primeiroAtendimento).subscribe(() => {
+				this._snack.exibirToast(`Ticket ${t?.codTicket} inserido com sucesso!`, "success");
+				
+				this._router.navigate(['ticket/form/' + t.codTicket]);
+			});
+		});
+	}
+
+	private atualizar(): void {
+		let obj = {
+			...this.ticket,
+			...this.form.getRawValue(),
+			...{
+				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codUsuarioManut: this.userSession.usuario.codUsuario
+			}
+		};
+
+		this._ticketService.atualizar(obj).subscribe((t) => {
+			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
+			this.ngOnInit();
+		});
+	}
+
+	abrirAtendimentoForm(ticketAtendimento: TicketAtendimento=null) {
+		const dialogRef = this._dialog.open(TicketAtendimentoFormDialogComponent, {
+		  data: {
+			ticket: this.ticket,
+			ticketAtendimento: ticketAtendimento
+		  },
+		  width: '680px'
+		});
+	
+		dialogRef.afterClosed().subscribe((ticket: Ticket) => {
+		  if (ticket) {
+			this.ngOnInit();
+		  }
 		});
 	}
 

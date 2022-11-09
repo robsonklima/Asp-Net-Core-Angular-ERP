@@ -1,17 +1,14 @@
-import { UserService } from '../../../../../core/user/user.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
+import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
+import { TicketStatusService } from 'app/core/services/ticket-status.service';
+import { TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus } from 'app/core/types/ticket.types';
 import { Subject } from 'rxjs';
 import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
-import { Ticket, TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus } from 'app/core/types/ticket.types';
-import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
-import { TicketStatusService } from 'app/core/services/ticket-status.service';
-import { TicketPrioridadeService } from 'app/core/services/ticket-prioridade.service';
-import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
-
-
+import { UserService } from '../../../../../core/user/user.service';
 
 @Component({
 	selector: 'app-ticket-filtro',
@@ -29,7 +26,6 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 	constructor(
 		private _ticketModuloService: TicketModuloService,
 		private _ticketStatusService: TicketStatusService,
-		private _ticketPrioridadeService: TicketPrioridadeService,
 		private _ticketClassificacaoService: TicketClassificacaoService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
@@ -44,9 +40,9 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 		
 	}
 	async obterDados() {
-	  this.modulos = (await this._ticketModuloService.obterPorParametros(null).toPromise()).items
-	  this.status = (await this._ticketStatusService.obterPorParametros(null).toPromise()).items
-	  this.classificacoes = (await this._ticketClassificacaoService.obterPorParametros(null).toPromise()).items
+	  this.modulos = (await this._ticketModuloService.obterPorParametros({}).toPromise()).items
+	  this.status = (await this._ticketStatusService.obterPorParametros({}).toPromise()).items
+	  this.classificacoes = (await this._ticketClassificacaoService.obterPorParametros({}).toPromise()).items
 	}
 
 	async loadData() {
@@ -65,17 +61,12 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 		this.form.patchValue(this.filter?.parametros);
 	}
 
-
-
 	private registrarEmitters() {
-	
-			
 
 	}
 
 	limpar() {
 		super.limpar();
-
 	}
 
 	ngOnDestroy() {

@@ -59,6 +59,5 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
-
     }
 }

@@ -32,25 +32,24 @@ export class TicketAtendimentoService {
     );
 }
 
-//   criar(equipamentoContrato: EquipamentoContrato): Observable<EquipamentoContrato> {
-//     return this.http.post<EquipamentoContrato>(`${c.api}/EquipamentoContrato`, 
-//       equipamentoContrato).pipe(
-//       map((obj) => obj)
-//     );
-//   }
+  criar(atendimento: TicketAtendimento): Observable<TicketAtendimento> {
+    return this.http.post<TicketAtendimento>(`${c.api}/TicketAtendimento`, atendimento).pipe(
+      map((obj) => obj)
+    );
+  }
 
-//   atualizar(equipamentoContrato: EquipamentoContrato): Observable<EquipamentoContrato> {
-//     const url = `${c.api}/EquipamentoContrato`;
-//     return this.http.put<EquipamentoContrato>(url, equipamentoContrato).pipe(
-//       map((obj) => obj)
-//     );
-//   }
+  atualizar(atendimento: TicketAtendimento): Observable<TicketAtendimento> {
+    const url = `${c.api}/TicketAtendimento`;
+    return this.http.put<TicketAtendimento>(url, atendimento).pipe(
+      map((obj) => obj)
+    );
+  }
 
-//   deletar(codEquipContrato: number): Observable<EquipamentoContrato> {
-//     const url = `${c.api}/EquipamentoContrato/${codEquipContrato}`;
+  deletar(cod: number): Observable<TicketAtendimento> {
+    const url = `${c.api}/TicketAtendimento/${cod}`;
     
-//     return this.http.delete<EquipamentoContrato>(url).pipe(
-//       map((obj) => obj)
-//     );
-// }
+    return this.http.delete<TicketAtendimento>(url).pipe(
+      map((obj) => obj)
+    );
+}
 }

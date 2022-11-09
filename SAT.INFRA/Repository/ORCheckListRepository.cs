@@ -90,6 +90,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodORCheckList.HasValue)
                 query = query.Where(os => os.CodORCheckList == parameters.CodORCheckList);
 
+            if (parameters.CodPeca.HasValue)
+                query = query.Where(os => os.CodPeca == parameters.CodPeca);                
+
             if (!string.IsNullOrWhiteSpace(parameters.Descricao))
                 query = query.Where(os => os.Descricao.Contains(parameters.Descricao));
 

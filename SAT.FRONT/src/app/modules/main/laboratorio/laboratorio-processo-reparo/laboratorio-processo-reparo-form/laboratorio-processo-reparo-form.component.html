@@ -161,13 +161,67 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b"  *ngIf="orCheckLists?.length">
                     <p class="text-lg font-medium">{{ t('check list') }}</p>
-                </div>
+                </div>     
+                
+                <div class="flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden" *ngIf="orCheckLists?.length">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <tbody>
+                            <tr class="border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Descrição
+                                </td>
 
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                                <td class="py-1 font-medium text-left">
+                                    Realização
+                                </td>                                
 
-                </div>
+                                <td class="py-1 font-medium text-left">
+                                    Nível
+                                </td> 
+
+                                <td class="py-1 font-medium text-left">
+                                    Ação
+                                </td>                                 
+
+                                <td class="py-1 font-medium text-left">
+                                    Código Perto
+                                </td>
+
+                                <td class="py-1 font-medium text-center">
+                                    Quantidade Sugerida
+                                </td>
+                            </tr>
+
+                            <tr class="border-t-2" *ngFor="let item of orCheckLists; let i=index">
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.itens[i]}}
+                                </td>
+
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.itens[i].descricao }}
+                                </td>
+
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.itens[i].nivel }}
+                                </td>        
+                                
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.itens[i].acao }}
+                                </td>                                     
+
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.codMagnus }}
+                                </td>
+
+                                <td class="py-1 font-medium text-center">
+                                    1
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('insumos') }}</p>
@@ -191,7 +245,7 @@
 
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                </div>
+                </div>                
 
                 <div *ngIf="!form.valid">
                     <app-formulario-erros [form]="form"></app-formulario-erros>

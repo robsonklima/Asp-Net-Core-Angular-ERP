@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ORCheckListService } from 'app/core/services/or-checklist.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORTempoReparoService } from 'app/core/services/or-tempo-reparo.service';
 import { ORService } from 'app/core/services/or.service';
 import { ViewLaboratorioTecnicoBancada } from 'app/core/types/bancada-laboratorio.types';
+import { ORCheckList, ORCheckListParameters } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';
 import { OR } from 'app/core/types/OR.types';
@@ -27,6 +29,7 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
   tecnicoBancada: ViewLaboratorioTecnicoBancada;
   userSession: UserSession;
   tempoReparo: ORTempoReparo;
+  orCheckLists: ORCheckList [] = [];
   form: FormGroup;
 
   constructor(
@@ -37,7 +40,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     private _orService: ORService,
     private _snack: CustomSnackbarService,
     private _orItemService: ORItemService,
-    private _orTempoReparoService: ORTempoReparoService
+    private _orTempoReparoService: ORTempoReparoService,
+    private _orCheckList: ORCheckListService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -49,6 +53,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     this.item = await this._orItemService
       .obterPorCodigo(this.codORItem)
       .toPromise();
+      
+    this.obterORChecklist(this.item);
 
     this.tempoReparo = _.last(this.item.temposReparo);
 
@@ -57,7 +63,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
       descricao: this.item?.peca?.nomePeca,
       numSerie: this.item?.numSerie,
       usuarioTecnico: this.item?.usuarioTecnico?.nomeUsuario,
-      status: this.item?.statusOR?.descStatus
+      status: this.item?.statusOR?.descStatus,
+
     });
 
     this.or = await this._orService
@@ -81,6 +88,24 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     const percentualEvolucao = (tempoEmReparo / tempoReparoPeca * 100).toFixed(2)
     return +percentualEvolucao <= 100 ? percentualEvolucao : 100;
   }
+
+  private async obterORChecklist(item: ORItem) {
+		let params: ORCheckListParameters = {
+      codPeca: item.codPeca,
+			sortActive: 'descricao',
+			sortDirection: 'asc',
+      pageSize: 120
+		};
+
+		const data = await this._orCheckList
+			.obterPorParametros(params)
+			.toPromise();
+
+    this.orCheckLists = data.items;  
+
+    console.log(this.orCheckLists);
+    
+	}
 
   criarForm() {
     this.form = this._formBuilder.group({

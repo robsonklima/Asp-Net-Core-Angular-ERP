@@ -134,6 +134,7 @@ export class LaboratorioOrdemReparoFormComponent implements OnInit, OnDestroy {
     } else {
       this.or.orItens = itens;
     }
+    
   }
 
   salvar(): void {

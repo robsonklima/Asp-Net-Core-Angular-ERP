@@ -4,7 +4,7 @@ import { ORItem } from "./or-item.types";
 import { Usuario } from "./usuario.types";
 
 export interface ItemDefeito {
-    codItemDefeito: number;
+    codItemDefeito?: number;
     codORItem: number;
     codDefeito: number;
     codTecnico: string;
@@ -21,4 +21,5 @@ export interface ItemDefeitoData extends Meta {
 export interface ItemDefeitoParameters extends QueryStringParameters {
     codORItem?: number;
     codItemDefeito?: number;
+    codDefeito?: number;
 }

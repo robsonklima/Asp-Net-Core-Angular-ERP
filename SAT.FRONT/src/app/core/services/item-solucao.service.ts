@@ -8,7 +8,7 @@ import { ItemSolucaoParameters, ItemSolucaoData, ItemSolucao } from '../types/it
 @Injectable({
     providedIn: 'root'
 })
-export class ORService {
+export class ItemSolucaoService {
     constructor(private http: HttpClient) {}
 
     obterPorParametros(parameters: ItemSolucaoParameters): Observable<ItemSolucaoData> {

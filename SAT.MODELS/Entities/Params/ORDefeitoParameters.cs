@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities.Params
     public class ORDefeitoParameters : QueryStringParameters
     {
         public int? CodDefeito { get; set; }
+        public int? IndAtivo { get; set; }
     }
 }

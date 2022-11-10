@@ -13,4 +13,5 @@ export interface ORDefeitoData extends Meta {
 
 export interface ORDefeitoParameters extends QueryStringParameters {
     codDefeito?: number;
+    indAtivo?: number;
 }

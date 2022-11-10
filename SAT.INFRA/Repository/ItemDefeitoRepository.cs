@@ -83,6 +83,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(q => q.CodORItem == parameters.CodORItem);
             }
 
+            if(parameters.CodDefeito.HasValue)
+            {
+                query = query.Where(q => q.CodDefeito == parameters.CodDefeito);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

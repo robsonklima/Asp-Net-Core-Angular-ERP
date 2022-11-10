@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodItemSolucao { get; set; }
         public int? CodORItem { get; set; }
+        public int? CodSolucao { get; set; }
     }
 }

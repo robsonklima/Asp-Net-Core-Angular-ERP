@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodItemDefeito { get; set; }
         public int? CodORItem { get; set; }
+        public int? CodDefeito { get; set; }
     }
 }

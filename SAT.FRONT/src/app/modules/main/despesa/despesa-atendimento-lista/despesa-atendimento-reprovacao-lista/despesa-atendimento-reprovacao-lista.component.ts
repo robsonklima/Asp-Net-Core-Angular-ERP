@@ -4,9 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DespesaAdiantamentoPeriodoService } from 'app/core/services/despesa-adiantamento-periodo.service';
+import { DespesaAdiantamentoService } from 'app/core/services/despesa-adiantamento.service';
 import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { Cidade } from 'app/core/types/cidade.types';
+import { DespesaAdiantamento, DespesaAdiantamentoPeriodo } from 'app/core/types/despesa-adiantamento.types';
 import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaItem, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { UserService } from 'app/core/user/user.service';
@@ -38,6 +41,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit {
   despesas: Despesa[] = [];
   despesaItens: DespesaItem[] = [];
   codDespesaPeriodoTecnico: number;
+  despesaAdiantamentoPeriodos: DespesaAdiantamentoPeriodo [] = [];
   despesaItemSelecionada: DespesaItem;
   despesaSelecionadaForm: FormGroup;
   public userSession: UserSession;
@@ -51,6 +55,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit {
     private _changeDetectorRef: ChangeDetectorRef,
     private _despesaItemSvc: DespesaItemService,
     private _snack: CustomSnackbarService,
+    private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
     private _dialog: MatDialog) {
     this.codDespesaPeriodoTecnico = +this._route.snapshot.paramMap.get('codDespesaPeriodoTecnico');
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -60,6 +65,7 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit {
     await this.getDespesas();
     await this.criarForm();
     await this.registerEmitters();
+    await this.obterDespesaAdiantamentoPeriodo();
   }
 
   private criarForm() {
@@ -281,13 +287,27 @@ export class DespesaAtendimentoReprovacaoListaComponent implements OnInit {
         this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = +DespesaPeriodoTecnicoStatusEnum.REPROVADO;
 
         this._despesaPeriodoTecnicoService.atualizar(this.despesaPeriodoTecnico).subscribe(() => {
-          this._snack.exibirToast('Período reprovado com sucesso!', 'success');
+          this.excluirDespesaAdiantamentosPeriodo();
+          this._snack.exibirToast('Período reprovado com sucesso!', 'success');       
         }, e => {
           this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus = +DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'];
           this._snack.exibirToast('Erro ao reprovar período.', 'error');
         })
       }
     });
+  }
+
+  async obterDespesaAdiantamentoPeriodo(){
+        this.despesaAdiantamentoPeriodos = (await this._despesaAdiantamentoPeriodoSvc.obterPorParametros({
+          codDespesaPeriodo: this.despesaPeriodoTecnico.codDespesaPeriodo,
+          codTecnico: this.despesaPeriodoTecnico.codTecnico
+        }).toPromise()).items;
+  }
+
+  excluirDespesaAdiantamentosPeriodo(){
+      for (const iterator of this.despesaAdiantamentoPeriodos) {
+        this._despesaAdiantamentoPeriodoSvc.deletar(iterator.codDespesaAdiantamentoPeriodo).toPromise();
+      }        
   }
 
   async showInMap(despesaItem: DespesaItem) {

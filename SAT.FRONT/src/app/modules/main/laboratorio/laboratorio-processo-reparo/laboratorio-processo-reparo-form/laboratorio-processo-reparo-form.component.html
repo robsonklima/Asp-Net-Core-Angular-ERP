@@ -40,7 +40,7 @@
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-3xl">
+        <div>
             <form *ngIf="item" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
@@ -165,7 +165,7 @@
                     <p class="text-lg font-medium">{{ t('check list') }}</p>
                 </div>     
 
-                <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 pb-6 bg-card shadow rounded overflow-hidden">
                     <app-laboratorio-processo-reparo-form-checklist [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-checklist>
                 </div>                         
 

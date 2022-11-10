@@ -1,5 +1,5 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div class="flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+    <div class="flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
         <table class="w-full text-sm text-left text-gray-500">
             <tbody>
                 <tr class="border-t-2">
@@ -17,15 +17,27 @@
 
                     <td class="py-1 font-medium text-left">
                         Ação
-                    </td>                                 
+                    </td>           
+                    
+                    <td class="py-1 font-medium text-left">
+                        Paramêtro
+                    </td>                    
 
                     <td class="py-1 font-medium text-left">
-                        Código Perto
+                        Cód. Perto
+                    </td>
+
+                    <td class="py-1 font-medium text-left">
+                        P/N MEI
                     </td>
 
                     <td class="py-1 font-medium text-center">
-                        Quantidade Sugerida
+                        Obrigatório
                     </td>
+
+                    <td class="py-1 font-medium text-center">
+                        Realizado 
+                    </td>                    
                 </tr>
 
                 <tr class="border-t-2" *ngFor="let item of orCheckList?.itens">                                
@@ -43,16 +55,35 @@
                     
                     <td class="py-1 font-medium text-left">
                         {{ item.acao }}
-                    </td>                                     
+                    </td>             
+                    
+                    <td class="py-1 font-medium text-left">
+                        {{ item.parametro }}
+                    </td>                    
 
                     <td class="py-1 font-medium text-left">
                         {{ item.codMagnus }}
                     </td>
 
+                    <td class="py-1 font-medium text-left">
+                        {{ item.pn_Mei }}
+                    </td>                    
+
                     <td class="py-1 font-medium text-center">
-                        1
+                        {{ item.passoObrigatorio }}
                     </td>
-                </tr>                
+
+                    <div class="p-8">
+                        <div class="flex flex-col gt-xs:flex-row">
+                            <div class="flex flex-col">
+                                <mat-checkbox class="mb-1" [color]="'primary'"
+                                    [formControlName]="'realizado'">
+                                    {{ t('realizado') }}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>                    
+                </tr>             
             </tbody>
         </table>
     </div>      

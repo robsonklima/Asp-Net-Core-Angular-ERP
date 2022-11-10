@@ -36,8 +36,17 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
     this.item = await this._orItemService
     .obterPorCodigo(this.codORItem)
     .toPromise();
-    
+
+    this.inicializarForm();
+
     this.obterORChecklist(this.item);
+  }
+
+  private inicializarForm(): void
+  {
+    this.form = this._formBuilder.group({
+      realizado: [undefined]
+    });
   }
         
   private async obterORChecklist(item: ORItem) {

@@ -22,6 +22,8 @@ namespace SAT.MODELS.Entities {
         public Usuario UsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public DateTime? DataHoraFechamento { get; set; }
+        public int? Ordem { get; set; }
+        public byte? IndAtivo { get; set; }
         public List<TicketAtendimento> Atendimentos { get; set; }
     }
 }

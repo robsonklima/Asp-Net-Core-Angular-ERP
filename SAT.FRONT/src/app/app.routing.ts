@@ -110,7 +110,7 @@ export const appRoutes: Route[] = [
             { path: 'conferencia', loadChildren: () => import('app/modules/main/conferencia/conferencia.module').then(m => m.ConferenciaModule) },
             { path: 'tecnico-plantao', loadChildren: () => import('app/modules/main/tecnico-plantao/tecnico-plantao.module').then(m => m.TecnicoPlantaoModule) },
             { path: 'importacao', loadChildren: () => import('app/modules/main/importacao/importacao.module').then(m => m.ImportacaoModule) },
-            { path: 'ticket', loadChildren: () => import('app/modules/main/cadastro/ticket/ticket.module').then(m => m.TicketModule) },
+            { path: 'ticket', loadChildren: () => import('app/modules/main/ticket/ticket.module').then(m => m.TicketModule) },
             { path: 'frota-tecnico', loadChildren: () => import('app/modules/main/frota-tecnicos/frota-tecnicos.module').then(m => m.FrotaTecnicosModule) },
             { path: 'mensagem', loadChildren: () => import('app/modules/main/mensagem/mensagem.module').then(m => m.MensagemModule) },
             { path: 'suporte-stn', loadChildren: () => import('app/modules/main/suporte-stn/suporte-stn.module').then(m => m.SuporteSTNModule) },

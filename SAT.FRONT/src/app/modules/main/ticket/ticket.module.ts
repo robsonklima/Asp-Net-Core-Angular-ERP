@@ -1,4 +1,3 @@
-import { FiltroModule } from '../../filtros/filtro.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -30,6 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
 import { TicketAtendimentoFormDialogComponent } from './ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FiltroModule } from '../filtros/filtro.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -62,6 +63,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatInputModule,
     MatSortModule,
     MatProgressBarModule,
+    DragDropModule,
     MatSnackBarModule,
     MatSelectModule,
     MatProgressSpinnerModule,

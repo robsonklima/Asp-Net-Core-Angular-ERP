@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { FilterBase } from 'app/core/filters/filter-base';
 import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
 import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
 import { TicketStatusService } from 'app/core/services/ticket-status.service';
+import { IFilterBase } from 'app/core/types/filtro.types';
 import { TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus } from 'app/core/types/ticket.types';
+import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
-import { FilterBase } from '../../../../../core/filters/filter-base';
-import { IFilterBase } from '../../../../../core/types/filtro.types';
-import { UserService } from '../../../../../core/user/user.service';
 
 @Component({
 	selector: 'app-ticket-filtro',

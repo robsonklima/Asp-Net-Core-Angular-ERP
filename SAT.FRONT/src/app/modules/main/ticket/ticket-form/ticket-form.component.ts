@@ -13,6 +13,7 @@ import { TicketService } from 'app/core/services/ticket.service';
 import { Ticket, TicketAtendimento, TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { TicketAtendimentoFormDialogComponent } from '../ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
@@ -112,7 +113,8 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 			...this.form.getRawValue(),
 			...{
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioCad: this.userSession.usuario.codUsuario
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				ordem: 9999
 			}
 		};
 
@@ -162,6 +164,34 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		  if (ticket) {
 			this.ngOnInit();
 		  }
+		});
+	}
+
+	remover() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover este ticket?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {
+				this.isLoading = true;
+				this._ticketService
+					.deletar(this.ticket.codTicket)
+					.subscribe(() => {
+						this._snack.exibirToast(`Registro removido com sucesso`, 'success');
+						this._location.back();
+					}, (e) => {
+						this._snack.exibirToast(e.message || e.error.message, 'error');
+						this.isLoading = false;
+					});
+			}
 		});
 	}
 

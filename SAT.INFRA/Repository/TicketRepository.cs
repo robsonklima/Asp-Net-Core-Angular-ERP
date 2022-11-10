@@ -99,7 +99,9 @@ namespace SAT.INFRA.Repository
 
         public Ticket Deletar(int codigo)
         {
-            Ticket t = _context.Ticket.FirstOrDefault(t => t.CodTicket == codigo);
+            Ticket t = _context.Ticket
+                .Include(t => t.Atendimentos)
+                .FirstOrDefault(t => t.CodTicket == codigo);
 
             if (t != null)
             {

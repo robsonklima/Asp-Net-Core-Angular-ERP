@@ -1,50 +1,30 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { TicketService } from 'app/core/services/ticket.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { TicketData, TicketParameters } from 'app/core/types/ticket.types';
+import { Ticket } from 'app/core/types/ticket.types';
+import { UserService } from 'app/core/user/user.service';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { UserService } from '../../../../../core/user/user.service';
 
 @Component({
 	selector: 'app-ticket-lista',
 	templateUrl: './ticket-lista.component.html',
-	styles: [
-		`
-			.list-grid-contrato {
-			grid-template-columns: 60px 200px auto 180px 180px 110px 110px 110px;
-			
-			/* @screen sm {
-				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
-			}
-
-			@screen md {
-				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
-			}
-
-			@screen lg {
-				grid-template-columns: 60px 345px 240px 120px 120px 120px 120px 120px auto;
-			} */
-			}  
-		`
-	],
+	styleUrls: ['./ticket-lista.component.scss'],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations
 })
 export class TicketListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
-	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
-	@ViewChild(MatSort) sort: MatSort;
-	tickets: TicketData;
+	tickets: Ticket[] = [];
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
 
@@ -53,26 +33,9 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		private _cdr: ChangeDetectorRef,
 		private _ticketService: TicketService,
 		private _exportacaoService: ExportacaoService,
-
+		private _snack: CustomSnackbarService
 	) {
 		super(_userService, 'ticket')
-	}
-
-	registerEmitters(): void {
-		this.sidenav.closedStart.subscribe(() => {
-			this.onSidenavClosed();
-			this.obterDados();
-		})
-	}
-
-	loadFilter(): void {
-		super.loadFilter();
-	}
-
-	onSidenavClosed(): void {
-		if (this.paginator) this.paginator.pageIndex = 0;
-		this.loadFilter();
-		this.obterDados();
 	}
 
 	ngAfterViewInit() {
@@ -94,39 +57,53 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 			, debounceTime(700)
 			, distinctUntilChanged()
 		).subscribe((text: string) => {
-			this.paginator.pageIndex = 0;
 			this.searchInputControl.nativeElement.val = text;
 			this.obterDados(text);
-		});
-
-		this.sort.disableClear = true;
-		this._cdr.markForCheck();
-
-		this.sort.sortChange.subscribe(() => {
-			this.paginator.pageIndex = 0;
-			this.obterDados();
 		});
 
 		this._cdr.detectChanges();
 	}
 
+	registerEmitters(): void {
+		this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();
+			this.obterDados();
+		})
+	}
+
+	loadFilter(): void {
+		super.loadFilter();
+	}
+
 	async obterDados(filter: string = '') {
 		this.isLoading = true;
-		const params: TicketParameters = {
-			pageNumber: this.paginator.pageIndex + 1,
-			sortDirection: this.filter?.parametros?.direction || this.sort.direction || 'desc',
-			pageSize: this.filter?.parametros?.qtdPaginacaoLista ?? this.paginator?.pageSize,
-			filter: filter,
-		};
 
-		this.tickets = await this._ticketService
+		this.tickets = (await this._ticketService
 			.obterPorParametros({
-				...params,
+				... {
+					filter: filter,
+					sortActive: 'ordem',
+					sortDirection: 'asc'
+				},
 				...this.filter?.parametros
 			})
-			.toPromise();
+			.toPromise()).items;
+
+		console.log(this.tickets);
+		
 			
 		this.isLoading = false;
+	}
+
+	async toggleStatusTicket(ticket: Ticket) {
+		const t = this._ticketService.atualizar({
+			...ticket,
+			...{
+				indAtivo: +!ticket.indAtivo
+			}
+		}).subscribe(() => {
+			this.obterDados();		
+		});
 	}
 
 	async exportar() {
@@ -135,7 +112,7 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
 			tipoArquivo: ExportacaoTipoEnum.TICKET,
-			entityParameters: this.filter?.parametros
+			entityParameters: {}
 		}
 
 		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
@@ -143,8 +120,20 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		this.isLoading = false;
 	}
 
-	paginar() {
-		this.obterDados();
+	async dropped(event: CdkDragDrop<string[]>) {
+		const aux = this.tickets[event.previousIndex];
+		this.tickets[event.previousIndex] = this.tickets[event.currentIndex];
+		this.tickets[event.currentIndex] = aux;
+		if(this.tickets[event.previousIndex]){
+			this.tickets[event.previousIndex].ordem = event.previousIndex + 1;
+			await this._ticketService.atualizar(this.tickets[event.previousIndex]).subscribe();
+		}
+		if(this.tickets[event.currentIndex]){
+			this.tickets[event.currentIndex].ordem = event.currentIndex + 1;
+			await this._ticketService.atualizar(this.tickets[event.currentIndex]);
+		}
+
+		this._snack.exibirToast('Ordem atualizada com sucesso', 'success');
 	}
 
 	ngOnDestroy() {

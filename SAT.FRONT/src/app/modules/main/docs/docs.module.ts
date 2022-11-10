@@ -18,7 +18,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { docsRoutes } from './docs.routing';
-import { SuporteComponent } from './suporte/suporte.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
@@ -30,7 +29,6 @@ import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
 
 @NgModule({
   declarations: [
-    SuporteComponent,
     DocsComponent,
     IntroducaoComponent,
     VersoesComponent,

@@ -1,0 +1,96 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-ticket-filtro [sidenav]="sidenav"></app-ticket-filtro>
+    </mat-drawer>
+
+    <mat-drawer-content *transloco="let t">
+        <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-gray-100">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-8 px-6 md:px-8">
+                <div>
+                    <div class="text-4xl font-extrabold tracking-tight leading-none">
+                        {{ t('tickets') }}
+                    </div>
+
+                    <div class="ml-0.5 font-medium text-secondary">
+                        <span *ngIf="tickets.length !== 0">{{ tickets.length }} {{ t('tickets') }}</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 sm:mt-0">
+                    <button mat-flat-button [color]="'accent'" [routerLink]="['/ticket/form']">
+                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                    </button>
+
+                    <button class="ml-3" mat-flat-button [color]="'primary'" (click)="exportar()">
+                        <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
+                    </button>
+
+                    <button class="ml-3 bg-gray-500 text-white" mat-flat-button (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-auto px-6 overflow-hidden" *ngIf="tickets.length">
+                <div cdkDropList class="cdk-list" (cdkDropListDropped)="dropped($event)">
+                    <div class="cdk-box justify-between" [class.bg-green-50]="ticket.codStatus == 3" *ngFor="let ticket of tickets" cdkDrag
+                        [cdkDragDisabled]="ticket.codStatus == 3">
+                        <div class="cdk-custom-placeholder" *cdkDragPlaceholder></div>
+
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1 mr-1">
+                            <mat-icon class="text-gray-400" [class.text-gray-100]="ticket.codStatus == 3" [svgIcon]="'heroicons_solid:menu'"></mat-icon>
+
+                            <div class="pl-2">
+                                <button [disabled]="ticket.codStatus == 3" mat-icon-button [matTooltip]="ticket.indAtivo ? 'Desativar' : 'Ativar'"
+                                    (click)="toggleStatusTicket(ticket)">
+                                    <mat-icon class="icon-size-5" [class.text-green-500]="ticket.indAtivo"
+                                        [class.text-gray-300]="!ticket.indAtivo"
+                                        [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                                </button>
+                            </div>
+
+                            <button mat-icon-button matTooltip="{{ t('editar') }}"
+                                [routerLink]="['/ticket/form/' + ticket.codTicket]">
+                                <mat-icon class="text-blue-500 icon-size-5" [svgIcon]="'mat_outline:edit_calendar'">
+                                </mat-icon>
+                            </button>
+
+                            <div class="pl-4">
+                                {{ ticket.usuarioCad.nomeUsuario }}
+                            </div>
+
+                            <div class="px-2 hidden sm:block">&bull;</div>
+
+                            <div class="truncate max-w-128" [matTooltip]="ticket.descricao">
+                                {{ ticket.titulo }}
+                            </div>
+
+                            <div class="px-2 hidden sm:block">&bull;</div>
+
+                            <div class="font-semibold" [matTooltip]="'Prioridade'">
+                                {{ ticket.ticketPrioridade.descricao }}
+                            </div>
+
+                            <div class="px-2 hidden sm:block">&bull;</div>
+
+                            <div class="font-semibold" [matTooltip]="'Módulo'">
+                                {{ ticket.ticketModulo.descricao }}
+                            </div>
+
+                            <div class="px-2 hidden sm:block">&bull;</div>
+
+                            <div class="font-semibold" [matTooltip]="'Status'">
+                                {{ ticket.ticketStatus.descricao }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!tickets?.length && !isLoading"
+                class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                Nenhum ticket encontrado!
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

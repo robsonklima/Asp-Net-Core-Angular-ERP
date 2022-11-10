@@ -12,10 +12,10 @@ namespace SAT.SERVICES.Services {
                             {
                                 Codigo = t.CodTicket,
                                 Cadastro = t.DataHoraCad,
-                                Solicitante = t.UsuarioCad.NomeUsuario,
-                                Atendente = t.UsuarioManut.NomeUsuario,
-                                Modulo = t.TicketModulo.Descricao,
-                                Prioridade = t.TicketPrioridade.Descricao,
+                                Solicitante = t.UsuarioCad?.NomeUsuario,
+                                Atendente = t.UsuarioManut?.NomeUsuario,
+                                Modulo = t.TicketModulo?.Descricao,
+                                Prioridade = t.TicketPrioridade?.Descricao,
                                 DataFechamento = t.DataHoraFechamento,
                                 Status = t.TicketStatus.Descricao
                             });

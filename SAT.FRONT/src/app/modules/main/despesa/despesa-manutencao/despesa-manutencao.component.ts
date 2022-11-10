@@ -12,7 +12,7 @@ import { DespesaService } from 'app/core/services/despesa.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { DespesaConfiguracaoCombustivel, DespesaConfiguracaoCombustivelParameters } from 'app/core/types/despesa-configuracao-combustivel.types';
-import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
+import { DespesaPeriodoTecnico, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
 import { Despesa, DespesaConfiguracao, DespesaConfiguracaoData, DespesaConfiguracaoParameters, DespesaItem, DespesaItemAlertaData, DespesaParameters } from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento, RelatorioAtendimentoParameters } from 'app/core/types/relatorio-atendimento.types';
@@ -49,6 +49,7 @@ export class DespesaManutencaoComponent implements OnInit {
   despesaConfiguracao: DespesaConfiguracao;
   despesaItemAlerta: DespesaItemAlertaData;
   despesaPeriodoTecnico: DespesaPeriodoTecnico;
+  permiteAlterarDespesa: boolean;
 
   constructor(
     public _userService: UserService,
@@ -72,6 +73,7 @@ export class DespesaManutencaoComponent implements OnInit {
   async ngOnInit() {
     this.isDespesaLoading = false;
     this.isLoading = false;
+    this.permiteAlterarDespesa = false;
 
     await this.obterDados();
 
@@ -99,6 +101,13 @@ export class DespesaManutencaoComponent implements OnInit {
     await this.obterDespesaConfiguracao();
     await this.obterDespesaItemAlertas();
     await this.obterRATs();
+
+    if (this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO) && 
+        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])) {
+      this.permiteAlterarDespesa = true;
+    } else {
+      this.permiteAlterarDespesa = false;
+    }
 
     this.isLoading = false;
   }

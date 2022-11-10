@@ -5,5 +5,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodORCheckListItem { get; set; }
         public string CodORCheckListItems { get; set; }
+        public string Nivel { get; set; }
     }
 }

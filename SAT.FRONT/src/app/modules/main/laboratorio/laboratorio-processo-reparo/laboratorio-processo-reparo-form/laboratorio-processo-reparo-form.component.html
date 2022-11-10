@@ -161,14 +161,8 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('check list') }}</p>
-                </div>     
-
-                <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 pb-6 bg-card shadow rounded overflow-hidden">
-                    <app-laboratorio-processo-reparo-form-checklist [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-checklist>
-                </div>                         
-
+                <app-laboratorio-processo-reparo-form-checklist [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-checklist>
+                
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('insumos') }}</p>
                 </div>

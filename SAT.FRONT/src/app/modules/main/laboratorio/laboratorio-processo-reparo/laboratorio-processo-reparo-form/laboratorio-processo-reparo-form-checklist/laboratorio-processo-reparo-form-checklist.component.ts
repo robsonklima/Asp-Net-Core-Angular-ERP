@@ -45,7 +45,10 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   private inicializarForm(): void
   {
     this.form = this._formBuilder.group({
-      realizado: [undefined]
+      realizado: [undefined],
+      n1: [undefined],
+      n2: [undefined],
+      n3: [undefined]
     });
   }
         

@@ -118,7 +118,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
           value: '',
           disabled: true
         },
-      ]
+      ],
+      nivel: [undefined]
     });
   }
 

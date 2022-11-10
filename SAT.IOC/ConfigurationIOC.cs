@@ -182,6 +182,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORSolucaoRepository>().As<IORSolucaoRepository>();
         builder.RegisterType<ItemXORCheckListRepository>().As<IItemXORCheckListRepository>();
         builder.RegisterType<ItemDefeitoRepository>().As<IItemDefeitoRepository>();
+        builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
         
         #endregion
 
@@ -354,6 +355,7 @@ public class ConfigurationIOC
         builder.RegisterType<ORSolucaoService>().As<IORSolucaoService>();
         builder.RegisterType<ItemXORCheckListService>().As<IItemXORCheckListService>();
         builder.RegisterType<ItemDefeitoService>().As<IItemDefeitoService>();
+        builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
 
         #endregion
 

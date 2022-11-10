@@ -13,4 +13,5 @@ export interface ORSolucaoData extends Meta {
 
 export interface ORSolucaoParameters extends QueryStringParameters {
     codSolucao?: number;
+    indAtivo?: number;
 }

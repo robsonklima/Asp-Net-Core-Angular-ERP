@@ -1,1 +1,14 @@
-<p>laboratorio-processo-reparo-form-solucao works!</p>
+<tr class="border-t-2">
+    <td class="py-1 font-medium text-left">
+        Descrição
+    </td>
+</tr>
+
+
+<tr class="border-t-2" *ngFor="let item of solucoes">
+    <td class="py-1 font-medium text-left">
+        <mat-slide-toggle (change)="onChange($event,item.codSolucao)">
+            {{ item.descricao }}
+        </mat-slide-toggle>
+    </td>
+</tr>

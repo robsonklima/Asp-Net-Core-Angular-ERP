@@ -8,7 +8,7 @@ import { ItemDefeitoParameters, ItemDefeitoData, ItemDefeito } from '../types/it
 @Injectable({
     providedIn: 'root'
 })
-export class ORService {
+export class ItemDefeitoService {
     constructor(private http: HttpClient) {}
 
     obterPorParametros(parameters: ItemDefeitoParameters): Observable<ItemDefeitoData> {

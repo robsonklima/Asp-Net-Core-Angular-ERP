@@ -21,4 +21,5 @@ export interface ItemSolucaoData extends Meta {
 export interface ItemSolucaoParameters extends QueryStringParameters {
     codORItem?: number;
     codItemSolucao?: number;
+    codSolucao?: number;
 }

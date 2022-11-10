@@ -231,14 +231,8 @@
                     <app-laboratorio-processo-reparo-form-insumos [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-insumos>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('defeito') }}</p>
-                </div>
-
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <app-laboratorio-processo-reparo-form-defeito [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-defeito>
-                </div>
-
+                <app-laboratorio-processo-reparo-form-defeito [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-defeito>
+                
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('solucao') }}</p>
                 </div>

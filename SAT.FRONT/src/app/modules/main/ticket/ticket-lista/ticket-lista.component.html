@@ -16,25 +16,39 @@
                     </div>
                 </div>
 
-                <div class="mt-4 sm:mt-0">
-                    <button mat-flat-button [color]="'accent'" [routerLink]="['/ticket/form']">
-                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                        <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                        <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                    </mat-form-field>
+
+                    <button class="ml-5" mat-icon-button matTooltip="{{ t('novo') }}"
+                        [routerLink]="['/ticket/form']">
+                        <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                     </button>
 
-                    <button class="ml-3" mat-flat-button [color]="'primary'" (click)="exportar()">
-                        <mat-icon [svgIcon]="'heroicons_outline:download'"></mat-icon>
+                    <button class="ml-3" mat-icon-button matTooltip="{{ t('atualizar') }}"
+                        (click)="obterDados()">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <button class="ml-3 bg-gray-500 text-white" mat-flat-button (click)="sidenav.toggle()">
+                    <div [matTooltip]="t('exportar')"
+                        (click)="exportar()">
+                        <button class="ml-2" mat-icon-button>
+                            <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                        </button>
+                    </div>
+
+                    <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>
             </div>
 
-            <div class="flex-auto px-6 overflow-hidden" *ngIf="tickets.length">
+            <div class="flex-auto px-6 overflow-hidden" *ngIf="tickets.length && !isLoading">
                 <div cdkDropList class="cdk-list" (cdkDropListDropped)="dropped($event)">
                     <div class="cdk-box justify-between" [class.bg-green-50]="ticket.codStatus == 3" *ngFor="let ticket of tickets" cdkDrag
-                        [cdkDragDisabled]="ticket.codStatus == 3">
+                        [cdkDragDisabled]="ticket.codStatus == 3" [class.cursor-default]="ticket.codStatus == 3">
                         <div class="cdk-custom-placeholder" *cdkDragPlaceholder></div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1 mr-1">
@@ -85,6 +99,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div *ngIf="isLoading"
+                class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                Carregando...
             </div>
 
             <div *ngIf="!tickets?.length && !isLoading"

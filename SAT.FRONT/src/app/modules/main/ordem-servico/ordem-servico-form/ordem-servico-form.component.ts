@@ -600,8 +600,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	
-
 	validaObrigatoriedadeDosCampos() {
 		this.form.get('codTipoIntervencao').valueChanges.subscribe(val => {
 			if (val == TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)

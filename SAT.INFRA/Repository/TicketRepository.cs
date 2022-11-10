@@ -29,22 +29,35 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.UsuarioCad.Filial)
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                query = query.Where(t => 
+                                        t.Titulo.Contains(parameters.Filter) || 
+                                        t.Descricao.Contains(parameters.Filter) ||
+                                        t.UsuarioCad.NomeUsuario.Contains(parameters.Filter)
+                                    );
+            }
+
             if (parameters.CodUsuarioCad != null)
             {
                 query = query.Where(t => t.CodUsuarioCad == parameters.CodUsuarioCad);
             }
+
             if (parameters.CodModulo.HasValue)
             {
                 query = query.Where(t => t.CodModulo == parameters.CodModulo);
             }
+
             if (parameters.CodStatus.HasValue)
             {
                 query = query.Where(t => t.CodStatus == parameters.CodStatus);
             }
+
             if (parameters.CodPrioridade.HasValue)
             {
                 query = query.Where(t => t.CodPrioridade == parameters.CodPrioridade);
             }
+
             if (parameters.CodClassificacao.HasValue)
             {
                 query = query.Where(t => t.CodClassificacao == parameters.CodClassificacao);

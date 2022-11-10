@@ -25,7 +25,7 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
 	tickets: Ticket[] = [];
-	isLoading: boolean = false;
+	isLoading: boolean = true;
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
@@ -78,20 +78,16 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 	async obterDados(filter: string = '') {
 		this.isLoading = true;
 
-		this.tickets = (await this._ticketService
-			.obterPorParametros({
-				... {
-					filter: filter,
-					sortActive: 'ordem',
-					sortDirection: 'asc'
-				},
-				...this.filter?.parametros
-			})
-			.toPromise()).items;
+		const data = await this._ticketService.obterPorParametros({
+			...{
+				filter: filter,
+				sortActive: 'ordem',
+				sortDirection: 'asc'
+			},
+			...this.filter?.parametros
+		}).toPromise();
 
-		console.log(this.tickets);
-		
-			
+		this.tickets = data.items;
 		this.isLoading = false;
 	}
 

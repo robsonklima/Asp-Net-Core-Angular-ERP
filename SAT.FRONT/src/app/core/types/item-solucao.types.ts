@@ -4,7 +4,7 @@ import { ORItem } from "./or-item.types";
 import { Usuario } from "./usuario.types";
 
 export interface ItemSolucao {
-    codItemSolucao: number;
+    codItemSolucao?: number;
     codORItem: number;
     codSolucao: number;
     codTecnico: string;

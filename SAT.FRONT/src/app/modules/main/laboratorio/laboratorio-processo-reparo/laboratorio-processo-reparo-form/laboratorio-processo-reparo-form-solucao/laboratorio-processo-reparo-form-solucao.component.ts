@@ -6,6 +6,7 @@ import { ORSolucao } from 'app/core/types/or-solucao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import _ from 'lodash';
 import moment from 'moment';
 
 @Component({
@@ -15,8 +16,8 @@ import moment from 'moment';
 export class LaboratorioProcessoReparoFormSolucaoComponent implements OnInit {
   @Input() codORItem: number;
   usuarioSessao: UsuarioSessao;
-  solucoes: ORSolucao[];
-  itemSolucao: ItemSolucao;
+  solucoes: ORSolucao[] = [];
+  itemsSolucoes: ItemSolucao[] = [];
 
   constructor(
     private _userService: UserService,
@@ -27,29 +28,39 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.solucoes = (await this._orSolucaoService.obterPorParametros({indAtivo:1}).toPromise()).items;
+    this.obterDados();
+  }
+
+  private async obterDados() {
+    this.solucoes = (await this._orSolucaoService
+        .obterPorParametros({ indAtivo: 1 })
+        .toPromise()).items;
+
+    this.itemsSolucoes = (await this._itemSolucaoService
+        .obterPorParametros({ codORItem: this.codORItem })
+        .toPromise()).items;
   }
 
   async onChange($event: MatSlideToggleChange,codigo) {
     if($event.checked){
-      let obj = {
-        ...this.itemSolucao,
-        ...{
-              dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-              codTecnico: this.usuarioSessao.usuario.codUsuario,
-              codORItem: this.codORItem,
-              codSolucao: codigo
-        }
-      };
-      this._itemSolucaoService.criar(obj).subscribe();
+      this._itemSolucaoService.criar({
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codTecnico: this.usuarioSessao.usuario.codUsuario,
+        codORItem: this.codORItem,
+        codSolucao: codigo
+      }).subscribe();
+    }else{
+      const itemSolucao = (await this._itemSolucaoService.obterPorParametros({
+        codORItem: this.codORItem,
+        codSolucao: codigo
+      }).toPromise()).items.shift();
+
+      this._itemSolucaoService.deletar(itemSolucao.codItemSolucao).subscribe();
     }
-    else{
-        this.itemSolucao = (await this._itemSolucaoService.obterPorParametros({
-          codORItem: this.codORItem,
-          codSolucao: codigo
-        }).toPromise()).items.shift();
-        this._itemSolucaoService.deletar(this.itemSolucao.codItemSolucao).subscribe();
-    }
+  }
+ 
+  public verificarSolucaoSelecionado(codSolucao: number): boolean {
+    return _.find(this.itemsSolucoes, { codSolucao: codSolucao, codORItem: this.codORItem }) != null;
   }
 
 }

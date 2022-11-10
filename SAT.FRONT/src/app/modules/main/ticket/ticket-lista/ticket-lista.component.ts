@@ -121,19 +121,15 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 	}
 
 	async dropped(event: CdkDragDrop<string[]>) {
-		const aux = this.tickets[event.previousIndex];
-		this.tickets[event.previousIndex] = this.tickets[event.currentIndex];
-		this.tickets[event.currentIndex] = aux;
-		if(this.tickets[event.previousIndex]){
-			this.tickets[event.previousIndex].ordem = event.previousIndex + 1;
-			await this._ticketService.atualizar(this.tickets[event.previousIndex]).subscribe();
-		}
-		if(this.tickets[event.currentIndex]){
-			this.tickets[event.currentIndex].ordem = event.currentIndex + 1;
-			await this._ticketService.atualizar(this.tickets[event.currentIndex]);
-		}
+		moveItemInArray(this.tickets, event.previousIndex, event.currentIndex);
+		
+		for (const [i, ticket] of this.tickets.entries()) {
+			ticket.ordem = i+1;
 
-		this._snack.exibirToast('Ordem atualizada com sucesso', 'success');
+			await this._ticketService.atualizar(ticket).subscribe();
+		}
+		
+		this._snack.exibirToast('Tickets reordenados com sucesso', 'success');
 	}
 
 	ngOnDestroy() {

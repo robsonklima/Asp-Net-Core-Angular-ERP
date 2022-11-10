@@ -161,11 +161,11 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b"  *ngIf="orCheckLists?.length">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b"  *ngIf="orCheckList">
                     <p class="text-lg font-medium">{{ t('check list') }}</p>
                 </div>     
                 
-                <div class="flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden" *ngIf="orCheckLists?.length">
+                <div class="flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden" *ngIf="orCheckList">
                     <table class="w-full text-sm text-left text-gray-500">
                         <tbody>
                             <tr class="border-t-2">
@@ -194,21 +194,21 @@
                                 </td>
                             </tr>
 
-                            <tr class="border-t-2" *ngFor="let item of orCheckLists; let i=index">
+                            <tr class="border-t-2" *ngFor="let item of orCheckList?.itens">                                
                                 <td class="py-1 font-medium text-left">
-                                    {{ item.itens[i]}}
+                                    {{ item.descricao }}
                                 </td>
 
                                 <td class="py-1 font-medium text-left">
-                                    {{ item.itens[i].descricao }}
+                                    {{ item.realizacao }}
                                 </td>
 
                                 <td class="py-1 font-medium text-left">
-                                    {{ item.itens[i].nivel }}
+                                    {{ item.nivel }}
                                 </td>        
                                 
                                 <td class="py-1 font-medium text-left">
-                                    {{ item.itens[i].acao }}
+                                    {{ item.acao }}
                                 </td>                                     
 
                                 <td class="py-1 font-medium text-left">
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
+                    <app-laboratorio-processo-reparo-form-insumos [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-insumos>
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -236,7 +236,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
+                    <app-laboratorio-processo-reparo-form-defeito [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-defeito>
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -244,7 +244,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
+                    <app-laboratorio-processo-reparo-form-solucao [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-solucao>
                 </div>                
 
                 <div *ngIf="!form.valid">

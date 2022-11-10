@@ -29,7 +29,7 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
   tecnicoBancada: ViewLaboratorioTecnicoBancada;
   userSession: UserSession;
   tempoReparo: ORTempoReparo;
-  orCheckLists: ORCheckList [] = [];
+  orCheckList: ORCheckList;
   form: FormGroup;
 
   constructor(
@@ -101,9 +101,9 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 			.obterPorParametros(params)
 			.toPromise();
 
-    this.orCheckLists = data.items;  
+    this.orCheckList = data.items.shift();  
 
-    console.log(this.orCheckLists);
+    console.log(this.orCheckList);
     
 	}
 

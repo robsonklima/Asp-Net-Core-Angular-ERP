@@ -56,6 +56,10 @@ import { LaboratorioChecklistFiltroComponent } from './laboratorio-checklist/lab
 import { LaboratorioChecklistItemFormDialogComponent } from './laboratorio-checklist/laboratorio-checklist-item-form-dialog/laboratorio-checklist-item-form-dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { LaboratorioProcessoReparoHistoricoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
+import { LaboratorioProcessoReparoFormDefeitoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form-defeito/laboratorio-processo-reparo-form-defeito.component';
+import { LaboratorioProcessoReparoFormSolucaoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form-solucao/laboratorio-processo-reparo-form-solucao.component';
+import { LaboratorioProcessoReparoFormInsumosComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form-insumos/laboratorio-processo-reparo-form-insumos.component';
+import { LaboratorioProcessoReparoFormChecklistComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form-checklist/laboratorio-processo-reparo-form-checklist.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -84,6 +88,10 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioChecklistFiltroComponent,
     LaboratorioChecklistItemFormDialogComponent,
     LaboratorioProcessoReparoHistoricoComponent,
+    LaboratorioProcessoReparoFormDefeitoComponent,
+    LaboratorioProcessoReparoFormSolucaoComponent,
+    LaboratorioProcessoReparoFormInsumosComponent,
+    LaboratorioProcessoReparoFormChecklistComponent,
   ],
   imports: [
     CommonModule,

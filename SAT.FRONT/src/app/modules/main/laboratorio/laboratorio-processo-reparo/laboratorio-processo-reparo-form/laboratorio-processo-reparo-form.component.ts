@@ -102,9 +102,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 			.toPromise();
 
     this.orCheckList = data.items.shift();  
-
-    console.log(this.orCheckList);
-    
 	}
 
   criarForm() {

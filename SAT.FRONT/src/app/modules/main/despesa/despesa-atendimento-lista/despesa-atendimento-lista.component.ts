@@ -126,7 +126,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		this.adiantamentosPeriodos = (await this._despesaAdiantamentoPeriodoSvc
 			.obterPorParametros(
 				{
-					codTecnico: 2610
+					codTecnico: +(this.codTecnico)
 				}).toPromise());
 	}
 

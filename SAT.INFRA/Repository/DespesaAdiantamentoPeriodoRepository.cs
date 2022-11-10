@@ -54,7 +54,13 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            throw new NotImplementedException();
+            DespesaAdiantamentoPeriodo d = _context.DespesaAdiantamentoPeriodo.FirstOrDefault(d => d.CodDespesaAdiantamentoPeriodo == codigo);
+
+            if (d != null)
+            {
+                _context.DespesaAdiantamentoPeriodo.Remove(d);
+                _context.SaveChanges();
+            }
         }
 
         public DespesaAdiantamentoPeriodo ObterPorCodigo(int codigo)

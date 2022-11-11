@@ -4,7 +4,19 @@
     </div>
 
     <div class="flex place-content-end">
+        <mat-select>
+            <mat-option [value]="1">
+                Nível 1
+            </mat-option>
 
+            <mat-option [value]="2">
+                Nível 2
+            </mat-option>
+
+            <mat-option [value]="2">
+                Nível 3
+            </mat-option>            
+        </mat-select>
     </div>
 </div>
 
@@ -13,7 +25,7 @@
         <div class="flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
             <table class="w-full text-sm text-left text-gray-500">
                 <tbody>
-                    <tr class="border-t-2">
+                    <tr class="border-t-2 font-semibold">
                         <td class="py-1 font-medium text-left">
                             Descrição
                         </td>
@@ -84,10 +96,12 @@
                             {{ item.passoObrigatorio }}
                         </td>
 
-                        <div class="p-8">
+                        <div class="p-0">
                             <div class="flex flex-col gt-xs:flex-row">
                                 <div class="flex flex-col">
-                                    <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'realizado'">
+                                    <mat-checkbox class="mb-1" [color]="'primary'"
+                                        [checked]="verificarItemSelecionado(item.codORCheckListItem)"
+                                        (change)="toggleRealizado($event, item)">
                                     </mat-checkbox>
                                 </div>
                             </div>

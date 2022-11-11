@@ -55,9 +55,8 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
       indAtivo: statusConst.ATIVO
     });
 
-    console.log(checkListItem != null);
+    //console.log(checkListItem != null);
     
-
     return checkListItem != null;
   }
 }

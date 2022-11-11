@@ -74,11 +74,11 @@
                     [value]="obterEvolucaoReparo(tecnicoBancada)"></mat-progress-bar>
             </div>
         </div>
-
-        <div class="flex justify-center items-center bg-gray-50 min-h-60" *ngIf="loading">
-            <div class="text-center">
-                <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-            </div>
+    </div>
+    
+    <div class="flex justify-center items-center min-h-40" *ngIf="loading">
+        <div class="text-center">
+            <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
         </div>
     </div>
 </div>

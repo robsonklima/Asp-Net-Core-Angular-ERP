@@ -20,7 +20,10 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   loading: boolean = true;
   userSession: UserSession;
   orCheckList: ORCheckList;
+  orCheckListItens: ORCheckListItem[] = [];
   itensChecklists: ItemXORCheckList[] = [];
+  niveis: number[] = [1, 2, 3];
+  nivelSelecionado: number;
   form: FormGroup;
 
   constructor(
@@ -34,8 +37,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   async ngOnInit() {
     this.orCheckList = await (await this.obterCheckList()).items.shift();
     this.itensChecklists = await (await this.obterCheckListEItens()).items;
-    console.log(this.codPeca);    
-    console.log(this.orCheckList);
+    this.loading = false;
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
@@ -47,7 +49,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   }
 
   public toggleRealizado(ev: any, item: ORCheckListItem) {
-    //console.log(ev.checked, item);
+    console.log(ev.checked, item);
     
     console.log(item.codORCheckList, item.codORCheckListItem);   
 
@@ -71,8 +73,11 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
       indAtivo: statusConst.ATIVO
     });
 
-    //console.log(checkListItem != null);
-    
     return checkListItem != null;
+  }
+
+  filtrarNivel(ev: any) {
+    this.nivelSelecionado = ev;
+    this.orCheckListItens = this.orCheckList.itens.filter(i => i.nivel == ev);
   }
 }

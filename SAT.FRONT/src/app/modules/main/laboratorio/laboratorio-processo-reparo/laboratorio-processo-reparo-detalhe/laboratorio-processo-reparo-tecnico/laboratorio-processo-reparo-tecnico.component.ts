@@ -13,7 +13,7 @@ export class LaboratorioProcessoReparoTecnicoComponent implements OnInit {
   @Input() codTecnico: string;
   tecnicoBancada: ViewLaboratorioTecnicoBancada;
   userSession: UserSession;
-  loading: boolean;
+  loading: boolean = true;
 
   constructor(
     private _userService: UserService,
@@ -28,6 +28,7 @@ export class LaboratorioProcessoReparoTecnicoComponent implements OnInit {
       .toPromise();
 
     this.tecnicoBancada = tecnicosBancada.shift();
+    this.loading = false;
   }
 
   public obterEvolucaoReparo(tecnico: ViewLaboratorioTecnicoBancada) {

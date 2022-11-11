@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
-import { LaboratorioChecklistFormComponent } from './laboratorio-checklist/laboratorio-checklist-form/laboratorio-checklist-form.component';
 import { LaboratorioCheckListListaComponent } from './laboratorio-checklist/laboratorio-checklist-lista/laboratorio-checklist-lista.component';
 import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
@@ -59,13 +58,5 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'checklist',
         component: LaboratorioCheckListListaComponent
-    },
-    {
-        path: 'checklist/form',
-        component: LaboratorioChecklistFormComponent
-    },
-    {
-        path: 'checklist/form/:codORCheckList',
-        component: LaboratorioChecklistFormComponent
     }
 ];

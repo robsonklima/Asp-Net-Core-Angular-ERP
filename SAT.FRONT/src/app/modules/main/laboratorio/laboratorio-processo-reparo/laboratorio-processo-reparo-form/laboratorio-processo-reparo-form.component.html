@@ -163,14 +163,6 @@
 
                 <app-laboratorio-processo-reparo-form-checklist [codORItem]="codORItem" [codPeca]="item.codPeca"></app-laboratorio-processo-reparo-form-checklist>
                 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('insumos') }}</p>
-                </div>
-
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <app-laboratorio-processo-reparo-form-insumos [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-insumos>
-                </div>
-
                 <app-laboratorio-processo-reparo-form-defeito [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-defeito>
                 
                 <app-laboratorio-processo-reparo-form-solucao [codORItem]="codORItem"></app-laboratorio-processo-reparo-form-solucao>

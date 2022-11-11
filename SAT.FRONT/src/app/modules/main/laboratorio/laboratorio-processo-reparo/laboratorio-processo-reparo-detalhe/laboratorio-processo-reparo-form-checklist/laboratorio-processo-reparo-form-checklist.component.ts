@@ -51,7 +51,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   public toggleRealizado(ev: any, item: ORCheckListItem) {
     console.log(ev.checked, item);
     
-    console.log(item.codORCheckList, item.codORCheckListItem);   
+    console.log(this.itensChecklists);   
 
     if (ev.checked) {
       //this._itemChecklistService.criar({

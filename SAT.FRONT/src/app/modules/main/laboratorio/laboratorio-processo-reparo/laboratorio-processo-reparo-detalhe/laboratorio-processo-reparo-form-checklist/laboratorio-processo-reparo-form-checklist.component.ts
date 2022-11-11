@@ -34,6 +34,8 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   async ngOnInit() {
     this.orCheckList = await (await this.obterCheckList()).items.shift();
     this.itensChecklists = await (await this.obterCheckListEItens()).items;
+    console.log(this.codPeca);    
+    console.log(this.orCheckList);
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
@@ -45,7 +47,21 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   }
 
   public toggleRealizado(ev: any, item: ORCheckListItem) {
-    console.log(ev.checked, item);
+    //console.log(ev.checked, item);
+    
+    console.log(item.codORCheckList, item.codORCheckListItem);   
+
+    if (ev.checked) {
+      //this._itemChecklistService.criar({
+      //  codORItem: this.codORItem,
+      //  codORCheckList: item.codORCheckList,
+      //  codORCheckListItem: item.codORCheckListItem,
+      //  indAtivo: 1,
+      //  nivel: '1'
+      //}).subscribe();
+    } else {
+      console.log("deletar");
+    }
   }
 
   public verificarItemSelecionado(codORCheckList: number): boolean {

@@ -41,6 +41,10 @@ export const laboratorioRoutes: Route[] = [
         component: LaboratorioProcessoReparoFormComponent
     },
     {
+        path: 'processo-reparo/detalhe/:codORItem',
+        component: LaboratorioProcessoReparoDetalheComponent
+    },    
+    {
         path: 'ordem-reparo',
         component: LaboratorioOrdemReparoListaComponent
     },

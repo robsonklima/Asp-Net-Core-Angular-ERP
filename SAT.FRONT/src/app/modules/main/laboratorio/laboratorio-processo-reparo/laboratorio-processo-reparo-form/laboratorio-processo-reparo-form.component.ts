@@ -8,7 +8,7 @@ import { ORItemService } from 'app/core/services/or-item.service';
 import { ORTempoReparoService } from 'app/core/services/or-tempo-reparo.service';
 import { ORService } from 'app/core/services/or.service';
 import { ViewLaboratorioTecnicoBancada } from 'app/core/types/bancada-laboratorio.types';
-import { ORCheckList, ORCheckListParameters } from 'app/core/types/or-checklist.types';
+import { ORCheckList } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';
 import { OR } from 'app/core/types/OR.types';

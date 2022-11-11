@@ -50,6 +50,20 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
 
   public toggleRealizado(ev: any, item: ORCheckListItem) {
     console.log(ev.checked, item);
+    
+    console.log(item.codORCheckList, item.codORCheckListItem);   
+
+    if (ev.checked) {
+      //this._itemChecklistService.criar({
+      //  codORItem: this.codORItem,
+      //  codORCheckList: item.codORCheckList,
+      //  codORCheckListItem: item.codORCheckListItem,
+      //  indAtivo: 1,
+      //  nivel: '1'
+      //}).subscribe();
+    } else {
+      console.log("deletar");
+    }
   }
 
   public verificarItemSelecionado(codORCheckList: number): boolean {

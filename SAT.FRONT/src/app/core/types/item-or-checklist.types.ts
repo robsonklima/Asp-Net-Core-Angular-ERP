@@ -5,13 +5,13 @@ import { ORCheckList } from "./or-checklist.types";
 import { ORItem } from "./or-item.types";
 
 export interface ItemXORCheckList {
-    codItemChecklist: number;
+    codItemChecklist?: number;
     codORItem: number;
-    orItem: ORItem;
+    orItem?: ORItem;
     codORCheckList: number;
-    orCheckList: ORCheckList;
+    orCheckList?: ORCheckList;
     codORCheckListItem: number;
-    orCheckListItem: ORCheckListItem;
+    orCheckListItem?: ORCheckListItem;
     indAtivo: number;
     nivel: string;
 }

@@ -34,12 +34,13 @@
         </div>
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-            <button *ngIf="item" (click)="toggleStatusReparo()" class="fuse-mat-button-rounded" mat-icon-button
+            <button [disabled]="!item" (click)="toggleStatusReparo()" class="fuse-mat-button-rounded" mat-icon-button
                 [matTooltip]="!tempoReparo?.indAtivo ? 'Iniciar Reparo' : 'Finalizar Reparo'">
-                <mat-icon *ngIf="!tempoReparo?.indAtivo" class="icon-size-10 text-green-500"
+                <mat-icon 
+                    class="icon-size-10"
+                    [class.text-green-500]="!tempoReparo?.indAtivo"
+                    [class.text-red-500]="tempoReparo?.indAtivo"
                     [svgIcon]="'heroicons_outline:play'"></mat-icon>
-                <mat-icon *ngIf="tempoReparo?.indAtivo" class="icon-size-10 text-red-500"
-                    [svgIcon]="'heroicons_outline:stop'"></mat-icon>
             </button>
         </div>
     </div>

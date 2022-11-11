@@ -53,7 +53,7 @@
             <app-laboratorio-processo-reparo-tecnico [codTecnico]="item?.codTecnico">
             </app-laboratorio-processo-reparo-tecnico>
 
-            <app-laboratorio-processo-reparo-form-checklist [codORItem]="codORItem">
+            <app-laboratorio-processo-reparo-form-checklist *ngIf="item" [orItem]="item">
             </app-laboratorio-processo-reparo-form-checklist>
 
             <app-laboratorio-processo-reparo-insumo [codORItem]="codORItem">

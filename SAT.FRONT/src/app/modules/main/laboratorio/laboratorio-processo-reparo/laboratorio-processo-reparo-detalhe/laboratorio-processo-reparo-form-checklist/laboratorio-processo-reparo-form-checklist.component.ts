@@ -5,6 +5,7 @@ import { ORCheckListService } from 'app/core/services/or-checklist.service';
 import { ItemXORCheckList, ItemXORCheckListData } from 'app/core/types/item-or-checklist.types';
 import { ORCheckListItem } from 'app/core/types/or-checklist-item.types';
 import { ORCheckList, ORCheckListData } from 'app/core/types/or-checklist.types';
+import { ORItem } from 'app/core/types/or-item.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -15,8 +16,7 @@ import _ from 'lodash';
   templateUrl: './laboratorio-processo-reparo-form-checklist.component.html'
 })
 export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
-  @Input() codORItem: number;
-  @Input() codPeca: number;
+  @Input() orItem: ORItem;
   loading: boolean = true;
   userSession: UserSession;
   orCheckList: ORCheckList;
@@ -37,15 +37,15 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   async ngOnInit() {
     this.orCheckList = await (await this.obterCheckList()).items.shift();
     this.itensChecklists = await (await this.obterCheckListEItens()).items;
-    this.loading = false;
+    this.loading = false;    
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
-    return await this._orCheckList.obterPorParametros({ codPeca: this.codPeca }).toPromise();
+    return await this._orCheckList.obterPorParametros({ codPeca: this.orItem.codPeca }).toPromise();
   }
 
   private async obterCheckListEItens(): Promise<ItemXORCheckListData> {
-    return await this._itemChecklistService.obterPorParametros({ codORItem: this.codORItem }).toPromise();
+    return await this._itemChecklistService.obterPorParametros({ codORItem: this.orItem.codORItem }).toPromise();
   }
 
   public toggleRealizado(ev: any, item: ORCheckListItem) {
@@ -69,7 +69,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   public verificarItemSelecionado(codORCheckList: number): boolean {
     const checkListItem = _.find(this.itensChecklists, { 
       codORCheckList: codORCheckList, 
-      codORItem: this.codORItem,
+      codORItem: this.orItem.codORItem,
       indAtivo: statusConst.ATIVO
     });
 

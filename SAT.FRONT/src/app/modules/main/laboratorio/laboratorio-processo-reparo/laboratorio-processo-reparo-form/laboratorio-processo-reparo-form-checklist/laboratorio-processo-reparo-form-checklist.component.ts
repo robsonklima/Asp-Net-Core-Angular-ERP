@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { FormGroup } from '@angular/forms';
+import { ItemXORCheckListService } from 'app/core/services/item-or-checklist.service';
 import { ORCheckListService } from 'app/core/services/or-checklist.service';
-import { ORItemService } from 'app/core/services/or-item.service';
-import { ORCheckList, ORCheckListParameters } from 'app/core/types/or-checklist.types';
-import { ORItem } from 'app/core/types/or-item.types';
+import { ItemXORCheckList, ItemXORCheckListData } from 'app/core/types/item-or-checklist.types';
+import { ORCheckListItem } from 'app/core/types/or-checklist-item.types';
+import { ORCheckList, ORCheckListData } from 'app/core/types/or-checklist.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-form-checklist',
@@ -15,59 +16,48 @@ import { UserSession } from 'app/core/user/user.types';
 })
 export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   @Input() codORItem: number;
-  item: ORItem;
+  @Input() codPeca: number;
   loading: boolean = true;
   userSession: UserSession;
   orCheckList: ORCheckList;
+  itensChecklists: ItemXORCheckList[] = [];
   form: FormGroup;
 
   constructor(
     private _userService: UserService,
-    private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
-    private _snack: CustomSnackbarService,
     private _orCheckList: ORCheckListService,
-    private _orItemService: ORItemService
+    private _itemChecklistService: ItemXORCheckListService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.item = await this._orItemService
-    .obterPorCodigo(this.codORItem)
-    .toPromise();
-
-    this.inicializarForm();
-
-    this.obterORChecklist(this.item);
+    this.orCheckList = await (await this.obterCheckList()).items.shift();
+    this.itensChecklists = await (await this.obterCheckListEItens()).items;
   }
 
-  private inicializarForm(): void
-  {
-    this.form = this._formBuilder.group({
-      realizado: [undefined],
-      n1: [undefined],
-      n2: [undefined],
-      n3: [undefined]
+  private async obterCheckList(): Promise<ORCheckListData> {
+    return await this._orCheckList.obterPorParametros({ codPeca: this.codPeca }).toPromise();
+  }
+
+  private async obterCheckListEItens(): Promise<ItemXORCheckListData> {
+    return await this._itemChecklistService.obterPorParametros({ codORItem: this.codORItem }).toPromise();
+  }
+
+  public toggleRealizado(ev: any, item: ORCheckListItem) {
+    console.log(ev.checked, item);
+  }
+
+  public verificarItemSelecionado(codORCheckList: number): boolean {
+    const checkListItem = _.find(this.itensChecklists, { 
+      codORCheckList: codORCheckList, 
+      codORItem: this.codORItem,
+      indAtivo: statusConst.ATIVO
     });
+
+    console.log(checkListItem != null);
+    
+
+    return checkListItem != null;
   }
-        
-  private async obterORChecklist(item: ORItem) {
-		let params: ORCheckListParameters = {
-      codPeca: item.codPeca,
-			sortActive: 'descricao',
-			sortDirection: 'asc',
-      pageSize: 120
-		};
-
-		const data = await this._orCheckList
-			.obterPorParametros(params)
-			.toPromise();
-
-    this.orCheckList = data.items.shift();  
-
-    console.log(this.orCheckList);
-  	
-  }
-
 }

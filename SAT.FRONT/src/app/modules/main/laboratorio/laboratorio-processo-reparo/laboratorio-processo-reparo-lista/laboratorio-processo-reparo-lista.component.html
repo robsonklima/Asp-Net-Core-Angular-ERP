@@ -30,11 +30,6 @@
                     </mat-select>
                 </mat-form-field>
 
-                <button class="ml-6" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-                    [routerLink]="['/processo-reparo/form']">
-                    <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-                </button>
-
                 <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()"
                     *ngIf="dataSourceData?.items.length">
                     <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>

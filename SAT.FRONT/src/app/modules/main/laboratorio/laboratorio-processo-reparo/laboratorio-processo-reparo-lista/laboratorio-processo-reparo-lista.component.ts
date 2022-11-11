@@ -21,7 +21,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { LaboratorioProcessoReparoFormComponent } from '../laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
+import { LaboratorioProcessoReparoDetalheComponent } from '../laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
 import { LaboratorioProcessoReparoHistoricoComponent } from '../laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
 
 @Component({
@@ -178,7 +178,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 	}
 
 	abrirForm(item: ORItem) {
-		const dialogRef = this._dialog.open(LaboratorioProcessoReparoFormComponent, {
+		const dialogRef = this._dialog.open(LaboratorioProcessoReparoDetalheComponent, {
 			width: '768px',
 			data: {
 				item: item

@@ -4,75 +4,71 @@
     </div>
 
     <div class="flex place-content-end">
-        <mat-select>
-            <mat-option [value]="1">
-                Nível 1
-            </mat-option>
-
-            <mat-option [value]="2">
-                Nível 2
-            </mat-option>
-
-            <mat-option [value]="2">
-                Nível 3
-            </mat-option>            
-        </mat-select>
+        <mat-button-toggle-group name="nivel" (change)="filtrarNivel($event.value)" aria-label="Nível">
+            <mat-button-toggle [value]="nivel" *ngFor="let nivel of niveis">
+                {{ nivel }}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
 </div>
 
 <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 pb-6 bg-card shadow rounded overflow-hidden">
     <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-        <div class="flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
-            <table class="w-full text-sm text-left text-gray-500">
+        <div class="flex-auto px-6 pt-1 bg-card overflow-hidden">
+            <table *ngIf="orCheckListItens.length" class="w-full text-sm text-left text-gray-500">
                 <tbody>
-                    <tr class="border-t-2 font-semibold">
-                        <td class="py-1 font-medium text-left">
+                    <tr class="font-semibold">
+                        <td class="py-1 text-left">
                             Descrição
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-left">
                             Realização
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-center">
                             Nível
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-left">
                             Ação
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-left">
                             Paramêtro
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-left">
                             Cód. Perto
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 text-left">
                             P/N MEI
                         </td>
 
-                        <td class="py-1 font-medium text-center">
+                        <td class="py-1 text-center">
                             Obrigatório
                         </td>
 
-                        <td class="py-1 font-medium text-center">
+                        <td class="py-1 text-center">
                             Realizado
                         </td>
                     </tr>
 
-                    <tr class="border-t-2" *ngFor="let item of orCheckList?.itens">
+                    <tr class="border-t-2" *ngFor="let item of orCheckListItens">
                         <td class="py-1 font-medium text-left">
-                            {{ item.descricao }}
+                            <div class="w-50 truncate" [matTooltip]="item.descricao">
+                                {{ item.descricao }}
+                            </div>
                         </td>
 
                         <td class="py-1 font-medium text-left">
-                            {{ item.realizacao }}
+                            <div class="w-128 truncate" [matTooltip]="item.realizacao">
+                                {{ item.realizacao }}
+                            </div>
                         </td>
 
-                        <td class="py-1 font-medium text-left">
+                        <td class="py-1 font-medium text-center">
                             {{ item.nivel }}
                         </td>
 
@@ -96,19 +92,26 @@
                             {{ item.passoObrigatorio }}
                         </td>
 
-                        <div class="p-0">
-                            <div class="flex flex-col gt-xs:flex-row">
-                                <div class="flex flex-col">
-                                    <mat-checkbox class="mb-1" [color]="'primary'"
-                                        [checked]="verificarItemSelecionado(item.codORCheckListItem)"
-                                        (change)="toggleRealizado($event, item)">
-                                    </mat-checkbox>
-                                </div>
-                            </div>
+                        <div class="text-center pt-0.5">
+                            <mat-checkbox [color]="'primary'"
+                                [checked]="verificarItemSelecionado(item.codORCheckListItem)"
+                                (change)="toggleRealizado($event, item)">
+                            </mat-checkbox>
                         </div>
                     </tr>
                 </tbody>
             </table>
+
+            <div class="flex justify-center items-center min-h-40" *ngIf="loading">
+                <div class="text-center">
+                    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                </div>
+            </div>
+
+            <div *ngIf="!nivelSelecionado && !loading"
+                class="pt-6 pb-5 text-lg font-semibold tracking-tight text-center bg-card">
+                Selecione o nível!
+            </div>
         </div>
     </div>
 </div>

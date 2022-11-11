@@ -4,7 +4,10 @@
     </div>
 
     <div class="flex place-content-end">
-        campo
+        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+            <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+            <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+        </mat-form-field>
     </div>
 </div>
 

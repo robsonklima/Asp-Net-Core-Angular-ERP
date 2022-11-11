@@ -77,6 +77,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(q => cods.Contains((int)q.CodORCheckListItem));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.Nivel))
+                query = query.Where(o => o.Nivel == parameters.Nivel);
+                
             if (parameters.SortActive != null && parameters.SortDirection != null)
                  query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

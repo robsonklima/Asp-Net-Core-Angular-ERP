@@ -53,8 +53,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     this.item = await this._orItemService
       .obterPorCodigo(this.codORItem)
       .toPromise();
-      
-    this.obterORChecklist(this.item);
 
     this.tempoReparo = _.last(this.item.temposReparo);
 
@@ -89,24 +87,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     return +percentualEvolucao <= 100 ? percentualEvolucao : 100;
   }
 
-  private async obterORChecklist(item: ORItem) {
-		let params: ORCheckListParameters = {
-      codPeca: item.codPeca,
-			sortActive: 'descricao',
-			sortDirection: 'asc',
-      pageSize: 120
-		};
-
-		const data = await this._orCheckList
-			.obterPorParametros(params)
-			.toPromise();
-
-    this.orCheckList = data.items.shift();  
-
-    console.log(this.orCheckList);
-    
-	}
-
   criarForm() {
     this.form = this._formBuilder.group({
       codMagnus: [
@@ -138,7 +118,8 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
           value: '',
           disabled: true
         },
-      ]
+      ],
+      nivel: [undefined]
     });
   }
 

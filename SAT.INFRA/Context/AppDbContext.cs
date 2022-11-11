@@ -268,6 +268,8 @@ namespace SAT.INFRA.Context
         public DbSet<ORTransporte> ORTransporte { get; set; }
         public DbSet<ORDefeito> ORDefeito { get; set; }
         public DbSet<ORSolucao> ORSolucao { get; set; }
+        public DbSet<ItemDefeito> ItemDefeito { get; set; }
+        public DbSet<ItemSolucao> ItemSolucao { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -454,6 +456,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ORSolucao>(new ORSolucaoMap().Configure);
             modelBuilder.Entity<TicketAtendimento>(new TicketAtendimentoMap().Configure);
             modelBuilder.Entity<ItemXORCheckList>(new ItemXORCheckListMap().Configure);
+            modelBuilder.Entity<ItemDefeito>(new ItemDefeitoMap().Configure);
+            modelBuilder.Entity<ItemSolucao>(new ItemSolucaoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

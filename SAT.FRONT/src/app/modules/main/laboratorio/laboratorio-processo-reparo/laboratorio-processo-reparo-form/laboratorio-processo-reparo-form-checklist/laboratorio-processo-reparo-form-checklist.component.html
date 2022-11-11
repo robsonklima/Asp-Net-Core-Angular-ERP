@@ -1,1 +1,100 @@
-<p>laboratorio-processo-reparo-form-checklist works!</p>
+<div class="grid grid-cols-2 justfy-between bg-gray-50 p-8 border-b" *transloco="let t">
+    <div class="flex items-center">
+        <span class="text-lg font-medium">{{ t('check list') }}</span>
+    </div>
+
+    <div class="flex place-content-end">
+
+    </div>
+</div>
+
+<div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 pb-6 bg-card shadow rounded overflow-hidden">
+    <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+        <div class="flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
+            <table class="w-full text-sm text-left text-gray-500">
+                <tbody>
+                    <tr class="border-t-2">
+                        <td class="py-1 font-medium text-left">
+                            Descrição
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            Realização
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            Nível
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            Ação
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            Paramêtro
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            Cód. Perto
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            P/N MEI
+                        </td>
+
+                        <td class="py-1 font-medium text-center">
+                            Obrigatório
+                        </td>
+
+                        <td class="py-1 font-medium text-center">
+                            Realizado
+                        </td>
+                    </tr>
+
+                    <tr class="border-t-2" *ngFor="let item of orCheckList?.itens">
+                        <td class="py-1 font-medium text-left">
+                            {{ item.descricao }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.realizacao }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.nivel }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.acao }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.parametro }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.codMagnus }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.pn_Mei }}
+                        </td>
+
+                        <td class="py-1 font-medium text-center">
+                            {{ item.passoObrigatorio }}
+                        </td>
+
+                        <div class="p-8">
+                            <div class="flex flex-col gt-xs:flex-row">
+                                <div class="flex flex-col">
+                                    <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'realizado'">
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

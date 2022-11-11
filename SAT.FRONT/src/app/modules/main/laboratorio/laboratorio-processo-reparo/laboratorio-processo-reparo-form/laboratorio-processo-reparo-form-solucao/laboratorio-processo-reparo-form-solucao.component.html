@@ -1,1 +1,20 @@
-<p>laboratorio-processo-reparo-form-solucao works!</p>
+<div class="grid grid-cols-2 justfy-between bg-gray-50 p-8 border-b" *transloco="let t">
+    <div class="flex items-center">
+        <span class="text-lg font-medium">{{ t('solucoes') }}</span>
+    </div>
+
+    <div class="flex place-content-end">
+        campo
+    </div>
+</div>
+
+<div class="w-350">
+    <div class="grid sm:grid-cols-6 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+        <div *ngFor="let solucao of solucoes">
+            <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)"
+                (change)="onChange($event, solucao.codSolucao)">
+                {{ solucao.descricao }}
+            </mat-slide-toggle>
+        </div>
+    </div>
+</div>

@@ -46,3 +46,23 @@ export interface AuditoriaParameters extends QueryStringParameters {
     codAuditoria?: number;
     codUsuario?: number;
 };
+
+export interface AuditoriaView {
+    codAuditoria: number;
+    codUsuario: string;
+    nomeUsuario: string;
+    codAuditoriaStatus: number;
+    nomeAuditoriaStatus: string;
+    numeroCartao: string;
+    codFilial: number;
+    nomeFilial: string;
+    qtdDiasAuditoriaAnterior: number | null;
+    qtdDespesasPendentes: number | null;
+    odometroAnterior: number | null;
+    odometroAtual: number | null;
+    quilometrosPorLitro?: number;
+}
+
+export interface AuditoriaViewData extends Meta {
+    items: AuditoriaView[]
+};

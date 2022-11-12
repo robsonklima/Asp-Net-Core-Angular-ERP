@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -16,5 +17,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraCad { get; set; }
         public int? IndAtivo { get; set; }
         public TicketLogUsuarioCartaoPlaca TicketLogUsuarioCartaoPlaca { get; set; }
+        public List<TicketLogTransacao> Transacoes { get; set; }
     }
 }

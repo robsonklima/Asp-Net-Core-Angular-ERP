@@ -56,7 +56,7 @@ namespace SAT.SERVICES.Services
             return _bancadaLaboratorioRepo.ObterPorCodigo(num);
         }
 
-        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada() =>
-            this._bancadaLaboratorioRepo.ObterTecnicosBancada();
+        public List<ViewLaboratorioTecnicoBancada> ObterPorView(BancadaLaboratorioParameters parameters) =>
+            this._bancadaLaboratorioRepo.ObterPorView(parameters);
     }
 }

@@ -1,19 +1,18 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute } from '@angular/router';
-import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { Auditoria, AuditoriaData, AuditoriaParameters } from 'app/core/types/auditoria.types';
+import { Auditoria, AuditoriaParameters, AuditoriaViewData } from 'app/core/types/auditoria.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { fromEvent } from 'rxjs';
+import { BehaviorSubject, fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
@@ -21,19 +20,18 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './auditoria-lista.component.html',
 	styles: [
 		`.list-grid-auditoria {
-			grid-template-columns: 142px 15% 10% auto 10% 5%;
+			grid-template-columns: 68px 248px 74px auto 120px 148px 148px 120px 64px;
 		}`
 	],
-	encapsulation: ViewEncapsulation.None,
-	animations: fuseAnimations
+	changeDetection: ChangeDetectionStrategy.Default,
 })
 
-export class AuditoriaListaComponent extends Filterable implements AfterViewInit, IFilterable {
+export class AuditoriaListaComponent extends Filterable implements AfterViewInit, AfterViewChecked, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 	@ViewChild('searchInputControl') searchInputControl: ElementRef;
-	dataSourceData: AuditoriaData;
+	dataSourceData: Subject<AuditoriaViewData> = new BehaviorSubject(null);
 	pendencia: boolean = false;
 	isLoading: boolean = false;
 	selectedItem: Auditoria | null = null;
@@ -43,8 +41,8 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		protected _userService: UserService,
 		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
-		private _route: ActivatedRoute,
-		private _auditoriaService: AuditoriaService
+		private _auditoriaService: AuditoriaService,
+		private _snack: CustomSnackbarService
 	) {
 		super(_userService, 'auditoria')
 		this.userSession = JSON.parse(this._userService.userSession);
@@ -66,7 +64,6 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		this.loadFilter();
 		this.obterDados();
 	}
-
 
 	ngAfterViewInit(): void {
 		this.isLoading = true;
@@ -101,21 +98,24 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		this.isLoading = true;
 
 		const parametros: AuditoriaParameters = {
-
 			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active || 'codAuditoria' || 'nomeUsuario',
-			sortDirection: 'desc',
+			sortActive: this.sort.active || 'codAuditoria',
+			sortDirection: this.sort.direction || 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro
 		}
 
-		const data: AuditoriaData = await this._auditoriaService.obterPorParametros({
+		await this._auditoriaService.obterPorView({
 			...parametros,
 			...this.filter?.parametros
-		}).toPromise();
-		this.dataSourceData = data;
-		this.isLoading = false;
-		this._cdr.detectChanges();
+		}).subscribe((data) => {
+			this.dataSourceData.next(data);
+			this.isLoading = false;
+			this._cdr.detectChanges();
+		}, () => {
+			this._snack.exibirToast('Erro ao consultar as auditorias', 'error');
+			this.isLoading = false;
+		});
 	}
 
 	paginar() {
@@ -134,4 +134,7 @@ export class AuditoriaListaComponent extends Filterable implements AfterViewInit
 		this.isLoading = false;
 	}
 
+	ngAfterViewChecked(){
+		this._cdr.detectChanges();
+	}
 }

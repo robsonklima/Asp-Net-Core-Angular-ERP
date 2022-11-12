@@ -7,35 +7,19 @@ namespace SAT.SERVICES.Services {
     {
         protected void GerarPlanilhaAuditoria(AuditoriaParameters parameters)
 		{
-            var auditoria = _auditoriaRepo.ObterPorParametros(parameters);
+            var auditoria = _auditoriaRepo.ObterPorView(parameters);
             var sheet = auditoria.Select(aud =>
                             new 
                             {
                                 Codigo = aud.CodAuditoria,
-                                Tecnico = aud.Usuario?.NomeUsuario,
-                                Veiculo = aud.AuditoriaVeiculo?.Placa ?? Constants.NENHUM_REGISTRO,
-                                DataCadastro = aud.DataHoraCad?.ToString("dd/MM/yy HH:mm"),
-                                DataRetiradaVeiculo = aud.DataHoraRetiradaVeiculo?.ToString("dd/MM/yy HH:mm"),
-                                Status = aud.AuditoriaStatus.Nome,
-                                DiasEmUso = aud?.TotalDiasEmUso,
-                                MesesEmUso = aud?.TotalMesesEmUso,
-                                ValorCombustível = aud?.ValorCombustivel,
-                                CreditosCartão = aud?.CreditosCartao,
-                                DespesasSAT = aud?.DespesasSAT,
-                                DespesasCompensadas = aud?.DespesasCompensadasValor,
-                                OdometroInicialRetirada = aud?.OdometroInicialRetirada,
-                                OdometroPeriodoAuditado = aud?.OdometroPeriodoAuditado,
-                                SaldaCartão = aud?.SaldoCartao,
-                                KmPercorrido = aud?.KmPercorrido,
-                                KmCompensado = aud?.KmCompensado,
-                                ValorTanque = aud?.ValorTanque,
-                                KmFérias = aud.KmFerias,
-                                UsoParticulas = aud.UsoParticular,
-                                KmParticular = aud?.KmParticular,
-                                KmParticularMês = aud?.KmParticularMes,
-                                Observações = aud?.Observacoes,
-                                DataHoraManut = aud?.DataHoraManut?.ToString("dd/MM/yy HH:mm"),
-                                UsuarioManut = aud?.CodUsuarioManut,
+                                Usuario = aud.NomeUsuario,
+                                Status = aud.NomeAuditoriaStatus,
+                                NomeFilial = aud.NomeFilial,
+                                QtdDiasAuditoriaAnterior = aud.QtdDiasAuditoriaAnterior,
+                                QtdDespesasPendentes = aud.QtdDespesasPendentes,
+                                OdometroAnterior = aud.OdometroAnterior,
+                                OdometroAtual = aud.OdometroAtual,
+                                QuilometrosPorLitro = aud.QuilometrosPorLitro
                             });
 
             var wsOs = Workbook.Worksheets.Add("auditoria");

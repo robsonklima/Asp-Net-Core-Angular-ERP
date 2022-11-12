@@ -54,7 +54,10 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
                 .Include(or => or.OrdemServico.Filial)
+                .Include(or => or.TemposReparo)
                 .Include(or => or.StatusOR)
+                .Include(or => or.ORSolucao)
+                .Include(or => or.ORDefeito)
                 .FirstOrDefault(p => p.CodORItem == codigo);
         }
 
@@ -64,8 +67,11 @@ namespace SAT.INFRA.Repository
                 .Include(or => or.Peca)
                 .Include(or => or.UsuarioTecnico)
                 .Include(or => or.Cliente)
+                .Include(or => or.TemposReparo)
                 .Include(or => or.OrdemServico.Filial)
                 .Include(or => or.StatusOR)
+                .Include(or => or.ORSolucao)
+                .Include(or => or.ORDefeito)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -89,6 +95,11 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.CodMagnus)) 
             {
                 query = query.Where(or => or.Peca.CodMagnus.Contains(parameters.CodMagnus));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.NomeTecnico)) 
+            {
+                query = query.Where(or => or.UsuarioTecnico.NomeUsuario.Contains(parameters.NomeTecnico));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposOR))

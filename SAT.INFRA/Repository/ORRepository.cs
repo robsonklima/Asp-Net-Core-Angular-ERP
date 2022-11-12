@@ -30,10 +30,11 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Criar(OR or)
+        public OR Criar(OR or)
         {
             _context.Add(or);
             _context.SaveChanges();
+            return or;
         }
 
         public void Deletar(int codigo)
@@ -56,6 +57,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(i => i.Peca)
                 .Include(or => or.ORItens)
                     .ThenInclude(i => i.StatusOR)
+                .Include(or => or.ORTransporte)
                 .FirstOrDefault(p => p.CodOR == codigo);
         }
 

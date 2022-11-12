@@ -35,22 +35,10 @@ namespace SAT.API.Controllers
             return _ticketStatusService.ObterPorCodigo(codStatus);
         }
 
-        // [HttpPost]
-        // public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
-        // {
-        //     return _equipamentoContratoService.Criar(equipamentoContrato);
-        // }
-
         [HttpPut]
         public void Put([FromBody] TicketStatus ticketStatus)
         {
             _ticketStatusService.Atualizar(ticketStatus);
         }
-
-        // [HttpDelete("{codEquipContrato}")]
-        // public void Delete(int codEquipContrato)
-        // {
-        //     _equipamentoContratoService.Deletar(codEquipContrato);
-        // }
     }
 }

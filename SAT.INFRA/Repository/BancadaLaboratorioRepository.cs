@@ -79,9 +79,17 @@ namespace SAT.INFRA.Repository
             return PagedList<BancadaLaboratorio>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
 
-        public List<ViewLaboratorioTecnicoBancada> ObterTecnicosBancada()
+        public List<ViewLaboratorioTecnicoBancada> ObterPorView(BancadaLaboratorioParameters parameters)
         {
-            return _context.ViewLaboratorioTecnicoBancada.ToList();
+            var query = _context.ViewLaboratorioTecnicoBancada.AsQueryable();
+
+            if (parameters.CodUsuario != null)
+                query = query.Where(b => b.CodUsuario == parameters.CodUsuario);
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+            return query.ToList();
         }
     }
 }

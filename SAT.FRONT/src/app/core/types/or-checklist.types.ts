@@ -29,4 +29,5 @@ export interface ORCheckListParameters extends QueryStringParameters {
     codUsuariosCad?: string;
     dataHoraCadInicio?: string;
     dataHoraCadFim?: string;
+    codPeca?: number | null;
 }

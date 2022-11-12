@@ -2,14 +2,18 @@
     <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-auditoria-filtro [sidenav]="sidenav"></app-auditoria-filtro>
     </mat-drawer>
+    
     <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
         *transloco="let t">
-        <div
-            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
+        <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-7 px-6 md:px-8 border-b">
             <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                 <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
             </div>
-            <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('auditorias') }}</div>
+
+            <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">
+                {{ t('auditorias') }}
+            </div>
+
             <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                 <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                     <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
@@ -37,25 +41,37 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid" *transloco="let t">
-                            <div class="list-grid-auditoria z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50"
+                            <div class="list-grid-auditoria z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50"
                                 matSort matSortDisableClear *transloco="let t">
                                 <div class="md:block" [mat-sort-header]="'codAuditoria'">
                                     {{ t('codigo') }}
                                 </div>
 
-                                <div>
+                                <div [mat-sort-header]="'nomeAuditoriaStatus'">
                                     {{ t('status') }}
                                 </div>
 
-                                <div>
+                                <div [mat-sort-header]="'nomeFilial'">
                                     {{ t('filial') }}
                                 </div>
 
-                                <div>
+                                <div [mat-sort-header]="'nomeUsuario'">
                                     {{ t('tecnico') }}
                                 </div>
 
-                                <div>
+                                <div [mat-sort-header]="'quilometrosPorLitro'">
+                                    {{ t('consumo') }}
+                                </div>
+
+                                <div [mat-sort-header]="'odometroAnterior'">
+                                    {{ t('odometro anterior') }}
+                                </div>
+
+                                <div [mat-sort-header]="'odometroAtual'">
+                                    {{ t('odometro atual') }}
+                                </div>
+
+                                <div [mat-sort-header]="'qtdDespesasPendentes'">
                                     {{ t('pendencias') }}
                                 </div>
 
@@ -65,34 +81,47 @@
                             </div>
 
                             <ng-container>
-                                <ng-container *ngFor="let auditoria of dataSourceData?.items">
+                                <ng-container *ngFor="let auditoria of (dataSourceData | async)?.items">
                                     <div
-                                        class="list-grid-auditoria grid items-center h-10 pt-1 gap-4 py-2 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        class="list-grid-auditoria grid items-center h-11 pt-2 gap-4 py-3 px-6 text-md md:px-8 border-b hover:bg-gray-100">
                                         <div class="truncate">
                                             {{ auditoria.codAuditoria }}
                                         </div>
 
                                         <div class="truncate">
-                                            {{ auditoria.auditoriaStatus?.nome || t('nao informado') }}
+                                            {{ auditoria.nomeAuditoriaStatus || t('nao informado') }}
                                         </div>
 
                                         <div class="truncate">
-                                            {{ auditoria.usuario?.filial?.nomeFilial || t('nao informado') }}
+                                            {{ auditoria.nomeFilial || t('nao informado') }}
                                         </div>
 
                                         <div class="truncate">
-                                            {{ auditoria.usuario?.nomeUsuario || t('nao informado') }}
+                                            {{ auditoria.nomeUsuario || t('nao informado') }}
                                         </div>
 
-                                        <div class="truncate">
-                                            {{ auditoria.qtdDespesasPendentes + t(' Pendência') }}
+                                        <div class="truncate" [matTooltip]="'Consumo Atual KM/Litro'">
+                                            {{ auditoria.quilometrosPorLitro || '' }}
+                                        </div>
+
+                                        <div class="truncate font-semibold" [matTooltip]="'Quilometragem da Última Auditoria'">
+                                            {{ auditoria.odometroAnterior || '' }}
+                                        </div>
+
+                                        <div class="truncate font-semibold" [matTooltip]="'Quilometragem Atual'">
+                                            {{ auditoria.odometroAtual || '' }}
+                                        </div>
+
+                                        <div class="truncate font-semibold" [class.text-red-600]="auditoria.qtdDespesasPendentes"
+                                            [matTooltip]="'Despesas Pendentes'">
+                                            {{ auditoria.qtdDespesasPendentes || '' }}
                                         </div>
 
                                         <div>
                                             <button class="min-w-10 min-h-7 h-7 px-2 ml-2" mat-stroked-button
                                                 [matTooltip]="'Detalhes'"
                                                 [routerLink]="['/frota-tecnico/auditoria/' + auditoria.codAuditoria]"
-                                                [disabled]="auditoria.qtdDespesasPendentes>0"
+                                                [disabled]="auditoria.qtdDespesasPendentes>0 && auditoria.codAuditoriaStatus != 3 "
                                                 matTooltipPosition="above">
                                                 <mat-icon class="icon-size-5 text-blue-600"
                                                     [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
@@ -103,10 +132,10 @@
                             </ng-container>
                         </div>
 
-                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                        <mat-paginator [hidden]="!(dataSourceData | async)?.items?.length"
                             class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                            [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="(dataSourceData | async)?.totalCount"
+                            [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
                             (page)="paginar()">
                         </mat-paginator>
                     </ng-container>

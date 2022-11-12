@@ -1,0 +1,122 @@
+<div class="grid grid-cols-2 justfy-between bg-gray-50 p-8 border-b" *transloco="let t">
+    <div class="flex items-center">
+        <span class="text-lg font-medium">{{ t('check list') }}</span>
+    </div>
+
+    <div class="flex place-content-end">
+        <mat-button-toggle-group name="nivel" (change)="filtrarNivel($event.value)" aria-label="Nível">
+            <mat-button-toggle [value]="nivel" *ngFor="let nivel of niveis">
+                {{ nivel }}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+</div>
+
+<div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 pb-6 bg-card shadow rounded overflow-hidden">
+    <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+        <div class="flex-auto px-6 pt-1 bg-card overflow-hidden">
+            <table *ngIf="orCheckListItens.length" class="w-full text-sm text-left text-gray-500">
+                <tbody>
+                    <tr class="font-semibold">
+                        <td class="py-1 text-left">
+                            Descrição
+                        </td>
+
+                        <td class="py-1 text-left">
+                            Realização
+                        </td>
+
+                        <td class="py-1 text-center">
+                            Nível
+                        </td>
+
+                        <td class="py-1 text-left">
+                            Ação
+                        </td>
+
+                        <td class="py-1 text-left">
+                            Paramêtro
+                        </td>
+
+                        <td class="py-1 text-left">
+                            Cód. Perto
+                        </td>
+
+                        <td class="py-1 text-left">
+                            P/N MEI
+                        </td>
+
+                        <td class="py-1 text-center">
+                            Obrigatório
+                        </td>
+
+                        <td class="py-1 text-center">
+                            Realizado
+                        </td>
+                    </tr>
+
+                    <tr class="border-t-2" *ngFor="let item of orCheckListItens">
+                        <td class="py-1 font-medium text-left">
+                            <div class="w-50 truncate" [matTooltip]="item.descricao">
+                                {{ item.descricao }}
+                            </div>
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            <div class="w-128 truncate" [matTooltip]="item.realizacao">
+                                {{ item.realizacao }}
+                            </div>
+                        </td>
+
+                        <td class="py-1 font-medium text-center">
+                            {{ item.nivel }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.acao }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.parametro }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.codMagnus }}
+                        </td>
+
+                        <td class="py-1 font-medium text-left">
+                            {{ item.pn_Mei }}
+                        </td>
+
+                        <td class="py-1 font-medium text-center">
+                            {{ item.passoObrigatorio }}
+                        </td>
+
+                        <div class="text-center pt-0.5">
+                            <mat-checkbox [color]="'primary'"
+                                [checked]="verificarItemSelecionado(item.codORCheckListItem)"
+                                (change)="toggleRealizado($event, item)">
+                            </mat-checkbox>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="flex justify-center items-center min-h-40" *ngIf="loading">
+                <div class="text-center">
+                    <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+                </div>
+            </div>
+
+            <div *ngIf="!nivelSelecionado && !loading"
+                class="pt-6 pb-5 text-lg font-semibold tracking-tight text-center bg-card">
+                Selecione o nível!
+            </div>
+
+            <div *ngIf="!orCheckListItens.length && nivelSelecionado && !loading"
+                class="pt-6 pb-5 text-lg font-semibold tracking-tight text-center bg-card">
+                Nenhum checklist encontrado!
+            </div>            
+        </div>
+    </div>
+</div>

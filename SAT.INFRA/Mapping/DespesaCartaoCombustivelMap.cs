@@ -23,6 +23,12 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<DespesaCartaoCombustivel>(i => i.Numero)
                 .HasPrincipalKey<TicketLogUsuarioCartaoPlaca>(i => i.NumeroCartao);
+
+            builder
+                .HasMany(prop => prop.Transacoes)
+                .WithOne()
+                .HasForeignKey(prop => prop.NumeroCartao)
+                .HasPrincipalKey(prop => prop.Numero);
         }
     }
 }

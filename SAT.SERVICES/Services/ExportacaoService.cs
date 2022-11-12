@@ -58,6 +58,9 @@ namespace SAT.SERVICES.Services
         private readonly IRelatorioAtendimentoRepository _relatorioAtendimentoRepo;
         private readonly ITicketLogPedidoCreditoRepository _ticketLogPedidoCreditoRepo;
         private readonly IORCheckListRepository _orCheckListRepo;
+        private readonly IDespesaCartaoCombustivelRepository _despesaCartaoCombustivelRepo;
+        private readonly ITicketLogTransacaoRepository _ticketLogTransacaoRepo;
+        private readonly ITicketRepository _ticketRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -100,7 +103,10 @@ namespace SAT.SERVICES.Services
             IORItemRepository orItemRepo,
             IRelatorioAtendimentoRepository relatorioAtendimentoRepo,
             ITicketLogPedidoCreditoRepository ticketLogPedidoCreditoRepo,
-            IORCheckListRepository orCheckListRepo
+            IORCheckListRepository orCheckListRepo,
+            IDespesaCartaoCombustivelRepository despesaCartaoCombustivelRepo,
+            ITicketLogTransacaoRepository ticketLogTransacaoRepo,
+            ITicketRepository ticketRepo
         )
         {
             _emaiLService = emaiLService;
@@ -144,6 +150,9 @@ namespace SAT.SERVICES.Services
             _relatorioAtendimentoRepo = relatorioAtendimentoRepo;
             _ticketLogPedidoCreditoRepo = ticketLogPedidoCreditoRepo;
             _orCheckListRepo = orCheckListRepo;
+            _despesaCartaoCombustivelRepo = despesaCartaoCombustivelRepo;
+            _ticketLogTransacaoRepo = ticketLogTransacaoRepo;
+            _ticketRepo = ticketRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -327,6 +336,18 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.OR_CHECKLIST:
                     GerarPlanilhaORCheckList(((JObject)parameters).ToObject<ORCheckListParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.DESPESA_CARTAO_COMBUSTIVEL:
+                    GerarPlanilhaDespesaCartaoCombustivel(((JObject)parameters).ToObject<DespesaCartaoCombustivelParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.TICKET_LOG_TRANSACAO:
+                    GerarPlanilhaTicketLogTransacao(((JObject)parameters).ToObject<TicketLogTransacaoParameters>());
+                    break;
+
+                case ExportacaoTipoEnum.TICKET:
+                    GerarPlanilhaTicket(((JObject)parameters).ToObject<TicketParameters>());
                     break;
                     
                 default:

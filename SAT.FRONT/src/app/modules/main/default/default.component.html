@@ -39,6 +39,16 @@
                             [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         <span class="ml-2">Meu Perfil</span>
                     </button>
+
+                    <button
+                        class="fuse-mat-button-rounded bg-red-600"
+                        mat-flat-button
+                        [routerLink]="['/ticket/form']">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:question-mark-circle'"></mat-icon>
+                        <span class="ml-2">Preciso de Ajuda</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -48,8 +58,7 @@
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="px-12 w-full" *ngIf="verificarPermissaoAcessoSlide('BOAS_VINDAS')">
                 <p class="text-secondary font-light">
-                    A tela de boas vindas do sistema apresenta informações de acordo com o perfil do seu usuário. <br>
-                    Em breve serão exibidas aqui informações pertinentes aos seus processos.
+                    
                 </p>
             </div>
             

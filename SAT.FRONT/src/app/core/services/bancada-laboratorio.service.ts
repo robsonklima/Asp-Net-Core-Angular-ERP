@@ -13,12 +13,16 @@ export class BancadaLaboratorioService {
     private http: HttpClient
   ) { }
 
-  obterTecnicosBancada(): Observable<ViewLaboratorioTecnicoBancada[]> {
-    const url = `${c.api}/BancadaLaboratorio/TecnicosBancada`;
+  obterPorView(parameters: BancadaLaboratorioParameters): Observable<ViewLaboratorioTecnicoBancada[]> {
+    let params = new HttpParams();
+    
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
 
-    return this.http.get<ViewLaboratorioTecnicoBancada[]>(url).pipe(
-      map((obj) => obj)
-    );
+    return this.http.get(`${c.api}/BancadaLaboratorio/TecnicosBancada`, { params: params }).pipe(
+      map((data: ViewLaboratorioTecnicoBancada[]) => data)
+    )
   }
 
   obterPorParametros(parameters: BancadaLaboratorioParameters): Observable<BancadaLaboratorioData> {

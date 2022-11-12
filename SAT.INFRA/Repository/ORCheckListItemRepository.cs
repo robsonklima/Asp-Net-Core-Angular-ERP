@@ -65,7 +65,21 @@ namespace SAT.INFRA.Repository
                     s =>
                     s.CodORCheckListItem.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+ 
+            if (parameters.CodORCheckListItem.HasValue) 
+            {
+                query = query.Where(or => or.CodORCheckListItem == parameters.CodORCheckListItem);
+            }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodORCheckListItems))
+            {
+                int[] cods = parameters.CodORCheckListItems.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(q => cods.Contains((int)q.CodORCheckListItem));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Nivel))
+                query = query.Where(o => o.Nivel == parameters.Nivel);
+                
             if (parameters.SortActive != null && parameters.SortDirection != null)
                  query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

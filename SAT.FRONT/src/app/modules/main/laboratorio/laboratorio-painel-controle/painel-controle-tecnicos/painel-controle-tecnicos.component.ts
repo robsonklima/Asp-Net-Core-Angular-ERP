@@ -41,7 +41,7 @@ export class PainelControleTecnicosComponent implements AfterViewInit {
 
   private async obterDados() {
     this.loading = true;
-    this.tecnicos = await this._bancadaLaboratorioService.obterTecnicosBancada().toPromise();
+    this.tecnicos = await this._bancadaLaboratorioService.obterPorView({}).toPromise();
     this.tecnicosFiltered = Enumerable.from(this.tecnicos).orderBy(i => i.numBancada).toArray();
     this.loading = false;
     this._cdr.detectChanges();

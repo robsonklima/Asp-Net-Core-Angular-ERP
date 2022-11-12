@@ -46,5 +46,15 @@ namespace SAT.SERVICES.Services
             _ticketRepo.Atualizar(ticket);
             return ticket;
         }
+
+        public Ticket Criar(Ticket ticket)
+        {
+            return _ticketRepo.Criar(ticket);
+        }
+
+        public Ticket Deletar(int codigo)
+        {
+            return _ticketRepo.Deletar(codigo);
+        }
     }
 }

@@ -2,9 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
-import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-contato-lista',

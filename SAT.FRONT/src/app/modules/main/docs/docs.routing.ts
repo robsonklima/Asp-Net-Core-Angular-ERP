@@ -2,7 +2,6 @@ import { Route } from '@angular/router';
 import { VersoesComponent } from './inicio/introducao/versoes/versoes.component';
 import { DocsComponent } from './docs.component';
 import { IntroducaoComponent } from './inicio/introducao/introducao.component';
-import { SuporteComponent } from './suporte/suporte.component';
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
@@ -63,10 +62,6 @@ export const docsRoutes: Route[] = [
                         component: OrdemServicoComponent
                     }
                 ]
-            },
-            {
-                path     : 'suporte',
-                component: SuporteComponent
             }
         ]
     }

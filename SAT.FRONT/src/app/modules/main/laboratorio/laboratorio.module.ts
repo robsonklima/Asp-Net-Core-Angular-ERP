@@ -34,10 +34,11 @@ import { TranslocoModule } from "@ngneat/transloco";
 import { SharedModule } from "app/shared/shared.module";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { FiltroModule } from "../filtros/filtro.module";
-import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
+import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { laboratorioRoutes } from './laboratorio.routing';
+import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
 import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
 import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
 import { PainelControleTecnicosItensComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos-itens/painel-controle-tecnicos-itens.component';
@@ -46,7 +47,6 @@ import { LaboratorioProcessoReparoFiltroComponent } from './laboratorio-processo
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
 import { LaboratorioBancadaDialogComponent } from './laboratorio-bancada/laboratorio-bancada-dialog/laboratorio-bancada-dialog.component';
-import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
 import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoFiltroComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-filtro/laboratorio-ordem-reparo-filtro.component';
@@ -54,7 +54,13 @@ import { LaboratorioCheckListListaComponent } from './laboratorio-checklist/labo
 import { LaboratorioChecklistFormComponent } from './laboratorio-checklist/laboratorio-checklist-form/laboratorio-checklist-form.component';
 import { LaboratorioChecklistFiltroComponent } from './laboratorio-checklist/laboratorio-checklist-filtro/laboratorio-checklist-filtro.component';
 import { LaboratorioChecklistItemFormDialogComponent } from './laboratorio-checklist/laboratorio-checklist-item-form-dialog/laboratorio-checklist-item-form-dialog.component';
-import { MatRadioModule } from '@angular/material/radio';
+import { LaboratorioProcessoReparoHistoricoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
+import { LaboratorioProcessoReparoFormChecklistComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-checklist/laboratorio-processo-reparo-form-checklist.component';
+import { LaboratorioProcessoReparoFormDefeitoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-defeito/laboratorio-processo-reparo-form-defeito.component';
+import { LaboratorioProcessoReparoFormSolucaoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-solucao/laboratorio-processo-reparo-form-solucao.component';
+import { LaboratorioProcessoReparoTecnicoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-tecnico/laboratorio-processo-reparo-tecnico.component';
+import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
+import { LaboratorioProcessoReparoInsumoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -74,7 +80,6 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioProcessoReparoDetalheComponent,
     LaboratorioBancadaComponent,
     LaboratorioBancadaDialogComponent,
-    LaboratorioProcessoReparoFormComponent,
     LaboratorioOrdemReparoListaComponent,
     LaboratorioOrdemReparoFormComponent,
     LaboratorioOrdemReparoFiltroComponent,
@@ -82,6 +87,14 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioChecklistFormComponent,
     LaboratorioChecklistFiltroComponent,
     LaboratorioChecklistItemFormDialogComponent,
+    LaboratorioProcessoReparoHistoricoComponent,
+    LaboratorioProcessoReparoFormDefeitoComponent,
+    LaboratorioProcessoReparoFormSolucaoComponent,
+    LaboratorioProcessoReparoFormChecklistComponent,
+    LaboratorioProcessoReparoTecnicoComponent,
+    LaboratorioProcessoReparoFormComponent,
+    LaboratorioProcessoReparoInsumoComponent
+
   ],
   imports: [
     CommonModule,

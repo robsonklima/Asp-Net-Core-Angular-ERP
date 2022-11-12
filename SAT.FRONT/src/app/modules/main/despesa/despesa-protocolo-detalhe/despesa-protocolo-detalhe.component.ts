@@ -70,17 +70,17 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit {
   }
 
   private async obterProtocolo() {
-    this.protocolo =
-      (await this._despesaProtocoloSvc.obterPorCodigo(this.codDespesaProtocolo).toPromise());
+    this.protocolo = (await this._despesaProtocoloSvc.obterPorCodigo(this.codDespesaProtocolo).toPromise());
   }
 
   calculaDespesa(dpt: DespesaPeriodoTecnico) {
     return Enumerable.from(dpt.despesas)
-      .sum(d => Enumerable.from(d.despesaItens).
-        where(i => i.indAtivo == statusConst.ATIVO &&
-          i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
-        .sum(i => i.despesaValor));
-
+      .sum(d => Enumerable.from(d.despesaItens)
+      .where(i => 
+        i.indAtivo == statusConst.ATIVO &&
+        i.codDespesaTipo != DespesaTipoEnum.KM && 
+        i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
+      .sum(i => i.despesaValor));
   }
 
   async fecharProtocolo(): Promise<void> {

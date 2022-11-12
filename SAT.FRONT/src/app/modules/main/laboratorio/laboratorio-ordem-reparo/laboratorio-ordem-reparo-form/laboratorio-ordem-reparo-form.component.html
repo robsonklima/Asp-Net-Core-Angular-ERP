@@ -63,12 +63,9 @@
                                     noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="pecaFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
-    
-                            <mat-option 
-                                class="uppercase"
-                                [matTooltip]="peca.codMagnus + ' ' + peca.nomePeca"
-                                *ngFor="let peca of pecas"
-                                [value]="peca.codPeca">
+
+                            <mat-option class="uppercase" [matTooltip]="peca.codMagnus + ' ' + peca.nomePeca"
+                                *ngFor="let peca of pecas" [value]="peca.codPeca" (click)="pecaSelecionada = peca">
                                 <span class="font-bold">{{ peca.codMagnus }} </span>
                                 <span class="ml-1">{{ peca.nomePeca }} </span>
                             </mat-option>
@@ -84,13 +81,57 @@
                     </mat-form-field>
                 </div>
 
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b" *ngIf="or?.orItens?.length">
+                    <p class="text-lg font-medium">{{ t('itens') }}</p>
+                </div>
+
+                <div class="flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden" *ngIf="or?.orItens?.length">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <tbody>
+                            <tr class="border-t-2">
+                                <td class="py-1 font-medium text-left">
+                                    Código Item
+                                </td>
+
+                                <td class="py-1 font-medium text-left">
+                                    Descrição
+                                </td>
+
+                                <td class="py-1 font-medium text-center">
+                                    Qtd.
+                                </td>
+                            </tr>
+
+                            <tr class="border-t-2" *ngFor="let item of or?.orItens; let i=index">
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.pecaOR.codMagnus }}
+                                </td>
+
+                                <td class="py-1 font-medium text-left">
+                                    {{ item.pecaOR.nomePeca }}
+                                </td>
+
+                                <td class="py-1 font-medium text-center">
+                                    1
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
                     <button [routerLink]="['/laboratorio/ordem-reparo']" mat-button>
                         {{ t('cancelar') }}
                     </button>
 
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form?.valid">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form?.valid"
+                        *ngIf="or?.orItens?.length">
                         {{ t('salvar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="montarItens()"
+                        [disabled]="!form?.valid" *ngIf="!or?.orItens?.length">
+                        {{ t('inserir') }}
                     </button>
                 </div>
             </form>

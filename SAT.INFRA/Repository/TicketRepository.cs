@@ -4,7 +4,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
-using System;
+using System.Linq.Dynamic.Core;
 using System.Linq;
 
 namespace SAT.INFRA.Repository
@@ -20,69 +20,109 @@ namespace SAT.INFRA.Repository
 
         public PagedList<Ticket> ObterPorParametros(TicketParameters parameters)
         {
-            var query = _context
-                            .Ticket
-                                .Include(t => t.TicketModulo)
-                                .Include(t => t.TicketPrioridade)
-                                .Include(t => t.TicketClassificacao)
-                                .Include(t => t.TicketStatus)
-                                .Include(t => t.Usuario)
-                                    .ThenInclude(t => t.Filial)
-                                .AsQueryable();
+            var query = _context.Ticket
+                .Include(t => t.TicketModulo)
+                .Include(t => t.TicketPrioridade)
+                .Include(t => t.TicketClassificacao)
+                .Include(t => t.Atendimentos)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.UsuarioCad.Filial)
+                .AsQueryable();
 
-            if (parameters.CodUsuario != null)
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
             {
-                query = query.Where(t => t.CodUsuario == parameters.CodUsuario);
+                query = query.Where(t => 
+                                        t.Titulo.Contains(parameters.Filter) || 
+                                        t.Descricao.Contains(parameters.Filter) ||
+                                        t.UsuarioCad.NomeUsuario.Contains(parameters.Filter)
+                                    );
             }
+
+            if (parameters.CodUsuarioCad != null)
+            {
+                query = query.Where(t => t.CodUsuarioCad == parameters.CodUsuarioCad);
+            }
+
             if (parameters.CodModulo.HasValue)
             {
                 query = query.Where(t => t.CodModulo == parameters.CodModulo);
             }
+
             if (parameters.CodStatus.HasValue)
             {
                 query = query.Where(t => t.CodStatus == parameters.CodStatus);
             }
+
             if (parameters.CodPrioridade.HasValue)
             {
                 query = query.Where(t => t.CodPrioridade == parameters.CodPrioridade);
             }
+
             if (parameters.CodClassificacao.HasValue)
             {
                 query = query.Where(t => t.CodClassificacao == parameters.CodClassificacao);
             }
 
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
             return PagedList<Ticket>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
+
         public Ticket ObterPorCodigo(int codTicket)
         {
             return _context.Ticket
-            .Include(t => t.TicketModulo)
-                                .Include(t => t.TicketPrioridade)
-                                .Include(t => t.TicketClassificacao)
-                                .Include(t => t.TicketStatus)
-                                .Include(t => t.Usuario)
-                                    .ThenInclude(t => t.Filial)
-            .FirstOrDefault(t => t.CodTicket == codTicket);
+                .Include(t => t.TicketModulo)
+                .Include(t => t.TicketPrioridade)
+                .Include(t => t.TicketClassificacao)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.UsuarioCad)
+                .Include(t => t.UsuarioCad.Filial)
+                .Include(t => t.UsuarioManut)
+                .Include(t => t.UsuarioManut.Filial)
+                .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))
+                    .ThenInclude(a => a.UsuarioCad)
+                .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))
+                    .ThenInclude(a => a.UsuarioManut)
+                .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))
+                    .ThenInclude(a => a.TicketStatus)
+                .FirstOrDefault(t => t.CodTicket == codTicket);
         }
 
-        public void Atualizar(Ticket ticket)
+        public Ticket Atualizar(Ticket ticket)
         {
-
             _context.ChangeTracker.Clear();
-            Ticket tick = _context.Ticket.SingleOrDefault(t => t.CodTicket == ticket.CodTicket);
+            Ticket t = _context.Ticket.FirstOrDefault(tc => tc.CodTicket == ticket.CodTicket);
 
-            if (tick != null)
+            if (t != null)
             {
-                try
-                {
-                    _context.Entry(tick).CurrentValues.SetValues(ticket);
-                    _context.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"", ex);
-                }
+                _context.Entry(t).CurrentValues.SetValues(ticket);
+                _context.SaveChanges();
             }
+
+            return t;
+        }
+
+        public Ticket Criar(Ticket ticket)
+        {
+            _context.Add(ticket);
+            _context.SaveChanges();
+            return ticket;
+        }
+
+        public Ticket Deletar(int codigo)
+        {
+            Ticket t = _context.Ticket
+                .Include(t => t.Atendimentos)
+                .FirstOrDefault(t => t.CodTicket == codigo);
+
+            if (t != null)
+            {
+                _context.Ticket.Remove(t);
+                _context.SaveChanges();
+            }
+
+            return t;
         }
     }
 }

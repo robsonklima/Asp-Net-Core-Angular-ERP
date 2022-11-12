@@ -26,6 +26,12 @@ namespace SAT.API.Controllers
         {
             return _auditoriaService.ObterPorParametros(parameters);
         }
+
+        [HttpGet("View")]
+        public ListViewModel GetView([FromQuery] AuditoriaParameters parameters)
+        {
+            return _auditoriaService.ObterPorView(parameters);
+        }
         
         [HttpGet("{CodAuditoria}")]
         public Auditoria Get(int codAuditoria)

@@ -4,14 +4,14 @@ import { Tecnico } from "./tecnico.types";
 
 export interface DespesaAdiantamentoPeriodo
 {
-    codDespesaAdiantamentoPeriodo: number;
+    codDespesaAdiantamentoPeriodo?: number;
     codDespesaAdiantamento: number;
     codDespesaPeriodo: number;
     valorAdiantamentoUtilizado: number;
     codUsuarioCad: string;
     dataHoraCad: string;
-    despesaAdiantamento: DespesaAdiantamento;
-    despesaPeriodo: DespesaPeriodo;
+    despesaAdiantamento?: DespesaAdiantamento;
+    despesaPeriodo?: DespesaPeriodo;
 }
 
 export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParameters 

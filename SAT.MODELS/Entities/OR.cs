@@ -22,6 +22,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string Minuta { get; set; }
         public int? CodTransportadora { get; set; }
+        public ORTransporte ORTransporte { get; set; }
         public List<ORItem> ORItens { get; set; }
     }
 }

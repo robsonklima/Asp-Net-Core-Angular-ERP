@@ -33,12 +33,24 @@ namespace SAT.INFRA.Mapping {
                 .WithMany()
                 .HasForeignKey(prop => prop.CodStatus)
                 .HasPrincipalKey(prop => prop.CodStatus);
+
             builder
-                .HasOne(prop => prop.Usuario)
+                .HasOne(prop => prop.UsuarioCad)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodUsuario)
+                .HasForeignKey(prop => prop.CodUsuarioCad)
                 .HasPrincipalKey(prop => prop.CodUsuario);
 
+            builder
+                .HasOne(prop => prop.UsuarioManut)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioManut)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+
+            builder
+                .HasMany(prop => prop.Atendimentos)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodTicket)
+                .HasPrincipalKey(prop => prop.CodTicket);
         }
     }
 }

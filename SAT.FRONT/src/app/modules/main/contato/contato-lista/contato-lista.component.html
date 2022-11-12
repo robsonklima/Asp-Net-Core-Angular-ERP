@@ -1,6 +1,6 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto">
     <div class="flex-auto">
-        <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
+        <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8">
             <div>
                 <div class="text-4xl font-extrabold tracking-tight leading-none">Contatos</div>
                 <div class="ml-0.5 font-medium text-secondary">
@@ -25,54 +25,42 @@
             </div>
         </div>
 
-        <div class="relative">
+        <div class="relative px-8">
             <ng-container *ngIf="usuarios.length">
-                <ng-container *ngFor="let usuario of usuarios; let i = index;">
-                    <a class="z-20 bg-white flex items-center px-6 py-4 md:px-8 border-b">
-                        <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
-                            <ng-container>
-                                <img  class="object-cover w-full h-full"
-                                    [src]="usuario?.foto?.base64 ? 'data:image/jpg;base64,' + usuario?.foto?.base64 : 'assets/images/avatars/profile.jpg'"/>
-                            </ng-container>
-                        </div>
-
-                        <div class="min-w-0 ml-4">
-                            <div class="font-medium leading-5 truncate uppercase">{{ usuario.nomeUsuario.trim() }}</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
+                    <ng-container *ngFor="let usuario of usuarios; let i = index;">
+                        <div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex flex-col flex-auto w-full p-8 text-center">
+                                <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
+                                    <img
+                                        class="w-full h-full object-cover"
+                                        [src]="usuario?.foto?.base64 ? 'data:image/jpg;base64,' + usuario?.foto?.base64 : 'assets/images/avatars/profile.jpg'">
+                                </div>
+                                <div class="mt-6 font-medium truncate">{{ usuario.nomeUsuario.trim() | uppercase }}</div>
+                                <div class="text-secondary truncate">{{ usuario.perfil?.nomePerfil }}</div>
+                            </div>
                             
-                            <div class="leading-5 truncate text-secondary">
-                                <span *ngIf="usuario.perfil?.nomePerfil">
-                                    {{ usuario.perfil?.nomePerfil }}
-                                </span>
-                                
-                                <span class="ml-1 font-semibold" *ngIf="usuario.filial?.nomeFilial">
-                                    {{ usuario.filial?.nomeFilial }}
-                                </span> 
-
-                                <span class="ml-1" *ngIf="usuario.email">
-                                    <a
-                                        [matTooltip]="'E-mail'"
-                                        class="text-blue-400 lowercase"
-                                        [href]="'mailto:' + usuario.email">
-                                        {{ usuario.email }}
-                                    </a>
-                                </span>
-                                
-                                <span class="ml-1" *ngIf="usuario.fone">
-                                    <a
-                                        [matTooltip]="'Telefone'"
-                                        class="text-green-400"
-                                        [href]="'tel:' + usuario.fone">
-                                        {{ usuario.fone }} 
-                                    </a>
-                                </span> 
-
-                                <span [matTooltip]="'Ramal'" class="ml-1 text-indigo-500" *ngIf="usuario.ramal">
-                                    {{ usuario.ramal }}
-                                </span>
+                            <div class="flex items-center w-full border-t divide-x">
+                                <a
+                                    class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                    [href]="'mailto:' + usuario.email">
+                                    <mat-icon
+                                        class="icon-size-5 text-hint"
+                                        [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                    <span class="ml-2">Email</span>
+                                </a>
+                                <a
+                                    class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                    [href]="'tel:' + usuario.fonePerto">
+                                    <mat-icon
+                                        class="icon-size-5 text-hint"
+                                        [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                                    <span class="ml-2">Telefone</span>
+                                </a>
                             </div>
                         </div>
-                    </a>
-                </ng-container>
+                    </ng-container>
+                </div>
             </ng-container>
 
             <div *ngIf="!usuarios.length && !isLoading">

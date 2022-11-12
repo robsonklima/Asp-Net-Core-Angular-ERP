@@ -1,12 +1,10 @@
-import { style } from '@angular/animations';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Importacao } from './../../../core/types/importacao.types';
-import { Component, AfterViewInit } from '@angular/core';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-configuracao.service';
 import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service';
-import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 import { ImportacaoService } from 'app/core/services/importacao.service';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 
 @Component({
 	selector: 'app-importacao',
@@ -28,7 +26,6 @@ export class ImportacaoComponent implements AfterViewInit {
 		private _importacaoService: ImportacaoService,
 		private _snack: CustomSnackbarService,
 		public _dialog: MatDialog
-
 	) { }
 
 	ngAfterViewInit() {
@@ -99,9 +96,8 @@ export class ImportacaoComponent implements AfterViewInit {
 
 			let dados: any[] = r.importacaoLinhas.filter(line => line.erro == 1);
 			dados.length > 0 
-					//? this._snack.exibirAlerta('Implantação concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes' ) 
-					? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
-					: this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
+				? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
+				: this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
 		});
 	}
 }

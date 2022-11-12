@@ -14,6 +14,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(
                     t =>
                     t.DespesaProtocoloPeriodoTecnico.CodDespesaPeriodoTecnico.ToString().Contains(parameters.Filter) ||
+                    t.DespesaProtocoloPeriodoTecnico.CodDespesaProtocolo.ToString().Contains(parameters.Filter) ||
                     t.CodDespesaPeriodoTecnico.ToString().Contains(parameters.Filter));
 
             if (parameters.CodDespesaPeriodo.HasValue)

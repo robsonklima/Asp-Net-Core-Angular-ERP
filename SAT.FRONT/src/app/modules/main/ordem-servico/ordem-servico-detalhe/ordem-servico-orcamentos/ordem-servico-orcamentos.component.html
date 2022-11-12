@@ -32,6 +32,7 @@
                             <div> {{ t("valor desconto") }} </div>
                             <div> {{ t("valor total") }} </div>
                         </div>
+                        
                         <ng-container *ngFor="let orcamento of orcamentos">
                             <a [routerLink]="'/orcamento/detalhe/' + orcamento?.codOrc + '/' + orcamento?.codigoOrdemServico"
                                 class="list-grid-orcamentos-os grid items-center h-11 py-3 px-6 border-b text-sm md:px-8 bg-white hover:bg-gray-100">

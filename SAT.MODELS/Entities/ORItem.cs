@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities {
     public class ORItem
@@ -37,5 +38,8 @@ namespace SAT.MODELS.Entities {
         public ORStatus StatusOR { get; set; }
         public int? IndPrioridade { get; set; }
         public int? DiasEmReparo { get; set; }
+        public List<ORTempoReparo> TemposReparo { get; set; }
+        public ORDefeito ORDefeito { get; set; }
+        public ORSolucao ORSolucao { get; set; }
     }
 }

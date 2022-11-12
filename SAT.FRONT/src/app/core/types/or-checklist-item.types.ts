@@ -20,5 +20,6 @@ export interface ORCheckListItemData extends Meta {
 };
 
 export interface ORCheckListItemParameters extends QueryStringParameters {
-
+    codORCheckListItem?: number;
+    codORCheckListItems?: string;
 }

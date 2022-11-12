@@ -9,5 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public string CodUsuariosCad { get; set; }
         public DateTime DataHoraCadInicio { get; set; }
         public DateTime DataHoraCadFim { get; set; }
+        public int? CodPeca { get; set; }
     }
 }

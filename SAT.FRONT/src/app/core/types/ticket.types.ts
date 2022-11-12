@@ -1,6 +1,66 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { Usuario } from "./usuario.types";
 
+export interface Ticket {
+    codTicket: number;
+    codModulo: number;
+    ticketModulo: TicketModulo;
+    titulo: string;
+    descricao: string;
+    codPrioridade: number;
+    ticketPrioridade: TicketPrioridade;
+    codClassificacao: number;
+    ticketClassificacao: TicketClassificacao;
+    codStatus: number;
+    ticketStatus: TicketStatus;
+    codUsuarioCad: string;
+    usuarioCad: Usuario;
+    dataHoraCad: string;
+    codUsuarioManut: string;
+    usuarioManut: Usuario;
+    dataHoraManut: string | null;
+    dataFechamento: string | null;
+    ordem: number;
+    indAtivo: number;
+    atendimentos: TicketAtendimento[];
+}
+
+export interface TicketAtendimento {
+    codTicketAtend?: number;
+    codTicket: number;
+    descricao: string;
+    codStatus: number;
+    ticketStatus?: TicketStatus;
+    codUsuarioCad: string;
+    usuarioCad?: Usuario;
+    dataHoraCad: string;
+    codUsuarioManut?: string;
+    usuarioManut?: Usuario;
+    dataHoraManut?: string;
+}
+
+export class TicketModulo {
+    codModulo: number;
+    descricao: string;
+}
+
+export class TicketClassificacao {
+    codClassificacao: number;
+    descricao: string;
+    items: TicketClassificacao[];
+}
+
+export class TicketPrioridade {
+    codPrioridade: number;
+    descricao: string;
+    items: TicketPrioridade[];
+}
+
+export class TicketStatus {
+    codStatus: number;
+    descricao: string;
+}
+
 export interface TicketData extends Meta {
     items: Ticket[];
 };
@@ -10,96 +70,53 @@ export interface TicketAtendimentoData extends Meta {
 };
 
 export interface TicketModuloData extends Meta {
-	items: TicketModulo[];
-     };
+    items: TicketModulo[];
+};
 
 export interface TicketStatusData extends Meta {
     items: TicketStatus[];
-   
 };
 
 export interface TicketClassificacaoData extends Meta {
     items: TicketClassificacao[];
-
-    
 };
 
 export interface TicketPrioridadeData extends Meta {
     items: TicketPrioridade[];
-    
 };
 
 export interface TicketParameters extends QueryStringParameters {
-    codUsuario?: string;
-};
+    codUsuarioCad?: string;
+    codModulo?: number;
+    codStatus?: number;
+    codPrioridade?: number;
+    codClassificacao?: number;
+}
 
 export interface TicketAtendimentoParameters extends QueryStringParameters {
-    usuarioAtend?: string;
+    codUsuarioAtend?: string;
     codTicket?: number;
-};
+}
 
-export interface TicketModuloParameters extends QueryStringParameters{
-    codModulo: number;
-};
-
-export interface TicketStatusParameters extends QueryStringParameters{
-    codStatus: number;
-};
-
-export interface TicketClassificacaoParameters extends QueryStringParameters{
-    codClassificacao: number;
-};
-
-export interface TicketPrioridadeParameters extends QueryStringParameters{
-    codClassificacao: number;
-};
-
-export class Ticket {
-    codTicket: number;
-    codUsuario?: string;
+export interface TicketModuloParameters extends QueryStringParameters {
     codModulo?: number;
-    titulo?: string;
-    descricao?: string;
-    codClassificacao?: number;
-    codStatus?: number;
-    dataCadastro?: string;
-    usuarioManut?: string;
-    dataManut?: Date;
-    dataFechamento?: Date;
-    codPrioridade?: number;
-    ticketModulo?: TicketModulo;
-    ticketClassificacao?: TicketClassificacao;
-    ticketPrioridade?: TicketPrioridade;
-    ticketStatus?: TicketStatus;
-    usuario?: Usuario;
-    
-}
+};
 
-export class TicketModulo {
-    codModulo: number;
-    descricao: string;
-}
-export class TicketClassificacao {
-    codClassificacao: number;
-    descricao: string;
-	items: TicketClassificacao[];
-}
-export class TicketPrioridade {
-    codPrioridade: number;
-    descricao: string;
-	items: TicketPrioridade[];
-}
-export class TicketStatus {
-    codStatus: number;
-    descricao: string;
-}
-export class TicketAtendimento {
-    codTicketAtendimento: number;
-    codTicket: number;
-    descricao: string;
-    codStatus: number;
-    usuarioAtend: number;
-    dataCadastro: string;
-    ticketStatus: TicketStatus;
-    usuario: Usuario;
+export interface TicketStatusParameters extends QueryStringParameters {
+    codStatus?: number;
+};
+
+export interface TicketClassificacaoParameters extends QueryStringParameters {
+    codClassificacao?: number;
+};
+
+export interface TicketPrioridadeParameters extends QueryStringParameters {
+    codClassificacao?: number;
+};
+
+export const ticketStatusConst = {
+    EM_ATENDIMENTO: 1,
+    CANCELADO: 2,
+    CONCLUIDO: 3,
+    AGUARDANDO: 4
 }

@@ -40,34 +40,21 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        // public Ticket Criar(Ticket ticket)
-        // {
-        //     // _ticketRepo.Criar(ticket);
-        //     return null;
-        //     // return ticket;
-        // }
+        public TicketAtendimento Criar(TicketAtendimento atend)
+        {
+            _ticketAtendimentoRepo.Criar(atend);
 
-        // public void Deletar(int codigo)
-        // {
-        //     return null;
-        //     // _ticketRepo.Deletar(codigo);
-        // }
+            return atend;
+        }
 
+        public TicketAtendimento Deletar(int codigo)
+        {
+            return _ticketAtendimentoRepo.Deletar(codigo);
+        }
 
-        // public void Atualizar(Ticket ticket)
-        // {
-        //     // var equip = _ticketRepo.ObterPorCodigo(ticket.);
-        //     // ticket.CodTipoEquip = equip.CodTipoEquip;
-        //     // ticket.CodGrupoEquip = equip.CodGrupoEquip;
-        //     // _equipamentoContratoRepo.Atualizar(equipamentoContrato);
-        //     return null;
-        // }
-
-        // public Ticket Criar(EquipamentoContrato equipamentoContrato)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-
-
+        public TicketAtendimento Atualizar(TicketAtendimento atend)
+        {
+            return _ticketAtendimentoRepo.Atualizar(atend);
+        }
     }
 }

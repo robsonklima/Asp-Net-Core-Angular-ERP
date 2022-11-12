@@ -9,10 +9,15 @@ namespace SAT.SERVICES.Services
     public class ORService : IORService
     {
         private readonly IORRepository _ORRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public ORService(IORRepository ORRepo)
+        public ORService(
+            IORRepository ORRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _ORRepo = ORRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public ListViewModel ObterPorParametros(ORParameters parameters)

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Auditoria, AuditoriaData, AuditoriaParameters } from '../types/auditoria.types';
+import { Auditoria, AuditoriaData, AuditoriaParameters, AuditoriaViewData } from '../types/auditoria.types';
 
 
 @Injectable({
@@ -21,6 +21,18 @@ export class AuditoriaService {
 
     return this.http.get(`${c.api}/Auditoria`, { params: params }).pipe(
       map((data: AuditoriaData) => data)
+    )
+  }
+
+  obterPorView(parameters: AuditoriaParameters): Observable<AuditoriaViewData> {
+    let params = new HttpParams();
+    
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/Auditoria/View`, { params: params }).pipe(
+      map((data: AuditoriaViewData) => data)
     )
   }
 

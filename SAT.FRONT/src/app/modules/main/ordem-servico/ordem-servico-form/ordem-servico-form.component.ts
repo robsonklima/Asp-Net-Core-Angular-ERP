@@ -556,6 +556,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		var perfisPodemAlterarCorretiva = [
 			RoleEnum.ADMIN,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
+			RoleEnum.FINANCEIRO_COORDENADOR_PONTO
 		];
 
 		var perfisPodemApenasCriarAutorizacaoDeslocamento = [
@@ -599,8 +600,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 				this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarOrcamento': true });
 		}
 	}
-
-	
 
 	validaObrigatoriedadeDosCampos() {
 		this.form.get('codTipoIntervencao').valueChanges.subscribe(val => {

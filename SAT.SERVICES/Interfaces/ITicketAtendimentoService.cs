@@ -8,5 +8,8 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(TicketAtendimentoParameters parameters);
         TicketAtendimento ObterPorCodigo(int codTicketAtendimento);
+        TicketAtendimento Criar(TicketAtendimento atend);
+        TicketAtendimento Deletar(int codigo);
+        TicketAtendimento Atualizar(TicketAtendimento atend);
     }
 }

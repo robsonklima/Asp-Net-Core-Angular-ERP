@@ -75,7 +75,7 @@
                                 </td>
     
                                 <td class="py-1 font-bold text-center" [class.text-red-500]="!material?.peca?.isValorAtualizado">
-                                    {{ !material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
+                                    {{ material?.peca?.isValorAtualizado ? 'SIM' : 'NÃO' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -488,7 +488,7 @@
         Cancelar
     </button> 
 
-    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="loading || isValorPecasDesatualizado">
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
         Criar
     </button>
 </mat-dialog-actions>

@@ -174,6 +174,15 @@ public class ConfigurationIOC
         builder.RegisterType<UsuarioLoginRepository>().As<IUsuarioLoginRepository>();
         builder.RegisterType<ORCheckListRepository>().As<IORCheckListRepository>();
         builder.RegisterType<ORCheckListItemRepository>().As<IORCheckListItemRepository>();
+        builder.RegisterType<TicketLogTransacaoRepository>().As<ITicketLogTransacaoRepository>();
+        builder.RegisterType<ORTempoReparoRepository>().As<IORTempoReparoRepository>();
+        builder.RegisterType<ORItemInsumoRepository>().As<IORItemInsumoRepository>();
+        builder.RegisterType<ORTransporteRepository>().As<IORTransporteRepository>();
+        builder.RegisterType<ORDefeitoRepository>().As<IORDefeitoRepository>();
+        builder.RegisterType<ORSolucaoRepository>().As<IORSolucaoRepository>();
+        builder.RegisterType<ItemXORCheckListRepository>().As<IItemXORCheckListRepository>();
+        builder.RegisterType<ItemDefeitoRepository>().As<IItemDefeitoRepository>();
+        builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
         
         #endregion
 
@@ -338,6 +347,15 @@ public class ConfigurationIOC
         builder.RegisterType<UsuarioLoginService>().As<IUsuarioLoginService>();
         builder.RegisterType<ORCheckListService>().As<IORCheckListService>();
         builder.RegisterType<ORCheckListItemService>().As<IORCheckListItemService>();
+        builder.RegisterType<TicketLogTransacaoService>().As<ITicketLogTransacaoService>();
+        builder.RegisterType<ORTempoReparoService>().As<IORTempoReparoService>();
+        builder.RegisterType<ORItemInsumoService>().As<IORItemInsumoService>();
+        builder.RegisterType<ORTransporteService>().As<IORTransporteService>();
+        builder.RegisterType<ORDefeitoService>().As<IORDefeitoService>();
+        builder.RegisterType<ORSolucaoService>().As<IORSolucaoService>();
+        builder.RegisterType<ItemXORCheckListService>().As<IItemXORCheckListService>();
+        builder.RegisterType<ItemDefeitoService>().As<IItemDefeitoService>();
+        builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
 
         #endregion
 

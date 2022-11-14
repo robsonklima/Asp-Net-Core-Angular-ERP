@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ItemSolucaoService } from 'app/core/services/item-solucao.service';
+import { ORItemService } from 'app/core/services/or-item.service';
 import { ORSolucaoService } from 'app/core/services/or-solucao.service';
 import { ItemSolucao } from 'app/core/types/item-Solucao.types';
+import { ORItem } from 'app/core/types/or-item.types';
 import { ORSolucao } from 'app/core/types/or-solucao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -20,29 +22,33 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements AfterViewI
   usuarioSessao: UsuarioSessao;
   solucoes: ORSolucao[] = [];
   itemsSolucoes: ItemSolucao[] = [];
+  orItem: ORItem;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
+  @ViewChild('relatoInputControl') relatoInputControl: ElementRef;
 
   constructor(
     private _userService: UserService,
     private _orSolucaoService: ORSolucaoService,
     private _itemSolucaoService: ItemSolucaoService,
-  ) { 
-      this.usuarioSessao = JSON.parse(this._userService.userSession);
+    private _orItemService: ORItemService
+  ) {
+    this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngAfterViewInit() {
+    this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
     this.registrarEmitters();
     this.obterDados();
   }
 
-  private async obterDados(filter: string='') {
+  private async obterDados(filter: string = '') {
     this.solucoes = (await this._orSolucaoService
-        .obterPorParametros({ indAtivo: 1, filter: filter })
-        .toPromise()).items;
+      .obterPorParametros({ indAtivo: 1, filter: filter })
+      .toPromise()).items;
 
     this.itemsSolucoes = (await this._itemSolucaoService
-        .obterPorParametros({ codORItem: this.codORItem })
-        .toPromise()).items;
+      .obterPorParametros({ codORItem: this.codORItem })
+      .toPromise()).items;
   }
 
   private registrarEmitters() {
@@ -55,17 +61,27 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements AfterViewI
     ).subscribe((text: string) => {
       this.obterDados(text);
     });
+
+    fromEvent(this.relatoInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) => {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()).subscribe((text: string) => {
+        this.orItem.relatoSolucao = text;
+        this._orItemService.atualizar(this.orItem).subscribe();
+      });
   }
 
-  async onChange($event: MatSlideToggleChange,codigo) {
-    if($event.checked){
+  async onChange($event: MatSlideToggleChange, codigo) {
+    if ($event.checked) {
       this._itemSolucaoService.criar({
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codTecnico: this.usuarioSessao.usuario.codUsuario,
         codORItem: this.codORItem,
         codSolucao: codigo
       }).subscribe();
-    }else{
+    } else {
       const itemSolucao = (await this._itemSolucaoService.obterPorParametros({
         codORItem: this.codORItem,
         codSolucao: codigo
@@ -74,7 +90,7 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements AfterViewI
       this._itemSolucaoService.deletar(itemSolucao.codItemSolucao).subscribe();
     }
   }
- 
+
   public verificarSolucaoSelecionado(codSolucao: number): boolean {
     return _.find(this.itemsSolucoes, { codSolucao: codSolucao, codORItem: this.codORItem }) != null;
   }

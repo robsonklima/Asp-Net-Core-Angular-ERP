@@ -28,7 +28,7 @@ export class AuditoriaAcessoriosComponent implements OnInit {
 	searching: boolean;
 	protected _onDestroy = new Subject<void>();
 	clienteFilterCtrl: FormControl = new FormControl();
-	displayedColumns: string[] = ['Peça', 'OR', 'Quantidade'];
+	displayedColumns: string[] = ['nome', 'status', 'justificativa'];
 
 	constructor(
 		private _formBuilder: FormBuilder,

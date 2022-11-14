@@ -4,7 +4,7 @@ import { ItemXORCheckListService } from 'app/core/services/item-or-checklist.ser
 import { ORCheckListService } from 'app/core/services/or-checklist.service';
 import { ItemXORCheckList, ItemXORCheckListData } from 'app/core/types/item-or-checklist.types';
 import { ORCheckListItem } from 'app/core/types/or-checklist-item.types';
-import { ORCheckList, ORCheckListData } from 'app/core/types/or-checklist.types';
+import { ORCheckListData } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
@@ -19,9 +19,8 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   @Input() orItem: ORItem;
   loading: boolean = true;
   userSession: UserSession;
-  orCheckList: ORCheckList;
-  orCheckListItens: ORCheckListItem[] = [];
-  itensChecklists: ItemXORCheckList[] = [];
+  itens: ORCheckListItem[] = [];
+  itensMarcados: ItemXORCheckList[] = [];
   niveis: number[] = [1, 2, 3];
   nivelSelecionado: number;
   form: FormGroup;
@@ -35,17 +34,35 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.orCheckList = await (await this.obterCheckList()).items.shift();
-    this.itensChecklists = await (await this.obterCheckListEItens()).items;
+    this.itensMarcados = await (await this.obterCheckListEItens()).items;
     this.loading = false;    
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
-    return await this._orCheckList.obterPorParametros({ codPeca: this.orItem.codPeca }).toPromise();
+    return await this._orCheckList
+      .obterPorParametros({ codPeca: this.orItem.codPeca })
+      .toPromise();
   }
 
   private async obterCheckListEItens(): Promise<ItemXORCheckListData> {
-    return await this._itemChecklistService.obterPorParametros({ codORItem: this.orItem.codORItem }).toPromise();
+    return await this._itemChecklistService
+      .obterPorParametros({ codORItem: this.orItem.codORItem })
+      .toPromise();
+  }
+
+  async filtrarNivel(ev: any) {
+    this.nivelSelecionado = ev;
+    this.itens = (await this.obterCheckList()).items.shift().itens.filter(i => i.nivel == ev);
+  }
+
+  public verificarItemSelecionado(codORCheckList: number): boolean {
+    const checkListItem = _.find(this.itensMarcados, { 
+      codORCheckList: codORCheckList, 
+      codORItem: this.orItem.codORItem,
+      indAtivo: statusConst.ATIVO
+    });
+
+    return checkListItem != null;
   }
 
   public async toggleRealizado(ev: any, item: ORCheckListItem) {   
@@ -60,25 +77,10 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
         
       });
     } else {
-      const checklist = _.find(this.orCheckListItens, { codORCheckListItem: item.codORCheckListItem });
+      const checklist = _.find(this.itens, { codORCheckListItem: item.codORCheckListItem });
 
       if (checklist)
         this._itemChecklistService.deletar(checklist.codORCheckListItem).toPromise();
     }
-  }
-
-  public verificarItemSelecionado(codORCheckList: number): boolean {
-    const checkListItem = _.find(this.itensChecklists, { 
-      codORCheckList: codORCheckList, 
-      codORItem: this.orItem.codORItem,
-      indAtivo: statusConst.ATIVO
-    });
-
-    return checkListItem != null;
-  }
-
-  filtrarNivel(ev: any) {
-    this.nivelSelecionado = ev;
-    this.orCheckListItens = this.orCheckList.itens.filter(i => i.nivel == ev);
   }
 }

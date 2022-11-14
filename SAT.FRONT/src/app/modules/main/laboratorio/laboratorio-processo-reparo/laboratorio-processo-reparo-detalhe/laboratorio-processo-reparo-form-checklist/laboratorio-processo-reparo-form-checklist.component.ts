@@ -35,7 +35,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
 
   async ngOnInit() {
     this.itensMarcados = await (await this.obterCheckListEItens()).items;
-    this.loading = false;    
+    this.loading = false;
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
@@ -55,9 +55,10 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
     this.itens = (await this.obterCheckList()).items.shift().itens.filter(i => i.nivel == ev);
   }
 
-  public verificarItemSelecionado(codORCheckList: number): boolean {
-    const checkListItem = _.find(this.itensMarcados, { 
-      codORCheckList: codORCheckList, 
+  public verificarItemSelecionado(codORCheckList: number, codORCheckListItem: number): boolean {
+    const checkListItem = _.find(this.itensMarcados, {
+      codORCheckList: codORCheckList,
+      codORCheckListItem: codORCheckListItem,
       codORItem: this.orItem.codORItem,
       indAtivo: statusConst.ATIVO
     });
@@ -65,7 +66,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
     return checkListItem != null;
   }
 
-  public async toggleRealizado(ev: any, item: ORCheckListItem) {   
+  public async toggleRealizado(ev: any, item: ORCheckListItem) {
     if (ev.checked) {
       this._itemChecklistService.criar({
         codORItem: this.orItem.codORItem,
@@ -74,13 +75,20 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
         indAtivo: 1,
         nivel: item.nivel
       }).subscribe((checklist) => {
-        
+
       });
     } else {
-      const checklist = _.find(this.itens, { codORCheckListItem: item.codORCheckListItem });
+      const itemChecklist = (await this._itemChecklistService.obterPorParametros({
+        codORCheckList: item.codORCheckList,
+        codORCheckListItem: item.codORCheckListItem,
+        codORItem: this.orItem.codORItem,
+        indAtivo: 1,
+        nivel: item.nivel.toString()
+      }).toPromise()).items.shift();
 
-      if (checklist)
-        this._itemChecklistService.deletar(checklist.codORCheckListItem).toPromise();
+      if (itemChecklist.codItemChecklist) {
+        this._itemChecklistService.deletar(itemChecklist.codItemChecklist).toPromise();
+      }
     }
   }
 }

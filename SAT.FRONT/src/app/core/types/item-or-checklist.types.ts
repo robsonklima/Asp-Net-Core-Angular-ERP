@@ -26,4 +26,5 @@ export interface ItemXORCheckListParameters extends QueryStringParameters {
     codORCheckList?: number;
     codORCheckListItem?: number;
     indAtivo?: number;
+    nivel?: string;
 }

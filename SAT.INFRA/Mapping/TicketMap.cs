@@ -51,6 +51,12 @@ namespace SAT.INFRA.Mapping {
                 .WithOne()
                 .HasForeignKey(prop => prop.CodTicket)
                 .HasPrincipalKey(prop => prop.CodTicket);
+
+            builder
+                .HasMany(prop => prop.Anexos)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodTicket)
+                .HasPrincipalKey(prop => prop.CodTicket);
         }
     }
 }

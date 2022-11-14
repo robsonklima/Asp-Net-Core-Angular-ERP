@@ -270,6 +270,7 @@ namespace SAT.INFRA.Context
         public DbSet<ORSolucao> ORSolucao { get; set; }
         public DbSet<ItemDefeito> ItemDefeito { get; set; }
         public DbSet<ItemSolucao> ItemSolucao { get; set; }
+        public DbSet<TicketAnexo> TicketAnexo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -458,6 +459,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ItemXORCheckList>(new ItemXORCheckListMap().Configure);
             modelBuilder.Entity<ItemDefeito>(new ItemDefeitoMap().Configure);
             modelBuilder.Entity<ItemSolucao>(new ItemSolucaoMap().Configure);
+            modelBuilder.Entity<Ticket>(new TicketMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

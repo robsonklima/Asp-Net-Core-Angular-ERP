@@ -25,5 +25,6 @@ namespace SAT.MODELS.Entities {
         public int? Ordem { get; set; }
         public byte? IndAtivo { get; set; }
         public List<TicketAtendimento> Atendimentos { get; set; }
+        public List<TicketAnexo> Anexos { get; set; }
     }
 }

@@ -183,6 +183,7 @@ public class ConfigurationIOC
         builder.RegisterType<ItemXORCheckListRepository>().As<IItemXORCheckListRepository>();
         builder.RegisterType<ItemDefeitoRepository>().As<IItemDefeitoRepository>();
         builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
+        builder.RegisterType<TicketAnexoRepository>().As<ITicketAnexoRepository>();
         
         #endregion
 
@@ -356,6 +357,7 @@ public class ConfigurationIOC
         builder.RegisterType<ItemXORCheckListService>().As<IItemXORCheckListService>();
         builder.RegisterType<ItemDefeitoService>().As<IItemDefeitoService>();
         builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
+        builder.RegisterType<TicketAnexoService>().As<ITicketAnexoService>();
 
         #endregion
 

@@ -104,7 +104,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		this.isLoading = false;
 	}
 
-	private async assumir() {
+	async assumir() {
 
 	}
 

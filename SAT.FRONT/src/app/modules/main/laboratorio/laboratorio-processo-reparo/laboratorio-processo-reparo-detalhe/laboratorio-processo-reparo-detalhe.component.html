@@ -40,7 +40,8 @@
                     class="icon-size-10"
                     [class.text-green-500]="!tempoReparo?.indAtivo"
                     [class.text-red-500]="tempoReparo?.indAtivo"
-                    [svgIcon]="'heroicons_outline:play'"></mat-icon>
+                    [svgIcon]="!tempoReparo?.indAtivo ? 'heroicons_outline:play' : 'heroicons_outline:stop'">
+                </mat-icon>
             </button>
         </div>
     </div>

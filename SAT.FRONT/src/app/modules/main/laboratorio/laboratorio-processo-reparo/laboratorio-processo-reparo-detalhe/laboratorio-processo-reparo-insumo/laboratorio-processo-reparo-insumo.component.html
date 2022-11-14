@@ -2,3 +2,81 @@
     <div class="flex items-center">
         <span class="text-lg font-medium">{{ t('insumos') }}</span>
     </div>
+
+    <div class="flex place-content-end">
+        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+            <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+            <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="w-350">
+    <div class="flex flex-col gt-xs:flex-row " >
+        <table mat-table [dataSource]="orChecklist">
+            <ng-container matColumnDef="utilizado">
+                <th mat-header-cell *matHeaderCellDef>Utilizado</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        <div class="text-center pt-0.5">
+                            <mat-checkbox [color]="'primary'" (change)="toggleRealizado($event, checklist)">
+                            </mat-checkbox>
+                        </div>
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descricao">
+                <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        {{ checklist?.peca?.nomePeca }}
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="peca">
+                <th mat-header-cell *matHeaderCellDef>Peça</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        {{ checklist?.codPeca }}
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="codMagnus">
+                <th mat-header-cell *matHeaderCellDef>CodMagnus</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        {{ checklist?.codMagnus }}
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtdSugerida">
+                <th mat-header-cell *matHeaderCellDef>Quantidade Sugerida</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        {{ 1 }}
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtdUtilizada">
+                <th mat-header-cell *matHeaderCellDef>Quantidade Utilizada</th>
+                <td mat-cell *matCellDef="let checklist">
+                    <mat-cell>
+                        <div [formGroup]="form">
+                            <mat-form-field class="text-center pt-0.5" appearance="fill">
+                                <input matInput formControlName="qtdUtilizada" [(ngModel)]="qtdUtilizada">
+                            </mat-form-field>
+                        </div>
+                    </mat-cell>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

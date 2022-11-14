@@ -3,32 +3,32 @@ import { ORStatus } from "./or-status.types";
 import { Peca } from "./peca.types";
 
 export interface ORItemInsumo {
-    codORItemInsumo: number;
-    codORItem: number | null;
-    dataHoraOritem: string | null;
-    codOR: number | null;
-    codPeca: number | null;
-    codStatus: number | null;
-    quantidade: number | null;
-    numSerie: string;
-    codTipoOR: number | null;
-    codOS: number | null;
-    codCliente: number | null;
-    codTecnico: string;
-    defeitoRelatado: string;
-    relatoSolucao: string;
-    codDefeito: string;
-    codAcao: number | null;
-    codSolucao: number | null;
-    indConfLog: number | null;
-    indConfLab: number | null;
+    codORItemInsumo?: number;
+    codORItem?: number;
+    dataHoraOritem?: string;
+    codOR?: number;
+    codPeca?: number;
+    codStatus?: number;
+    quantidade?: number;
+    numSerie?: string;
+    codTipoOR?: number;
+    codOS?: number;
+    codCliente?: number;
+    codTecnico?: string;
+    defeitoRelatado?: string;
+    relatoSolucao?: string;
+    codDefeito?: string;
+    codAcao?: number;
+    codSolucao?: number;
+    indConfLog?: number;
+    indConfLab?: number;
     indAtivo: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codStatusPendente: number | null;
-    indLiberacao: number | null;
-    orStatus: ORStatus;
-    peca: Peca;
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
+    codStatusPendente?: number;
+    indLiberacao?: number;
+    orStatus?: ORStatus;
+    peca?: Peca;
 }
 
 export interface ORItemInsumoData extends Meta {
@@ -37,5 +37,6 @@ export interface ORItemInsumoData extends Meta {
 
 export interface ORItemInsumoParameters extends QueryStringParameters {
     codORItem: number;
-    indAtivo: number;
+    indAtivo?: number;
+    codPeca?: number;
 }

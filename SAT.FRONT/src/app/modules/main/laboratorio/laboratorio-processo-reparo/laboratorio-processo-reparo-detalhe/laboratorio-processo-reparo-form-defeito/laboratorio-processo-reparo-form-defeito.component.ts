@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ItemDefeitoService } from 'app/core/services/item-defeito.service';
+import { ORItemService } from 'app/core/services/or-item.service';
 import { ORDefeitoService } from 'app/core/services/orDefeito.service';
 import { ItemDefeito } from 'app/core/types/item-defeito.types';
 import { ORDefeito } from 'app/core/types/or-defeito.types';
+import { ORItem } from 'app/core/types/or-item.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
@@ -20,17 +22,21 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
   usuarioSessao: UsuarioSessao;
   defeitos: ORDefeito[] = [];
   itemsDefeitos: ItemDefeito[] = [];
+  orItem: ORItem;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
+  @ViewChild('relatoInputControl') relatoInputControl: ElementRef;
 
   constructor(
     private _userService: UserService,
     private _oRDfeitoService: ORDefeitoService,
-    private _itemDefeitoService: ItemDefeitoService
+    private _itemDefeitoService: ItemDefeitoService,
+    private _orItemService: ORItemService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngAfterViewInit() {
+    this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
     this.registrarEmitters();
     this.obterDados();
   }
@@ -55,6 +61,16 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
     ).subscribe((text: string) => {
       this.obterDados(text);
     });
+
+    fromEvent(this.relatoInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) => {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()).subscribe((text: string) => {
+        this.orItem.defeitoRelatado = text;
+        this._orItemService.atualizar(this.orItem).subscribe();
+      });
   }
 
   async onChange($event: MatSlideToggleChange, codigo) {

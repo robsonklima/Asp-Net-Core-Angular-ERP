@@ -12,7 +12,7 @@
 </div>
 
 <div class="w-350">
-    <div>
+    <div class="flex flex-col gt-xs:flex-row " >
         <table mat-table [dataSource]="orChecklist">
             <ng-container matColumnDef="utilizado">
                 <th mat-header-cell *matHeaderCellDef>Utilizado</th>
@@ -54,7 +54,7 @@
             </ng-container>
 
             <ng-container matColumnDef="qtdSugerida">
-                <th mat-header-cell *matHeaderCellDef>Quantidade sugerida</th>
+                <th mat-header-cell *matHeaderCellDef>Quantidade Sugerida</th>
                 <td mat-cell *matCellDef="let checklist">
                     <mat-cell>
                         {{ 1 }}
@@ -63,11 +63,11 @@
             </ng-container>
 
             <ng-container matColumnDef="qtdUtilizada">
-                <th mat-header-cell *matHeaderCellDef>Quantidade utilizada</th>
+                <th mat-header-cell *matHeaderCellDef>Quantidade Utilizada</th>
                 <td mat-cell *matCellDef="let checklist">
                     <mat-cell>
                         <div [formGroup]="form">
-                            <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-form-field class="text-center pt-0.5" appearance="fill">
                                 <input matInput formControlName="qtdUtilizada" [(ngModel)]="qtdUtilizada">
                             </mat-form-field>
                         </div>

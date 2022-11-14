@@ -62,6 +62,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		this.inicializarForm();
 		this.obterDados();
 	}
+	
 	private inicializarForm() {
 		this.form = this._formBuilder.group({
 			codStatus: [
@@ -101,6 +102,10 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		}
 
 		this.isLoading = false;
+	}
+
+	private async assumir() {
+
 	}
 
 	salvar(): void {

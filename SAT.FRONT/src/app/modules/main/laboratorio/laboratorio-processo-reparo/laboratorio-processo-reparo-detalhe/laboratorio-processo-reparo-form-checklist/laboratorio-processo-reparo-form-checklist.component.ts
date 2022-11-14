@@ -48,21 +48,22 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
     return await this._itemChecklistService.obterPorParametros({ codORItem: this.orItem.codORItem }).toPromise();
   }
 
-  public toggleRealizado(ev: any, item: ORCheckListItem) {
-    console.log(ev.checked, item);
-    
-    console.log(this.itensChecklists);   
-
+  public async toggleRealizado(ev: any, item: ORCheckListItem) {   
     if (ev.checked) {
-      //this._itemChecklistService.criar({
-      //  codORItem: this.codORItem,
-      //  codORCheckList: item.codORCheckList,
-      //  codORCheckListItem: item.codORCheckListItem,
-      //  indAtivo: 1,
-      //  nivel: '1'
-      //}).subscribe();
+      this._itemChecklistService.criar({
+        codORItem: this.orItem.codORItem,
+        codORCheckList: item.codORCheckList,
+        codORCheckListItem: item.codORCheckListItem,
+        indAtivo: 1,
+        nivel: item.nivel
+      }).subscribe((checklist) => {
+        
+      });
     } else {
-      console.log("deletar");
+      const checklist = _.find(this.orCheckListItens, { codORCheckListItem: item.codORCheckListItem });
+
+      if (checklist)
+        this._itemChecklistService.deletar(checklist.codORCheckListItem).toPromise();
     }
   }
 

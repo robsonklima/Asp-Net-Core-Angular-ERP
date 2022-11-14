@@ -99,6 +99,11 @@ namespace SAT.INFRA.Repository
                 itemXORCheckLists = itemXORCheckLists.Where(c => c.IndAtivo == parameters.IndAtivo);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.Nivel))
+            {
+                itemXORCheckLists = itemXORCheckLists.Where(i => i.Nivel == parameters.Nivel);
+            }                
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 itemXORCheckLists = itemXORCheckLists.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

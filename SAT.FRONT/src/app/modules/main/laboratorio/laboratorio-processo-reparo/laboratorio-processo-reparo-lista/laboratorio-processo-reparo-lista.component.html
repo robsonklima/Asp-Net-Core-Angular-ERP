@@ -21,17 +21,13 @@
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 ml-4"
-                    *ngIf="!isPerfilTecnico()">
-                    <mat-select placeholder="Técnico" [disabled]="!toggleTranferencia()">
-                        <mat-option *ngFor="let usuario of usuariosTecnicos" [value]="usuario.codUsuario">
-                            {{ usuario.nomeUsuario | uppercase }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <button class="ml-6" mat-icon-button matTooltip="{{ t('opcoes') }}" (click)="abrirMaisOpcoes()"
+                    [disabled]="!verificarExistemItensSelecionados()">
+                    <mat-icon class="text-green-600" [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+                </button>
 
                 <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()"
-                    *ngIf="dataSourceData?.items.length">
+                    [disabled]="!dataSourceData?.items.length">
                     <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                 </button>
 

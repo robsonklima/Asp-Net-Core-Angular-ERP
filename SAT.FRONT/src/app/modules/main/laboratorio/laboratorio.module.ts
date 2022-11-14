@@ -61,6 +61,7 @@ import { LaboratorioProcessoReparoFormSolucaoComponent } from './laboratorio-pro
 import { LaboratorioProcessoReparoTecnicoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-tecnico/laboratorio-processo-reparo-tecnico.component';
 import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 import { LaboratorioProcessoReparoInsumoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo.component';
+import { ProcessoReparoListaMaisOpcoesComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/processo-reparo-lista-mais-opcoes/processo-reparo-lista-mais-opcoes.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -93,7 +94,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioProcessoReparoFormChecklistComponent,
     LaboratorioProcessoReparoTecnicoComponent,
     LaboratorioProcessoReparoFormComponent,
-    LaboratorioProcessoReparoInsumoComponent
+    LaboratorioProcessoReparoInsumoComponent,
+    ProcessoReparoListaMaisOpcoesComponent
 
   ],
   imports: [

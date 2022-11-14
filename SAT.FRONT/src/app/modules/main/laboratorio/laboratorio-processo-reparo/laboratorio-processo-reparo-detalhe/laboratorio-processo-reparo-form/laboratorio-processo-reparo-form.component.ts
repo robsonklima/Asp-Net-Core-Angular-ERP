@@ -60,7 +60,7 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
       status: [
         {
           value: '',
-          disabled: true
+          disabled: false
         },
       ],
       nivel: [undefined]

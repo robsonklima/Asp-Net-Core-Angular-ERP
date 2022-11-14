@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { FiltroModule } from 'app/modules/main/filtros/filtro.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     ],
     imports     : [
         CommonModule,
+        QuillModule.forRoot(),
         RouterModule,
         OverlayModule,
         MatIconModule,

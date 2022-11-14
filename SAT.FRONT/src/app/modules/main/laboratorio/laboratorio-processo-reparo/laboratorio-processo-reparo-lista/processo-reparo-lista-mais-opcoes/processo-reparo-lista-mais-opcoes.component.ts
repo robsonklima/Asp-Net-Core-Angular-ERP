@@ -101,11 +101,16 @@ export class ProcessoReparoListaMaisOpcoesComponent implements OnInit {
 	}
 
   async salvar() {
+    const form = this.form.getRawValue();
+
     for (const item of this.itens) {
       this._orItemService
         .atualizar({
           ...item,
-          ...this.form.getRawValue()
+          ...{
+            codTecnico: form.codTecnico || item.codTecnico,
+            codStatus: form.codStatus || item.codStatus
+          }
         })
         .subscribe(() => {
           this._snack.exibirToast('Registros atualizados com sucesso', 'success');

@@ -6,7 +6,7 @@
             {{ mensagem?.conteudo }}, {{ mensagem?.usuarioRemetente?.nomeUsuario }}
         </div>
 
-        <form class="flex flex-col overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form class="flex flex-col overflow-hidden min-h-60" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('destinatario') }}</mat-label>
@@ -28,13 +28,17 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12 text-secondary font-semibold pb-8">
                     <mat-label>{{ t('conteudo') }}</mat-label>
-                    <textarea matInput formControlName="conteudo" [placeholder]="t('mensagem')" [rows]="3"
-                        maxlength="1000"></textarea>
+
+                    <quill-editor
+                        class="mt-2"
+                        [formControlName]="'conteudo'"
+                        [placeholder]="t('mensagem')"
+                        [modules]="quillModules"></quill-editor>
                     <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                     <mat-error>{{ t('preencher campo') }}</mat-error>
-                </mat-form-field>
+                </div>
             </div>
         </form>
     </div>

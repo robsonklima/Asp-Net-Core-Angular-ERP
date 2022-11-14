@@ -180,7 +180,6 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 		const itens = this.dataSourceData.items.filter(i => i.selecionado);
 
 		const dialogRef = this._dialog.open(ProcessoReparoListaMaisOpcoesComponent, {
-			width: '540px',
 			data: {
 				itens: itens
 			},

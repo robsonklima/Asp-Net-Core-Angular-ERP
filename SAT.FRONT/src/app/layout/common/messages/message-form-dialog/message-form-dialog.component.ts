@@ -25,6 +25,13 @@ export class MessageFormDialogComponent implements OnInit {
   loading: boolean = true;
   usuarioFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
+  quillModules: any = {
+    toolbar: [
+        ['bold', 'italic', 'underline'],
+        [{align: []}, {list: 'ordered'}, {list: 'bullet'}],
+        ['clean']
+    ]
+  };
   
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,

@@ -1,64 +1,72 @@
-<h2 mat-dialog-title>Mais Opções</h2>
-
-<mat-dialog-content class="min-h-48">
-    <div *ngIf="!loading">
-        <form [formGroup]="form" *transloco="let t">
-
-            <mat-tab-group [animationDuration]="'0'" mat-align-tabs="center">
-                <mat-tab label="Transferir">
-                    <div class="flex flex-col overflow-hidden">
-                        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
-                            <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                                <mat-label>{{ t('tecnico') }}</mat-label>
-                                <mat-select formControlName="codTecnico">
-
-                                    <mat-option>
-                                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                            noEntriesFoundLabel="'nenhum registro encontrado'"
-                                            [formControl]="tecnicoFilterCtrl">
-                                        </ngx-mat-select-search>
-                                    </mat-option>
-
-                                    <mat-option class="uppercase"
-                                        *ngFor="let usuario of usuarios"
-                                        [value]="usuario.codUsuario">
-                                        <span>{{ usuario.nomeUsuario }}</span>
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </mat-tab>
-
-                <mat-tab label="Alterar Status">
-                    <div class="flex flex-col overflow-hidden">
-                        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
-                            <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                                <mat-label>{{ t('status') }}</mat-label>
-                                <mat-select formControlName="codStatus">
-                                    <mat-option class="uppercase" *ngFor="let s of status"
-                                        [value]="s.codStatus">
-                                        <span>{{ s.descStatus }}</span>
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
-
-        </form>
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6">
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Mais Opções</div>
+        <button
+            mat-icon-button
+            mat-dialog-close
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
     </div>
 
-    <div class="flex justify-center items-center min-h-36" *ngIf="loading">
-        <div class="text-center">
-            <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="form">
+
+        <mat-form-field>
+            <mat-label>Técnico</mat-label>
+
+            <mat-select formControlName="codTecnico">
+
+                <mat-option>
+                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                        noEntriesFoundLabel="'nenhum registro encontrado'"
+                        [formControl]="tecnicoFilterCtrl">
+                    </ngx-mat-select-search>
+                </mat-option>
+
+                <mat-option class="uppercase"
+                    *ngFor="let usuario of usuarios"
+                    [value]="usuario.codUsuario">
+                    <span>{{ usuario.nomeUsuario }}</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Status</mat-label>
+            
+            <mat-select formControlName="codStatus">
+                <mat-option class="uppercase" *ngFor="let s of status"
+                    [value]="s.codStatus">
+                    <span>{{ s.descStatus }}</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+            <div class="-ml-2">
+                
+            </div>
+
+            <div class="flex items-center mt-4 sm:mt-0">
+                <button
+                    mat-dialog-close
+                    class="sm:mx-3"
+                    mat-button>
+                    <span>Cancelar</span>
+                </button>
+                
+                <button
+                    class="order-first sm:order-last"
+                    mat-flat-button
+                    (click)="salvar()"
+                    [color]="'primary'">
+                    Salvar
+                </button>
+            </div>
         </div>
-    </div>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-
-    <button mat-button (click)="salvar()" [disabled]="!form?.valid" cdkFocusInitial>Salvar</button>
-</mat-dialog-actions>
+    </form>
+</div>

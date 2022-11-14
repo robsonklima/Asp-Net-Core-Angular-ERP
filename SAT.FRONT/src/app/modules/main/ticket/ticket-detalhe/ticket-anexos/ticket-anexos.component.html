@@ -1,0 +1,31 @@
+<div *transloco="let t">
+    <div *ngIf="ticket" class="flex flex-col bg-card overflow-hidden">
+        <div class="grid grid-cols-2 justfy-between bg-gray-50 p-8 border-b">
+            <div class="flex items-center">
+                <span class="text-lg font-medium">{{ t('anexos') }}</span>
+            </div>
+
+            <div class="flex place-content-end">
+                <button mat-icon-button [matTooltip]="t('novo')" (click)="abrirAnexosForm()">
+                    <mat-icon class="text-green-500" [svgIcon]="'heroicons_solid:plus'">
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="ticket?.anexos?.length" class="flex flex-col flex-auto px-6 pt-4 sm:px-16">
+            <ng-container>
+                <ol>
+                    <ng-container *ngFor="let anexo of ticket.anexos; let i=index">
+
+                    </ng-container>
+                </ol>
+            </ng-container>
+        </div>
+
+        <div *ngIf="!ticket?.anexos?.length && !isLoading"
+            class="p-6 sm:p-16 border-t text-lg font-semibold tracking-tight text-center bg-card">
+            Nenhum anexo encontrado!
+        </div>
+    </div>
+</div>

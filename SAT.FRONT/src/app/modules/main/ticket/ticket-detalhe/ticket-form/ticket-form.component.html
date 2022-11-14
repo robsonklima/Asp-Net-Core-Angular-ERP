@@ -1,0 +1,84 @@
+<form class="flex flex-col bg-card shadow overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+        <p class="text-lg font-medium">Novo Atendimento</p>
+        <p class="text-secondary">
+            Preencha as informações abaixo para solicitar apoio da equipe SAT
+        </p>
+    </div>
+
+    <fieldset [disabled]="isLoading || ticket"
+        class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow overflow-hidden">
+        <mat-form-field class="fuse-mat-dense sm:col-span-3">
+            <mat-label>{{ t('status') }}</mat-label>
+
+            <mat-select class="min-h-10" formControlName="codStatus">
+                <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
+                    {{ stat.descricao }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error>{{ t('preencher campo') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-3">
+            <mat-label>{{ t('modulo') }}</mat-label>
+
+            <mat-select class="min-h-10" formControlName="codModulo">
+                <mat-option *ngFor="let modulo of modulos" [value]="modulo.codModulo">
+                    {{ modulo.descricao }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error>{{ t('preencher campo') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-3">
+            <mat-label>{{ t('prioridade') }}</mat-label>
+
+            <mat-select class="min-h-10" formControlName="codPrioridade">
+                <mat-option *ngFor="let prioridade of prioridades" [value]="prioridade.codPrioridade">
+                    {{ prioridade.descricao }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error>{{ t('preencher campo') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-3">
+            <mat-label>{{ t('classificacao') }}</mat-label>
+
+            <mat-select class="min-h-10" formControlName="codClassificacao">
+                <mat-option *ngFor="let classificacao of classificacoes"
+                    [value]="classificacao.codClassificacao">
+                    {{ classificacao.descricao }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error>{{ t('preencher campo') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>Titulo</mat-label>
+            <input matInput formControlName="titulo" maxlength="70" placeholder="Prencher o titulo">
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>Descricao</mat-label>
+            <textarea matInput formControlName="descricao" rows="4"
+                placeholder="Descreva a solicitação..."></textarea>
+        </mat-form-field>
+    </fieldset>
+
+    <div *ngIf="!ticket"
+        class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+        <button (click)="_location.back()" mat-button>
+            {{ t('cancelar') }}
+        </button>
+
+        <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+            <span *ngIf="!form.disabled">
+                {{ t('salvar') }}
+            </span>
+        </button>
+    </div>
+</form>

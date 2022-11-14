@@ -23,14 +23,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TicketFiltroComponent } from './ticket-filtro/ticket-filtro.component';
-import { TicketFormComponent } from './ticket-form/ticket-form.component';
+import { TicketFormComponent } from './ticket-detalhe/ticket-form/ticket-form.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
-import { TicketAtendimentoFormDialogComponent } from './ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FiltroModule } from '../filtros/filtro.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TicketAnexoFormDialogComponent } from './ticket-detalhe/ticket-anexos/ticket-anexo-form-dialog/ticket-anexo-form-dialog.component';
+import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';
+import { TicketAtendimentoFormDialogComponent } from './ticket-detalhe/ticket-atendimentos/ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
+import { TicketAtendimentosComponent } from './ticket-detalhe/ticket-atendimentos/ticket-atendimentos.component';
+import { TicketAnexosComponent } from './ticket-detalhe/ticket-anexos/ticket-anexos.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -44,6 +48,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     TicketFormComponent,
     TicketFiltroComponent,
     TicketAtendimentoFormDialogComponent,
+    TicketAnexoFormDialogComponent,
+    TicketDetalheComponent,
+    TicketAtendimentosComponent,
+    TicketAnexosComponent,
   ],
   imports: [
     CommonModule,

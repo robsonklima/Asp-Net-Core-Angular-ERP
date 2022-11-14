@@ -1,0 +1,62 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a [routerLink]="'/ticket/'" class="text-primary">
+                        {{ t('tickets') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+
+                    <a class="whitespace-nowrap text-secondary">
+                        {{ !codTicket ? t('criando') : t('edicao') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="codTicket">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+
+                    <span class="ml-1 text-secondary">
+                        #{{ codTicket }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('ticket') }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="!codTicket && userSession.usuario.codPerfil == 3">
+            <button class="ml-2" mat-icon-button matTooltip="{{ t('assumir') }}" (click)="assumir()">
+                <mat-icon class="text-indigo-500" [svgIcon]="'heroicons_outline:user-add'"></mat-icon>
+            </button>
+
+            <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()">
+                <mat-icon class="text-warn" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <app-ticket-form *ngIf="!isLoading" [ticket]="ticket"></app-ticket-form>
+
+            <app-ticket-atendimentos *ngIf="ticket" [ticket]="ticket"></app-ticket-atendimentos>
+
+            <app-ticket-anexos *ngIf="ticket" [ticket]="ticket"></app-ticket-anexos>
+        </div>
+    </div>
+</div>

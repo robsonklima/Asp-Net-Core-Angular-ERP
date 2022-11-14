@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { TicketAtendimentoService } from 'app/core/services/ticket-atendimento.service';
@@ -13,10 +12,8 @@ import { TicketService } from 'app/core/services/ticket.service';
 import { Ticket, TicketAtendimento, TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { TicketAtendimentoFormDialogComponent } from '../ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
 
 @Component({
 	selector: 'app-ticket-form',
@@ -24,11 +21,10 @@ import { TicketAtendimentoFormDialogComponent } from '../ticket-atendimento-form
 
 })
 export class TicketFormComponent implements OnInit, OnDestroy {
-	codTicket: number;
+	@Input() ticket: Ticket;
 	isAddMode: boolean;
 	isLoading: boolean = true;
 	form: FormGroup;
-	ticket: Ticket;
 	modulos: TicketModulo[] = [];
 	status: TicketStatus[] = [];
 	classificacoes: TicketClassificacao[] = [];
@@ -46,23 +42,20 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		private _ticketAtendimentoService: TicketAtendimentoService,
 		private _ticketPrioridadeService: TicketPrioridadeService,
 		private _ticketClassificacaoService: TicketClassificacaoService,
-		private _route: ActivatedRoute,
 		private _snack: CustomSnackbarService,
 		public _location: Location,
 		private _userService: UserService,
-		private _dialog: MatDialog,
-    	private _router: Router
+		private _router: Router
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
 
 	async ngOnInit() {
-		this.codTicket = +this._route.snapshot.paramMap.get('codTicket');
-		this.isAddMode = !this.codTicket;
+		this.isAddMode = !this.ticket;
 		this.inicializarForm();
 		this.obterDados();
 	}
-	
+
 	private inicializarForm() {
 		this.form = this._formBuilder.group({
 			codStatus: [
@@ -78,7 +71,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 			descricao: [undefined, Validators.required],
 		});
 	}
-	
+
 	private async obterDados() {
 		this.modulos = (await this._ticketModuloService
 			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
@@ -96,16 +89,12 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 			.obterPorParametros({ sortActive: 'descricao', sortDirection: 'asc' })
 			.toPromise()).items;
 
-		if (!this.isAddMode) {
-			this.ticket = await this._ticketService.obterPorCodigo(this.codTicket).toPromise();
+		if (!this.isAddMode)
+		{
 			this.form.patchValue(this.ticket);
 		}
 
 		this.isLoading = false;
-	}
-
-	async assumir() {
-
 	}
 
 	salvar(): void {
@@ -134,7 +123,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 
 			await this._ticketAtendimentoService.criar(primeiroAtendimento).subscribe(() => {
 				this._snack.exibirToast(`Ticket ${t?.codTicket} inserido com sucesso!`, "success");
-				
+
 				this._router.navigate(['ticket/form/' + t.codTicket]);
 			});
 		});
@@ -153,50 +142,6 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		this._ticketService.atualizar(obj).subscribe((t) => {
 			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
 			this.ngOnInit();
-		});
-	}
-
-	abrirAtendimentoForm(ticketAtendimento: TicketAtendimento=null) {
-		const dialogRef = this._dialog.open(TicketAtendimentoFormDialogComponent, {
-		  data: {
-			ticket: this.ticket,
-			ticketAtendimento: ticketAtendimento
-		  },
-		  width: '680px'
-		});
-	
-		dialogRef.afterClosed().subscribe((ticket: Ticket) => {
-		  if (ticket) {
-			this.ngOnInit();
-		  }
-		});
-	}
-
-	remover() {
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: `Deseja remover este ticket?`,
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
-
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {
-				this.isLoading = true;
-				this._ticketService
-					.deletar(this.ticket.codTicket)
-					.subscribe(() => {
-						this._snack.exibirToast(`Registro removido com sucesso`, 'success');
-						this._location.back();
-					}, (e) => {
-						this._snack.exibirToast(e.message || e.error.message, 'error');
-						this.isLoading = false;
-					});
-			}
 		});
 	}
 

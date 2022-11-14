@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { TicketFormComponent } from './ticket-form/ticket-form.component';
+import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
 
 
@@ -14,11 +14,11 @@ export const ticketRoutes: Route[] = [
         component: TicketListaComponent,
     },
     {
-        path: 'form',
-        component: TicketFormComponent,
+        path: 'detalhe',
+        component: TicketDetalheComponent,
     },
     {
-        path: 'form/:codTicket',
-        component: TicketFormComponent,
+        path: 'detalhe/:codTicket',
+        component: TicketDetalheComponent,
     }
 ];

@@ -27,6 +27,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Atendimentos)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.UsuarioCad.Filial)
+                .Include(t => t.Anexos)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -86,6 +87,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(a => a.UsuarioManut)
                 .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))
                     .ThenInclude(a => a.TicketStatus)
+                .Include(t => t.Anexos)
                 .FirstOrDefault(t => t.CodTicket == codTicket);
         }
 

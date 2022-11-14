@@ -10,5 +10,6 @@ namespace SAT.MODELS.Entities {
         public string CodUsuarioCad { get; set; }
         public Usuario UsuarioCad { get; set; }
         public DateTime DataHoraCad { get; set; }
+        public string Base64 { get; set; }
     }
 }

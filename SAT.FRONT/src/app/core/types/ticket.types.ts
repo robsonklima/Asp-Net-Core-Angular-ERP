@@ -1,8 +1,9 @@
 import { Meta, QueryStringParameters } from "./generic.types";
+import { TicketAnexo } from "./ticket-anexo.types";
 import { Usuario } from "./usuario.types";
 
 export interface Ticket {
-    codTicket: number;
+    codTicket?: number;
     codModulo: number;
     ticketModulo: TicketModulo;
     titulo: string;
@@ -22,7 +23,8 @@ export interface Ticket {
     dataFechamento: string | null;
     ordem: number;
     indAtivo: number;
-    atendimentos: TicketAtendimento[];
+    atendimentos?: TicketAtendimento[];
+    anexos?: TicketAnexo[];
 }
 
 export interface TicketAtendimento {

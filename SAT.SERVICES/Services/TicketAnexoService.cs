@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;

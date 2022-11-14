@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,7 +12,7 @@ import { Ticket, TicketAtendimento, TicketStatus } from 'app/core/types/ticket.t
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
-import { TicketFormComponent } from '../ticket-form/ticket-form.component';
+import { TicketAtendimentosComponent } from '../ticket-atendimentos.component';
 
 @Component({
   selector: 'app-ticket-atendimento-form-dialog',
@@ -33,15 +32,15 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
     private _notificacaoService: NotificacaoService,
     private _ticketService: TicketService,
     @Inject(MAT_DIALOG_DATA) protected data: any,
-    protected dialogRef: MatDialogRef<TicketFormComponent>,
+    protected dialogRef: MatDialogRef<TicketAtendimentosComponent>,
     private _snack: CustomSnackbarService,
-    private _location: Location,
     private _formBuilder: FormBuilder,
     private _userService: UserService
   ) {
-    if (data)
+    if (data) {
       this.ticket = data?.ticket;
       this.ticketAtendimento = data?.ticketAtendimento;
+    }
 
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -96,7 +95,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
     this.ticketAtendimento = await this.criarAtendimento();
     await this.enviarNotificacaoAoUsuario();
     this._snack.exibirToast('Atendimento criado com sucesso', 'success');
-    this.dialogRef.close(this.ticket);
+    this.dialogRef.close(this.ticketAtendimento);
   }
 
   private async criarAtendimento(): Promise<TicketAtendimento> {

@@ -87,7 +87,12 @@ namespace SAT.INFRA.Repository
             if (parameters.CodORCheckList != null)
             {
                 itemXORCheckLists = itemXORCheckLists.Where(c => c.CodORCheckList == parameters.CodORCheckList);
-            }          
+            }         
+
+            if (parameters.CodORCheckListItem != null)
+            {
+                itemXORCheckLists = itemXORCheckLists.Where(c => c.CodORCheckListItem == parameters.CodORCheckListItem);
+            }                  
 
             if (parameters.IndAtivo != null)
             {

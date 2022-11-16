@@ -93,7 +93,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
       codInstalacao: [''],
       codTransportadora: [''],
       nomeFilial: [{ value: '', disabled: true }],
-      nomeLote: [{ value: '', disabled: true }],     
+      nomeLote: [{ value: '', disabled: true }],
       dataRecLote: [{ value: '', disabled: true }],
       nroContrato: [{ value: '', disabled: true }],
       pedidoCompra: [''],
@@ -162,7 +162,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this.transportadorasFiltro.valueChanges
       .pipe(
-        tap(() => {}),
+        tap(() => { }),
         takeUntil(this._onDestroy),
         debounceTime(700),
         map(async query => {
@@ -197,7 +197,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.dataSourceData = data;
   }
 
-  private async obterTransportadoras(filter: string='') {
+  private async obterTransportadoras(filter: string = '') {
     const data = await this._transportadoraSvc.obterPorParametros({
       indAtivo: statusConst.ATIVO,
       sortActive: 'NomeTransportadora',
@@ -208,7 +208,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.transportadoras = data.items;
   }
 
-  private async obterFiliais(filter: string='') {
+  private async obterFiliais(filter: string = '') {
     const data = await this._filialSvc.obterPorParametros({
       indAtivo: statusConst.ATIVO,
       sortActive: 'NomeFilial',
@@ -242,174 +242,170 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this._instalacaoSvc.obterPorCodigo(codInstalacao)
       .subscribe((instalacao) => {
-          this.instalacaoSelecionada = instalacao;
-          this.form.patchValue(instalacao);
-          this.form.controls['nomeFilial'].setValue(instalacao.filial?.nomeFilial);
-          this.form.controls['nomeLote'].setValue(instalacao.instalacaoLote?.nomeLote);
-          this.form.controls['dataRecLote'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).format('DD/MM/yyyy'));
-          this.form.controls['nroContrato'].setValue(instalacao.contrato?.nroContrato);
-          this.form.controls['nomeEquip'].setValue(instalacao.equipamento?.nomeEquip);
-          this.form.controls['numSerie'].setValue(instalacao.equipamentoContrato?.numSerie);
-          this.form.controls['numSerieCliente'].setValue(instalacao.equipamentoContrato?.numSerieCliente);         
+        this.instalacaoSelecionada = instalacao;
+        this.form.patchValue(instalacao);
+        this.form.controls['nomeFilial'].setValue(instalacao.filial?.nomeFilial);
+        this.form.controls['nomeLote'].setValue(instalacao.instalacaoLote?.nomeLote);
+        this.form.controls['dataRecLote'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).format('DD/MM/yyyy'));
+        this.form.controls['nroContrato'].setValue(instalacao.contrato?.nroContrato);
+        this.form.controls['nomeEquip'].setValue(instalacao.equipamento?.nomeEquip);
+        this.form.controls['numSerie'].setValue(instalacao.equipamentoContrato?.numSerie);
+        this.form.controls['numSerieCliente'].setValue(instalacao.equipamentoContrato?.numSerieCliente);
 
-          if (instalacao.localAtendimentoSol) {
-            this.form.controls['prefixosb'].setValue(`${instalacao.localAtendimentoSol?.numAgencia} / ${instalacao.localAtendimentoSol?.dcPosto}`);      
+        if (instalacao.localAtendimentoSol) {
+          this.form.controls['prefixosb'].setValue(`${instalacao.localAtendimentoSol?.numAgencia} / ${instalacao.localAtendimentoSol?.dcPosto}`);
+        }
+
+        this.form.controls['nomeLocal'].setValue(instalacao.localAtendimentoSol?.nomeLocal);
+        this.form.controls['cnpj'].setValue(instalacao.localAtendimentoSol?.cnpj);
+        this.form.controls['endereco'].setValue(instalacao.localAtendimentoSol?.endereco);
+        this.form.controls['nomeCidade'].setValue(instalacao.localAtendimentoSol?.cidade?.nomeCidade);
+        this.form.controls['siglaUF'].setValue(instalacao.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF);
+        this.form.controls['cep'].setValue(instalacao.localAtendimentoSol?.cep);
+
+        if (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataEnt > 0) {
+          this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.contrato?.dataAssinatura).format('DD/MM/yyyy'));
+        }
+        else {
+          this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.instalacaoLote.dataRecLote).format('DD/MM/yyyy'));
+        }
+
+        if (instalacao.dataSugEntrega) {
+          this.form.controls['dataSugEntrega'].setValue(moment(instalacao.dataSugEntrega).format('DD/MM/yyyy'));
+        }
+
+        if (instalacao.dataConfEntrega) {
+          this.form.controls['dataConfEntrega'].setValue(moment(instalacao.dataConfEntrega).format('DD/MM/yyyy'));
+        }
+
+        this.form.controls['nfRemessa'].setValue(instalacao.nfremessa);
+        this.form.controls['dataNFRemessa'].setValue(moment(instalacao.dataNfremessa).format('DD/MM/yyyy'));
+
+        if (instalacao.dataExpedicao) {
+          this.form.controls['dataExpedicao'].setValue(moment(instalacao.dataExpedicao).format('DD/MM/yyyy'));
+        }
+
+        this.form.controls['nomeTransportadora'].setValue(instalacao.transportadoras?.nomeTransportadora);
+
+        if (instalacao.localAtendimentoEnt) {
+          this.form.controls['agenciaEnt'].setValue(`${instalacao.localAtendimentoEnt?.numAgencia} / ${instalacao.localAtendimentoEnt?.dcPosto}`);
+        }
+
+        this.form.controls['nomeLocalEnt'].setValue(instalacao.localAtendimentoEnt?.nomeLocal);
+        this.form.controls['dtbCliente'].setValue(instalacao.dtbCliente);
+        this.form.controls['faturaTranspReEntrega'].setValue(instalacao.faturaTranspReEntrega);
+
+        if (instalacao.dtReEntrega) {
+          this.form.controls['dtReEntrega'].setValue(moment(instalacao.dtReEntrega).format('DD/MM/yyyy'));
+        }
+
+        this.form.controls['responsavelRecebReEntrega'].setValue(instalacao.responsavelRecebReEntrega);
+
+        if (instalacao.dataHoraChegTranspBt) {
+          this.form.controls['dataHoraChegTranspBT'].setValue(moment(instalacao.dataHoraChegTranspBt).format('DD/MM/yyyy'));
+        }
+
+        const instalRessalva = instalacao.instalacoesRessalva.sort((a, b) => a.codInstalRessalva - b.codInstalRessalva).shift();
+
+        if (instalRessalva) {
+          if (instalRessalva.codInstalMotivoRes === 0) {
+            this.form.controls['ressalvaEnt'].setValue('SIM');
           }
-          
-          this.form.controls['nomeLocal'].setValue(instalacao.localAtendimentoSol?.nomeLocal); 
-          this.form.controls['cnpj'].setValue(instalacao.localAtendimentoSol?.cnpj); 
-          this.form.controls['endereco'].setValue(instalacao.localAtendimentoSol?.endereco); 
-          this.form.controls['nomeCidade'].setValue(instalacao.localAtendimentoSol?.cidade?.nomeCidade); 
-          this.form.controls['siglaUF'].setValue(instalacao.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF); 
-          this.form.controls['cep'].setValue(instalacao.localAtendimentoSol?.cep); 
-
-          if (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataEnt > 0) {
-            this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.contrato?.dataAssinatura).format('DD/MM/yyyy'));            
-          } 
           else {
-            this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.instalacaoLote.dataRecLote).format('DD/MM/yyyy'));  
-          }
-          
-          if (instalacao.dataSugEntrega) {
-            this.form.controls['dataSugEntrega'].setValue(moment(instalacao.dataSugEntrega).format('DD/MM/yyyy'));
+            this.form.controls['ressalvaEnt'].setValue('NÃO');
           }
 
-          if (instalacao.dataConfEntrega) {          
-            this.form.controls['dataConfEntrega'].setValue(moment(instalacao.dataConfEntrega).format('DD/MM/yyyy'));
+          if (instalRessalva.codInstalMotivoRes === 1) {
+            this.form.controls['ressalvaIns'].setValue('SIM');
           }
-
-          this.form.controls['nfRemessa'].setValue(instalacao.nfremessa); 
-          this.form.controls['dataNFRemessa'].setValue(moment(instalacao.dataNfremessa).format('DD/MM/yyyy'));
-
-          if(instalacao.dataExpedicao) {
-            this.form.controls['dataExpedicao'].setValue(moment(instalacao.dataExpedicao).format('DD/MM/yyyy'));
-          }
-
-          this.form.controls['nomeTransportadora'].setValue(instalacao.transportadoras?.nomeTransportadora); 
-
-          if (instalacao.localAtendimentoEnt) {
-            this.form.controls['agenciaEnt'].setValue(`${instalacao.localAtendimentoEnt?.numAgencia} / ${instalacao.localAtendimentoEnt?.dcPosto}`);      
-          }          
-
-          this.form.controls['nomeLocalEnt'].setValue(instalacao.localAtendimentoEnt?.nomeLocal);
-          this.form.controls['dtbCliente'].setValue(instalacao.dtbCliente); 
-          this.form.controls['faturaTranspReEntrega'].setValue(instalacao.faturaTranspReEntrega);           
-
-          if(instalacao.dtReEntrega) {
-            this.form.controls['dtReEntrega'].setValue(moment(instalacao.dtReEntrega).format('DD/MM/yyyy'));
-          }
-
-          this.form.controls['responsavelRecebReEntrega'].setValue(instalacao.responsavelRecebReEntrega);   
-
-          if(instalacao.dataHoraChegTranspBt) {
-            this.form.controls['dataHoraChegTranspBT'].setValue(moment(instalacao.dataHoraChegTranspBt).format('DD/MM/yyyy'));
-          }
-          
-          const instalRessalva = instalacao.instalacoesRessalva.sort((a, b) => a.codInstalRessalva - b.codInstalRessalva).shift();
-
-          if (instalRessalva)
-          {
-            if (instalRessalva.codInstalMotivoRes === 0) {
-              this.form.controls['ressalvaEnt'].setValue('SIM');
-            } 
-            else {
-              this.form.controls['ressalvaEnt'].setValue('NÃO');
-            }
-  
-            if (instalRessalva.codInstalMotivoRes === 1) {
-              this.form.controls['ressalvaIns'].setValue('SIM');
-            } 
-            else {
-              this.form.controls['ressalvaIns'].setValue('NÃO');
-            }
-            
-            if (instalRessalva.codInstalMotivoRes === 2) {
-              this.form.controls['indEquipRebaixadoBI'].setValue('SIM');
-            } 
-            else {
-              this.form.controls['indEquipRebaixadoBI'].setValue('NÃO');
-            }
-  
-            if (instalRessalva.codInstalMotivoRes === 2) {
-              this.form.controls['ressalvaInsR'].setValue('SIM');
-            } 
-            else {
-              this.form.controls['ressalvaInsR'].setValue('NÃO');
-            }
-          }
-          
-          this.form.controls['nomeRespBancoBT'].setValue(instalacao.nomeRespBancoBt);    
-          this.form.controls['numMatriculaBT'].setValue(instalacao.numMatriculaBt);  
-          
-          if (instalacao.indBtorigEnt) {
-            this.form.controls['indBTOrigEnt'].setValue('SIM');            
-          } 
           else {
-            this.form.controls['indBTOrigEnt'].setValue('NÃO');  
+            this.form.controls['ressalvaIns'].setValue('NÃO');
           }
 
-          if (instalacao.indBtok) {
-            this.form.controls['indBTOK'].setValue('SIM');            
-          } 
+          if (instalRessalva.codInstalMotivoRes === 2) {
+            this.form.controls['indEquipRebaixadoBI'].setValue('SIM');
+          }
           else {
-            this.form.controls['indBTOK'].setValue('NÃO');  
-          }       
-          
-          this.form.controls['nfRemessaConferida'].setValue(instalacao.nfRemessaConferida); 
-
-          switch (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataIns)
-          {
-            case 0: 
-              this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
-            case 1: 
-              this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
-            case 2: 
-              this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
-            default:
-              this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['indEquipRebaixadoBI'].setValue('NÃO');
           }
 
-          if (instalacao.dataSugInstalacao) {
-            this.form.controls['dataSugInstalacao'].setValue(moment(instalacao.dataSugInstalacao).format('DD/MM/yyyy'));
+          if (instalRessalva.codInstalMotivoRes === 2) {
+            this.form.controls['ressalvaInsR'].setValue('SIM');
           }
-          
-          if (instalacao.dataConfInstalacao) {
+          else {
+            this.form.controls['ressalvaInsR'].setValue('NÃO');
+          }
+        }
+
+        this.form.controls['nomeRespBancoBT'].setValue(instalacao.nomeRespBancoBt);
+        this.form.controls['numMatriculaBT'].setValue(instalacao.numMatriculaBt);
+
+        if (instalacao.indBtorigEnt) {
+          this.form.controls['indBTOrigEnt'].setValue('SIM');
+        }
+        else {
+          this.form.controls['indBTOrigEnt'].setValue('NÃO');
+        }
+
+        if (instalacao.indBtok) {
+          this.form.controls['indBTOK'].setValue('SIM');
+        }
+        else {
+          this.form.controls['indBTOK'].setValue('NÃO');
+        }
+
+        this.form.controls['nfRemessaConferida'].setValue(instalacao.nfRemessaConferida);
+
+        switch (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataIns) {
+          case 0:
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+          case 1:
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+          case 2:
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+          default:
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+        }
+
+        if (instalacao.dataSugInstalacao) {
+          this.form.controls['dataSugInstalacao'].setValue(moment(instalacao.dataSugInstalacao).format('DD/MM/yyyy'));
+        }
+
+        if (instalacao.dataConfInstalacao) {
           this.form.controls['dataConfInstalacao'].setValue(moment(instalacao.dataConfInstalacao).format('DD/MM/yyyy'));
-          }
+        }
 
-          this.form.controls['os'].setValue(instalacao.codOS); //Abrir tela de chamados 
+        this.form.controls['os'].setValue(instalacao.codOS); //Abrir tela de chamados 
 
-          if (instalacao.ordemServico) {
-              this.form.controls['dataHoraOS'].setValue(moment(instalacao.ordemServico?.dataHoraSolicAtendimento).format('DD/MM/yyyy'));
-          }
-          
-          this.form.controls['instalStatus'].setValue(instalacao.instalacaoStatus?.nomeInstalStatus); 
-          
-          this.form.controls['numRAT'].setValue(
-            instalacao.ordemServico?.relatoriosAtendimento[instalacao.ordemServico?.relatoriosAtendimento.length - 1].numRAT
-          );           
-          
-          if (instalacao.localAtendimentoIns) {
-            this.form.controls['agenciaIns'].setValue(`${instalacao.localAtendimentoIns?.numAgencia} / ${instalacao.localAtendimentoIns?.dcPosto}`);      
-          }    
+        if (instalacao.ordemServico) {
+          this.form.controls['dataHoraOS'].setValue(moment(instalacao.ordemServico?.dataHoraSolicAtendimento).format('DD/MM/yyyy'));
+        }
 
-          this.form.controls['nomeLocalIns'].setValue(instalacao.localAtendimentoIns?.nomeLocal);
-          
-          if (instalacao.dataBi) {
-            this.form.controls['dataBI'].setValue(moment(instalacao.dataBi).format('DD/MM/yyyy'));
-          }
-        
-          this.form.controls['qtdParaboldBI'].setValue(instalacao?.qtdParaboldBi);
+        this.form.controls['instalStatus'].setValue(instalacao.instalacaoStatus?.nomeInstalStatus);
 
-                                    
-          this.isLoading = false;
-          this._cdr.markForCheck();
-          
+        this.form.controls['numRAT'].setValue(
+          instalacao.ordemServico?.relatoriosAtendimento[instalacao.ordemServico?.relatoriosAtendimento.length - 1].numRAT
+        );
+
+        if (instalacao.localAtendimentoIns) {
+          this.form.controls['agenciaIns'].setValue(`${instalacao.localAtendimentoIns?.numAgencia} / ${instalacao.localAtendimentoIns?.dcPosto}`);
+        }
+
+        this.form.controls['nomeLocalIns'].setValue(instalacao.localAtendimentoIns?.nomeLocal);
+
+        if (instalacao.dataBi) {
+          this.form.controls['dataBI'].setValue(moment(instalacao.dataBi).format('DD/MM/yyyy'));
+        }
+
+        this.form.controls['qtdParaboldBI'].setValue(instalacao?.qtdParaboldBi);
+
+        this.isLoading = false;
+        this._cdr.markForCheck();
+
       }, () => {
         this.isLoading = false;
       });
   }
-
 
   fecharDetalhe(): void {
     this.instalacaoSelecionada = null;
@@ -438,8 +434,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.obterInstalacoes();
   }
 
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

@@ -28,7 +28,7 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
 
   constructor(
     private _userService: UserService,
-    private _oRDfeitoService: ORDefeitoService,
+    private _oRDefeitoService: ORDefeitoService,
     private _itemDefeitoService: ItemDefeitoService,
     private _orItemService: ORItemService
   ) {
@@ -42,7 +42,7 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
   }
 
   private async obterDados(filter: string='') {
-    this.defeitos = (await this._oRDfeitoService
+    this.defeitos = (await this._oRDefeitoService
         .obterPorParametros({ indAtivo: 1, filter: filter })
         .toPromise()).items;
 

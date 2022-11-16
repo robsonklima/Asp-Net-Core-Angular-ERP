@@ -9,6 +9,7 @@ export interface TicketAnexo {
     codUsuarioCad: string;
     usuarioCad: Usuario;
     dataHoraCad: string;
+    base64: string;
 }
 
 export interface TicketAnexoData extends Meta {

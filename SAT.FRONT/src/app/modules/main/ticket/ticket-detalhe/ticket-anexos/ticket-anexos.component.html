@@ -14,13 +14,13 @@
         </div>
 
         <div *ngIf="ticket?.anexos?.length">
-            <div class="flex flex-col flex-auto p-8">
+            <div class="flex flex-col flex-auto p-6">
                 <div class="flex flex-wrap -m-2">
                     <ng-container *ngFor="let anexo of ticket.anexos; let i=index">
                         <div class="relative w-40 h-40 m-2 p-4 shadow rounded-2xl bg-card">
                         <a
                             (click)="deletar(anexo.codTicketAnexo)"
-                            class="absolute z-9999 top-1.5 right-1.5 w-8 h-8 min-h-8"
+                            class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8"
                             mat-icon-button>
                             <mat-icon
                                 class="icon-size-5 text-red-500"

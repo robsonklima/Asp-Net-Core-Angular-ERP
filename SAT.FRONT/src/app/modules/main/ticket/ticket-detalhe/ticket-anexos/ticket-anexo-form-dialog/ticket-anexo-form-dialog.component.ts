@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { TicketAnexoService } from 'app/core/services/ticket-anexo.service';
 import { statusConst } from 'app/core/types/status-types';
 import { TicketAnexo } from 'app/core/types/ticket-anexo.types';
@@ -25,7 +26,8 @@ export class TicketAnexoFormDialogComponent implements OnInit {
     public _dialogRef: MatDialogRef<MessagesComponent>,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
-    private _ticketAnexoService: TicketAnexoService
+    private _ticketAnexoService: TicketAnexoService,
+    private _notificacaoService: NotificacaoService
   ) {
     this.ticket = data?.ticket;
     this.userSession = JSON.parse(this._userService.userSession);
@@ -58,7 +60,27 @@ export class TicketAnexoFormDialogComponent implements OnInit {
         return this._snack.exibirToast('O tamanho máximo para anexos é de 2mb', 'error');
 
       this.salvar();
+      this.enviarNotificacoes();
     });
+  }
+
+  enviarNotificacoes() {
+    let destinatario = '';
+
+    if (this.userSession.usuario.codUsuario == this.ticket.codUsuarioCad)
+      destinatario = this.ticket?.atendimentos[0]?.codUsuarioCad;
+    else 
+      destinatario = this.userSession.usuario.codUsuario;
+
+    if (destinatario)
+      this._notificacaoService.criar({
+        codUsuarioCad: this.userSession.usuario.codUsuario,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        titulo: `Arquivo anexado no ticket #${this.ticket.codTicket}`,
+        descricao: `Arquivo anexado por ${this.userSession.usuario.codUsuario}`,
+        codUsuario: destinatario,
+        indAtivo: statusConst.ATIVO
+      }).toPromise();
   }
 
   convertFile(file: File): Observable<string> {

@@ -41,7 +41,7 @@
 
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="codTicket && userSession.usuario.codPerfil == 3">
             <button class="ml-2" mat-icon-button matTooltip="{{ t('assumir') }}" (click)="assumir()">
-                <mat-icon class="text-indigo-500" [svgIcon]="'heroicons_outline:user-add'"></mat-icon>
+                <mat-icon class="text-indigo-500" [svgIcon]="'heroicons_outline:document-remove'"></mat-icon>
             </button>
 
             <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()">

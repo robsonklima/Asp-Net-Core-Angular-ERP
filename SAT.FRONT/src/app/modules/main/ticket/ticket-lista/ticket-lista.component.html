@@ -51,11 +51,11 @@
 
             <div class="flex-auto overflow-hidden" *ngIf="tickets.length && !isLoading">
                 <div cdkDropList class="cdk-list" (cdkDropListDropped)="dropped($event)">
-                    <div class="cdk-box justify-between" [class.bg-green-50]="ticket.codStatus == 3" *ngFor="let ticket of tickets" cdkDrag
+                    <div class="cdk-box justify-between" [class.bg-green-50]="ticket.codStatus == 3" *ngFor="let ticket of tickets; let i=index" cdkDrag
                         [cdkDragDisabled]="ticket.codStatus == 3" [class.cursor-default]="ticket.codStatus == 3">
                         <div class="cdk-custom-placeholder" *cdkDragPlaceholder></div>
 
-                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1 mr-1">
+                        <div class="flex flex-auto items-center mt-6 sm:mt-0 sm:ml-2 space-x-1 mr-1">
                             <mat-icon class="text-gray-400" [class.text-gray-100]="ticket.codStatus == 3" [svgIcon]="'heroicons_solid:menu'"></mat-icon>
 
                             <div class="pl-2">
@@ -73,6 +73,10 @@
                                 </mat-icon>
                             </button>
 
+                            <div class="pl-3 text-3xl font-semibold text-secondary" [matTooltip]="'Ordem'">
+                                {{ i+1 }}&#176;
+                            </div>
+
                             <div class="pl-4">
                                 {{ ticket.usuarioCad.nomeUsuario }}
                             </div>
@@ -85,19 +89,19 @@
 
                             <div class="px-2 hidden sm:block">&bull;</div>
 
-                            <div class="font-semibold" [matTooltip]="'Prioridade'">
+                            <div class="font-semibold text-secondary" [matTooltip]="'Prioridade'">
                                 {{ ticket.ticketPrioridade.descricao }}
                             </div>
 
                             <div class="px-2 hidden sm:block">&bull;</div>
 
-                            <div class="font-semibold" [matTooltip]="'Módulo'">
+                            <div class="font-semibold text-secondary" [matTooltip]="'Módulo'">
                                 {{ ticket.ticketModulo.descricao }}
                             </div>
 
                             <div class="px-2 hidden sm:block">&bull;</div>
 
-                            <div class="font-semibold" [matTooltip]="'Status'">
+                            <div class="font-semibold text-secondary" [matTooltip]="'Status'">
                                 {{ ticket.ticketStatus.descricao }}
                             </div>
                         </div>

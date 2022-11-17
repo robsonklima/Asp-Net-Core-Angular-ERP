@@ -29,5 +29,8 @@ namespace SAT.MODELS.Entities
         public int? IndAtivo { get; set; }
         public List<LaudoSituacao> LaudosSituacao { get; set; }
         public LaudoStatus LaudoStatus { get; set; }
+        public OrdemServico Or { get; set; }
+        public Tecnico Tecnico { get; set; }
+        public RelatorioAtendimento Rat { get; set;}
     }
 }

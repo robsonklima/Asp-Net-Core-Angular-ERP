@@ -61,7 +61,8 @@ namespace SAT.INFRA.Repository
 
         public TicketAnexo Deletar(int cod)
         {
-            TicketAnexo anexo = _context.TicketAnexo.FirstOrDefault(t => t.CodTicketAnexo == cod);
+            TicketAnexo anexo = _context.TicketAnexo
+                .FirstOrDefault(t => t.CodTicketAnexo == cod);
 
             if (anexo != null)
             {

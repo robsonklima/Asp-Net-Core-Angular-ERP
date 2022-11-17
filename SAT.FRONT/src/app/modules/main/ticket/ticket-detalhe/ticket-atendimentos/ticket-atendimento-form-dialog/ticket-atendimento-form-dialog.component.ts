@@ -27,11 +27,11 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
   userSession: UserSession;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) protected data: any,
     private _ticketStatusService: TicketStatusService,
     private _ticketAtendimentoService: TicketAtendimentoService,
     private _notificacaoService: NotificacaoService,
     private _ticketService: TicketService,
-    @Inject(MAT_DIALOG_DATA) protected data: any,
     protected dialogRef: MatDialogRef<TicketAtendimentosComponent>,
     private _snack: CustomSnackbarService,
     private _formBuilder: FormBuilder,
@@ -86,7 +86,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
 
 		this._ticketAtendimentoService.atualizar(obj).subscribe((t) => {
 			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
-			this.dialogRef.close(t);
+			this.dialogRef.close(true);
 		});
   }
 
@@ -95,7 +95,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
     this.ticketAtendimento = await this.criarAtendimento();
     await this.enviarNotificacaoAoUsuario();
     this._snack.exibirToast('Atendimento criado com sucesso', 'success');
-    this.dialogRef.close(this.ticketAtendimento);
+    this.dialogRef.close(true);
   }
 
   private async criarAtendimento(): Promise<TicketAtendimento> {

@@ -51,8 +51,6 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       .subscribe(data => {
         this.form.patchValue(data);
         this.auditoria = data;
-        console.log(this.auditoria);
-
       });
   }
 

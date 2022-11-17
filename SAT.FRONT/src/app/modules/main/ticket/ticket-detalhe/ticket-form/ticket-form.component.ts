@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { TicketAtendimentoService } from 'app/core/services/ticket-atendimento.service';
 import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
@@ -18,10 +18,10 @@ import { Subject } from 'rxjs';
 @Component({
 	selector: 'app-ticket-form',
 	templateUrl: './ticket-form.component.html'
-
 })
-export class TicketFormComponent implements OnInit, OnDestroy {
+export class TicketFormComponent implements OnInit, OnDestroy, OnChanges {
 	@Input() ticket: Ticket;
+	@Output() ticketEvent = new EventEmitter<Ticket>();
 	isAddMode: boolean;
 	isLoading: boolean = true;
 	form: FormGroup;
@@ -54,6 +54,11 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		this.isAddMode = !this.ticket;
 		this.inicializarForm();
 		this.obterDados();
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		this.ticket = changes.ticket.currentValue;
+		if (this.ticket && this.form) this.form.patchValue(this.ticket);
 	}
 
 	private inicializarForm() {
@@ -113,6 +118,8 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		};
 
 		this._ticketService.criar(obj).subscribe(async (t) => {
+			this.ticketEvent.emit(t);
+
 			const primeiroAtendimento: TicketAtendimento = {
 				codStatus: +ticketStatusConst.AGUARDANDO,
 				codUsuarioCad: this.userSession.usuario.codUsuario,
@@ -123,7 +130,6 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 
 			await this._ticketAtendimentoService.criar(primeiroAtendimento).subscribe(() => {
 				this._snack.exibirToast(`Ticket ${t?.codTicket} inserido com sucesso!`, "success");
-
 				this._router.navigate(['ticket/detalhe/' + t.codTicket]);
 			});
 		});
@@ -140,6 +146,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 		};
 
 		this._ticketService.atualizar(obj).subscribe((t) => {
+			this.ticketEvent.emit(t);
 			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
 		});
 	}

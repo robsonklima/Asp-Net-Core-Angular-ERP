@@ -54,9 +54,7 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 		this.form = this._formBuilder.group({
 			codModulo: [undefined],
 			codStatus: [undefined],
-			codPrioridade: [undefined],
 			codClassificacao: [undefined],
-
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

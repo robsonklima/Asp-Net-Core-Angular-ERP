@@ -40,8 +40,13 @@
         </div>
 
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="codTicket && userSession.usuario.codPerfil == 3">
-            <button class="ml-2" mat-icon-button matTooltip="{{ t('assumir') }}" (click)="assumir()">
-                <mat-icon class="text-indigo-500" [svgIcon]="'heroicons_outline:document-remove'"></mat-icon>
+            <button class="ml-2" mat-icon-button
+                [matTooltip]="!ticket?.codUsuarioAtendente ? 'Iniciar Atendimento' : 'Desvincular'"
+                (click)="vincularDesvincular()">
+                <mat-icon 
+                    [class.text-green-500]="!ticket?.codUsuarioAtendente"
+                    [class.text-orange-500]="ticket?.codUsuarioAtendente"
+                    [svgIcon]="!ticket?.codUsuarioAtendente ? 'mat_solid:work' : 'mat_solid:work_off'"></mat-icon>
             </button>
 
             <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()">
@@ -52,9 +57,9 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
-            <app-ticket-form *ngIf="!isLoading" [ticket]="ticket"></app-ticket-form>
+            <app-ticket-form *ngIf="!isLoading" [ticket]="ticket" (ticketEvent)="ngOnInit()"></app-ticket-form>
 
-            <app-ticket-atendimentos *ngIf="ticket" [ticket]="ticket"></app-ticket-atendimentos>
+            <app-ticket-atendimentos *ngIf="ticket" [ticket]="ticket" (ticketEvent)="ngOnInit()"></app-ticket-atendimentos>
 
             <app-ticket-anexos *ngIf="ticket" [ticket]="ticket"></app-ticket-anexos>
         </div>

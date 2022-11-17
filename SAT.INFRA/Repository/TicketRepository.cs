@@ -26,6 +26,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.TicketClassificacao)
                 .Include(t => t.Atendimentos)
                 .Include(t => t.TicketStatus)
+                .Include(t => t.UsuarioAtendente)
                 .Include(t => t.UsuarioCad.Filial)
                 .Include(t => t.Anexos)
                 .AsQueryable();
@@ -88,6 +89,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))
                     .ThenInclude(a => a.TicketStatus)
                 .Include(t => t.Anexos)
+                .Include(t => t.UsuarioAtendente)
                 .FirstOrDefault(t => t.CodTicket == codTicket);
         }
 
@@ -116,6 +118,7 @@ namespace SAT.INFRA.Repository
         {
             Ticket t = _context.Ticket
                 .Include(t => t.Atendimentos)
+                .Include(t => t.Anexos)
                 .FirstOrDefault(t => t.CodTicket == codigo);
 
             if (t != null)

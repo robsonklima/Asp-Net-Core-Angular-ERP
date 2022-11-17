@@ -14,7 +14,7 @@
     <ng-container>
         <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-4 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field class="fuse-mat-dense sm:col-span-2">
                     <mat-label>{{ t('modulo') }}</mat-label>
                     <mat-select formControlName="codModulo" multiple="true">
                         <mat-option *ngFor="let modulo of modulos" [value]="modulo.codModulo">
@@ -23,7 +23,7 @@
                     </mat-select>
                 </mat-form-field>
                 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field class="fuse-mat-dense sm:col-span-2">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="codStatus" multiple="true">
                         <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
@@ -32,16 +32,7 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('prioridade') }}</mat-label>
-                    <mat-select formControlName="codPrioridade" multiple="true">
-                        <mat-option *ngFor="let prioridade of prioridades" [value]="prioridade.codPrioridade">
-                            {{ prioridade.descricao }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-form-field class="fuse-mat-dense sm:col-span-2">
                     <mat-label>{{ t('classificacao') }}</mat-label>
                     <mat-select formControlName="codClassificacao" multiple="true">
                         <mat-option *ngFor="let classificacao of classificacoes" [value]="classificacao.codClassificacao">

@@ -2,6 +2,9 @@
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Helpers;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
@@ -16,9 +19,92 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public Laudo ObterPorCodigo(int codigo) =>
-            _context.Laudo
-            .Include(l => l.LaudosSituacao)
-            .SingleOrDefault(a => a.CodLaudo == codigo);
+        public void Atualizar(Laudo laudo)
+        {
+            _context.ChangeTracker.Clear();
+            Laudo l = _context.Laudo
+                .FirstOrDefault(l => l.CodLaudo == laudo.CodLaudo);
+            try
+            {
+                if (l != null)
+                {
+                    _context.Entry(l).CurrentValues.SetValues(laudo);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public Laudo ObterPorCodigo(int codigo)
+        {
+            try
+            {
+                return _context.Laudo
+                .Include(l => l.LaudosSituacao)
+                .Include(l => l.Or)
+                .Include(l => l.Rat)
+                .Include(l => l.Tecnico)
+                .SingleOrDefault(a => a.CodLaudo == codigo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao consultar a auditoria {ex.Message}");
+            }
+        }
+
+        public PagedList<Laudo> ObterPorParametros(LaudoParameters parameters)
+        {
+            var laudos = _context.Laudo
+                .Include(l => l.LaudosSituacao)
+                .Include(l => l.Or)
+                .Include(l => l.Rat)
+                .Include(l => l.Tecnico)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                laudos = laudos.Where(a =>
+                    a.CodLaudo.ToString().Contains(parameters.Filter) ||
+                    a.Tecnico.Nome.Contains(parameters.Filter));
+            }
+
+            if (parameters.CodOS.HasValue)
+                laudos = laudos.Where(l => l.Or.CodOS == parameters.CodOS.Value);
+
+            if (parameters.CodTecnico.HasValue)
+                laudos = laudos.Where(l => l.Tecnico.CodTecnico == parameters.CodTecnico.Value);
+
+            if (parameters.CodRAT.HasValue)
+                laudos = laudos.Where(l => l.Rat.CodRAT == parameters.CodRAT.Value);
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                laudos = laudos.Where(l => cods.Contains(l.Or.CodCliente));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodEquips))
+            {
+                var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
+                laudos = laudos.Where(l => modelos.Any(p => p == l.Or.Equipamento.CodEquip.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var usuarios = parameters.CodTecnicos.Split(',').Select(e => e.Trim());
+                laudos = laudos.Where(l => usuarios.Any(p => p == l.Tecnico.CodTecnico.ToString()));
+            }
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                laudos = laudos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+
+            return PagedList<Laudo>.ToPagedList(laudos, parameters.PageNumber, parameters.PageSize);
+        }
+
     }
 }

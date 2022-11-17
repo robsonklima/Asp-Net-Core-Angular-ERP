@@ -28,7 +28,7 @@
                         </a>
 
                         <a class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
-                            [href]="['https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + anexo.nome]" target="_blank">
+                            (click)="download(anexo)">
                             <div class="aspect-w-9 aspect-h-6">
                                 <div class="flex items-center justify-center">
                                     <div class="relative">
@@ -36,20 +36,24 @@
                                         </mat-icon>
 
                                         <div class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white"
-                                            [class.bg-red-600]="obterTipo(anexo.nome) === 'PDF'"
-                                            [class.bg-blue-600]="obterTipo(anexo.nome) === 'DOC'"
-                                            [class.bg-green-600]="obterTipo(anexo.nome) === 'XLS'"
-                                            [class.bg-green-600]="obterTipo(anexo.nome) === 'XLSX'"
-                                            [class.bg-gray-600]="obterTipo(anexo.nome) === 'TXT'"
-                                            [class.bg-amber-600]="obterTipo(anexo.nome) === 'JPG'">
-                                            {{ obterTipo(anexo.nome) }}
+                                            [class.bg-red-600]="anexo.tipo === 'pdf'"
+                                            [class.bg-blue-600]="anexo.tipo === 'doc'"
+                                            [class.bg-green-600]="anexo.tipo === 'xls'"
+                                            [class.bg-green-600]="anexo.tipo === 'xlsx'"
+                                            [class.bg-gray-600]="anexo.tipo === 'txt'"
+                                            [class.bg-amber-600]="anexo.tipo === 'jpg'"
+                                            [class.bg-amber-600]="anexo.tipo === 'png'">
+                                            {{ anexo.tipo }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
-                                <div class="truncate" [matTooltip]="anexo.nome">{{ anexo.nome }}</div>
+                                <div class="truncate" [matTooltip]="anexo.nome">
+                                    {{ (anexo.tamanho / 1000 / 1000).toFixed(2) }} mb
+                                </div>
+
                                 <ng-container>
                                     <div class="text-secondary truncate">{{ anexo.usuarioCad.nomeUsuario }}</div>
                                 </ng-container>

@@ -46,45 +46,11 @@ namespace SAT.SERVICES.Services
 
         public TicketAnexo Criar(TicketAnexo anexo)
         {
-            if (!string.IsNullOrWhiteSpace(anexo.Base64))
-            {
-                string target = Directory.GetCurrentDirectory() + "/Upload";
-
-                if (!Directory.Exists(target))
-                {
-                    Directory.CreateDirectory(target);
-                }
-
-                var extension = FilesHelper.CheckExtension(anexo.Base64.Substring(0, 5));
-                string fileName = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss_fff") + "." + extension;
-                string imgPath = Path.Combine(target, fileName);
-                string existsFile = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == fileName.Split('.')[0]);
-                if (!string.IsNullOrWhiteSpace(existsFile))
-                {
-                    File.Delete(existsFile);
-                }
-
-                anexo.Nome = fileName;
-
-                byte[] imageBytes = Convert.FromBase64String(anexo.Base64);
-                File.WriteAllBytes(imgPath, imageBytes);
-            }
-
             return _ticketAnexoRepo.Criar(anexo);
         }
 
         public TicketAnexo Deletar(int codigo)
         {
-            var anexo = _ticketAnexoRepo.ObterPorCodigo(codigo);
-            string target = Directory.GetCurrentDirectory() + "/Upload";
-
-            string existsFile = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == anexo.Nome.Split('.')[0]);
-            
-            if (!string.IsNullOrWhiteSpace(existsFile))
-            {
-                File.Delete(existsFile);
-            }
-
             return _ticketAnexoRepo.Deletar(codigo);
         }
 

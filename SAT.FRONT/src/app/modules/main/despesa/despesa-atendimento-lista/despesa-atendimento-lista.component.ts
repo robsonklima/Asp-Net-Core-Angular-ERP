@@ -218,7 +218,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				
 				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
 					.subscribe(() => {}, (e) => {
-						console.log(e);					
 						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
 					});
 
@@ -236,7 +235,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 				
 				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
 					.subscribe(() => {}, (e) => {
-						console.log(e);
 						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
 					});
 			}

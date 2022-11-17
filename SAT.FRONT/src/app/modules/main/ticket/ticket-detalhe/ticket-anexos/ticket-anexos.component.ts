@@ -58,4 +58,12 @@ export class TicketAnexosComponent implements OnInit {
         this._snack.exibirToast('Anexo removido com sucesso', 'success');
 		});
   }
+
+  download(anexo: TicketAnexo) {
+		const downloadLink = document.createElement('a');
+		const fileName = anexo.nome;
+		downloadLink.href = 'data:application/octet-stream;base64,' + anexo.base64;
+		downloadLink.download = fileName;
+		downloadLink.click();
+	}
 }

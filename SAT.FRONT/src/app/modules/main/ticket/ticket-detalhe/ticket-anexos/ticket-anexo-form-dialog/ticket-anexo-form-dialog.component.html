@@ -11,18 +11,13 @@
         </button>
     </div>
 
-    <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
-        [formGroup]="form">
+    <div
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
 
-        <mat-form-field>
-            <input type="file" (change)="onFileSelected($event)" />
-
+        <div>
             <mat-label>Arquivo</mat-label>
-            <input matInput formControlName="base64">
-            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:file'"></mat-icon>
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
+            <input type="file" (change)="onFileSelected($event)" />
+        </div>
 
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
             <div class="-ml-2">
@@ -38,5 +33,5 @@
                 </button>
             </div>
         </div>
-    </form>
+    </div>
 </div>

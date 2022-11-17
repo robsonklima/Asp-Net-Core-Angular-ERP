@@ -6,8 +6,7 @@
         </p>
     </div>
 
-    <fieldset [disabled]="isLoading || ticket"
-        class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow overflow-hidden">
+    <fieldset class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow overflow-hidden">
         <mat-form-field class="fuse-mat-dense sm:col-span-3">
             <mat-label>{{ t('status') }}</mat-label>
 
@@ -69,8 +68,7 @@
         </mat-form-field>
     </fieldset>
 
-    <div *ngIf="!ticket"
-        class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+    <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
         <button (click)="_location.back()" mat-button>
             {{ t('cancelar') }}
         </button>

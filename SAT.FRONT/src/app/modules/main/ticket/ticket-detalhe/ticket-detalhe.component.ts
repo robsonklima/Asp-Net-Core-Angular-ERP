@@ -69,6 +69,6 @@ export class TicketDetalheComponent implements OnInit {
 	}
 
 	async assumir() {
-
+		
 	}
 }

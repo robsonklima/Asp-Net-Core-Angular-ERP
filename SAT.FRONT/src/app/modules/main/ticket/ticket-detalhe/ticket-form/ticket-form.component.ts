@@ -141,7 +141,6 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 
 		this._ticketService.atualizar(obj).subscribe((t) => {
 			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
-			this.ngOnInit();
 		});
 	}
 

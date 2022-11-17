@@ -158,6 +158,7 @@ export interface Instalacao {
     instalacoesRessalva?: InstalacaoRessalva[];
     ordemServico?: OrdemServico;
     instalacaoStatus?: InstalacaoStatus;
+    selecionado: boolean;
 }
 
 export interface InstalacaoData extends Meta {

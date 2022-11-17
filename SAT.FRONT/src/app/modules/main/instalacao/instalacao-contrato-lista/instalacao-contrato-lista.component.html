@@ -51,7 +51,8 @@
                                         {{ data.nroContrato | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/' + data.codContrato ]">
+                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500"
+                                            [routerLink]="[ '/instalacao/' + data.codContrato ]">
                                             {{ data.nomeContrato | titlecase }}
                                         </a>
 
@@ -66,11 +67,14 @@
                                         {{ data.tipoContrato.nomeTipoContrato | titlecase }}
                                     </div>
                                     <div class="truncate">
-                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/lote/', data.codContrato ]">
-                                            {{ data.lotes.length > 1 ? data.lotes.length + ' Lotes' : data.lotes.length + ' Lote' }}
+                                        <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500"
+                                            [routerLink]="[ '/instalacao/lote/', data.codContrato ]">
+                                            {{ data.lotes.length > 1 ? data.lotes.length + ' Lotes' : data.lotes.length
+                                            + ' Lote' }}
                                         </a>
 
-                                        <a *ngIf="!data.lotes.length" class="whitespace-nowrap text-primary-500" [routerLink]="[ '/instalacao/lote-form/' + data.codContrato ]">
+                                        <a *ngIf="!data.lotes.length" class="whitespace-nowrap text-primary-500"
+                                            [routerLink]="[ '/instalacao/lote-form/' + data.codContrato ]">
                                             Novo Lote
                                         </a>
                                     </div>

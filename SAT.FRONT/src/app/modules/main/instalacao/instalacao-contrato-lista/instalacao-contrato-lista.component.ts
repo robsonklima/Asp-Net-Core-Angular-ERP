@@ -1,4 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
@@ -8,7 +10,8 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-
+import _ from 'lodash';
+import { InstalacaoListaComponent } from '../instalacao-lista/instalacao-lista.component';
 @Component({
   selector: 'app-instalacao-contrato-lista',
   templateUrl: 'instalacao-contrato-lista.component.html',
@@ -32,6 +35,7 @@ export class InstalacaoContratoListaComponent implements AfterViewInit {
   userSession: UserSession;
 
   constructor(
+    private _dialog: MatDialog,
     private _cdr: ChangeDetectorRef,
     private _contratoSvc: ContratoService,
     private _userSvc: UserService
@@ -69,7 +73,7 @@ export class InstalacaoContratoListaComponent implements AfterViewInit {
 
   async obterContratos() {
     this.isLoading = true;
-    
+
     const params: ContratoParameters = {
       pageSize: this.paginator?.pageSize,
       filter: this.searchInputControl.nativeElement.val,
@@ -83,6 +87,7 @@ export class InstalacaoContratoListaComponent implements AfterViewInit {
       .toPromise();
 
     this.dataSourceData = data;
+
     this.isLoading = false;
     this._cdr.detectChanges();
   }

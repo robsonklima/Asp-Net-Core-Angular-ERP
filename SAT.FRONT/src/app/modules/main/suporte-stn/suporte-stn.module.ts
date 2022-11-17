@@ -42,6 +42,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { OrdemServicoStnFormComponent } from './ordem-servico-stn-form/ordem-servico-stn-form.component';
 import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico/ordem-servico-stn-historico.component';
+import { SuporteStnLaudoFormComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form.component';
+import { SuporteStnLaudoListaComponent } from './suporte-stn-laudo/suporte-stn-laudo-lista/suporte-stn-laudo-lista.component';
+import { SuporteStnLaudoFiltroComponent } from './suporte-stn-laudo/suporte-stn-laudo-filtro/suporte-stn-laudo-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -54,7 +57,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     OrdemServicoSTNListaComponent,
     OrdemServicoSTNFiltroComponent,
     OrdemServicoStnFormComponent,
-    OrdemServicoStnHistoricoComponent
+    OrdemServicoStnHistoricoComponent,
+    SuporteStnLaudoFormComponent,
+    SuporteStnLaudoListaComponent,
+    SuporteStnLaudoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -95,7 +101,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatTooltipModule,
     FiltroModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
   ]
 })
 export class SuporteSTNModule { }

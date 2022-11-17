@@ -23,7 +23,6 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   form: FormGroup;
   userSession: UsuarioSessao;
   qtdLitros: number;
-  cor: boolean;
   tanques: AuditoriaVeiculoTanque[] = [];
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   configuracaoCombustivel: DespesaConfiguracaoCombustivel;
@@ -44,16 +43,16 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     this.obterAuditoria();
     this.inicializarForm();
     this.registrarEmitters();
-  
   }
 
-  obterAuditoria(){
+  obterAuditoria() {
     this._auditoriaService.obterPorCodigo(this.codAuditoria)
       .pipe(first())
       .subscribe(data => {
         this.form.patchValue(data);
         this.auditoria = data;
-        this.validarCor(this.auditoria);
+        console.log(this.auditoria);
+
       });
   }
 
@@ -84,32 +83,33 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     });
   }
 
-  private registrarEmitters() {}
+  private registrarEmitters() { }
 
-  private validarCor(auditoria){
-    if(auditoria?.usuario?.Tecnico?.codFrotaFinalidadeUso === 1)
-    {
-      if((auditoria.usoParticular < 1)&&( auditoria.kmParticular < 1))
-      {
-        this.cor = false;
+  validarCorKMParticular(auditoria) {
+    if (auditoria?.usuario?.Tecnico?.codFrotaFinalidadeUso == 1) {
+      if (auditoria.kmParticularMes > 0) {
+        return false;
+      } else {
+        return true;
       }
-      else
-      {
-        this.cor = true;
+    } else {
+      if (auditoria.kmParticularMes > 800) {
+        return false;
       }
-    }
-    else
-    {
-      if((auditoria.kmParticularMes < 801)&&(auditoria.usoParticular < 1))
-      {
-        this.cor = false;
-      }
-      else{
-        this.cor = true;
+      else {
+        return true;
       }
     }
   }
-  
+
+  validarcorUsoParticular(auditoria) {
+    if (auditoria.usoParticular > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 
   ngOnDestroy() {
     this._onDestroy.next();

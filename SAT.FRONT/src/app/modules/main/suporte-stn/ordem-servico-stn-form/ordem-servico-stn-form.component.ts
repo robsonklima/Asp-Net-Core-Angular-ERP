@@ -22,6 +22,7 @@ import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { debounce } from 'lodash';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
+import { statusConst } from 'app/core/types/status-types';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -164,7 +165,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
             CodStatusSTN: 2,
             CodTecnico: 'SEM TRANSFERENCIA',
             CodUsuarioCad: this.userSession.usuario.codUsuario,
-            IndAtivo: 1,
+            IndAtivo: statusConst.ATIVO,
             NumReincidenciaAoAssumir: 0,
             NumTratativas: 0,
           }

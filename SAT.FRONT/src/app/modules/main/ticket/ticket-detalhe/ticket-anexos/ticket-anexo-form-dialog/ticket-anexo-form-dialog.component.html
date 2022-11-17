@@ -16,6 +16,8 @@
         [formGroup]="form">
 
         <mat-form-field>
+            <input type="file" (change)="onFileSelected($event)" />
+
             <mat-label>Arquivo</mat-label>
             <input matInput formControlName="base64">
             <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:file'"></mat-icon>
@@ -33,14 +35,6 @@
                     class="sm:mx-3"
                     mat-button>
                     <span>Cancelar</span>
-                </button>
-                
-                <button
-                    class="order-first sm:order-last"
-                    mat-flat-button
-                    (click)="salvar()"
-                    [color]="'primary'">
-                    Salvar
                 </button>
             </div>
         </div>

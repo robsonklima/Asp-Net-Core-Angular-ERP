@@ -4,7 +4,7 @@ import { Usuario } from "./usuario.types";
 export interface TicketAnexo {
     codTicketAnexo: number;
     codTicket: number;
-    url: string;
+    nome: string;
     indAtivo: number;
     codUsuarioCad: string;
     usuarioCad: Usuario;

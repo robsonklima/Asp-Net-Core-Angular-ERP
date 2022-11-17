@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ItemSolucaoService } from 'app/core/services/item-solucao.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORSolucaoService } from 'app/core/services/or-solucao.service';
@@ -30,7 +31,8 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements AfterViewI
     private _userService: UserService,
     private _orSolucaoService: ORSolucaoService,
     private _itemSolucaoService: ItemSolucaoService,
-    private _orItemService: ORItemService
+    private _orItemService: ORItemService,
+    private _snack: CustomSnackbarService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -70,6 +72,7 @@ export class LaboratorioProcessoReparoFormSolucaoComponent implements AfterViewI
       , distinctUntilChanged()).subscribe((text: string) => {
         this.orItem.relatoSolucao = text;
         this._orItemService.atualizar(this.orItem).subscribe();
+        this._snack.exibirToast('Descrição da solução atualizada', 'success');
       });
   }
 

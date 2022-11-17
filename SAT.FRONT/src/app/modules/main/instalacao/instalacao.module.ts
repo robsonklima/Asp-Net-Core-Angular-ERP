@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { instalacaoRoutes } from './instalacao.routing';
@@ -23,6 +24,7 @@ import { InstalacaoLoteListaComponent } from './instalacao-lote-lista/instalacao
 import { InstalacaoLoteFormComponent } from './instalacao-lote-form/instalacao-lote-form.component';
 import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     InstalacaoLoteListaComponent,
     InstalacaoLoteFormComponent,
     InstalacaoListaComponent,
+    InstalacaoListaMaisOpcoesComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +53,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatOptionModule,
     NgxMatSelectSearchModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule
   ]
 })
 export class InstalacaoModule { }

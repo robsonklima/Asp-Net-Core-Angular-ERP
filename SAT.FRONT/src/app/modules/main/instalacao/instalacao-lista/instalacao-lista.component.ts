@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
@@ -21,6 +22,7 @@ import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 
 @Component({
   selector: 'app-instalacao-lista',
@@ -64,7 +66,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
     private _contratoSvc: ContratoService,
     private _instalacaoLoteSvc: InstalacaoLoteService,
     private _snack: CustomSnackbarService,
-    private _userSvc: UserService
+    private _userSvc: UserService,
+    private _dialog: MatDialog
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -187,14 +190,14 @@ export class InstalacaoListaComponent implements AfterViewInit {
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
       sortDirection: this.sort.direction || 'desc',
-    };
-
+    };  
+    
     const data: InstalacaoData = await this._instalacaoSvc
       .obterPorParametros(params)
       .toPromise();
 
     this.isLoading = false;
-    this.dataSourceData = data;
+    this.dataSourceData = data;    
   }
 
   private async obterTransportadoras(filter: string = '') {
@@ -233,15 +236,16 @@ export class InstalacaoListaComponent implements AfterViewInit {
   }
 
   alternarDetalhe(codInstalacao: number): void {
-    if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {
+    if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {    
       this.fecharDetalhe();
       return;
     }
 
-    this.isLoading = true;
+    //this.isLoading = true;
 
     this._instalacaoSvc.obterPorCodigo(codInstalacao)
       .subscribe((instalacao) => {
+        
         this.instalacaoSelecionada = instalacao;
         this.form.patchValue(instalacao);
         this.form.controls['nomeFilial'].setValue(instalacao.filial?.nomeFilial);
@@ -399,7 +403,9 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
         this.form.controls['qtdParaboldBI'].setValue(instalacao?.qtdParaboldBi);
 
-        this.isLoading = false;
+        console.log(this.form);        
+
+        //this.isLoading = false;
         this._cdr.markForCheck();
 
       }, () => {
@@ -433,6 +439,28 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this.obterInstalacoes();
   }
+
+	verificarExistemItensSelecionados() {
+		return this.dataSourceData?.items?.filter(i => i.selecionado)?.length;
+	}
+
+	abrirMaisOpcoes() {
+		const itens = this.dataSourceData.items.filter(i => i.selecionado);
+  
+		const dialogRef = this._dialog.open(InstalacaoListaMaisOpcoesComponent, {
+			data: {
+				itens: itens
+			},
+		});
+
+		dialogRef.afterClosed().subscribe(confirmacao => {
+			if(confirmacao) this.obterInstalacoes();
+		});
+	}  
+
+	toggleSelecionarTodos(e: any) {
+		this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+	} 
 
   ngOnDestroy() {
     this._onDestroy.next();

@@ -133,7 +133,7 @@ namespace SAT.MODELS.Entities{
         public Cliente Cliente { get; set; }
         public Filial Filial { get; set; }
         public Equipamento Equipamento { get; set; }
-        // public EquipamentoContrato EquipamentoContrato { get; set; }
+        public EquipamentoContrato EquipamentoContrato { get; set; }
         public InstalacaoLote InstalacaoLote { get; set; }
         public Contrato Contrato { get; set; }
         public LocalAtendimento LocalAtendimentoIns { get; set; }        

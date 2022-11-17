@@ -44,8 +44,16 @@ namespace SAT.INFRA.Repository
             {
                 return _context.Laudo
                 .Include(l => l.LaudosSituacao)
+                .Include(l => l.LaudoStatus)
                 .Include(l => l.Or)
-                .Include(l => l.Rat)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.Cliente)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.Equipamento)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.TipoIntervencao)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.LocalAtendimento)
                 .Include(l => l.Tecnico)
                 .SingleOrDefault(a => a.CodLaudo == codigo);
             }
@@ -59,8 +67,16 @@ namespace SAT.INFRA.Repository
         {
             var laudos = _context.Laudo
                 .Include(l => l.LaudosSituacao)
+                .Include(l => l.LaudoStatus)
                 .Include(l => l.Or)
-                .Include(l => l.Rat)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.Cliente)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.Equipamento)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.TipoIntervencao)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.LocalAtendimento)
                 .Include(l => l.Tecnico)
                 .AsQueryable();
 
@@ -77,13 +93,10 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTecnico.HasValue)
                 laudos = laudos.Where(l => l.Tecnico.CodTecnico == parameters.CodTecnico.Value);
 
-            if (parameters.CodRAT.HasValue)
-                laudos = laudos.Where(l => l.Rat.CodRAT == parameters.CodRAT.Value);
-
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
-                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                laudos = laudos.Where(l => cods.Contains(l.Or.CodCliente));
+                var clientes = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                laudos = laudos.Where(l => clientes.Any(p => p == l.Or.Cliente.CodCliente));
             }
 
             if (!string.IsNullOrEmpty(parameters.CodEquips))

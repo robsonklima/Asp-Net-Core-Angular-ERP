@@ -16,7 +16,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './suporte-stn-laudo-lista.component.html',
   styles: [`
   .list-grid-os-stn-lista {
-    grid-template-columns: 72px 96px 64px 98px auto;
+    grid-template-columns: 72px 80px 96px 300px 150px 300px auto 175px 100px;
   }  
 `],
   encapsulation: ViewEncapsulation.None,
@@ -38,6 +38,7 @@ export class SuporteStnLaudoListaComponent implements AfterViewInit {
     private _laudoService: LaudoService,
     private _snack: CustomSnackbarService,
   ) {
+    
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
@@ -85,12 +86,11 @@ export class SuporteStnLaudoListaComponent implements AfterViewInit {
     this.isLoading = true;
 
     const params: LaudoParameters = {
-      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
         sortActive: this.sort?.active || 'codLaudo',
         sortDirection: this.sort?.direction || 'desc',
         pageSize: this.paginator?.pageSize,
         filter: filtro
-      },
     }
 
     this._laudoService.obterPorParametros(params).subscribe((data) => {
@@ -100,7 +100,7 @@ export class SuporteStnLaudoListaComponent implements AfterViewInit {
     }, e => {
       this._snack.exibirToast(`Erro ao consultar registros ${e.message}`, 'error');
     });
-    console.log(this.dataSourceData);
+    
     
   }
 

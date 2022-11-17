@@ -25,6 +25,8 @@ export interface Ticket {
     indAtivo: number;
     atendimentos?: TicketAtendimento[];
     anexos?: TicketAnexo[];
+    codUsuarioAtendente?: string;
+    usuarioAtendente?: Usuario;
 }
 
 export interface TicketAtendimento {

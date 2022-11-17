@@ -47,6 +47,12 @@ namespace SAT.INFRA.Mapping {
                 .HasPrincipalKey(prop => prop.CodUsuario);
 
             builder
+                .HasOne(prop => prop.UsuarioAtendente)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioAtendente)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+
+            builder
                 .HasMany(prop => prop.Atendimentos)
                 .WithOne()
                 .HasForeignKey(prop => prop.CodTicket)

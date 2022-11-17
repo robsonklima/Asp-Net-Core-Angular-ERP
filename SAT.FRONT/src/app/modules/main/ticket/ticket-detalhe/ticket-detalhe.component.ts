@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { TicketAtendimentoService } from 'app/core/services/ticket-atendimento.service';
 import { TicketService } from 'app/core/services/ticket.service';
-import { Ticket } from 'app/core/types/ticket.types';
+import { Ticket, TicketAtendimento, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-ticket-detalhe',
@@ -25,7 +27,8 @@ export class TicketDetalheComponent implements OnInit {
 		private _snack: CustomSnackbarService,
 		private _location: Location,
 		private _route: ActivatedRoute,
-		private _userService: UserService
+		private _userService: UserService,
+		private _ticketAtendimentoService: TicketAtendimentoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -68,7 +71,40 @@ export class TicketDetalheComponent implements OnInit {
 		});
 	}
 
-	async assumir() {
-		
+	async vincularDesvincular() {
+		if (!this.ticket.codUsuarioAtendente || this.ticket.codUsuarioAtendente != this.userSession.usuario.codUsuario) {
+			this.ticket.codUsuarioAtendente = this.userSession.usuario.codUsuario;
+			this.ticket.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+			this.ticket.codStatus = ticketStatusConst.EM_ATENDIMENTO;
+
+			const atendimento: TicketAtendimento = {
+				codStatus: +ticketStatusConst.EM_ATENDIMENTO,
+				descricao: 'Em Atendimento',
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codTicket: this.ticket.codTicket
+			};
+
+			await this._ticketAtendimentoService.criar(atendimento).subscribe();
+		} else {
+			this.ticket.codUsuarioAtendente = null;
+			this.ticket.codStatus = ticketStatusConst.AGUARDANDO;
+
+			const atendimento: TicketAtendimento = {
+				codStatus: +ticketStatusConst.AGUARDANDO,
+				descricao: 'Atendimento Pausado',
+				codUsuarioCad: this.userSession.usuario.codUsuario,
+				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+				codTicket: this.ticket.codTicket
+			};
+
+			await this._ticketAtendimentoService.criar(atendimento).subscribe();
+		}
+
+		await this._ticketService.atualizar(this.ticket).subscribe();
+
+		setTimeout(() => {
+			this.ngOnInit();
+		}, 1000);
 	}
 }

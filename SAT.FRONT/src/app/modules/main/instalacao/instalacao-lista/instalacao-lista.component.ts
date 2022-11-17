@@ -31,7 +31,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 72px auto 64px 240px 240px 72px;
+          grid-template-columns: 72px auto 64px 240px 240px 72px 72px;
       }
     `
   ],

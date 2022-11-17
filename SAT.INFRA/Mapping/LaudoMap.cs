@@ -25,6 +25,24 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<Laudo>("CodLaudoStatus")
                 .HasPrincipalKey<LaudoStatus>("CodLaudoStatus");
+
+            builder
+                .HasOne(prop => prop.Tecnico)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodTecnico)
+                .HasPrincipalKey(prop => prop.CodTecnico);
+
+            builder
+                .HasOne(prop => prop.Or)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodOS)
+                .HasPrincipalKey(prop => prop.CodOS);
+
+            builder
+                .HasOne(prop => prop.Rat)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodRAT)
+                .HasPrincipalKey(prop => prop.CodRAT);
         }
     }
 }

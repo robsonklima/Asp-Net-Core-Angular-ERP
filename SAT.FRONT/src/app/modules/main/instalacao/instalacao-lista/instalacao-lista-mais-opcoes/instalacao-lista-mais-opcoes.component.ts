@@ -4,9 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
+import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { Filial, FilialData, FilialParameters } from 'app/core/types/filial.types';
 import { Instalacao } from 'app/core/types/instalacao.types';
 import { statusConst } from 'app/core/types/status-types';
+import { Transportadora } from 'app/core/types/transportadora.types';
 import { InstalacaoListaComponent } from '../instalacao-lista.component';
 
 @Component({
@@ -16,6 +18,7 @@ import { InstalacaoListaComponent } from '../instalacao-lista.component';
 export class InstalacaoListaMaisOpcoesComponent implements OnInit {
   itens: Instalacao[] = [];
   filiais: Filial[] = [];
+  transportadoras: Transportadora[] = [];
   form: FormGroup;
 
   constructor(
@@ -23,6 +26,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     protected dialogRef: MatDialogRef<InstalacaoListaComponent>,
     private _filialService: FilialService,
     private _instalacaoService: InstalacaoService,
+    private _transportadoraService: TransportadoraService,    
     private _snack: CustomSnackbarService,
     private _formBuilder: FormBuilder
   ) {
@@ -36,7 +40,63 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 
   private criarForm() {
     this.form = this._formBuilder.group({
-      codFilial: [undefined]
+      codFilial: [undefined],
+      nomeLote: [undefined],
+      dataRecLote: [undefined],
+      nroContrato: [undefined],
+      pedidoCompra: [undefined],
+      superE: [undefined],
+      csl:  [undefined],
+      codInstalacao: [''],
+      codTransportadora: [''],
+      nomeFilial: [{ value: '', disabled: true }],
+      csoServ: [''],
+      supridora: [''],
+      mst606TipoNovo: [''],
+      nomeEquip: [{ value: '', disabled: true }],
+      numSerie: [{ value: '', disabled: true }],
+      numSerieCliente: [{ value: '', disabled: true }],
+      prefixosb: [''],
+      nomeLocal: [''],
+      cnpj: [{ value: '', disabled: true }],
+      endereco: [{ value: '', disabled: true }],
+      nomeCidade: [{ value: '', disabled: true }],
+      siglaUF: [{ value: '', disabled: true }],
+      cep: [{ value: '', disabled: true }],
+      dataLimiteEnt: [{ value: '', disabled: true }],
+      dataSugEntrega: [''],
+      dataConfEntrega: [''],
+      nfRemessa: [{ value: '', disabled: true }],
+      dataNFRemessa: [{ value: '', disabled: true }],
+      dataExpedicao: [''],
+      nomeTransportadora: [''],
+      agenciaEnt: [''],
+      nomeLocalEnt: [''],
+      dtbCliente: [''],
+      faturaTranspReEntrega: [''],
+      dtReEntrega: [''],
+      responsavelRecebReEntrega: [''],
+      dataHoraChegTranspBT: [''],
+      ressalvaEnt: [''],
+      nomeRespBancoBT: [''],
+      numMatriculaBT: [''],
+      indBTOrigEnt: [{ value: '', disabled: true }],
+      indBTOK: [{ value: '', disabled: true }],
+      nfRemessaConferida: [''],
+      dataLimiteIns: [''],
+      dataSugInstalacao: [''],
+      dataConfInstalacao: [''],
+      os: [{ value: '', disabled: true }],
+      dataHoraOS: [''],
+      instalStatus: [{ value: '', disabled: true }],
+      numRAT: [''],
+      agenciaIns: [''],
+      nomeLocalIns: [{ value: '', disabled: true }],
+      dataBI: [''],
+      qtdParaboldBI: [''],
+      ressalvaIns: [''],
+      indEquipRebaixadoBI: [''],
+      ressalvaInsR: [{ value: '', disabled: true }]
     });
   }
 
@@ -51,6 +111,17 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 			.obterPorParametros(params)
 			.toPromise();
 	}  
+
+  private async obterTransportadoras(filter: string = '') {
+    const data = await this._transportadoraService.obterPorParametros({
+      indAtivo: statusConst.ATIVO,
+      sortActive: 'NomeTransportadora',
+      sortDirection: 'asc',
+      filter: filter
+    }).toPromise();
+
+    this.transportadoras = data.items;
+  }
 
   async salvar() {
     const form = this.form.getRawValue();

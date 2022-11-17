@@ -8,7 +8,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -101,7 +101,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatTooltipModule,
     FiltroModule,
-    NgxMatSelectSearchModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class SuporteSTNModule { }

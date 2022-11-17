@@ -1,50 +1,355 @@
-<div class="flex flex-col max-w-240 md:min-w-160 -m-6">
+<div class="flex flex-col max-w-360 md:min-w-160 -m-6">
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
         <div class="text-lg font-medium">Mais Opções</div>
-        <button
-            mat-icon-button
-            mat-dialog-close
-            [tabIndex]="-1">
-            <mat-icon
-                class="text-current"
-                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        <button mat-icon-button mat-dialog-close [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
         </button>
     </div>
 
-    <form
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
-        [formGroup]="form">
+    <form class="flex flex-col flex-auto overflow-y-auto" *transloco="let t" [formGroup]="form">
+        <div class="overflow-hidden">
+            <div class="flex">
+                <form class="flex flex-col w-full" [formGroup]="form" *transloco="let t">
+                    <div class="flex flex-col sm:flex-row p-8">
+                        <div class="flex flex-auto flex-wrap">
+                            <div class="flex flex-col w-full">
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('transportadora') }}</mat-label>
 
-        <mat-form-field>
-            <mat-label>Filial</mat-label>
+                                        <mat-select formControlName="codTransportadora">
+                                            <mat-option>
+                                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                                    noEntriesFoundLabel="'nenhum registro encontrado'">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
 
-            <mat-select formControlName="codFilial">
-                <mat-option class="uppercase"
-                    *ngFor="let filial of filiais"
-                    [value]="filial.codFilial">
-                    <span>{{ filial.nomeFilial }}</span>
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+                                            <mat-option *ngFor="let transportadora of transportadoras"
+                                                [value]="transportadora.codTransportadora">
+                                                <span>{{ transportadora.nomeTransportadora }}</span>
+                                            </mat-option>
+                                        </mat-select>
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+                                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                                    </mat-form-field>
+                                    
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('filial') }}</mat-label>
+                            
+                                        <mat-select formControlName="codFilial">
+                                            <mat-option class="uppercase" *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                                <span>{{ filial.nomeFilial }}</span>
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('lote') }}</mat-label>
+                                        <input matInput formControlName="nomeLote">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('data remessa') }}</mat-label>
+                                        <input matInput formControlName="dataRecLote">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('numero contrato') }}</mat-label>
+                                        <input matInput formControlName="nroContrato">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('pedido compra') }}</mat-label>
+                                        <input matInput formControlName="pedidoCompra">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('super e') }}</mat-label>
+                                        <input matInput formControlName="superE">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('cma') }}</mat-label>
+                                        <input matInput formControlName="csl">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('lote') }}</mat-label>
+                                        <input matInput formControlName="csoServ">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('terceirizado') }}</mat-label>
+                                        <input matInput formControlName="supridora">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('tipo dep') }}</mat-label>
+                                        <input matInput formControlName="mst606TipoNovo">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('tipo novo') }}</mat-label>
+                                        <input matInput formControlName="nomeEquip">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nro serie') }}</mat-label>
+                                        <input matInput formControlName="numSerie">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('numero taa novo') }}</mat-label>
+                                        <input matInput formControlName="numSerieCliente">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('prefixo sb') }}</mat-label>
+                                        <input matInput formControlName="prefixosb">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('Dependencia') }}</mat-label>
+                                        <input matInput formControlName="nomeLocal">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('cnpj') }}</mat-label>
+                                        <input matInput formControlName="cnpj">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('logradouro') }}</mat-label>
+                                        <input matInput formControlName="endereco">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('municipio') }}</mat-label>
+                                        <input matInput formControlName="nomeCidade">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('uf') }}</mat-label>
+                                        <input matInput formControlName="siglaUF">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('cep') }}</mat-label>
+                                        <input matInput formControlName="cep">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt limite da entrega') }}</mat-label>
+                                        <input matInput formControlName="dataLimiteEnt">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('data sug entrega') }}</mat-label>
+                                        <input matInput formControlName="dataSugEntrega">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt confirmada da entrega') }}</mat-label>
+                                        <input matInput formControlName="dataConfEntrega">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nf remessa') }}</mat-label>
+                                        <input matInput formControlName="nfRemessa">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nf remessa data da expedição') }}</mat-label>
+                                        <input matInput formControlName="dataNFRemessa">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt expedição') }}</mat-label>
+                                        <input matInput formControlName="dataExpedicao">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('transportadora') }}</mat-label>
+
+                                        <mat-select formControlName="codTransportadora">
+                                            <mat-option>
+                                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                                    noEntriesFoundLabel="'nenhum registro encontrado'">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+
+                                            <mat-option *ngFor="let transportadora of transportadoras"
+                                                [value]="transportadora.codTransportadora">
+                                                <span>{{ transportadora.nomeTransportadora }}</span>
+                                            </mat-option>
+                                        </mat-select>
+
+                                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('ag entrega') }}</mat-label>
+                                        <input matInput formControlName="agenciaEnt">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nome local entrega') }}</mat-label>
+                                        <input matInput formControlName="nomeLocalEnt">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('recebimento documentacao instalacao') }}</mat-label>
+                                        <input matInput formControlName="dtbCliente">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('fatura transp re-entrega') }}</mat-label>
+                                        <input matInput formControlName="faturaTranspReEntrega">
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt re-entrega') }}</mat-label>
+                                        <input matInput formControlName="dtReEntrega">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('responsavel receb re-entrega') }}</mat-label>
+                                        <input matInput formControlName="responsavelRecebReEntrega">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('data da entrega confirmacao') }}</mat-label>
+                                        <input matInput formControlName="dataHoraChegTranspBT">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('ressalvas de entrega') }}</mat-label>
+                                        <input matInput formControlName="ressalvaEnt">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('responsavel pelo recebimento') }}</mat-label>
+                                        <input matInput formControlName="nomeRespBancoBT">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('mat responsavel pelo recebimento') }}</mat-label>
+                                        <input matInput formControlName="numMatriculaBT">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('bordero transp Recebido') }}</mat-label>
+                                        <input matInput formControlName="indBTOrigEnt">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('bordero transp conferido') }}</mat-label>
+                                        <input matInput formControlName="indBTOK">
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nf remessa conferida') }}</mat-label>
+                                        <input matInput formControlName="nfRemessaConferida">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt limite instalacao') }}</mat-label>
+                                        <input matInput formControlName="dataLimiteIns">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('previsao instalacao') }}</mat-label>
+                                        <input matInput formControlName="dataSugInstalacao">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt agendada instalacao') }}</mat-label>
+                                        <input matInput formControlName="dataConfInstalacao">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('os') }}</mat-label>
+                                        <input matInput formControlName="os">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt hr os') }}</mat-label>
+                                        <input matInput formControlName="dataHoraOS">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('status') }}</mat-label>
+                                        <input matInput formControlName="instalStatus">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nro rat') }}</mat-label>
+                                        <input matInput formControlName="numRAT">
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('ag instalacao') }}</mat-label>
+                                        <input matInput formControlName="agenciaIns">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('nome local instalacao') }}</mat-label>
+                                        <input matInput formControlName="nomeLocalIns">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('dt instalacao') }}</mat-label>
+                                        <input matInput formControlName="dataBI">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('qtd parabold') }}</mat-label>
+                                        <input matInput formControlName="qtdParaboldBI">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('ressalvas de fixacao') }}</mat-label>
+                                        <input matInput formControlName="ressalvaIns">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('equipamento rebaixado') }}</mat-label>
+                                        <input matInput formControlName="indEquipRebaixadoBI">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
+                                        <mat-label>{{ t('ressalvas de rebaixamento') }}</mat-label>
+                                        <input matInput formControlName="ressalvaInsR">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 p-4 sm:mt-6">
             <div class="-ml-2">
-                
+
             </div>
 
             <div class="flex items-center mt-4 sm:mt-0">
-                <button
-                    mat-dialog-close
-                    class="sm:mx-3"
-                    mat-button>
+                <button mat-dialog-close class="sm:mx-3" mat-button>
                     <span>Cancelar</span>
                 </button>
-                
-                <button
-                    class="order-first sm:order-last"
-                    mat-flat-button
-                    (click)="salvar()"
-                    [color]="'primary'">
+
+                <button class="order-first sm:order-last" mat-flat-button (click)="salvar()" [color]="'primary'">
                     Salvar
                 </button>
             </div>

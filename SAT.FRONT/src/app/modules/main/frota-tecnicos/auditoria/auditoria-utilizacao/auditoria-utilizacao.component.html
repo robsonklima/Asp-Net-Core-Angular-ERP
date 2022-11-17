@@ -6,7 +6,8 @@
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Data inicial de análise') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput readonly=“true” [matDatepicker]="contratoData" formControlName="dataHoraRetiradaVeiculo">
+                        <input matInput readonly=“true” [matDatepicker]="contratoData"
+                            formControlName="dataHoraRetiradaVeiculo">
                         <mat-datepicker #contratoData></mat-datepicker>
                     </mat-form-field>
                 </div>
@@ -14,7 +15,8 @@
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('total de dias em uso') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="totalDiasEmUso" readonly=“true” [(ngModel)]="auditoria.totalDiasEmUso">
+                        <input matInput formControlName="totalDiasEmUso" readonly=“true”
+                            [(ngModel)]="auditoria.totalDiasEmUso">
                     </mat-form-field>
                 </div>
 
@@ -35,14 +37,16 @@
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km percorrido') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmPercorrido" readonly=“true” [(ngModel)]="auditoria.kmPercorrido">
+                        <input matInput formControlName="kmPercorrido" readonly=“true”
+                            [(ngModel)]="auditoria.kmPercorrido">
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km compensado') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmCompensado" readonly=“true” [(ngModel)]="auditoria.kmCompensado">
+                        <input matInput formControlName="kmCompensado" readonly=“true”
+                            [(ngModel)]="auditoria.kmCompensado">
                     </mat-form-field>
                 </div>
 
@@ -56,16 +60,18 @@
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('KM Particular Total') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                        <input matInput formControlName="kmParticular" readonly=“true” [(ngModel)]="auditoria.kmParticular">
+                        <input matInput formControlName="kmParticular" readonly=“true”
+                            [(ngModel)]="auditoria.kmParticular">
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('km particular por mes') }}</div>
                     <mat-form-field class="fuse-mat-dense sm:col-span-8"
-                        [class.text-green-500]="cor"
-                        [class.text-red-500]="!cor">
-                        <input matInput formControlName="kmParticularMes" readonly=“true” [(ngModel)]="auditoria.kmParticularMes">
+                        [class.text-green-500]="validarCorKMParticular(auditoria)"
+                        [class.text-red-500]="!validarCorKMParticular(auditoria)">
+                        <input matInput formControlName="kmParticularMes" readonly=“true”
+                            [(ngModel)]="auditoria.kmParticularMes">
                     </mat-form-field>
                 </div>
 
@@ -74,7 +80,7 @@
         </form>
     </fuse-card>
 
-    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" 
+    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
         <form [formGroup]="form">
             <div class="flex flex-col mt-4 font-medium" *ngIf="auditoria">
@@ -98,19 +104,20 @@
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('despesas cb') }}</div>
-                        <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                            <input matInput formControlName="despesasSAT" [(ngModel)]="auditoria.despesasSAT"
-                                 mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
-                                [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
-                        </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="despesasSAT" [(ngModel)]="auditoria.despesasSAT"
+                            mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
+                            [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('despesa cb compensadas') }}</div>
-                        <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                            <input matInput formControlName="despesasCompensadasValor" [(ngModel)]="auditoria.despesasCompensadasValor"
-                                 mask="separator.2" prefix="R$ " decimalMarker="," readonly=“true”>
-                        </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <input matInput formControlName="despesasCompensadasValor"
+                            [(ngModel)]="auditoria.despesasCompensadasValor" mask="separator.2" prefix="R$ "
+                            decimalMarker="," readonly=“true”>
+                    </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
@@ -133,18 +140,18 @@
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('uso particular') }}</div>
-                    <mat-form-field class="fuse-mat-dense sm:col-span-8"                        
-                        [class.text-green-500]="cor"
-                        [class.text-red-500]="!cor">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8"
+                        [class.text-green-500]="validarcorUsoParticular(auditoria)"
+                        [class.text-red-500]="!validarcorUsoParticular(auditoria)">
                         <input matInput formControlName="usoParticular" [(ngModel)]="auditoria.usoParticular"
-                            mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
-                            [showMaskTyped]="false" [dropSpecialCharacters]="true" readonly=“true”>
+                            readonly=“true”>
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
-                    <textarea class="flex items-center justify-between" matInput formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
+                    <textarea class="flex items-center justify-between" matInput formControlName="observacoes"
+                        [rows]="4" maxlength="1000"></textarea>
                 </div>
             </div>
         </form>

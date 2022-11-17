@@ -2,14 +2,16 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Usuario } from "./usuario.types";
 
 export interface TicketAnexo {
-    codTicketAnexo: number;
+    codTicketAnexo?: number;
     codTicket: number;
-    url: string;
+    nome: string;
     indAtivo: number;
     codUsuarioCad: string;
-    usuarioCad: Usuario;
-    dataHoraCad: string;
     base64: string;
+    tamanho: number;
+    tipo: string;
+    usuarioCad?: Usuario;
+    dataHoraCad: string;
 }
 
 export interface TicketAnexoData extends Meta {

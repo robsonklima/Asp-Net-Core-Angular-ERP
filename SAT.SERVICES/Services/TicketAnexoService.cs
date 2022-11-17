@@ -6,10 +6,11 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
-    public class TicketAnexoService : ITicketAnexoService 
+    public class TicketAnexoService : ITicketAnexoService
     {
         private readonly ITicketAnexoRepository _ticketAnexoRepo;
 
@@ -45,29 +46,6 @@ namespace SAT.SERVICES.Services
 
         public TicketAnexo Criar(TicketAnexo anexo)
         {
-            if (!string.IsNullOrWhiteSpace(anexo.Base64))
-            {
-                string target = Directory.GetCurrentDirectory() + "/Upload";
-
-                if (!Directory.Exists(target))
-                {
-                    Directory.CreateDirectory(target);
-                }
-
-                string imageName = "TESTE";
-                string imgPath = Path.Combine(target, imageName);
-
-                string existsFile = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == imageName.Split('.')[0]);
-
-                if (!string.IsNullOrWhiteSpace(existsFile))
-                {
-                    File.Delete(existsFile);
-                }
-
-                byte[] imageBytes = Convert.FromBase64String(anexo.Base64.Replace("data:image/jpeg;base64,", "").Replace("data:image/png;base64,", ""));
-                File.WriteAllBytes(imgPath, imageBytes);
-            }
-
             return _ticketAnexoRepo.Criar(anexo);
         }
 

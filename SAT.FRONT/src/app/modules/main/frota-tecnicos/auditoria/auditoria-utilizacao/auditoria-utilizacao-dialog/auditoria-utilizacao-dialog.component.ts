@@ -166,6 +166,8 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
         - this.auditoria.kmPercorrido - this.auditoria.kmCompensado - 3000;
     }
     if(this.auditoria.totalMesesEmUso < 1){
+      console.log(this.auditoria.totalDiasEmUso);
+      
       this.auditoria.kmParticularMes = this.auditoria.kmParticular;
     }
     else{

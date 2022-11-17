@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ItemDefeitoService } from 'app/core/services/item-defeito.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORDefeitoService } from 'app/core/services/orDefeito.service';
@@ -30,7 +31,8 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
     private _userService: UserService,
     private _oRDefeitoService: ORDefeitoService,
     private _itemDefeitoService: ItemDefeitoService,
-    private _orItemService: ORItemService
+    private _orItemService: ORItemService,
+    private _snack: CustomSnackbarService
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -70,6 +72,7 @@ export class LaboratorioProcessoReparoFormDefeitoComponent implements AfterViewI
       , distinctUntilChanged()).subscribe((text: string) => {
         this.orItem.defeitoRelatado = text;
         this._orItemService.atualizar(this.orItem).subscribe();
+        this._snack.exibirToast('Descrição do defeito atualizada', 'success');
       });
   }
 

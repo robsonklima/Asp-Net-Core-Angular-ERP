@@ -23,7 +23,7 @@ namespace SAT.INFRA.Repository
             _context.ChangeTracker.Clear();
             OrdemServicoSTN o = _context.OrdemServicoSTN.FirstOrDefault(p => p.CodAtendimento == ordem.CodAtendimento);
 
-            if(o != null)
+            if (o != null)
             {
                 _context.Entry(o).CurrentValues.SetValues(ordem);
                 _context.SaveChanges();
@@ -89,11 +89,13 @@ namespace SAT.INFRA.Repository
                 );
             }
 
-            if (parameters.CodOS.HasValue) {
+            if (parameters.CodOS.HasValue)
+            {
                 query = query.Where(p => p.CodOS == parameters.CodOS);
             }
 
-            if (parameters.CodAtendimento.HasValue) {
+            if (parameters.CodAtendimento.HasValue)
+            {
                 query = query.Where(p => p.CodAtendimento == parameters.CodAtendimento);
             }
 
@@ -101,6 +103,30 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(os => cods.Contains(os.OrdemServico.CodCliente));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
+            {
+                int[] cods = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.OrdemServico.Filial.CodFilial));
+            };
+
+            if (!string.IsNullOrEmpty(parameters.CodEquips))
+            {
+                var modelos = parameters.CodEquips.Split(',').Select(e => e.Trim());
+                query = query.Where(os => modelos.Any(p => p == os.OrdemServico.Equipamento.CodEquip.ToString()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodOrigemChamadoSTNs))
+            {
+                int[] cods = parameters.CodOrigemChamadoSTNs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.OrdemServicoSTNOrigem.CodOrigemChamadoSTN));
+            };
+
+            if (!string.IsNullOrEmpty(parameters.CodUsuarios))
+            {
+                var usuarios = parameters.CodUsuarios.Split(',').Select(e => e.Trim());
+                query = query.Where(os => usuarios.Any(p => p == os.Usuario.CodUsuario));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

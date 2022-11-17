@@ -17,7 +17,7 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
                     <mat-select formControlName="codClientes" multiple="true">
-                        <mat-option  class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
                         'codCliente')" [value]="0">
                             TODAS
                         </mat-option>
@@ -26,8 +26,60 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('filial') }}</mat-label>
+                    <mat-select formControlName="codFiliais" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
+                        'codFilial')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                            {{ filial.nomeFilial }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('equipamento') }}</mat-label>
+                    <mat-select formControlName="codEquips" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equips,
+                        'codEquip')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let equip of equips" [value]="equip.codEquip">
+                            {{ equip.nomeEquip }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('origem') }}</mat-label>
+                    <mat-select formControlName="codOrigemChamadoSTNs" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codOrigemChamadoSTNs, origens,
+                        'codOrigemChamadoSTN')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let origem of origens" [value]="origem.codOrigemChamadoSTN">
+                            {{ origem.descOrigemChamadoSTN }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('suporte stn') }}</mat-label>
+                    <mat-select formControlName="codUsuarios" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUsuarios, usuarios,
+                        'codUsuario')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.codUsuario">
+                            {{ usuario.nomeUsuario }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
-            
+
             <div class="mt-6 border-t"></div>
 
             <div class="flex items-center justify-start px-8 py-3 relative">

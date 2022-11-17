@@ -124,7 +124,7 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 			await this._ticketAtendimentoService.criar(primeiroAtendimento).subscribe(() => {
 				this._snack.exibirToast(`Ticket ${t?.codTicket} inserido com sucesso!`, "success");
 
-				this._router.navigate(['ticket/form/' + t.codTicket]);
+				this._router.navigate(['ticket/detalhe/' + t.codTicket]);
 			});
 		});
 	}
@@ -141,7 +141,6 @@ export class TicketFormComponent implements OnInit, OnDestroy {
 
 		this._ticketService.atualizar(obj).subscribe((t) => {
 			this._snack.exibirToast(`Ticket ${t?.codTicket} atualizado com sucesso!`, "success");
-			this.ngOnInit();
 		});
 	}
 

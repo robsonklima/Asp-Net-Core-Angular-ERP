@@ -35,9 +35,9 @@ export class MessageFormDialogComponent implements OnInit {
   
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
+    public _dialogRef: MatDialogRef<MessagesComponent>,
     private _mensagemService: MensagemService,
     private _usuarioService: UsuarioService,
-    public _dialogRef: MatDialogRef<MessagesComponent>,
     private _userService: UserService,
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,

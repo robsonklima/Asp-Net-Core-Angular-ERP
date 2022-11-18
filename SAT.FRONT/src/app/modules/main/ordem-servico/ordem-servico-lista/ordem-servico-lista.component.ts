@@ -10,13 +10,13 @@ import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoInc
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FileMime } from 'app/core/types/file.types';
-import Enumerable from 'linq';
-import moment from 'moment';
 import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { StringExtensions } from 'app/core/extensions/string.extensions';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
 	selector: 'ordem-servico-lista',
@@ -267,26 +267,5 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			description += ', ' + cep + '.';
 
 		return description;
-	}
-
-	alternarDetalhes(id: number): void {
-		this.isLoading = true;
-
-		if (this.selectedItem && this.selectedItem.codOS === id) {
-			this.isLoading = false;
-			this.fecharDetalhes();
-			return;
-		}
-
-		this._ordemServicoService.obterPorCodigo(id)
-			.subscribe((item) => {
-				this.selectedItem = item;
-				this.isLoading = false;
-				this._cdr.markForCheck();
-			});
-	}
-
-	fecharDetalhes(): void {
-		this.selectedItem = null;
 	}
 }

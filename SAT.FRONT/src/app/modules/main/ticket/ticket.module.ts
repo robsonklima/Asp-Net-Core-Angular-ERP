@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -35,6 +35,9 @@ import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.componen
 import { TicketAtendimentoFormDialogComponent } from './ticket-detalhe/ticket-atendimentos/ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
 import { TicketAtendimentosComponent } from './ticket-detalhe/ticket-atendimentos/ticket-atendimentos.component';
 import { TicketAnexosComponent } from './ticket-detalhe/ticket-anexos/ticket-anexos.component';
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/pt';
+registerLocaleData(localeBr, 'pt')
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -82,6 +85,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatMenuModule,
     FiltroModule,
     FuseCardModule
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 })
 export class TicketModule { }

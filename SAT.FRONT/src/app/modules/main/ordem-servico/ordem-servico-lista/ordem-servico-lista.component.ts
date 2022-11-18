@@ -1,22 +1,22 @@
-import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { fromEvent, interval, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { fuseAnimations } from '@fuse/animations';
-import { UserService } from 'app/core/user/user.service';
-import { MatSort } from '@angular/material/sort';
-import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { MatSort } from '@angular/material/sort';
+import { fuseAnimations } from '@fuse/animations';
+import { StringExtensions } from 'app/core/extensions/string.extensions';
+import { Filterable } from 'app/core/filters/filterable';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
-import { Filterable } from 'app/core/filters/filterable';
-import { IFilterable } from 'app/core/types/filtro.types';
-import { StringExtensions } from 'app/core/extensions/string.extensions';
-import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
-import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { fromEvent, interval, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { ExportacaoService } from './../../../../core/services/exportacao.service';
 
 @Component({
 	selector: 'ordem-servico-lista',
@@ -50,7 +50,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	validaCliente: boolean = this._userService.isCustomer;
 	validaAbreOS: boolean = this._userService.isOpenOS;
 	dataSourceData: OrdemServicoData;
-	selectedItem: OrdemServico | null = null;
 	isLoading: boolean = false;
 	protected _onDestroy = new Subject<void>();
 
@@ -267,26 +266,5 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			description += ', ' + cep + '.';
 
 		return description;
-	}
-
-	alternarDetalhes(id: number): void {
-		this.isLoading = true;
-
-		if (this.selectedItem && this.selectedItem.codOS === id) {
-			this.isLoading = false;
-			this.fecharDetalhes();
-			return;
-		}
-
-		this._ordemServicoService.obterPorCodigo(id)
-			.subscribe((item) => {
-				this.selectedItem = item;
-				this.isLoading = false;
-				this._cdr.markForCheck();
-			});
-	}
-
-	fecharDetalhes(): void {
-		this.selectedItem = null;
 	}
 }

@@ -53,7 +53,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
   criarForm() {
     this.form = this._formBuilder.group({
       descricao: [undefined, Validators.required],
-      codStatus: [undefined, Validators.required],
+      codStatus: [this.ticket.codStatus, Validators.required],
     });
   }
 

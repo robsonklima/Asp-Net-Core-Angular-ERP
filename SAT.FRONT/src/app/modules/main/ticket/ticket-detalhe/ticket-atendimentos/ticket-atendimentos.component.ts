@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TicketService } from 'app/core/services/ticket.service';
-import { Ticket, TicketAtendimento } from 'app/core/types/ticket.types';
+import { Ticket, TicketAtendimento, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { TicketAtendimentoFormDialogComponent } from './ticket-atendimento-form-dialog/ticket-atendimento-form-dialog.component';
@@ -45,5 +45,11 @@ export class TicketAtendimentosComponent implements OnInit, OnChanges {
 				this.ticketEvent.emit(this.ticket);
 			}
 		});
+	}
+
+	isEditavel(): boolean {
+		return (this.ticket?.codStatus == ticketStatusConst.AGUARDANDO || 
+			   this.ticket?.codStatus == ticketStatusConst.EM_ATENDIMENTO) &&
+			   this.userSession.usuario.codPerfil == 3;
 	}
 }

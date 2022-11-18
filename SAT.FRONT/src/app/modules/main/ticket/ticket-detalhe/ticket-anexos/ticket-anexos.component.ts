@@ -4,7 +4,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { TicketAnexoService } from 'app/core/services/ticket-anexo.service';
 import { TicketService } from 'app/core/services/ticket.service';
 import { TicketAnexo } from 'app/core/types/ticket-anexo.types';
-import { Ticket } from 'app/core/types/ticket.types';
+import { Ticket, ticketStatusConst } from 'app/core/types/ticket.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { TicketAnexoFormDialogComponent } from './ticket-anexo-form-dialog/ticket-anexo-form-dialog.component';
 
@@ -76,4 +76,9 @@ export class TicketAnexosComponent implements OnInit {
     downloadLink.download = fileName;
     downloadLink.click();
   }
+
+  isEditavel(): boolean {
+		return this.ticket?.codStatus == ticketStatusConst.AGUARDANDO || 
+			     this.ticket?.codStatus == ticketStatusConst.EM_ATENDIMENTO;
+	}
 }

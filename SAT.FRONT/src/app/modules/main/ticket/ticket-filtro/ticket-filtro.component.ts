@@ -40,9 +40,29 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 		
 	}
 	async obterDados() {
-	  this.modulos = (await this._ticketModuloService.obterPorParametros({}).toPromise()).items
-	  this.status = (await this._ticketStatusService.obterPorParametros({}).toPromise()).items
-	  this.classificacoes = (await this._ticketClassificacaoService.obterPorParametros({}).toPromise()).items
+	  this.modulos = (await this._ticketModuloService
+		.obterPorParametros({
+			sortActive: 'Descricao',
+			sortDirection: 'asc'
+		})
+		.toPromise())
+		.items
+
+	  this.status = (await this._ticketStatusService
+		.obterPorParametros({
+			sortActive: 'Descricao',
+			sortDirection: 'asc'
+		})
+		.toPromise())
+		.items
+
+	  this.classificacoes = (await this._ticketClassificacaoService
+		.obterPorParametros({
+			sortActive: 'Descricao',
+			sortDirection: 'asc'
+		})
+		.toPromise())
+		.items
 	}
 
 	async loadData() {

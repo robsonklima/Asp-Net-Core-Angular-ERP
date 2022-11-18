@@ -1,17 +1,15 @@
-import { EquipamentoContratoService } from './../../../../../core/services/equipamento-contrato.service';
-import { EquipamentoContratoParameters } from './../../../../../core/types/equipamento-contrato.types';
-import { EquipamentoContratoData } from 'app/core/types/equipamento-contrato.types';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
-import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
-import { ContratoEquipamentoData } from 'app/core/types/contrato-equipamento.types';
-import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
+import { Contrato } from 'app/core/types/contrato.types';
+import { EquipamentoContratoData } from 'app/core/types/equipamento-contrato.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { Subject } from 'rxjs';
+import { EquipamentoContratoService } from './../../../../../core/services/equipamento-contrato.service';
+import { EquipamentoContratoParameters } from './../../../../../core/types/equipamento-contrato.types';
 
 @Component({
     selector: 'app-contrato-equipamentos',

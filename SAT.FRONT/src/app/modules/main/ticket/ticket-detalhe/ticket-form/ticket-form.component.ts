@@ -9,6 +9,7 @@ import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
 import { TicketPrioridadeService } from 'app/core/services/ticket-prioridade.service';
 import { TicketStatusService } from 'app/core/services/ticket-status.service';
 import { TicketService } from 'app/core/services/ticket.service';
+import { statusConst } from 'app/core/types/status-types';
 import { Ticket, TicketAtendimento, TicketClassificacao, TicketModulo, TicketPrioridade, TicketStatus, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -111,6 +112,7 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges {
 			...this.ticket,
 			...this.form.getRawValue(),
 			...{
+				indAtivo: statusConst.ATIVO,
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario.codUsuario,
 				ordem: 9999

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
+using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
@@ -18,8 +20,21 @@ namespace SAT.API.Controllers
             _laudoService = laudoService;
         }
 
+        [HttpGet]
+        public ListViewModel Get([FromQuery] LaudoParameters parameters)
+        {
+            return _laudoService.ObterPorParametros(parameters);
+        }
+
         [HttpGet("{codLaudo}")]
         public Laudo ObterPorCodigo(int codLaudo) =>
             _laudoService.ObterPorCodigo(codLaudo);
+
+        [HttpPut]
+        public void Put([FromBody] Laudo laudo)
+        {
+            _laudoService.Atualizar(laudo);
+        }
+
     }
 }

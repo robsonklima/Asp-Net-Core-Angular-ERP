@@ -36,34 +36,44 @@ export class TicketAnexosComponent implements OnInit {
 
   abrirAnexosForm() {
     const dialogRef = this._dialog.open(TicketAnexoFormDialogComponent, {
-		  data: {
+      data: {
         ticket: this.ticket
-		  },
-		  width: '680px'
-		});
-	
-		dialogRef.afterClosed().subscribe(async (conf: boolean) => {
-		  if (conf)
-			  this.ticket = await this._ticketService.obterPorCodigo(this.ticket.codTicket).toPromise();
-		});
+      },
+      width: '680px'
+    });
+
+    dialogRef.afterClosed().subscribe(async (conf: boolean) => {
+      if (conf)
+        this.ticket = await this._ticketService.obterPorCodigo(this.ticket.codTicket).toPromise();
+    });
   }
 
   async deletar(codigo: number) {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {});
-	
-		dialogRef.afterClosed().subscribe(async (conf: boolean) => {
-		  if (conf)
-			  await this._ticketAnexoService.deletar(codigo).toPromise();
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja excluir este ticket?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (conf: boolean) => {
+      if (conf) {
+        await this._ticketAnexoService.deletar(codigo).toPromise();
         this.ticket = await this._ticketService.obterPorCodigo(this.ticket.codTicket).toPromise();
         this._snack.exibirToast('Anexo removido com sucesso', 'success');
-		});
+      }
+    });
   }
 
   download(anexo: TicketAnexo) {
-		const downloadLink = document.createElement('a');
-		const fileName = anexo.nome;
-		downloadLink.href = 'data:application/octet-stream;base64,' + anexo.base64;
-		downloadLink.download = fileName;
-		downloadLink.click();
-	}
+    const downloadLink = document.createElement('a');
+    const fileName = anexo.nome;
+    downloadLink.href = 'data:application/octet-stream;base64,' + anexo.base64;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
 }

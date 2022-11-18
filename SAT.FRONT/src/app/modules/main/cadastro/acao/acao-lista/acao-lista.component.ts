@@ -15,29 +15,26 @@ import { Filterable } from 'app/core/filters/filterable';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 
-
-
 @Component({
 	selector: 'app-acao-lista',
 	templateUrl: './acao-lista.component.html',
 	styles: [
-		/* language=SCSS */
 		`
-    .list-grid-u {
-      grid-template-columns: 142px 80px 50% 25% 42px;
-      
-      @screen sm {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  
-      @screen md {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  
-      @screen lg {
-          grid-template-columns: 142px 80px 50% 25% 42px;
-      }
-  }
+		.list-grid-u {
+			grid-template-columns: 142px 80px 50% 25% 42px;
+			
+			@screen sm {
+				grid-template-columns: 142px 80px 50% 25% 42px;
+			}
+		
+			@screen md {
+				grid-template-columns: 142px 80px 50% 25% 42px;
+			}
+		
+			@screen lg {
+				grid-template-columns: 142px 80px 50% 25% 42px;
+			}
+		}
     `
 	],
 	encapsulation: ViewEncapsulation.None,

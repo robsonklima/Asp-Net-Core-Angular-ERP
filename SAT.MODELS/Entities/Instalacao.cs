@@ -29,18 +29,18 @@ namespace SAT.MODELS.Entities{
         public int? CodPostoEnt { get; set; }
         public DateTime? DataHoraChegTranspBt { get; set; }
         public byte? IndEquipPosicOkbt { get; set; }
-        public string NomeRespBancoBt { get; set; }
-        public string NumMatriculaBt { get; set; }
-        public byte? IndBtorigEnt { get; set; }
-        public byte? IndBtok { get; set; }
+        public string NomeRespBancoBT { get; set; }
+        public string NumMatriculaBT { get; set; }
+        public byte? IndBTOrigEnt { get; set; }
+        public byte? IndBTOK { get; set; }
         public DateTime? DataSugInstalacao { get; set; }
         public DateTime? DataConfInstalacao { get; set; }
         public int? CodOS { get; set; }
         public int? CodRAT { get; set; }
         public int? CodClienteIns { get; set; }
         public int? CodPostoIns { get; set; }
-        public DateTime? DataBi { get; set; }
-        public int? QtdParaboldBi { get; set; }
+        public DateTime? DataBI { get; set; }
+        public int? QtdParaboldBI { get; set; }
         public string SuperE { get; set; }
         public string Csl { get; set; }
         public string CSOServ { get; set; }

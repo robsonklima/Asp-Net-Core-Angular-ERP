@@ -25,6 +25,7 @@ import { InstalacaoLoteFormComponent } from './instalacao-lote-form/instalacao-l
 import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalaca
     NgxMatSelectSearchModule,
     MatSelectModule,
     MatTableModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTabsModule
   ]
 })
 export class InstalacaoModule { }

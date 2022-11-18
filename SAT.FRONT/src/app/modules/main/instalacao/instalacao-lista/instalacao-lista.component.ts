@@ -282,8 +282,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
           this.form.controls['dataConfEntrega'].setValue(moment(instalacao.dataConfEntrega).format('DD/MM/yyyy'));
         }
 
-        this.form.controls['nfRemessa'].setValue(instalacao.nfremessa);
-        this.form.controls['dataNFRemessa'].setValue(moment(instalacao.dataNfremessa).format('DD/MM/yyyy'));
+        this.form.controls['nfRemessa'].setValue(instalacao.nfRemessa);
+        this.form.controls['dataNFRemessa'].setValue(moment(instalacao.dataNFRemessa).format('DD/MM/yyyy'));
 
         if (instalacao.dataExpedicao) {
           this.form.controls['dataExpedicao'].setValue(moment(instalacao.dataExpedicao).format('DD/MM/yyyy'));
@@ -341,17 +341,17 @@ export class InstalacaoListaComponent implements AfterViewInit {
           }
         }
 
-        this.form.controls['nomeRespBancoBT'].setValue(instalacao.nomeRespBancoBt);
-        this.form.controls['numMatriculaBT'].setValue(instalacao.numMatriculaBt);
+        this.form.controls['nomeRespBancoBT'].setValue(instalacao.nomeRespBancoBT);
+        this.form.controls['numMatriculaBT'].setValue(instalacao.numMatriculaBT);
 
-        if (instalacao.indBtorigEnt) {
+        if (instalacao.indBTOrigEnt) {
           this.form.controls['indBTOrigEnt'].setValue('SIM');
         }
         else {
           this.form.controls['indBTOrigEnt'].setValue('NÃO');
         }
 
-        if (instalacao.indBtok) {
+        if (instalacao.indBTOK) {
           this.form.controls['indBTOK'].setValue('SIM');
         }
         else {
@@ -397,15 +397,11 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
         this.form.controls['nomeLocalIns'].setValue(instalacao.localAtendimentoIns?.nomeLocal);
 
-        if (instalacao.dataBi) {
-          this.form.controls['dataBI'].setValue(moment(instalacao.dataBi).format('DD/MM/yyyy'));
+        if (instalacao.dataBI) {
+          this.form.controls['dataBI'].setValue(moment(instalacao.dataBI).format('DD/MM/yyyy'));
         }
 
-        this.form.controls['qtdParaboldBI'].setValue(instalacao?.qtdParaboldBi);
-
-        console.log(this.form);        
-
-        //this.isLoading = false;
+        this.form.controls['qtdParaboldBI'].setValue(instalacao?.qtdParaboldBI);
         this._cdr.markForCheck();
 
       }, () => {
@@ -451,6 +447,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
 			data: {
 				itens: itens
 			},
+      width: '960px',
+      height: '600px'
 		});
 
 		dialogRef.afterClosed().subscribe(confirmacao => {

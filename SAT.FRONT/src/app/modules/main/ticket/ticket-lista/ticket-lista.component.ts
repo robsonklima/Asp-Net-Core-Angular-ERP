@@ -11,13 +11,13 @@ import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { Ticket } from 'app/core/types/ticket.types';
 import { UserService } from 'app/core/user/user.service';
+import moment from 'moment';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-ticket-lista',
 	templateUrl: './ticket-lista.component.html',
-	styleUrls: ['./ticket-lista.component.scss'],
 	encapsulation: ViewEncapsulation.None,
 	animations: fuseAnimations
 })
@@ -127,6 +127,10 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		
 		this._snack.exibirToast('Tickets reordenados com sucesso', 'success');
 	}
+
+	obterTempoAbertura(dataHora: string): string {
+	    return moment(dataHora).locale('pt').fromNow();
+  	}
 
 	ngOnDestroy() {
 		this._onDestroy.next();

@@ -45,8 +45,6 @@ export class GrupoEquipamentoFiltroComponent extends FilterBase implements OnIni
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			CodTipoEquips: [undefined],
-			
-
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

@@ -69,7 +69,7 @@
                 </div>
             </div>
 
-            <div *ngIf="isLoading">
+            <div *ngIf="!usuarios.length && isLoading">
                 <div class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">
                     Carregando...
                 </div>

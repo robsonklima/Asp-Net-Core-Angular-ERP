@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -27,7 +27,6 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { RoleEnum } from 'app/core/user/user.types';
-import { SATUtils } from 'app/core/utils/utils';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import _ from 'lodash';
 import moment from 'moment';
@@ -68,7 +67,6 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 		protected _userService: UserService,
 		private _cdr: ChangeDetectorRef,
 		private _route: ActivatedRoute,
-		private _router: Router,
 		private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
 		private _despesaAdiantamentoPeriodoSvc: DespesaAdiantamentoPeriodoService,
 		private _despesaAdiantamentoSvc: DespesaAdiantamentoService,

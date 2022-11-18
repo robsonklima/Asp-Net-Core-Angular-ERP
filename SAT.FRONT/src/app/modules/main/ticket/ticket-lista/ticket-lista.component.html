@@ -16,7 +16,9 @@
                     </div>
 
                     <div class="ml-0.5 font-medium text-secondary">
-                        <span *ngIf="tickets.length !== 0">{{ tickets.length }} {{ t('tickets') }}</span>
+                        <span *ngIf="tickets.length !== 0">
+                            {{ tickets.length }} {{ t('tickets') }}
+                        </span>
                     </div>
                 </div>
 
@@ -49,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="flex-auto overflow-hidden" *ngIf="tickets.length && !isLoading">
+            <div class="flex-auto overflow-hidden" *ngIf="tickets.length">
                 <div cdkDropList class="cdk-list" (cdkDropListDropped)="dropped($event)">
                     <div class="cdk-box justify-between" [class.bg-green-50]="ticket.codStatus == 3" *ngFor="let ticket of tickets; let i=index" cdkDrag
                         [cdkDragDisabled]="ticket.codStatus == 3" [class.cursor-default]="ticket.codStatus == 3">
@@ -69,7 +71,7 @@
 
                             <button mat-icon-button matTooltip="{{ t('editar') }}"
                                 [routerLink]="['/ticket/detalhe/' + ticket.codTicket]">
-                                <mat-icon class="text-blue-500 icon-size-5" [svgIcon]="'mat_outline:edit_calendar'">
+                                <mat-icon class="text-blue-500 icon-size-5" [svgIcon]="'mat_solid:auto_awesome_motion'">
                                 </mat-icon>
                             </button>
 

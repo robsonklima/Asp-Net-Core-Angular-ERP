@@ -7,7 +7,7 @@
 
             <div class="flex place-content-end">
                 <button mat-icon-button [matTooltip]="t('novo')" (click)="abrirAtendimentoForm()"
-                    [disabled]="ticket?.codStatus == 3 || userSession.usuario.codPerfil != 3">
+                    [disabled]="!isEditavel()">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_solid:plus'">
                     </mat-icon>
                 </button>

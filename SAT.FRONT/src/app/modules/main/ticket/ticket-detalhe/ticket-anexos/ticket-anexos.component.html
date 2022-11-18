@@ -6,7 +6,8 @@
             </div>
 
             <div class="flex place-content-end">
-                <button mat-icon-button [matTooltip]="t('novo')" (click)="abrirAnexosForm()">
+                <button mat-icon-button [matTooltip]="t('novo')" (click)="abrirAnexosForm()"
+                    [disabled]="!isEditavel()">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_solid:plus'">
                     </mat-icon>
                 </button>

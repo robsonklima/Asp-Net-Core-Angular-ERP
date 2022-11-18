@@ -34,7 +34,8 @@
                                 <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
                                     <img
                                         class="w-full h-full object-cover"
-                                        [src]="usuario?.foto?.base64 ? 'data:image/jpg;base64,' + usuario?.foto?.base64 : 'assets/images/avatars/profile.jpg'">
+                                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/' + usuario?.codUsuario + '.jpg'"
+                                            onError="this.src='./assets/images/avatars/profile.jpg';">
                                 </div>
                                 <div class="mt-6 font-medium truncate">{{ usuario.nomeUsuario.trim() | uppercase }}</div>
                                 <div class="text-secondary truncate">{{ usuario.perfil?.nomePerfil }}</div>

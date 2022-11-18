@@ -37,7 +37,8 @@
                                         <mat-label>{{ t('filial') }}</mat-label>
                             
                                         <mat-select formControlName="codFilial">
-                                            <mat-option class="uppercase" *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                            <mat-option class="uppercase" *ngFor="let filial of filiais" 
+                                                [value]="filial.codFilial">
                                                 <span>{{ filial.nomeFilial }}</span>
                                             </mat-option>
                                         </mat-select>

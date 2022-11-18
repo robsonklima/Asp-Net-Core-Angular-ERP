@@ -25,7 +25,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		private _clienteService: ClienteService,
 		private _equipamentoService: EquipamentoService,
 	) {
-		super(_userService, _formBuilder, 'ordem-servico-stn');
+		super(_userService, _formBuilder, 'suporte-stn');
 	}
 
 	ngOnInit(): void {

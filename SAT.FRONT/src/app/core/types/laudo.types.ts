@@ -31,7 +31,6 @@ export interface Laudo
     laudoStatus: LaudoStatus;
     tecnico?: Tecnico[];
     or?: OrdemServico[];
-    rat?: RelatorioAtendimento[];
 }
 
 export interface LaudoData extends Meta {
@@ -41,7 +40,6 @@ export interface LaudoData extends Meta {
 export interface LaudoParameters extends QueryStringParameters {
     codLaudo?: number;
     codOS?: number;
-    codRAT?: number;
     codTecnico?: number;
     indAtivo?: number;
 };

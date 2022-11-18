@@ -35,7 +35,8 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 
   async ngOnInit(){
     this.criarForm();
-    this.filiais = (await this.obterFiliais()).items;
+    this.filiais = (await this.obterFiliais()).items;   
+    this.obterTransportadoras();
   }
 
   private criarForm() {
@@ -124,23 +125,32 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
   }
 
   async salvar() {
-    const form = this.form.getRawValue();
+    const form = this.form.getRawValue();    
 
     for (const item of this.itens) {
-      this._instalacaoService
-        .atualizar({
-          ...item,
-          ...{
-            codFilial: form.codFilial || item.codFilial
-          }
-        })
-        .subscribe(() => {
-          this._snack.exibirToast('Registros atualizados com sucesso', 'success');
-          this.dialogRef.close(true);
-        }, () => {
-          this._snack.exibirToast('Erro ao atualizar os registros', 'error');
-          this.dialogRef.close(true);
-        });
+      let teste = {}
+
+      Object.keys(item).forEach(key => {
+        teste[key] = form[key] || item[key];
+      });
+
+      console.log(teste);
+      
+      
+      //this._instalacaoService
+      //  .atualizar({
+      //    ...item,
+      //    ...{
+      //      codFilial: form.codFilial || item.codFilial
+      //    }
+      //  })
+      //  .subscribe(() => {
+      //    this._snack.exibirToast('Registros atualizados com sucesso', 'success');
+      //    this.dialogRef.close(true);
+      //  }, () => {
+      //    this._snack.exibirToast('Erro ao atualizar os registros', 'error');
+      //    this.dialogRef.close(true);
+      //  });
     }
   }
 

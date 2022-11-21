@@ -22,6 +22,7 @@ import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 
 @Component({
@@ -31,7 +32,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 72px auto 64px 240px 240px 72px 72px;
+          grid-template-columns: 72px auto 64px 240px 240px 72px 72px 72px;
       }
     `
   ],
@@ -190,14 +191,14 @@ export class InstalacaoListaComponent implements AfterViewInit {
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
       sortDirection: this.sort.direction || 'desc',
-    };  
-    
+    };
+
     const data: InstalacaoData = await this._instalacaoSvc
       .obterPorParametros(params)
       .toPromise();
 
     this.isLoading = false;
-    this.dataSourceData = data;    
+    this.dataSourceData = data;
   }
 
   private async obterTransportadoras(filter: string = '') {
@@ -236,7 +237,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
   }
 
   alternarDetalhe(codInstalacao: number): void {
-    if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {    
+    if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {
       this.fecharDetalhe();
       return;
     }
@@ -245,7 +246,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this._instalacaoSvc.obterPorCodigo(codInstalacao)
       .subscribe((instalacao) => {
-        
+
         this.instalacaoSelecionada = instalacao;
         this.form.patchValue(instalacao);
         this.form.controls['nomeFilial'].setValue(instalacao.filial?.nomeFilial);
@@ -436,29 +437,36 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.obterInstalacoes();
   }
 
-	verificarExistemItensSelecionados() {
-		return this.dataSourceData?.items?.filter(i => i.selecionado)?.length;
-	}
+  verificarExistemItensSelecionados() {
+    return this.dataSourceData?.items?.filter(i => i.selecionado)?.length;
+  }
 
-	abrirMaisOpcoes() {
-		const itens = this.dataSourceData.items.filter(i => i.selecionado);
-  
-		const dialogRef = this._dialog.open(InstalacaoListaMaisOpcoesComponent, {
-			data: {
-				itens: itens
-			},
+  abrirMaisOpcoes() {
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);
+
+    const dialogRef = this._dialog.open(InstalacaoListaMaisOpcoesComponent, {
+      data: {
+        itens: itens
+      },
       width: '960px',
       height: '600px'
-		});
+    });
 
-		dialogRef.afterClosed().subscribe(confirmacao => {
-			if(confirmacao) this.obterInstalacoes();
-		});
-	}  
+    dialogRef.afterClosed().subscribe(confirmacao => {
+      if (confirmacao) this.obterInstalacoes();
+    });
+  }
 
-	toggleSelecionarTodos(e: any) {
-		this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
-	} 
+  toggleSelecionarTodos(e: any) {
+    this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+  }
+
+  abrirRessalvas(codInstalacao: number): void {
+    const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
+      width: '960px',
+      height: '600px'
+    });
+  }
 
   ngOnDestroy() {
     this._onDestroy.next();

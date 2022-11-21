@@ -26,6 +26,7 @@ import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.co
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { InstalacaoRessalvaDialogComponent } from './instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     InstalacaoLoteFormComponent,
     InstalacaoListaComponent,
     InstalacaoListaMaisOpcoesComponent,
+    InstalacaoRessalvaDialogComponent,
   ],
   imports: [
     CommonModule,

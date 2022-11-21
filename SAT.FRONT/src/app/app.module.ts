@@ -29,26 +29,15 @@ const routerConfig: ExtraOptions = {
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, routerConfig),
-
-        // Fuse, FuseConfig
         FuseModule,
         FuseConfigModule.forRoot(appConfig),
-
-        // Core module of your application
         CoreModule,
-
-        // Layout module of your application
         LayoutModule,
-
-        // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
     ],
     bootstrap: [
         AppComponent
     ],
-
     providers: []
 })
-export class AppModule
-{
-}
+export class AppModule {}

@@ -2,6 +2,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using SAT.UTILS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace SAT.SERVICES.Services
                                         {
                                             line.Mensagem = $"Erro ao mapear as colunas. Código: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
                                             line.Erro = true;
-                                            Mensagem.Add(line.Mensagem);
+
                                             return;
                                         }
                                     });
@@ -64,6 +65,7 @@ namespace SAT.SERVICES.Services
                             {
                                 inst.CodUsuarioManut = usuario.CodUsuario;
                                 inst.DataHoraManut = DateTime.Now;
+
                                 _instalacaoRepo.Atualizar(inst);
 
                                 line.Mensagem = $"Implantação: {inst.CodInstalacao} atualizado com sucesso.";
@@ -79,7 +81,7 @@ namespace SAT.SERVICES.Services
                             }
                         });
 
-            string[] destinatarios = {usuario.Email};
+            string[] destinatarios = { usuario.Email };
 
             var email = new Email
             {

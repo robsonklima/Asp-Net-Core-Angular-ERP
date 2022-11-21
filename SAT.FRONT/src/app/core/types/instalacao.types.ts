@@ -26,7 +26,7 @@ export interface Instalacao {
     codAutorizada: number;
     codFilial: number;
     codSla: number;
-    codEquipContrato: number;
+    codEquipContrato?: number;
     codCliente: number;
     codPosto: number;
     dataSugEntrega: string;

@@ -462,10 +462,13 @@ export class InstalacaoListaComponent implements AfterViewInit {
   }
 
   abrirRessalvas(codInstalacao: number): void {
-    const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
+		const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
+      data: {
+        codInstalacao: codInstalacao,
+      },
       width: '960px',
       height: '600px'
-    });
+      });    
   }
 
   ngOnDestroy() {

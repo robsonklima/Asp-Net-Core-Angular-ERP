@@ -49,12 +49,12 @@ namespace SAT.INFRA.Repository
 
         public Instalacao ObterPorCodigo(int codigo)
         {
-            
+
             var data = _context.Instalacao
                 .Include(i => i.Cliente)
                 .Include(i => i.Filial)
                 .Include(i => i.Equipamento)
-                // .Include(i => i.EquipamentoContrato!)
+                .Include(i => i.EquipamentoContrato)
                 .Include(i => i.InstalacaoLote)
                 .Include(i => i.Contrato)
                 .Include(i => i.LocalAtendimentoEnt)
@@ -76,7 +76,6 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Cliente)
                 .Include(i => i.Filial)
                 .Include(i => i.Equipamento)
-                // .Include(i => i.EquipamentoContrato)
                 .Include(i => i.InstalacaoLote)
                 .Include(i => i.Contrato)
                 .Include(i => i.LocalAtendimentoEnt)
@@ -96,7 +95,7 @@ namespace SAT.INFRA.Repository
             if (parameters.CodContrato != null)
             {
                 instalacoes = instalacoes.Where(i => i.CodContrato == parameters.CodContrato);
-            }            
+            }
 
             if (parameters.CodInstalLote != null)
             {

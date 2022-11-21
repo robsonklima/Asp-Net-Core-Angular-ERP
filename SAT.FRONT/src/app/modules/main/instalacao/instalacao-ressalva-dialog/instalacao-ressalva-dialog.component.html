@@ -1,1 +1,16 @@
-<p>instalacao-ressalva-dialog works!</p>
+<div class="flex flex-col max-w-360 md:min-w-160 -m-6">
+    <div
+        class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary sticky -top-6 z-20">
+        <div class="text-lg font-medium">Ressalvas</div>
+
+        <div>
+            <button mat-icon-button (click)="salvar()">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="fechar()">
+                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

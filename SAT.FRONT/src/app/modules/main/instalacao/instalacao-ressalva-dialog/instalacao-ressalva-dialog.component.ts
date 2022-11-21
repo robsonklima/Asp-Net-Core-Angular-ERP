@@ -11,4 +11,11 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  async salvar() {
+    
+  }
+
+  fechar() {
+
+  }
 }

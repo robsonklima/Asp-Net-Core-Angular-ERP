@@ -53,12 +53,12 @@
                 <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                     <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
-                </mat-form-field>  
+                </mat-form-field>
 
                 <button class="ml-4" mat-icon-button matTooltip="Opções" (click)="abrirMaisOpcoes()"
                     [disabled]="!verificarExistemItensSelecionados()">
                     <mat-icon class="text-green-600" [svgIcon]="'heroicons_outline:menu'"></mat-icon>
-                </button>                  
+                </button>
             </div>
         </div>
     </div>
@@ -89,14 +89,19 @@
                             <div class="flex">
                                 {{ t('serie') }}
                             </div>
-                           
+
                             <div class="text-left">
-                                <mat-slide-toggle class="-mt-1" color="primary" (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
-                            </div>    
+                                <mat-slide-toggle class="-mt-1" color="primary"
+                                    (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
+                            </div>
 
                             <div>
                                 {{ t('acoes') }}
-                            </div>                                                          
+                            </div>
+
+                            <div>
+                                {{ t('ressalvas') }}
+                            </div>
                         </div>
 
                         <ng-container>
@@ -121,12 +126,13 @@
 
                                     <div class="flex">
                                         {{ data.equipamentoContrato?.numSerie }}
-                                    </div>                                   
+                                    </div>
 
                                     <div class="flex-auto">
-                                        <mat-slide-toggle color="primary" [(ngModel)]="data.selecionado"></mat-slide-toggle>
+                                        <mat-slide-toggle color="primary" [(ngModel)]="data.selecionado">
+                                        </mat-slide-toggle>
                                     </div>
-                                    
+
                                     <div>
                                         <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
                                             (click)="alternarDetalhe(data.codInstalacao)">
@@ -134,7 +140,15 @@
                                                 [svgIcon]="instalacaoSelecionada?.codInstalacao === data.codInstalacao ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                             </mat-icon>
                                         </button>
-                                    </div>                                        
+                                    </div>
+
+                                    <div>
+                                        <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                            (click)="abrirRessalvas(data.codInstalacao)">
+                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:clipboard'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="grid">

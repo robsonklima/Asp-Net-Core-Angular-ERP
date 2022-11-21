@@ -1,6 +1,5 @@
 <div class="grid sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 w-full" *transloco="let t">
-    <div
-        class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
         <div class="flex flex-col sm:flex-row items-start justify-between">
             <div class="text-lg font-medium tracking-tight leading-6 truncate">
                 Chamados Abertos via Integração
@@ -35,6 +34,7 @@
                                         [class.text-green-600]="monitoramento.status == 'OK'"
                                         [class.text-amber-600]="monitoramento.status == 'WARNING'">
                                     </mat-icon>
+
                                     <div class="ml-1.5 text-md text-secondary">
                                         {{ obterOciosidadePorExtenso(monitoramento.dataHoraProcessamento) | titlecase }}
                                     </div>
@@ -79,8 +79,7 @@
         </div>
     </div>
 
-    <div
-        class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+    <div class="lg:col-span-4 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
         <div class="flex flex-col sm:flex-row items-start justify-between">
             <div class="text-lg font-medium tracking-tight leading-6 truncate">
                 Serviços
@@ -166,8 +165,7 @@
                             {{ monitoramento.descricao }}
                         </div>
 
-                        <div
-                            class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                             <ng-container>
                                 <div class="flex items-center">
                                     <mat-icon class="icon-size-5 text-hint"
@@ -250,8 +248,7 @@
                             {{ monitoramento.descricao }}
                         </div>
 
-                        <div
-                            class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center -ml-0.5 mt-2 sm:mt-1 space-y-1 sm:space-y-0 sm:space-x-3">
                             <ng-container>
                                 <div class="flex items-center">
                                     <mat-icon class="icon-size-5 text-hint"

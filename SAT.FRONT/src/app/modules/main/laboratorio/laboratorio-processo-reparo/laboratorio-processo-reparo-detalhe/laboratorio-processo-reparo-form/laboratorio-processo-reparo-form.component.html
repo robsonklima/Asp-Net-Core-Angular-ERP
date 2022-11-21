@@ -13,7 +13,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-3">
                     <mat-label>{{ t('serie') }}</mat-label>
-                    <input matInput formControlName="numSerie">
+                    <input matInput formControlName="numSerie" maxlength="30">
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -28,7 +28,16 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-6">
                     <mat-label>{{ t('status') }}</mat-label>
-                    <input matInput formControlName="status">
+                    <mat-select formControlName="codStatus">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="statusFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let s of status" [value]="s.codStatus">
+                            {{ s.descStatus }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
 

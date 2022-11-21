@@ -8,8 +8,8 @@ namespace SAT.MODELS.Entities{
         public int CodInstalacao { get; set; }
         public int? CodInstalLote { get; set; }
         public int CodContrato { get; set; }
-        public int CodTipoEquip { get; set; }
-        public int CodGrupoEquip { get; set; }
+        public int? CodTipoEquip { get; set; }
+        public int? CodGrupoEquip { get; set; }
         public int? CodEquip { get; set; }
         public int? CodRegiao { get; set; }
         public int? CodAutorizada { get; set; }

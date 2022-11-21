@@ -32,10 +32,10 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey<Instalacao>(i => i.CodEquip);
 
             builder
-                .HasOne(i => i.EquipamentoContrato)
-                 .WithOne()
-                 .HasForeignKey<EquipamentoContrato>(i => i.CodEquipContrato)
-                 .HasPrincipalKey<Instalacao>(i => i.CodEquipContrato);
+               .HasOne(prop => prop.EquipamentoContrato)
+               .WithMany()
+               .HasForeignKey(prop => prop.CodEquipContrato)
+               .HasPrincipalKey(prop => prop.CodEquipContrato);
 
             builder
                 .HasOne(i => i.InstalacaoLote)
@@ -71,18 +71,18 @@ namespace SAT.INFRA.Mapping
                 .HasOne(i => i.OrdemServico)
                 .WithOne()
                 .HasForeignKey<Instalacao>(i => i.CodOS)
-                .HasPrincipalKey<OrdemServico>(i => i.CodOS);                
+                .HasPrincipalKey<OrdemServico>(i => i.CodOS);
 
             builder
                 .HasOne(i => i.InstalacaoStatus)
                 .WithOne()
                 .HasForeignKey<Instalacao>(i => i.CodInstalStatus)
-                .HasPrincipalKey<InstalacaoStatus>(i => i.CodInstalStatus);  
+                .HasPrincipalKey<InstalacaoStatus>(i => i.CodInstalStatus);
 
             builder
                 .HasMany(i => i.InstalacoesRessalva)
                 .WithOne()
-                .HasForeignKey(i => new { i.CodInstalacao });    
+                .HasForeignKey(i => new { i.CodInstalacao });
         }
     }
 }

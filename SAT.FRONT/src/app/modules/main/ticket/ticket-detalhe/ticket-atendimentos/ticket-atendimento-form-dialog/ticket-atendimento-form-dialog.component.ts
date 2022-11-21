@@ -116,6 +116,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
       ...this.ticket,
       ...{
         codStatus: this.form.controls['codStatus'].value,
+        codUsuarioAtendente: this.userSession.usuario.codUsuario,
         codUsuarioManut: this.userSession.usuario.codUsuario,
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss')
       }

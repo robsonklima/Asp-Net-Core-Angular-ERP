@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORTempoReparoService } from 'app/core/services/or-tempo-reparo.service';
-import { ORService } from 'app/core/services/or.service';
 import { ORCheckList } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';

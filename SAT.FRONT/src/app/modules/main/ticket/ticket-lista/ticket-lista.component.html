@@ -115,7 +115,9 @@
                                         {{ ticket.usuarioCad.nomeUsuario }}
                                     </span>
                                     
-                                    {{ obterTempoAbertura(ticket.dataHoraCad) }}
+                                    <span class="font-semibold">
+                                        {{ obterTempoAbertura(ticket.dataHoraCad) }}
+                                    </span>
                                 </div>
 
                                 <button class="ml-auto" [disabled]="ticket.codStatus == 3" mat-icon-button [matTooltip]="ticket.indAtivo ? 'Desativar' : 'Ativar'"

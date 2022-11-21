@@ -53,7 +53,7 @@
 
             <div class="flex flex-wrap items-start w-full">
                 <div cdkDropList class="p-8 overflow-y-visible" *ngIf="tickets.length" (cdkDropListDropped)="dropped($event)">
-                    <fuse-card class="flex flex-col md:flex-row w-2/3 mb-4 select-none"
+                    <fuse-card class="flex flex-col md:flex-row w-4/5 mb-4 select-none"
                         [class.cursor-move]="userSession.usuario.codPerfil == 3 && ticket.codStatus == 4"
                         cdkDrag [cdkDragDisabled]="userSession.usuario.codPerfil != 3 || ticket.codStatus != 4"
                         *ngFor="let ticket of tickets; let i=index">

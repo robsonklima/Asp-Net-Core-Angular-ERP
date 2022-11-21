@@ -2,13 +2,6 @@
     <div class="flex items-center">
         <span class="text-lg font-medium">{{ t('insumos') }}</span>
     </div>
-
-    <div class="flex place-content-end">
-        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
-            <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
-            <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
-        </mat-form-field>
-    </div>
 </div>
 
 <div class="w-350">
@@ -18,7 +11,7 @@
                 <th mat-header-cell *matHeaderCellDef>Utilizado</th>
                 <td mat-cell *matCellDef="let checklist">
                     <mat-cell>
-                        <div class="text-center pt-0.5">
+                        <div class="text-center">
                             <mat-checkbox [color]="'primary'" (change)="toggleRealizado($event, checklist)">
                             </mat-checkbox>
                         </div>

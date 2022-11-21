@@ -32,9 +32,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 
     this.tempoReparo = _.last(this.item.temposReparo);
 
-    console.log(this.item);
-    
-
     this.form.patchValue({
       codMagnus: this.item?.peca?.codMagnus,
       descricao: this.item?.peca?.nomePeca,

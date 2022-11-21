@@ -1,31 +1,27 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto">
     <div class="flex-auto">
-        <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8">
+        <div class="sticky top-0 z-20 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-card shadow-sm py-8 px-6 md:px-8">
             <div>
-                <div class="text-4xl font-extrabold tracking-tight leading-none">Contatos</div>
-                <div class="ml-0.5 font-medium text-secondary">
-                    <ng-container>
-                        {{ usuarios.length }}
-                    </ng-container>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">
+                    Contatos
+                </div>
 
-                    {{ usuarios.length == 1 ? 'Contato' : 'Contatos' }}
+                <div class="ml-0.5 font-medium text-secondary">
+                    <span *ngIf="usuarios.length !== 0">
+                        {{ usuarios.length }} {{ usuarios.length == 1 ? ' contato' : ' contatos' }}
+                    </span>
                 </div>
             </div>
 
-            <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
-                <div class="flex-auto">
-                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full min-w-50">
-                        <mat-icon class="icon-size-5" matPrefix
-                            [svgIcon]="isLoading ? 'feather:loader' : 'heroicons_solid:search'"></mat-icon>
-
-                        <input matInput #searchInputControl [autocomplete]="'off'"
-                            [placeholder]="'Pesquisar'" [disabled]="isLoading">
-                    </mat-form-field>
-                </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="isLoading ? 'feather:loader' : 'heroicons_solid:search'"></mat-icon>
+                    <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar'" [disabled]="isLoading">
+                </mat-form-field>
             </div>
         </div>
 
-        <div class="relative px-8">
+        <div class="relative px-8 mt-8">
             <ng-container *ngIf="usuarios.length">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
                     <ng-container *ngFor="let usuario of usuarios; let i = index;">

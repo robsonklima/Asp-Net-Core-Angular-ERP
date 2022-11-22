@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Ticket, TicketData, TicketParameters } from '../types/ticket.types';
+import { Ticket, TicketBacklogView, TicketData, TicketParameters } from '../types/ticket.types';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,18 @@ export class TicketService {
 
     return this.http.get(`${c.api}/Ticket`, { params: params }).pipe(
       map((data: TicketData) => data)
+    )
+  }
+
+  obterBacklog(parameters: TicketParameters): Observable<TicketBacklogView[]> {
+    let params = new HttpParams();
+    
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/Ticket/Backlog`, { params: params }).pipe(
+      map((data: TicketBacklogView[]) => data)
     )
   }
 

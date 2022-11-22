@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
@@ -9,5 +10,6 @@ namespace SAT.INFRA.Interfaces {
         Ticket Atualizar(Ticket ticket);
         Ticket Criar(Ticket ticket);
         Ticket Deletar(int codigo);
+        List<TicketBacklogView> ObterBacklog(TicketParameters parameters);
     }
 }

@@ -1,0 +1,158 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0"  *transloco="let t">
+    <div class="sticky top-0 z-20 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-card shadow-sm py-8 px-6 md:px-8">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a [routerLink]="'/ticket/'" class="text-primary">
+                        {{ t('tickets') }}
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
+                    {{ t('graficos') }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto mt-4 sm:mt-6">
+        <div class="w-full max-w-screen-xl mx-auto" *ngIf="tickets.length">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Sumário</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+                            {{ sumario?.totais?.pendencias || 0 }}
+                        </div>
+
+                        <div class="text-lg font-medium text-blue-600 dark:text-blue-500">
+                            {{ sumario?.totais?.pendencias == 1 ? 'Pendência' : 'Pendências' }}
+                        </div>
+
+                        <div class="flex items-center justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">
+                                {{ sumario?.totais?.concluido == 1 ? 'Concluído' : 'Concluídos' }}:
+                            </div>
+                            <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.concluidos }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+                    [class.bg-red-50]="sumario?.totais?.antigosSemana">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Antigos</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
+                            {{ sumario?.totais?.antigosSemana }}
+                        </div>
+
+                        <div class="text-lg font-medium text-red-600 dark:text-red-500">Aguardando há 7+ dias</div>
+                        <div class="flex items-center justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">30+ dias:</div>
+                            <div class="ml-1.5 text-lg font-semibold">
+                                {{ sumario?.totais?.antigosMes }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Novos</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">
+                            {{ sumario?.totais?.novosHoje }}
+                        </div>
+
+                        <div class="text-lg font-medium text-amber-600 dark:text-amber-500">
+                            {{ sumario?.totais?.novosHoje == 1 ? 'Aberto' : 'Abertos' }} hoje
+                        </div>
+
+                        <div class="flex items-center justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">
+                                Abertos ontem:
+                            </div>
+                            <div class="ml-1.5 text-lg font-semibold">
+                                {{ sumario?.totais?.novosOntem }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Melhorias</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">
+                            {{ sumario?.totais?.melhorias }}
+                        </div>
+
+                        <div class="text-lg font-medium text-green-600 dark:text-green-500">Sugestões</div>
+                        <div class="flex items-center justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">Implementadas:</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.melhoriasAtendidas }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mt-6">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                        <span>
+                            Tickets Backlog
+                        </span>
+                        <span class="text-secondary font-light">
+                            Abertos, Fechados e Backlog
+                        </span>
+                    </div>
+                    <div class="mt-3 sm:mt-0 sm:ml-2">
+                        <mat-button-toggle-group value="1">
+                            <mat-button-toggle value="1" (click)="montarGraficoBacklog(1)">Este Mês</mat-button-toggle>
+                            <mat-button-toggle value="2" (click)="montarGraficoBacklog(2)">Esta Semana</mat-button-toggle>
+                            <mat-button-toggle value="3" (click)="montarGraficoBacklog(3)">Mês Passado</mat-button-toggle>
+                            <mat-button-toggle value="4" (click)="montarGraficoBacklog(4)">Semana Passada</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+
+                <div class="w-full mt-8 sm:mt-4">
+                    <div class="flex flex-col flex-auto">
+                        <div class="flex flex-col flex-auto">
+                            <div id="chart" *ngIf="backlog?.length">
+                                <apx-chart
+                                    [series]="backlogChartOptions.series"
+                                    [chart]="backlogChartOptions.chart"
+                                    [dataLabels]="backlogChartOptions.dataLabels"
+                                    [plotOptions]="backlogChartOptions.plotOptions"
+                                    [responsive]="backlogChartOptions.responsive"
+                                    [xaxis]="backlogChartOptions.xaxis"
+                                    [legend]="backlogChartOptions.legend"
+                                    [fill]="backlogChartOptions.fill"
+                                ></apx-chart>
+                            </div>
+
+                            <div *ngIf="!backlog?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhum backlog encontrado!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

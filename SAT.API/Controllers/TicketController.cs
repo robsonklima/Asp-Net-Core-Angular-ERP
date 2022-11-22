@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
+using System.Collections.Generic;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
@@ -27,6 +28,12 @@ namespace SAT.API.Controllers
         public ListViewModel Get([FromQuery] TicketParameters parameters)
         {
             return _ticketService.ObterPorParametros(parameters);
+        }
+
+        [HttpGet("Backlog")]
+        public List<TicketBacklogView> GetBacklog([FromQuery] TicketParameters parameters)
+        {
+            return _ticketService.ObterBacklog(parameters);
         }
 
         [HttpGet("{codTicket}")]

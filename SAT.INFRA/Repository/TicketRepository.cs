@@ -6,6 +6,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -65,6 +66,12 @@ namespace SAT.INFRA.Repository
             {
                 query = query.Where(t => t.CodClassificacao == parameters.CodClassificacao);
             }
+
+            if (parameters.DataHoraCadInicio.HasValue)
+                query = query.Where(t => t.DataHoraCad.Date >= parameters.DataHoraCadInicio.Value.Date);
+
+            if (parameters.DataHoraCadFim.HasValue)
+                query = query.Where(t => t.DataHoraCad.Date <= parameters.DataHoraCadFim.Value.Date);
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
@@ -129,6 +136,19 @@ namespace SAT.INFRA.Repository
             }
 
             return t;
+        }
+
+        public List<TicketBacklogView> ObterBacklog(TicketParameters parameters)
+        {
+            var query = _context.TicketBacklogView.AsQueryable();
+
+            if (parameters.DataHoraCadInicio.HasValue)
+                query = query.Where(t => t.Data.Date >= parameters.DataHoraCadInicio.Value.Date);
+
+            if (parameters.DataHoraCadFim.HasValue)
+                query = query.Where(t => t.Data.Date <= parameters.DataHoraCadFim.Value.Date);
+           
+           return query.ToList();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using SAT.MODELS.Entities.Helpers;
 
 namespace SAT.MODELS.Entities.Params {
@@ -7,5 +8,7 @@ namespace SAT.MODELS.Entities.Params {
         public string CodStatus { get; set; }
         public int? CodPrioridade { get; set; }
         public int? CodClassificacao { get; set; }
+        public DateTime? DataHoraCadInicio { get; set; }
+        public DateTime? DataHoraCadFim { get; set; }
     }
 }

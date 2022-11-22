@@ -40,8 +40,8 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
-			codClientes: [undefined],
-			codEquips: [undefined],
+			CodClientes: [undefined],
+			CodEquips: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

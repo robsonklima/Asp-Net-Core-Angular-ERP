@@ -460,7 +460,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 								codOrc: this.codOrc,
 								incluirLaudoExportacao: data.incluirLaudoExportacao
 							}
+							
 						}
+						
 						this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 						this.atualizaIntervencaoOS();
 						break;

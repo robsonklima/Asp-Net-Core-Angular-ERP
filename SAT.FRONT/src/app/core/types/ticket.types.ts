@@ -95,6 +95,8 @@ export interface TicketParameters extends QueryStringParameters {
     codStatus?: number;
     codPrioridade?: number;
     codClassificacao?: number;
+    dataHoraCadInicio?: string;
+    dataHoraCadFim?: string;
 }
 
 export interface TicketAtendimentoParameters extends QueryStringParameters {
@@ -118,9 +120,22 @@ export interface TicketPrioridadeParameters extends QueryStringParameters {
     codClassificacao?: number;
 };
 
+export interface TicketBacklogView {
+    data: string;
+    abertos: string;
+    fechados: string;
+    backlog: string;
+}
+
 export const ticketStatusConst = {
     EM_ATENDIMENTO: 1,
     CANCELADO: 2,
     CONCLUIDO: 3,
     AGUARDANDO: 4
+}
+
+export const ticketClassificacaoConst = {
+    MELHORIA: 1,
+    INCIDENTE: 2,
+    DUVIDA: 3
 }

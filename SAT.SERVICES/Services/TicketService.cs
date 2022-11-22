@@ -1,4 +1,5 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System.Collections.Generic;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
@@ -38,6 +39,11 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
+        }
+
+        public List<TicketBacklogView> ObterBacklog(TicketParameters parameters)
+        {
+            return _ticketRepo.ObterBacklog(parameters);
         }
 
         public Ticket Atualizar(Ticket ticket)

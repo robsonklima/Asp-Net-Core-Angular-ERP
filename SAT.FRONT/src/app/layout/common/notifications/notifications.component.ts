@@ -12,6 +12,7 @@ import { Notificacao } from 'app/core/types/notificacao.types';
 import { NotificacaoService } from 'app/core/services/notificacao.service';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import moment from 'moment';
 
 @Component({
     selector: 'notifications',
@@ -92,6 +93,8 @@ export class NotificationsComponent implements OnInit, OnDestroy
         // Mark all as read
         this.notifications.forEach((notification, index) =>
         {
+            this.notifications[index].codUsuarioManut = this.userSession.usuario.codUsuario,
+            this.notifications[index].dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
             this.notifications[index].lida = 1;
         });
 
@@ -108,6 +111,8 @@ export class NotificationsComponent implements OnInit, OnDestroy
 
         this._notificacaoService.atualizar(notification).subscribe(() =>
         {
+            this.notifications[index].codUsuarioManut = this.userSession.usuario.codUsuario,
+            this.notifications[index].dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss'),
             this.notifications[index] = notification;
             this._calculateUnreadCount();
             this._changeDetectorRef.markForCheck();

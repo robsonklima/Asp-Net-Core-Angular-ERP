@@ -102,8 +102,8 @@ export class DespesaManutencaoComponent implements OnInit {
     await this.obterDespesaItemAlertas();
     await this.obterRATs();
 
-    if (this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO) && 
-        this.despesaPeriodoTecnico.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])) {
+    if (this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO) && 
+        this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])) {
       this.permiteAlterarDespesa = true;
     } else {
       this.permiteAlterarDespesa = false;

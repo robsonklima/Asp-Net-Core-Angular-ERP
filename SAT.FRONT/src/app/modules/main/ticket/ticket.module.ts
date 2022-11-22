@@ -37,6 +37,9 @@ import { TicketAtendimentosComponent } from './ticket-detalhe/ticket-atendimento
 import { TicketAnexosComponent } from './ticket-detalhe/ticket-anexos/ticket-anexos.component';
 import { registerLocaleData } from '@angular/common';
 import localeBr from '@angular/common/locales/pt';
+import { TicketGraficosComponent } from './ticket-graficos/ticket-graficos.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 registerLocaleData(localeBr, 'pt')
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
@@ -55,6 +58,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     TicketDetalheComponent,
     TicketAtendimentosComponent,
     TicketAnexosComponent,
+    TicketGraficosComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +66,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     MatTooltipModule,
+    NgApexchartsModule,
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
@@ -84,6 +89,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSidenavModule,
     MatMenuModule,
     FiltroModule,
+    MatButtonToggleModule,
     FuseCardModule
   ],
   providers: [

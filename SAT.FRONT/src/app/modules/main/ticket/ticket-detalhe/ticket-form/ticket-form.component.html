@@ -1,6 +1,6 @@
 <form class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-        <p class="text-lg font-medium">Novo Atendimento</p>
+        <p class="text-lg font-medium">{{ isAddMode ? 'Criando' : 'Editando o' }} Atendimento</p>
         <p class="text-secondary">
             Preencha as informações abaixo para solicitar apoio da equipe SAT
         </p>

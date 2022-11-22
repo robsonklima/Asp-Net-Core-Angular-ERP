@@ -56,10 +56,25 @@ namespace SAT.SERVICES.Services
 
             if (parameters.IncluirLaudoExportacao)
             {
-                var laudoImpressao = new LaudoPdfHelper(orcamento.OrdemServico);
-                var laudoPdf = GenerateFilePath($"LAUDO-{orcamento.Numero}.pdf");
-                laudoImpressao.GeneratePdf(laudoPdf);
-                arquivos.Add(laudoPdf);
+                var rat = orcamento.OrdemServico?.RelatoriosAtendimento?
+                    .OrderByDescending(o => o.CodOS)?
+                    .FirstOrDefault();
+
+                if (rat != null) {
+                    var laudo = _laudoRepo
+                        .ObterPorParametros(new LaudoParameters { 
+                            CodRAT = rat.CodRAT,
+                            CodOS = rat.CodOS
+                        })
+                        .FirstOrDefault();
+
+                    if (laudo != null) {
+                        var laudoImpressao = new LaudoPdfHelper(orcamento.OrdemServico, laudo);
+                        var laudoPdf = GenerateFilePath($"LAUDO-{orcamento.Numero}.pdf");
+                        laudoImpressao.GeneratePdf(laudoPdf);
+                        arquivos.Add(laudoPdf);
+                    }
+                }
             }
 
             if (exportacao.Email != null)

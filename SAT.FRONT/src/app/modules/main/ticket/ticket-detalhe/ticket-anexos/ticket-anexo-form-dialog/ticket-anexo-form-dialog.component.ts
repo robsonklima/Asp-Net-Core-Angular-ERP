@@ -70,7 +70,7 @@ export class TicketAnexoFormDialogComponent implements OnInit {
     if (this.userSession.usuario.codUsuario == this.ticket.codUsuarioCad)
       destinatario = this.ticket?.atendimentos[0]?.codUsuarioCad;
     else 
-      destinatario = this.userSession.usuario.codUsuario;
+      destinatario = this.ticket.codUsuarioCad;
 
     if (destinatario)
       this._notificacaoService.criar({

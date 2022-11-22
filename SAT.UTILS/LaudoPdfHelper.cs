@@ -8,12 +8,13 @@ namespace SAT.UTILS
 {
     public class LaudoPdfHelper : IDocument
     {
+        public OrdemServico _ordemServico { get; }
+        private readonly Laudo _laudo;
 
-        public OrdemServico OrdemServico { get; }
-
-        public LaudoPdfHelper(OrdemServico ordemServico)
+        public LaudoPdfHelper(OrdemServico ordemServico, Laudo laudo)
         {
-            OrdemServico = ordemServico;
+            _ordemServico = ordemServico;
+            _laudo = laudo;
         }
 
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
@@ -126,25 +127,25 @@ namespace SAT.UTILS
                         });
 
                         table.Cell().Element(CellStyle).Text("Cliente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.Cliente?.NomeFantasia).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.Cliente?.NomeFantasia).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Contato").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.NomeContato).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NomeContato ?? "Não Informado").Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Data Atendimento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.DataHoraFechamento).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_laudo.DataHoraCad).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("OS Perto").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.CodOS).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.CodOS).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Defeito").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.DefeitoRelatado).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.DefeitoRelatado).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Emitente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.Tecnico?.Nome).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_laudo.Tecnico.Nome).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("OS Cliente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.NumOSCliente).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NumOSCliente).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Cód. Pai do Equipamento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[1]).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[1]).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Modelo").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Série").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(OrdemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
+                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
                         table.Cell().Element(CellStyle).Text("Protocolo STN").Style(FontStyle());
                         table.Cell().Element(CellStyle).AlignRight().Text("---").Style(FontStyle());
                     });
@@ -152,7 +153,7 @@ namespace SAT.UTILS
 
         public void ComporSituacao(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -190,7 +191,7 @@ namespace SAT.UTILS
                                             grid.Columns(6);
                                             using var client = new HttpClient();
 
-                                            OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                                            _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                                             {
                                                 if (f.NomeFoto.Contains("LAUDO") && !f.NomeFoto.Contains("ASSINATURA"))
                                                 {
@@ -215,7 +216,7 @@ namespace SAT.UTILS
 
         public void ComporChecagemVisual(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -244,7 +245,7 @@ namespace SAT.UTILS
 
         public void ComporInfraEstruturaSite(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -297,7 +298,7 @@ namespace SAT.UTILS
 
         public void ComporConclusao(IContainer container)
         {
-            var laudos = OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
+            var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
             var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
 
             container.Table(table =>
@@ -346,7 +347,7 @@ namespace SAT.UTILS
                             grid.Spacing(10);
                             grid.Columns(4);
 
-                            OrdemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                            _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                             {
                                 if (f.NomeFoto.Contains("LAUDO") && f.NomeFoto.Contains("ASSINATURA"))
                                 {

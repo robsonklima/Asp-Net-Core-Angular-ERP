@@ -4,7 +4,7 @@ namespace SAT.MODELS.Entities.Params {
     public class TicketParameters : QueryStringParameters {
         public string CodUsuarioCad { get; set; }
         public int? CodModulo { get; set; }
-        public int? CodStatus { get; set; }
+        public string CodStatus { get; set; }
         public int? CodPrioridade { get; set; }
         public int? CodClassificacao { get; set; }
     }

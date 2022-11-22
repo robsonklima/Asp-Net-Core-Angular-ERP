@@ -80,50 +80,52 @@
 
                     <ng-container>
                         <ng-container *ngFor="let laudo of dataSourceData?.items">
-                            <div class="list-grid-os-stn-lista grid items-center h-10 gap-4 px-8 text-sm border-b hover:bg-gray-100"
-                                *transloco="let t">
-                                <div class="truncate">
-                                    <strong>
-                                        {{ laudo.codOS }}
-                                    </strong>
-                                </div>
+                            <a [routerLink]="['suporte-stn/laudo/form/']">
+                                <div class="list-grid-os-stn-lista grid items-center h-10 gap-4 px-8 text-sm border-b hover:bg-gray-100"
+                                    *transloco="let t">
+                                    <div class="truncate">
+                                        <strong>
+                                            {{ laudo.codOS }}
+                                        </strong>
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.codLaudo }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.codLaudo }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.dataHoraCad | date:'dd/MM HH:mm' }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.dataHoraCad | date:'dd/MM HH:mm' }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.tecnico?.nome }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.tecnico?.nome }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.or?.cliente?.nomeFantasia | uppercase }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.or?.cliente?.nomeFantasia | uppercase }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.or?.equipamento?.nomeEquip }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.or?.equipamento?.nomeEquip }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.or?.localAtendimento?.numAgencia + '/' +
-                                    laudo.or?.localAtendimento?.dcPosto + ' - ' +
-                                    laudo.or?.localAtendimento?.nomeLocal
-                                    }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.or?.localAtendimento?.numAgencia + '/' +
+                                        laudo.or?.localAtendimento?.dcPosto + ' - ' +
+                                        laudo.or?.localAtendimento?.nomeLocal
+                                        }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.or?.tipoIntervencao?.nomTipoIntervencao }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.or?.tipoIntervencao?.nomTipoIntervencao }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ laudo.laudoStatus?.nomeStatus }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ laudo.laudoStatus?.nomeStatus }}
+                                    </div>
 
-                            </div>
+                                </div>
+                            </a>
                         </ng-container>
                     </ng-container>
                 </div>

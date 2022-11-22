@@ -50,9 +50,10 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.CodModulo == parameters.CodModulo);
             }
 
-            if (parameters.CodStatus.HasValue)
+            if (!string.IsNullOrWhiteSpace(parameters.CodStatus))
             {
-                query = query.Where(t => t.CodStatus == parameters.CodStatus);
+                int[] cods = parameters.CodStatus.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => cods.Contains(t.CodStatus));
             }
 
             if (parameters.CodPrioridade.HasValue)

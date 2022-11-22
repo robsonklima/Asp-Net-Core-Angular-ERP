@@ -39,6 +39,7 @@ export class TicketFiltroComponent extends FilterBase implements OnInit, IFilter
 		this.loadData();
 		
 	}
+	
 	async obterDados() {
 	  this.modulos = (await this._ticketModuloService
 		.obterPorParametros({

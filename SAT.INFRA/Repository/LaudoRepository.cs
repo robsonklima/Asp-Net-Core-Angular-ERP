@@ -89,7 +89,10 @@ namespace SAT.INFRA.Repository
             }
 
             if (parameters.CodOS.HasValue)
-                laudos = laudos.Where(l => l.Or.CodOS == parameters.CodOS.Value);
+                laudos = laudos.Where(l => l.CodOS == parameters.CodOS.Value);
+
+            if (parameters.CodRAT.HasValue)
+                laudos = laudos.Where(l => l.CodRAT == parameters.CodRAT.Value);
 
             if (parameters.CodTecnico.HasValue)
                 laudos = laudos.Where(l => l.Tecnico.CodTecnico == parameters.CodTecnico.Value);

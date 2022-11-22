@@ -53,7 +53,9 @@
 
             <div class="flex flex-wrap items-start w-full">
                 <div cdkDropList class="p-8 overflow-y-visible" *ngIf="tickets.length" (cdkDropListDropped)="dropped($event)">
-                    <fuse-card class="flex flex-col md:flex-row w-4/5 mb-4 select-none"
+                    <fuse-card class="flex flex-col md:flex-row w-1/2 mb-4 select-none"
+                        [class.bg-gray-50]="ticket.codStatus == 2"
+                        [class.bg-green-50]="ticket.codStatus == 3"
                         [class.cursor-move]="userSession.usuario.codPerfil == 3 && ticket.codStatus == 4"
                         cdkDrag [cdkDragDisabled]="userSession.usuario.codPerfil != 3 || ticket.codStatus != 4"
                         *ngFor="let ticket of tickets; let i=index">
@@ -62,6 +64,8 @@
                                 <div class="text-2xl leading-tight">
                                     <mat-icon *ngIf="userSession.usuario.codUsuario == ticket.codUsuarioCad"
                                         class="pt-2.5 text-yellow-400" svgIcon="heroicons_solid:star"></mat-icon>
+                                    
+                                    <span class="font-light">#{{ ticket.codTicket }}</span>
                                     
                                     {{ ticket.titulo }}
                                 </div>
@@ -103,7 +107,7 @@
                                 </span>
                             </div>
 
-                            <div class="text-md text-secondary mt-6">
+                            <div class="w-full text-md text-secondary mt-6">
                                 {{ ticket.descricao }}
                             </div>
 

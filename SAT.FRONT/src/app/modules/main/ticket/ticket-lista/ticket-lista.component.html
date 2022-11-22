@@ -38,10 +38,15 @@
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <div [matTooltip]="t('exportar')"
-                        (click)="exportar()">
+                    <div [matTooltip]="t('exportar')" (click)="exportar()">
                         <button class="ml-2" mat-icon-button>
                             <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                        </button>
+                    </div>
+
+                    <div [matTooltip]="t('graficos')" [routerLink]="'/ticket/graficos'">
+                        <button class="ml-2" mat-icon-button>
+                            <mat-icon class="text-teal-600" [svgIcon]="'heroicons_outline:chart-pie'"></mat-icon>
                         </button>
                     </div>
 
@@ -53,9 +58,10 @@
 
             <div class="flex flex-wrap items-start w-full">
                 <div cdkDropList class="p-8 overflow-y-visible" *ngIf="tickets.length" (cdkDropListDropped)="dropped($event)">
-                    <fuse-card class="flex flex-col md:flex-row w-1/2 mb-4 select-none"
+                    <fuse-card class="flex flex-col md:flex-row w-240 mb-4 select-none"
                         [class.bg-gray-50]="ticket.codStatus == 2"
                         [class.bg-green-50]="ticket.codStatus == 3"
+                        [class.bg-red-50]="ticket.codUsuarioCad == userSession.usuario.codUsuario"
                         [class.cursor-move]="userSession.usuario.codPerfil == 3 && ticket.codStatus == 4"
                         cdkDrag [cdkDragDisabled]="userSession.usuario.codPerfil != 3 || ticket.codStatus != 4"
                         *ngFor="let ticket of tickets; let i=index">
@@ -124,7 +130,8 @@
                                     </span>
                                 </div>
 
-                                <button class="ml-auto" [disabled]="ticket.codStatus == 3" mat-icon-button [matTooltip]="ticket.indAtivo ? 'Desativar' : 'Ativar'"
+                                <button class="ml-auto" 
+                                    [disabled]="(ticket.codUsuarioCad != userSession.usuario.codUsuario  && userSession.usuario.codPerfil != 3) || ticket.codStatus == 3" mat-icon-button [matTooltip]="ticket.indAtivo ? 'Desativar' : 'Ativar'"
                                     (click)="toggleStatusTicket(ticket)">
                                     <mat-icon class="icon-size-5" [class.text-green-500]="ticket.indAtivo"
                                         [class.text-gray-300]="!ticket.indAtivo"
@@ -132,7 +139,8 @@
                                 </button>
 
                                 <button mat-icon-button matTooltip="{{ t('editar') }}"
-                                    [routerLink]="['/ticket/detalhe/' + ticket.codTicket]">
+                                    [routerLink]="['/ticket/detalhe/' + ticket.codTicket]"
+                                    [disabled]="ticket.codUsuarioCad != userSession.usuario.codUsuario && userSession.usuario.codPerfil != 3">
                                     <mat-icon class="text-blue-500 icon-size-5" [svgIcon]="'mat_solid:edit'">
                                     </mat-icon>
                                 </button>

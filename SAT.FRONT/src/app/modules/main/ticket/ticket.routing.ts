@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { TicketDetalheComponent } from './ticket-detalhe/ticket-detalhe.component';
+import { TicketGraficosComponent } from './ticket-graficos/ticket-graficos.component';
 import { TicketListaComponent } from './ticket-lista/ticket-lista.component';
 
 
@@ -20,5 +21,9 @@ export const ticketRoutes: Route[] = [
     {
         path: 'detalhe/:codTicket',
         component: TicketDetalheComponent,
+    },
+    {
+        path: 'graficos',
+        component: TicketGraficosComponent,
     }
 ];

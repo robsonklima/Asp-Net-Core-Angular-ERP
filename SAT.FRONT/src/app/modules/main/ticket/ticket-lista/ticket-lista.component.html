@@ -65,6 +65,8 @@
                                     <mat-icon *ngIf="userSession.usuario.codUsuario == ticket.codUsuarioCad"
                                         class="pt-2.5 text-yellow-400" svgIcon="heroicons_solid:star"></mat-icon>
                                     
+                                    <span class="font-light">#{{ ticket.codTicket }}</span>
+                                    
                                     {{ ticket.titulo }}
                                 </div>
 

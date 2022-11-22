@@ -61,6 +61,7 @@ namespace SAT.SERVICES.Services
         private readonly IDespesaCartaoCombustivelRepository _despesaCartaoCombustivelRepo;
         private readonly ITicketLogTransacaoRepository _ticketLogTransacaoRepo;
         private readonly ITicketRepository _ticketRepo;
+        private readonly ILaudoRepository _laudoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -106,7 +107,8 @@ namespace SAT.SERVICES.Services
             IORCheckListRepository orCheckListRepo,
             IDespesaCartaoCombustivelRepository despesaCartaoCombustivelRepo,
             ITicketLogTransacaoRepository ticketLogTransacaoRepo,
-            ITicketRepository ticketRepo
+            ITicketRepository ticketRepo,
+            ILaudoRepository laudoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -153,6 +155,7 @@ namespace SAT.SERVICES.Services
             _despesaCartaoCombustivelRepo = despesaCartaoCombustivelRepo;
             _ticketLogTransacaoRepo = ticketLogTransacaoRepo;
             _ticketRepo = ticketRepo;
+            _laudoRepo = laudoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 

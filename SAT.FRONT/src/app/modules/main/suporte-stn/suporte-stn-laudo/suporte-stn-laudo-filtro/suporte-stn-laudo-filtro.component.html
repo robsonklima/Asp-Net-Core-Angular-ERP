@@ -15,7 +15,7 @@
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
-                    <mat-select formControlName="codClientes" multiple="true">
+                    <mat-select formControlName="CodClientes" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
                         'codCliente')" [value]="0">
                             TODAS
@@ -28,7 +28,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('equipamento') }}</mat-label>
-                    <mat-select formControlName="codEquips" multiple="true">
+                    <mat-select formControlName="CodEquips" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equips,
                         'codEquip')" [value]="0">
                             TODAS

@@ -98,10 +98,6 @@
                             <div>
                                 {{ t('acoes') }}
                             </div>
-
-                            <div>
-                                {{ t('ressalvas') }}
-                            </div>
                         </div>
 
                         <ng-container>
@@ -133,24 +129,21 @@
                                         </mat-slide-toggle>
                                     </div>
 
-                                    <div>
-                                        <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
-                                            (click)="alternarDetalhe(data.codInstalacao)">
-                                            <mat-icon class="icon-size-5"
+                                    <div class="text-center -pt-1">
+                                        <button (click)="alternarDetalhe(data.codInstalacao)">
+                                            <mat-icon mat-icon-button matTooltip="{{ t('editar') }}"
                                                 [svgIcon]="instalacaoSelecionada?.codInstalacao === data.codInstalacao ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                             </mat-icon>
                                         </button>
-                                    </div>
 
-                                    <div>
-                                        <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                        <button class="ml-2"
                                             (click)="abrirRessalvas(data.codInstalacao)">
-                                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:clipboard'">
+                                            <mat-icon mat-icon-button matTooltip="{{ t('ressalvas') }}"
+                                                [svgIcon]="'heroicons_outline:clipboard'">
                                             </mat-icon>
-                                        </button>
-                                    </div>
+                                        </button>  
+                                    </div>                                                                                      
                                 </div>
-
                                 <div class="grid">
                                     <ng-container *ngIf="instalacaoSelecionada?.codInstalacao === data.codInstalacao">
                                         <ng-container

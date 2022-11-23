@@ -9,9 +9,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 export class AppComponent implements AfterViewInit
 {
-    constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
-        angulartics2GoogleAnalytics.startTracking();
-    }
+    constructor() {}
 
     ngAfterViewInit() {}
 }

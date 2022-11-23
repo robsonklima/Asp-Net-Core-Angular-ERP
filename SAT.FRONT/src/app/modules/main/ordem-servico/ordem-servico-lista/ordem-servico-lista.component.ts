@@ -60,7 +60,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		private _stringExtensions: StringExtensions,
 		private _exportacaoService: ExportacaoService,
 	) {
-		super(_userService, 'ordem-servico')
+		super(_userService, 'ordem-servico');
 	}
 
 	ngAfterViewInit(): void {

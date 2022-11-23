@@ -54,6 +54,9 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(l => l.TipoIntervencao)
                 .Include(l => l.Or)
                     .ThenInclude(l => l.LocalAtendimento)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.RelatoriosAtendimento)                    
+                        .ThenInclude(l => l.Fotos)
                 .Include(l => l.Tecnico)
                 .SingleOrDefault(a => a.CodLaudo == codigo);
             }
@@ -77,6 +80,9 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(l => l.TipoIntervencao)
                 .Include(l => l.Or)
                     .ThenInclude(l => l.LocalAtendimento)
+                .Include(l => l.Or)
+                    .ThenInclude(l => l.RelatoriosAtendimento)
+                        .ThenInclude(l => l.Fotos)                    
                 .Include(l => l.Tecnico)
                 .AsQueryable();
 

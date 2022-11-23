@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InstalacaoRessalvaService } from 'app/core/services/instalacao-ressalva.service';
-import { InstalacaoRessalva } from 'app/core/types/instalacao-ressalva.types';
+import { InstalacaoRessalva, InstalacaoRessalvaData } from 'app/core/types/instalacao-ressalva.types';
 import { InstalacaoListaComponent } from '../instalacao-lista/instalacao-lista.component';
 
 @Component({
@@ -13,6 +13,7 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
   codInstalacao: number;
   ressalvas: InstalacaoRessalva[] = [];
   form: FormGroup;
+  dataSourceData: InstalacaoRessalvaData;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) protected data: any,
@@ -54,7 +55,7 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
       codInstalacao: this.codInstalacao
     }).toPromise();
 
-    console.log(data);    
+    this.dataSourceData = data;
   }
 
   fechar() {

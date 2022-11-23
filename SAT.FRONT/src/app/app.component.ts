@@ -1,4 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @Component({
     selector: 'app-root',
@@ -8,9 +9,9 @@ import { AfterViewInit, Component } from '@angular/core';
 
 export class AppComponent implements AfterViewInit
 {
-    constructor () { }
-
-    ngAfterViewInit()
-    {
+    constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
+        angulartics2GoogleAnalytics.startTracking();
     }
+
+    ngAfterViewInit() {}
 }

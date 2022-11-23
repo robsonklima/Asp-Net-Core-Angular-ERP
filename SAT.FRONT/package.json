@@ -37,6 +37,7 @@
         "@mobiscroll/angular": "^5.13.0",
         "@ngneat/transloco": "2.21.0",
         "@types/leaflet.markercluster": "^1.4.5",
+        "angulartics2": "^12.2.0",
         "apexcharts": "3.27.1",
         "async": "^3.2.2",
         "chalk": "^5.0.0",

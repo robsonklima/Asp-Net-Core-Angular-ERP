@@ -99,7 +99,9 @@
                             {{ sumario?.totais?.melhorias }}
                         </div>
 
-                        <div class="text-lg font-medium text-green-600 dark:text-green-500">Sugestões</div>
+                        <div class="text-lg font-medium text-green-600 dark:text-green-500">
+                            {{ sumario?.totais?.melhorias == 1 ? 'Melhoria' : 'Melhorias' }}
+                        </div>
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
                             <div class="text-md font-medium truncate">Implementadas:</div>
                             <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.melhoriasAtendidas }}</div>

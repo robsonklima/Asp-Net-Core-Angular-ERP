@@ -74,14 +74,17 @@ export class TicketGraficosComponent implements AfterViewInit {
   }
 
   private async obterDados() {
-    const data = await this._ticketService.obterPorParametros({}).toPromise();
-    this.tickets = data.items;
+    this.tickets = (await this._ticketService.obterPorParametros({
+      dataHoraCadInicio: moment().startOf('year').format('MM/DD/YYYY')
+    }).toPromise()).items;
+
     this.obterSumario();
     this.montarGraficoBacklog();
     this.montarGraficoModulo();
     this.montarGraficoClassificacao();
     this.montarGraficoUsuario();
     this.montarGraficoPerfil();
+    
     this.isLoading = false;
     this._cdr.detectChanges();
   }

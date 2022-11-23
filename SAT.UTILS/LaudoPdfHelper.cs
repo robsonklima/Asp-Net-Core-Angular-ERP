@@ -63,11 +63,7 @@ namespace SAT.UTILS
             {
                 row.Spacing(20);
 
-                row.RelativeItem().Column(column =>
-                {
-                    column.Item().Text($"RELATÓRIO DE AVALIAÇÃO TÉCNICA").Style(titleStyle);
-                    column.Item().Text("DETECÇÃO ANALÍTICA DE FALHAS");
-                });
+
 
                 row.ConstantItem(280).Column(column =>
                 {
@@ -92,6 +88,12 @@ namespace SAT.UTILS
                         });
                     });
                 });
+
+                row.RelativeItem().Column(column =>
+{
+    column.Item().Text($"RELATÓRIO DE AVALIAÇÃO TÉCNICA").Style(titleStyle);
+    column.Item().Text("DETECÇÃO ANALÍTICA DE FALHAS");
+});
             });
         }
 

@@ -29,6 +29,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.TicketStatus)
                 .Include(t => t.UsuarioAtendente)
                 .Include(t => t.UsuarioCad.Filial)
+                .Include(t => t.UsuarioCad.Perfil)
                 .Include(t => t.Anexos)
                 .AsQueryable();
 
@@ -88,6 +89,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.TicketStatus)
                 .Include(t => t.UsuarioCad)
                 .Include(t => t.UsuarioCad.Filial)
+                .Include(t => t.UsuarioCad.Perfil)
                 .Include(t => t.UsuarioManut)
                 .Include(t => t.UsuarioManut.Filial)
                 .Include(t => t.Atendimentos.OrderByDescending(a => a.DataHoraCad))

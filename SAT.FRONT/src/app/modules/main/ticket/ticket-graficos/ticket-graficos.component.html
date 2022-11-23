@@ -1,5 +1,5 @@
-<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0"  *transloco="let t">
-    <div class="sticky top-0 z-20 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-card shadow-sm py-8 px-6 md:px-8">
+<div class="sm:inset-0 flex flex-col flex-auto min-w-0"  *transloco="let t">
+    <div class="relative flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-card shadow-sm py-8 px-6 md:px-8">
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
@@ -39,9 +39,9 @@
 
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
                             <div class="text-md font-medium truncate">
-                                {{ sumario?.totais?.concluido == 1 ? 'Concluído' : 'Concluídos' }}:
+                                Em atendimento:
                             </div>
-                            <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.concluidos }}</div>
+                            <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.emAtendimento }}</div>
                         </div>
                     </div>
                 </div>
@@ -151,8 +151,112 @@
                     </div>
                 </div>
             </div>
+
+            <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden my-6">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Módulos e Classificações</div>
+                    <div class="mt-3 sm:mt-0 sm:ml-2">
+                        <mat-button-toggle-group value="1">
+                            <mat-button-toggle value="1" (click)="montarGraficoModulo(1);montarGraficoClassificacao(1)">Este Mês</mat-button-toggle>
+                            <mat-button-toggle value="2" (click)="montarGraficoModulo(2);montarGraficoClassificacao(2)">Esta Semana</mat-button-toggle>
+                            <mat-button-toggle value="3" (click)="montarGraficoModulo(3);montarGraficoClassificacao(3)">Mês Passado</mat-button-toggle>
+                            <mat-button-toggle value="4" (click)="montarGraficoModulo(4);montarGraficoClassificacao(4)">Semana Passada</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                    <div class="flex flex-col flex-auto">
+                        <div class="font-medium text-secondary">Módulos do Sistema</div>
+                        <div class="flex flex-col flex-auto">
+                            <apx-chart
+                                *ngIf="moduloChartOptions?.series[0]?.data?.length"
+                                [series]="moduloChartOptions.series"
+                                [chart]="moduloChartOptions.chart"
+                                [dataLabels]="moduloChartOptions.dataLabels"
+                                [plotOptions]="moduloChartOptions.plotOptions"
+                                [title]="moduloChartOptions.title"
+                                [legend]="moduloChartOptions.legend"
+                            ></apx-chart>
+
+                            <div *ngIf="!moduloChartOptions?.series[0]?.data?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhum módulo encontrado!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <div class="font-medium text-secondary">Classificações dos Tickets</div>
+                        <div class="flex flex-col flex-auto">
+                            <apx-chart
+                                *ngIf="classificacaoChartOptions?.series[0]"
+                                [series]="classificacaoChartOptions.series"
+                                [chart]="classificacaoChartOptions.chart"
+                                [labels]="classificacaoChartOptions.labels"
+                                [title]="classificacaoChartOptions.title"
+                                [theme]="classificacaoChartOptions.theme"
+                                [responsive]="classificacaoChartOptions.responsive"
+                            ></apx-chart>
+
+                            <div *ngIf="!classificacaoChartOptions?.series[0] && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhuma classificação encontrada!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden my-6">
+                <div class="flex flex-col sm:flex-row items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Perfis e Solicitantes</div>
+                    <div class="mt-3 sm:mt-0 sm:ml-2">
+                        <mat-button-toggle-group value="1">
+                            <mat-button-toggle value="1" (click)="montarGraficoPerfil(1);montarGraficoUsuario(1)">Este Mês</mat-button-toggle>
+                            <mat-button-toggle value="2" (click)="montarGraficoPerfil(2);montarGraficoUsuario(2)">Esta Semana</mat-button-toggle>
+                            <mat-button-toggle value="3" (click)="montarGraficoPerfil(3);montarGraficoUsuario(3)">Mês Passado</mat-button-toggle>
+                            <mat-button-toggle value="4" (click)="montarGraficoPerfil(4);montarGraficoUsuario(4)">Semana Passada</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
+                    <div class="flex flex-col flex-auto">
+                        <div class="font-medium text-secondary">Perfis dos Usuários</div>
+                        <div class="flex flex-col flex-auto">
+                            <apx-chart
+                                *ngIf="perfilChartOptions?.series[0]?.data?.length"
+                                [series]="perfilChartOptions.series"
+                                [chart]="perfilChartOptions.chart"
+                                [dataLabels]="perfilChartOptions.dataLabels"
+                                [plotOptions]="perfilChartOptions.plotOptions"
+                                [title]="perfilChartOptions.title"
+                                [legend]="perfilChartOptions.legend"
+                            ></apx-chart>
+
+                            <div *ngIf="!perfilChartOptions?.series[0]?.data?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhum perfil encontrado!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <div class="font-medium text-secondary">Usuários que mais solicitaram ajuda</div>
+                        <div class="flex flex-col flex-auto">
+                            <apx-chart
+                                *ngIf="usuarioChartOptions?.series[0]?.data?.length"
+                                [series]="usuarioChartOptions.series"
+                                [chart]="usuarioChartOptions.chart"
+                                [dataLabels]="usuarioChartOptions.dataLabels"
+                                [plotOptions]="usuarioChartOptions.plotOptions"
+                                [title]="usuarioChartOptions.title"
+                                [legend]="usuarioChartOptions.legend"
+                            ></apx-chart>
+
+                            <div *ngIf="!usuarioChartOptions?.series[0]?.data?.length && !isLoading" class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
+                                Nenhum usuário encontrado!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    
 </div>

@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -40,6 +41,7 @@ namespace SAT.INFRA.Repository
         public PagedList<InstalacaoRessalva> ObterPorParametros(InstalacaoRessalvaParameters parameters)
         {
             var query = _context.InstalacaoRessalva
+                .Include(i => i.InstalacaoMotivoRes)
                 .AsQueryable();
 
             if (parameters.Filter != null)

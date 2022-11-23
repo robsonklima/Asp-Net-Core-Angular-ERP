@@ -17,8 +17,7 @@ namespace SAT.INFRA.Mapping
                 .HasOne(i => i.InstalacaoMotivoRes)
                 .WithOne()
                 .HasForeignKey<InstalacaoMotivoRes>(i => i.CodInstalMotivoRes)
-                .HasPrincipalKey<InstalacaoRessalva>(i => i.CodInstalMotivoRes);
-                                                       
+                .HasPrincipalKey<InstalacaoRessalva>(i => i.CodInstalMotivoRes);                                                                   
         }
     }
 }

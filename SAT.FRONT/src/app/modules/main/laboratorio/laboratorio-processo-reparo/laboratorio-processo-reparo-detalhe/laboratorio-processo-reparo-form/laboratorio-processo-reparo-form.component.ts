@@ -93,9 +93,15 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 	}
 
   salvar() {
+    console.log({
+      ...this.item,
+      ...this.form.getRawValue()
+    });
+    
+
     this._orItemService.atualizar({
       ...this.item,
-      ...this.form
+      ...this.form.getRawValue()
     }).subscribe(() => {
       this._snack.exibirToast('Processo de reparo atualizado', 'success')
     });

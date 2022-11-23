@@ -35,26 +35,26 @@
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
             <button [disabled]="!item" (click)="toggleStatusReparo()" class="fuse-mat-button-rounded" mat-icon-button
-                [matTooltip]="!tempoReparo?.indAtivo ? 'Iniciar Reparo' : 'Finalizar Reparo'">
+                [matTooltip]="!item?.temposReparo[0]?.indAtivo ? 'Iniciar Reparo' : 'Finalizar Reparo'">
                 <mat-icon 
                     class="icon-size-10"
-                    [class.text-green-500]="!tempoReparo?.indAtivo"
-                    [class.text-red-500]="tempoReparo?.indAtivo"
-                    [svgIcon]="!tempoReparo?.indAtivo ? 'heroicons_outline:play' : 'heroicons_outline:stop'">
+                    [class.text-green-500]="!item?.temposReparo[0]?.indAtivo"
+                    [class.text-red-500]="item?.temposReparo[0]?.indAtivo"
+                    [svgIcon]="!item?.temposReparo[0]?.indAtivo ? 'heroicons_outline:play' : 'heroicons_outline:stop'">
                 </mat-icon>
             </button>
         </div>
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
-        <div class="flex flex-col bg-card shadow rounded overflow-hidden">
-            <app-laboratorio-processo-reparo-form *ngIf="item" [item]="item">
+        <div class="flex flex-col bg-card shadow rounded overflow-hidden" *ngIf="item">
+            <app-laboratorio-processo-reparo-form [item]="item">
             </app-laboratorio-processo-reparo-form>
 
-            <app-laboratorio-processo-reparo-tecnico [codTecnico]="item?.codTecnico">
+            <app-laboratorio-processo-reparo-tecnico *ngIf="item?.codTecnico" [codTecnico]="item?.codTecnico">
             </app-laboratorio-processo-reparo-tecnico>
 
-            <app-laboratorio-processo-reparo-form-checklist *ngIf="item" [orItem]="item">
+            <app-laboratorio-processo-reparo-form-checklist [orItem]="item">
             </app-laboratorio-processo-reparo-form-checklist>
 
             <app-laboratorio-processo-reparo-insumo [codORItem]="codORItem">

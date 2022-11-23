@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORTempoReparoService } from 'app/core/services/or-tempo-reparo.service';
 import { ORCheckList } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
-import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';
+import { orStatusConst } from 'app/core/types/or-status.types';
 import { OR } from 'app/core/types/OR.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -21,7 +21,6 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
   codORItem: number;
   loading: boolean = true;
   userSession: UserSession;
-  tempoReparo: ORTempoReparo;
   orCheckList: ORCheckList;
 
   constructor(
@@ -29,7 +28,8 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
     private _route: ActivatedRoute,
     private _snack: CustomSnackbarService,
     private _orItemService: ORItemService,
-    private _orTempoReparoService: ORTempoReparoService
+    private _orTempoReparoService: ORTempoReparoService,
+    private _cdr: ChangeDetectorRef
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -41,12 +41,23 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
       .obterPorCodigo(this.codORItem)
       .toPromise();
 
+    console.log(this.item);
+    
+
     this.loading = false;
   }
 
-  toggleStatusReparo() {
-    if (!this.tempoReparo?.indAtivo) {
-      this._orTempoReparoService
+  async toggleStatusReparo() {
+    if (!this.item?.temposReparo?.length) {
+      this._orItemService.atualizar({ 
+        ...this.item, 
+        ...{ 
+          codStatus: orStatusConst.EM_REPARO,
+          codTecnico: this.userSession.usuario.codUsuario
+        }
+      }).subscribe();
+
+      await this._orTempoReparoService
         .criar({
           codORItem: this.item.codORItem,
           codUsuarioCad: this.userSession.usuario.codUsuario,
@@ -56,29 +67,48 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
           dataHoraFim: null,
           indAtivo: 1
         })
-        .subscribe((tr) => {
-          this.tempoReparo = tr;
+        .subscribe(() => {
+          this.ngOnInit();
           this._snack.exibirToast('Reparo iniciado', 'success');
         },
         () => {
           this._snack.exibirToast('Erro ao finalizar reparo', 'error');
         });
     } else {
-      this._orTempoReparoService
+      const novoStatus = +!this.item?.temposReparo[0].indAtivo;
+
+      await this._orTempoReparoService
         .atualizar({
-          ...this.tempoReparo,
+          ...this.item?.temposReparo[0],
           ...{
-            indAtivo: 0,
+            indAtivo: novoStatus,
             dataHoraFim: moment().format('YYYY-MM-DD HH:mm:ss')
           }
-        })
-        .subscribe((tr) => {
-          this.tempoReparo = tr;
-          this._snack.exibirToast('Reparo finalizado', 'success');
-        },
-        () => {
-          this._snack.exibirToast('Erro ao finalizar reparo', 'error');
-        });
+        }).toPromise();
+
+      if (novoStatus) {
+        this.item = await this._orItemService.atualizar({ 
+          ...this.item, 
+          ...{ 
+            codStatus: orStatusConst.EM_REPARO,
+            codTecnico: this.userSession.usuario.codUsuario
+          }
+        }).toPromise();
+
+        this._snack.exibirToast('Reparo iniciado', 'success');
+      } else {
+        this.item = await this._orItemService.atualizar({ 
+          ...this.item, 
+          ...{ 
+            codStatus: orStatusConst.TRANSFERIDO_TECNICO,
+            codTecnico: this.userSession.usuario.codUsuario,
+          }
+        }).toPromise();
+
+        this._snack.exibirToast('Reparo finalizado', 'success');
+      }
+      
+      this.ngOnInit();
     }
   }
 }

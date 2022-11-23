@@ -20,6 +20,8 @@ export class LaboratorioProcessoReparoTecnicoComponent implements OnInit {
     private _bancadaLaboratorioService: BancadaLaboratorioService,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
+    console.log(this.codTecnico);
+    
   }
 
   async ngOnInit() {

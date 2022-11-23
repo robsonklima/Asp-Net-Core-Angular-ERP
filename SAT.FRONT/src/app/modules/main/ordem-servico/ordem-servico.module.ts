@@ -48,7 +48,6 @@ import { OrdemServicoEmailDialogComponent } from './ordem-servico-email-dialog/o
 import { OrdemServicoFotoComponent } from './ordem-servico-foto/ordem-servico-foto.component';
 import { OrdemServicoPesquisaComponent } from './ordem-servico-pesquisa/ordem-servico-pesquisa.component';
 import { OrdemServicoOrcamentosComponent } from './ordem-servico-detalhe/ordem-servico-orcamentos/ordem-servico-orcamentos.component';
-import { OrdemServicoLaudoComponent } from './ordem-servico-laudo/ordem-servico-laudo.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NotificationsModule } from 'app/layout/common/notifications/notifications.module';
 import { OrdemServicoInfoComponent } from './ordem-servico-detalhe/ordem-servico-info/ordem-servico-info.component';
@@ -77,7 +76,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
         OrdemServicoFotosComponent,
         OrdemServicoPesquisaComponent,
         OrdemServicoOrcamentosComponent,
-        OrdemServicoLaudoComponent,
         OrdemServicoLaudosComponent,
         OrdemServicoInfoComponent,
         OrdemServicoRatsComponent,

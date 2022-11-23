@@ -14,8 +14,7 @@
 
                 <div>
                     <button mat-icon-button
-                        [routerLink]="['/relatorio-atendimento/form/'+codOS+'/'+r.codRAT+'/impressao-laudo/'+laudo.codLaudo]"
-                        matTooltip="Imprimir">
+                        matTooltip="Imprimir" (click)="exportar(laudo)">
                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'">
                         </mat-icon>
                     </button>

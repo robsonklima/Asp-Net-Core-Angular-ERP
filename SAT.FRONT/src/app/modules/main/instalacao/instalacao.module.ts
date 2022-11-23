@@ -27,6 +27,9 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { InstalacaoRessalvaDialogComponent } from './instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
+import { FuseCardModule } from '@fuse/components/card';
+import { FuseAlertModule } from '@fuse/components/alert';
+import { FuseHighlightModule } from '@fuse/components/highlight';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { InstalacaoRessalvaDialogComponent } from './instalacao-ressalva-dialog/
     MatSelectModule,
     MatTableModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    FuseCardModule,
+    FuseAlertModule,
+    FuseHighlightModule
   ]
 })
 export class InstalacaoModule { }

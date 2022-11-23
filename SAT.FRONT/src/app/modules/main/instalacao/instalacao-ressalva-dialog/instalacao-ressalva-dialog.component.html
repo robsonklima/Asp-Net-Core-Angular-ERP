@@ -13,15 +13,53 @@
             </button>
         </div>
     </div>
+
     <div class="flex flex-col flex-auto pt-6 pl-5 z-10" *transloco="let t">
-        <div>
-            <div>
-                {{ t('codigo') }}
-            </div>
+        <div *ngFor="let data of dataSourceData?.items">
+                <fuse-card class="flex flex-col sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">Ressalvas</p>
+                    </div>
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Motivo
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ data.instalacaoMotivoRes.descMotivoRes }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Comentário
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ data.comentario }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Data Ocorrência
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ data.dataOcorrencia | date:'dd/MM/yyyy HH:mm' }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Justificativa
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ data.indJustificativa }}
+                        </div>
+                    </div>
+                </fuse-card>
         </div>
-
-        <ng-container>
-
-        </ng-container>
     </div>
 </div>

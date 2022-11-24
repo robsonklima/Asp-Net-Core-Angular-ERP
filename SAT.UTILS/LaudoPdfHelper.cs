@@ -36,23 +36,22 @@ namespace SAT.UTILS
 
         public void Compose(IDocumentContainer container)
         {
-            container
-                .Page(page =>
-                {
-                    page.Margin(30);
+            container.Page(page =>
+            {
+                page.Margin(30);
 
-                    page.Header().Element(ComposeHeader);
-                    page.Content().Element(ComposeContent);
-                    page.Footer().Row(row =>
+                page.Header().Element(ComposeHeader);
+                page.Content().Element(ComposeContent);
+                page.Footer().Row(row =>
+                {
+                    row.RelativeItem().AlignRight().Text(x =>
                     {
-                        row.RelativeItem().AlignRight().Text(x =>
-                        {
-                            x.CurrentPageNumber();
-                            x.Span(" / ");
-                            x.TotalPages();
-                        });
+                        x.CurrentPageNumber();
+                        x.Span(" / ");
+                        x.TotalPages();
                     });
                 });
+            });
         }
 
         void ComposeHeader(IContainer container)
@@ -62,8 +61,6 @@ namespace SAT.UTILS
             container.Row(row =>
             {
                 row.Spacing(20);
-
-
 
                 row.ConstantItem(280).Column(column =>
                 {
@@ -90,10 +87,10 @@ namespace SAT.UTILS
                 });
 
                 row.RelativeItem().Column(column =>
-{
-    column.Item().Text($"RELATÓRIO DE AVALIAÇÃO TÉCNICA").Style(titleStyle);
-    column.Item().Text("DETECÇÃO ANALÍTICA DE FALHAS");
-});
+                {
+                    column.Item().Text($"RELATÓRIO DE AVALIAÇÃO TÉCNICA").Style(titleStyle);
+                    column.Item().Text("DETECÇÃO ANALÍTICA DE FALHAS");
+                });
             });
         }
 
@@ -112,223 +109,209 @@ namespace SAT.UTILS
 
             });
         }
-
         void ComporDadosEntrada(IContainer container)
         {
             container.Table(table =>
-                    {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.ConstantColumn(200);
-                            columns.RelativeColumn();
-                        });
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.ConstantColumn(200);
+                    columns.RelativeColumn();
+                });
 
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(TitleStyle).Text("DADOS DE ENTRADA");
-                        });
+                table.Header(header =>
+                {
+                    header.Cell().Element(TitleStyle).Text("DADOS DE ENTRADA");
+                });
 
-                        table.Cell().Element(CellStyle).Text("Cliente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.Cliente?.NomeFantasia).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Contato").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NomeContato ?? "Não Informado").Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Data Atendimento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_laudo.DataHoraCad).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("OS Perto").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.CodOS).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Defeito").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.DefeitoRelatado).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Emitente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_laudo.Tecnico.Nome).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("OS Cliente").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NumOSCliente).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Cód. Pai do Equipamento").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[1]).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Modelo").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Série").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
-                        table.Cell().Element(CellStyle).Text("Protocolo STN").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text("---").Style(FontStyle());
-                    });
+                table.Cell().Element(CellStyle).Text("Cliente").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.Cliente?.NomeFantasia).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Contato").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NomeContato ?? "Não Informado").Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Data Atendimento").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_laudo.DataHoraCad).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("OS Perto").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.CodOS).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Defeito").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.DefeitoRelatado).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Emitente").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_laudo.Tecnico.Nome).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("OS Cliente").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NumOSCliente).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Cód. Pai do Equipamento").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[1]).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Modelo").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Série").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
+                table.Cell().Element(CellStyle).Text("Protocolo STN").Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text("---").Style(FontStyle());
+            });
         }
 
         public void ComporSituacao(IContainer container)
         {
-            //var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            // var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
-
             container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(TitleStyle).Text("SITUAÇÕES").FontSize(10).Bold();
+
+                });
+
+                if (_laudo is not null)
+                {
+                    _laudo?.LaudosSituacao.ForEach(sit =>
                     {
-                        table.ColumnsDefinition(columns =>
+                        table.Cell().Row(tr =>
                         {
-                            columns.RelativeColumn();
-                        });
-
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(TitleStyle).Text("SITUAÇÕES").FontSize(10).Bold();
-
-                        });
-
-                        if (_laudo is not null)
-                        {
-                            _laudo?.LaudosSituacao.ForEach(sit =>
+                            tr.RelativeItem().Column(column =>
                             {
-                                table.Cell().Row(tr =>
+                                column.Item().Text($"Causa").FontSize(9).SemiBold();
+                                column.Item().Element(CellStyle).Text(sit.Causa).Style(FontStyle());
+
+                                column.Item().Text($"Ação").FontSize(9).SemiBold();
+                                column.Item().Element(CellStyle).Text(sit.Acao).Style(FontStyle());
+
+                                column.Item().Text($"Fotos").FontSize(9).SemiBold();
+
+                                column.Item().Grid(grid =>
                                 {
-                                    tr.RelativeItem().Column(column =>
+                                    grid.Spacing(5);
+                                    grid.Columns(6);
+                                    using var client = new HttpClient();
+
+                                    foreach (var item in _laudo.Or.RelatoriosAtendimento)
                                     {
-                                        column.Item().Text($"Causa").FontSize(9).SemiBold();
-                                        column.Item().Element(CellStyle).Text(sit.Causa).Style(FontStyle());
-
-                                        column.Item().Text($"Ação").FontSize(9).SemiBold();
-                                        column.Item().Element(CellStyle).Text(sit.Acao).Style(FontStyle());
-
-                                        column.Item().Text($"Fotos").FontSize(9).SemiBold();
-
-                                        column.Item().Grid(grid =>
+                                        item?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                                         {
-                                            grid.Spacing(5);
-                                            grid.Columns(6);
-                                            using var client = new HttpClient();
-
-                                            foreach (var item in _laudo.Or.RelatoriosAtendimento)
+                                            if (f.NomeFoto.Contains("LAUDO") && !f.NomeFoto.Contains("ASSINATURA"))
                                             {
-                                                item?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                grid.Item().Row(gr =>
                                                 {
-                                                    if (f.NomeFoto.Contains("LAUDO") && !f.NomeFoto.Contains("ASSINATURA"))
+                                                    gr.RelativeItem().Column(gc =>
                                                     {
-                                                        var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                        grid.Item().Row(gr =>
-                                                        {
-                                                            gr.RelativeItem().Column(gc =>
-                                                            {
-                                                                gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                                gc.Item().Text(f.Modalidade).FontSize(6).SemiBold();
-                                                            });
-                                                        });
-                                                    }
+                                                        gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().Text(f.Modalidade).FontSize(6).SemiBold();
+                                                    });
                                                 });
                                             }
                                         });
-                                    });
+                                    }
                                 });
-
                             });
-                        }
+                        });
+
                     });
+                }
+            });
         }
 
         public void ComporChecagemVisual(IContainer container)
         {
-            // var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            // var laudo = laudos?.FirstOrDefault(l => l.CodLaudoStatus == 2);
-
             container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(TitleStyle).Text("CHECAGEM VISUAL").FontSize(10).Bold();
+
+                });
+                table.Cell().Row(tr =>
+                {
+                    tr.RelativeItem().Column(column =>
                     {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn();
-                        });
+                        column.Item().Text($"Relato do cliente durante o atendimento.").SemiBold();
+                        column.Item().Element(CellStyle).Text(_laudo?.RelatoCliente).Style(FontStyle());
 
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(TitleStyle).Text("CHECAGEM VISUAL").FontSize(10).Bold();
-
-                        });
-                        table.Cell().Row(tr =>
-                        {
-                            tr.RelativeItem().Column(column =>
-                            {
-                                column.Item().Text($"Relato do cliente durante o atendimento.").SemiBold();
-                                column.Item().Element(CellStyle).Text(_laudo?.RelatoCliente).Style(FontStyle());
-
-                            });
-                        });
                     });
+                });
+            });
         }
 
         public void ComporInfraEstruturaSite(IContainer container)
         {
-            // var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            // var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
-
             container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
+
+                }); table.Cell().Table(t2 =>
+                {
+                    t2.ColumnsDefinition(col2 =>
                     {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn();
-                        });
-
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
-
-                        }); table.Cell().Table(t2 =>
-                        {
-                            t2.ColumnsDefinition(col2 =>
-                            {
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                                col2.RelativeColumn();
-                            });
-
-                            t2.Header(h2 =>
-                            {
-
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão sem carga").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão com carga").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão entre terra e neutro").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Rede estabilizada").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui Nobreak").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Temperatura").Bold().FontSize(8);
-                                h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui ar condicionado").Bold().FontSize(8);
-                            });
-
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoSemCarga).FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoComCarga).FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoTerraENeutro).FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndRedeEstabilizada == 1 ? "SIM" : "NÃO").FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndPossuiNobreak == 1 ? "SIM" : "NÃO").FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.Temperatura).FontSize(8);
-                            t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndPossuiArCond == 1 ? "SIM" : "NÃO").FontSize(8);
-                        });
-
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
+                        col2.RelativeColumn();
                     });
+
+                    t2.Header(h2 =>
+                    {
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão sem carga").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão com carga").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Tensão entre terra e neutro").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Rede estabilizada").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui Nobreak").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Temperatura").Bold().FontSize(8);
+                        h2.Cell().Element(CellStyle).AlignMiddle().Text("Possui ar condicionado").Bold().FontSize(8);
+                    });
+
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoSemCarga).FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoComCarga).FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.TensaoTerraENeutro).FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndRedeEstabilizada == 1 ? "SIM" : "NÃO").FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndPossuiNobreak == 1 ? "SIM" : "NÃO").FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.Temperatura).FontSize(8);
+                    t2.Cell().Element(CellStyle).AlignMiddle().Text(_laudo?.IndPossuiArCond == 1 ? "SIM" : "NÃO").FontSize(8);
+                });
+
+            });
         }
 
         public void ComporConclusao(IContainer container)
         {
-            // var laudos = _ordemServico.RelatoriosAtendimento.FirstOrDefault(rel => rel.Laudos.Count() > 0)?.Laudos;
-            // var laudo = laudos?.FirstOrDefault(l => l?.CodLaudoStatus == 2);
-
             container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                });
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO").FontSize(10).Bold();
+
+                });
+                table.Cell().Row(tr =>
+                {
+                    tr.RelativeItem().Column(column =>
                     {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn();
-                        });
+                        column.Item().Text($"Conclusão").SemiBold();
+                        column.Item().Element(CellStyle).Text(_laudo?.Conclusao).Style(FontStyle());
 
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO").FontSize(10).Bold();
-
-                        });
-                        table.Cell().Row(tr =>
-                        {
-                            tr.RelativeItem().Column(column =>
-                            {
-                                column.Item().Text($"Conclusão").SemiBold();
-                                column.Item().Element(CellStyle).Text(_laudo?.Conclusao).Style(FontStyle());
-
-                            });
-                        });
                     });
+                });
+            });
         }
 
         public void ComporAssinatura(IContainer container)

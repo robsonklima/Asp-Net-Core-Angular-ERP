@@ -61,7 +61,7 @@ namespace SAT.SERVICES.Services {
                                 NomeLocalInstalacao = i.LocalAtendimentoIns?.NomeLocal,
                                 DtInstalacao = i.DataBI,
                                 QtdParabold = i.QtdParaboldBI,
-                                EquuipamentoRebaixado = i.IndEquipRebaixadoBI
+                                EquipamentoRebaixado = i.IndEquipRebaixadoBI
                             });
 
             var wsOs = Workbook.Worksheets.Add("Instalacoes");

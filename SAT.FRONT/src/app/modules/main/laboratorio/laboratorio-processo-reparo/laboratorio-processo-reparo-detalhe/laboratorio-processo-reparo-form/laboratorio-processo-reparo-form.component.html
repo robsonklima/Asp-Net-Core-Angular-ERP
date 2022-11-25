@@ -1,14 +1,19 @@
 <div *transloco="let t">
     <form [formGroup]="form">
-        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+        <div class="bg-gray-50 dark:bg-gray-700 px-8 py-4 border-b">
             <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
         </div>
 
         <div *ngIf="item">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-2 bg-card overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                    <mat-label>{{ t('peca') }}</mat-label>
+                    <mat-label>Código do Item</mat-label>
                     <input matInput formControlName="codMagnus">
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-label>{{ t('descricao') }}</mat-label>
+                    <input matInput formControlName="descricao">
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-3">
@@ -16,17 +21,7 @@
                     <input matInput formControlName="numSerie" maxlength="30">
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('descricao') }}</mat-label>
-                    <input matInput formControlName="descricao">
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                    <mat-label>{{ t('tecnico') }}</mat-label>
-                    <input matInput formControlName="usuarioTecnico">
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="codStatus">
                         <mat-option>

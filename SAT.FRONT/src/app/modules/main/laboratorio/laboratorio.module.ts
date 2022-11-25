@@ -58,7 +58,6 @@ import { LaboratorioProcessoReparoHistoricoComponent } from './laboratorio-proce
 import { LaboratorioProcessoReparoFormChecklistComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-checklist/laboratorio-processo-reparo-form-checklist.component';
 import { LaboratorioProcessoReparoFormDefeitoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-defeito/laboratorio-processo-reparo-form-defeito.component';
 import { LaboratorioProcessoReparoFormSolucaoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form-solucao/laboratorio-processo-reparo-form-solucao.component';
-import { LaboratorioProcessoReparoTecnicoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-tecnico/laboratorio-processo-reparo-tecnico.component';
 import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-form/laboratorio-processo-reparo-form.component';
 import { LaboratorioProcessoReparoInsumoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo.component';
 import { ProcessoReparoListaMaisOpcoesComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/processo-reparo-lista-mais-opcoes/processo-reparo-lista-mais-opcoes.component';
@@ -92,7 +91,6 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioProcessoReparoFormDefeitoComponent,
     LaboratorioProcessoReparoFormSolucaoComponent,
     LaboratorioProcessoReparoFormChecklistComponent,
-    LaboratorioProcessoReparoTecnicoComponent,
     LaboratorioProcessoReparoFormComponent,
     LaboratorioProcessoReparoInsumoComponent,
     ProcessoReparoListaMaisOpcoesComponent

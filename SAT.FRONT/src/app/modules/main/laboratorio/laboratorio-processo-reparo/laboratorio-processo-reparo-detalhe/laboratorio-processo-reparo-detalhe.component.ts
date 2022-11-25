@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ORItemService } from 'app/core/services/or-item.service';
 import { ORTempoReparoService } from 'app/core/services/or-tempo-reparo.service';
+import { ViewLaboratorioTecnicoBancada } from 'app/core/types/bancada-laboratorio.types';
 import { ORCheckList } from 'app/core/types/or-checklist.types';
 import { ORItem } from 'app/core/types/or-item.types';
 import { orStatusConst } from 'app/core/types/or-status.types';
@@ -22,6 +24,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
   loading: boolean = true;
   userSession: UserSession;
   orCheckList: ORCheckList;
+  tecnicoBancada: ViewLaboratorioTecnicoBancada;
 
   constructor(
     private _userService: UserService,
@@ -29,7 +32,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private _orItemService: ORItemService,
     private _orTempoReparoService: ORTempoReparoService,
-    private _cdr: ChangeDetectorRef
+    private _bancadaLaboratorioService: BancadaLaboratorioService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -41,8 +44,9 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
       .obterPorCodigo(this.codORItem)
       .toPromise();
 
-    console.log(this.item);
-    
+    this.tecnicoBancada = (await this._bancadaLaboratorioService
+      .obterPorView({ codUsuario: this.item.codTecnico })
+      .toPromise()).shift();
 
     this.loading = false;
   }

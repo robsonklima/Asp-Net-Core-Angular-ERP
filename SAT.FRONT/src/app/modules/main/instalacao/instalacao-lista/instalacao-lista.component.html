@@ -55,6 +55,10 @@
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                 </mat-form-field>
 
+                <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}">
+                    <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                </button>
+
                 <button class="ml-4" mat-icon-button matTooltip="Opções" (click)="abrirMaisOpcoes()"
                     [disabled]="!verificarExistemItensSelecionados()">
                     <mat-icon class="text-green-600" [svgIcon]="'heroicons_outline:menu'"></mat-icon>

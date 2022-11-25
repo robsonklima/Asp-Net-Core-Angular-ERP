@@ -7,11 +7,14 @@ import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { Contrato } from 'app/core/types/contrato.types';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { Filial } from 'app/core/types/filial.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
@@ -68,7 +71,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
     private _instalacaoLoteSvc: InstalacaoLoteService,
     private _snack: CustomSnackbarService,
     private _userSvc: UserService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _exportacaoService: ExportacaoService,
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -190,7 +194,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
       filter: this.searchInputControl.nativeElement.val,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
-      sortDirection: this.sort.direction || 'desc',
+      sortDirection: this.sort.direction || 'desc'
     };
 
     const data: InstalacaoData = await this._instalacaoSvc
@@ -199,6 +203,21 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     this.isLoading = false;
     this.dataSourceData = data;
+  }
+
+  public async exportar() {
+    this.isLoading = true;
+
+    let exportacaoParam: Exportacao = {
+      formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+      tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
+      entityParameters: {
+        codContrato: this.codContrato || undefined,
+        codInstalLote: this.codInstalLote || undefined
+      }
+    }
+    await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
+    this.isLoading = false;
   }
 
   private async obterTransportadoras(filter: string = '') {
@@ -462,13 +481,13 @@ export class InstalacaoListaComponent implements AfterViewInit {
   }
 
   abrirRessalvas(codInstalacao: number): void {
-		const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
+    const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
       data: {
         codInstalacao: codInstalacao,
       },
       width: '960px',
       height: '600px'
-      });    
+    });
   }
 
   ngOnDestroy() {

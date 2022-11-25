@@ -4,10 +4,6 @@
         <div class="text-lg font-medium">Ressalvas</div>
 
         <div>
-            <button mat-icon-button (click)="salvar()">
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check'"></mat-icon>
-            </button>
-
             <button mat-icon-button (click)="fechar()">
                 <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
             </button>
@@ -15,10 +11,47 @@
     </div>
 
     <div class="flex flex-col flex-auto pt-6 pl-5 z-10" *transloco="let t">
+        <mat-tab-group [animationDuration]="'0'">
+            <mat-tab label="Manutenção de Ressalvas (Instalação - Fixação) ">
+                <form [formGroup]="formRessalva">
+                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                        <mat-label>{{ t('motivo') }}</mat-label>
+
+                        <mat-select formControlName="codInstalMotivoRes">
+                            <mat-option class="uppercase" *ngFor="let motivo of motivos" [value]="motivo.CodInstalMotivoRes">
+                                <span>{{ motivo.DescMotivoRes }}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                        <mat-label>{{ t('comentario') }}</mat-label>
+                        <input matInput formControlName="comentario">
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                        <mat-label>{{ t('data ocorrencia') }}</mat-label>
+                        <input matInput formControlName="dataOcorrencia">
+                    </mat-form-field>
+                    
+                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                        <mat-label>{{ t('justificativa') }}</mat-label>
+                        <input matInput formControlName="indJustificativa">
+                    </mat-form-field>  
+                    
+                    <button mat-icon-button (click)="salvar()">
+                        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                    </button>                    
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </div>    
+
+    <div class="flex flex-col flex-auto pt-6 pl-5 z-10" *transloco="let t">
         <div *ngFor="let data of dataSourceData?.items">
-                <fuse-card class="flex flex-col sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <fuse-card class="flex flex-col sm:col-span-5 flex-auto bg-card shadow rounded-2xl overflow-hidden">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">Ressalvas</p>
+                        <p class="text-lg font-medium">Ressalva</p>
                     </div>
                     <div class="flex items-center justify-between py-1">
                         <div class="text-secondary">

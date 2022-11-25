@@ -13,5 +13,6 @@ export interface InstalacaoMotivoResData extends Meta {
 };
 
 export interface InstalacaoMotivoResParameters extends QueryStringParameters {
-    codInstalMotivoRes: number;    
+    codInstalMotivoRes?: number;    
+    indAtivo?: number;
 };

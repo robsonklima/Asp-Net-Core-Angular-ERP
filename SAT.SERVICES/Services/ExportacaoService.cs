@@ -62,6 +62,7 @@ namespace SAT.SERVICES.Services
         private readonly ITicketLogTransacaoRepository _ticketLogTransacaoRepo;
         private readonly ITicketRepository _ticketRepo;
         private readonly ILaudoRepository _laudoRepo;
+        private readonly IInstalacaoRepository _instalacaoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -108,7 +109,8 @@ namespace SAT.SERVICES.Services
             IDespesaCartaoCombustivelRepository despesaCartaoCombustivelRepo,
             ITicketLogTransacaoRepository ticketLogTransacaoRepo,
             ITicketRepository ticketRepo,
-            ILaudoRepository laudoRepo
+            ILaudoRepository laudoRepo,
+            IInstalacaoRepository instalacaoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -156,6 +158,7 @@ namespace SAT.SERVICES.Services
             _ticketLogTransacaoRepo = ticketLogTransacaoRepo;
             _ticketRepo = ticketRepo;
             _laudoRepo = laudoRepo;
+            _instalacaoRepo = instalacaoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -353,6 +356,10 @@ namespace SAT.SERVICES.Services
                     GerarPlanilhaTicket(((JObject)parameters).ToObject<TicketParameters>());
                     break;
                     
+                case ExportacaoTipoEnum.INSTALACAO:
+                    GerarPlanilhaInstalacao(((JObject)parameters).ToObject<InstalacaoParameters>());
+                    break;
+
                 default:
                     break;
             }

@@ -141,6 +141,9 @@ namespace SAT.MODELS.Entities{
         public LocalAtendimento LocalAtendimentoEnt { get; set; }     
         public OrdemServico OrdemServico { get; set; }   
         public InstalacaoStatus InstalacaoStatus { get; set; }
+        public Autorizada Autorizada { get; set; }
+        public Regiao Regiao { get; set; }
+        public Transportadora Transportadora { get; set; }
         public List<InstalacaoRessalva> InstalacoesRessalva { get; set; }
     }    
 }

@@ -41,6 +41,7 @@ namespace SAT.MODELS.Enums
         ORDEM_REPARO,
         OR_CHECKLIST,
         DESPESA_CARTAO_COMBUSTIVEL,
-        TICKET_LOG_TRANSACAO
+        TICKET_LOG_TRANSACAO,
+        INSTALACAO
     }
 }

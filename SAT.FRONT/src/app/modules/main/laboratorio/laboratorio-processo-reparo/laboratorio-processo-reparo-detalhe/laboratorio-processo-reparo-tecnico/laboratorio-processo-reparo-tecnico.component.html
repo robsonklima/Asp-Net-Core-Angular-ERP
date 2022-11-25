@@ -75,6 +75,11 @@
             </div>
         </div>
     </div>
+
+    <div *ngIf="!tecnicoBancada && !loading"
+        class="py-10 text-lg font-semibold tracking-tight text-center bg-card">
+        Nenhum técnico de bancada encontrado!
+    </div>
     
     <div class="flex justify-center items-center min-h-40" *ngIf="loading">
         <div class="text-center">

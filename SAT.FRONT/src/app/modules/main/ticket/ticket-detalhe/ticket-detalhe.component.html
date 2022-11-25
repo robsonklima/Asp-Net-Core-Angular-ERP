@@ -30,17 +30,29 @@
                         #{{ codTicket }}
                     </span>
                 </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="codTicket">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+
+                    <span class="ml-1 text-secondary">
+                        Status {{ ticket?.ticketStatus?.descricao }}
+                    </span>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="codTicket">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+
+                    <span class="ml-1 text-secondary capitalize">
+                        {{ ticket?.usuarioCad?.nomeUsuario }}
+                    </span>
+                </div>
             </div>
 
             <div>
                 <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
-                    {{ t('ticket') }}
-                </div>
-
-                <div class="ml-0.5 font-medium text-secondary">
-                    <span *ngIf="ticket?.usuarioAtendente?.nomeUsuario">
-                        Em atendimento: {{ ticket?.usuarioAtendente?.nomeUsuario }}
-                    </span>
+                    {{ t('ticket') }} 
                 </div>
             </div>
         </div>

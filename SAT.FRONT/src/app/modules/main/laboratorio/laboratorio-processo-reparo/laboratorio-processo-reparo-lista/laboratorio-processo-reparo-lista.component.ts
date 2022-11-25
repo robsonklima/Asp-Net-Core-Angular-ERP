@@ -92,7 +92,7 @@ export class LaboratorioProcessoReparoListaComponent extends Filterable implemen
 			sortDirection: this.sort.direction || 'desc',
 			pageSize: this.paginator?.pageSize,
 			filter: filtro,
-			nomeTecnico: this.isPerfilTecnico() ? this.userSession.usuario.nomeUsuario : undefined
+			nomeTecnico: this.isPerfilTecnico() ? this.userSession.usuario.nomeUsuario : this.filter?.parametros?.nomeTecnico
 		}
 
 		const data: ORItemData = await this._orItemService.obterPorParametros({

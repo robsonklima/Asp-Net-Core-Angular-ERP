@@ -185,6 +185,8 @@ namespace SAT.SERVICES.Services
                     return GerarPdfOrdemServico(exportacao);
                 case ExportacaoTipoEnum.DESPESA_PERIODO_TECNICO:
                     return GerarPdfDespesaPeriodoTecnico(exportacao);
+                case ExportacaoTipoEnum.LAUDO:
+                    return GerarPdfLaudo(exportacao);
                 default:
                     return null;
             }

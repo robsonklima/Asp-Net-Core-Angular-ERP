@@ -55,5 +55,6 @@ export enum ExportacaoTipoEnum {
     OR_CHECKLIST,
     DESPESA_CARTAO_COMBUSTIVEL,
     TICKET_LOG_TRANSACAO,
-    INSTALACAO
+    INSTALACAO,
+    LAUDO
 }

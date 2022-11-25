@@ -1,20 +1,15 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { appConfig as c } from 'app/core/config/app.config';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
-import { EmailService } from '../services/email.service';
-import { Router } from '@angular/router';
-import { CustomSnackbarService } from '../services/custom-snackbar.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(
         private _authService: AuthService,
-        private _snack: CustomSnackbarService,
-        private _emailSvc: EmailService,
         private _router: Router
     ) { }
 
@@ -64,13 +59,5 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 return throwError(error);
             })
         );
-    }
-
-    enviarEmail(error: any) {
-        this._emailSvc.enviarEmail({
-            emailDestinatarios: [c.email_equipe],
-            assunto: 'Erro durante o uso do SAT.V2: FRONTEND',
-            corpo: `Tipo: ${error.type}\n Status: ${error.status}\n Mensagem: ${error.message}`
-        }).toPromise(); 
     }
 }

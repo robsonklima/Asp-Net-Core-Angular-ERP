@@ -1,4 +1,4 @@
-<div class="grid grid-cols-2 justfy-between bg-gray-50 p-8 border-b" *transloco="let t">
+<div class="grid grid-cols-2 justfy-between bg-gray-50 px-8 py-2" *transloco="let t">
     <div class="flex items-center">
         <span class="text-lg font-medium">{{ t('defeitos') }}</span>
     </div>
@@ -12,7 +12,7 @@
 </div>
 
 <div class="w-350">
-    <div class="grid sm:grid-cols-6 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+    <div class="grid sm:grid-cols-6 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
         <div *ngFor="let defeito of defeitos">
             <mat-slide-toggle [color]="'primary'" [checked]="verificarDefeitoSelecionado(defeito.codDefeito)"
                 (change)="onChange($event, defeito.codDefeito)">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <mat-form-field
-        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card shadow rounded overflow-hidden">
+        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card overflow-hidden">
         <textarea matInput #relatoInputControl placeholder="Defeito relatado" [autocomplete]="'off'">{{ orItem?.defeitoRelatado }}</textarea>
     </mat-form-field>
 </div>

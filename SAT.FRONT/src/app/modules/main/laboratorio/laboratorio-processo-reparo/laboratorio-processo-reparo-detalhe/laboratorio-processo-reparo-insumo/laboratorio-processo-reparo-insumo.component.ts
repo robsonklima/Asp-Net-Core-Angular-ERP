@@ -20,11 +20,11 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   @Input() codORItem: number;
   usuarioSessao: UsuarioSessao;
   orItem: ORItem;
-  orChecklist: ORCheckList[];
+  checklists: ORCheckList[] = [];
   orItemInsumo: ORItemInsumo;
+  loading: boolean = true;
   form: FormGroup;
   qtdUtilizada: number;
-  displayedColumns: string[] = ['utilizado', 'descricao', 'peca', 'codMagnus', 'qtdSugerida', 'qtdUtilizada'];
 
   constructor(
     private _userService: UserService,
@@ -33,8 +33,6 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
     private _orItemInsumoService: ORItemInsumoService,
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService
-
-
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
@@ -42,7 +40,8 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   async ngOnInit() {
     this.criarForm();
     this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
-    this.orChecklist = (await this.obterCheckList()).items;
+    this.checklists = (await this.obterCheckList()).items;
+    this.loading = false;
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
@@ -64,7 +63,6 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   }
 
   async toggleRealizado(ev: any, item: ORCheckList) {
-
     if (this.qtdUtilizada) {
       if (ev.checked) {
         this._orItemInsumoService.criar({
@@ -89,5 +87,4 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
       this._snack.exibirToast('Preencha a quantidade de peças utilizadas', 'error');
     }
   }
-
 }

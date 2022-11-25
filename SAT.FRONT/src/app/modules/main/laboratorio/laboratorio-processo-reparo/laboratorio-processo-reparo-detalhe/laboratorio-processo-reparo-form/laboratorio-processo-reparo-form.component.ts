@@ -6,7 +6,8 @@ import { ORStatusService } from 'app/core/services/or-status.service';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORStatus, ORStatusParameters } from 'app/core/types/or-status.types';
 import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';
-import _ from 'lodash';
+import { Subject } from 'rxjs';
+import { debounceTime, delay, filter, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-form',
@@ -14,10 +15,10 @@ import _ from 'lodash';
 })
 export class LaboratorioProcessoReparoFormComponent implements OnInit {
   @Input() item: ORItem;
-  tempoReparo: ORTempoReparo;
   status: ORStatus[] = [];
   form: FormGroup;
   statusFilterCtrl: FormControl = new FormControl();
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -30,8 +31,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     this.criarForm();
     this.obterStatus();
 
-    this.tempoReparo = _.last(this.item.temposReparo);
-
     this.form.patchValue({
       codMagnus: this.item?.peca?.codMagnus,
       descricao: this.item?.peca?.nomePeca,
@@ -39,40 +38,39 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
       usuarioTecnico: this.item?.usuarioTecnico?.nomeUsuario,
       codStatus: this.item?.codStatus,
     });
+
+    this.registrarEmmiters();
+  }
+
+  registrarEmmiters() {
+    this.form.controls['numSerie'].valueChanges.pipe(
+      filter(v => !!v),
+      tap(() => { }),
+      debounceTime(700),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => {
+      this.salvar();
+    });
+
+    this.form.controls['codStatus'].valueChanges.pipe(
+      filter(v => !!v),
+      tap(() => { }),
+      debounceTime(700),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(() => {
+      this.salvar();
+    });
   }
 
   criarForm() {
     this.form = this._formBuilder.group({
-      codMagnus: [
-        {
-          value: '',
-          disabled: true
-        },
-      ],
-      descricao: [
-        {
-          value: '',
-          disabled: true
-        },
-      ],
-      numSerie: [
-        {
-          value: '',
-          disabled: false
-        },
-      ],
-      usuarioTecnico: [
-        {
-          value: '',
-          disabled: true
-        },
-      ],
-      codStatus: [
-        {
-          value: '',
-          disabled: false
-        },
-      ],
+      codMagnus: [{value: '', disabled: true }],
+      descricao: [{value: '', disabled: true }],
+      numSerie: [{value: '', disabled: false }],
+      usuarioTecnico: [{value: '', disabled: true }],
+      codStatus: [{value: '', disabled: false }],
       nivel: [undefined]
     });
   }
@@ -106,5 +104,10 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
     }).subscribe(() => {
       this._snack.exibirToast('Processo de reparo atualizado', 'success')
     });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 }

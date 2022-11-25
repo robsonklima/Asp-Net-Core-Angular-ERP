@@ -35,16 +35,6 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-
-            <div class="flex items-center justify-end px-8 pb-6">
-                <button [routerLink]="['/laboratorio/processo-reparo']" mat-button>
-                    {{ t('cancelar') }}
-                </button>
-
-                <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
-                    {{ t('salvar') }}
-                </button>
-            </div>
         </div>
     </form>
 </div>

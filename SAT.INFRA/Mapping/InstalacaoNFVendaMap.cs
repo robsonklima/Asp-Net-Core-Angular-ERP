@@ -11,7 +11,7 @@ namespace SAT.INFRA.Mapping
             builder.ToTable("InstalNFVenda");
 
             builder
-                .HasKey(i => new { i.CodInstalNfvenda });
+                .HasKey(i => new { i.CodInstalNFvenda });
             
         }
     }

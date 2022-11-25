@@ -29,13 +29,13 @@ namespace SAT.INFRA.Mapping
                 .HasOne(i => i.Regiao)
                 .WithOne()
                 .HasForeignKey<Regiao>(i => i.CodRegiao)
-                .HasPrincipalKey<Instalacao>(i => i.CodRegiao);  
+                .HasPrincipalKey<Instalacao>(i => i.CodRegiao);
 
             builder
                 .HasOne(i => i.Autorizada)
                 .WithOne()
                 .HasForeignKey<Autorizada>(i => i.CodAutorizada)
-                .HasPrincipalKey<Instalacao>(i => i.CodAutorizada);                                 
+                .HasPrincipalKey<Instalacao>(i => i.CodAutorizada);
 
             builder
                 .HasOne(i => i.Equipamento)
@@ -95,10 +95,27 @@ namespace SAT.INFRA.Mapping
                 .HasOne(i => i.Transportadora)
                 .WithOne()
                 .HasForeignKey<Instalacao>(i => i.CodTransportadora)
-                .HasPrincipalKey<Transportadora>(i => i.CodTransportadora);                
+                .HasPrincipalKey<Transportadora>(i => i.CodTransportadora);
 
             builder
                 .HasMany(i => i.InstalacoesRessalva)
+                .WithOne()
+                .HasForeignKey(i => new { i.CodInstalacao });
+
+            builder
+                .HasOne(i => i.InstalacaoNFAut)
+                .WithOne()
+                .HasForeignKey<Instalacao>(i => i.CodInstalNFAut)
+                .HasPrincipalKey<InstalacaoNFAut>(i => i.CodInstalNFaut);
+
+            builder
+                .HasOne(i => i.InstalacaoNFVenda)
+                .WithOne()
+                .HasForeignKey<Instalacao>(i => i.CodInstalNFVenda)
+                .HasPrincipalKey<InstalacaoNFVenda>(i => i.CodInstalNFvenda);
+
+            builder
+                .HasMany(i => i.InstalacaoPagtoInstal)
                 .WithOne()
                 .HasForeignKey(i => new { i.CodInstalacao });
         }

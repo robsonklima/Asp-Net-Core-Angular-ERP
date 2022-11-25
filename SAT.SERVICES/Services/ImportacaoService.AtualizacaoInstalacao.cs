@@ -115,7 +115,7 @@ namespace SAT.SERVICES.Services
                                                 DataHoraCad = DateTime.Now
                                             });
                     }
-                    return instalNFVenda.CodInstalNfvenda;
+                    return instalNFVenda.CodInstalNFvenda;
                 case "NfVendaData":
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);

@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(InstalacaoNFVenda instalacaoNFVenda)
         {
             _context.ChangeTracker.Clear();
-            InstalacaoNFVenda inst = _context.InstalacaoNFVenda.FirstOrDefault(i => i.CodInstalNfvenda == instalacaoNFVenda.CodInstalNfvenda);
+            InstalacaoNFVenda inst = _context.InstalacaoNFVenda.FirstOrDefault(i => i.CodInstalNFvenda == instalacaoNFVenda.CodInstalNFvenda);
 
             if (inst != null)
             {
@@ -40,7 +40,7 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            InstalacaoNFVenda inst = _context.InstalacaoNFVenda.FirstOrDefault(i => i.CodInstalNfvenda == codigo);
+            InstalacaoNFVenda inst = _context.InstalacaoNFVenda.FirstOrDefault(i => i.CodInstalNFvenda == codigo);
 
             if (inst != null)
             {
@@ -54,7 +54,7 @@ namespace SAT.INFRA.Repository
 
             var data = _context.InstalacaoNFVenda
 
-                .FirstOrDefault(i => i.CodInstalNfvenda == codigo);
+                .FirstOrDefault(i => i.CodInstalNFvenda == codigo);
 
             return data;
         }
@@ -73,7 +73,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodInstalNFVenda != null)
             {
-                instalNFVendas = instalNFVendas.Where(i => i.CodInstalNfvenda == parameters.CodInstalNFVenda);
+                instalNFVendas = instalNFVendas.Where(i => i.CodInstalNFvenda == parameters.CodInstalNFVenda);
             }
 
             if (parameters.NumNFVenda != null)

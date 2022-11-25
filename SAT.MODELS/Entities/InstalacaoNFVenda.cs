@@ -6,7 +6,7 @@ namespace SAT.MODELS.Entities
 {
     public class InstalacaoNFVenda
     {
-        public int CodInstalNfvenda { get; set; }
+        public int CodInstalNFvenda { get; set; }
         public int CodCliente { get; set; }
         public int NumNFVenda { get; set; }
         public DateTime? DataNFVenda { get; set; }

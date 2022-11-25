@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
     public class InstalacaoNFAut
     {
         [Key]
-        public int CodInstalNfaut { get; set; }
+        public int CodInstalNFaut { get; set; }
         public int CodAutorizada { get; set; }
         public int CodFilial { get; set; }
         public string NFAut { get; set; }

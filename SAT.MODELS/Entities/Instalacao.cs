@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SAT.MODELS.Entities{
+namespace SAT.MODELS.Entities
+{
     public class Instalacao
     {
         public int CodInstalacao { get; set; }
@@ -129,21 +130,24 @@ namespace SAT.MODELS.Entities{
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
-        
+
         public Cliente Cliente { get; set; }
         public Filial Filial { get; set; }
         public Equipamento Equipamento { get; set; }
         public EquipamentoContrato EquipamentoContrato { get; set; }
         public InstalacaoLote InstalacaoLote { get; set; }
         public Contrato Contrato { get; set; }
-        public LocalAtendimento LocalAtendimentoIns { get; set; }        
-        public LocalAtendimento LocalAtendimentoSol { get; set; }        
-        public LocalAtendimento LocalAtendimentoEnt { get; set; }     
-        public OrdemServico OrdemServico { get; set; }   
+        public LocalAtendimento LocalAtendimentoIns { get; set; }
+        public LocalAtendimento LocalAtendimentoSol { get; set; }
+        public LocalAtendimento LocalAtendimentoEnt { get; set; }
+        public OrdemServico OrdemServico { get; set; }
         public InstalacaoStatus InstalacaoStatus { get; set; }
         public Autorizada Autorizada { get; set; }
         public Regiao Regiao { get; set; }
         public Transportadora Transportadora { get; set; }
+        public InstalacaoNFAut InstalacaoNFAut { get; set; }
+        public InstalacaoNFVenda InstalacaoNFVenda { get; set; }
         public List<InstalacaoRessalva> InstalacoesRessalva { get; set; }
-    }    
+        public List<InstalacaoPagtoInstal> InstalacaoPagtoInstal { get; set; }
+    }
 }

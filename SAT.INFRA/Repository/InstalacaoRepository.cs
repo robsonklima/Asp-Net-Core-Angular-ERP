@@ -93,6 +93,10 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Regiao)
                 .Include(i => i.Transportadora!)
                     .DefaultIfEmpty()
+                .Include(i => i.InstalacaoNFAut!)
+                    .DefaultIfEmpty()
+                .Include(i => i.InstalacaoNFVenda!)
+                    .DefaultIfEmpty()
                 .AsQueryable();
 
             if (parameters.Filter != null)

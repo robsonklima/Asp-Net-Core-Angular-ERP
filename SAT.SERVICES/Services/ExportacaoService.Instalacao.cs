@@ -1,17 +1,19 @@
 using System.Linq;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 
-namespace SAT.SERVICES.Services {
+namespace SAT.SERVICES.Services
+{
     public partial class ExportacaoService
     {
         protected void GerarPlanilhaInstalacao(InstalacaoParameters parameters)
-		{
+        {
             var instalacoes = _instalacaoRepo.ObterPorParametros(parameters);
             var sheet = instalacoes.Select(i =>
                             new
                             {
                                 Codigo = i.CodInstalacao,
-                                Filial =  i.Filial.NomeFilial,
+                                Filial = i.Filial.NomeFilial,
                                 Autorizada = i.Autorizada?.NomeFantasia,
                                 Regiao = i.Regiao.NomeRegiao,
                                 LoteImportacao = i.InstalacaoLote.NomeLote,
@@ -26,7 +28,7 @@ namespace SAT.SERVICES.Services {
                                 TipoNovo = i.Equipamento.NomeEquip,
                                 NSerie = i.EquipamentoContrato?.NumSerie,
                                 NumeroTAANovo = i.EquipamentoContrato?.NumSerieCliente,
-                                PrefixoSB = $"{i.LocalAtendimentoSol?.NumAgencia}/{i.LocalAtendimentoSol?.DCPosto}",
+                                PrefixoSB = i.LocalAtendimentoSol?.NumAgencia.Length > 0 ? $"{i.LocalAtendimentoSol?.NumAgencia}/{i.LocalAtendimentoSol?.DCPosto}" : Constants.NENHUM_REGISTRO,
                                 Dependencia = i.AntigoNomeDependenciaRedestinacao,
                                 CPNJ = i.LocalAtendimentoIns?.Cnpj,
                                 Logradouro = i.LocalAtendimentoIns?.Endereco,
@@ -39,7 +41,7 @@ namespace SAT.SERVICES.Services {
                                 NFRemessaDataExpedicao = i.DataNFRemessa,
                                 DtExpedicao = i.DataExpedicao,
                                 TransportadoraEntrega = i.Transportadora?.NomeTransportadora,
-                                AgEntrega = $"{i.LocalAtendimentoEnt?.NumAgencia}/{i.LocalAtendimentoEnt?.DCPosto}",
+                                AgEntrega = i.LocalAtendimentoEnt?.NumAgencia.Length > 0 ? $"{i.LocalAtendimentoEnt?.NumAgencia}/{i.LocalAtendimentoEnt?.DCPosto}" : Constants.NENHUM_REGISTRO,
                                 NomeLocalEntrega = i.LocalAtendimentoEnt?.NomeLocal,
                                 RecebimentoDocumentacaoInstalacao = i.DtbCliente,
                                 FaturaTranspReEntrega = i.FaturaTranspReEntrega,
@@ -57,16 +59,87 @@ namespace SAT.SERVICES.Services {
                                 DataHoraOS = i.OrdemServico?.DataHoraAberturaOS,
                                 StatusOS = i.OrdemServico?.StatusServico?.NomeStatusServico,
                                 RAT = i.OrdemServico?.RelatoriosAtendimento?.OrderByDescending(r => r.CodRAT)?.FirstOrDefault()?.NumRAT,
-                                AgInstalacao = $"{i.LocalAtendimentoIns?.NumAgencia}/{i.LocalAtendimentoIns?.DCPosto}",
+                                AgInstalacao = i.LocalAtendimentoIns?.NumAgencia.Length > 0 ? $"{i.LocalAtendimentoIns?.NumAgencia}/{i.LocalAtendimentoIns?.DCPosto}" : Constants.NENHUM_REGISTRO,
                                 NomeLocalInstalacao = i.LocalAtendimentoIns?.NomeLocal,
                                 DtInstalacao = i.DataBI,
                                 QtdParabold = i.QtdParaboldBI,
-                                EquipamentoRebaixado = i.IndEquipRebaixadoBI
+                                EquipamentoRebaixado = i.IndEquipRebaixadoBI == 1 ? "SIM" : "NÃO",
+                                ResponsavelInstalacaoBanco = i.NomeRespBancoBI,
+                                MatResponsavelInstalacaoBanco = i.NumMatriculaBI,
+                                TermoAceite = i.IndBiorigEnt,
+                                TermoDescaracterizacao = i.TermoDescaracterizacao,
+                                Laudo = i.IndLaudoOK == 1 ? "SIM" : "NÃO",
+                                RE5330 = i.IndRE5330OK == 1 ? "SIM" : "NÃO",
+                                RATEntregue = i.IndRATOK == 1 ? "SIM" : "NÃO",
+                                FornecedorTradeIn1 = i.FornecedorTradeIn1,
+                                FornecedorTradeIn2 = i.FornecedorTradeIn2,
+                                NumBemTradeIn = i.BemTradeIn,
+                                FornecedorBemTradeIn = i.Fabricante,
+                                TipoBemTradeIn = i.Modelo,
+                                NFTradeIn1 = i.NFTradeIn1,
+                                NFTradeIn2 = i.NFTradeIn2,
+                                DataNFTradeIn1 = i.DataNFTradeIn1,
+                                DataNFTradeIn2 = i.DataNFTradeIn2,
+                                ValorTradeIn1 = i.VlrDesFixacao1,
+                                ValorTradeIn2 = i.VlrDesFixacao2,
+                                ValorKmTradeIn1 = i.vlrKMTradeIn1,
+                                ValorKmTradeIn2 = i.vlrKMTradeIn2,
+                                DistanciaKmTradeIn1 = i.DistanciaKmTradeIn1,
+                                DistanciaKmTradeIn2 = i.DistanciaKmTradeIn2,
+                                ValorTotalTradeIn1 = ((i.VlrDesFixacao1 + i.vlrKMTradeIn1) * i.DistanciaKmTradeIn1),
+                                ValorTotalTradeIn2 = ((i.VlrDesFixacao2 + i.vlrKMTradeIn2) * i.DistanciaKmTradeIn2),
+                                TransportadoraTradeIn = i.NomeTransportadora,
+                                DtPrevRecolhimentoTradeIn = i.DtPrevRecolhimentoTradeIn,
+                                DataRetiradaBemTradeIn = i.DataRetirada,
+                                Romaneio = i.Romaneio,
+                                NFTranspTradeIn = i.NFTransportadoraTradeIn,
+                                DataNFTransTradeIn = i.DataNFTransportadoraTradeIn,
+                                ValorRecolhimentoTradeIn = i.VlrRecolhimentoTradeIn,
+                                ReponsavelBancoAcompanhamentoTradeIn = i.NomeReponsavelBancoAcompanhamento,
+                                MatriculaRespBancoAcompanhamentoRecolhimento = i.NumMatriculaRespBancoAcompanhamento,
+                                FornecedorCompraTradeIn = i.FornecedorCompraTradeIn,
+                                NFVendaTradeIn = i.NFVendaTradeIn,
+                                DtNFVendaTradeIn = i.DataNFVendaTradeIn,
+                                ValorVendaTradeIn = i.ValorUnitarioVenda,
+                                NFInstalacaoAutorizada = i.InstalacaoNFAut?.NFAut,
+                                DtNFInstalacaoAutorizada = i.InstalacaoNFAut?.DataNFAut,
+                                NFVenda = i.InstalacaoNFVenda?.NumNFVenda,
+                                NFVendaDataEmissao = i.InstalacaoNFVenda?.DataNFVenda,
+                                DtEnvioNFVenda = i.InstalacaoNFVenda?.DataNFVendaEnvioCliente,
+                                DtRecebimentoNFVenda = i.InstalacaoNFVenda?.DataNFVendaRecebimentoCliente,
+                                DtPagtoInstalacao = i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.DataHoraCad,
+                                VlrPagtoInstalacao = i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.VlrParcela,
+                                DTVencimentoBordero100Perc = i.DTVencBord100,
+                                DTEntregaBordero100Perc = i.DTEntBord100,
+                                DTVencimentoBordero90Perc = i.DTVencBord90,
+                                DTEntregaBordero90Perc = i.DTEntBord90,
+                                DTVencimentoBordero10Perc = i.DTVencBord10,
+                                DTEntregaBordero10Perc = i.DTEntBord10,
+                                ValorFrete1 = i.ValorFrete1,
+                                FaturaFrete1 = i.FaturaFrete1,
+                                CTEFrete1 = i.CteFrete1,
+                                DataFaturaFrete1 = i.DTFaturaFrete1,
+                                ValorFrete2 = i.ValorFrete2,
+                                FaturaFrete2 = i.FaturaFrete2,
+                                CTEFrete2 = i.CteFrete2,
+                                DataFaturaFrete2 = i.DTFaturaFrete2,
+                                ValorExtraFrete = i.ValorExtraFrete,
+                                DDD = i.Ddd,
+                                Telefone1 = i.Telefone1,
+                                Redestinacao = i.Redestinacao,
+                                AntigoPrefixoRedestinacao = i.AntigoPrefixoRedestinacao,
+                                AntigoSBRedestinacao = i.AntigoSbRedestinacao,
+                                AntigoNomeDependenciaRedestinacao = i.AntigoNomeDependenciaRedestinacao,
+                                AntigoUFRedestinacao = i.AntigoUfRedestinacao,
+                                AntigoTipoDependenciaRedestinacao = i.AntigoTipoDependenciaRedestinacao,
+                                AntigoPedidoCompraRedestinacao = i.AntigoPedidoCompraRedestinacao,
+                                AntigoProtocoloCDO = i.AntigoProtocoloCdo,
+                                NovoProtocoloCDO = i.NovoProtocoloCdo,
                             });
 
             var wsOs = Workbook.Worksheets.Add("Instalacoes");
-			wsOs.Cell(2, 1).Value = sheet;
-			WriteHeaders(sheet.FirstOrDefault(), wsOs);
+            wsOs.Cell(2, 1).Value = sheet;
+            WriteHeaders(sheet.FirstOrDefault(), wsOs);
         }
     }
 }

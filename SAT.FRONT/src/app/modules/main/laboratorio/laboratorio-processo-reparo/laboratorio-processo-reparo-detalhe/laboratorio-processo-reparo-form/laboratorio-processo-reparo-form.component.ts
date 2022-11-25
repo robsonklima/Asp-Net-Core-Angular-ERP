@@ -93,11 +93,12 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 	}
 
   salvar() {
+    const f = this.form.getRawValue();
+
     console.log({
       ...this.item,
-      ...this.form.getRawValue()
+      ...{ numSerie: f.numSerie, codStatus: f.codStatus }
     });
-    
 
     this._orItemService.atualizar({
       ...this.item,

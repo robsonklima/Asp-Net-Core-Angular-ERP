@@ -18,6 +18,10 @@
             <table *ngIf="itens.length" class="w-full text-sm text-left text-gray-500">
                 <tbody>
                     <tr class="font-semibold">
+                        <td class="py-1 text-center">
+                            Realizado
+                        </td>
+
                         <td class="py-1 text-left">
                             Descrição
                         </td>
@@ -49,21 +53,24 @@
                         <td class="py-1 text-center">
                             Obrigatório
                         </td>
-
-                        <td class="py-1 text-center">
-                            Realizado
-                        </td>
                     </tr>
 
                     <tr class="border-t-2" *ngFor="let item of itens">
+                        <div class="text-center pt-0.5">
+                            <mat-checkbox [color]="'primary'"
+                                [checked]="verificarItemSelecionado(item.codORCheckList ,item.codORCheckListItem)"
+                                (change)="toggleRealizado($event, item)">
+                            </mat-checkbox>
+                        </div>
+
                         <td class="py-1 font-medium text-left">
-                            <div class="w-50 truncate" [matTooltip]="item.descricao">
+                            <div class="w-36 truncate" [matTooltip]="item.descricao">
                                 {{ item.descricao }}
                             </div>
                         </td>
 
                         <td class="py-1 font-medium text-left">
-                            <div class="w-128 truncate" [matTooltip]="item.realizacao">
+                            <div class="w-64 truncate" [matTooltip]="item.realizacao">
                                 {{ item.realizacao }}
                             </div>
                         </td>
@@ -91,13 +98,6 @@
                         <td class="py-1 font-medium text-center">
                             {{ item.passoObrigatorio }}
                         </td>
-
-                        <div class="text-center pt-0.5">
-                            <mat-checkbox [color]="'primary'"
-                                [checked]="verificarItemSelecionado(item.codORCheckList ,item.codORCheckListItem)"
-                                (change)="toggleRealizado($event, item)">
-                            </mat-checkbox>
-                        </div>
                     </tr>
                 </tbody>
             </table>

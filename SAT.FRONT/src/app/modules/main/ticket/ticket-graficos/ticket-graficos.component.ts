@@ -374,7 +374,7 @@ export class TicketGraficosComponent implements AfterViewInit {
     this.sumario = {
       totais: {
         pendencias: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO).length,
+          .filter(t => t.codStatus != ticketStatusConst.CONCLUIDO && t.codStatus != ticketStatusConst.CANCELADO).length,
         emAtendimento: this.tickets
           .filter(t => t.codStatus == ticketStatusConst.EM_ATENDIMENTO).length,
         antigosSemana: this.tickets

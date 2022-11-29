@@ -170,8 +170,6 @@ export class FuseDateRangeComponent implements ControlValueAccessor, OnInit, OnD
         // Check if the value is an object and has 'start' and 'end' values
         if ( !value.start || !value.end )
         {
-            console.error('Range input must have "start" and "end" properties!');
-
             return;
         }
 

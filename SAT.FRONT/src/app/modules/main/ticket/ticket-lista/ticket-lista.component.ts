@@ -130,6 +130,10 @@ export class TicketListaComponent extends Filterable implements AfterViewInit, I
 		this._snack.exibirToast('Tickets reordenados com sucesso', 'success');
 	}
 
+	toCamelCase(text: string): string {
+		return this._utils.toCamelCase(text);
+	}
+
 	obterTempoAbertura(dataHora: string): string {
 	    return this._utils.obterDuracao(dataHora);
   	}

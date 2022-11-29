@@ -1,6 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
-import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
 import { TicketService } from 'app/core/services/ticket.service';
 import { Ticket, TicketBacklogView, ticketClassificacaoConst, ticketStatusConst } from 'app/core/types/ticket.types';
 import Enumerable from 'linq';
@@ -57,8 +55,6 @@ export class TicketGraficosComponent implements AfterViewInit {
 
   constructor(
     private _ticketService: TicketService,
-    private _ticketClassificacaoService: TicketClassificacaoService,
-    private _ticketModuloService: TicketModuloService,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -197,7 +193,8 @@ export class TicketGraficosComponent implements AfterViewInit {
       .select(s => { return { 
         x: s.key(), 
         y: tickets.filter(t => t.usuarioCad.perfil.nomePerfil == s.key()).length } })
-      .toArray();
+      .toArray()
+      .filter(g => g.y >= 3);
 
     this.perfilChartOptions = {
       series: [
@@ -293,17 +290,12 @@ export class TicketGraficosComponent implements AfterViewInit {
       .select(s => { return { 
         x: s.key(), 
         y: tickets.filter(t => t.usuarioCad.nomeUsuario == s.key()).length } })
-      .toArray();
+      .toArray()
+      .filter(g => g.y >= 3);
 
     this.usuarioChartOptions = {
-      series: [
-        {
-          data: modulos
-        }
-      ],
-      legend: {
-        show: false,
-      },
+      series: [{ data: modulos }],
+      legend: { show: false },
       chart: {
         height: 350,
         type: "treemap",
@@ -370,27 +362,36 @@ export class TicketGraficosComponent implements AfterViewInit {
   private obterSumario() {
     const hoje = moment().startOf('day');
     const ontem = moment().subtract(1, 'days').startOf('day');
+    const pendencias = this.tickets.filter(t => t.codStatus != ticketStatusConst.CONCLUIDO && 
+                                                t.codStatus != ticketStatusConst.CANCELADO && 
+                                                t.codStatus != ticketStatusConst.PENDENTE_SOLICITANTE).length;
+    const emAtendimento = this.tickets.filter(t => t.codStatus == ticketStatusConst.EM_ATENDIMENTO).length;
+    const pendenteSolicitante = this.tickets.filter(t => t.codStatus == ticketStatusConst.PENDENTE_SOLICITANTE).length;                  
+    const antigosSemana = this.tickets.filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && 
+                                                   moment(t.dataHoraCad) <= moment().subtract(7, 'd')).length;
+    const antigosMes = this.tickets.filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && 
+                                                moment(t.dataHoraCad) <= moment().subtract(30, 'd')).length;
+    const novosHoje = this.tickets.filter(t => moment(t.dataHoraCad).isSame(hoje, 'd')).length;
+    const novosOntem = this.tickets.filter(t => moment(t.dataHoraCad).isSame(ontem, 'd')).length;
+    const melhorias = this.tickets.filter(t => t.codClassificacao == ticketClassificacaoConst.MELHORIA).length;
+    const melhoriasAtendidas = this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && 
+                                                        t.codClassificacao == ticketClassificacaoConst.MELHORIA).length;
+    const tempoMedioConclusaoHoras = (this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO).reduce((sum, ticket) => {
+                                        return sum + moment(ticket.dataHoraFechamento).diff(moment(ticket.dataHoraCad), "hour");
+                                      }, 0) / this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO).length).toFixed(0);
 
     this.sumario = {
       totais: {
-        pendencias: this.tickets
-          .filter(t => t.codStatus != ticketStatusConst.CONCLUIDO && t.codStatus != ticketStatusConst.CANCELADO && t.codStatus != ticketStatusConst.PENDENTE_SOLICITANTE).length,
-        emAtendimento: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.EM_ATENDIMENTO).length,
-        pendenteSolicitante: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.PENDENTE_SOLICITANTE).length,
-        antigosSemana: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && moment(t.dataHoraCad) <= moment().subtract(7, 'd')).length,
-        antigosMes: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && moment(t.dataHoraCad) <= moment().subtract(30, 'd')).length,
-        novosHoje: this.tickets
-          .filter(t => moment(t.dataHoraCad).isSame(hoje, 'd')).length,
-        novosOntem: this.tickets
-          .filter(t => moment(t.dataHoraCad).isSame(ontem, 'd')).length,
-        melhorias: this.tickets
-          .filter(t => t.codClassificacao == ticketClassificacaoConst.MELHORIA).length,
-        melhoriasAtendidas: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && t.codClassificacao == ticketClassificacaoConst.MELHORIA).length,
+        pendencias: pendencias,
+        emAtendimento: emAtendimento,
+        pendenteSolicitante: pendenteSolicitante,
+        antigosSemana: antigosSemana,
+        antigosMes: antigosMes,
+        novosHoje: novosHoje,
+        novosOntem: novosOntem,
+        melhorias: melhorias,
+        melhoriasAtendidas: melhoriasAtendidas,
+        tempoMedioConclusaoHoras: tempoMedioConclusaoHoras
       }
     }
   }

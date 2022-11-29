@@ -23,11 +23,12 @@
 
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto" *ngIf="tickets.length">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 w-full min-w-0">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Pendências</div>
+                    <div class="text-center">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Sumário</div>
                     </div>
+                    
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
                             {{ sumario?.totais?.pendencias || 0 }}
@@ -48,7 +49,7 @@
 
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
                     [class.bg-red-50]="sumario?.totais?.antigosSemana">
-                    <div class="flex items-start justify-between">
+                    <div class="text-center">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Antigos</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
@@ -67,7 +68,7 @@
                 </div>
 
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
+                    <div class="text-center">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Novos</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
@@ -91,7 +92,7 @@
                 </div>
 
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex items-start justify-between">
+                    <div class="text-center">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Melhorias</div>
                     </div>
                     <div class="flex flex-col items-center mt-2">
@@ -105,6 +106,24 @@
                         <div class="flex items-center justify-center w-full mt-5 text-secondary">
                             <div class="text-md font-medium truncate">Implementadas:</div>
                             <div class="ml-1.5 text-lg font-semibold">{{ sumario?.totais?.melhoriasAtendidas }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="text-center">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Tempo de Espera</div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-purple-500">
+                            {{ sumario?.totais?.tempoMedioConclusaoHoras }}
+                        </div>
+
+                        <div class="text-lg font-medium text-purple-600 dark:text-purple-500">
+                            {{ sumario?.totais?.tempoMedioConclusaoHoras == 1 ? 'Hora' : 'Horas' }}
+                        </div>
+                        <div class="flex items-center justify-center w-full mt-5 text-secondary">
+                            <div class="text-md font-medium truncate">Média últimos 30 dias</div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +240,7 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row gap-6 w-full mt-8 sm:mt-4">
                     <div class="flex flex-col flex-auto">
-                        <div class="font-medium text-secondary">Perfis dos Usuários</div>
+                        <div class="font-medium text-secondary">Perfis que mais solicitaram ajuda</div>
                         <div class="flex flex-col flex-auto">
                             <apx-chart
                                 *ngIf="perfilChartOptions?.series[0]?.data?.length"

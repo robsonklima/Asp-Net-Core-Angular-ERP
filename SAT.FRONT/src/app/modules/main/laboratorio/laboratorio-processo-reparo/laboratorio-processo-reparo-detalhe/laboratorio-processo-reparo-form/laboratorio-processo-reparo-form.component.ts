@@ -5,7 +5,6 @@ import { ORItemService } from 'app/core/services/or-item.service';
 import { ORStatusService } from 'app/core/services/or-status.service';
 import { ORItem } from 'app/core/types/or-item.types';
 import { ORStatus, ORStatusParameters } from 'app/core/types/or-status.types';
-import { ORTempoReparo } from 'app/core/types/or-tempo-reparo.types';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, filter, takeUntil, tap } from 'rxjs/operators';
 
@@ -92,11 +91,6 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 
   salvar() {
     const f = this.form.getRawValue();
-
-    console.log({
-      ...this.item,
-      ...{ numSerie: f.numSerie, codStatus: f.codStatus }
-    });
 
     this._orItemService.atualizar({
       ...this.item,

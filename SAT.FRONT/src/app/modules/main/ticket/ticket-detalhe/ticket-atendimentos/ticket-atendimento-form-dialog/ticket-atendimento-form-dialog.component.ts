@@ -8,7 +8,7 @@ import { TicketStatusService } from 'app/core/services/ticket-status.service';
 import { TicketService } from 'app/core/services/ticket.service';
 import { Notificacao } from 'app/core/types/notificacao.types';
 import { statusConst } from 'app/core/types/status-types';
-import { Ticket, TicketAtendimento, TicketStatus } from 'app/core/types/ticket.types';
+import { Ticket, TicketAtendimento, TicketStatus, ticketStatusConst } from 'app/core/types/ticket.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import moment from 'moment';
@@ -112,13 +112,16 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
   }
 
   private async atualizarTicket(): Promise<Ticket> {
+    const status = this.form.controls['codStatus'].value;
+
     return this._ticketService.atualizar({
       ...this.ticket,
       ...{
-        codStatus: this.form.controls['codStatus'].value,
+        codStatus: status,
         codUsuarioAtendente: this.userSession.usuario.codUsuario,
         codUsuarioManut: this.userSession.usuario.codUsuario,
-        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss')
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        dataHoraFechamento: status == ticketStatusConst.CONCLUIDO ? moment().format('YYYY-MM-DD HH:mm:ss') : null
       }
     }).toPromise()
   }

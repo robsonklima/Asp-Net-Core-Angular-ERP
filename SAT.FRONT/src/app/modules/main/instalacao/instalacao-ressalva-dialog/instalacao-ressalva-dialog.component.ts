@@ -52,7 +52,7 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
   }
 
   async salvar() {
-    console.log(this.formRessalva);    
+    
   }
 
   async obterRessalvas(){

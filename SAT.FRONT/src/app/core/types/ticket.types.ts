@@ -20,7 +20,7 @@ export interface Ticket {
     codUsuarioManut: string;
     usuarioManut: Usuario;
     dataHoraManut: string | null;
-    dataFechamento: string | null;
+    dataHoraFechamento: string | null;
     ordem: number;
     indAtivo: number;
     atendimentos?: TicketAtendimento[];

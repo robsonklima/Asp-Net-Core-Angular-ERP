@@ -256,6 +256,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
   }
 
   alternarDetalhe(codInstalacao: number): void {
+
     if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {
       this.fecharDetalhe();
       return;

@@ -23,6 +23,8 @@ export class Utils {
     }
 
     toCamelCase(text: string): string {
+        text = text.toLowerCase();
+        
         return _.startCase(text);
     }
 }

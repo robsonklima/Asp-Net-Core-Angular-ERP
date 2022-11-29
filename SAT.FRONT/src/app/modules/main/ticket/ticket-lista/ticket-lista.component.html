@@ -71,9 +71,13 @@
                                     <mat-icon *ngIf="userSession.usuario.codUsuario == ticket.codUsuarioCad"
                                         class="pt-2.5 text-yellow-400" svgIcon="heroicons_solid:star"></mat-icon>
                                     
-                                    <span class="font-light">#{{ ticket.codTicket }}</span>
+                                    <span class="font-light">
+                                        #{{ ticket.codTicket }}
+                                    </span>
                                     
-                                    <span [matTooltip]="ticket.descricao">{{ ticket.titulo }}</span>
+                                    <span [matTooltip]="ticket.descricao">
+                                        {{ toCamelCase(ticket.titulo) }}
+                                    </span>
                                 </div>
 
                                 <div class="text-3xl font-semibold mt-4 md:mt-0 md:ml-6" @shake 
@@ -85,7 +89,7 @@
                             <div class="flex items-center md:mt-auto -mx-3">
                                 <div class="px-3 mr-1 text-secondary font-light">
                                     <span class="uppercase">
-                                        {{ ticket.usuarioCad.nomeUsuario }}
+                                        {{ toCamelCase(ticket.usuarioCad.nomeUsuario) }}
                                     </span>
                                     
                                     <span class="font-semibold">

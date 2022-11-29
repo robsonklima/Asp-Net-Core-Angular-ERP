@@ -47,7 +47,7 @@ namespace SAT.INFRA.Mapping
                .HasOne(prop => prop.EquipamentoContrato)
                .WithMany()
                .HasForeignKey(prop => prop.CodEquipContrato)
-               .HasPrincipalKey(prop => prop.CodEquipContrato);
+               .HasPrincipalKey(prop => prop.CodEquipContrato);              
 
             builder
                 .HasOne(i => i.InstalacaoLote)

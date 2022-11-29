@@ -13,7 +13,10 @@ import { Instalacao } from 'app/core/types/instalacao.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
+import { UserService } from 'app/core/user/user.service';
+import { UserSession } from 'app/core/user/user.types';
 import Enumerable from 'linq';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 import { InstalacaoListaComponent } from '../instalacao-lista.component';
 
@@ -31,6 +34,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
   searching: boolean;
   formInstalacao: FormGroup;
   codCliente: number;
+  userSession: UserSession;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -42,10 +46,12 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     private _localAtendimentoService: LocalAtendimentoService,
     private _instalacaoService: InstalacaoService,
     private _formBuilder: FormBuilder,
+    private _userSvc: UserService,
     private _snack: CustomSnackbarService,
   ) {
       this.itens = data?.itens;
       this.codCliente = data?.itens[0]?.codCliente;
+      this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
   async ngOnInit() {
@@ -246,24 +252,27 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 
   async salvar() {
     const formInst = this.formInstalacao.getRawValue();
+    formInst.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+    formInst.codUsuarioManut = this.userSession.usuario?.codUsuario;
+     
     let erro: boolean = false;
 
-    // for (const item of this.itens) {
-    //   let inst = {}
+    for (const item of this.itens) {
+      let inst = {}
 
-    //   Object.keys(item).forEach(key => {
-    //     inst[key] = formInst[key] || item[key];
-    //   });
+      Object.keys(item).forEach(key => {
+        inst[key] = formInst[key] || item[key];
+      });
 
-    //   this._instalacaoService
-    //     .atualizar({ ...item, ...inst })
-    //     .subscribe(() => {}, () => { erro = true});
-    // }
+      this._instalacaoService
+        .atualizar({ ...item, ...inst })
+        .subscribe(() => {}, () => { erro = true});
+    }
 
-    // if (erro) 
-    //   this._snack.exibirToast('Erro ao atualizar os registros', 'error');
-    // else
-    //   this._snack.exibirToast('Registros atualizados com sucesso', 'success');
+    if (erro) 
+      this._snack.exibirToast('Erro ao atualizar os registros', 'error');
+    else
+      this._snack.exibirToast('Registros atualizados com sucesso', 'success');
   }
 
   fechar() {

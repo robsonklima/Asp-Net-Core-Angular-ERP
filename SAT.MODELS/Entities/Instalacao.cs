@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
     {
         public int CodInstalacao { get; set; }
         public int? CodInstalLote { get; set; }
-        public int CodContrato { get; set; }
+        public int? CodContrato { get; set; }
         public int? CodTipoEquip { get; set; }
         public int? CodGrupoEquip { get; set; }
         public int? CodEquip { get; set; }
@@ -62,7 +62,7 @@ namespace SAT.MODELS.Entities
         public int? CodInstalNFAut { get; set; }
         public decimal? VlrPagtoNFAut { get; set; }
         public string NumFaturaTransp { get; set; }
-        public int CodInstalStatus { get; set; }
+        public int? CodInstalStatus { get; set; }
         public string CodUsuarioBlock { get; set; }
         public byte? TermoDescaracterizacao { get; set; }
         public string FornecedorTradeIn1 { get; set; }
@@ -88,7 +88,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataNFTransportadoraTradeIn { get; set; }
         public decimal? VlrRecolhimentoTradeIn { get; set; }
         public string CodUsuarioCad { get; set; }
-        public DateTime DataHoraCad { get; set; }
+        public DateTime? DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string FornecedorCompraTradeIn { get; set; }

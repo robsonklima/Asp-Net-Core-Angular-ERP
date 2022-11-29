@@ -65,8 +65,8 @@
                         [class.cursor-move]="userSession.usuario.codPerfil == 3 && ticket.codStatus == 4"
                         cdkDrag [cdkDragDisabled]="userSession.usuario.codPerfil != 3 || ticket.codStatus != 4"
                         *ngFor="let ticket of tickets; let i=index">
-                        <div class="flex flex-col flex-auto m-8 mb-4">
-                            <div class="flex flex-col md:flex-row items-baseline justify-between">
+                        <div class="flex flex-col flex-auto m-6 mb-4">
+                            <div class="flex flex-col md:flex-row items-baseline justify-between -mt-2">
                                 <div class="text-2xl leading-tight">
                                     <mat-icon *ngIf="userSession.usuario.codUsuario == ticket.codUsuarioCad"
                                         class="pt-2.5 text-yellow-400" svgIcon="heroicons_solid:star"></mat-icon>
@@ -79,45 +79,7 @@
                                 <div class="text-3xl font-semibold mt-4 md:mt-0 md:ml-6" @shake>{{ i+1 }}&#176;</div>
                             </div>
 
-                            <div class="flex items-center text-md mt-6">
-                                <span
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-blue-800 bg-blue-100">
-                                    Prioridade {{ ticket.ticketPrioridade.descricao }}
-                                </span>
-
-                                <span
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-green-800 bg-green-100">
-                                    Módulo {{ ticket.ticketModulo.descricao }}
-                                </span>
-
-                                <span
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-orange-800 bg-orange-100">
-                                    Status {{ ticket.ticketStatus.descricao }}
-                                </span>
-
-                                <span
-                                    *ngIf="ticket.atendimentos.length"
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-purple-800 bg-purple-100">
-                                    {{ ticket.atendimentos.length }} {{ ticket.atendimentos.length > 1 ? 'Atendimentos' : 'Atendimento' }}
-                                </span>
-
-                                <span
-                                    *ngIf="ticket.anexos.length"
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-teal-800 bg-teal-100">
-                                    {{ ticket.anexos.length }} {{ ticket.anexos.length > 1 ? 'Anexos' : 'Anexo' }}
-                                </span>
-
-                                <span
-                                    class="mr-2 py-0.5 px-3 rounded-full text-sm font-semibold text-gray-800 bg-gray-100">
-                                    {{ ticket.dataHoraCad | date:'d MMMM y' }}
-                                </span>
-                            </div>
-
-                            <div class="w-full text-md text-secondary mt-6">
-                                {{ ticket.descricao }}
-                            </div>
-
-                            <hr class="w-full border-b mt-6 mb-4">
+                            <hr class="w-full border-b mt-4 mb-2 opacity-50">
                             
                             <div class="flex items-center md:mt-auto -mx-3">
                                 <div class="px-3 mr-1 text-secondary font-light">
@@ -130,7 +92,19 @@
                                     </span>
                                 </div>
 
-                                <button class="ml-auto" 
+                                <div class="ml-auto">
+                                    <span
+                                        class="px-3 py-0.5 rounded-full mr-2.5 text-sm font-semibold"
+                                        [class.bg-blue-100]="ticket.codStatus == 1" [class.text-blue-800]="ticket.codStatus == 1"
+                                        [class.bg-gray-100]="ticket.codStatus == 2" [class.text-gray-800]="ticket.codStatus == 2"
+                                        [class.bg-green-100]="ticket.codStatus == 3" [class.text-green-800]="ticket.codStatus == 3"
+                                        [class.bg-gray-100]="ticket.codStatus == 4" [class.text-gray-800]="ticket.codStatus == 4"
+                                        [class.bg-red-100]="ticket.codStatus == 6" [class.text-red-800]="ticket.codStatus == 6">
+                                        {{ ticket.ticketStatus.descricao }}
+                                    </span>
+                                </div>
+
+                                <button
                                     [disabled]="(ticket.codUsuarioCad != userSession.usuario.codUsuario  && userSession.usuario.codPerfil != 3) || ticket.codStatus == 3" mat-icon-button [matTooltip]="ticket.indAtivo ? 'Desativar' : 'Ativar'"
                                     (click)="toggleStatusTicket(ticket)">
                                     <mat-icon class="icon-size-5" [class.text-green-500]="ticket.indAtivo"

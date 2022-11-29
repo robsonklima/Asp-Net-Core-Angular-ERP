@@ -103,6 +103,7 @@ namespace SAT.INFRA.Repository
                     .DefaultIfEmpty()
                 .Include(i => i.InstalacaoNFVenda!)
                     .DefaultIfEmpty()
+                .AsNoTracking()
                 .AsQueryable();
 
             if (parameters.Filter != null)

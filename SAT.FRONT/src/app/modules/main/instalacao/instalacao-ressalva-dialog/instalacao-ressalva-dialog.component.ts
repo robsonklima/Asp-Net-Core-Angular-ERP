@@ -1,12 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { InstalacaoMotivoResService } from 'app/core/services/instalacao-motivo-res.service';
 import { InstalacaoRessalvaService } from 'app/core/services/instalacao-ressalva.service';
 import { InstalacaoMotivoRes, InstalacaoMotivoResData, InstalacaoMotivoResParameters } from 'app/core/types/instalacao-ressalva-motivo.types';
 import { InstalacaoRessalva, InstalacaoRessalvaData } from 'app/core/types/instalacao-ressalva.types';
 import { statusConst } from 'app/core/types/status-types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
 import { InstalacaoListaComponent } from '../instalacao-lista/instalacao-lista.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-instalacao-ressalva-dialog',
@@ -15,7 +19,9 @@ import { InstalacaoListaComponent } from '../instalacao-lista/instalacao-lista.c
 export class InstalacaoRessalvaDialogComponent implements OnInit {
   codInstalacao: number;
   ressalvas: InstalacaoRessalva[] = [];
+  ressalva: InstalacaoRessalva;
   motivos: InstalacaoMotivoRes[] = [];
+  userSession: UsuarioSessao;
   formRessalva: FormGroup;
   dataSourceData: InstalacaoRessalvaData;
 
@@ -25,8 +31,11 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
     private _ressalvaService: InstalacaoRessalvaService,
     private _motivoService: InstalacaoMotivoResService,
     private _formBuilder: FormBuilder,
+    private _userService: UserService,
+    private _snack: CustomSnackbarService,
   ) { 
     this.codInstalacao = data?.codInstalacao;
+    this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
@@ -37,22 +46,31 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
 
   private criarForms() {
     this.formRessalva = this._formBuilder.group({
-      codInstalMotivoRes: [undefined],
-      codInstalRessalva: [undefined],
-      codInstalacao: [undefined],
-      codUsuarioCad: [undefined],
-      codUsuarioManut: [undefined],
-      comentario: [undefined],
-      dataHoraCad: [undefined],
-      dataHoraManut: [undefined],
-      dataOcorrencia: [undefined],
-      indAtivo: [undefined],
+      codInstalMotivoRes: [undefined, Validators.required],
+      comentario: [undefined, Validators.required],
+      dataOcorrencia: [undefined, Validators.required],
       indJustificativa: [undefined]
     });    
   }
 
   async salvar() {
-    
+    const formRes = this.formRessalva.getRawValue();
+
+		let obj = {
+      ...this.ressalva,
+			...formRes,
+			...{
+        codInstalacao: this.codInstalacao,
+        codUsuarioCad: this.userSession.usuario?.codUsuario,
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        indAtivo: statusConst.ATIVO,
+        indJustificativa: +formRes.indJustificativa
+			}
+		};
+
+		this._ressalvaService.criar(obj).subscribe(() => {
+			this._snack.exibirToast("Registro adicionado com sucesso!", "success");			
+		});    
   }
 
   async obterRessalvas(){

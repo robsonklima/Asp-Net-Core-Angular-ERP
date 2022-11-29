@@ -30,6 +30,10 @@ import { InstalacaoRessalvaDialogComponent } from './instalacao-ressalva-dialog/
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseHighlightModule } from '@fuse/components/highlight';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
 @NgModule({
   declarations: [
@@ -43,6 +47,7 @@ import { FuseHighlightModule } from '@fuse/components/highlight';
   imports: [
     CommonModule,
     RouterModule.forChild(instalacaoRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     SharedModule,
     MatIconModule,
@@ -64,7 +69,8 @@ import { FuseHighlightModule } from '@fuse/components/highlight';
     MatTabsModule,
     FuseCardModule,
     FuseAlertModule,
-    FuseHighlightModule
+    FuseHighlightModule,
+    MatCheckboxModule
   ]
 })
 export class InstalacaoModule { }

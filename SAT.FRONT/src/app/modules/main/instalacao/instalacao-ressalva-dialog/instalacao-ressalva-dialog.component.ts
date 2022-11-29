@@ -49,7 +49,7 @@ export class InstalacaoRessalvaDialogComponent implements OnInit {
       codInstalMotivoRes: [undefined, Validators.required],
       comentario: [undefined, Validators.required],
       dataOcorrencia: [undefined, Validators.required],
-      indJustificativa: [undefined]
+      indJustificativa: [1]
     });    
   }
 

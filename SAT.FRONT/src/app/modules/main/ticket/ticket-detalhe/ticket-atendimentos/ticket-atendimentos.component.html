@@ -30,17 +30,10 @@
                                         [class.bg-blue-400]="atend.codStatus == 1"
                                         [class.bg-gray-400]="atend.codStatus == 2"
                                         [class.bg-green-400]="atend.codStatus == 3"
-                                        [class.bg-gray-400]="atend.codStatus == 4">
-                                        <mat-icon *ngIf="atend.codStatus == 1" class="icon-size-5 text-white"
-                                            [svgIcon]="'heroicons_solid:play'">
-                                        </mat-icon>
-
-                                        <mat-icon *ngIf="atend.codStatus == 3" class="icon-size-5 text-white"
-                                            [svgIcon]="'heroicons_solid:stop'">
-                                        </mat-icon>
-
-                                        <mat-icon *ngIf="atend.codStatus != 1 && atend.codStatus != 3"
-                                            class="icon-size-5 text-white" [svgIcon]="'heroicons_solid:ticket'">
+                                        [class.bg-gray-400]="atend.codStatus == 4"
+                                        [class.bg-red-400]="atend.codStatus == 6">
+                                        <mat-icon class="icon-size-5 text-white"
+                                            [svgIcon]="'heroicons_solid:ticket'">
                                         </mat-icon>
                                     </div>
                                 </ng-container>

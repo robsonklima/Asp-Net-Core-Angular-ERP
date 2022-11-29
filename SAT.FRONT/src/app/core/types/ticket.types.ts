@@ -132,7 +132,7 @@ export const ticketStatusConst = {
     CANCELADO: 2,
     CONCLUIDO: 3,
     AGUARDANDO: 4,
-    PENDENTE_SOLICITANTE: 5
+    PENDENTE_SOLICITANTE: 6
 }
 
 export const ticketClassificacaoConst = {

@@ -73,10 +73,11 @@
                                     
                                     <span class="font-light">#{{ ticket.codTicket }}</span>
                                     
-                                    {{ ticket.titulo }}
+                                    <span [matTooltip]="ticket.descricao">{{ ticket.titulo }}</span>
                                 </div>
 
-                                <div class="text-3xl font-semibold mt-4 md:mt-0 md:ml-6" @shake>{{ i+1 }}&#176;</div>
+                                <div class="text-3xl font-semibold mt-4 md:mt-0 md:ml-6" @shake 
+                                    [matTooltip]="'Ordem de Atendimento'">{{ i+1 }}&#176;</div>
                             </div>
 
                             <hr class="w-full border-b mt-4 mb-2 opacity-50">

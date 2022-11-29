@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { fuseAnimations } from '@fuse/animations';
 import { TicketService } from 'app/core/services/ticket.service';
 import { Ticket, TicketBacklogView, ticketClassificacaoConst, ticketStatusConst } from 'app/core/types/ticket.types';
 import Enumerable from 'linq';
@@ -37,7 +38,9 @@ export type ChartPieOptions = {
 
 @Component({
   selector: 'app-ticket-graficos',
-  templateUrl: './ticket-graficos.component.html'
+  templateUrl: './ticket-graficos.component.html',
+  encapsulation: ViewEncapsulation.None,
+	animations: fuseAnimations
 })
 export class TicketGraficosComponent implements AfterViewInit {
   @ViewChild("backlogChart") backlogChart: ChartComponent;
@@ -69,7 +72,9 @@ export class TicketGraficosComponent implements AfterViewInit {
       });
   }
 
-  private async obterDados() {
+  async obterDados() {
+    this.isLoading = true;
+
     this.tickets = (await this._ticketService.obterPorParametros({
       dataHoraCadInicio: moment().startOf('year').format('MM/DD/YYYY')
     }).toPromise()).items;
@@ -94,6 +99,7 @@ export class TicketGraficosComponent implements AfterViewInit {
     const datas = this.backlog.map(b => { return moment(b.data).format('DD/MM') });
     const abertos = this.backlog.map(b => { return +b.abertos });
     const fechados = this.backlog.map(b => { return +b.fechados });
+    const cancelados = this.backlog.map(b => { return +b.cancelados });
     const backlogs = this.backlog.map(b => { return +b.backlog });
 
     this.backlogChartOptions = {
@@ -105,6 +111,10 @@ export class TicketGraficosComponent implements AfterViewInit {
         {
           name: "Fechados",
           data: fechados
+        },
+        {
+          name: "Cancelados",
+          data: cancelados
         },
         {
           name: "Backlog",

@@ -121,7 +121,8 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
         codUsuarioAtendente: this.userSession.usuario.codUsuario,
         codUsuarioManut: this.userSession.usuario.codUsuario,
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        dataHoraFechamento: status == ticketStatusConst.CONCLUIDO ? moment().format('YYYY-MM-DD HH:mm:ss') : null
+        dataHoraFechamento: status == ticketStatusConst.CONCLUIDO ? moment().format('YYYY-MM-DD HH:mm:ss') : null,
+        dataHoraCancelamento: status == ticketStatusConst.CANCELADO ? moment().format('YYYY-MM-DD HH:mm:ss') : null
       }
     }).toPromise()
   }

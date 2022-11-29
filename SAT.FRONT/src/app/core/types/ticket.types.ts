@@ -21,6 +21,7 @@ export interface Ticket {
     usuarioManut: Usuario;
     dataHoraManut: string | null;
     dataHoraFechamento: string | null;
+    dataHoraCancelamento: string | null;
     ordem: number;
     indAtivo: number;
     atendimentos?: TicketAtendimento[];
@@ -122,9 +123,10 @@ export interface TicketPrioridadeParameters extends QueryStringParameters {
 
 export interface TicketBacklogView {
     data: string;
-    abertos: string;
-    fechados: string;
-    backlog: string;
+    abertos: number;
+    fechados: number;
+    cancelados: number;
+    backlog: number;
 }
 
 export const ticketStatusConst = {

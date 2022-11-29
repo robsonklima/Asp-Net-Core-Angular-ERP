@@ -12,7 +12,6 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { Ticket } from 'app/core/types/ticket.types';
 import { UserService } from 'app/core/user/user.service';
 import { Utils } from 'app/core/utils/utils';
-import moment from 'moment';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 

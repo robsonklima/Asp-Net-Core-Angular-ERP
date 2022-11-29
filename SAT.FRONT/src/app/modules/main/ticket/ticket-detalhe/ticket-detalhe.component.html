@@ -60,7 +60,8 @@
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="codTicket && userSession.usuario.codPerfil == 3">
             <button class="ml-2" mat-icon-button
                 [matTooltip]="!ticket?.codUsuarioAtendente ? 'Iniciar Atendimento' : 'Desvincular'"
-                (click)="vincularDesvincular()">
+                (click)="vincularDesvincular()"
+                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2">
                 <mat-icon 
                     [class.text-green-500]="!ticket?.codUsuarioAtendente"
                     [class.text-orange-500]="ticket?.codUsuarioAtendente"

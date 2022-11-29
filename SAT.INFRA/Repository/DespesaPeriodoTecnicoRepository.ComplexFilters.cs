@@ -11,13 +11,10 @@ namespace SAT.INFRA.Repository
     {
         public IQueryable<DespesaPeriodoTecnico> AplicarFiltroPeriodosAprovados(IQueryable<DespesaPeriodoTecnico> query, DespesaPeriodoTecnicoParameters parameters)
         {
-            var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico
-                .AsQueryable();
-
-            var aprovado = (int)DespesaPeriodoTecnicoStatusEnum.APROVADO;
+            var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico.AsQueryable();
 
             query = from dpt in query
-                    where dpt.CodDespesaPeriodoTecnicoStatus == aprovado
+                    where dpt.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
                        && !(from dpp in despesaProtocoloPeriodoTecnico
                             select dpp.CodDespesaPeriodoTecnico).ToString()
                             .Contains(dpt.CodDespesaPeriodoTecnico.ToString())

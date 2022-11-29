@@ -30,10 +30,13 @@
                                         [class.bg-blue-400]="atend.codStatus == 1"
                                         [class.bg-gray-400]="atend.codStatus == 2"
                                         [class.bg-green-400]="atend.codStatus == 3"
-                                        [class.bg-gray-400]="atend.codStatus == 4"
+                                        [class.bg-indigo-400]="atend.codStatus == 4"
                                         [class.bg-red-400]="atend.codStatus == 6">
                                         <mat-icon class="icon-size-5 text-white"
-                                            [svgIcon]="'heroicons_solid:ticket'">
+                                            [svgIcon]="atend.codStatus == 1 || atend.codStatus == 4 ? 
+                                                'heroicons_solid:play' : atend.codStatus == 2 || atend.codStatus == 3 ? 
+                                                'heroicons_solid:check-circle' : atend.codStatus == 6 ? 
+                                                'heroicons_solid:user' : 'heroicons_solid:ticket'">
                                         </mat-icon>
                                     </div>
                                 </ng-container>

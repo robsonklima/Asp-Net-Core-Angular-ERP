@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities {
         public DateTime Data { get; set; }        
         public int Abertos { get; set; }        
         public int Fechados { get; set; }        
+        public int Cancelados { get; set; }        
         public int Backlog { get; set; }        
     }
 }

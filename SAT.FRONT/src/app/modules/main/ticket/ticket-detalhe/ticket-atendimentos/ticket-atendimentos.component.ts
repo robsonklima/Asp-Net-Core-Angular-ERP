@@ -48,8 +48,8 @@ export class TicketAtendimentosComponent implements OnInit, OnChanges {
 	}
 
 	isEditavel(): boolean {
-		return (this.ticket?.codStatus == ticketStatusConst.AGUARDANDO || 
-			   this.ticket?.codStatus == ticketStatusConst.EM_ATENDIMENTO) &&
-			   this.userSession.usuario.codPerfil == 3;
+		return (this.ticket?.codStatus != ticketStatusConst.CANCELADO && 
+			this.ticket?.codStatus != ticketStatusConst.CONCLUIDO) &&
+			this.userSession.usuario.codPerfil == 3;
 	}
 }

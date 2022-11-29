@@ -368,27 +368,29 @@ export class TicketGraficosComponent implements AfterViewInit {
   }
 
   private obterSumario() {
-    const today = moment().startOf('day');
-    const yesterday = moment().subtract(1, 'days').startOf('day');
+    const hoje = moment().startOf('day');
+    const ontem = moment().subtract(1, 'days').startOf('day');
 
     this.sumario = {
       totais: {
         pendencias: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO).length,
+          .filter(t => t.codStatus != ticketStatusConst.CONCLUIDO && t.codStatus != ticketStatusConst.CANCELADO && t.codStatus != ticketStatusConst.PENDENTE_SOLICITANTE).length,
         emAtendimento: this.tickets
           .filter(t => t.codStatus == ticketStatusConst.EM_ATENDIMENTO).length,
+        pendenteSolicitante: this.tickets
+          .filter(t => t.codStatus == ticketStatusConst.PENDENTE_SOLICITANTE).length,
         antigosSemana: this.tickets
           .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && moment(t.dataHoraCad) <= moment().subtract(7, 'd')).length,
         antigosMes: this.tickets
           .filter(t => t.codStatus == ticketStatusConst.AGUARDANDO && moment(t.dataHoraCad) <= moment().subtract(30, 'd')).length,
         novosHoje: this.tickets
-          .filter(t => moment(t.dataHoraCad).isSame(today, 'd')).length,
+          .filter(t => moment(t.dataHoraCad).isSame(hoje, 'd')).length,
         novosOntem: this.tickets
-          .filter(t => moment(t.dataHoraCad).isSame(yesterday, 'd')).length,
+          .filter(t => moment(t.dataHoraCad).isSame(ontem, 'd')).length,
         melhorias: this.tickets
           .filter(t => t.codClassificacao == ticketClassificacaoConst.MELHORIA).length,
         melhoriasAtendidas: this.tickets
-          .filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && t.codClassificacao == ticketClassificacaoConst.MELHORIA).length
+          .filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && t.codClassificacao == ticketClassificacaoConst.MELHORIA).length,
       }
     }
   }

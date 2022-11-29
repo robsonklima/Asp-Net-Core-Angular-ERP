@@ -68,7 +68,7 @@
         </mat-form-field>
     </fieldset>
 
-    <div class="flex items-center justify-end px-8 -mt-2 pb-8">
+    <div class="flex items-center justify-end px-8 -mt-2 pb-8" *ngIf="ticket.codStatus != 3 && ticket.codStatus != 2">
         <button (click)="_location.back()" mat-button>
             {{ t('cancelar') }}
         </button>

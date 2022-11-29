@@ -13,34 +13,30 @@ import moment from 'moment';
   selector: 'app-despesa-protocolo-detalhe-periodos-dialog',
   templateUrl: './despesa-protocolo-detalhe-periodos-dialog.component.html'
 })
-export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
-{
+export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
   userSession: UsuarioSessao;
   codDespesaProtocolo: number;
   aprovadas: DespesaPeriodoTecnicoData;
   isLoading: boolean = false;
   selectedOptions: number[] = [];
 
-  constructor (
+  constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<DespesaProtocoloDetalhePeriodosDialogComponent>,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaProtocoloTecnicoSvc: DespesaProtocoloPeriodoTecnicoService,
-    private _userService: UserService) 
-  {
+    private _userService: UserService) {
     if (data)
       this.codDespesaProtocolo = data.codDespesaProtocolo;
 
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit(): Promise<void> 
-  {
+  async ngOnInit(): Promise<void> {
     await this.loadData();
   }
 
-  private async loadData()
-  {
+  private async loadData() {
     this.isLoading = true;
 
     this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
@@ -52,10 +48,8 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
     this.isLoading = false;
   }
 
-  async confirmar()
-  {
-    this.selectedOptions.forEach(async option =>
-    {
+  async confirmar() {
+    this.selectedOptions.forEach(async option => {
       var item: DespesaProtocoloPeriodoTecnico =
       {
         codDespesaProtocolo: this.codDespesaProtocolo,
@@ -70,8 +64,7 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit
     this.dialogRef.close(true);
   }
 
-  cancelar(): void
-  {
+  cancelar(): void {
     this.dialogRef.close(false);
   }
 }

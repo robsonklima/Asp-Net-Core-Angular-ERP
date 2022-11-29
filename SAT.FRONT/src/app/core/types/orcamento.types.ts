@@ -26,6 +26,8 @@ export interface ViewOrcamentoLista {
     equipamento: string;
     codFilial: number;
     numSerie: string;
+    valorTotal: number;
+    valorTotalDesconto: number;
 }
 export interface ViewOrcamentoListaData extends Meta {
    items: ViewOrcamentoLista[];

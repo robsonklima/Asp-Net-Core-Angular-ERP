@@ -22,6 +22,7 @@ namespace SAT.MODELS.Entities {
         public Usuario UsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public DateTime? DataHoraFechamento { get; set; }
+        public DateTime? DataHoraCancelamento { get; set; }
         public string CodUsuarioAtendente { get; set; }
         public Usuario UsuarioAtendente { get; set; }
         public int? Ordem { get; set; }

@@ -19,11 +19,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-2" mat-icon-button matTooltip="{{ t('atualizar') }}" (click)="obterDados()" [disabled]="isLoading">
+                <mat-icon class="text-green-600 icon-size-6" [svgIcon]="'mat_solid:refresh'"></mat-icon>
+            </button>
+        </div>
     </div>
 
     <div class="flex-auto mt-4 sm:mt-6">
         <div class="w-full max-w-screen-xl mx-auto" *ngIf="tickets.length">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 w-full min-w-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 w-full min-w-0" @zoomIn>
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="text-center">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Sumário</div>
@@ -136,7 +142,7 @@
                             Tickets Backlog
                         </span>
                         <span class="text-secondary font-light">
-                            Abertos, Fechados e Backlog
+                            Abertos, Fechados, Cancelados e Backlog
                         </span>
                     </div>
                     <div class="mt-3 sm:mt-0 sm:ml-2">

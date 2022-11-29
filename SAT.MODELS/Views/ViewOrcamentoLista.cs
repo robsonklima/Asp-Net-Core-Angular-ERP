@@ -23,6 +23,8 @@ namespace SAT.MODELS.Views
         public int CodFilial {get; set;}
         public string NumSerie {get; set;}
         public string NumOSCliente {get; set;}
+        public decimal? ValorTotal { get; set; }
+        public decimal? ValorTotalDesconto { get; set; }
     }
 }
 

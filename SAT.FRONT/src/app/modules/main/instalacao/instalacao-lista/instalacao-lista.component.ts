@@ -190,7 +190,7 @@ export class InstalacaoListaComponent implements AfterViewInit {
     const params: InstalacaoParameters = {
       codContrato: this.codContrato || undefined,
       codInstalLote: this.codInstalLote || undefined,
-      pageSize: this.paginator?.pageSize,
+      pageSize: 1143,
       filter: this.searchInputControl.nativeElement.val,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',

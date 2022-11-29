@@ -1,10 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { TicketClassificacaoService } from 'app/core/services/ticket-classificacao.service';
-import { TicketModuloService } from 'app/core/services/ticket-modulo.service';
 import { TicketService } from 'app/core/services/ticket.service';
 import { Ticket, TicketBacklogView, ticketClassificacaoConst, ticketStatusConst } from 'app/core/types/ticket.types';
 import Enumerable from 'linq';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 
 import {
   ApexAxisChartSeries,
@@ -57,8 +55,6 @@ export class TicketGraficosComponent implements AfterViewInit {
 
   constructor(
     private _ticketService: TicketService,
-    private _ticketClassificacaoService: TicketClassificacaoService,
-    private _ticketModuloService: TicketModuloService,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -197,7 +193,8 @@ export class TicketGraficosComponent implements AfterViewInit {
       .select(s => { return { 
         x: s.key(), 
         y: tickets.filter(t => t.usuarioCad.perfil.nomePerfil == s.key()).length } })
-      .toArray();
+      .toArray()
+      .filter(g => g.y >= 3);
 
     this.perfilChartOptions = {
       series: [

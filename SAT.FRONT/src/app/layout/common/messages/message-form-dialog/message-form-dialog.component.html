@@ -10,6 +10,7 @@
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('destinatario') }}</mat-label>
+                    <div class="pb-1.5 font-semibold text-secondary">Descrição</div>
                     <mat-select formControlName="codUsuarioDestinatario">
 
                         <mat-option>
@@ -28,16 +29,13 @@
                     </mat-select>
                 </mat-form-field>
 
-                <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12 text-secondary font-semibold pb-8">
-                    <mat-label>{{ t('conteudo') }}</mat-label>
+                <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12 text-secondary font-semibold">
+                    <div class="pb-1.5 font-semibold text-secondary">{{ t('conteudo') }}</div>
 
                     <quill-editor
-                        class="mt-2"
                         [formControlName]="'conteudo'"
                         [placeholder]="t('mensagem')"
                         [modules]="quillModules"></quill-editor>
-                    <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                    <mat-error>{{ t('preencher campo') }}</mat-error>
                 </div>
             </div>
         </form>

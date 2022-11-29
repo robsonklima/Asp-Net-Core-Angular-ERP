@@ -59,16 +59,22 @@
         <mat-form-field class="fuse-mat-dense sm:col-span-12">
             <mat-label>Titulo</mat-label>
             <input matInput formControlName="titulo" maxlength="70" placeholder="Prencher o titulo">
+            <mat-error>{{ t('preencher campo') }}</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="fuse-mat-dense sm:col-span-12">
-            <mat-label>Descricao</mat-label>
-            <textarea matInput formControlName="descricao" rows="4"
-                placeholder="Descreva a solicitação..."></textarea>
-        </mat-form-field>
+        <div class="sm:col-span-12 pb-0">
+            <div class="pb-1.5 font-semibold text-secondary">
+                Descrição
+            </div>
+            
+            <quill-editor
+                [formControlName]="'descricao'"
+                [placeholder]="'Descreva a sua solicitação'"
+                [modules]="quillModules"></quill-editor>
+        </div>
     </fieldset>
 
-    <div class="flex items-center justify-end px-8 -mt-2 pb-8" *ngIf="ticket.codStatus != 3 && ticket.codStatus != 2">
+    <div class="flex items-center justify-end px-8 -mt-2 pb-8" *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2">
         <button (click)="_location.back()" mat-button>
             {{ t('cancelar') }}
         </button>

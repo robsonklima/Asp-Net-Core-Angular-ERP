@@ -386,7 +386,7 @@ export class TicketGraficosComponent implements AfterViewInit {
     const melhorias = this.tickets.filter(t => t.codClassificacao == ticketClassificacaoConst.MELHORIA).length;
     const melhoriasAtendidas = this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && 
                                                         t.codClassificacao == ticketClassificacaoConst.MELHORIA).length;
-    const tempoMedioConclusaoHoras = (this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO).reduce((sum, ticket) => {
+    const tempoMedioConclusaoHoras = (this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO && t.dataHoraFechamento).reduce((sum, ticket) => {
                                         return sum + moment(ticket.dataHoraFechamento).diff(moment(ticket.dataHoraCad), "hour");
                                       }, 0) / this.tickets.filter(t => t.codStatus == ticketStatusConst.CONCLUIDO).length).toFixed(0);
 

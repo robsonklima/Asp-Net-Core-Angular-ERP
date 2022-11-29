@@ -33,6 +33,20 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges {
 	userSession: UsuarioSessao;
 	titulo: String;
 	descricao: String;
+	quillModules: any = {
+		toolbar: [
+			['bold', 'italic', 'underline', 'strike'],
+			['blockquote', 'code-block'],
+			[{ 'header': 1 }, { 'header': 2 }],
+			[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+			[{ 'script': 'sub'}, { 'script': 'super' }],
+			[{ 'indent': '-1'}, { 'indent': '+1' }],
+			[{ 'size': ['small', false, 'large', 'huge'] }],
+			[{ 'align': [] }],
+			['clean'],
+			['link', 'image'] 
+		]
+	  };
 	protected _onDestroy = new Subject<void>();
 
 	constructor(

@@ -794,5 +794,7 @@
     "equipamento rebaixado": "Equipamento Rebaixado",
     "ressalvas": "Ressalvas",
     "graficos": "Gráficos",
-    "processos de reparo": "Processos de Reparo"
+    "processos de reparo": "Processos de Reparo",
+    "comentario" : "Comentário",
+    "data ocorrencia" : "Data Ocorrência"
 }

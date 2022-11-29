@@ -12,35 +12,44 @@
 
     <div class="flex flex-col flex-auto py-6 pl-5 z-10" *transloco="let t">
         <form [formGroup]="formRessalva">
-            <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                <mat-label>{{ t('motivo') }}</mat-label>
+            <div class="flex flex-auto">
+                <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                    <mat-label>{{ t('motivo') }}</mat-label>
 
-                <mat-select formControlName="codInstalMotivoRes">
-                    <mat-option class="uppercase" *ngFor="let motivo of motivos"
-                        [value]="motivo.CodInstalMotivoRes">
-                        <span>{{ motivo.DescMotivoRes }}</span>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+                    <mat-select formControlName="codInstalMotivoRes">
+                        <mat-option class="uppercase" *ngFor="let motivo of motivos"
+                            [value]="motivo.codInstalMotivoRes">
+                            <span>{{ motivo.descMotivoRes }}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                <mat-label>{{ t('comentario') }}</mat-label>
-                <input matInput formControlName="comentario">
-            </mat-form-field>
+                <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                    <mat-label>{{ t('comentario') }}</mat-label>
+                    <input matInput formControlName="comentario">
+                </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                <mat-label>{{ t('data ocorrencia') }}</mat-label>
-                <input matInput formControlName="dataOcorrencia">
-            </mat-form-field>
+                <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                    <mat-label>{{ t('data ocorrencia') }}</mat-label>
+                    <input matInput (click)="ocorrenciaData.open()" (keydown)="false" [matDatepicker]="ocorrenciaData"
+                        formControlName="dataOcorrencia">
+                    <mat-datepicker-toggle matSuffix [for]="ocorrenciaData"></mat-datepicker-toggle>
+                    <mat-datepicker #ocorrenciaData></mat-datepicker>
+                    <mat-error>{{t('preencher campo')}}</mat-error>
+                </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                <mat-label>{{ t('justificativa') }}</mat-label>
-                <input matInput formControlName="indJustificativa">
-            </mat-form-field>
+                <div class="py-7 pr-2">
+                    <mat-checkbox [color]="'primary'" [formControlName]="'indJustificativa'">
+                        {{ t('justificativa') }}
+                    </mat-checkbox>
 
-            <button mat-icon-button (click)="salvar()">
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check'"></mat-icon>
-            </button>
+                    <button mat-button [color]="'primary'" (click)="salvar()" [disabled]="!formRessalva.valid">
+                        <span *ngIf="!formRessalva.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -49,7 +58,8 @@
             <div class="flex-auto">
                 <div class="w-full">
                     <div class="grid lg:grid-cols-12 sm:grid-cols-1 md:grid-cols-6 gap-12 w-full min-w-0">
-                        <fuse-card class="flex flex-col sm:col-span-12 rounded-none shadow-none flex-auto overflow-hidden">
+                        <fuse-card
+                            class="flex flex-col sm:col-span-12 rounded-none shadow-none flex-auto overflow-hidden">
                             <div class="bg-gray-50 px-6 py-2">
                                 <p class="text-lg font-medium">Ressalva</p>
                             </div>
@@ -59,37 +69,37 @@
                                     <div class="text-secondary">
                                         Motivo
                                     </div>
-    
+
                                     <div class="truncate max-w-1/2">
                                         {{ data.instalacaoMotivoRes.descMotivoRes }}
                                     </div>
                                 </div>
-    
+
                                 <div class="flex items-center justify-between py-1">
                                     <div class="text-secondary">
                                         Comentário
                                     </div>
-    
+
                                     <div class="truncate max-w-1/2">
                                         {{ data.comentario }}
                                     </div>
                                 </div>
-    
+
                                 <div class="flex items-center justify-between py-1">
                                     <div class="text-secondary">
                                         Data Ocorrência
                                     </div>
-    
+
                                     <div class="truncate max-w-1/2">
                                         {{ data.dataOcorrencia | date:'dd/MM/yyyy HH:mm' }}
                                     </div>
                                 </div>
-    
+
                                 <div class="flex items-center justify-between py-1">
                                     <div class="text-secondary">
                                         Justificativa
                                     </div>
-    
+
                                     <div class="truncate max-w-1/2">
                                         {{ data.indJustificativa }}
                                     </div>

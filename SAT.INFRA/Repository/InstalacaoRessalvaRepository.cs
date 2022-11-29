@@ -12,20 +12,39 @@ namespace SAT.INFRA.Repository
     public partial class InstalacaoRessalvaRepository : IInstalacaoRessalvaRepository
     {
         private readonly AppDbContext _context;
+        private readonly ISequenciaRepository _sequenciaRepository;
 
-        public InstalacaoRessalvaRepository(AppDbContext context)
+        public InstalacaoRessalvaRepository(AppDbContext context, ISequenciaRepository sequenciaRepository)
         {
             _context = context;
+            this._sequenciaRepository = sequenciaRepository;
         }
 
         public void Atualizar(InstalacaoRessalva instalRessalva)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                _context.ChangeTracker.Clear();
+                InstalacaoRessalva ir = _context.InstalacaoRessalva.FirstOrDefault(i => i.CodInstalRessalva == instalRessalva.CodInstalRessalva);
+
+                if (ir != null)
+                {
+                    _context.Entry(ir).CurrentValues.SetValues(instalRessalva);
+                    _context.Entry(ir).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Criar(InstalacaoRessalva instalRessalva)
         {
-            throw new System.NotImplementedException();
+            instalRessalva.CodInstalRessalva = this._sequenciaRepository.ObterContador("InstalRessalva");
+            _context.Add(instalRessalva);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)

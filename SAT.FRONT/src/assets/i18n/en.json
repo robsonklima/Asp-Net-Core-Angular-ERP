@@ -769,5 +769,7 @@
     "equipamento rebaixado": "Equipment Lowered",
     "ressalvas": "Caveats",
     "graficos": "Charts",
-    "processos de reparo": "Repair Processess"
+    "processos de reparo": "Repair Processess",
+    "comentario" : "Comment",
+    "data ocorrencia" : "Occurrence Date"    
 }

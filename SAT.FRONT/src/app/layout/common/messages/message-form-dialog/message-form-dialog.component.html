@@ -10,9 +10,8 @@
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('destinatario') }}</mat-label>
-                    <div class="pb-1.5 font-semibold text-secondary">Descrição</div>
-                    <mat-select formControlName="codUsuarioDestinatario">
 
+                    <mat-select formControlName="codUsuarioDestinatario">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="usuarioFilterCtrl">

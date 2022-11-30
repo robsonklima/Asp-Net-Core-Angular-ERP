@@ -32,6 +32,10 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { InstalacaoFiltroComponent } from './instalacao-filtro/instalacao-filtro.component';
+import { FiltroModule } from '../filtros/filtro.module';
+import { InstalacaoContratoFiltroComponent } from './instalacao-contrato-filtro/instalacao-contrato-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -43,6 +47,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoListaComponent,
     InstalacaoListaMaisOpcoesComponent,
     InstalacaoRessalvaDialogComponent,
+    InstalacaoFiltroComponent,
+    InstalacaoContratoFiltroComponent,
   ],
   imports: [
     CommonModule,
@@ -70,7 +76,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     FuseCardModule,
     FuseAlertModule,
     FuseHighlightModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FiltroModule,
+    MatSidenavModule
   ]
 })
 export class InstalacaoModule { }

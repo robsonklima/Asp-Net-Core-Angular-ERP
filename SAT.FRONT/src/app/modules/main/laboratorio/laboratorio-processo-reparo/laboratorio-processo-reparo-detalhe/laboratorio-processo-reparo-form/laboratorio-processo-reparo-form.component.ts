@@ -94,7 +94,10 @@ export class LaboratorioProcessoReparoFormComponent implements OnInit {
 
     this._orItemService.atualizar({
       ...this.item,
-      ...this.form.getRawValue()
+      ...{
+        numSerie: f.numSerie,
+        codStatus: f.codStatus
+      }
     }).subscribe(() => {
       this._snack.exibirToast('Processo de reparo atualizado', 'success')
     });

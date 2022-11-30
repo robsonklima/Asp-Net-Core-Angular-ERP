@@ -1,88 +1,143 @@
-<form class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
-    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-        <p class="text-lg font-medium">{{ isAddMode ? 'Criando' : 'Editando o' }} Atendimento</p>
-        <p class="text-secondary">
-            Preencha as informações abaixo para solicitar apoio da equipe SAT
-        </p>
-    </div>
+<div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto">
+    <div class="col-span-7">
+        <form class="flex flex-col bg-card overflow-hidden shadow-sm" [formGroup]="form" *transloco="let t">
+            <div class="relative bg-gray-50 dark:bg-gray-700 py-5 px-8 border-b">
+                <p class="text-lg font-medium">{{ isAddMode ? 'Criando' : 'Editando o' }} Atendimento</p>
 
-    <fieldset class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
-        <mat-form-field class="fuse-mat-dense sm:col-span-3">
-            <mat-label>{{ t('status') }}</mat-label>
-
-            <mat-select class="min-h-10" formControlName="codStatus">
-                <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
-                    {{ stat.descricao }}
-                </mat-option>
-            </mat-select>
-
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="fuse-mat-dense sm:col-span-3">
-            <mat-label>{{ t('modulo') }}</mat-label>
-
-            <mat-select class="min-h-10" formControlName="codModulo">
-                <mat-option *ngFor="let modulo of modulos" [value]="modulo.codModulo">
-                    {{ modulo.descricao }}
-                </mat-option>
-            </mat-select>
-
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="fuse-mat-dense sm:col-span-3">
-            <mat-label>{{ t('prioridade') }}</mat-label>
-
-            <mat-select class="min-h-10" formControlName="codPrioridade">
-                <mat-option *ngFor="let prioridade of prioridades" [value]="prioridade.codPrioridade">
-                    {{ prioridade.descricao }}
-                </mat-option>
-            </mat-select>
-
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="fuse-mat-dense sm:col-span-3">
-            <mat-label>{{ t('classificacao') }}</mat-label>
-
-            <mat-select class="min-h-10" formControlName="codClassificacao">
-                <mat-option *ngFor="let classificacao of classificacoes"
-                    [value]="classificacao.codClassificacao">
-                    {{ classificacao.descricao }}
-                </mat-option>
-            </mat-select>
-
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="fuse-mat-dense sm:col-span-12">
-            <mat-label>Titulo</mat-label>
-            <input matInput formControlName="titulo" maxlength="70" placeholder="Prencher o titulo">
-            <mat-error>{{ t('preencher campo') }}</mat-error>
-        </mat-form-field>
-
-        <div class="sm:col-span-12 pb-0">
-            <div class="pb-1.5 font-semibold text-secondary">
-                Descrição
+                <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+                </div>
             </div>
-            
-            <quill-editor
-                [formControlName]="'descricao'"
-                [placeholder]="'Descreva a sua solicitação'"
-                [modules]="quillModules"></quill-editor>
-        </div>
-    </fieldset>
 
-    <div class="flex items-center justify-end px-8 -mt-2 pb-8" *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2">
-        <button (click)="_location.back()" mat-button>
-            {{ t('cancelar') }}
-        </button>
+            <fuse-alert class="border-b-2 border-gray-200" [type]="'warning'" *ngIf="isAddMode && orientacao" @shake>
+                <span>{{ orientacao }}</span>
+            </fuse-alert>
 
-        <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
-            <span *ngIf="!form.disabled">
-                {{ t('salvar') }}
-            </span>
-        </button>
+            <fieldset class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-label>{{ t('status') }}</mat-label>
+
+                    <mat-select class="min-h-10" formControlName="codStatus">
+                        <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
+                            {{ stat.descricao }}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-label>{{ t('modulo') }}</mat-label>
+
+                    <mat-select class="min-h-10" formControlName="codModulo">
+                        <mat-option *ngFor="let modulo of modulos" [value]="modulo.codModulo">
+                            {{ modulo.descricao }}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-label>{{ t('prioridade') }}</mat-label>
+
+                    <mat-select class="min-h-10" formControlName="codPrioridade">
+                        <mat-option *ngFor="let prioridade of prioridades" [value]="prioridade.codPrioridade">
+                            {{ prioridade.descricao }}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-label>{{ t('classificacao') }}</mat-label>
+
+                    <mat-select class="min-h-10" formControlName="codClassificacao">
+                        <mat-option *ngFor="let classificacao of classificacoes"
+                            [value]="classificacao.codClassificacao">
+                            {{ classificacao.descricao }}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-label>Titulo</mat-label>
+                    <input matInput formControlName="titulo" maxlength="70" placeholder="Prencher o titulo">
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
+
+                <div class="sm:col-span-12 pb-0">
+                    <div class="pb-1.5 font-semibold text-secondary">
+                        Descrição
+                    </div>
+
+                    <quill-editor [formControlName]="'descricao'" [placeholder]="'Descreva a sua solicitação'"
+                        [modules]="quillModules"></quill-editor>
+                </div>
+            </fieldset>
+
+            <div class="flex items-center justify-end px-8 -mt-2 pb-8"
+                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2">
+                <button (click)="_location.back()" mat-button>
+                    {{ t('cancelar') }}
+                </button>
+
+                <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                    <span *ngIf="!form.disabled">
+                        {{ t('salvar') }}
+                    </span>
+                </button>
+            </div>
+        </form>
     </div>
-</form>
+
+    <div class="col-span-5 shadow-sm" *ngIf="ticketsFiltrados.length">
+            <div class="bg-gray-50 py-5 px-8 border-b">
+                <p class="text-lg font-medium">
+                    Tickets Semelhantes
+                </p>
+            </div>
+
+            <fuse-card class="flex flex-col w-full filter-post rounded-none shadow-none">
+                <div class="max-h-140 overflow-y-auto">
+                    <div class="relative flex flex-col mx-4 sm:mx-8 my-6" *ngFor="let ticket of ticketsFiltrados">
+                        <div class="flex items-start">
+                            <div class="flex flex-col mt-0.5">
+                                <span>
+                                    <b class="uppercase mr-1">#{{ ticket.codTicket }}</b>
+                                    <span class="font-semibold">{{ ticket.titulo }}</span>
+                                    <span>{{ ticket.descricao }}</span>
+                                </span>
+
+                                <div class="flex items-center text-sm text-secondary">
+                                    <span class="uppercase">{{ ticket.usuarioCad?.nomeUsuario?.split(' ')[0] }}</span>
+                                    <span class="mx-2">&bull;</span>
+                                    <span>{{ ticket.dataHoraCad | date:'dd/MM HH:mm' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start mt-2 ml-12" *ngFor="let atend of ticket.atendimentos">
+                            <div class="flex flex-col mt-0.5" *ngIf="atend.codStatus == 3">
+                                <span>{{ atend.descricao }}</span>
+
+                                <div class="flex items-center text-sm text-secondary">
+                                    <span class="uppercase">{{ atend.usuarioCad?.nomeUsuario?.split(' ')[0] }}</span>
+                                    <span class="mx-2">&bull;</span>
+                                    <span>{{ atend.dataHoraCad | date:'dd/MM HH:mm' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fuse-card>
+
+            <!-- <div class="">
+                <p *ngFor="let ticket of ticketsFiltrados">
+                    {{ ticket.titulo }}
+                </p>
+            </div> -->
+    </div>
+</div>

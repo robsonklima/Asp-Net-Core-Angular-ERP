@@ -52,35 +52,52 @@
 
             <div>
                 <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
-                    {{ t('ticket') }} 
+                    {{ t('ticket') }}
                 </div>
             </div>
         </div>
 
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="codTicket && userSession.usuario.codPerfil == 3">
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <div [matTooltip]="t('lista')" [routerLink]="'/ticket'">
+                <button class="ml-2" mat-icon-button>
+                    <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+                </button>
+            </div>
+
+            <div [matTooltip]="t('graficos')" [routerLink]="'/ticket/graficos'">
+                <button class="ml-2" mat-icon-button>
+                    <mat-icon class="text-teal-600" [svgIcon]="'heroicons_outline:chart-bar'"></mat-icon>
+                </button>
+            </div>
+
             <button class="ml-2" mat-icon-button
                 [matTooltip]="!ticket?.codUsuarioAtendente ? 'Iniciar Atendimento' : 'Desvincular'"
                 (click)="vincularDesvincular()"
-                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2">
-                <mat-icon 
-                    [class.text-green-500]="!ticket?.codUsuarioAtendente"
+                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2 && userSession.usuario.codPerfil == 3">
+                <mat-icon [class.text-green-500]="!ticket?.codUsuarioAtendente"
                     [class.text-orange-500]="ticket?.codUsuarioAtendente"
                     [svgIcon]="!ticket?.codUsuarioAtendente ? 'mat_solid:work' : 'mat_solid:work_off'"></mat-icon>
             </button>
 
-            <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()">
+            <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()"
+                *ngIf="userSession.usuario.codPerfil == 3">
                 <mat-icon class="text-warn" [svgIcon]="'mat_solid:delete'"></mat-icon>
             </button>
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-4xl">
-            <app-ticket-form *ngIf="!isLoading" [ticket]="ticket" (ticketEvent)="ngOnInit()"></app-ticket-form>
+    <div class="flex flex-col p-6 sm:p-10">
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto">
+            <div class="col-span-12">
+                <app-ticket-form *ngIf="!isLoading" [ticket]="ticket" (ticketEvent)="ngOnInit()">
+                </app-ticket-form>
 
-            <app-ticket-atendimentos *ngIf="ticket" [ticket]="ticket" (ticketEvent)="ngOnInit()"></app-ticket-atendimentos>
+                <app-ticket-atendimentos *ngIf="ticket" [ticket]="ticket" (ticketEvent)="ngOnInit()">
+                </app-ticket-atendimentos>
 
-            <app-ticket-anexos *ngIf="ticket" [ticket]="ticket"></app-ticket-anexos>
+                <app-ticket-anexos *ngIf="ticket" [ticket]="ticket">
+                </app-ticket-anexos>
+            </div>
         </div>
     </div>
 </div>

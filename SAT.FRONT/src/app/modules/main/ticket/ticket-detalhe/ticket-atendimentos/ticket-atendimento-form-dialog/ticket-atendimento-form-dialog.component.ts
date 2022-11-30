@@ -131,6 +131,7 @@ export class TicketAtendimentoFormDialogComponent implements OnInit {
     const notificacao: Notificacao = {
       indAtivo: statusConst.ATIVO,
       dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+      codUsuarioCad: this.userSession.usuario.codUsuario,
       codUsuario: this.ticket.codUsuarioCad,
       titulo: 'Atualização do seu ticket',
       descricao: `Ticket #${ this.ticket.codTicket } atualizado por ${ this.userSession.usuario.nomeUsuario }. 

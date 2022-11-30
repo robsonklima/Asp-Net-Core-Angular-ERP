@@ -129,6 +129,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoRessalva> InstalacaoRessalva { get; set; }
         public DbSet<InstalacaoMotivoRes> InstalacaoMotivoRes { get; set; }
         public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
+        public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }        
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
@@ -462,6 +463,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ItemSolucao>(new ItemSolucaoMap().Configure);
             modelBuilder.Entity<TicketAnexo>(new TicketAnexoMap().Configure);
             modelBuilder.Entity<TicketBacklogView>(new TicketBacklogViewMap().Configure);
+            modelBuilder.Entity<InstalacaoPleito>(new InstalacaoPleitoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

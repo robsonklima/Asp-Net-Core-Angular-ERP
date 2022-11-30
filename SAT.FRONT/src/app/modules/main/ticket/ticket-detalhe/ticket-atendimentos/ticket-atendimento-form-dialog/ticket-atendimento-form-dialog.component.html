@@ -17,7 +17,7 @@
         <form class="flex flex-col overflow-hidden" [formGroup]="form">
             <fieldset [disabled]="isLoading || !ticket"
                 class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('status') }}</mat-label>
 
                     <mat-select class="min-h-10" formControlName="codStatus">

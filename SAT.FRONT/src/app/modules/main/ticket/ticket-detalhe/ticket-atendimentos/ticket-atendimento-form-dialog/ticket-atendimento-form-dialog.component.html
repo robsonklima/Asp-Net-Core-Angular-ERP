@@ -1,19 +1,15 @@
 <div class="flex flex-col max-w-240 md:min-w-160 min-h-90 -m-6 overflow-hidden" *transloco="let t">
     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
         <div class="text-lg font-medium">{{ t('novo atendimento') }}</div>
-        <button
-            mat-icon-button
-            mat-dialog-close
-            [tabIndex]="-1">
+        <button mat-icon-button mat-dialog-close [tabIndex]="-1">
             <mat-icon
                 class="text-current"
-                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                [svgIcon]="'heroicons_outline:x'">
+            </mat-icon>
         </button>
     </div>
 
-    <div
-        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
-
+    <div class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
         <form class="flex flex-col overflow-hidden" [formGroup]="form">
             <fieldset [disabled]="isLoading || !ticket"
                 class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
@@ -39,11 +35,11 @@
 
         <mat-dialog-actions align="end">
             <button mat-button mat-dialog-close>
-                Cancelar
+                {{ t('cancelar') }}
             </button>
             
             <button color="primary" mat-button cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
-                Salvar
+                {{ t('salvar') }}
             </button>
         </mat-dialog-actions>
     </div>

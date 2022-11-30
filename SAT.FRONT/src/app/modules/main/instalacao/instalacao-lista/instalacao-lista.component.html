@@ -55,7 +55,8 @@
                     <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                 </mat-form-field>
 
-                <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}">
+                <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button
+                    matTooltip="{{ t('exportar') }}">
                     <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                 </button>
 
@@ -140,13 +141,12 @@
                                             </mat-icon>
                                         </button>
 
-                                        <button class="ml-2"
-                                            (click)="abrirRessalvas(data.codInstalacao)">
+                                        <button class="ml-2" (click)="abrirRessalvas(data.codInstalacao)">
                                             <mat-icon mat-icon-button matTooltip="{{ t('ressalvas') }}"
                                                 [svgIcon]="'heroicons_outline:clipboard'">
                                             </mat-icon>
-                                        </button>  
-                                    </div>                                                                                      
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="grid">
                                     <ng-container *ngIf="instalacaoSelecionada?.codInstalacao === data.codInstalacao">
@@ -174,7 +174,7 @@
                         <form class="flex flex-col w-full" [formGroup]="form" *transloco="let t">
                             <div class="flex flex-col sm:flex-row p-8">
                                 <div class="flex flex-auto flex-wrap">
-                                    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                                    <div class="flex flex-col w-full lg:w-100 sm:pl-8">
                                         <div class="flex">
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('transportadora') }}</mat-label>
@@ -208,7 +208,11 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('data remessa') }}</mat-label>
-                                                <input matInput formControlName="dataRecLote">
+                                                <input matInput (click)="dataRecLote.open()" (keydown)="false"
+                                                    [matDatepicker]="dataRecLote" formControlName="dataRecLote">
+                                                <mat-datepicker-toggle matSuffix [for]="dataRecLote">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataRecLote></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -269,7 +273,7 @@
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
-                                                <mat-label>{{ t('Dependencia') }}</mat-label>
+                                                <mat-label>{{ t('dependencia') }}</mat-label>
                                                 <input matInput formControlName="nomeLocal">
                                             </mat-form-field>
                                         </div>
@@ -302,17 +306,29 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt limite da entrega') }}</mat-label>
-                                                <input matInput formControlName="dataLimiteEnt">
+                                                <input matInput (click)="dataLimiteEnt.open()" (keydown)="false"
+                                                    [matDatepicker]="dataLimiteEnt" formControlName="dataLimiteEnt">
+                                                <mat-datepicker-toggle matSuffix [for]="dataLimiteEnt">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataLimiteEnt></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('data sug entrega') }}</mat-label>
-                                                <input matInput formControlName="dataSugEntrega">
+                                                <input matInput (click)="dataSugEntrega.open()" (keydown)="false"
+                                                    [matDatepicker]="dataSugEntrega" formControlName="dataSugEntrega">
+                                                <mat-datepicker-toggle matSuffix [for]="dataSugEntrega">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataSugEntrega></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt confirmada da entrega') }}</mat-label>
-                                                <input matInput formControlName="dataConfEntrega">
+                                                <input matInput (click)="dataConfEntrega.open()" (keydown)="false"
+                                                    [matDatepicker]="dataConfEntrega" formControlName="dataConfEntrega">
+                                                <mat-datepicker-toggle matSuffix [for]="dataConfEntrega">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataConfEntrega></mat-datepicker>
                                             </mat-form-field>
                                         </div>
 
@@ -328,8 +344,12 @@
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
-                                                <mat-label>{{ t('dt expedição') }}</mat-label>
-                                                <input matInput formControlName="dataExpedicao">
+                                                <mat-label>{{ t('dt expedicao') }}</mat-label>
+                                                <input matInput (click)="dataExpedicao.open()" (keydown)="false"
+                                                    [matDatepicker]="dataExpedicao" formControlName="dataExpedicao">
+                                                <mat-datepicker-toggle matSuffix [for]="dataExpedicao">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataExpedicao></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -376,7 +396,11 @@
                                         <div class="flex">
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt re-entrega') }}</mat-label>
-                                                <input matInput formControlName="dtReEntrega">
+                                                <input matInput (click)="dtReEntrega.open()" (keydown)="false"
+                                                    [matDatepicker]="dtReEntrega" formControlName="dtReEntrega">
+                                                <mat-datepicker-toggle matSuffix [for]="dtReEntrega">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dtReEntrega></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -386,7 +410,12 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('data da entrega confirmacao') }}</mat-label>
-                                                <input matInput formControlName="dataHoraChegTranspBT">
+                                                <input matInput (click)="dataHoraChegTranspBT.open()" (keydown)="false"
+                                                    [matDatepicker]="dataHoraChegTranspBT"
+                                                    formControlName="dataHoraChegTranspBT">
+                                                <mat-datepicker-toggle matSuffix [for]="dataHoraChegTranspBT">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataHoraChegTranspBT></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -422,7 +451,11 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt limite instalacao') }}</mat-label>
-                                                <input matInput formControlName="dataLimiteIns">
+                                                <input matInput (click)="dataLimiteIns.open()" (keydown)="false"
+                                                    [matDatepicker]="dataLimiteIns" formControlName="dataLimiteIns">
+                                                <mat-datepicker-toggle matSuffix [for]="dataLimiteIns">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataLimiteIns></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -432,7 +465,12 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt agendada instalacao') }}</mat-label>
-                                                <input matInput formControlName="dataConfInstalacao">
+                                                <input matInput (click)="dataConfInstalacao.open()" (keydown)="false"
+                                                    [matDatepicker]="dataConfInstalacao"
+                                                    formControlName="dataConfInstalacao">
+                                                <mat-datepicker-toggle matSuffix [for]="dataConfInstalacao">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataConfInstalacao></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -442,7 +480,11 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt hr os') }}</mat-label>
-                                                <input matInput formControlName="dataHoraOS">
+                                                <input matInput (click)="dataHoraOS.open()" (keydown)="false"
+                                                    [matDatepicker]="dataHoraOS" formControlName="dataHoraOS">
+                                                <mat-datepicker-toggle matSuffix [for]="dataHoraOS">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #dataHoraOS></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
@@ -468,7 +510,10 @@
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                 <mat-label>{{ t('dt instalacao') }}</mat-label>
-                                                <input matInput formControlName="dataBI">
+                                                <input matInput (click)="dataBI.open()" (keydown)="false"
+                                                    [matDatepicker]="dataBI" formControlName="dataBI">
+                                                <mat-datepicker-toggle matSuffix [for]="dataBI"></mat-datepicker-toggle>
+                                                <mat-datepicker #dataBI></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="fuse-mat-dense w-1/3 pr-2">

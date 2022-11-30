@@ -771,5 +771,18 @@
     "graficos": "Charts",
     "processos de reparo": "Repair Processess",
     "comentario" : "Comment",
-    "data ocorrencia" : "Occurrence Date"    
+    "data ocorrencia" : "Occurrence Date",
+    "tipo novo": "New Type",
+    "numero taa novo": "Number New TAA",
+    "dependencia": "Dependency",
+    "logradouro": "Public place",
+    "municipio": "County",
+    "dt limite da entrega": "Delivery Limit Dt",
+    "nf remessa data da expedição": "NF Remittance Dispatch Date",
+    "dt limite instalacao": "Dt Installation Limit",
+    "dt hr os": "Dt Hr SO",
+    "nro rat": "RAT Number",
+    "nome local instalacao": "Installation Location Name",
+    "ressalvas de rebaixamento": "Relegation Conditions",
+    "nome local entrega": "Delivery Location Name"
 }

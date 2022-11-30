@@ -125,7 +125,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('dt confirmada da entrega') }}</mat-label>
-                        <input matInput formControlName="dataConfEntrega">
+                        <input matInput (click)="dataConfEntrega.open()" (keydown)="false"
+                            [matDatepicker]="dataConfEntrega" formControlName="dataConfEntrega">
+                        <mat-datepicker-toggle matSuffix [for]="dataConfEntrega"></mat-datepicker-toggle>
+                        <mat-datepicker #dataConfEntrega></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -140,7 +143,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('dt expedicao') }}</mat-label>
-                        <input matInput formControlName="dataExpedicao">
+                        <input matInput (click)="dataExpedicao.open()" (keydown)="false" [matDatepicker]="dataExpedicao"
+                            formControlName="dataExpedicao">
+                        <mat-datepicker-toggle matSuffix [for]="dataExpedicao"></mat-datepicker-toggle>
+                        <mat-datepicker #dataExpedicao></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -177,7 +183,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('dt re-entrega') }}</mat-label>
-                        <input matInput formControlName="dtReEntrega">
+                        <input matInput (click)="dtReEntrega.open()" (keydown)="false" [matDatepicker]="dtReEntrega"
+                            formControlName="dtReEntrega">
+                        <mat-datepicker-toggle matSuffix [for]="dtReEntrega"></mat-datepicker-toggle>
+                        <mat-datepicker #dtReEntrega></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -187,7 +196,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('data da entrega confirmacao') }}</mat-label>
-                        <input matInput formControlName="dataHoraChegTranspBT">
+                        <input matInput (click)="dataHoraChegTranspBT.open()" (keydown)="false"
+                            [matDatepicker]="dataHoraChegTranspBT" formControlName="dataHoraChegTranspBT">
+                        <mat-datepicker-toggle matSuffix [for]="dataHoraChegTranspBT"></mat-datepicker-toggle>
+                        <mat-datepicker #dataHoraChegTranspBT></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -222,7 +234,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('dt agendada instalacao') }}</mat-label>
-                        <input matInput formControlName="dataConfInstalacao">
+                        <input matInput (click)="dataConfInstalacao.open()" (keydown)="false"
+                            [matDatepicker]="dataConfInstalacao" formControlName="dataConfInstalacao">
+                        <mat-datepicker-toggle matSuffix [for]="dataConfInstalacao"></mat-datepicker-toggle>
+                        <mat-datepicker #dataConfInstalacao></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -249,7 +264,10 @@
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('dt instalacao') }}</mat-label>
-                        <input matInput formControlName="dataBI">
+                        <input matInput (click)="dataBI.open()" (keydown)="false" [matDatepicker]="dataBI"
+                            formControlName="dataBI">
+                        <mat-datepicker-toggle matSuffix [for]="dataBI"></mat-datepicker-toggle>
+                        <mat-datepicker #dataBI></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">

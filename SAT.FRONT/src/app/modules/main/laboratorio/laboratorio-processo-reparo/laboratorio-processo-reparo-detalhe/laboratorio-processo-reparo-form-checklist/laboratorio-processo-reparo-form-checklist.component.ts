@@ -35,6 +35,7 @@ export class LaboratorioProcessoReparoFormChecklistComponent implements OnInit {
 
   async ngOnInit() {
     this.itensMarcados = await (await this.obterCheckListEItens()).items;
+    this.filtrarNivel(1);
     this.loading = false;
   }
 

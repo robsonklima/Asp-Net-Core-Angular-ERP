@@ -40,6 +40,8 @@ import localeBr from '@angular/common/locales/pt';
 import { TicketGraficosComponent } from './ticket-graficos/ticket-graficos.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { QuillModule } from 'ngx-quill';
+import { FuseAlertModule } from '@fuse/components/alert';
 registerLocaleData(localeBr, 'pt')
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
@@ -64,6 +66,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     CommonModule,
     RouterModule.forChild(ticketRoutes),
     NgxMaskModule.forRoot(maskConfigFunction),
+    QuillModule.forRoot(),
     MatPaginatorModule,
     MatTooltipModule,
     NgApexchartsModule,
@@ -90,7 +93,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatMenuModule,
     FiltroModule,
     MatButtonToggleModule,
-    FuseCardModule
+    FuseCardModule,
+    FuseAlertModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' }

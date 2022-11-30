@@ -4,7 +4,7 @@
     </div>
 
     <div class="flex place-content-end">
-        <mat-button-toggle-group name="nivel" (change)="filtrarNivel($event.value)" aria-label="Nível">
+        <mat-button-toggle-group name="nivel" (change)="filtrarNivel($event.value)" aria-label="Nível" [value]="nivelSelecionado">
             <mat-button-toggle [value]="nivel" *ngFor="let nivel of niveis">
                 {{ nivel }}
             </mat-button-toggle>
@@ -56,7 +56,7 @@
                     </tr>
 
                     <tr class="border-t-2" *ngFor="let item of itens">
-                        <div class="text-center pt-0.5">
+                        <div class="text-center pt-1">
                             <mat-checkbox [color]="'primary'"
                                 [checked]="verificarItemSelecionado(item.codORCheckList ,item.codORCheckListItem)"
                                 (change)="toggleRealizado($event, item)">

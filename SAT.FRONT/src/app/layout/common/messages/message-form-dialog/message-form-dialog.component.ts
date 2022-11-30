@@ -29,7 +29,8 @@ export class MessageFormDialogComponent implements OnInit {
     toolbar: [
         ['bold', 'italic', 'underline'],
         [{align: []}, {list: 'ordered'}, {list: 'bullet'}],
-        ['clean']
+        ['clean'],
+        ['link', 'image'] 
     ]
   };
   

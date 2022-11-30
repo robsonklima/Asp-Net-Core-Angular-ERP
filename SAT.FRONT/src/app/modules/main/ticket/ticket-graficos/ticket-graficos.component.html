@@ -21,6 +21,12 @@
         </div>
 
         <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <div [matTooltip]="t('lista')" [routerLink]="'/ticket'">
+                <button class="ml-2" mat-icon-button>
+                    <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+                </button>
+            </div>
+
             <button class="ml-2" mat-icon-button matTooltip="{{ t('atualizar') }}" (click)="obterDados()" [disabled]="isLoading">
                 <mat-icon class="text-green-600 icon-size-6" [svgIcon]="'mat_solid:refresh'"></mat-icon>
             </button>

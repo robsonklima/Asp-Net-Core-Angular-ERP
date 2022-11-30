@@ -63,6 +63,7 @@
     padding: 0 !important;
 }
 
-.ql-container {
-    height: 160px !important;
+.ql-container, .ql-editor {
+    height: 300px !important;
+    max-height: 300px !important;
 }

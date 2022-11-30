@@ -1,37 +1,46 @@
-<h1 mat-dialog-title>
-    Novo Atendimento
-</h1>
+<div class="flex flex-col max-w-240 md:min-w-160 min-h-90 -m-6 overflow-hidden" *transloco="let t">
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">{{ t('novo atendimento') }}</div>
+        <button mat-icon-button mat-dialog-close [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'">
+            </mat-icon>
+        </button>
+    </div>
 
-<div mat-dialog-content *transloco="let t">
-    <form class="flex flex-col overflow-hidden" [formGroup]="form">
-        <fieldset [disabled]="isLoading || !ticket"
-            class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
-            <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('status') }}</mat-label>
+    <div class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
+        <form class="flex flex-col overflow-hidden" [formGroup]="form">
+            <fieldset [disabled]="isLoading || !ticket"
+                class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-label>{{ t('status') }}</mat-label>
 
-                <mat-select class="min-h-10" formControlName="codStatus">
-                    <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
-                        {{ stat.descricao }}
-                    </mat-option>
-                </mat-select>
+                    <mat-select class="min-h-10" formControlName="codStatus">
+                        <mat-option *ngFor="let stat of status" [value]="stat.codStatus">
+                            {{ stat.descricao }}
+                        </mat-option>
+                    </mat-select>
 
-                <mat-error>{{ t('preencher campo') }}</mat-error>
-            </mat-form-field>
+                    <mat-error>{{ t('preencher campo') }}</mat-error>
+                </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                <mat-label>Descricao</mat-label>
-                <textarea matInput formControlName="descricao" rows="3"
-                    placeholder="Descreva o atendimento..."></textarea>
-            </mat-form-field>
-        </fieldset>
-    </form>
+                <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-label>Descricao</mat-label>
+                    <textarea matInput formControlName="descricao" rows="3"
+                        placeholder="Descreva o atendimento..."></textarea>
+                </mat-form-field>
+            </fieldset>
+        </form>
+
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close>
+                {{ t('cancelar') }}
+            </button>
+            
+            <button color="primary" mat-button cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
+                {{ t('salvar') }}
+            </button>
+        </mat-dialog-actions>
+    </div>
 </div>
-
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    
-    <button mat-button cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
-      Salvar
-    </button>
-</mat-dialog-actions>
-  

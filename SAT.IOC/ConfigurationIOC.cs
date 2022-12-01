@@ -98,6 +98,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoRepository>().As<IInstalacaoRepository>();
         builder.RegisterType<InstalacaoLoteRepository>().As<IInstalacaoLoteRepository>();
         builder.RegisterType<InstalacaoRessalvaRepository>().As<IInstalacaoRessalvaRepository>();      
+        builder.RegisterType<InstalacaoPleitoRepository>().As<IInstalacaoPleitoRepository>();
         builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();                
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();
@@ -285,6 +286,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoService>().As<IInstalacaoService>();
         builder.RegisterType<InstalacaoLoteService>().As<IInstalacaoLoteService>();
         builder.RegisterType<InstalacaoRessalvaService>().As<IInstalacaoRessalvaService>();
+        builder.RegisterType<InstalacaoPleitoService>().As<IInstalacaoPleitoService>();
         builder.RegisterType<InstalacaoMotivoResService>().As<IInstalacaoMotivoResService>();        
         builder.RegisterType<NotificacaoService>().As<INotificacaoService>();
         builder.RegisterType<PontoPeriodoUsuarioService>().As<IPontoPeriodoUsuarioService>();

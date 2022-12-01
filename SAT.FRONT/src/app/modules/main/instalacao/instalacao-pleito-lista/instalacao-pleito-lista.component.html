@@ -1,0 +1,96 @@
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-instalacao-contrato-filtro [sidenav]="sidenav"></app-instalacao-contrato-filtro>
+    </mat-drawer>
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div
+            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+            <div class="text-4xl font-extrabold tracking-tight" *transloco="let t">{{ t('consulta de pleito') }}</div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+                </mat-form-field>
+
+                <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid" *transloco="let t">
+                            <div class="list-grid-instalacao-pleito z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear *transloco="let t">
+                                <div class="md:block" [mat-sort-header]="'codInstalPleito'">
+                                    {{ t('codigo') }}
+                                </div>
+                                <div>
+                                    {{ t('nome') }}
+                                </div>                                
+                                <div>
+                                    {{ t('descricao') }}
+                                </div>
+                                <div>
+                                    {{ t('contrato') }}
+                                </div>   
+                                <div>
+                                    {{ t('tipo') }}
+                                </div>          
+                                <div>
+                                    {{ t('dt envio') }}
+                                </div>   
+                                <div>
+                                    {{ t('qtd') }}
+                                </div>                                                                                                                          
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let data of dataSourceData?.items">
+                                    <div
+                                        class="list-grid-instalacao-pleito grid items-center h-11 pt-2 gap-4 py-3 px-12 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                            {{ data.codInstalPleito }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ data.nomePleito | titlecase }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ data.descPleito | titlecase }}
+                                        </div>                                        
+                                        <div class="truncate">
+                                            {{ data.contrato.nomeContrato | titlecase }}
+                                        </div>         
+                                        <div class="truncate">
+                                            {{ data.instalacaoTipoPleito.nomeTipoPleito | titlecase }}
+                                        </div>   
+                                        <div>
+                                            {{ data.dataEnvio | date:'dd/MM/yyyy' }}
+                                        </div>    
+                                        <div>
+                                            {{ data.instalacaoPleitoInstal.length }}
+                                        </div>                                                                                                         
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}" 
+                            [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                            (page)="paginar()">
+                        </mat-paginator>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</mat-drawer-container>

@@ -786,5 +786,8 @@
     "ressalvas de rebaixamento": "Relegation Conditions",
     "nome local entrega": "Delivery Location Name",
     "leitura": "Read",
-    "remetente": "To be Translated"
+    "remetente": "To be Translated",
+    "consulta de pleito": "Consultation",
+    "dt envio": "Shipping Date",
+    "qtd": "Qty"
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +20,8 @@ namespace SAT.MODELS.Entities
         public DateTime DataHoraCad { get; set; }
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
+        public Contrato Contrato { get; set; }
+        public InstalacaoTipoPleito InstalacaoTipoPleito { get; set; }
+        public List<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }
     }
 }

@@ -36,6 +36,7 @@ import { InstalacaoFiltroComponent } from './instalacao-filtro/instalacao-filtro
 import { FiltroModule } from '../filtros/filtro.module';
 import { InstalacaoContratoFiltroComponent } from './instalacao-contrato-filtro/instalacao-contrato-filtro.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instalacao-pleito-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -49,6 +50,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoRessalvaDialogComponent,
     InstalacaoFiltroComponent,
     InstalacaoContratoFiltroComponent,
+    InstalacaoPleitoListaComponent,
   ],
   imports: [
     CommonModule,

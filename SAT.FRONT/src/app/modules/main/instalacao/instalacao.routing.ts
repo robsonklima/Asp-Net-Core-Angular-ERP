@@ -4,6 +4,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista/instalaca
 import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.component';
 import { InstalacaoLoteFormComponent } from './instalacao-lote-form/instalacao-lote-form.component';
 import { InstalacaoLoteListaComponent } from './instalacao-lote-lista/instalacao-lote-lista.component';
+import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instalacao-pleito-lista.component';
 import { InstalacaoRessalvaDialogComponent } from './instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 
 export const instalacaoRoutes: Route[] = [
@@ -15,6 +16,10 @@ export const instalacaoRoutes: Route[] = [
     {
         path: 'contrato',
         component: InstalacaoContratoListaComponent
+    },
+    {
+        path: 'pleito',
+        component: InstalacaoPleitoListaComponent
     },
     {
         path: 'lote-form/:codContrato',
@@ -31,15 +36,13 @@ export const instalacaoRoutes: Route[] = [
     {
         path: ':codContrato/:codInstalLote',
         component: InstalacaoListaComponent
-    }
-    ,
+    },
     {
         path: ':codContrato/:codInstalacao',
         component: InstalacaoListaMaisOpcoesComponent
-    } 
-    ,
+    },
     {
         path: ':codInstalacao',
         component: InstalacaoRessalvaDialogComponent
-    }  
+    }
 ];

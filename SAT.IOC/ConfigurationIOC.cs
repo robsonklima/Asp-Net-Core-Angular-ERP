@@ -188,6 +188,7 @@ public class ConfigurationIOC
         builder.RegisterType<ItemDefeitoRepository>().As<IItemDefeitoRepository>();
         builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
         builder.RegisterType<TicketAnexoRepository>().As<ITicketAnexoRepository>();
+        builder.RegisterType<DashboardLabRepository>().As<IDashboardLabRepository>();
         
         #endregion
 
@@ -366,6 +367,7 @@ public class ConfigurationIOC
         builder.RegisterType<ItemDefeitoService>().As<IItemDefeitoService>();
         builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
         builder.RegisterType<TicketAnexoService>().As<ITicketAnexoService>();
+        builder.RegisterType<DashboardLabService>().As<IDashboardLabService>();
 
         #endregion
 

@@ -69,6 +69,7 @@ import { LaboratorioDashboardProdutividadeTecnicaComponent } from './laboratorio
 import { LaboratorioDashboardItensAntigosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-antigos/laboratorio-dashboard-itens-antigos.component';
 import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboard/laboratorio-dashboard-reincidencia/laboratorio-dashboard-reincidencia.component';
 import { LaboratorioDashboardPainelControleComponent } from './laboratorio-dashboard/laboratorio-dashboard-painel-controle/laboratorio-dashboard-painel-controle.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -153,7 +154,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         MatTooltipModule,
         FiltroModule,
         DragDropModule,
-        NgxMatSelectSearchModule
+        NgxMatSelectSearchModule,
+        NgApexchartsModule
   ]
 })
 export class LaboratorioModule { }

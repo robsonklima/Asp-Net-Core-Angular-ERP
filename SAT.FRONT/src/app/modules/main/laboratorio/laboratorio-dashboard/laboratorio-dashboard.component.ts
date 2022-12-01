@@ -7,7 +7,7 @@ import { startWith, takeUntil } from 'rxjs/operators';
   templateUrl: './laboratorio-dashboard.component.html'
 })
 export class LaboratorioDashboardComponent implements OnInit {
-  slidePausado: boolean;
+  slidePausado: boolean = true;
   slideSelecionado: number = 0;
   slides: any = [
     'Recebidos e Reparados',

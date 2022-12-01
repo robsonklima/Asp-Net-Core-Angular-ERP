@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
+import _ from 'lodash';
 
 import {
   ChartComponent,
@@ -41,6 +42,14 @@ export class LaboratorioDashboardItensRecebidosSeparadosComponent implements Aft
     const data = await this._dashboardLabService
       .obterRecebidosReparados({ ano: 2022 })
       .toPromise();
+
+    const meses = _.uniq(data.map(d => d.mesExtenso));
+    const recebidos = data.filter(d => d.tipo == 'RECEBIDOS').map(d => d.qtd);
+
+    console.log(recebidos, meses);
+    
+    // const reparos;
+    // const sucatas;
 
     this.chartOptions = {
       series: [

@@ -31,7 +31,8 @@
                             class="icon-size-10"
                             [class.text-red-500]="!slidePausado"
                             [class.text-green-500]="slidePausado"
-                            [svgIcon]="slidePausado ? 'heroicons_solid:play' : 'heroicons_solid:pause'"></mat-icon>
+                            [svgIcon]="slidePausado ? 'heroicons_solid:play' : 'heroicons_solid:pause'"
+                        ></mat-icon>
                     </button>
                 </div>
             </div>
@@ -41,7 +42,7 @@
     <div class="flex-auto mt-4 lg:mx-12 sm:mt-6">
             <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col sm:flex-row items-start justify-between">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">
+                    <div class="text-xl font-semibold tracking-tight leading-8 truncate">
                         {{ slides[slideSelecionado] }}
                     </div>
 
@@ -57,8 +58,26 @@
                     </div>
                 </div>
                 
-                <app-laboratorio-dashboard-itens-recebidos-separados *ngIf="slideSelecionado == 0">
-                </app-laboratorio-dashboard-itens-recebidos-separados>
+                <app-laboratorio-dashboard-itens-recebidos-separados *ngIf="slideSelecionado == 0"
+                ></app-laboratorio-dashboard-itens-recebidos-separados>
+
+                <app-laboratorio-dashboard-faltantes-pendentes-reparados *ngIf="slideSelecionado == 1"
+                ></app-laboratorio-dashboard-faltantes-pendentes-reparados>
+
+                <app-laboratorio-dashboard-tempo-medio-reparo *ngIf="slideSelecionado == 2"
+                ></app-laboratorio-dashboard-tempo-medio-reparo>
+
+                <app-laboratorio-dashboard-produtividade-tecnica *ngIf="slideSelecionado == 3"
+                ></app-laboratorio-dashboard-produtividade-tecnica>
+
+                <app-laboratorio-dashboard-itens-antigos *ngIf="slideSelecionado == 4"
+                ></app-laboratorio-dashboard-itens-antigos>
+
+                <app-laboratorio-dashboard-reincidencia *ngIf="slideSelecionado == 5"
+                ></app-laboratorio-dashboard-reincidencia>
+
+                <app-laboratorio-dashboard-painel-controle *ngIf="slideSelecionado == 6"
+                ></app-laboratorio-dashboard-painel-controle>
             </div>
     </div>
 </div>

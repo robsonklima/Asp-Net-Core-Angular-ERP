@@ -29,7 +29,7 @@ namespace SAT.API.Controllers
             return _instalacaoPleitoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{CodInstalacaoPleito}")]
+        [HttpGet("{CodInstalPleito}")]
         public InstalacaoPleito Get(int codInstalacaoPleito)
         {
             return _instalacaoPleitoService.ObterPorCodigo(codInstalacaoPleito);
@@ -47,7 +47,7 @@ namespace SAT.API.Controllers
             _instalacaoPleitoService.Atualizar(instalacaoPleito);
         }
 
-        [HttpDelete("{CodInstalacaoPleito}")]
+        [HttpDelete("{CodInstalPleito}")]
         public void Delete(int codInstalacaoPleito)
         {
             _instalacaoPleitoService.Deletar(codInstalacaoPleito);

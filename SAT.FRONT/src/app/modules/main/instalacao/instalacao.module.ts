@@ -37,6 +37,7 @@ import { FiltroModule } from '../filtros/filtro.module';
 import { InstalacaoContratoFiltroComponent } from './instalacao-contrato-filtro/instalacao-contrato-filtro.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instalacao-pleito-lista.component';
+import { InstalacaoPleitoFiltroComponent } from './instalacao-pleito-filtro/instalacao-pleito-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -51,6 +52,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoFiltroComponent,
     InstalacaoContratoFiltroComponent,
     InstalacaoPleitoListaComponent,
+    InstalacaoPleitoFiltroComponent,
   ],
   imports: [
     CommonModule,

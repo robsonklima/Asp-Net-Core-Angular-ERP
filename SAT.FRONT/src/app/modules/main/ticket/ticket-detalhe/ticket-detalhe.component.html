@@ -73,14 +73,14 @@
             <button class="ml-2" mat-icon-button
                 [matTooltip]="!ticket?.codUsuarioAtendente ? 'Iniciar Atendimento' : 'Desvincular'"
                 (click)="vincularDesvincular()"
-                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2 && userSession.usuario.codPerfil == 3">
+                *ngIf="ticket?.codStatus != 3 && ticket?.codStatus != 2 && userSession.usuario.codPerfil == 3 && codTicket">
                 <mat-icon [class.text-green-500]="!ticket?.codUsuarioAtendente"
                     [class.text-orange-500]="ticket?.codUsuarioAtendente"
                     [svgIcon]="!ticket?.codUsuarioAtendente ? 'mat_solid:work' : 'mat_solid:work_off'"></mat-icon>
             </button>
 
             <button class="ml-2" mat-icon-button matTooltip="{{ t('remover') }}" (click)="remover()"
-                *ngIf="userSession.usuario.codPerfil == 3">
+                *ngIf="userSession.usuario.codPerfil == 3 && codTicket">
                 <mat-icon class="text-warn" [svgIcon]="'mat_solid:delete'"></mat-icon>
             </button>
         </div>

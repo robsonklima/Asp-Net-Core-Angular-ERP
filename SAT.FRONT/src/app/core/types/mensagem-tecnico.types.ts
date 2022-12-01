@@ -18,4 +18,7 @@ export interface MensagemTecnicoData extends Meta {
 };
 
 export interface MensagemTecnicoParameters extends QueryStringParameters {
+    indAtivo?: number;
+    mensagem?: string;
+    assunto?: string;
 };

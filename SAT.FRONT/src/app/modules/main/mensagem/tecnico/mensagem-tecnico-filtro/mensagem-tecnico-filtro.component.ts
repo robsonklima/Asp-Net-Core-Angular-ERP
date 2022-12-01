@@ -39,6 +39,8 @@ export class MensagemTecnicoFiltroComponent extends FilterBase implements OnInit
 
   createForm(): void {
     this.form = this._formBuilder.group({
+      assunto: [undefined],
+      mensagem: [undefined],
       indAtivo: [undefined]
     });
 

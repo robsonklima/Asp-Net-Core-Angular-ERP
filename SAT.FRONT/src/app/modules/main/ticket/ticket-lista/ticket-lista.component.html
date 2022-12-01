@@ -46,7 +46,7 @@
 
                     <div [matTooltip]="t('graficos')" [routerLink]="'/ticket/graficos'">
                         <button class="ml-2" mat-icon-button>
-                            <mat-icon class="text-teal-600" [svgIcon]="'heroicons_outline:chart-pie'"></mat-icon>
+                            <mat-icon class="text-teal-600" [svgIcon]="'heroicons_outline:chart-bar'"></mat-icon>
                         </button>
                     </div>
 
@@ -78,7 +78,7 @@
                                     </span>
                                     
                                     <span [matTooltip]="ticket.descricao">
-                                        {{ toCamelCase(ticket.titulo) }}
+                                        {{ ticket.titulo }}
                                     </span>
                                 </div>
 

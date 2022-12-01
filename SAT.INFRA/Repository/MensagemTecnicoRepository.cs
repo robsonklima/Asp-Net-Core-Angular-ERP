@@ -60,6 +60,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.MensagemTecnico
                 .Include(m => m.UsuarioDestinatario)
+                .Include(m => m.UsuarioCad)
                 .FirstOrDefault(p => p.CodMensagemTecnico == codigo);
         }
 
@@ -67,6 +68,7 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.MensagemTecnico
                 .Include(m => m.UsuarioDestinatario)
+                .Include(m => m.UsuarioCad)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -77,6 +79,16 @@ namespace SAT.INFRA.Repository
                     p.Mensagem.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     p.UsuarioDestinatario.NomeUsuario.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Assunto))
+            {
+                query = query.Where(m => m.Assunto.Contains(parameters.Assunto));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Mensagem))
+            {
+                query = query.Where(m => m.Mensagem.Contains(parameters.Mensagem));
             }
 
             if (parameters.IndAtivo.HasValue)

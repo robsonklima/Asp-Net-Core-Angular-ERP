@@ -32,7 +32,7 @@
                     <mat-icon class="text-red-500" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                 </button>
 
-                <button class="ml-4" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()" *ngIf="dataSourceData?.items.length">
+                <button class="ml-4" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                     <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                 </button>
             </div>
@@ -43,42 +43,78 @@
                 <ng-container>
                     <ng-container>
                         <div class="grid" *transloco="let t">
-                            <div class="list-grid-mensagem-tecnico z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            <div class="list-grid-mensagem-tecnico z-99 sticky top-0 grid gap-4 pt-2 pb-1 px-6 md:px-8 shadow text-sm font-semibold text-secondary border-b-1 bg-gray-50"
                                 matSort matSortDisableClear *transloco="let t">
-                                <div class="pl-4">
-                                    <input type="checkbox" [checked]="isTodosMarcados()" (change)="marcarTodos($event)" *ngIf="dataSourceData?.items.length">
-                                </div>
-
                                 <div [mat-sort-header]="'codmensagemTecnico'">
                                     {{ t('codigo') }}
                                 </div>
 
                                 <div>
-                                    {{ t('usuario') }}
+                                    {{ t('remetente') }}
+                                </div>
+
+                                <div>
+                                    {{ t('destinatario') }}
+                                </div>
+
+                                <div>
+                                    {{ t('assunto') }}
+                                </div>
+
+                                <div>
+                                    {{ t('cadastro') }}
+                                </div>
+
+                                <div>
+                                    {{ t('leitura') }}
                                 </div>
 
                                 <div>
                                     {{ t('lida') }}
                                 </div>
+
+                                <div>
+                                    <input type="checkbox" [checked]="isTodosMarcados()" (change)="marcarTodos($event)" *ngIf="dataSourceData?.items.length">
+                                </div>
                             </div>
 
                             <ng-container>
                                 <ng-container *ngFor="let mensagemTecnico of dataSourceData?.items; let i=index">
-                                    <div class="list-grid-mensagem-tecnico grid items-left h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
-                                        <div>
-                                            <input type="checkbox" [(ngModel)]="dataSourceData?.items[i].selecionado">
-                                        </div>
-
+                                    <div class="list-grid-mensagem-tecnico z-10 grid items-center h-11 py-1 gap-4 px-6 text-sm md:px-8 border-b">
                                         <div>
                                             {{ mensagemTecnico.codMensagemTecnico }}
                                         </div>
 
-                                        <div>
-                                            {{ mensagemTecnico.usuarioDestinatario.nomeUsuario }}
+                                        <div class="truncate uppercase">
+                                            {{ mensagemTecnico.usuarioCad.nomeUsuario }}
                                         </div>
 
-                                        <div class="pl-4">
+                                        <div class="truncate uppercase">
+                                            {{ mensagemTecnico.usuarioDestinatario.nomeUsuario }}
+                                        </div>
+                                        
+                                        <div class="truncate">
+                                            <span [matTooltip]="mensagemTecnico.mensagem">
+                                                {{ mensagemTecnico.assunto }}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            {{ mensagemTecnico.dataHoraCad | date:'dd/MM HH:mm' }}
+                                        </div>
+
+                                        <div
+                                            [class.text-red-600]="!mensagemTecnico.dataHoraLeitura"
+                                            [class.font-semibold]="!mensagemTecnico.dataHoraLeitura">
+                                            {{ (mensagemTecnico.dataHoraLeitura | date:'dd/MM HH:mm') || 'Pendente' }}
+                                        </div>
+
+                                        <div>
                                             {{ mensagemTecnico.indLeitura ? 'SIM' : 'NÃO' }}
+                                        </div>
+
+                                        <div>
+                                            <input type="checkbox" [(ngModel)]="dataSourceData?.items[i].selecionado">
                                         </div>
                                     </div>
                                 </ng-container>

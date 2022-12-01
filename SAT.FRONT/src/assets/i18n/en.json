@@ -784,5 +784,7 @@
     "nro rat": "RAT Number",
     "nome local instalacao": "Installation Location Name",
     "ressalvas de rebaixamento": "Relegation Conditions",
-    "nome local entrega": "Delivery Location Name"
+    "nome local entrega": "Delivery Location Name",
+    "leitura": "Read",
+    "remetente": "To be Translated"
 }

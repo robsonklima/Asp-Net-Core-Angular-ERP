@@ -15,7 +15,13 @@ namespace SAT.INFRA.Mapping
                 .HasOne(i => i.UsuarioDestinatario)
                 .WithMany()
                 .HasForeignKey(i => i.CodUsuarioDestinatario)
-                .HasPrincipalKey(i => i.CodUsuario);       
+                .HasPrincipalKey(i => i.CodUsuario);
+                
+            builder
+                .HasOne(i => i.UsuarioCad)
+                .WithMany()
+                .HasForeignKey(i => i.CodUsuarioCad)
+                .HasPrincipalKey(i => i.CodUsuario); 
         }
     }
 }

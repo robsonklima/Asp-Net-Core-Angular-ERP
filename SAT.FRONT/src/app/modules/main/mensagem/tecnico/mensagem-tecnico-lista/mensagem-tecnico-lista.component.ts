@@ -1,4 +1,3 @@
-import { isNgTemplate } from '@angular/compiler';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,10 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { MensagemTecnicoService } from 'app/core/services/mensagem-tecnico.service';
-import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
-import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { MensagemTecnico, MensagemTecnicoData, MensagemTecnicoParameters } from 'app/core/types/mensagem-tecnico.types';
 import { UserService } from 'app/core/user/user.service';
@@ -24,7 +20,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './mensagem-tecnico-lista.component.html',
 	styles: [
 		`.list-grid-mensagem-tecnico {
-          grid-template-columns: 64px 64px auto 64px;
+          grid-template-columns: 64px 196px 196px auto 96px 96px 64px 64px;
     	}`
 	],
 	encapsulation: ViewEncapsulation.None,
@@ -43,7 +39,6 @@ export class MensagemTecnicoListaComponent extends Filterable implements AfterVi
 
 	constructor(
 		protected _userService: UserService,
-		private _exportacaoService: ExportacaoService,
 		private _cdr: ChangeDetectorRef,
 		private _dialog: MatDialog,
 		private _snack: CustomSnackbarService,

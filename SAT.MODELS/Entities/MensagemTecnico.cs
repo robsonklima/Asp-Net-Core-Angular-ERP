@@ -10,6 +10,7 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioDestinatario { get; set; }
         public Usuario UsuarioDestinatario { get; set; }
         public string CodUsuarioCad { get; set; }
+        public Usuario UsuarioCad { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public byte? IndLeitura { get; set; }
         public DateTime? DataHoraLeitura { get; set; }

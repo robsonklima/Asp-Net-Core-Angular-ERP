@@ -51,21 +51,19 @@ export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements
       .obterTopFaltantes({})
       .toPromise();
 
-    console.log(data);
+    const labels = data.map(d => d.nomePecaAbrev);
+    const qtd = data.map(d => d.qtd);
+    const qtdHoras = data.map(d => d.qtdhoras);
 
     this.chartOptions = {
       series: [
         {
-          name: "Net Profit",
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          name: "Quantidade",
+          data: qtd
         },
         {
-          name: "Revenue",
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-        },
-        {
-          name: "Free Cash Flow",
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+          name: "Qtd Horas",
+          data: qtdHoras
         }
       ],
       chart: {
@@ -87,17 +85,7 @@ export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements
         colors: ["transparent"]
       },
       xaxis: {
-        categories: [
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct"
-        ]
+        categories: labels
       },
       yaxis: {
         title: {

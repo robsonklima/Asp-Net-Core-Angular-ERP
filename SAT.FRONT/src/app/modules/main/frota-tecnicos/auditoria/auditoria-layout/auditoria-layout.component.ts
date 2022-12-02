@@ -11,6 +11,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
 	selector: 'app-auditoria-layout',
@@ -142,6 +143,17 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 			}
 		});
+	}
+
+	validarPermissao(){
+		if(this.userSession.usuario.codPerfil == +PerfilEnum.FINANCEIRO_COORDENADOR || this.userSession.usuario.codPerfil == +PerfilEnum.ADM_DO_SISTEMA)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

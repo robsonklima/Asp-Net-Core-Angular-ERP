@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
 import _ from 'lodash';
+import moment from 'moment';
 
 import {
   ChartComponent,
@@ -40,54 +41,42 @@ export class LaboratorioDashboardItensRecebidosSeparadosComponent implements Aft
 
   private async montarGrafico() {
     const data = await this._dashboardLabService
-      .obterRecebidosReparados({ ano: 2022 })
+      .obterRecebidosReparados({ ano: +moment().format('YYYY') })
       .toPromise();
 
-    const meses = _.uniq(data.map(d => d.mesExtenso));
+    const meses = _.uniq(_.orderBy(data, ['mes'], ['asc']).map(d => d.mesExtenso));
     const recebidos = data.filter(d => d.tipo == 'RECEBIDOS').map(d => d.qtd);
-
-    console.log(recebidos, meses);
-    
-    // const reparos;
-    // const sucatas;
+    const reparados = data.filter(d => d.tipo == 'REPAROS').map(d => d.qtd);
+    const sucatas = data.filter(d => d.tipo == 'SUCATAS').map(d => d.qtd);
 
     this.chartOptions = {
       series: [
         {
-          name: "series1",
-          data: [31, 40, 28, 51, 42, 109, 100]
+          name: "Recebidos",
+          data: recebidos
         },
         {
-          name: "series2",
-          data: [11, 32, 45, 32, 34, 52, 41]
+          name: "Reparos",
+          data: reparados
+        },
+        {
+          name: "Sucata",
+          data: sucatas
         }
       ],
       chart: {
-        height: 350,
+        height: 450,
         type: "area"
       },
       dataLabels: {
-        enabled: false
+        enabled: true
       },
       stroke: {
         curve: "smooth"
       },
       xaxis: {
-        type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z"
-        ]
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm"
-        }
+        type: "category",
+        categories: meses
       }
     };
 

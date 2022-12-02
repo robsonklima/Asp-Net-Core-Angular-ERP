@@ -42,7 +42,7 @@
     <div class="flex-auto mt-4 lg:mx-12 sm:mt-6">
             <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col sm:flex-row items-start justify-between">
-                    <div class="text-xl font-semibold tracking-tight leading-8 truncate">
+                    <div class="text-xl font-semibold tracking-tight leading-10 truncate">
                         {{ slides[slideSelecionado] }}
                     </div>
 
@@ -57,6 +57,8 @@
                         </mat-button-toggle-group>
                     </div>
                 </div>
+
+                <hr class="w-full border-b mt-5 mb-2 opacity-50">
                 
                 <app-laboratorio-dashboard-itens-recebidos-separados *ngIf="slideSelecionado == 0"
                 ></app-laboratorio-dashboard-itens-recebidos-separados>

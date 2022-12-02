@@ -7,5 +7,6 @@ namespace SAT.INFRA.Interfaces
     public interface IDashboardLabRepository
     {
         List<ViewDashboardLabRecebidosReparados> ObterRecebidosReparados(DashboardLabParameters parameters);
+        List<ViewDashboardLabTopFaltantes> ObterTopFaltantes(DashboardLabParameters parameters);
     }
 }

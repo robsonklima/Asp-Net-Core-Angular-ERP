@@ -5,10 +5,22 @@
         </div>
 
         <div class="pt-2 flex flex-col flex-auto">
-            
+            <apx-chart
+                *ngIf="chartOptions?.series"
+                [series]="chartOptions?.series"
+                [chart]="chartOptions?.chart"
+                [dataLabels]="chartOptions?.dataLabels"
+                [plotOptions]="chartOptions?.plotOptions"
+                [yaxis]="chartOptions?.yaxis"
+                [legend]="chartOptions?.legend"
+                [fill]="chartOptions?.fill"
+                [stroke]="chartOptions?.stroke"
+                [tooltip]="chartOptions?.tooltip"
+                [xaxis]="chartOptions?.xaxis"
+            ></apx-chart>
         </div>
 
-        <div class="flex justify-center items-center min-h-60">
+        <div class="flex justify-center items-center min-h-60" *ngIf="loading">
             <div class="text-center">
                 <mat-progress-spinner [diameter]="42" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>

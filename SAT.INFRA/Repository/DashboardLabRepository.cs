@@ -18,12 +18,21 @@ namespace SAT.INFRA.Repository
 
         public List<ViewDashboardLabRecebidosReparados> ObterRecebidosReparados(DashboardLabParameters parameters)
         {
-            var query = _context.ViewDashboardLabRecebidosReparados.AsQueryable();
+            var query = _context.ViewDashboardLabRecebidosReparados
+                .AsQueryable();
 
             if (parameters.Ano.HasValue)
             {
                 query = query.Where(q => q.Ano == parameters.Ano);
             }
+
+            return query.ToList();
+        }
+
+        public List<ViewDashboardLabTopFaltantes> ObterTopFaltantes(DashboardLabParameters parameters)
+        {
+            var query = _context.ViewDashboardLabTopFaltantes
+                .AsQueryable();
 
             return query.ToList();
         }

@@ -8,6 +8,19 @@ export interface ViewDashboardLabRecebidosReparados {
     qtd: number;
 }
 
+export interface ViewDashboardLabTopFaltantes {
+    codPeca: number;
+    qtd: number;
+    codMagnus: string;
+    nomePeca: string;
+    nomePecaAbrev: string;
+    mediaReparo: string;
+    mediaHorasUteis: number;
+    mediaHorasUteisConv: string;
+    qtdhoras: number;
+    qtdReparada: number;
+}
+
 export interface DashboardLabParameters extends QueryStringParameters {
     ano?: number;
 };

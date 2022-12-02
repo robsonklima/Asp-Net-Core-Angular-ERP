@@ -19,5 +19,10 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterRecebidosReparados(parameters);
         }
+
+        public List<ViewDashboardLabTopFaltantes> ObterTopFaltantes(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterTopFaltantes(parameters);
+        }
     }
 }

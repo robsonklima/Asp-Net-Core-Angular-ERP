@@ -25,5 +25,11 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterRecebidosReparados(parameters);
         }
+
+        [HttpGet("TopFaltantes")]
+        public List<ViewDashboardLabTopFaltantes> ObterTopFaltantes([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterTopFaltantes(parameters);
+        }
     }
 }

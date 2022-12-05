@@ -20,7 +20,7 @@ export const suporteSTNRoutes: Route[] = [
     }
     ,
     {
-        path: 'laudo/form',
+        path: 'laudo/form/:codLaudo',
         component: SuporteStnLaudoFormComponent
     }
     ,

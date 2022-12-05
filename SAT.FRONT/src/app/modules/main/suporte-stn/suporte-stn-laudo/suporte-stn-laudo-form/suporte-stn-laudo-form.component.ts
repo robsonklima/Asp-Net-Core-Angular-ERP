@@ -2,7 +2,10 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { LaudoService } from 'app/core/services/laudo.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { Laudo } from 'app/core/types/laudo.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -25,6 +28,7 @@ export class SuporteStnLaudoFormComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _laudoService: LaudoService,
     private _snack: CustomSnackbarService,
+    private _exportacaoService: ExportacaoService
   )
   {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -45,6 +49,21 @@ export class SuporteStnLaudoFormComponent implements OnInit, OnDestroy {
     this.form = this._formBuilder.group({
     });
   }
+
+  exportar(laudo) {
+    let exportacaoParam: Exportacao = {
+      formatoArquivo: ExportacaoFormatoEnum.PDF,
+      tipoArquivo: ExportacaoTipoEnum.LAUDO,
+      entityParameters: {
+        codLaudo: laudo.codLaudo
+      }
+    }
+
+    this._exportacaoService
+      .exportar(FileMime.PDF, exportacaoParam)
+      .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
+  }
+
 
   ngOnDestroy()
   {

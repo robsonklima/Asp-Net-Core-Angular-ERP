@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { FormGroup } from '@angular/forms';
-import { AuditoriaFoto } from 'app/core/types/auditoria-foto.types';
 import { Foto } from 'app/core/types/foto.types';
 import { MatDialog } from '@angular/material/dialog';
 import { Laudo } from 'app/core/types/laudo.types';
@@ -38,18 +36,8 @@ export class SuporteStnLaudoFormFotoComponent implements OnInit {
 
     async ngOnInit() {
         this.codLaudo = +this._route.snapshot.paramMap.get('codLaudo');
-
         this.laudo = await this._laudoService.obterPorCodigo(this.codLaudo).toPromise();
-        console.log(this.laudo);
-        
-        this.obterRAT()
-            
-    }
-
-    async obterRAT() {
-        this.relatorioAtendimento = await this._relatorioAtendimentoService.obterPorCodigo(this.laudo.codRAT)
-            .toPromise();
-        console.log(this.relatorioAtendimento);
+        this.relatorioAtendimento = await this._relatorioAtendimentoService.obterPorCodigo(this.laudo.codRAT).toPromise();
     }
 
     ampliarFoto(foto: Foto) {

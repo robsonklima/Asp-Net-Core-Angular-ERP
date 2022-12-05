@@ -29,19 +29,9 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-                            <!-- <button *ngIf="auditoria?.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-yellow-500 bg-white"
-									mat-flat-button [matTooltip]="t('editar')" matTooltipPosition="above" (click)="editarAuditoria()">
-								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:edit-pencil'"></mat-icon>
-							</button>
-							<button *ngIf="auditoria?.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('finalizar')" matTooltipPosition="above" (click)="finalizar()">
-								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
-							</button>
-							<button *ngIf="validarPermissao()" class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
-								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-							</button>
-							<button *ngIf="auditoria?.codAuditoriaStatus == 3" class="fuse-mat-button-rounded text-silver-500 bg-white" mat-flat-button [matTooltip]="t('reabrir')" matTooltipPosition="above" (click)="reabrir()">
-								<mat-icon *ngIf="validarPermissao()" class="icon-size-6" [svgIcon]="'heroicons_outline:lock-open'"></mat-icon>
-							</button> -->
+							<button mat-icon-button matTooltip="Imprimir" (click)="exportar(laudo)">
+								<mat-icon class="icon-size-7" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+						</button>
                         </div>
                     </div>
                 </div>
@@ -50,13 +40,13 @@
 			<div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
 				<div class="w-full max-w-screen-xl mx-auto">
 					<mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-						<mat-tab [label]="t('dados de entrada')">
+						<mat-tab [label]="t('informacoes')">
 							<ng-template matTabContent>
-									<!-- <app-auditoria-detalhe (cod)="reciverFeedback($event)"></app-auditoria-detalhe> -->
+								<app-suporte-stn-laudo-form-informacoes></app-suporte-stn-laudo-form-informacoes>
 							</ng-template>
 						</mat-tab>
 
-						<mat-tab [label]="t('atuacao')">
+						<mat-tab [label]="t('atendimento')">
 							<ng-template matTabContent>
 									<!-- <app-auditoria-utilizacao></app-auditoria-utilizacao> -->
 							</ng-template>

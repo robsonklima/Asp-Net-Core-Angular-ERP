@@ -71,7 +71,7 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
       });
     }
 
-    this._cdr.detectChanges();
+    this._cdr.detectChanges();    
   }
 
   registerEmitters(): void {
@@ -92,7 +92,7 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
   }
 
   async obterDados(filtro: string = '') {
-    this.isLoading = true;
+    this.isLoading = true;    
 
     const parametros: InstalacaoPleitoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
@@ -107,7 +107,7 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
       ...this.filter?.parametros
     }).toPromise();
 
-    this.dataSourceData = data;    
+    this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
   }
@@ -115,4 +115,5 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
   paginar() {
     this.obterDados();
   }
+
 }

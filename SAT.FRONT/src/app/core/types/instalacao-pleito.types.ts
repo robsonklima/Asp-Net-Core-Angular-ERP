@@ -1,10 +1,9 @@
-import { Meta } from "@angular/platform-browser";
+import { Meta, QueryStringParameters } from "./generic.types";
 import { Contrato } from "./contrato.types";
-import { QueryStringParameters } from "./generic.types";
 import { InstalacaoPleitoInstal } from "./instalacao-pleito-instal.types";
 import { InstalacaoTipoPleito } from "./instalacao-tipo-pleito.types";
 
-export interface InstalacaoPleito {
+export class InstalacaoPleito {
     codInstalPleito: number;
     codContrato?: number;
     codInstalTipoPleito?: number;

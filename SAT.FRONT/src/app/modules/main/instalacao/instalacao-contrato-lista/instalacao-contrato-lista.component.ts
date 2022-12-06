@@ -93,6 +93,7 @@ export class InstalacaoContratoListaComponent extends Filterable implements Afte
 
   async obterDados(filtro: string = '') {
     this.isLoading = true;
+
     const parametros: ContratoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: 'CodContrato' || 'nomeContrato',

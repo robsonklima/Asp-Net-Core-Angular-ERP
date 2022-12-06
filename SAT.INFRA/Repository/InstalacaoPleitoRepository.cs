@@ -86,7 +86,20 @@ namespace SAT.INFRA.Repository
             if (parameters.CodInstalTipoPleito.HasValue)
             {
                 instalacoes = instalacoes.Where(i => i.CodInstalTipoPleito == parameters.CodInstalTipoPleito);
-            }            
+            }       
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodContratos))
+            {
+                int[] cods = parameters.CodContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.CodContrato));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodInstalTipoPleitos))
+            {
+                int[] cods = parameters.CodInstalTipoPleitos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.InstalacaoTipoPleito.CodInstalTipoPleito));
+            }
+
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

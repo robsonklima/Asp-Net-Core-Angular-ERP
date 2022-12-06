@@ -189,6 +189,8 @@ public class ConfigurationIOC
         builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
         builder.RegisterType<TicketAnexoRepository>().As<ITicketAnexoRepository>();
         builder.RegisterType<DashboardLabRepository>().As<IDashboardLabRepository>();
+        builder.RegisterType<LaudoSituacaoRepository>().As<ILaudoSituacaoRepository>();
+        builder.RegisterType<LaudoStatusRepository>().As<ILaudoStatusRepository>();
         
         #endregion
 
@@ -368,6 +370,8 @@ public class ConfigurationIOC
         builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
         builder.RegisterType<TicketAnexoService>().As<ITicketAnexoService>();
         builder.RegisterType<DashboardLabService>().As<IDashboardLabService>();
+        builder.RegisterType<LaudoSituacaoService>().As<ILaudoSituacaoService>();
+        builder.RegisterType<LaudoStatusService>().As<ILaudoStatusService>();
 
         #endregion
 

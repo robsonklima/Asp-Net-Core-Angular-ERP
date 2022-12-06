@@ -61,13 +61,15 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacaoPleitoInstal)
-                .AsNoTracking()
+                .AsNoTracking() 
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                instalacoes = instalacoes.Where(p =>
-                    p.CodInstalPleito.ToString().Contains(parameters.Filter)
+                instalacoes = instalacoes.Where(i =>
+                    i.CodInstalPleito.ToString().Contains(parameters.Filter) ||
+                    i.CodInstalTipoPleito .ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    i.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)                 
                 );
             }
 

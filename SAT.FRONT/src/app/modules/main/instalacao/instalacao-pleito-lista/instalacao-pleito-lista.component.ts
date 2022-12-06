@@ -93,7 +93,7 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
 
   async obterDados(filtro: string = '') {
     this.isLoading = true;
-    
+
     const parametros: InstalacaoPleitoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
       sortActive: 'CodInstalPleito',
@@ -107,9 +107,7 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
       ...this.filter?.parametros
     }).toPromise();
 
-    this.dataSourceData = data;
-    console.log(this.dataSourceData);
-    
+    this.dataSourceData = data;    
     this.isLoading = false;
     this._cdr.detectChanges();
   }

@@ -99,7 +99,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoLoteRepository>().As<IInstalacaoLoteRepository>();
         builder.RegisterType<InstalacaoRessalvaRepository>().As<IInstalacaoRessalvaRepository>();      
         builder.RegisterType<InstalacaoPleitoRepository>().As<IInstalacaoPleitoRepository>();
-        builder.RegisterType<InstalacaoTipoPleitoRepository>().As<InstalacaoTipoPleitoRepository>();
+        builder.RegisterType<InstalacaoTipoPleitoRepository>().As<IInstalacaoTipoPleitoRepository>();
         builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();                
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();

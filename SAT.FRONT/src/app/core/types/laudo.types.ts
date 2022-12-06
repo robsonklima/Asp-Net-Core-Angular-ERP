@@ -1,7 +1,8 @@
 import { Meta } from "@angular/platform-browser";
 import { QueryStringParameters } from "./generic.types";
+import { LaudoSituacao } from "./laudo-situacao.types";
+import { LaudoStatus } from "./laudo-status.types";
 import { OrdemServico } from "./ordem-servico.types";
-import { RelatorioAtendimento } from "./relatorio-atendimento.types";
 import { Tecnico } from "./tecnico.types";
 
 export interface Laudo
@@ -44,19 +45,3 @@ export interface LaudoParameters extends QueryStringParameters {
     indAtivo?: number;
     codRAT?: number;
 };
-
-export interface LaudoStatus
-{
-    codLaudoStatus: number;
-    nomeStatus: string;
-    indAtivo?: number;
-}
-
-export interface LaudoSituacao
-{
-    codLaudoSituacao: number;
-    codLaudo: number;
-    causa: string;
-    acao: string;
-    dataHoraCad: string;
-}

@@ -1,4 +1,4 @@
-import { LaudoStatus } from './../../../../core/types/laudo.types';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -14,6 +14,7 @@ import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { TipoIntervencao, TipoIntervencaoParameters } from 'app/core/types/tipo-intervencao.types';
+import { LaudoStatus } from 'app/core/types/laudo-status.types';
 
 @Component({
 	selector: 'app-orcamento-filtro',

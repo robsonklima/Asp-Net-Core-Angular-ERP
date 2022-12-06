@@ -49,7 +49,7 @@
                                 <ngx-mat-select-search [formControl]="tecnicosFiltro" placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
                             </mat-option>
-                            <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                            <mat-option class="uppercase" *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
                                 {{ tecnico.nome }} <span class="text-secondary">{{ tecnico.filial?.nomeFilial }}</span>
                             </mat-option>
                         </mat-select>

@@ -80,7 +80,7 @@
 
                     <ng-container>
                         <ng-container *ngFor="let laudo of dataSourceData?.items">
-                            <a [routerLink]="['suporte-stn/laudo/form/']">
+                            <a [routerLink]="'/suporte-stn/laudo/form/' + laudo.codLaudo">
                                 <div class="list-grid-os-stn-lista grid items-center h-10 gap-4 px-8 text-sm border-b hover:bg-gray-100"
                                     *transloco="let t">
                                     <div class="truncate">

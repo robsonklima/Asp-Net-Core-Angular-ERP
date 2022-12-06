@@ -45,6 +45,9 @@ import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico
 import { SuporteStnLaudoFormComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form.component';
 import { SuporteStnLaudoListaComponent } from './suporte-stn-laudo/suporte-stn-laudo-lista/suporte-stn-laudo-lista.component';
 import { SuporteStnLaudoFiltroComponent } from './suporte-stn-laudo/suporte-stn-laudo-filtro/suporte-stn-laudo-filtro.component';
+import { SuporteStnLaudoFormFotoComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-foto/suporte-stn-laudo-form-foto.component';
+import { SuporteStnLaudoFormFotoDialogComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-foto/suporte-stn-laudo-form-foto-dialog/suporte-stn-laudo-form-foto-dialog.component';
+import { SuporteStnLaudoFormInformacoesComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-informacoes/suporte-stn-laudo-form-informacoes.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -60,7 +63,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     OrdemServicoStnHistoricoComponent,
     SuporteStnLaudoFormComponent,
     SuporteStnLaudoListaComponent,
-    SuporteStnLaudoFiltroComponent
+    SuporteStnLaudoFiltroComponent,
+    SuporteStnLaudoFormFotoComponent,
+    SuporteStnLaudoFormFotoDialogComponent,
+    SuporteStnLaudoFormInformacoesComponent
   ],
   imports: [
     CommonModule,

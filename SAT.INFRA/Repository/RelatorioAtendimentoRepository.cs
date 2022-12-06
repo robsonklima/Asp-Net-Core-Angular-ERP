@@ -60,6 +60,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(t => t.Cidade)
                         .ThenInclude(t => t.UnidadeFederativa)
                             .ThenInclude(t => t.Pais)
+                .Include(r => r.Fotos)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoServico)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.TipoCausa)
                 .Include(r => r.RelatorioAtendimentoDetalhes).ThenInclude(d => d.Causa)

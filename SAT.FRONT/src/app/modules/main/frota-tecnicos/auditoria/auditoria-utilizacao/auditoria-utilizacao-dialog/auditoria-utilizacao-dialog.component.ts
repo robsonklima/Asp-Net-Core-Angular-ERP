@@ -43,7 +43,6 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
     private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _snack: CustomSnackbarService,
-    private _location: Location,
     private dialogRef: MatDialogRef<AuditoriaUtilizacaoDialogComponent>) {
     if (data)
     {

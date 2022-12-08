@@ -4,8 +4,10 @@
     </mat-drawer>
 
     <mat-drawer-content>
-        <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-            <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3 px-6 md:px-8 border-b">
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
@@ -21,11 +23,19 @@
                         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
-                    
-                    <button class="ml-4" mat-icon-button
-                        [matTooltip]="'Novo Chamado'" [routerLink]="'/suporte-stn/form/'">
+
+                    <button class="ml-4" mat-icon-button [matTooltip]="'Novo Chamado'"
+                        [routerLink]="'/suporte-stn/form/'">
                         <mat-icon class="icon-size-5 text-green-600" [svgIcon]="'heroicons_solid:plus-circle'">
                         </mat-icon>
+                    </button>
+
+                    <button class="ml-4" mat-icon-button matTooltip="{{ t('exportar') }}">
+                        <a href="http://satdbprod/Reports/report/Reports/DSS%20-%20SAT%20-%20Exporta%C3%A7%C3%A3o%20Chamados%20STN"
+                            target="_blank">
+                            <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'">
+                            </mat-icon>
+                        </a>
                     </button>
 
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
@@ -94,9 +104,6 @@
                                         {{ t('status') }}
                                     </div>
 
-                                    <div class="pl-2">
-                                        {{ t('acoes') }}
-                                    </div>
                                 </div>
                             </div>
                         </ng-container>
@@ -104,72 +111,71 @@
 
                     <ng-container>
                         <ng-container *ngFor="let ordem of dataSourceData?.items">
-                            <div class="list-grid-os-stn-lista grid items-center h-10 gap-4 px-8 text-sm border-b hover:bg-gray-100"
-                                *transloco="let t">
-                                <div class="truncate">
-                                    <strong>
-                                        {{ ordem.codOS }}
-                                    </strong>
-                                </div>
+                            <a [routerLink]="'/suporte-stn/form/' + ordem.codAtendimento">
+                                <div class="list-grid-os-stn-lista grid items-center h-10 gap-4 px-8 text-sm border-b hover:bg-gray-100"
+                                    *transloco="let t">
+                                    <div class="truncate">
+                                        <strong>
+                                            {{ ordem.codOS }}
+                                        </strong>
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.ordemServico.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.ordemServico.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.ordemServico.filial.nomeFilial }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.ordemServico.filial.nomeFilial }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.ordemServico.cliente.nomeFantasia | uppercase }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.ordemServico.cliente.nomeFantasia | uppercase }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.ordemServico?.equipamento?.nomeEquip }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.ordemServico?.equipamento?.nomeEquip }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.codAtendimento }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.codAtendimento }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ ordem.dataHoraAberturaSTN | date:'dd/MM HH:mm' }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ ordem.dataHoraAberturaSTN | date:'dd/MM HH:mm' }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ (ordem.ordemServicoSTNOrigem?.descOrigemChamadoSTN | uppercase) || 'NÃO INFORMADO' }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ (ordem.ordemServicoSTNOrigem?.descOrigemChamadoSTN | uppercase) || 'NÃO INFORMADO' }}
+                                    </div>
 
-                                <div class="truncate">
-                                    {{ (ordem.usuario?.nomeUsuario | uppercase) || 'S/ TRANSF.' }}
-                                </div>
+                                    <div class="truncate">
+                                        {{ (ordem.usuario?.nomeUsuario | uppercase) || 'S/ TRANSF.' }}
+                                    </div>
 
-                                <div>
-                                    {{ ordem.numReincidenciaAoAssumir }}
-                                </div>
+                                    <div>
+                                        {{ ordem.numReincidenciaAoAssumir }}
+                                    </div>
 
-                                <div>
-                                    {{ ordem.ordemServico?.equipamentoContrato?.mtbf?.resultado || 0 }}
-                                </div>
+                                    <div>
+                                        {{ ordem.ordemServico?.equipamentoContrato?.mtbf?.resultado || 0 }}
+                                    </div>
 
-                                <div>
-                                    {{ ordem.ordemServico?.equipamentoContrato?.mtbf?.qtdOS || 0 }}
-                                </div>
+                                    <div>
+                                        {{ ordem.ordemServico?.equipamentoContrato?.mtbf?.qtdOS || 0 }}
+                                    </div>
 
-                                <div>
-                                    <span class="text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
-                                        [class.bg-orange-600]="ordem.statusSTN?.descStatusServicoSTN == 'ABERTO'"
-                                        [class.bg-blue-600]="ordem.statusSTN?.descStatusServicoSTN == 'AGUARD. ATENDIMENTO'"
-                                        [class.bg-green-600]="ordem.statusSTN?.descStatusServicoSTN == 'FECHADO'"
-                                        [class.bg-silver-600]="ordem.statusSTN?.descStatusServicoSTN == 'CANCELADO'">
-                                        {{ (ordem.statusSTN?.descStatusServicoSTN | uppercase) || 'NÃO INFORMADO' }}
-                                    </span>
-                                </div>
+                                    <div>
+                                        <span class="text-blue-50 py-1 px-2 rounded text-xs font-bold ml-1"
+                                            [class.bg-orange-600]="ordem.statusSTN?.descStatusServicoSTN == 'ABERTO'"
+                                            [class.bg-blue-600]="ordem.statusSTN?.descStatusServicoSTN == 'AGUARD. ATENDIMENTO'"
+                                            [class.bg-green-600]="ordem.statusSTN?.descStatusServicoSTN == 'FECHADO'"
+                                            [class.bg-silver-600]="ordem.statusSTN?.descStatusServicoSTN == 'CANCELADO'">
+                                            {{ (ordem.statusSTN?.descStatusServicoSTN | uppercase) || 'NÃO INFORMADO' }}
+                                        </span>
+                                    </div>
 
-                                <div class="truncate">
-                                    
                                 </div>
-                            </div>
+                            </a>
                         </ng-container>
                     </ng-container>
                 </div>

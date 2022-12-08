@@ -1,1 +1,38 @@
-<p>ordem-servico-stn-historico works!</p>
+<div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="codOS">
+    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+        *transloco="let t">
+        <div class="flex flex-col mt-4 border-t border-b font-medium">
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
+                <p class="text-lg font-medium">Dados OS Perto</p>
+            </div>
+
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">{{ t('OS Cliente') }}</div>
+                <div>{{ codOS || "Não informado" }}</div>
+            </div>
+        </div>
+
+    </fuse-card>
+    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+        *transloco="let t">
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
+                <p class="text-lg font-medium">Dados Atendimento Campo</p>
+            </div>
+
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary">{{ t('OS Cliente') }}</div>
+                <div>{{ codOS || "Não informado" }}</div>
+            </div>
+
+
+            <div class="flex items-center justify-end border-t px-4 py-2 bg-gray-50">
+                <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
+                    <span>
+                        {{ t('salvar') }}
+                    </span>
+                </button>
+            </div>
+        </div>
+    </fuse-card>
+</div>

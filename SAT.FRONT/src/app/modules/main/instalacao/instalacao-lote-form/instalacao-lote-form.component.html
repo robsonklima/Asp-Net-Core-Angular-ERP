@@ -58,14 +58,16 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('contrato') }}</mat-label>
-
-                        <mat-select class="fuse-mat-dense sm:col-span-6" formControlName="codContrato" [disabled]="!contratos.length">
+                        <mat-select formControlName="codContrato">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="contratoFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
                             <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato">
                                 {{ contrato.nomeContrato }}
                             </mat-option>
                         </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">

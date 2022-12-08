@@ -1,17 +1,18 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instalacao-lote-form',
@@ -19,11 +20,13 @@ import { first } from 'rxjs/operators';
 })
 export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
   codContrato: number;
+  codInstalLote: number;
   instalacaoLote: InstalacaoLote;
   contratos: Contrato[] = [];
   isAddMode: boolean;
   form: FormGroup;
   userSession: UsuarioSessao;
+  contratoFilterCtrl: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -40,12 +43,13 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
-    this.isAddMode = !this.codContrato;
+    this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
+    this.isAddMode = !this.codInstalLote;
     this.obterContratos();
     this.inicializarForm();
 
     if (!this.isAddMode) {
-      this._instalacaoLoteSvc.obterPorCodigo(this.codContrato)
+      this._instalacaoLoteSvc.obterPorCodigo(this.codInstalLote)
         .pipe(first())
         .subscribe(data => {
           this.form.patchValue(data);
@@ -70,16 +74,26 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterContratos() {
-    const params: ContratoParameters = {
-      sortActive: 'nomeContrato',
-      sortDirection: 'asc',
-      pageSize: 50
-    }
+	private async obterContratos(filter: string = '') {
+		this.contratos = (await this._contratoSvc.obterPorParametros({
+			filter: filter,
+			indAtivo: statusConst.ATIVO,
+			pageSize: 500,
+			sortActive: 'nomeContrato',
+			sortDirection: 'asc'
+		}).toPromise()).items;
 
-    const data = await this._contratoSvc.obterPorParametros(params).toPromise();
-    this.contratos = data.items;
-  }
+		this.contratoFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(() =>
+      {
+        this.obterContratos(this.contratoFilterCtrl.value);
+      });
+	}  
 
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
@@ -87,7 +101,6 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
 
   atualizar(): void {
     const form: any = this.form.getRawValue();
-
 
     let obj = {
       ...this.instalacaoLote,
@@ -106,9 +119,9 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
   }
 
   criar(): void {
+    debugger
     const form = this.form.getRawValue();
 
-    debugger
     let obj = {
       ...this.instalacaoLote,
       ...form,

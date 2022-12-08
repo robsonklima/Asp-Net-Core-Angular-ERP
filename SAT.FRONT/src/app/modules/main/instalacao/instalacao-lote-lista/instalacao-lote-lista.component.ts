@@ -31,6 +31,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 export class InstalacaoLoteListaComponent extends Filterable implements AfterViewInit, IFilterable {
   codContrato: number;
+  codInstalLote: number;
   contrato: Contrato;
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
@@ -54,6 +55,7 @@ export class InstalacaoLoteListaComponent extends Filterable implements AfterVie
 
   ngAfterViewInit(): void {
 	  this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
+    this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
 
     this.obterDados();
     this.obterContrato();

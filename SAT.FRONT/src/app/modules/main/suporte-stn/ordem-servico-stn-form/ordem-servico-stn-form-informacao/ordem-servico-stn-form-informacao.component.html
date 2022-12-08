@@ -5,12 +5,104 @@
             <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
                 <p class="text-lg font-medium">Dados OS Perto</p>
             </div>
+            <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
 
             <div class="flex items-center justify-between py-3">
                 <div class="text-secondary">{{ t('OS Cliente') }}</div>
-                <div>{{ codOS || "Não informado" }}</div>
+                <div>{{ os?.codOS || "Não informado" }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Data Hora Abertura
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Status
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.statusServico?.nomeStatusServico }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    intervenção
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.tipoIntervencao?.nomTipoIntervencao }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Cliente
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.cliente?.nomeFantasia }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Filial
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.filial?.nomeFilial }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Local de Atendimento
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    {{ os?.localAtendimento?.nomeLocal | uppercase }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Reincidência
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    0
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    Qtd. OS 90 Dias
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    0
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between py-1">
+                <div class="text-secondary">
+                    MTBF 90 Dias
+                </div>
+
+                <div class="truncate max-w-1/2">
+                    0
+                </div>
             </div>
         </div>
+    </div>
 
     </fuse-card>
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
@@ -20,19 +112,68 @@
                 <p class="text-lg font-medium">Dados Atendimento Campo</p>
             </div>
 
-            <div class="flex items-center justify-between py-3">
-                <div class="text-secondary">{{ t('OS Cliente') }}</div>
-                <div>{{ codOS || "Não informado" }}</div>
+            <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Equipamento
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.equipamento?.codEEquip }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Número Série
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.equipamentoContrato?.numSerie }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Técnico de Campo
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ rat?.tecnico?.nome }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Tel. Técnico
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ rat?.tecnico?.fonePerto }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Relato do Cliente
+                    </div>
+
+                    <div class="max-w-1/2 text-right">
+                        {{ os?.defeitoRelatado }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Relato do Técnico
+                    </div>
+
+                    <div class="max-w-1/2 text-right">
+                        {{ rat?.relatoSolucao }}
+                    </div>
+                </div>
             </div>
 
-
-            <div class="flex items-center justify-end border-t px-4 py-2 bg-gray-50">
-                <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
-                    <span>
-                        {{ t('salvar') }}
-                    </span>
-                </button>
-            </div>
         </div>
     </fuse-card>
 </div>

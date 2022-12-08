@@ -1,11 +1,14 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { Contrato } from 'app/core/types/contrato.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { InstalacaoLoteData, InstalacaoLoteParameters } from 'app/core/types/instalacao-lote.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -26,12 +29,13 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class InstalacaoLoteListaComponent implements AfterViewInit {
+export class InstalacaoLoteListaComponent extends Filterable implements AfterViewInit, IFilterable {
   codContrato: number;
   contrato: Contrato;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   dataSourceData: InstalacaoLoteData;
   isLoading: boolean = false;
   userSession: UserSession;
@@ -40,62 +44,82 @@ export class InstalacaoLoteListaComponent implements AfterViewInit {
     private _cdr: ChangeDetectorRef,
     private _instalacaoLoteSvc: InstalacaoLoteService,
     private _contratoSvc: ContratoService,
+    protected _userService: UserService,
     private _userSvc: UserService,
     private _route: ActivatedRoute
   ) {
+    super(_userService, 'instalacao-lote')
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
   ngAfterViewInit(): void {
 	  this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
 
-    this.obterLotes();
+    this.obterDados();
     this.obterContrato();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
+      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+        map((event: any) => {
+          return event.target.value;
+        })
+        , debounceTime(700)
+        , distinctUntilChanged()
+      ).subscribe((text: string) => {
+        this.paginator.pageIndex = 0;
+        this.searchInputControl.nativeElement.val = text;
+        this.obterDados(text);
+      });
+
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
       this.sort.sortChange.subscribe(() => {
         this.paginator.pageIndex = 0;
-        this.obterLotes();
+        this.obterDados();
       });
     }
-
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
-        return event.target.value;
-      })
-      , debounceTime(700)
-      , distinctUntilChanged()
-    ).subscribe((text: string) => {
-      this.paginator.pageIndex = 0;
-      this.searchInputControl.nativeElement.val = text;
-      this.obterLotes();
-    });
 
     this._cdr.detectChanges();
   }
 
-  async obterLotes() {
-     this.isLoading = true;
-    
-     const params: InstalacaoLoteParameters = {
-       pageSize: this.paginator?.pageSize,
-       filter: this.searchInputControl.nativeElement.val,
-       pageNumber: this.paginator.pageIndex + 1,
-       sortActive: this.sort.active || 'NomeLote',
-       sortDirection: this.sort.direction || 'asc',
-       codContrato: this.codContrato
-     };
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterDados();
+    })
+  }
 
-     const data = await this._instalacaoLoteSvc
-       .obterPorParametros(params)
-       .toPromise();
+  loadFilter(): void {
+    super.loadFilter();
+  }
 
-     this.dataSourceData = data;
-     this.isLoading = false;
-     this._cdr.detectChanges();
+  onSidenavClosed(): void {
+    if (this.paginator) this.paginator.pageIndex = 0;
+    this.loadFilter();
+    this.obterDados();
+  }
+
+  async obterDados(filtro: string = '') {
+    this.isLoading = true;
+
+    const parametros: InstalacaoLoteParameters = {
+      pageSize: this.paginator?.pageSize,
+      filter: filtro, //this.searchInputControl.nativeElement.val,
+      pageNumber: this.paginator.pageIndex + 1,
+      sortActive: this.sort.active || 'NomeLote',
+      sortDirection: this.sort.direction || 'asc',
+      codContrato: this.codContrato
+    };
+
+    const data: InstalacaoLoteData = await this._instalacaoLoteSvc.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
+    this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
 
   async obterContrato() {
@@ -103,6 +127,6 @@ export class InstalacaoLoteListaComponent implements AfterViewInit {
   }
 
   paginar() {
-    this.obterLotes();
+    this.obterDados();
   }
 }

@@ -789,5 +789,9 @@
     "remetente": "To be Translated",
     "consulta de pleito": "Consultation",
     "dt envio": "Shipping Date",
-    "qtd": "Qty"
+    "qtd": "Qty",
+    "cobrancas": "Charges",
+    "implantacao": "Deployment",
+    "data recebimento": "Receipt Date",
+    "qtd equip lote": "Qty Equipment Batch"
 }

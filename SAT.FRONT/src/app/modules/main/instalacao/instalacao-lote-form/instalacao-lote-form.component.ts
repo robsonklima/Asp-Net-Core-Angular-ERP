@@ -119,7 +119,6 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
   }
 
   criar(): void {
-    debugger
     const form = this.form.getRawValue();
 
     let obj = {
@@ -128,7 +127,7 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
-        indAtivo: +form.indAtivo
+        indAtivo: 1
       }
     };
 

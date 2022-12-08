@@ -90,6 +90,7 @@ namespace SAT.INFRA.Repository
             {
                 laudos = laudos.Where(a =>
                     a.CodLaudo.ToString().Contains(parameters.Filter) ||
+                    a.CodOS.ToString().Contains(parameters.Filter) ||
                     a.Tecnico.Nome.Contains(parameters.Filter) ||
                     a.LaudoStatus.NomeStatus.Contains(parameters.Filter));
             }

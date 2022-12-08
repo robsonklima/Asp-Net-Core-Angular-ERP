@@ -49,6 +49,7 @@ import { SuporteStnLaudoFormFotoComponent } from './suporte-stn-laudo/suporte-st
 import { SuporteStnLaudoFormFotoDialogComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-foto/suporte-stn-laudo-form-foto-dialog/suporte-stn-laudo-form-foto-dialog.component';
 import { SuporteStnLaudoFormInformacoesComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-informacoes/suporte-stn-laudo-form-informacoes.component';
 import { SuporteStnLaudoFormAtendimentoComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-atendimento/suporte-stn-laudo-form-atendimento.component';
+import { OrdemServicoStnFormInformacaoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-informacao/ordem-servico-stn-form-informacao.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -68,7 +69,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     SuporteStnLaudoFormFotoComponent,
     SuporteStnLaudoFormFotoDialogComponent,
     SuporteStnLaudoFormInformacoesComponent,
-    SuporteStnLaudoFormAtendimentoComponent
+    SuporteStnLaudoFormAtendimentoComponent,
+    OrdemServicoStnFormInformacaoComponent
   ],
   imports: [
     CommonModule,

@@ -108,7 +108,7 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
       ...{  
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioManut: this.userSession.usuario.codUsuario,
-        indAtivo: +form.indAtivo
+        indAtivo: statusConst.ATIVO
       }
     };
 
@@ -127,7 +127,7 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
-        indAtivo: 1
+        indAtivo: statusConst.ATIVO
       }
     };
 

@@ -16,4 +16,5 @@ export interface LaudoSituacaoData extends Meta {
 
 export interface LaudoSituacaoParameters extends QueryStringParameters {
     codLaudoSituacao?: number;
+    codLaudo?: number;
 };

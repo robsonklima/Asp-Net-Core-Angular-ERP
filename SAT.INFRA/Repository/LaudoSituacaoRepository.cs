@@ -68,6 +68,9 @@ namespace SAT.INFRA.Repository
                     a.CodLaudoSituacao.ToString().Contains(parameters.Filter));
             }
 
+            if (parameters.CodLaudo.HasValue)
+                laudos = laudos.Where(l => l.CodLaudo == parameters.CodLaudo.Value);
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 laudos = laudos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

@@ -1,7 +1,7 @@
 <div class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-2 w-full min-w-0">
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
-        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium" *ngIf="laudo">
 
             <div class="flex items-center justify-between py-3">
                 <div class="text-secondary">{{ t('OS') }}</div>

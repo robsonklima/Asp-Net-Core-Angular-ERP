@@ -42,7 +42,6 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
     this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
     this.isAddMode = !this.codInstalLote;
     this.obterContratos();

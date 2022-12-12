@@ -83,6 +83,11 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Tecnico)
                 .Include(u => u.FiltroUsuario)
                 .Include(u => u.UsuarioSeguranca)
+                .Include(u => u.PontosPeriodoUsuario)
+                    .ThenInclude(u => u.PontoPeriodo)
+                        .ThenInclude(u => u.PontoPeriodoStatus)                    
+                .Include(u => u.PontosPeriodoUsuario)
+                    .ThenInclude(u => u.PontoPeriodoUsuarioStatus)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -149,15 +154,6 @@ namespace SAT.INFRA.Repository
             if (parameters.CodPontoPeriodo != null)
             {
                 query = query.Where(u => u.PontosPeriodoUsuario.Any(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo));
-
-                query = query
-                    .Include(u => u.PontosPeriodoUsuario
-                        .Where(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo))
-                            .ThenInclude(p => p.PontoPeriodo)
-                                .ThenInclude(p => p.PontoPeriodoStatus)
-                    .Include(u => u.PontosPeriodoUsuario
-                        .Where(pp => pp.CodPontoPeriodo == parameters.CodPontoPeriodo))
-                            .ThenInclude(p => p.PontoPeriodoUsuarioStatus);
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.PAS))

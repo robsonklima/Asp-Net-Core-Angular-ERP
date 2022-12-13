@@ -1,11 +1,16 @@
 <div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="atendimento">
-    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+    <fuse-card class="flex flex-col col-span-6 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
         <div class="flex flex-col mt-4 border-t border-b font-medium">
             <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
-                <p class="text-lg font-medium">Protocolo N°:{{ atendimento.codAtendimento }} </p>
+                <p class="text-lg font-medium">Atendimento Tratativa STN</p>
             </div>
             <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('Protocolo Atendimento STN') }}</div>
+                    <div>{{ atendimento.codAtendimento || "Não informado" }}</div>
+                </div>
 
                 <div class="flex items-center justify-between py-1">
                     <div class="text-secondary">
@@ -54,7 +59,7 @@
         </div>
     </fuse-card>
 
-    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+    <fuse-card class="flex flex-col col-span-6 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
         <div class="flex flex-col mt-4 border-t border-b font-medium">
             <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
@@ -94,11 +99,6 @@
                     <div class="text-secondary">
                         Motivos da causa de improdutividade?
                     </div>
-                </div>
-
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                    </div>
 
                     <div class="truncate max-w-1/2">
                         <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
@@ -115,7 +115,6 @@
                             <!-- {{ solucao.descricao }} -->
                         </mat-slide-toggle>
                     </div>
-
 
                     <div class="truncate max-w-1/2">
                         <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->

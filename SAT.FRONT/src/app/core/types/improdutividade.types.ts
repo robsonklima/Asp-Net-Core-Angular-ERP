@@ -12,4 +12,5 @@ export interface ImprodutividadeData extends Meta {
 
 export interface ImprodutividadeParameters extends QueryStringParameters {
   codTipoChamadoSTN?: number;
+  indAtivo?: number;
 };

@@ -49,8 +49,8 @@
 
                     <div class="truncate max-w-1/2">
                         <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            <!-- {{ solucao.descricao }} -->
+                        <mat-slide-toggle [color]="'primary'" >
+                            <!-- (change)="onChange()" {{ solucao.descricao }} -->
                         </mat-slide-toggle>
                     </div>
                 </div>
@@ -97,35 +97,10 @@
                         Motivos da causa de improdutividade?
                     </div>
 
-                    <div class="truncate max-w-1/2">
-                        <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            Treinamento
-                            <!-- {{ solucao.descricao }} -->
-                        </mat-slide-toggle>
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            Diagnóstico
-                            <!-- {{ solucao.descricao }} -->
-                        </mat-slide-toggle>
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            Manual
-                            <!-- {{ solucao.descricao }} -->
-                        </mat-slide-toggle>
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            Netbook/Ferramenta
-                            <!-- {{ solucao.descricao }} -->
+                    <div *ngFor="let improdutividade of improdutividades">
+                        <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(improdutividade.codImprodutividade)"
+                            (change)="onChange($event, improdutividade.codImprodutividade)">
+                            {{ improdutividade.descImprodutividade }}
                         </mat-slide-toggle>
                     </div>
                 </div>
@@ -136,9 +111,7 @@
                     </div>
 
                     <div class="truncate max-w-1/2">
-                        <!-- <mat-slide-toggle [color]="'primary'" [checked]="verificarSolucaoSelecionado(solucao.codSolucao)" (change)="onChange($event, solucao.codSolucao)"> -->
-                        <mat-slide-toggle [color]="'primary'" (change)="onChange()">
-                            <!-- {{ solucao.descricao }} -->
+                        <mat-slide-toggle [color]="'primary'" [checked]="atendimento.indEvitaPendencia == 1">
                         </mat-slide-toggle>
                     </div>
                 </div>

@@ -191,6 +191,7 @@ public class ConfigurationIOC
         builder.RegisterType<DashboardLabRepository>().As<IDashboardLabRepository>();
         builder.RegisterType<LaudoSituacaoRepository>().As<ILaudoSituacaoRepository>();
         builder.RegisterType<LaudoStatusRepository>().As<ILaudoStatusRepository>();
+        builder.RegisterType<ProtocoloChamadoSTNRepository>().As<IProtocoloChamadoSTNRepository>();
         
         #endregion
 
@@ -372,6 +373,7 @@ public class ConfigurationIOC
         builder.RegisterType<DashboardLabService>().As<IDashboardLabService>();
         builder.RegisterType<LaudoSituacaoService>().As<ILaudoSituacaoService>();
         builder.RegisterType<LaudoStatusService>().As<ILaudoStatusService>();
+        builder.RegisterType<ProtocoloChamadoSTNService>().As<IProtocoloChamadoSTNService>();
 
         #endregion
 

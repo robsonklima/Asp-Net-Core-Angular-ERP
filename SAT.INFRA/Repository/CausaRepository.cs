@@ -1,4 +1,5 @@
-﻿using SAT.INFRA.Context;
+﻿
+using SAT.INFRA.Context;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using System.Linq.Dynamic.Core;
@@ -79,6 +80,12 @@ namespace SAT.INFRA.Repository
             if (parameters.ApenasModulos.HasValue)
             {
                 causas = causas.Where(c => c.CodECausa.EndsWith("000"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodECausa))
+            {
+                string[] cods = parameters.CodECausa.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                causas = causas.Where(dc => cods.Contains(dc.CodECausa));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

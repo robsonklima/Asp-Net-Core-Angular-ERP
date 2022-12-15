@@ -77,9 +77,9 @@
                     Reincidência
                 </div>
 
-                <div class="truncate max-w-1/2">
-                    0
-                </div>
+                <!-- <div class="truncate max-w-1/2">
+                    {{ os?.numReincidenciaAoAssumir || "NAO ENCONTRADO" }}
+                </div> -->
             </div>
 
             <div class="flex items-center justify-between py-1">
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="truncate max-w-1/2">
-                    0
+                    {{ equipamento?.mtbf?.qtdOS}}
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="truncate max-w-1/2">
-                    0
+                    {{ equipamento?.mtbf?.resultado}}
                 </div>
             </div>
         </div>

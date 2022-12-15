@@ -68,13 +68,13 @@
 
                 <mat-tab [label]="t('atendimento')">
                     <ng-template matTabContent>
-                        <!-- <app-suporte-stn-laudo-form-atendimento></app-suporte-stn-laudo-form-atendimento> -->
+                        <app-ordem-servico-stn-form-atendimento [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-atendimento>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab [label]="t('historico')">
                     <ng-template matTabContent>
-                        <app-ordem-servico-stn-form-historico [codOS] = "os?.codOS"></app-ordem-servico-stn-form-historico>
+                        <app-ordem-servico-stn-form-historico [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-historico>
                     </ng-template>
                 </mat-tab>
             </mat-tab-group>

@@ -192,6 +192,8 @@ public class ConfigurationIOC
         builder.RegisterType<LaudoSituacaoRepository>().As<ILaudoSituacaoRepository>();
         builder.RegisterType<LaudoStatusRepository>().As<ILaudoStatusRepository>();
         builder.RegisterType<ProtocoloChamadoSTNRepository>().As<IProtocoloChamadoSTNRepository>();
+        builder.RegisterType<CausaImprodutividadeRepository>().As<ICausaImprodutividadeRepository>();
+        builder.RegisterType<ImprodutividadeRepository>().As<IImprodutividadeRepository>();
         
         #endregion
 
@@ -374,6 +376,8 @@ public class ConfigurationIOC
         builder.RegisterType<LaudoSituacaoService>().As<ILaudoSituacaoService>();
         builder.RegisterType<LaudoStatusService>().As<ILaudoStatusService>();
         builder.RegisterType<ProtocoloChamadoSTNService>().As<IProtocoloChamadoSTNService>();
+        builder.RegisterType<CausaImprodutividadeService>().As<ICausaImprodutividadeService>();
+        builder.RegisterType<ImprodutividadeService>().As<IImprodutividadeService>();
 
         #endregion
 

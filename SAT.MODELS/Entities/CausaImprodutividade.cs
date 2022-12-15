@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SAT.MODELS.Entities
+﻿namespace SAT.MODELS.Entities
 {
     public class CausaImprodutividade
     {

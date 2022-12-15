@@ -276,6 +276,9 @@ namespace SAT.INFRA.Context
         public DbSet<TicketBacklogView> TicketBacklogView { get; set; }
         public DbSet<ViewDashboardLabRecebidosReparados> ViewDashboardLabRecebidosReparados { get; set; }
         public DbSet<ViewDashboardLabTopFaltantes> ViewDashboardLabTopFaltantes { get; set; }
+        public DbSet<ProtocoloChamadoSTN> ProtocoloChamadoSTN { get; set; }
+        public DbSet<TipoChamadoSTN> TipoChamadoSTN { get; set; }
+        public DbSet<Improdutividade> Improdutividade { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -470,6 +473,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<InstalacaoTipoPleito>(new InstalacaoTipoPleitoMap().Configure);
             modelBuilder.Entity<ViewDashboardLabRecebidosReparados>(new ViewDashboardLabRecebidosReparadosMap().Configure);
             modelBuilder.Entity<ViewDashboardLabTopFaltantes>(new ViewDashboardLabTopFaltantesMap().Configure);
+            modelBuilder.Entity<ProtocoloChamadoSTN>(new ProtocoloChamadoSTNMap().Configure);
+            modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);
+            modelBuilder.Entity<Improdutividade>(new ImprodutividadeMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

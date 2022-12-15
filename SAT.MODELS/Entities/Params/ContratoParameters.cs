@@ -9,5 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public int? IndAtivo { get; set; }
         public string CodClientes { get; set; }
         public string CodTipoContratos { get; set; }
+        public string CodContratos{ get; set; }
     }
 }

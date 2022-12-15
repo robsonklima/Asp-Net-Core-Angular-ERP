@@ -10,6 +10,8 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { UserService } from 'app/core/user/user.service';
+import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
+import { ContratoService } from 'app/core/services/contrato.service';
 
 @Component({
 	selector: 'app-instalacao-contrato-filtro',
@@ -21,12 +23,15 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 	tipos: TipoContrato[] = [];
 	tipoFilterCtrl: FormControl = new FormControl();
 	clientes: Cliente[] = [];
+	contratos: Contrato[] = [];
 	clienteFilterCtrl: FormControl = new FormControl();
+	contratoFilterCtrl: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _tipoContratoService: TipoContratoService,
 		private _clienteService: ClienteService,
+		private _contratoService: ContratoService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
@@ -42,16 +47,16 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 	async loadData() {
 		this.obterTipos();
 		this.obterClientes();
+		//this.obterContratos();
 		this.registrarEmitters();
 	}
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
-			CodTipoContratos: [undefined],
-			CodClientes: [undefined],
+			codTipoContratos: [undefined],
+			codCliente: [undefined],
+			codContratos: [undefined],
 			indAtivo: [undefined],
-
-
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -72,7 +77,7 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 	async obterClientes(filtro: string = '') {
 		let params: ClienteParameters = {
 			filter: filtro,
-			sortActive: 'razaoSocial',
+			sortActive: 'nomeFantasia',
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
@@ -82,7 +87,27 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 		this.clientes = data.items;
 	}
 
+	async obterContratos(filtro: string = '') {
+		var codCliente = this.form.controls['codCliente'].value ?? null;
+
+		let params: ContratoParameters = {
+			filter: filtro,
+			codClientes: codCliente?.toString(),
+			sortActive: 'nroContrato',
+			sortDirection: 'asc',
+			pageSize: 1000
+		};
+		const data = await this._contratoService
+			.obterPorParametros(params)
+			.toPromise();
+		this.contratos = data.items;
+	}
+
 	private registrarEmitters() {
+		this.form.controls['codCliente'].valueChanges.subscribe(() => {
+				this.obterContratos();
+		});		
+		
 		this.tipoFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -90,9 +115,9 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-
 				this.obterTipos(this.tipoFilterCtrl.value);
 			});
+
 		this.clienteFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -101,7 +126,17 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 			)
 			.subscribe(() => {
 				this.obterClientes(this.clienteFilterCtrl.value);
-			});
+			});	
+
+		this.contratoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterContratos(this.contratoFilterCtrl.value);
+			});	
 	}
 
 	limpar() {

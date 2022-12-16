@@ -123,11 +123,16 @@ namespace SAT.INFRA.Repository
                 instalacoes = instalacoes.Where(i => i.CodInstalLote == parameters.CodInstalLote);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodInstalacoes))
+            {
+                int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.CodInstalacao));
+            }            
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-
             return PagedList<Instalacao>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
         }
     }

@@ -25,6 +25,7 @@ export class FilterBase implements IFilterBaseCore {
     public meusFiltros: FiltroUsuarioData[] = [];
     public selectFiltroElement: MatSelect;
     public chamadosPerto: any = [];
+    public instalacoes: any = [];
 
     public onRefreshFilter: EventEmitter<any> = new EventEmitter();
     public onAplicar: EventEmitter<FilterBase> = new EventEmitter();
@@ -66,6 +67,7 @@ export class FilterBase implements IFilterBaseCore {
             this.form.patchValue(this.buscaValoresFiltro(codFiltroUsuario));
         }
         this.chamadosPerto = this.filter?.parametros['codOSs'] ? this.filter?.parametros['codOSs']?.split(',') : [];
+        this.instalacoes = this.filter?.parametros['codInstalacoes'] ? this.filter?.parametros['codInstalacoes']?.split(',') : [];
     }
 
     obterUsuarioFiltro(): number {

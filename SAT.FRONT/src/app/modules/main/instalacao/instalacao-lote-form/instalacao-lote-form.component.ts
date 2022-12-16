@@ -41,9 +41,10 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
-    this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
-    this.isAddMode = !this.codInstalLote;
+  async ngOnInit() {    
+    this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
+
+    this.isAddMode = !this.codContrato;
     this.obterContratos();
     this.inicializarForm();
 
@@ -74,9 +75,12 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
   }
 
 	private async obterContratos(filter: string = '') {
+		//var idContrato = this.codContrato ?? null;
+
 		this.contratos = (await this._contratoSvc.obterPorParametros({
 			filter: filter,
 			indAtivo: statusConst.ATIVO,
+      //codContrato: idContrato,
 			pageSize: 500,
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc'

@@ -216,7 +216,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
-    this._cdr.detectChanges();
+    this._cdr.detectChanges();    
   }
 
   public async exportar() {

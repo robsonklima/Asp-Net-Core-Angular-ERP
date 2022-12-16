@@ -108,7 +108,7 @@ export class InstalacaoContratoListaComponent extends Filterable implements Afte
     }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
-    this._cdr.detectChanges();
+    this._cdr.detectChanges();    
   }
 
   paginar() {

@@ -11,6 +11,7 @@ import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { ImportacaoService } from 'app/core/services/importacao.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
@@ -19,18 +20,20 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 import { FileMime } from 'app/core/types/file.types';
 import { Filial } from 'app/core/types/filial.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { ImportacaoLinha } from 'app/core/types/importacao.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { forEach } from 'lodash';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
+import { InstalacaoListaAberturaChamadosComponent } from './instalacao-lista-abertura-chamados/instalacao-lista-abertura-chamados.component';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
-
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
@@ -56,6 +59,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   codInstalLote: number;
   instalacaoLote: InstalacaoLote;
   instalacaoSelecionada: Instalacao;
+  importacaoLinhas: ImportacaoLinha[] = [];
   transportadoras: Transportadora[] = [];
   filiais: Filial[] = [];
   dataSourceData: InstalacaoData;
@@ -78,6 +82,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     private _userSvc: UserService,
     private _dialog: MatDialog,
     private _exportacaoService: ExportacaoService,
+    private _importacaoService: ImportacaoService,
     protected _userService: UserService,
   ) {
     super(_userService, 'instalacao')
@@ -216,7 +221,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     }).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
-    this._cdr.detectChanges();    
+    this._cdr.detectChanges();
   }
 
   public async exportar() {
@@ -488,6 +493,53 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
 
     dialogRef.afterClosed().subscribe(confirmacao => {
       if (confirmacao) this.obterInstalacoes();
+    });
+  }
+
+  abrirChamados() {
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);
+
+    console.log(itens);
+
+    for (let index = 0; index < itens.length; index++) {
+      this.importacaoLinhas[index].importacaoColuna[0].campo = 'codEquipContrato';
+      this.importacaoLinhas[index].importacaoColuna[0].valor = itens[index].codEquipContrato.toString();
+
+      this.importacaoLinhas[index].importacaoColuna[1].campo = 'defeitoRelatado';
+      this.importacaoLinhas[index].importacaoColuna[1].valor = 'BEM TRADE IN: ' + itens[index].bemTradeIn;
+
+      this.importacaoLinhas[index].importacaoColuna[2].campo = 'codTipoIntervencao';
+      this.importacaoLinhas[index].importacaoColuna[2].valor = '4';
+    }
+
+    //console.log(this.importacaoLinhas);
+
+    const dialogRef = this._dialog.open(InstalacaoListaAberturaChamadosComponent, {
+      data: {
+        itens: itens
+      },
+      width: '960px',
+      height: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(confirmacao => {
+      if (confirmacao) this.obterInstalacoes();
+    });
+  }
+
+  enviarDados(importacaoLinhas) {
+    this.isLoading = true;
+
+    this._importacaoService.importar({
+      id: 2,
+      importacaoLinhas: importacaoLinhas
+    }).subscribe(r => {
+      this.isLoading = false;
+
+      let dados: any[] = r.importacaoLinhas.filter(line => line.erro == 1);
+      dados.length > 0
+        ? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes', 'error', 10000)
+        : this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes', 'success', 10000);
     });
   }
 

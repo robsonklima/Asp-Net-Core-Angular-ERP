@@ -280,6 +280,8 @@ namespace SAT.INFRA.Context
         public DbSet<TipoChamadoSTN> TipoChamadoSTN { get; set; }
         public DbSet<Improdutividade> Improdutividade { get; set; }
         public DbSet<CausaImprodutividade> CausaImprodutividade { get; set; }
+        public DbSet<CheckListPOS> CheckListPOS { get; set; }
+        public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -478,6 +480,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);
             modelBuilder.Entity<Improdutividade>(new ImprodutividadeMap().Configure);
             modelBuilder.Entity<CausaImprodutividade>(new CausaImprodutividadeMap().Configure);
+            modelBuilder.Entity<CheckListPOS>(new CheckListPOSMap().Configure);
+            modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

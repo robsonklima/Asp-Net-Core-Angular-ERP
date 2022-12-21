@@ -194,6 +194,8 @@ public class ConfigurationIOC
         builder.RegisterType<ProtocoloChamadoSTNRepository>().As<IProtocoloChamadoSTNRepository>();
         builder.RegisterType<CausaImprodutividadeRepository>().As<ICausaImprodutividadeRepository>();
         builder.RegisterType<ImprodutividadeRepository>().As<IImprodutividadeRepository>();
+        builder.RegisterType<CheckListPOSRepository>().As<ICheckListPOSRepository>();
+        builder.RegisterType<CheckListPOSItensRepository>().As<ICheckListPOSItensRepository>();
         
         #endregion
 
@@ -378,6 +380,8 @@ public class ConfigurationIOC
         builder.RegisterType<ProtocoloChamadoSTNService>().As<IProtocoloChamadoSTNService>();
         builder.RegisterType<CausaImprodutividadeService>().As<ICausaImprodutividadeService>();
         builder.RegisterType<ImprodutividadeService>().As<IImprodutividadeService>();
+        builder.RegisterType<CheckListPOSService>().As<ICheckListPOSService>();
+        builder.RegisterType<CheckListPOSItensService>().As<ICheckListPOSItensService>();
 
         #endregion
 

@@ -28,7 +28,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   codAtendimento: number;
   statusServicosSTN: StatusServicoSTN[] = [];
   os: OrdemServico;
-  atendimentos: OrdemServicoSTN[] = [];
+  atendimentos: OrdemServicoSTN;
   ultimoAtendimento: OrdemServicoSTN;
   ordemServicoSTN: OrdemServicoSTN;
   ordemServicoSTNOrigens: OrdemServicoSTNOrigem[] = [];
@@ -59,9 +59,10 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
+    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.inicializarForm();
     this.registrarEmitters();  
-    this.obterDados(6953280);
+    this.obterDados(this.atendimentos.codOS);
     
     if (!this.isAddMode) {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
@@ -87,12 +88,8 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {    
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ 
-      codOS: this.os.codOS,
-      sortActive: 'codAtendimento',
-      sortDirection: 'desc'
-    }).toPromise()).items;
-    this.ultimoAtendimento = this.atendimentos.shift();   
+
+    this.ultimoAtendimento = this.atendimentos;   
     this.obterOrdemServicoSTNOrigem();
     this.obterStatusServicosSTN();
     this.isLoading = false;

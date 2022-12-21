@@ -14,18 +14,6 @@
         </div>
 
         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
-            <div class="bg-gray-50 dark:bg-gray-700 p-4">
-                <p class="text-lg font-medium">Conclusão Geral do Laudo</p>
-            </div>
-
-            <div [formGroup]="form" class="flex items-center justify-between">
-                <div class="text-secondary px-6">{{ t('conclusao') }}</div>
-                <textarea class="px-2 py-4 grid-cols-8 flex items-center justify-between" matInput
-                    formControlName="conclusao" [(ngModel)]="laudo.conclusao" [rows]="4" maxlength="1000"></textarea>
-            </div>
-        </div>
-
-        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
             <div class="bg-gray-50 dark:bg-gray-700 p-4 border-b">
                 <p class="text-lg font-medium">Situações</p>
             </div>
@@ -40,6 +28,18 @@
                 <div class="text-secondary px-6">{{ t('acao') }}</div>
                 <textarea class="px-2 py-4 grid-cols-8 flex items-center justify-between" matInput
                     formControlName="acao" [(ngModel)]="situacao.acao" [rows]="2" maxlength="1000"></textarea>
+            </div>
+        </div>
+
+        <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
+            <div class="bg-gray-50 dark:bg-gray-700 p-4">
+                <p class="text-lg font-medium">Conclusão Geral do Laudo</p>
+            </div>
+
+            <div [formGroup]="form" class="flex items-center justify-between">
+                <div class="text-secondary px-6">{{ t('conclusao') }}</div>
+                <textarea class="px-2 py-4 grid-cols-8 flex items-center justify-between" matInput
+                    formControlName="conclusao" [(ngModel)]="laudo.conclusao" [rows]="4" maxlength="1000"></textarea>
             </div>
         </div>
 

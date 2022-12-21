@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="truncate max-w-1/2">
-                        <div>{{ atendimento.ordemServicoSTNOrigem.descOrigemChamadoSTN || "Não informado" }}</div>
+                        <div>{{ atendimento?.ordemServicoSTNOrigem?.descOrigemChamadoSTN || "Não informado" }}</div>
                     </div>
                 </div>
 
@@ -166,6 +166,11 @@
 
                     <div class="truncate max-w-1/2">
                         <div>{{ componente?.nomeCausa || "Não informado" }}</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
                     </div>
                 </div>
 

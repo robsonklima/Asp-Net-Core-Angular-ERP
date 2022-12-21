@@ -377,6 +377,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
+        codTipoRota: 1,
         indTecnicoBancada: +form.indTecnicoBancada,
         indFerias: +form.indFerias,
         indAtivo: +form.indAtivo

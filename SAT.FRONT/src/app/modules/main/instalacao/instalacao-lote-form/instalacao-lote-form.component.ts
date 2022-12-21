@@ -41,9 +41,9 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit() {
-    this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
-    this.isAddMode = !this.codInstalLote;
+  async ngOnInit() {    
+    this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
+    this.isAddMode = true;
     this.obterContratos();
     this.inicializarForm();
 
@@ -67,16 +67,19 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
       ],
       nomeLote: [undefined, Validators.required],
       descLote: [undefined, Validators.required],
-      codContrato: [undefined, Validators.required],
+      codContrato: this.codContrato,
       dataRecLote: [undefined, Validators.required],
       qtdEquipLote: [undefined, Validators.required],
     });
   }
 
 	private async obterContratos(filter: string = '') {
+		var idContrato = this.codContrato ?? null;
+
 		this.contratos = (await this._contratoSvc.obterPorParametros({
 			filter: filter,
 			indAtivo: statusConst.ATIVO,
+      codContrato: idContrato,
 			pageSize: 500,
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc'
@@ -131,7 +134,7 @@ export class InstalacaoLoteFormComponent implements OnInit, OnDestroy {
     };
 
     this._instalacaoLoteSvc.criar(obj).subscribe(() => {
-      this._snack.exibirToast(`Lote ${obj.nome} adicionado com sucesso!`, "success");
+      this._snack.exibirToast(`Lote ${obj.nomeLote} adicionado com sucesso!`, "success");
       this._location.back();
     });
   }

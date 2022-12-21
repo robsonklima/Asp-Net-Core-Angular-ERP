@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="truncate">
                                             <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500"
-                                                [routerLink]="[ '/instalacao/' + data.codContrato ]">
+                                                [routerLink]="[ '/instalacao/lista/' + data.codContrato ]">
                                                 {{ data.nomeContrato | titlecase }}
                                             </a>
 
@@ -77,14 +77,13 @@
                                         </div>
                                         <div class="truncate">
                                             <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500"
-                                                [routerLink]="[ '/instalacao/lote/', data.codContrato ]">
+                                                [routerLink]="[ '/instalacao/lote/' + data.codContrato ]">
                                                 {{ data.lotes.length > 1 ? data.lotes.length + ' Lotes' :
-                                                data.lotes.length
-                                                + ' Lote' }}
+                                                data.lotes.length + ' Lote' }}
                                             </a>
 
                                             <a *ngIf="!data.lotes.length" class="whitespace-nowrap text-primary-500"
-                                                [routerLink]="[ '/instalacao/lote-form/' + data.codContrato ]">
+                                                [routerLink]="[ '/instalacao/lote/form/' + data.codContrato ]">
                                                 Novo Lote
                                             </a>
                                         </div>

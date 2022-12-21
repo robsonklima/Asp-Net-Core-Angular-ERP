@@ -84,6 +84,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+        if (parameters.CodCliente != null)
+            {
+                contratos = contratos.Where(c => c.CodCliente == parameters.CodCliente);
+            }
+
             if (parameters.CodContrato != null)
             {
                 contratos = contratos.Where(c => c.CodContrato == parameters.CodContrato);
@@ -102,7 +107,7 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
                 int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                contratos = contratos.Where(os => cods.Contains(os.CodCliente));
+                contratos = contratos.Where(c => cods.Contains(c.CodCliente));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTipoContratos))

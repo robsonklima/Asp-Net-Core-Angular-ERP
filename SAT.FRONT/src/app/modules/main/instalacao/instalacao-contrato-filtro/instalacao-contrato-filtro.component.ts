@@ -92,7 +92,7 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 
 		let params: ContratoParameters = {
 			filter: filtro,
-			codClientes: codCliente?.toString(),
+			codCliente: codCliente,
 			sortActive: 'nroContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -105,18 +105,8 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 
 	private registrarEmitters() {
 		this.form.controls['codCliente'].valueChanges.subscribe(() => {
-				this.obterContratos();
-		});		
-		
-		this.tipoFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterTipos(this.tipoFilterCtrl.value);
-			});
+			this.obterContratos();
+		});
 
 		this.clienteFilterCtrl.valueChanges
 			.pipe(
@@ -126,7 +116,7 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 			)
 			.subscribe(() => {
 				this.obterClientes(this.clienteFilterCtrl.value);
-			});	
+			});
 
 		this.contratoFilterCtrl.valueChanges
 			.pipe(
@@ -136,7 +126,17 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 			)
 			.subscribe(() => {
 				this.obterContratos(this.contratoFilterCtrl.value);
-			});	
+			});
+
+		this.tipoFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterTipos(this.tipoFilterCtrl.value);
+			});
 	}
 
 	limpar() {

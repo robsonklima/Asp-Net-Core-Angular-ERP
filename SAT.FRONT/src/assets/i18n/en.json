@@ -793,5 +793,6 @@
     "cobrancas": "Charges",
     "implantacao": "Deployment",
     "data recebimento": "Receipt Date",
-    "qtd equip lote": "Qty Equipment Batch"
+    "qtd equip lote": "Qty Equipment Batch",
+    "codigos de instalacao": "Enter installation codes:"
 }

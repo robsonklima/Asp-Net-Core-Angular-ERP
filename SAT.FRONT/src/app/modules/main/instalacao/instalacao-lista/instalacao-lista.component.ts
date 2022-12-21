@@ -2,9 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, Vie
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
@@ -16,6 +18,7 @@ import { Contrato } from 'app/core/types/contrato.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { Filial } from 'app/core/types/filial.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -42,7 +45,12 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class InstalacaoListaComponent implements AfterViewInit {
+export class InstalacaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   codContrato: number;
   contrato: Contrato;
   codInstalLote: number;
@@ -50,9 +58,6 @@ export class InstalacaoListaComponent implements AfterViewInit {
   instalacaoSelecionada: Instalacao;
   transportadoras: Transportadora[] = [];
   filiais: Filial[] = [];
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
   dataSourceData: InstalacaoData;
   isLoading: boolean = false;
   userSession: UserSession;
@@ -73,7 +78,9 @@ export class InstalacaoListaComponent implements AfterViewInit {
     private _userSvc: UserService,
     private _dialog: MatDialog,
     private _exportacaoService: ExportacaoService,
+    protected _userService: UserService,
   ) {
+    super(_userService, 'instalacao')
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
@@ -86,8 +93,21 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.obterFiliais();
     this.obterContrato();
     this.obterLote();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
+      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+        map((event: any) => {
+          return event.target.value;
+        })
+        , debounceTime(700)
+        , distinctUntilChanged()
+      ).subscribe((text: string) => {
+        this.paginator.pageIndex = 0;
+        this.searchInputControl.nativeElement.val = text;
+        this.obterInstalacoes(text);
+      });
+
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
@@ -96,6 +116,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
         this.obterInstalacoes();
       });
     }
+
+    this._cdr.detectChanges();
 
     this.form = this._formBuilder.group({
       codInstalacao: [''],
@@ -155,54 +177,46 @@ export class InstalacaoListaComponent implements AfterViewInit {
       indEquipRebaixadoBI: [''],
       ressalvaInsR: [{ value: '', disabled: true }]
     })
-
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
-        return event.target.value;
-      })
-      , debounceTime(700)
-      , distinctUntilChanged()
-    ).subscribe((text: string) => {
-      this.paginator.pageIndex = 0;
-      this.searchInputControl.nativeElement.val = text;
-      this.obterInstalacoes();
-    });
-
-    this.transportadorasFiltro.valueChanges
-      .pipe(
-        tap(() => { }),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          this.obterTransportadoras(query);
-        }),
-        delay(100),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe();
-
-    this._cdr.detectChanges();
   }
 
-  private async obterInstalacoes() {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterInstalacoes();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
+  }
+
+  onSidenavClosed(): void {
+    if (this.paginator) this.paginator.pageIndex = 0;
+    this.loadFilter();
+    this.obterInstalacoes();
+  }
+
+  private async obterInstalacoes(filtro: string = '') {
     this.isLoading = true;
 
-    const params: InstalacaoParameters = {
+    const parametros: InstalacaoParameters = {
       codContrato: this.codContrato || undefined,
       codInstalLote: this.codInstalLote || undefined,
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val,
+      //filter: this.searchInputControl.nativeElement.val,
+      filter: filtro,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
       sortDirection: this.sort.direction || 'desc'
     };
 
-    const data: InstalacaoData = await this._instalacaoSvc
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.isLoading = false;
+    const data: InstalacaoData = await this._instalacaoSvc.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();    
   }
 
   public async exportar() {

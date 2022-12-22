@@ -794,5 +794,6 @@
     "implantacao": "Deployment",
     "data recebimento": "Receipt Date",
     "qtd equip lote": "Qty Equipment Batch",
-    "codigos de instalacao": "Enter installation codes:"
+    "codigos de instalacao": "Enter installation codes:",
+    "num bem trade in": "Num Bem Trade In"
 }

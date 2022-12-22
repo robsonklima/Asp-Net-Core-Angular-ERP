@@ -88,6 +88,8 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.LocalAtendimentoIns!)
                     .DefaultIfEmpty()
                 .Include(i => i.LocalAtendimentoSol!)
+                    .ThenInclude(c => c.Cidade)
+                        .ThenInclude(u => u.UnidadeFederativa)
                     .DefaultIfEmpty()
                 .Include(i => i.OrdemServico!)
                     .DefaultIfEmpty()

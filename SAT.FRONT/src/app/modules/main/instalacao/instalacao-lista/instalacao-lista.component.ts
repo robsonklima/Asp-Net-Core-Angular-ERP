@@ -44,7 +44,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 72px auto 64px 240px 240px 72px 72px 72px;
+          grid-template-columns: 36px 36px 160px 64px 64px 180px 36px 120px 64px 120px 120px 72px 72px 72px;
       }
     `
   ],
@@ -563,7 +563,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
         });
       }
       this._snack.exibirToast("Chamados abertos com sucesso!");
-      this._router.navigate(['instalacao/lista/' + this.codContrato]);
+      this._router.navigate(['instalacao/lote/lista/' + this.codContrato + '/' + this.codInstalLote ]);
     } catch (error) {
       this._snack.exibirToast("Erro ao abrir chamados!");
     }

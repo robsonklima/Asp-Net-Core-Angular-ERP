@@ -94,19 +94,43 @@
                                 </div>
 
                                 <div class="md:block">
-                                    {{ t('cliente') }}
-                                </div>
-
-                                <div class="md:block">
                                     {{ t('filial') }}
                                 </div>
 
-                                <div class="flex">
-                                    {{ t('modelo') }}
-                                </div>
+                                <div class="md:block">
+                                    {{ t('tipo novo') }}
+                                </div>                                
 
                                 <div class="flex">
                                     {{ t('serie') }}
+                                </div>
+
+                                <div class="flex">
+                                    {{ t('prefixo sb') }}
+                                </div>
+
+                                <div class="flex">
+                                    {{ t('dependencia') }}
+                                </div>    
+                                
+                                <div class="flex">
+                                    {{ t('uf') }}
+                                </div>        
+                                
+                                <div class="flex">
+                                    {{ t('data da entrega confirmacao') }}
+                                </div>         
+                                
+                                <div class="flex">
+                                    {{ t('os') }}
+                                </div>         
+                                
+                                <div class="flex">
+                                    {{ t('dt instalacao') }}
+                                </div>     
+                                
+                                <div class="flex">
+                                    {{ t('num bem trade in') }}
                                 </div>
 
                                 <div class="text-left">
@@ -128,10 +152,6 @@
                                         </div>
 
                                         <div class="flex">
-                                            {{ data.cliente?.nomeFantasia }}
-                                        </div>
-
-                                        <div class="flex">
                                             {{ data.filial?.nomeFilial }}
                                         </div>
 
@@ -141,6 +161,34 @@
 
                                         <div class="flex">
                                             {{ data.equipamentoContrato?.numSerie }}
+                                        </div>
+
+                                        <div class="flex">
+                                            {{ data.localAtendimentoSol?.numAgencia }} / {{ data.localAtendimentoSol?.dcPosto }}
+                                        </div>                  
+                                        
+                                        <div class="flex">
+                                            {{ data.localAtendimentoSol?.nomeLocal }}
+                                        </div>    
+
+                                        <div class="flex">
+                                            {{ data.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF }}
+                                        </div>    
+
+                                        <div class="flex">
+                                            {{ data.dataHoraChegTranspBt | date:'dd/MM/YYYY' }}
+                                        </div> 
+                                        
+                                        <div class="flex">
+                                            {{ data.codOS }}
+                                        </div> 
+
+                                        <div class="flex">
+                                            {{ data.dataBI | date:'dd/MM/YYYY' }}
+                                        </div> 
+                                        
+                                        <div class="flex">
+                                            {{ data.BemTradeIn }}
                                         </div>
 
                                         <div class="flex-auto">

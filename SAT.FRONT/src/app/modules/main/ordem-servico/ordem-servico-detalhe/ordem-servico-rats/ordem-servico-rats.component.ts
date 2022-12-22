@@ -25,6 +25,8 @@ export class OrdemServicoRatsComponent implements OnInit {
 
   async ngOnInit() {
     this.rats = (await this.obterRATS()).items;
+    console.log(this.rats);
+    
     this.isLoading = false;
   }
 

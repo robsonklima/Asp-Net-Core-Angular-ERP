@@ -14,12 +14,6 @@ namespace SAT.INFRA.Mapping
             builder.
                 HasKey(i => new { i.CodCheckListPOS });
 
-            builder
-                .HasOne(prop => prop.CheckListPOSItens)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodCheckListPOSItens)
-                .HasPrincipalKey(prop => prop.CodCheckListPOSItens);
-
         }
     }
 }

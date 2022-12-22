@@ -13,13 +13,6 @@ namespace SAT.INFRA.Mapping
 
             builder.
                 HasKey(i => new { i.CodCheckListPOSItens });
-
-            builder
-                .HasOne(prop => prop.Cliente)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodCliente)
-                .HasPrincipalKey(prop => prop.CodCliente);
-
         }
     }
 }

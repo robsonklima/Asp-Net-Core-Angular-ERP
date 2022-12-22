@@ -68,7 +68,6 @@ namespace SAT.INFRA.Repository
             try
             {
                 return _context.CheckListPOS
-                    .Include(c => c.CheckListPOSItens)
                     .SingleOrDefault(aud => aud.CodCheckListPOS == codCheckListPOS);
             }
             catch (Exception ex)
@@ -80,7 +79,6 @@ namespace SAT.INFRA.Repository
         public PagedList<CheckListPOS> ObterPorParametros(CheckListPOSParameters parameters)
         {
             var checkListPOSs = _context.CheckListPOS
-                .Include(c => c.CheckListPOSItens)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -95,11 +93,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodRAT.HasValue)
                 checkListPOSs = checkListPOSs.Where(c => c.CodRAT == parameters.CodRAT);
 
-            if (!string.IsNullOrWhiteSpace(parameters.CodCheckListPOSItens))
-            {
-                int[] cods = parameters.CodCheckListPOSItens.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                checkListPOSs = checkListPOSs.Where(dc => cods.Contains(dc.CheckListPOSItens.CodCheckListPOSItens));
-            };
+            if (parameters.CodCheckListPOSItens.HasValue)
+                checkListPOSs = checkListPOSs.Where(c => c.CodCheckListPOSItens == parameters.CodCheckListPOSItens);
+
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

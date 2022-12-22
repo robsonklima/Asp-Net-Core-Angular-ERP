@@ -68,8 +68,7 @@ namespace SAT.INFRA.Repository
             try
             {
                 return _context.CheckListPOSItens
-                    .Include(c => c.Cliente)
-                    .SingleOrDefault(aud => aud.CodCheckListPOSItens == codCheckListPOSItens);
+                   .SingleOrDefault(aud => aud.CodCheckListPOSItens == codCheckListPOSItens);
             }
             catch (Exception ex)
             {
@@ -79,8 +78,7 @@ namespace SAT.INFRA.Repository
 
         public PagedList<CheckListPOSItens> ObterPorParametros(CheckListPOSItensParameters parameters)
         {
-            var checkListPOSItenss = _context.CheckListPOSItens
-                .Include(c => c.Cliente)
+            var checkListPOSItenss = _context.CheckListPOSItens                
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -92,11 +90,15 @@ namespace SAT.INFRA.Repository
             if (parameters.CodCliente.HasValue)
                 checkListPOSItenss = checkListPOSItenss.Where(c => c.CodCliente == parameters.CodCliente);
 
-            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            if (parameters.IndAtivo != null)
             {
-                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-                checkListPOSItenss = checkListPOSItenss.Where(dc => cods.Contains(dc.Cliente.CodCliente));
-            };
+                checkListPOSItenss = checkListPOSItenss.Where(u => u.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (parameters.IndPadrao.HasValue)
+            {
+                checkListPOSItenss = checkListPOSItenss.Where(c => c.IndPadrao == parameters.IndPadrao);
+            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

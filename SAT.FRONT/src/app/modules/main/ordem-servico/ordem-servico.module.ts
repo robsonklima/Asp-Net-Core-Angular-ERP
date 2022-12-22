@@ -120,6 +120,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
         FuseAlertModule,
         MatProgressSpinnerModule,
         FiltroModule,
+        MatSlideToggleModule,
         NotificationsModule
     ]
 })

@@ -27,6 +27,7 @@ import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendi
 import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -64,6 +65,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatTooltipModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
     FuseCardModule
   ]
 })

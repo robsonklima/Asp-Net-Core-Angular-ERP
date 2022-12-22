@@ -42,7 +42,7 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
                 </div>
-                
+
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -65,7 +65,7 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6" >
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('status de servico') }}</mat-label>
                         <mat-select formControlName="codStatusServico">
                             <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
@@ -105,6 +105,36 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
                 </div>
+
+                <div *ngIf="validarChecklistPOS()">
+                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                        <p class="text-lg font-medium">{{ t('Checklist POS') }}</p>
+                    </div>
+
+                    <div
+                        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card shadow rounded overflow-hidden">
+                        <p class="text-lg font-normal">{{ t('Status Orientado a Utilizar:') }}</p>
+                        <div *ngFor="let item of itensPadroes">
+                            <mat-slide-toggle [color]="'primary'"
+                                [checked]="verificarSelecionado(item.codCheckListPOSItens)"
+                                (change)="onChange($event, item.codCheckListPOSItens)">
+                                {{ item.descricao }}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div
+                        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card shadow rounded overflow-hidden">
+                        <p class="text-lg font-normal">{{ t('Checklist Cliente:') }}</p>
+                        <div *ngFor="let item of itensCliente">
+                            <mat-slide-toggle [color]="'primary'"
+                                [checked]="verificarSelecionado(item.codCheckListPOSItens)"
+                                (change)="onChange($event, item.codCheckListPOSItens)">
+                                {{ item.descricao }}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('periodo de atendimento') }}</p>
                 </div>
@@ -294,7 +324,8 @@
 
                                                     <div *ngIf="ordemServico.tipoIntervencao.codTipoIntervencao !== 18">
                                                         <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
-                                                            (click)="removerPeca(detalhe, i)" [disabled]="validaEdicao()">
+                                                            (click)="removerPeca(detalhe, i)"
+                                                            [disabled]="validaEdicao()">
                                                             <mat-icon class="icon-size-5"
                                                                 [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                                         </button>
@@ -334,11 +365,14 @@
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         </button>
                         <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
-                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()" [matTooltip]="t('adicionar peca')"
+                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()"
+                            [matTooltip]="t('adicionar peca')"
                             (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                         </button>
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'" [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()" [matTooltip]="t('remover detalhe')"
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
+                            [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
+                            [matTooltip]="t('remover detalhe')"
                             (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                         </button>
@@ -398,16 +432,14 @@
                         <span>
                             {{ t('salvar') }}
                         </span>
-                    </button>                
+                    </button>
 
-                    <button
-                        class="px-6 mr-2 bg-orange-500 text-white" mat-button type="button" (click)="reabrir()"
+                    <button class="px-6 mr-2 bg-orange-500 text-white" mat-button type="button" (click)="reabrir()"
                         *ngIf="verificarPermissaoReabertura()">
                         {{ t('reabrir') }}
                     </button>
 
-                    <button
-                        class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
+                    <button class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
                         *ngIf="verificarPermissaoExclusao()">
                         {{ t('excluir') }}
                     </button>

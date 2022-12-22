@@ -6,6 +6,8 @@ namespace SAT.MODELS.Entities.Params {
         public int CodCheckListPOSItens { get; set; }
         public int? CodCliente { get; set; }
         public string CodClientes { get; set; }
+        public int? IndAtivo { get; set; }
+        public int? IndPadrao { get; set; }
 
 
     }

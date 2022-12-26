@@ -44,7 +44,12 @@
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                 <!-- <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()"
+                <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  *ngIf="laudo" 
+                    [matTooltip]="'Ir para Laudo'" [routerLink]="['/suporte-stn/laudo/form/' + laudo.codLaudo]">
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                </button>
+                
+                <!-- <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()"
                     *ngIf="!atendimentos.length">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
                 </button> -->

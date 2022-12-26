@@ -19,6 +19,8 @@ import { ProtocoloSTN } from 'app/core/types/protocolo-stn.types';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { statusConst } from 'app/core/types/status-types';
+import { Laudo } from 'app/core/types/laudo.types';
+import { LaudoService } from 'app/core/services/laudo.service';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -32,6 +34,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   ordemServicoSTN: OrdemServicoSTN;
   ordemServicoSTNOrigens: OrdemServicoSTNOrigem[] = [];
   protocoloSTN: ProtocoloSTN;
+  laudo: Laudo;
   isAddMode: boolean;
   isLoading: boolean = false;
   userSession: UsuarioSessao;
@@ -47,6 +50,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoService: OrdemServicoService,
     private _statusServicoSTNService: StatusServicoSTNService,
     private _ordemServicoSTNOrigemService: OrdemServicoSTNOrigemService,
+    private _laudoService: LaudoService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _router: Router
@@ -86,10 +90,10 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {    
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-
     this.ultimoAtendimento = this.atendimentos;   
     this.obterOrdemServicoSTNOrigem();
     this.obterStatusServicosSTN();
+    this.obterLaudo();
     this.isLoading = false;
     this._cdr.detectChanges();    
   }
@@ -122,6 +126,12 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
     this.statusServicosSTN = data.items;    
   }  
+
+  async obterLaudo(){
+    this.laudo = (await this._laudoService.obterPorParametros({
+      codOS: this.atendimentos.codOS
+    }).toPromise()).items.shift();
+  }
 
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();  

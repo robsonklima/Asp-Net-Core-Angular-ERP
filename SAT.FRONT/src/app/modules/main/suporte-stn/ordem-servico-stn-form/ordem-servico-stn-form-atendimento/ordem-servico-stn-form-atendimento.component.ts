@@ -62,11 +62,9 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.status = await this._statusSTNService.obterPorCodigo(this.atendimento.codStatusSTN).toPromise();
     this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({codAtendimento: this.codAtendimento}).toPromise()).items.shift();
     this.usuario = (await this._usuarioService.obterPorParametros({codUsuario: this.protocolo.codUsuarioCad}).toPromise()).items.shift();
-    this.tipoCausa = (await this._tipoServicoService.obterPorParametros({codServico:+this.atendimento.codTipoCausa}).toPromise()).items.shift();
-
+    this.tipoCausa = (await this._tipoServicoService.obterPorParametros({codETipoServico: this.atendimento.codTipoCausa}).toPromise()).items.shift();
     this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1}).toPromise()).items;
     this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo.codProtocoloChamadoSTN }).toPromise()).items;
-    
     
     if(+this.atendimento.codTipoCausa >= 200){
       this.tipoServico = "MÁQUINA";

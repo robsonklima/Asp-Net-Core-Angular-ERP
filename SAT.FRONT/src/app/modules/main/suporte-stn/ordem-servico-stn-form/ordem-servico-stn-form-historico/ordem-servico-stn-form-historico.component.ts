@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { CausaImprodutividadeService } from 'app/core/services/causa-improdutividade.service';
 import { CausaService } from 'app/core/services/causa.service';
@@ -62,11 +61,9 @@ async ngOnInit(){
   this.status = await this._statusSTNService.obterPorCodigo(this.atendimento.codStatusSTN).toPromise();
   this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({codAtendimento: this.codAtendimento}).toPromise()).items.shift();
   this.usuario = (await this._usuarioService.obterPorParametros({codUsuario: this.protocolo.codUsuarioCad}).toPromise()).items.shift();
-  this.tipoCausa = (await this._tipoServicoService.obterPorParametros({codServico:+this.atendimento.codTipoCausa}).toPromise()).items.shift();
-
+  this.tipoCausa = (await this._tipoServicoService.obterPorParametros({codETipoServico: this.atendimento.codTipoCausa}).toPromise()).items.shift();
   this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1}).toPromise()).items;
   this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo.codProtocoloChamadoSTN }).toPromise()).items;
-  
   
   if(+this.atendimento.codTipoCausa >= 200){
     this.tipoServico = "MÁQUINA";
@@ -81,24 +78,6 @@ async obterCausas(){
   this.modulo = (await this._causaService.obterPorParametros({codECausa: this.atendimento.codGrupoCausa + "000"}).toPromise()).items.shift();  
   this.subModulo = (await this._causaService.obterPorParametros({codECausa: this.atendimento.codCausa + "00"}).toPromise()).items.shift();  
   this.componente = (await this._causaService.obterPorParametros({codECausa: this.atendimento.codDefeito}).toPromise()).items.shift();  
-}
-
-async onChange($event: MatSlideToggleChange, codigo) {
-  // if ($event.checked) {
-  //   this._itemSolucaoService.criar({
-  //     dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-  //     codTecnico: this.usuarioSessao.usuario.codUsuario,
-  //     codORItem: this.codORItem,
-  //     codSolucao: codigo
-  //   }).subscribe();
-  // } else {
-  //   const itemSolucao = (await this._itemSolucaoService.obterPorParametros({
-  //     codORItem: this.codORItem,
-  //     codSolucao: codigo
-  //   }).toPromise()).items.shift();
-
-  //   this._itemSolucaoService.deletar(itemSolucao.codItemSolucao).subscribe();
-  // }
 }
 
 public verificarSolucaoSelecionado(codImprodutividade: number): boolean {

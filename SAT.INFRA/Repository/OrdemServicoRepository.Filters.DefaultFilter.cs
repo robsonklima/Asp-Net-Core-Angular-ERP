@@ -122,7 +122,7 @@ namespace SAT.INFRA.Repository
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
-                query = query.Where(os => os.EquipamentoContrato.NumSerie.Trim().ToLower() == parameters.NumSerie.Trim().ToLower());
+                query = query.Where(os => os.EquipamentoContrato.NumSerie.Trim().ToLower().Contains(parameters.NumSerie.Trim().ToLower()));
 
             if (!string.IsNullOrWhiteSpace(parameters.Defeito))
                 query = query.Where(os => os.DefeitoRelatado.Contains(parameters.Defeito));

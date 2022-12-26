@@ -147,7 +147,7 @@ namespace SAT.INFRA.Repository
                 }
 
                 if (!string.IsNullOrEmpty(parameters.NumSerie))
-                    equips = equips.Where(e => e.NumSerie == parameters.NumSerie);
+                    equips = equips.Where(e => e.NumSerie.Trim().ToLower().Contains(parameters.NumSerie.Trim().ToLower()));
 
                 if (parameters.CodFilial.HasValue)
                     equips = equips.Where(e => e.LocalAtendimento.CodFilial == parameters.CodFilial);

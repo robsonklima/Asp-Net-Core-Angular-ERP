@@ -12,7 +12,6 @@ import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { OrdemServicoStnHistoricoComponent } from '../ordem-servico-stn-historico/ordem-servico-stn-historico.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StatusServicoSTN, StatusServicoSTNParameters } from 'app/core/types/status-servico-stn.types';
 import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
@@ -50,7 +49,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoSTNOrigemService: OrdemServicoSTNOrigemService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
-    private _dialog: MatDialog,
     private _router: Router
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -124,16 +122,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
     this.statusServicosSTN = data.items;    
   }  
-
-  abrirHistorico() {
-    const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      
-    });
-  }
 
   salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();  

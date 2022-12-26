@@ -150,7 +150,7 @@
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
-                    <textarea class="flex items-center justify-between" matInput formControlName="observacoes"
+                    <textarea class="flex items-center justify-between" matInput #obsInputControl formControlName="observacoes"
                         [rows]="4" maxlength="1000"></textarea>
                 </div>
             </div>

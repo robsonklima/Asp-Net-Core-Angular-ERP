@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, first, map } from 'rxjs/operators';
 import { Auditoria } from 'app/core/types/auditoria.types';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { AuditoriaVeiculoTanque } from 'app/core/types/auditoria-veiculo-tanque.types';
@@ -27,6 +27,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   configuracaoCombustivel: DespesaConfiguracaoCombustivel;
   protected _onDestroy = new Subject<void>();
+  @ViewChild('relatoInputControl') obsInputControl: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -81,7 +82,17 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     });
   }
 
-  private registrarEmitters() { }
+  private registrarEmitters() { 
+    fromEvent(this.obsInputControl.nativeElement, 'keyup').pipe(
+      map((event: any) => {
+        return event.target.value;
+      })
+      , debounceTime(1000)
+      , distinctUntilChanged()).subscribe((text: string) => {
+        this.auditoria.observacoes = text;
+        this._auditoriaService.atualizar(this.auditoria).subscribe();
+      });
+   }
 
   validarCorKMParticular(auditoria) {
     if (auditoria?.usuario?.Tecnico?.codFrotaFinalidadeUso == 1) {

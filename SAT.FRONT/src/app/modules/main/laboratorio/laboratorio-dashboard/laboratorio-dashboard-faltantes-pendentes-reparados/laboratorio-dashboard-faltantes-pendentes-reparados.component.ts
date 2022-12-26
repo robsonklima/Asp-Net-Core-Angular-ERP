@@ -89,7 +89,7 @@ export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements
       },
       yaxis: {
         title: {
-          text: "$ (thousands)"
+          text: ""
         }
       },
       fill: {

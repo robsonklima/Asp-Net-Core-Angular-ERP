@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { interval, Subject } from 'rxjs';
-import { startWith, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-laboratorio-dashboard',
@@ -20,9 +20,7 @@ export class LaboratorioDashboardComponent implements OnInit {
   ];
   protected _onDestroy = new Subject<void>();
 
-  constructor(
-    
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.registrarEmitters();

@@ -1,34 +1,66 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="absolute inset-x-0 bottom-0">
-            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-        </div>
+<mat-drawer-container class="flex-auto h-full">
+	<mat-drawer-content>
+		<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+			<div
+				class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+				<div class="absolute inset-x-0 bottom-0">
+				</div>
 
-        <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/suporte-stn/">
-                        Laudos
-                    </a>
-                </div>
+				<div class="flex-1 min-w-0">
+					<div class="flex flex-wrap items-center font-medium">
+						<div>
+							<a class="whitespace-nowrap text-primary-500" routerLink="/suporte-stn/laudo">
+								Laudos
+							</a>
+						</div>
 
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        {{t('atualizando')}}
-                    </span>
-                </div>
+						<div class="flex items-center ml-1 whitespace-nowrap">
+							<mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+							</mat-icon>
+							<span class="ml-1 text-secondary">
+								#{{ codLaudo }}
+							</span>
+						</div>
+					</div>
 
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        <!-- #{{ codAtendimento }} -->
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+					<div class="mt-2">
+						<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+							Laudo
+						</h2>
+					</div>
+				</div>
+
+				<div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+					<button mat-icon-button matTooltip="Imprimir" (click)="exportar(laudo)">
+						<mat-icon class="icon-size-7" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+			<div class="w-full max-w-screen-xl mx-auto">
+				<mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+					<mat-tab [label]="t('informacoes')">
+						<ng-template matTabContent>
+							<app-suporte-stn-laudo-form-informacoes></app-suporte-stn-laudo-form-informacoes>
+						</ng-template>
+					</mat-tab>
+
+					<mat-tab [label]="t('atendimento')">
+						<ng-template matTabContent>
+							<app-suporte-stn-laudo-form-atendimento></app-suporte-stn-laudo-form-atendimento>
+						</ng-template>
+					</mat-tab>
+
+					<mat-tab [label]="t('fotos')">
+						<ng-template matTabContent>
+							<app-suporte-stn-laudo-form-foto></app-suporte-stn-laudo-form-foto>
+						</ng-template>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+
+	</mat-drawer-content>
+</mat-drawer-container>

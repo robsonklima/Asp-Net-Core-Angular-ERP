@@ -9,14 +9,14 @@
                 <div class="flex flex-wrap items-center font-medium">
                     <div>
                         <a class="whitespace-nowrap text-primary-500" routerLink="/ponto/periodos">
-                            
+
                         </a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                         <span class="ml-1 text-secondary">
-                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }} 
+                            {{ pontoPeriodo?.dataInicio | date:'dd/MM/yyyy' }}
                             {{ pontoPeriodo ? 'até' : '' }}
                             {{ pontoPeriodo?.dataFim | date:'dd/MM/yyyy' }}
                         </span>
@@ -24,8 +24,7 @@
                 </div>
 
                 <div class="mt-2">
-                    <h2
-                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                         Ponto Colaboradores
                     </h2>
                 </div>
@@ -101,8 +100,7 @@
                                     </div>
 
                                     <div class="truncate">
-                                        <span
-                                            class="py-1 px-2 rounded text-white"
+                                        <span class="py-1 px-2 rounded text-white"
                                             [class.bg-green-600]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Conferido'"
                                             [class.bg-black]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Período Sem Nenhum Registro'"
                                             [class.bg-red-600]="data.pontosPeriodoUsuario[0]?.pontoPeriodoUsuarioStatus.descricao === 'Inconsistente'"
@@ -112,15 +110,10 @@
                                     </div>
 
                                     <div>
-                                        <button
-                                            class="min-w-10 min-h-7 h-7 px-2"
-                                            color="primary"
-                                            mat-stroked-button
-                                            [matTooltip]="'Horários'"
-                                            matTooltipPosition="above"
-                                            [routerLink]="'/ponto/ponto-horarios/' + data.pontosPeriodoUsuario[0].codPontoPeriodo + '/' + data.codUsuario">
-                                            <mat-icon
-                                                class="icon-size-5"
+                                        <button class="min-w-10 min-h-7 h-7 px-2" color="primary" mat-stroked-button
+                                            [matTooltip]="'Horários'" matTooltipPosition="above"
+                                            [routerLink]="'/ponto/ponto-horarios/' + codPontoPeriodo + '/' + data.codUsuario">
+                                            <mat-icon class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:clock'"></mat-icon>
                                         </button>
                                     </div>
@@ -130,7 +123,8 @@
                     </div>
 
                     <div *ngIf="!dataSourceData?.items.length && !isLoading"
-                        class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum Registro Encontrado</div>
+                        class="p-8 sm:p-16 border-t text-2xl font-semibold tracking-tight text-center">Nenhum Registro
+                        Encontrado</div>
 
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"

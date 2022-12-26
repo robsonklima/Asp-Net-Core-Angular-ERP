@@ -78,12 +78,8 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
   async obterDados() {
     this.isLoading = true;
 
-    this._pontoPeriodoSvc
-      .obterPorCodigo(this.codPontoPeriodo)
-      .subscribe((pp: PontoPeriodo) => {
-        this.pontoPeriodo = pp;
-      });
-    
+    this.pontoPeriodo = await this._pontoPeriodoSvc.obterPorCodigo(this.codPontoPeriodo).toPromise();
+
     const data = await this._userSvc
       .obterPorParametros({
         pageSize: this.paginator?.pageSize,
@@ -91,7 +87,7 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
         sortActive: this.sort.active || 'nomeUsuario',
         sortDirection: this.sort.direction || 'asc',
         indAtivo: statusConst.ATIVO,
-        codPontoPeriodo: this.codPontoPeriodo,
+        codPontoPeriodo: this.pontoPeriodo.codPontoPeriodo,
         indPonto: 1,
         codFilial: this.userSession?.usuario?.codFilial,
         filter: this.filtro
@@ -101,6 +97,8 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();
+
+    console.log(this.dataSourceData);
   }
 
   paginar() {

@@ -97,9 +97,9 @@ export interface Instalacao {
     nfTransportadoraTradeIn?: string;
     dataNFTransportadoraTradeIn?: string;
     vlrRecolhimentoTradeIn?: string;
-    codUsuarioCad: number;
+    codUsuarioCad: string;
     dataHoraCad: string;
-    codUsuarioManut: number;
+    codUsuarioManut: string;
     dataHoraManut: string;
     fornecedorCompraTradeIn?: string;
     nfVendaTradeIn?: string;

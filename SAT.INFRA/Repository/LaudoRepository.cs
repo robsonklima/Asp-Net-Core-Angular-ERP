@@ -90,6 +90,7 @@ namespace SAT.INFRA.Repository
             {
                 laudos = laudos.Where(a =>
                     a.CodLaudo.ToString().Contains(parameters.Filter) ||
+                    a.CodOS.ToString().Contains(parameters.Filter) ||
                     a.Tecnico.Nome.Contains(parameters.Filter) ||
                     a.LaudoStatus.NomeStatus.Contains(parameters.Filter));
             }
@@ -119,6 +120,12 @@ namespace SAT.INFRA.Repository
             {
                 var usuarios = parameters.CodTecnicos.Split(',').Select(e => e.Trim());
                 laudos = laudos.Where(l => usuarios.Any(p => p == l.Tecnico.CodTecnico.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodLaudoStatus))
+            {
+                var laudoStatus = parameters.CodLaudoStatus.Split(',').Select(e => e.Trim());
+                laudos = laudos.Where(l => laudoStatus.Any(p => p == l.LaudoStatus.CodLaudoStatus.ToString()));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

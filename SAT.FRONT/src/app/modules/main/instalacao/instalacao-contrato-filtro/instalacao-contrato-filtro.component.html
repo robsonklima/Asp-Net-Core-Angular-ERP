@@ -17,7 +17,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
-                    <mat-select formControlName="CodClientes" multiple="true">
+                    <mat-select formControlName="codCliente" multiple="false">
 
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -25,20 +25,36 @@
                             </ngx-mat-select-search>
                         </mat-option>
 
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodTipoEquips, clientes,
-                            'codCliente')" [value]="0">
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente ">
+                            {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('contrato') }}</mat-label>
+                    <mat-select formControlName="codContratos" multiple="true">
+
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="contratoFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodContratos, contratos,
+                            'codContrato')" [value]="0">
                             TODAS
                         </mat-option>
 
-                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente ">
-                            {{ cliente.razaoSocial }}
+                        <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato ">
+                            {{ contrato.nroContrato }} - {{ contrato.nomeContrato }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo') }}</mat-label>
-                    <mat-select formControlName="CodTipoContratos" multiple="true">
+                    <mat-select formControlName="codTipoContratos" multiple="true">
 
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
@@ -68,9 +84,6 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-
-
             </div>
 
             <div class="mt-6 border-t"></div>

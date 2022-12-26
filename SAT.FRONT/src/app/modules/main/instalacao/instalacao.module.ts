@@ -38,6 +38,8 @@ import { InstalacaoContratoFiltroComponent } from './instalacao-contrato-filtro/
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instalacao-pleito-lista.component';
 import { InstalacaoPleitoFiltroComponent } from './instalacao-pleito-filtro/instalacao-pleito-filtro.component';
+import { InstalacaoLoteFiltroComponent } from './instalacao-lote-filtro/instalacao-lote-filtro.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -53,6 +55,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoContratoFiltroComponent,
     InstalacaoPleitoListaComponent,
     InstalacaoPleitoFiltroComponent,
+    InstalacaoLoteFiltroComponent,
   ],
   imports: [
     CommonModule,
@@ -82,7 +85,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     FuseHighlightModule,
     MatCheckboxModule,
     FiltroModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatChipsModule
   ]
 })
 export class InstalacaoModule { }

@@ -61,13 +61,15 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacaoPleitoInstal)
-                .AsNoTracking()
+                .AsNoTracking() 
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                instalacoes = instalacoes.Where(p =>
-                    p.CodInstalPleito.ToString().Contains(parameters.Filter)
+                instalacoes = instalacoes.Where(i =>
+                    i.CodInstalPleito.ToString().Contains(parameters.Filter) ||
+                    i.CodInstalTipoPleito .ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    i.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)                 
                 );
             }
 
@@ -84,7 +86,20 @@ namespace SAT.INFRA.Repository
             if (parameters.CodInstalTipoPleito.HasValue)
             {
                 instalacoes = instalacoes.Where(i => i.CodInstalTipoPleito == parameters.CodInstalTipoPleito);
-            }            
+            }       
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodContratos))
+            {
+                int[] cods = parameters.CodContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.CodContrato));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodInstalTipoPleitos))
+            {
+                int[] cods = parameters.CodInstalTipoPleitos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.InstalacaoTipoPleito.CodInstalTipoPleito));
+            }
+
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

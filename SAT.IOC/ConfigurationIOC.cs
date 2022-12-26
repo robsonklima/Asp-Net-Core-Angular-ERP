@@ -99,7 +99,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoLoteRepository>().As<IInstalacaoLoteRepository>();
         builder.RegisterType<InstalacaoRessalvaRepository>().As<IInstalacaoRessalvaRepository>();      
         builder.RegisterType<InstalacaoPleitoRepository>().As<IInstalacaoPleitoRepository>();
-        builder.RegisterType<InstalacaoTipoPleitoRepository>().As<InstalacaoTipoPleitoRepository>();
+        builder.RegisterType<InstalacaoTipoPleitoRepository>().As<IInstalacaoTipoPleitoRepository>();
         builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();                
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();
@@ -189,6 +189,13 @@ public class ConfigurationIOC
         builder.RegisterType<ItemSolucaoRepository>().As<IItemSolucaoRepository>();
         builder.RegisterType<TicketAnexoRepository>().As<ITicketAnexoRepository>();
         builder.RegisterType<DashboardLabRepository>().As<IDashboardLabRepository>();
+        builder.RegisterType<LaudoSituacaoRepository>().As<ILaudoSituacaoRepository>();
+        builder.RegisterType<LaudoStatusRepository>().As<ILaudoStatusRepository>();
+        builder.RegisterType<ProtocoloChamadoSTNRepository>().As<IProtocoloChamadoSTNRepository>();
+        builder.RegisterType<CausaImprodutividadeRepository>().As<ICausaImprodutividadeRepository>();
+        builder.RegisterType<ImprodutividadeRepository>().As<IImprodutividadeRepository>();
+        builder.RegisterType<CheckListPOSRepository>().As<ICheckListPOSRepository>();
+        builder.RegisterType<CheckListPOSItensRepository>().As<ICheckListPOSItensRepository>();
         
         #endregion
 
@@ -368,6 +375,13 @@ public class ConfigurationIOC
         builder.RegisterType<ItemSolucaoService>().As<IItemSolucaoService>();
         builder.RegisterType<TicketAnexoService>().As<ITicketAnexoService>();
         builder.RegisterType<DashboardLabService>().As<IDashboardLabService>();
+        builder.RegisterType<LaudoSituacaoService>().As<ILaudoSituacaoService>();
+        builder.RegisterType<LaudoStatusService>().As<ILaudoStatusService>();
+        builder.RegisterType<ProtocoloChamadoSTNService>().As<IProtocoloChamadoSTNService>();
+        builder.RegisterType<CausaImprodutividadeService>().As<ICausaImprodutividadeService>();
+        builder.RegisterType<ImprodutividadeService>().As<IImprodutividadeService>();
+        builder.RegisterType<CheckListPOSService>().As<ICheckListPOSService>();
+        builder.RegisterType<CheckListPOSItensService>().As<ICheckListPOSItensService>();
 
         #endregion
 

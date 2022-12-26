@@ -1,5 +1,4 @@
-<fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-2"
-    *ngFor="let r of rats; let i=index;">
+<fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-2" *ngFor="let r of rats; let i=index;">
     <div class="flex items-center justify-between mt-5">
         <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
 
@@ -140,7 +139,7 @@
                 <div class="col-span-1">{{ peca?.peca?.codMagnus }}</div>
                 <div class="col-span-4">{{ peca?.peca?.nomePeca | uppercase }}</div>
                 <div class="col-span-1 text-center"> {{ peca?.qtdePecas }} </div>
-                <div class="col-span-2 text-right"> {{ peca?.descStatus || "PEÇA PENDENTE" | uppercase }}</div>
+                <div class="col-span-2 text-right"> {{ peca?.descStatus }}</div>
             </div>
         </div>
     </div>

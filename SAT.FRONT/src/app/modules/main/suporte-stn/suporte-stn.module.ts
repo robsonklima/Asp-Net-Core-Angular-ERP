@@ -45,6 +45,14 @@ import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico
 import { SuporteStnLaudoFormComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form.component';
 import { SuporteStnLaudoListaComponent } from './suporte-stn-laudo/suporte-stn-laudo-lista/suporte-stn-laudo-lista.component';
 import { SuporteStnLaudoFiltroComponent } from './suporte-stn-laudo/suporte-stn-laudo-filtro/suporte-stn-laudo-filtro.component';
+import { SuporteStnLaudoFormFotoComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-foto/suporte-stn-laudo-form-foto.component';
+import { SuporteStnLaudoFormFotoDialogComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-foto/suporte-stn-laudo-form-foto-dialog/suporte-stn-laudo-form-foto-dialog.component';
+import { SuporteStnLaudoFormInformacoesComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-informacoes/suporte-stn-laudo-form-informacoes.component';
+import { SuporteStnLaudoFormAtendimentoComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form-atendimento/suporte-stn-laudo-form-atendimento.component';
+import { OrdemServicoStnFormInformacaoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-informacao/ordem-servico-stn-form-informacao.component';
+import { OrdemServicoStnFormHistoricoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico/ordem-servico-stn-form-historico.component';
+import { OrdemServicoStnFormAtendimentoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-atendimento/ordem-servico-stn-form-atendimento.component';
+import { OrdemServicoHistoricoComponent } from '../ordem-servico/ordem-servico-historico/ordem-servico-historico.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -60,7 +68,15 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     OrdemServicoStnHistoricoComponent,
     SuporteStnLaudoFormComponent,
     SuporteStnLaudoListaComponent,
-    SuporteStnLaudoFiltroComponent
+    SuporteStnLaudoFiltroComponent,
+    SuporteStnLaudoFormFotoComponent,
+    SuporteStnLaudoFormFotoDialogComponent,
+    SuporteStnLaudoFormInformacoesComponent,
+    SuporteStnLaudoFormAtendimentoComponent,
+    OrdemServicoStnFormInformacaoComponent,
+    OrdemServicoStnFormHistoricoComponent,
+    OrdemServicoStnFormAtendimentoComponent
+    // ,OrdemServicoHistoricoComponent
   ],
   imports: [
     CommonModule,

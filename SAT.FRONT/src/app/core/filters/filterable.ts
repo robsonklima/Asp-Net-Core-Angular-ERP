@@ -30,7 +30,6 @@ export class Filterable implements IFilterableCore {
 
     loadFilter(): void {
         this.filter = this._userService.obterFiltro(this.filterName);
-
         if (!this.filter) {
             var params: Parameters = {};
             this.filter =

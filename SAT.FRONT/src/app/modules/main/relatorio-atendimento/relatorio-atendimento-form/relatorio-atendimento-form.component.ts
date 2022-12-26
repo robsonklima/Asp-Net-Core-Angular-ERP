@@ -36,6 +36,13 @@ import { AcaoEnum } from 'app/core/types/acao.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { RoleEnum } from 'app/core/user/user.types';
 import { DespesaService } from 'app/core/services/despesa.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { CheckListPOSItensService } from 'app/core/services/checkListPOS-itens.service';
+import { CheckListPOS } from 'app/core/types/checkListPOS.types';
+import { CheckListPOSService } from 'app/core/services/checkListPOS.service';
+import { CheckListPOSItens } from 'app/core/types/checkListPOS-itens.types';
+import { isEmpty } from 'lodash';
+import _ from 'lodash';
 
 @Component({
 	selector: 'app-relatorio-atendimento-form',
@@ -48,6 +55,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
 
 	sidenav: MatSidenav;
+	itensPadroes: CheckListPOSItens[] = [];
+	itensCliente: CheckListPOSItens[] = [];
+	checkListPOS: CheckListPOS[] = [];
 	sessionData: UsuarioSessao;
 	codOS: number;
 	ordemServico: OrdemServico;
@@ -87,7 +97,9 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		private _matSnackBar: MatSnackBar,
 		private _router: Router,
 		private _dialog: MatDialog,
-		private _snack: CustomSnackbarService
+		private _snack: CustomSnackbarService,
+		private _checkListPOSItensService: CheckListPOSItensService,
+		private _checkListPOSService: CheckListPOSService,
 	) {
 		this.sessionData = JSON.parse(this._userService.userSession);
 	}
@@ -109,6 +121,17 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		return false;
 	}
 
+	public validarChecklistPOS() {
+		if (this.sessionData.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA ||
+			this.sessionData.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
+			this.sessionData.usuario.codPerfil === PerfilEnum.PLANTÃO_HELP_DESK) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	async ngOnInit() {
 		this.loading = true;
 
@@ -122,6 +145,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		await this.obterRelatorioAtendimento();
 		await this.obterStatusServicos();
 		await this.obterTecnicos(this.relatorioAtendimento?.tecnico?.nome);
+		await this.obterCheckListPOS();
 		this.registrarEmitters();
 
 		this.loading = false;
@@ -207,7 +231,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			this.form.patchValue(this.relatorioAtendimento);
 
 			if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2) {
-				if (this.ordemServico?.codCliente == 1 && (this.sessionData?.usuario?.codPerfil == 29 || this.sessionData?.usuario?.codPerfil == 3)) 
+				if (this.ordemServico?.codCliente == 1 && (this.sessionData?.usuario?.codPerfil == 29 || this.sessionData?.usuario?.codPerfil == 3))
 					return;
 
 				this.form.disable();
@@ -704,6 +728,41 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			return true;
 
 		return false;
+	}
+
+	async obterCheckListPOS() {
+		this.checkListPOS = (await this._checkListPOSService
+			.obterPorParametros({codRAT:this.codRAT})
+			.toPromise()).items;
+
+		this.itensPadroes = (await this._checkListPOSItensService
+			.obterPorParametros({ indPadrao: 1 })
+			.toPromise()).items;
+
+		this.itensCliente = (await this._checkListPOSItensService
+			.obterPorParametros({ codCliente: this.ordemServico.codCliente })
+			.toPromise()).items;
+	}
+
+	verificarSelecionado(codCheckListPOSItens: number): boolean {
+		return _.find(this.checkListPOS, { codCheckListPOSItens: codCheckListPOSItens }) != null;
+	}
+
+	async onChange($event: MatSlideToggleChange, codigo: number) {
+		if ($event.checked) {
+			this._checkListPOSService.criar({
+				codOS: this.ordemServico.codOS,
+				codRAT: this.codRAT,
+				codCheckListPOSItens: codigo
+			}).subscribe();
+		} else {
+			const itemChecklist = (await this._checkListPOSService.obterPorParametros({
+				codRAT: this.codRAT,
+				codCheckListPOSItens: codigo
+			}).toPromise()).items.shift();
+
+			this._checkListPOSService.deletar(itemChecklist.codCheckListPOS).subscribe();
+		}
 	}
 
 	ngOnDestroy() {

@@ -5,26 +5,45 @@ using SAT.MODELS.Entities.Params;
 using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
     public partial class InstalacaoLoteRepository : IInstalacaoLoteRepository
     {
         private readonly AppDbContext _context;
+        private readonly ISequenciaRepository _sequenciaRepository;
 
-        public InstalacaoLoteRepository(AppDbContext context)
+        public InstalacaoLoteRepository(AppDbContext context, ISequenciaRepository sequenciaRepository)
         {
             _context = context;
+            this._sequenciaRepository = sequenciaRepository;
         }
 
         public void Atualizar(InstalacaoLote instalacaoLote)
         {
-            throw new System.NotImplementedException();
-        }
+            try
+            {
+                _context.ChangeTracker.Clear();
+                InstalacaoLote ir = _context.InstalacaoLote.FirstOrDefault(i => i.CodInstalLote == instalacaoLote.CodInstalLote);
 
+                if (ir != null)
+                {
+                    _context.Entry(ir).CurrentValues.SetValues(instalacaoLote);
+                    _context.Entry(ir).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public void Criar(InstalacaoLote instalacaoLote)
         {
-            throw new System.NotImplementedException();
+            instalacaoLote.CodInstalLote = this._sequenciaRepository.ObterContador("InstalLote");
+            _context.Add(instalacaoLote);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codigo)
@@ -47,7 +66,8 @@ namespace SAT.INFRA.Repository
                 query = query.Where(p =>
                     p.CodInstalLote.ToString().Contains(parameters.Filter) ||
                     p.NomeLote.Contains(parameters.Filter) ||
-                    p.DescLote.Contains(parameters.Filter)
+                    p.DescLote.Contains(parameters.Filter) ||
+                    p.DataRecLote.ToString().Contains(parameters.Filter)
                 );
             }
 

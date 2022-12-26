@@ -7,6 +7,7 @@ namespace SAT.MODELS.Entities.Params
         public int? CodCausa { get; set; }
         public int? IndAtivo { get; set; }
         public int? ApenasModulos { get; set; }
+        public string CodECausa { get; set; }
         
     }
 }

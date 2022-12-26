@@ -70,7 +70,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-8"
                         [class.text-green-500]="validarCorKMParticular(auditoria)"
                         [class.text-red-500]="!validarCorKMParticular(auditoria)">
-                        <input matInput formControlName="kmParticularMes" readonly=“true”
+                        <input matInput formControlName="kmParticularMes" mask="separator.2" readonly=“true”
                             [(ngModel)]="auditoria.kmParticularMes">
                     </mat-form-field>
                 </div>
@@ -144,7 +144,7 @@
                         [class.text-green-500]="validarcorUsoParticular(auditoria)"
                         [class.text-red-500]="!validarcorUsoParticular(auditoria)">
                         <input matInput formControlName="usoParticular" [(ngModel)]="auditoria.usoParticular"
-                            readonly=“true”>
+                            readonly=“true” >
                     </mat-form-field>
                 </div>
 

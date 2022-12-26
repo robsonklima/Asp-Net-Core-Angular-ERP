@@ -29,10 +29,10 @@ namespace SAT.API.Controllers
             return _instalLoteService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{CodInstalacaoLote}")]
-        public InstalacaoLote Get(int codInstalacaoLote)
+        [HttpGet("{CodInstalLote}")]
+        public InstalacaoLote Get(int codInstalLote)
         {
-            return _instalLoteService.ObterPorCodigo(codInstalacaoLote);
+            return _instalLoteService.ObterPorCodigo(codInstalLote);
         }
 
         [HttpPost]
@@ -47,10 +47,10 @@ namespace SAT.API.Controllers
             _instalLoteService.Atualizar(instalLote);
         }
 
-        [HttpDelete("{CodInstalacaoLote}")]
-        public void Delete(int codInstalacaoLote)
+        [HttpDelete("{CodInstalLote}")]
+        public void Delete(int codInstalLote)
         {
-            _instalLoteService.Deletar(codInstalacaoLote);
+            _instalLoteService.Deletar(codInstalLote);
         }
     }
 }

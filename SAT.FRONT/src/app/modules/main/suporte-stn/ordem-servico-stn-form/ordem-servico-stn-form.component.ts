@@ -6,7 +6,6 @@ import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.serv
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { OrdemServicoSTN } from 'app/core/types/ordem-servico-stn.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
-import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -20,8 +19,6 @@ import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.se
 import { ProtocoloSTN } from 'app/core/types/protocolo-stn.types';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
-import { debounce } from 'lodash';
-import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
 import { statusConst } from 'app/core/types/status-types';
 @Component({
   selector: 'app-ordem-servico-stn-form',
@@ -31,8 +28,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   codAtendimento: number;
   statusServicosSTN: StatusServicoSTN[] = [];
   os: OrdemServico;
-  rat: RelatorioAtendimento;
-  atendimentos: OrdemServicoSTN[] = [];
+  atendimentos: OrdemServicoSTN;
   ultimoAtendimento: OrdemServicoSTN;
   ordemServicoSTN: OrdemServicoSTN;
   ordemServicoSTNOrigens: OrdemServicoSTNOrigem[] = [];
@@ -52,7 +48,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoService: OrdemServicoService,
     private _statusServicoSTNService: StatusServicoSTNService,
     private _ordemServicoSTNOrigemService: OrdemServicoSTNOrigemService,
-    private _relatorioAtendimentoService: RelatorioAtendimentoService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
     private _dialog: MatDialog,
@@ -64,9 +59,10 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
     this.isAddMode = !this.codAtendimento;
+    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.inicializarForm();
     this.registrarEmitters();  
-    this.obterDados(6953280);
+    this.obterDados(this.atendimentos.codOS);
     
     if (!this.isAddMode) {
       this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento)
@@ -92,13 +88,8 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {    
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-    this.rat = (await this.obterRelatoriosAtendimento()).items.shift();
-    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ 
-      codOS: this.os.codOS,
-      sortActive: 'codAtendimento',
-      sortDirection: 'desc'
-    }).toPromise()).items;
-    this.ultimoAtendimento = this.atendimentos.shift();   
+
+    this.ultimoAtendimento = this.atendimentos;   
     this.obterOrdemServicoSTNOrigem();
     this.obterStatusServicosSTN();
     this.isLoading = false;
@@ -133,10 +124,6 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
     this.statusServicosSTN = data.items;    
   }  
-
-  private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {
-    return await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise();
-  }
 
   abrirHistorico() {
     const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {

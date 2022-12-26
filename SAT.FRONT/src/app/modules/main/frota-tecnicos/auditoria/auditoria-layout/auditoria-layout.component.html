@@ -36,11 +36,11 @@
 							<button *ngIf="auditoria?.codAuditoriaStatus == 2" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('finalizar')" matTooltipPosition="above" (click)="finalizar()">
 								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:badge-check'"></mat-icon>
 							</button>
-							<button class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
+							<button *ngIf="validarPermissao()" class="fuse-mat-button-rounded text-red-500 bg-white" mat-flat-button [matTooltip]="t('excluir')" matTooltipPosition="above" (click)="excluir()">
 								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
 							</button>
 							<button *ngIf="auditoria?.codAuditoriaStatus == 3" class="fuse-mat-button-rounded text-silver-500 bg-white" mat-flat-button [matTooltip]="t('reabrir')" matTooltipPosition="above" (click)="reabrir()">
-								<mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:lock-open'"></mat-icon>
+								<mat-icon *ngIf="validarPermissao()" class="icon-size-6" [svgIcon]="'heroicons_outline:lock-open'"></mat-icon>
 							</button>
                         </div>
                     </div>

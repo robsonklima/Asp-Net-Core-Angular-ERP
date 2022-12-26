@@ -34,22 +34,22 @@
                                 </div>
                                 <div>
                                     {{ t('nome') }}
-                                </div>                                
+                                </div>
                                 <div>
                                     {{ t('descricao') }}
                                 </div>
                                 <div>
                                     {{ t('contrato') }}
-                                </div>   
+                                </div>
                                 <div>
                                     {{ t('tipo') }}
-                                </div>          
+                                </div>
                                 <div>
                                     {{ t('dt envio') }}
-                                </div>   
+                                </div>
                                 <div>
                                     {{ t('qtd') }}
-                                </div>                                                                                                                          
+                                </div>
                             </div>
 
                             <ng-container>
@@ -64,19 +64,19 @@
                                         </div>
                                         <div class="truncate">
                                             {{ data.descPleito | titlecase }}
-                                        </div>                                        
+                                        </div>
                                         <div class="truncate">
                                             {{ data.contrato.nomeContrato | titlecase }}
-                                        </div>         
+                                        </div>
                                         <div class="truncate">
                                             {{ data.instalacaoTipoPleito.nomeTipoPleito | titlecase }}
-                                        </div>   
+                                        </div>
                                         <div>
                                             {{ data.dataEnvio | date:'dd/MM/yyyy' }}
-                                        </div>    
+                                        </div>
                                         <div>
                                             {{ data.instalacaoPleitoInstal.length }}
-                                        </div>                                                                                                         
+                                        </div>
                                     </div>
                                 </ng-container>
                             </ng-container>
@@ -84,7 +84,7 @@
 
                         <mat-paginator [hidden]="!dataSourceData?.items?.length"
                             class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                            [ngClass]="{'pointer-events-none': isLoading}" 
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
                             [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
                             (page)="paginar()">
                         </mat-paginator>

@@ -18,7 +18,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './ordem-servico-stn-lista.component.html',
   styles: [`
     .list-grid-os-stn-lista {
-      grid-template-columns: 72px 96px 64px 98px 186px 72px 128px 148px auto 64px 64px 64px 176px 64px;
+      grid-template-columns: 72px 96px 64px 98px 230px 72px 128px auto auto 64px 64px 64px 176px;
     }  
   `],
   encapsulation: ViewEncapsulation.None,

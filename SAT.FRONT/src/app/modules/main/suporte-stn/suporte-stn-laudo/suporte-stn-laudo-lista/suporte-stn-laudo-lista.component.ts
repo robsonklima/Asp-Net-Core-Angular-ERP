@@ -48,25 +48,26 @@ export class SuporteStnLaudoListaComponent extends Filterable implements AfterVi
     this.obterDados();
     this.registerEmitters();
 
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => { return event.target.value })
-      , debounceTime(1000)
-      , distinctUntilChanged()
-    ).subscribe((query: string) => {
-      this.paginator.pageIndex = 0;
-      this.obterDados(query);
-    });
+    fromEvent(this.searchInputControl?.nativeElement , 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(700)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+			this.paginator.pageIndex = 0;
+			this.searchInputControl.nativeElement.val = text;
+			this.obterDados(text);
+		});
 
-    if (this.sort && this.paginator) {
-      this.sort.disableClear = true;
-      this._cdr.markForCheck();
+		this.sort.disableClear = true;
+		this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() => {
-        this.paginator.pageIndex = 0;
-        this.obterDados();
-      });
-    }
-
+		this.sort.sortChange.subscribe(() => {
+			this.paginator.pageIndex = 0;
+			this.obterDados();
+		});
+  
     this._cdr.detectChanges();
   }
 
@@ -85,7 +86,10 @@ export class SuporteStnLaudoListaComponent extends Filterable implements AfterVi
     }
 
     this._laudoService
-      .obterPorParametros(params)
+      .obterPorParametros({
+				...params,
+				...this.filter?.parametros
+			})
       .subscribe((data) => {
         this.dataSourceData = data;
         this.isLoading = false;

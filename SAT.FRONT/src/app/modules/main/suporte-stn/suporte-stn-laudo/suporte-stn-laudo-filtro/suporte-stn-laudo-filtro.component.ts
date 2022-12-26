@@ -4,9 +4,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { LaudoStatusService } from 'app/core/services/laudo-status.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
+import { LaudoStatus, LaudoStatusParameters } from 'app/core/types/laudo-status.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 
@@ -18,12 +20,14 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	@Input() sidenav: MatSidenav;
 	clientes: Cliente[] = [];
 	equips: Equipamento[] = [];
+	status: LaudoStatus[] = [];
 
 	constructor(
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder,
 		private _clienteService: ClienteService,
 		private _equipamentoService: EquipamentoService,
+		private _laudoStatusService: LaudoStatusService,
 	) {
 		super(_userService, _formBuilder, 'suporte-stn');
 	}
@@ -36,12 +40,14 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	loadData(): void {
 		this.obterClientes();
 		this.obterEquipamentos();
+		this.obterLaudoStatus();
 	}
 
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			CodClientes: [undefined],
 			CodEquips: [undefined],
+			CodLaudoStatus: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -72,6 +78,17 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 
 		const data = await this._equipamentoService.obterPorParametros(params).toPromise();
 		this.equips = data.items;
+	}
+
+	async obterLaudoStatus(filtro: string = ''){
+		let params: LaudoStatusParameters = {
+			filter: filtro,
+			sortActive: 'nomeStatus',
+			sortDirection: 'asc',
+		};
+
+		const data = await this._laudoStatusService.obterPorParametros(params).toPromise();
+		this.status = data.items;
 	}
 
 }

@@ -14,43 +14,43 @@ namespace SAT.API.Controllers
     [ApiController]
     public class InstalacaoRessalvaController : ControllerBase
     {
-        private readonly IInstalacaoRessalvaService _instalacaoLoteService;
+        private readonly IInstalacaoRessalvaService _instalacaoRessalvaService;
 
         public InstalacaoRessalvaController(
-            IInstalacaoRessalvaService instalacaoLoteService
+            IInstalacaoRessalvaService instalacaoRessalvaService
         )
         {
-            _instalacaoLoteService = instalacaoLoteService;
+            _instalacaoRessalvaService = instalacaoRessalvaService;
         }
 
         [HttpGet]
         public ListViewModel Get([FromQuery] InstalacaoRessalvaParameters parameters)
         {
-            return _instalacaoLoteService.ObterPorParametros(parameters);
+            return _instalacaoRessalvaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{CodInstalRessalva}")]
         public InstalacaoRessalva Get(int codInstalRessalva)
         {
-            return _instalacaoLoteService.ObterPorCodigo(codInstalRessalva);
+            return _instalacaoRessalvaService.ObterPorCodigo(codInstalRessalva);
         }
 
         [HttpPost]
-        public InstalacaoRessalva Post([FromBody] InstalacaoRessalva instalacaoLote)
+        public InstalacaoRessalva Post([FromBody] InstalacaoRessalva instalacaoRessalva)
         {
-            return _instalacaoLoteService.Criar(instalacaoLote);
+            return _instalacaoRessalvaService.Criar(instalacaoRessalva);
         }
 
         [HttpPut]
-        public void Put([FromBody] InstalacaoRessalva instalacaoLote)
+        public void Put([FromBody] InstalacaoRessalva instalacaoRessalva)
         {
-            _instalacaoLoteService.Atualizar(instalacaoLote);
+            _instalacaoRessalvaService.Atualizar(instalacaoRessalva);
         }
 
         [HttpDelete("{CodInstalRessalva}")]
         public void Delete(int codInstalRessalva)
         {
-            _instalacaoLoteService.Deletar(codInstalRessalva);
+            _instalacaoRessalvaService.Deletar(codInstalRessalva);
         }
     }
 }

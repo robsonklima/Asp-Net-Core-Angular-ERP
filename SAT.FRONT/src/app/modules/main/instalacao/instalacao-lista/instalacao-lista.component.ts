@@ -2,32 +2,41 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, Vie
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FilialService } from 'app/core/services/filial.service';
+import { ImportacaoService } from 'app/core/services/importacao.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { Contrato } from 'app/core/types/contrato.types';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { Filial } from 'app/core/types/filial.types';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { ImportacaoLinha } from 'app/core/types/importacao.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { forEach } from 'lodash';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
-
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
@@ -35,24 +44,30 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 72px auto 64px 240px 240px 72px 72px 72px;
+          grid-template-columns: 36px 36px 160px 64px 64px 180px 36px 120px 64px 120px 120px 72px 72px 72px;
       }
     `
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class InstalacaoListaComponent implements AfterViewInit {
+export class InstalacaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   codContrato: number;
   contrato: Contrato;
   codInstalLote: number;
+  confirma: boolean;
   instalacaoLote: InstalacaoLote;
   instalacaoSelecionada: Instalacao;
+  instalacao: Instalacao;
+  importacaoLinhas: ImportacaoLinha[] = [];
   transportadoras: Transportadora[] = [];
   filiais: Filial[] = [];
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  ordemServico: OrdemServico;
   dataSourceData: InstalacaoData;
   isLoading: boolean = false;
   userSession: UserSession;
@@ -69,11 +84,16 @@ export class InstalacaoListaComponent implements AfterViewInit {
     private _filialSvc: FilialService,
     private _contratoSvc: ContratoService,
     private _instalacaoLoteSvc: InstalacaoLoteService,
+    private _exportacaoService: ExportacaoService,
+    private _equipamentoContratoService: EquipamentoContratoService,
+    private _ordemServicoService: OrdemServicoService,
     private _snack: CustomSnackbarService,
     private _userSvc: UserService,
     private _dialog: MatDialog,
-    private _exportacaoService: ExportacaoService,
+    private _router: Router,
+    protected _userService: UserService,
   ) {
+    super(_userService, 'instalacao')
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
@@ -86,8 +106,21 @@ export class InstalacaoListaComponent implements AfterViewInit {
     this.obterFiliais();
     this.obterContrato();
     this.obterLote();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
+      fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+        map((event: any) => {
+          return event.target.value;
+        })
+        , debounceTime(700)
+        , distinctUntilChanged()
+      ).subscribe((text: string) => {
+        this.paginator.pageIndex = 0;
+        this.searchInputControl.nativeElement.val = text;
+        this.obterInstalacoes(text);
+      });
+
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
@@ -96,6 +129,8 @@ export class InstalacaoListaComponent implements AfterViewInit {
         this.obterInstalacoes();
       });
     }
+
+    this._cdr.detectChanges();
 
     this.form = this._formBuilder.group({
       codInstalacao: [''],
@@ -155,54 +190,46 @@ export class InstalacaoListaComponent implements AfterViewInit {
       indEquipRebaixadoBI: [''],
       ressalvaInsR: [{ value: '', disabled: true }]
     })
-
-    fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) => {
-        return event.target.value;
-      })
-      , debounceTime(700)
-      , distinctUntilChanged()
-    ).subscribe((text: string) => {
-      this.paginator.pageIndex = 0;
-      this.searchInputControl.nativeElement.val = text;
-      this.obterInstalacoes();
-    });
-
-    this.transportadorasFiltro.valueChanges
-      .pipe(
-        tap(() => { }),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          this.obterTransportadoras(query);
-        }),
-        delay(100),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe();
-
-    this._cdr.detectChanges();
   }
 
-  private async obterInstalacoes() {
+  registerEmitters(): void {
+    this.sidenav.closedStart.subscribe(() => {
+      this.onSidenavClosed();
+      this.obterInstalacoes();
+    })
+  }
+
+  loadFilter(): void {
+    super.loadFilter();
+  }
+
+  onSidenavClosed(): void {
+    if (this.paginator) this.paginator.pageIndex = 0;
+    this.loadFilter();
+    this.obterInstalacoes();
+  }
+
+  private async obterInstalacoes(filtro: string = '') {
     this.isLoading = true;
 
-    const params: InstalacaoParameters = {
+    const parametros: InstalacaoParameters = {
       codContrato: this.codContrato || undefined,
       codInstalLote: this.codInstalLote || undefined,
       pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val,
+      //filter: this.searchInputControl.nativeElement.val,
+      filter: filtro,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
       sortDirection: this.sort.direction || 'desc'
     };
 
-    const data: InstalacaoData = await this._instalacaoSvc
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.isLoading = false;
+    const data: InstalacaoData = await this._instalacaoSvc.obterPorParametros({
+      ...parametros,
+      ...this.filter?.parametros
+    }).toPromise();
     this.dataSourceData = data;
+    this.isLoading = false;
+    this._cdr.detectChanges();
   }
 
   public async exportar() {
@@ -474,6 +501,91 @@ export class InstalacaoListaComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(confirmacao => {
       if (confirmacao) this.obterInstalacoes();
+    });
+  }
+
+  async confirmarAberturaChamados() {
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);
+
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Você deseja abrir chamados para as linhas selecionadas?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        this.abrirChamados(itens);
+      }
+    });
+  }
+
+  async abrirChamados(itens) {
+    try {
+      for (let index = 0; index < itens.length; index++) {
+        const equip = await this._equipamentoContratoService.obterPorCodigo(+itens[index].codEquipContrato).toPromise();
+
+        let obj: OrdemServico = {
+          ...this.ordemServico,
+          ...{
+            codStatusServico: 1,
+            codTipoIntervencao: 4,
+            indStatusEnvioReincidencia: -1,
+            indRevisaoReincidencia: 1,
+            indRevOK: null,
+            dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
+            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+            dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
+            codCliente: equip.codCliente,
+            codFilial: equip.codFilial,
+            codAutorizada: equip.codAutorizada,
+            codRegiao: equip.codRegiao,
+            codPosto: equip.codPosto,
+            codEquip: equip.codEquip,
+            codTipoEquip: equip.codTipoEquip,
+            codGrupoEquip: equip.codGrupoEquip,
+            codEquipContrato: equip.codEquipContrato,
+            codUsuarioCad: this.userSession.usuario?.codUsuario,
+          }
+        };
+
+        Object.keys(obj).forEach((key) => {
+          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        });
+
+        this._ordemServicoService.criar(obj).subscribe((os) => {
+          this.atualizarInstalacao(+itens[index].codInstalacao, os.codOS);
+        });
+      }
+      this._snack.exibirToast("Chamados abertos com sucesso!");
+      this._router.navigate(['instalacao/lote/lista/' + this.codContrato + '/' + this.codInstalLote ]);
+    } catch (error) {
+      this._snack.exibirToast("Erro ao abrir chamados!");
+    }
+  }
+
+  async atualizarInstalacao(codInstalacao, codOS) {
+    this.instalacao = await this._instalacaoSvc.obterPorCodigo(codInstalacao).toPromise();
+
+    let obj = {
+      ...this.instalacao,
+      ...{
+        codOS: codOS,
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario?.codUsuario
+      }
+    };
+
+    Object.keys(obj).forEach((key) => {
+      typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+    });
+
+    this._instalacaoSvc.atualizar(obj).subscribe(() => {
     });
   }
 

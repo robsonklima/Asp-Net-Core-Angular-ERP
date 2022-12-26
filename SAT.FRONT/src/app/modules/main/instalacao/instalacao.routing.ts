@@ -18,23 +18,23 @@ export const instalacaoRoutes: Route[] = [
         component: InstalacaoContratoListaComponent
     },
     {
-        path: 'pleito',
-        component: InstalacaoPleitoListaComponent
-    },
-    {
-        path: 'lote-form/:codContrato',
-        component: InstalacaoLoteFormComponent
+        path: 'lista/:codContrato',
+        component: InstalacaoListaComponent
     },
     {
         path: 'lote/:codContrato',
         component: InstalacaoLoteListaComponent
     },
     {
-        path: ':codContrato',
-        component: InstalacaoListaComponent
+        path: 'lote/form/:codContrato',
+        component: InstalacaoLoteFormComponent
     },
     {
-        path: ':codContrato/:codInstalLote',
+        path: 'pleito',
+        component: InstalacaoPleitoListaComponent
+    },
+    {
+        path: 'lote/lista/:codContrato/:codInstalLote',
         component: InstalacaoListaComponent
     },
     {

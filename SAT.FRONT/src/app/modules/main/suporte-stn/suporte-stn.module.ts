@@ -51,6 +51,7 @@ import { SuporteStnLaudoFormAtendimentoComponent } from './suporte-stn-laudo/sup
 import { OrdemServicoStnFormInformacaoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-informacao/ordem-servico-stn-form-informacao.component';
 import { OrdemServicoStnFormHistoricoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico/ordem-servico-stn-form-historico.component';
 import { OrdemServicoStnFormAtendimentoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-atendimento/ordem-servico-stn-form-atendimento.component';
+import { OrdemServicoStnFormHistoricoOsComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico-os/ordem-servico-stn-form-historico-os.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -72,8 +73,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     SuporteStnLaudoFormAtendimentoComponent,
     OrdemServicoStnFormInformacaoComponent,
     OrdemServicoStnFormHistoricoComponent,
-    OrdemServicoStnFormAtendimentoComponent
-    // ,OrdemServicoHistoricoComponent
+    OrdemServicoStnFormAtendimentoComponent,
+    OrdemServicoStnFormHistoricoOsComponent
   ],
   imports: [
     CommonModule,

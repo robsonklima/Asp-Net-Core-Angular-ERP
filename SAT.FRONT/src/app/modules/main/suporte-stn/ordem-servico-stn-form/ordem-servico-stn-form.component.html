@@ -73,12 +73,12 @@
                         <app-ordem-servico-stn-form-historico [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-historico>
                     </ng-template>
                 </mat-tab>
-<!-- 
+
                 <mat-tab [label]="t('oss do equipamento')">
-                    <ng-template matTabLabel>
-                        <app-ordem-servico-historico [codOS] = "os?.codOS" [codEquipContrato] = "os?.codEquipContrato"></app-ordem-servico-historico>
+                    <ng-template matTabContent>
+                        <app-ordem-servico-stn-form-historico-os [codOS] = "os?.codOS" [codEquipContrato] = "os?.codEquipContrato"></app-ordem-servico-stn-form-historico-os>
                     </ng-template>
-                </mat-tab> -->
+                </mat-tab>
                 
             </mat-tab-group>
         </div>

@@ -6,7 +6,7 @@
             {{ mensagem?.conteudo }}, {{ mensagem?.usuarioRemetente?.nomeUsuario }}
         </div>
 
-        <form class="flex flex-col overflow-hidden min-h-60" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col overflow-hidden min-h-60" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto pb-2 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-12">
                     <mat-label>{{ t('destinatario') }}</mat-label>

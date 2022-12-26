@@ -5,7 +5,7 @@
 
     <div class="flex flex-col flex-auto items-center justify-center">
         <div class="flex-auto w-full">
-            <form [formGroup]="form">
+            <form autocomplete="off" [formGroup]="form">
                 <mat-form-field class='min-w-full'>
                     <mat-label>E-mails</mat-label>
                     <mat-chip-list class='m-1 p-1' #emailList aria-label="E-mails">

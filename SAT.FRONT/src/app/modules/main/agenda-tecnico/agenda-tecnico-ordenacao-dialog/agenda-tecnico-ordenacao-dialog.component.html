@@ -7,7 +7,7 @@
         {{ "Por favor, escolha o método para ordenar os atendimentos do técnico " + tecnico?.nome + ":"}}
     </div>
     <div>
-        <form [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" [formGroup]="form" *transloco="let t">
             <div class="flex-auto w-full mt-5">
                 <mat-form-field class="fuse-mat-dense flex-auto w-full">
                     <mat-select formControlName="codOrdenacao">

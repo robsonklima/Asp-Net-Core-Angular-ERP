@@ -15,7 +15,7 @@
                 {{ "Escolha o atendimento do técnico " + (tecnico?.nome | uppercase) + " a ser realocado para " + (initialTime | date:'dd/MM/yy') + " às " + (initialTime | date:'HH:mm') + ":" }}
             </div>
 
-            <form [formGroup]="form" *transloco="let t">
+            <form autocomplete="off" [formGroup]="form" *transloco="let t">
                 <div class="flex-auto w-full mt-5">
                     <mat-form-field class="fuse-mat-dense flex-auto w-full">
                         <mat-select formControlName="codAgendaTecnico">

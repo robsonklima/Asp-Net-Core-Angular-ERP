@@ -11,7 +11,7 @@
     </div>
 
     <div class="flex flex-col flex-auto py-6 pl-5 z-10" *transloco="let t">
-        <form [formGroup]="formRessalva">
+        <form autocomplete="off" [formGroup]="formRessalva">
             <div class="flex flex-auto">
                 <mat-form-field class="fuse-mat-dense w-48 pr-2">
                     <mat-label>{{ t('motivo') }}</mat-label>

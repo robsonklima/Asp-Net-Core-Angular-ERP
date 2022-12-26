@@ -10,7 +10,7 @@
             <div>
                 <div class="overflow-hidden sm:overflow-y-auto">
                     <ng-container>
-                        <form [formGroup]="form">
+                        <form autocomplete="off" [formGroup]="form">
                             <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto px-6 pb-8 bg-card shadow rounded overflow-hidden">
                                 <mat-form-field class="fuse-mat-dense w-5/12">
                                     <mat-label>{{ t('numero pedido') }}</mat-label>

@@ -14,7 +14,7 @@
                 Aprovação de Orçamentos
             </div>
 
-            <form class="mt-8" [formGroup]="form">
+            <form autocomplete="off" class="mt-8" [formGroup]="form">
                 <div class="w-full mb-8">
                     <mat-slide-toggle formControlName="isAprovado">{{ this.form.get('isAprovado').value ? 'Aprovado' : 'Reprovado' }}</mat-slide-toggle>
                 </div>

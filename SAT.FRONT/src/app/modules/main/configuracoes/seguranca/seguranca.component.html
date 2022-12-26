@@ -4,7 +4,7 @@
 
         <!-- Form -->
         <!-- SENHA -->
-        <form [formGroup]="formSenhaAtual">
+        <form autocomplete="off" [formGroup]="formSenhaAtual">
             <!-- Section -->
             <div class="w-full mt-4">
                 <div class="text-xl">{{ t('altere sua senha') }}</div>
@@ -25,7 +25,7 @@
             </div>
         </form>
 
-        <form [formGroup]="formNovaSenha">
+        <form autocomplete="off" [formGroup]="formNovaSenha">
             <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
                 <!-- Nova Senha -->
                 <div class="sm:col-span-4">

@@ -1,4 +1,4 @@
-<form class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
+<form autocomplete="off" class="p-1 bg-card rounded" [formGroup]="form" *transloco="let t">
     <mat-horizontal-stepper [linear]="true" #horizontalStepper>
         <mat-step [formGroupName]="'step1'" [stepControl]="form.get('step1')" #horizontalStepperStep1>
             <ng-template matStepLabel>Tipo de despesa</ng-template>

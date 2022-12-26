@@ -51,7 +51,7 @@
             <mat-tab [label]="t('check list')">
                 <ng-template matTabContent>
                     <div class="max-w-3xl">
-                        <form class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="formCheckList">
+                        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="formCheckList">
                             <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                                 <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
                             </div>

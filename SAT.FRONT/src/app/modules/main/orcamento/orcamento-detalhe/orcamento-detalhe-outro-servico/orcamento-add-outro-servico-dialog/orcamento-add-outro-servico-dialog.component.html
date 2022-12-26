@@ -6,7 +6,7 @@
         </div>
     </div>
     <div *transloco="let t">
-        <form [formGroup]="form" name="form">
+        <form autocomplete="off" [formGroup]="form" name="form">
             <div class="grid grid-cols-1">
                 <mat-form-field>
                     <mat-label>{{ t('tipo') }}</mat-label>

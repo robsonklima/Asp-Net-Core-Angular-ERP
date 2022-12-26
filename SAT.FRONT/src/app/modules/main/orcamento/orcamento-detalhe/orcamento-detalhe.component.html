@@ -96,7 +96,7 @@
                         <mat-tab label="Detalhes">
                             <ng-template matTabContent>
                                 <div class="max-w-4xl shadow rounded-2xl overflow-hidden">
-                                    <form [formGroup]="form" *ngIf="os && os?.filial && orcamento" class="flex flex-col bg-card">
+                                    <form autocomplete="off" [formGroup]="form" *ngIf="os && os?.filial && orcamento" class="flex flex-col bg-card">
                                         <div class="grid sm:grid-cols-6 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card">
                                             <mat-form-field class="fuse-mat-dense sm:col-span-3">
                                                 <mat-label>{{ t('status') }}</mat-label>

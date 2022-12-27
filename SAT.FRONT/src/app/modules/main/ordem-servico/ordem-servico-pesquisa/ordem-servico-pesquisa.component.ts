@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { ClienteService } from 'app/core/services/cliente.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import _ from 'lodash';
-import moment from 'moment';
 import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-ordem-servico-pesquisa',
@@ -42,13 +44,18 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 	dataSourceData: OrdemServicoData;
 	isLoading: boolean = false;
 	userSession: UserSession;
+	clientes: Cliente[] = [];
+	validaCliente: boolean = this._userService.isCustomer;
+	clienteFilterCtrl: FormControl = new FormControl();
 	private _unsubscribeAll: Subject<any> = new Subject<any>();
+	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _formBuilder: FormBuilder,
 		private _snack: CustomSnackbarService,
 		private _cdr: ChangeDetectorRef,
 		private _osSvc: OrdemServicoService,
+		private _clienteService: ClienteService,
 		private _router: Router,
 		private _userService: UserService
 	) {
@@ -56,16 +63,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.form = this._formBuilder.group({
-			codOS: [''],
-			numSerie: [''],
-			numOSCliente: [''],
-			numOSQuarteirizada: [''],
-			dataFechamentoFim: [''],
-			dataFechamentoInicio: [''],
-			numRAT: [''],
-			numAgencia: ['']
-		});
+		this.criarForm();
 
 		if (this.sort && this.paginator) {
 			this.sort.sortChange.subscribe(() => {
@@ -74,7 +72,34 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			});
 		}
 
+		this.clienteFilterCtrl.valueChanges
+		.pipe(
+			takeUntil(this._onDestroy),
+			debounceTime(700),
+			distinctUntilChanged()
+		)
+		.subscribe(() => {
+			this.obterClientes(this.clienteFilterCtrl.value);
+		});
+
 		this._cdr.detectChanges();
+	}
+
+	criarForm() {
+		this.form = this._formBuilder.group({
+			codOS: [''],
+			numSerie: [''],
+			numOSCliente: [''],
+			numOSQuarteirizada: [''],
+			dataFechamentoFim: [''],
+			dataFechamentoInicio: [''],
+			numRAT: [''],
+			numAgencia: [''],
+			codClientes: [{
+				disabled: this.userSession.usuario.codCliente,
+				value: this.userSession.usuario.codCliente || undefined
+			}]
+		});
 	}
 
 	pesquisar() {
@@ -86,6 +111,23 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 		}
 
 		this.obterChamados();
+	}
+
+	async obterClientes(filtro: string = '') {
+		let params: ClienteParameters = {
+			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeFantasia',
+			sortDirection: 'asc',
+			codCliente: this.userSession?.usuario?.codCliente,
+			pageSize: 1000
+		};
+
+		const data = await this._clienteService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.clientes = data.items;
 	}
 
 	monitorarDigitacaoForm(e) {
@@ -107,7 +149,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
 			numSerie: form.numSerie,
-			codClientes: this.userSession?.usuario?.codCliente,
+			codClientes: form.codClientes.join(',')
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {
 				this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);

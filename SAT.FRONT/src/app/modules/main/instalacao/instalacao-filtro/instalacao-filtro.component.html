@@ -11,38 +11,36 @@
         </div>
     </div>
 
-    <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">                
-                <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                    <mat-label>{{ t('codigos de instalacao') }}</mat-label>
+    <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+        *transloco="let t">
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('codigos de instalacao') }}</mat-label>
+                <div>
                     <mat-chip-list #chipList>
                         <mat-chip *ngFor="let instalacao of instalacoes" (removed)="remove(instalacao)">
                             {{ instalacao }}
                             <button matChipRemove>
-                              <mat-icon>cancel</mat-icon>
+                                <mat-icon>cancel</mat-icon>
                             </button>
-                          </mat-chip>
+                        </mat-chip>
                     </mat-chip-list>
-                    <input  [matChipInputFor]="chipList"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            [matChipInputAddOnBlur]="true"
-                            (matChipInputTokenEnd)="add($event)"
-                            (paste)="paste($event)">
-                </mat-form-field>          
-            </div>
+                    <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)" (paste)="paste($event)">
+                </div>
+            </mat-form-field>
+        </div>
 
-            <div class="mt-6 border-t"></div>
+        <div class="mt-6 border-t"></div>
 
-            <div class="flex items-center justify-start px-8 py-3 relative">
-                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
-                    {{ t('aplicar') }}
-                </button>
+        <div class="flex items-center justify-start px-8 py-3 relative">
+            <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
+                {{ t('aplicar') }}
+            </button>
 
-                <button side (click)="limpar()" color="warn" mat-button>
-                    {{ t('limpar') }}
-                </button>
-            </div>
-        </form>
-    </ng-container>
+            <button side (click)="limpar()" color="warn" mat-button>
+                {{ t('limpar') }}
+            </button>
+        </div>
+    </form>
 </div>

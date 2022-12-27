@@ -107,6 +107,8 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.obterTipoEquipamentos();
 		this.obterGrupoEquipamentos();
 		this.registrarEmitters();
+
+		this.aoSelecionarCliente();
 	}
 
 	createForm(): void {
@@ -226,7 +228,6 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.contratosEquipamento = data.items;
 	}
 
-
 	async obterFiliais() {
 		let params: FilialParameters = {
 			indAtivo: statusConst.ATIVO,
@@ -271,7 +272,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 	async obterCidades(ufFilter: any = '') {
 		let params: CidadeParameters = {
-			indAtivo: statusConst.ATIVO,
+		indAtivo: statusConst.ATIVO,
 			codUF: ufFilter,
 			pageSize: 500
 		};
@@ -285,6 +286,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 	async obterUfs() {
 		let params: UnidadeFederativaParameters = {
+			codPais: 1,
 			pageSize: 1000
 		};
 
@@ -298,7 +300,6 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	async obterLocaisAtendimentos(filtro: string = '') {
 		let params: LocalAtendimentoParameters = {
 			indAtivo: statusConst.ATIVO,
-			codFiliais: this.form.controls['codFiliais'].value,
 			codClientes: this.form.controls['codClientes'].value,
 			codRegioes: this.form.controls['codRegioes'].value,
 			codAutorizada: this.form.controls['codAutorizadas'].value,
@@ -313,6 +314,40 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.toPromise();
 
 		this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
+	}
+
+	aoSelecionarCliente() {
+		if (
+			this.form.controls['codClientes'].value &&
+			this.form.controls['codClientes'].value != ''
+		) {
+			this.obterEquipamentos();
+			this.obterLocaisAtendimentos();
+			this.form.controls['codPostos'].enable();
+			this.form.controls['codEquipamentos'].enable();
+		}
+		else {
+			this.form.controls['codPostos'].disable();
+			this.form.controls['codEquipamentos'].disable();
+		}
+
+		this.form.controls['codClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
+					this.obterEquipamentos();
+					this.obterLocaisAtendimentos();
+					this.form.controls['codPostos'].enable();
+					this.form.controls['codEquipamentos'].enable();
+				}
+				else {
+					this.form.controls['codPostos'].setValue(null);
+					this.form.controls['codPostos'].disable();
+
+					this.form.controls['codEquipamentos'].setValue(null);
+					this.form.controls['codEquipamentos'].disable();
+				}
+			});
 	}
 
 	private registrarEmitters() {
@@ -365,8 +400,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 				debounceTime(700),
 				distinctUntilChanged()
 			)
-			.subscribe(() => {
-				this.obterLocaisAtendimentos();
+			.subscribe(() => {				
 				this.obterAutorizadas(this.form.controls['codFiliais'].value);
 				this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
 			});
@@ -382,14 +416,14 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			});
 
 		this.localAtendimentoFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
-			});
+		.pipe(
+			takeUntil(this._onDestroy),
+			debounceTime(700),
+			distinctUntilChanged()
+		)
+		.subscribe(() => {
+			this.obterLocaisAtendimentos(this.localAtendimentoFilterCtrl.value);
+		});			
 
 		this.tipoContratoFilterCtrl.valueChanges
 			.pipe(

@@ -22,9 +22,8 @@
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
-                            'codCliente')" [value]="0">
-                            TODAS
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes, 'codCliente')" [value]="0">
+                            TODOS
                         </mat-option>
                         <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
                             {{ cliente.nomeFantasia }}
@@ -39,7 +38,10 @@
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="contratoFilterCtrl">
                             </ngx-mat-select-search>
-                        </mat-option>
+                        </mat-option>      
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codContratos, contratos, 'codContrato')" [value]="0">
+                            TODOS
+                        </mat-option>                                       
                         <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato">
                             {{ contrato.nomeContrato }}
                         </mat-option>
@@ -54,6 +56,9 @@
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoContratoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTipoContratos, tipoContratos, 'codTipoContrato')" [value]="0">
+                            TODOS
+                        </mat-option>                           
                         <mat-option *ngFor="let tipoContrato of tipoContratos" [value]="tipoContrato.codTipoContrato">
                             {{ tipoContrato.nomeTipoContrato }}
                         </mat-option>
@@ -67,23 +72,22 @@
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipamentoFilterCtrl">
                             </ngx-mat-select-search>
+                        </mat-option>            
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equipamentos, 'codEquip')" [value]="0">
+                            TODOS
                         </mat-option>
-                        
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equipamentos,
-                            'codEquip')" [value]="0">
-                            TODAS
-                        </mat-option>
-
                         <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
                             {{ equip.nomeEquip }}
                         </mat-option>
-
                     </mat-select>
                 </mat-form-field>    
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo equipamento') }}</mat-label>
                     <mat-select formControlName="codTipoEquips" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTipoEquips, tipoEquipamentos, 'codTipoEquip')" [value]="0">
+                            TODOS
+                        </mat-option>                        
                         <mat-option *ngFor="let tipoEquip of tipoEquipamentos" [value]="tipoEquip.codTipoEquip">
                             {{ tipoEquip.nomeTipoEquip }}
                         </mat-option>
@@ -93,6 +97,9 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('grupo de equipamento') }}</mat-label>
                     <mat-select formControlName="codGrupoEquips" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codGrupoEquips, grupoEquipamentos, 'codGrupoEquip')" [value]="0">
+                            TODOS
+                        </mat-option>                              
                         <mat-option *ngFor="let grupoEquip of grupoEquipamentos" [value]="grupoEquip.codGrupoEquip">
                             {{ grupoEquip.nomeGrupoEquip}}
                         </mat-option>
@@ -109,15 +116,12 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('local de atendimento') }}</mat-label>
                     <mat-select formControlName="codPostos" multiple="true">
-
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="localAtendimentoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-
-                        <mat-option class="mat-primary fill"
-                            (click)="selectAll(form.controls.codPostos, locaisAtendimento, 'codPosto')" [value]="0">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codPostos, locaisAtendimento, 'codPosto')" [value]="0">
                             TODOS
                         </mat-option>
                         <mat-option *ngFor="let localAtendimento of locaisAtendimento"
@@ -129,7 +133,7 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
-                    <mat-select formControlName="indAtivo">
+                    <mat-select formControlName="indAtivo">                
                         <mat-option [value]="1">
                             Sim
                         </mat-option>
@@ -142,8 +146,7 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('filial') }}</mat-label>
                     <mat-select formControlName="codFiliais" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais,
-                            'codFilial')" [value]="0">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codFiliais, filiais, 'codFilial')" [value]="0">
                             TODAS
                         </mat-option>
                         <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
@@ -155,8 +158,7 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('regiao') }}</mat-label>
                     <mat-select formControlName="codRegioes" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
-                            'codRegiao')" [value]="0">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes, 'codRegiao')" [value]="0">
                             TODAS
                         </mat-option>
                         <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
@@ -168,8 +170,7 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('autorizada') }}</mat-label>
                     <mat-select formControlName="codAutorizadas" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codAutorizadas, autorizadas,
-                            'codAutorizada')" [value]="0">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codAutorizadas, autorizadas, 'codAutorizada')" [value]="0">
                             TODAS
                         </mat-option>
                         <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
@@ -179,30 +180,22 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('cidade') }}</mat-label>
-                    <mat-select formControlName="codCidades" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades,
-                            'codCidade')" [value]="0">
-                            TODAS
-                        </mat-option>
-                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
-                            {{ cidade.nomeCidade }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('unidade federativa') }}</mat-label>
                     <mat-select formControlName="codUfs" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUfs, ufs,
-                            'codUF')" [value]="0">
-                            TODAS
-                        </mat-option>
                         <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
                             {{ uf.siglaUF }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cidade') }}</mat-label>
+                    <mat-select formControlName="codCidades" multiple="true">
+                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                            {{ cidade.nomeCidade }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>                
             </div>
 
             <div class="mt-6 border-t"></div>

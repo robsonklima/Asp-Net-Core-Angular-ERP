@@ -12,7 +12,6 @@ import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { first } from 'rxjs/internal/operators/first';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { OrdemServicoStnHistoricoComponent } from '../ordem-servico-stn-historico/ordem-servico-stn-historico.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StatusServicoSTN, StatusServicoSTNParameters } from 'app/core/types/status-servico-stn.types';
 import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
@@ -20,6 +19,8 @@ import { ProtocoloSTN } from 'app/core/types/protocolo-stn.types';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { statusConst } from 'app/core/types/status-types';
+import { Laudo } from 'app/core/types/laudo.types';
+import { LaudoService } from 'app/core/services/laudo.service';
 @Component({
   selector: 'app-ordem-servico-stn-form',
   templateUrl: './ordem-servico-stn-form.component.html'
@@ -33,6 +34,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   ordemServicoSTN: OrdemServicoSTN;
   ordemServicoSTNOrigens: OrdemServicoSTNOrigem[] = [];
   protocoloSTN: ProtocoloSTN;
+  laudo: Laudo;
   isAddMode: boolean;
   isLoading: boolean = false;
   userSession: UsuarioSessao;
@@ -48,9 +50,9 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     private _ordemServicoService: OrdemServicoService,
     private _statusServicoSTNService: StatusServicoSTNService,
     private _ordemServicoSTNOrigemService: OrdemServicoSTNOrigemService,
+    private _laudoService: LaudoService,
     private _cdr: ChangeDetectorRef,
     private _userService: UserService,
-    private _dialog: MatDialog,
     private _router: Router
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -88,10 +90,10 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {    
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-
     this.ultimoAtendimento = this.atendimentos;   
     this.obterOrdemServicoSTNOrigem();
     this.obterStatusServicosSTN();
+    this.obterLaudo();
     this.isLoading = false;
     this._cdr.detectChanges();    
   }
@@ -125,14 +127,10 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.statusServicosSTN = data.items;    
   }  
 
-  abrirHistorico() {
-    const dialogRef = this._dialog.open(OrdemServicoStnHistoricoComponent, {
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      
-    });
+  async obterLaudo(){
+    this.laudo = (await this._laudoService.obterPorParametros({
+      codOS: this.atendimentos.codOS
+    }).toPromise()).items.shift();
   }
 
   salvar(): void {

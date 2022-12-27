@@ -5,6 +5,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Context;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -48,7 +49,15 @@ namespace SAT.INFRA.Repository
 
         public TipoServico ObterPorCodigo(int codigo)
         {
-            return _context.TipoServico.FirstOrDefault(ts => ts.CodServico == codigo);
+            try
+            {
+                return _context.TipoServico
+                    .SingleOrDefault(aud => aud.CodServico == codigo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao consultar o tipo servico {ex.Message}");
+            }
         }
 
         public PagedList<TipoServico> ObterPorParametros(TipoServicoParameters parameters)
@@ -73,6 +82,12 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo != null)
             {
                 tipos = tipos.Where(t => t.IndAtivo == parameters.IndAtivo);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodETipoServico))
+            {
+                string[] cods = parameters.CodETipoServico.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                tipos = tipos.Where(dc => cods.Contains(dc.CodETipoServico));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

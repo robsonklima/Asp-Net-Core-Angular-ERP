@@ -41,7 +41,6 @@ import { FiltroModule } from '../filtros/filtro.module';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { OrdemServicoStnFormComponent } from './ordem-servico-stn-form/ordem-servico-stn-form.component';
-import { OrdemServicoStnHistoricoComponent } from './ordem-servico-stn-historico/ordem-servico-stn-historico.component';
 import { SuporteStnLaudoFormComponent } from './suporte-stn-laudo/suporte-stn-laudo-form/suporte-stn-laudo-form.component';
 import { SuporteStnLaudoListaComponent } from './suporte-stn-laudo/suporte-stn-laudo-lista/suporte-stn-laudo-lista.component';
 import { SuporteStnLaudoFiltroComponent } from './suporte-stn-laudo/suporte-stn-laudo-filtro/suporte-stn-laudo-filtro.component';
@@ -52,7 +51,7 @@ import { SuporteStnLaudoFormAtendimentoComponent } from './suporte-stn-laudo/sup
 import { OrdemServicoStnFormInformacaoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-informacao/ordem-servico-stn-form-informacao.component';
 import { OrdemServicoStnFormHistoricoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico/ordem-servico-stn-form-historico.component';
 import { OrdemServicoStnFormAtendimentoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-atendimento/ordem-servico-stn-form-atendimento.component';
-import { OrdemServicoHistoricoComponent } from '../ordem-servico/ordem-servico-historico/ordem-servico-historico.component';
+import { OrdemServicoStnFormHistoricoOsComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico-os/ordem-servico-stn-form-historico-os.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -65,7 +64,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     OrdemServicoSTNListaComponent,
     OrdemServicoSTNFiltroComponent,
     OrdemServicoStnFormComponent,
-    OrdemServicoStnHistoricoComponent,
     SuporteStnLaudoFormComponent,
     SuporteStnLaudoListaComponent,
     SuporteStnLaudoFiltroComponent,
@@ -75,8 +73,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     SuporteStnLaudoFormAtendimentoComponent,
     OrdemServicoStnFormInformacaoComponent,
     OrdemServicoStnFormHistoricoComponent,
-    OrdemServicoStnFormAtendimentoComponent
-    // ,OrdemServicoHistoricoComponent
+    OrdemServicoStnFormAtendimentoComponent,
+    OrdemServicoStnFormHistoricoOsComponent
   ],
   imports: [
     CommonModule,

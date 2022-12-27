@@ -795,5 +795,6 @@
     "data recebimento": "Receipt Date",
     "qtd equip lote": "Qty Equipment Batch",
     "codigos de instalacao": "Enter installation codes:",
-    "num bem trade in": "Num Bem Trade In"
+    "num bem trade in": "Num Bem Trade In",
+    "bloquearos": "Block OS"
 }

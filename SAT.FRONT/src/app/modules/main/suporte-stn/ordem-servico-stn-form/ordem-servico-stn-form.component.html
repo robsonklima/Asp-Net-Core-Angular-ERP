@@ -44,15 +44,16 @@
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
+                <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  *ngIf="laudo" 
+                    [matTooltip]="'Ir para Laudo'" [routerLink]="['/suporte-stn/laudo/form/' + laudo.codLaudo]">
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                </button>
+                
                 <!-- <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()"
                     *ngIf="!atendimentos.length">
                     <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
-                </button>
-
-                <button class="ml-3" mat-icon-button matTooltip="{{ t('historico') }}" (click)="abrirHistorico()"
-                    [disabled]="!os || !rat">
-                    <mat-icon class="text-blue-500" [svgIcon]="'heroicons_outline:document-duplicate'"></mat-icon>
                 </button> -->
+
             </div>
         </div>
     </div>
@@ -77,269 +78,14 @@
                         <app-ordem-servico-stn-form-historico [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-historico>
                     </ng-template>
                 </mat-tab>
-<!-- 
+
                 <mat-tab [label]="t('oss do equipamento')">
-                    <ng-template matTabLabel>
-                        <app-ordem-servico-historico [codOS] = "os?.codOS" [codEquipContrato] = "os?.codEquipContrato"></app-ordem-servico-historico>
+                    <ng-template matTabContent>
+                        <app-ordem-servico-stn-form-historico-os [codOS] = "os?.codOS" [codEquipContrato] = "os?.codEquipContrato"></app-ordem-servico-stn-form-historico-os>
                     </ng-template>
-                </mat-tab> -->
+                </mat-tab>
                 
             </mat-tab-group>
         </div>
     </div>
-
-    <!-- <div class="flex-auto p-6 sm:p-10">
-        <div class="w-full">
-            <div *ngIf="!isLoading && !os && !rat"
-                class="p-8 sm:p-16 text-2xl font-semibold tracking-tight text-center">
-                Digite o chamado para iniciar
-            </div>
-
-            <div class="grid lg:grid-cols-12 sm:grid-cols-1 md:grid-cols-6 gap-12 w-full min-w-0">
-                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 
-                    sm:col-span-12 flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
-                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">Dados OS Perto</p>
-                    </div>
-
-                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Código da OS
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.codOS }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Data Hora Abertura
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Status
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.statusServico?.nomeStatusServico }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                intervenção
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.tipoIntervencao?.nomTipoIntervencao }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Cliente
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.cliente?.nomeFantasia }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Filial
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.filial?.nomeFilial }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Local de Atendimento
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.localAtendimento?.nomeLocal | uppercase }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Reincidência
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                0
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Qtd. OS 90 Dias
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                0
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                MTBF 90 Dias
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                0
-                            </div>
-                        </div>
-                    </div>
-                </fuse-card>
-
-                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 
-                    flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="rat">
-                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">Dados Atendimento Campo</p>
-                    </div>
-
-                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Equipamento
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.equipamento?.codEEquip }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Número Série
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ os?.equipamentoContrato?.numSerie }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Técnico de Campo
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ rat?.tecnico?.nome }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Tel. Técnico
-                            </div>
-
-                            <div class="truncate max-w-1/2">
-                                {{ rat?.tecnico?.fonePerto }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Relato do Cliente
-                            </div>
-
-                            <div class="max-w-1/2 text-right">
-                                {{ os?.defeitoRelatado }}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between py-1">
-                            <div class="text-secondary">
-                                Relato do Técnico
-                            </div>
-
-                            <div class="max-w-1/2 text-right">
-                                {{ rat?.relatoSolucao }}
-                            </div>
-                        </div>
-                    </div>
-                </fuse-card>
-
-                <fuse-card class="flex flex-col lg:col-span-6 md:col-span-3 lg:col-start-4 md:col-start-4 sm:col-span-12 
-                    flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="os">
-                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">Dados Atendimento Campo</p>
-                    </div>
-
-                    <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
-                        <div
-                            class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                                <mat-label>Origem Chamado</mat-label>
-
-                                <mat-select class="min-h-10" formControlName="codOrigemChamadoSTN"
-                                    [disabled]="!ordemServicoSTNOrigens.length">
-                                    <mat-option *ngFor="let ordemServicoSTNOrigem of ordemServicoSTNOrigens"
-                                        [value]="ordemServicoSTNOrigem.codOrigemChamadoSTN">
-                                        {{ ordemServicoSTNOrigem.descOrigemChamadoSTN }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
-                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                                <mat-label>Status Protocolo STN</mat-label>
-
-                                <mat-select class="min-h-10" formControlName="codStatusServicoSTN"
-                                    [disabled]="!statusServicosSTN.length">
-                                    <mat-option *ngFor="let statusServicoSTN of statusServicosSTN"
-                                        [value]="statusServicoSTN.codStatusServicoSTN">
-                                        {{ statusServicoSTN.descStatusServicoSTN }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
-                            <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                                <mat-label> Nome Solicitante </mat-label>
-
-                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
-                                </mat-icon>
-                                <input matInput formControlName="nomeSolicitante" maxlength="50">
-                            </mat-form-field>                       
-
-                        </div>
-
-                        <div class="p-8">
-                            <div class="flex flex-col gt-xs:flex-row">
-                                <div class="flex flex-col">
-                                    <mat-checkbox class="mb-1" [color]="'primary'"
-                                    [formControlName]="'indPrimeiraLigacao'">
-                                    Demanda em fila de espera?
-                                </mat-checkbox>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                                [disabled]="!form.valid">
-                                <span *ngIf="!form.disabled">
-                                    {{ t('salvar') }}
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-                </fuse-card>
-            </div>
-        </div>
-    </div>  -->
 </div>

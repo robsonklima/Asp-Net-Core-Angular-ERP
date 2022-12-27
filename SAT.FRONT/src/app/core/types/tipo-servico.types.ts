@@ -22,6 +22,7 @@ export interface TipoServicoParameters extends QueryStringParameters
 {
     codServico?: number;
     indAtivo?: number;
+    codETipoServico?: string;
 };
 
 export enum TipoServicoEnum

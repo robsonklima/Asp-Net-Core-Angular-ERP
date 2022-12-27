@@ -37,14 +37,12 @@
 
     <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
-            <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm"
-                class="flex flex-col bg-card shadow rounded overflow-hidden">
+            <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm" class="flex flex-col bg-card overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
                 </div>
 
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('tecnico') }}</mat-label>
 
@@ -86,7 +84,6 @@
                                 {{ t('bloqueio orcamento') }}
                             </div>
                         </mat-error>
-
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6"
@@ -106,14 +103,16 @@
                     </mat-form-field>
                 </div>
 
-                <div *ngIf="validarChecklistPOS()">
+                <div class="py-2" *ngIf="validarChecklistPOS()">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">{{ t('Checklist POS') }}</p>
+                        <p class="text-lg font-medium">{{ t('checklist pos') }}</p>
                     </div>
 
-                    <div
-                        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card shadow rounded overflow-hidden">
-                        <p class="text-lg font-normal">{{ t('Status Orientado a Utilizar:') }}</p>
+                    <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
+                        <p class="text-lg font-semibold text-secondary py-2">
+                            {{ t('status orientado a utilizar') }}
+                        </p>
+
                         <div *ngFor="let item of itensPadroes">
                             <mat-slide-toggle [color]="'primary'"
                                 [checked]="verificarSelecionado(item.codCheckListPOSItens)"
@@ -122,14 +121,19 @@
                             </mat-slide-toggle>
                         </div>
                     </div>
-                    <div
-                        class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-8 pb-1 bg-card shadow rounded overflow-hidden">
-                        <p class="text-lg font-normal">{{ t('Checklist Cliente:') }}</p>
+
+                    <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
+                        <p class="text-lg font-semibold text-secondary py-2">
+                            {{ t('checklist cliente') }}
+                        </p>
+
                         <div *ngFor="let item of itensCliente">
                             <mat-slide-toggle [color]="'primary'"
                                 [checked]="verificarSelecionado(item.codCheckListPOSItens)"
                                 (change)="onChange($event, item.codCheckListPOSItens)">
-                                {{ item.descricao }}
+                                <span [matTooltip]="item.descricao">
+                                    {{ item.descricao }}
+                                </span>
                             </mat-slide-toggle>
                         </div>
                     </div>

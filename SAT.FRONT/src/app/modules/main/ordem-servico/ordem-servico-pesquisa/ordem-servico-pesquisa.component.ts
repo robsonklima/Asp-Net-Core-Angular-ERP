@@ -82,6 +82,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			this.obterClientes(this.clienteFilterCtrl.value);
 		});
 
+		this.obterClientes();
 		this._cdr.detectChanges();
 	}
 
@@ -104,7 +105,8 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 
 	pesquisar() {
 		const form = this.form.getRawValue();
-		const isEmpty = Object.values(form).every(x => x === null || x === '');
+		const isEmpty = Object.values(form).every(x => x === null || x === '' || x === undefined);
+
 		if (isEmpty) {
 			this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
 			return;
@@ -149,7 +151,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
 			numSerie: form.numSerie,
-			codClientes: form.codClientes.join(',')
+			codClientes: form.codClientes?.join(',')
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {
 				this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);

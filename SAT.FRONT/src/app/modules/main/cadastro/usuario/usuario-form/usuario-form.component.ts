@@ -183,7 +183,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   }
 
   private inicializarForm() {
-
     this.form = this._formBuilder.group({
       codUsuario: [undefined],
       nomeUsuario: [undefined, Validators.required],
@@ -226,10 +225,14 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       tap(() => { }),
       debounceTime(700),
       map(async text => {
-        let splitNome = text.split(' ');
+        if (!this.isAddMode) return;
+        
+        const splitNome = text.split(' ');
+
         if (splitNome.length > 1) {
           this.form.controls['codUsuario'].disable();
-          this.form.controls['codUsuario'].setValue(splitNome[0] + "." + splitNome[splitNome.length - 1])
+          this.form.controls['codUsuario'].setValue(splitNome[0]?.toLowerCase() + "." +
+            splitNome[splitNome.length - 1]?.toLowerCase())
           this.form.controls['codUsuario'].enable();
         }
       }),

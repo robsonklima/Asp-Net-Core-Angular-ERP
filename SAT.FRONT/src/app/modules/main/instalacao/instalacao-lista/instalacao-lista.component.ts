@@ -525,49 +525,47 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     });
   }
 
-  async abrirChamados(itens) {
-    try {
-      for (let index = 0; index < itens.length; index++) {
-        const equip = await this._equipamentoContratoService.obterPorCodigo(+itens[index].codEquipContrato).toPromise();
+  async abrirChamados(instalacoes) {
+    for (const instalacao of instalacoes) {
+      const equip = await this._equipamentoContratoService.obterPorCodigo(+instalacao.codEquipContrato).toPromise();
 
-        let obj: OrdemServico = {
-          ...this.ordemServico,
-          ...{
-            codStatusServico: 1,
-            codTipoIntervencao: 4,
-            indStatusEnvioReincidencia: -1,
-            indRevisaoReincidencia: 1,
-            indRevOK: null,
-            dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
-            dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-            dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
-            codCliente: equip.codCliente,
-            codFilial: equip.codFilial,
-            codAutorizada: equip.codAutorizada,
-            codRegiao: equip.codRegiao,
-            codPosto: equip.codPosto,
-            codEquip: equip.codEquip,
-            codTipoEquip: equip.codTipoEquip,
-            codGrupoEquip: equip.codGrupoEquip,
-            codEquipContrato: equip.codEquipContrato,
-            codUsuarioCad: this.userSession.usuario?.codUsuario,
-          }
-        };
+      let obj: OrdemServico = {
+        ...this.ordemServico,
+        ...{
+          codStatusServico: 1,
+          codTipoIntervencao: 4,
+          indStatusEnvioReincidencia: -1,
+          indRevisaoReincidencia: 1,
+          indRevOK: null,
+          dataHoraSolicitacao: moment().format('YYYY-MM-DD HH:mm:ss'),
+          dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+          dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
+          codCliente: equip.codCliente,
+          codFilial: equip.codFilial,
+          codAutorizada: equip.codAutorizada,
+          codRegiao: equip.codRegiao,
+          codPosto: equip.codPosto,
+          codEquip: equip.codEquip,
+          codTipoEquip: equip.codTipoEquip,
+          codGrupoEquip: equip.codGrupoEquip,
+          codEquipContrato: equip.codEquipContrato,
+          codUsuarioCad: this.userSession.usuario?.codUsuario,
+        }
+      };
 
-        Object.keys(obj).forEach((key) => {
-          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });
+      Object.keys(obj).forEach((key) => {
+        typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+      });
 
-        this._ordemServicoService.criar(obj).subscribe((os) => {
-          this.atualizarInstalacao(+itens[index].codInstalacao, os.codOS);
-        });
-      }
-      
+      this._ordemServicoService.criar(obj).subscribe((os) => {
+        this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
+      });
+    }
+
+    setTimeout(() => {
       this._snack.exibirToast("Chamados abertos com sucesso!", 'success');
       this.obterInstalacoes();
-    } catch (error) {
-      this._snack.exibirToast("Erro ao abrir chamados", 'error');
-    }
+    }, 3 * 1000);
   }
 
   async atualizarInstalacao(codInstalacao, codOS) {
@@ -586,8 +584,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
     });
 
-    this._instalacaoSvc.atualizar(obj).subscribe(() => {
-    });
+    this._instalacaoSvc.atualizar(obj).subscribe();
   }
 
   toggleSelecionarTodos(e: any) {

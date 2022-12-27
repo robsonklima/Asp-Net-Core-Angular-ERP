@@ -10,5 +10,4 @@ export class LaboratorioDashboardTempoMedioReparoComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

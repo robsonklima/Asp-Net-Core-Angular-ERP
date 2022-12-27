@@ -121,14 +121,15 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	}
 
 	public validarChecklistPOS() {
+		if (this.isAddMode)
+			return false;
+
 		if (this.sessionData.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA ||
 			this.sessionData.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
-			this.sessionData.usuario.codPerfil === PerfilEnum.PLANTÃO_HELP_DESK) {
+			this.sessionData.usuario.codPerfil === PerfilEnum.PLANTÃO_HELP_DESK) 
 			return true;
-		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	async ngOnInit() {

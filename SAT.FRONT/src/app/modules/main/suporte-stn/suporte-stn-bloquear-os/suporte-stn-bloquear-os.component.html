@@ -1,0 +1,142 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+    *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="mt-2">
+                <h6 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-4 sm:leading-6 truncate">
+                    {{ t('bloquearos') }}
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto">
+        <div class="w-full relative">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
+
+            <form autocomplete="off" [formGroup]="form" (keyup)="monitorarDigitacaoForm($event)"
+                class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div
+                    class="grid sm:grid-cols-12 lg:gap-x-6 md:gap-x-2 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('os') }}</mat-label>
+                        <input [autocomplete]="'off'" [formControlName]="'codOS'" [placeholder]="t('chamado')"
+                            mask="0000000000" [showMaskTyped]="false" [dropSpecialCharacters]="true" matInput>
+                    </mat-form-field>
+
+                    <div class="sm:col-span-1">
+                        <button class="mr-2 mt-6" (click)="pesquisar()" [color]="'primary'" type="button"
+                            mat-flat-button>
+                            {{ t('pesquisar') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="w-full bg-card" [hidden]="!dataSourceData?.items?.length">
+            <div class="flex flex-auto">
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-y-auto">
+                    <ng-container>
+                        <ng-container>
+                            <div class="grid">
+                                <div class="list-grid-pesquisa z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                    matSort matSortDisableClear *transloco="let t">
+
+                                    <div [mat-sort-header]="'codRegiao'">
+                                        {{ t('os') }}
+                                    </div>
+
+                                    <div [mat-sort-header]="'dataAberturaOS'">
+                                        {{ t('abertura') }}
+                                    </div>
+
+                                    <div>
+                                        Status
+                                    </div>
+
+                                    <div>
+                                        Intervenção
+                                    </div>
+
+                                    <div>
+                                        Local
+                                    </div>
+
+                                    <div>
+                                        Cliente
+                                    </div>
+
+                                    <div>
+                                        Bloquear \ Desbloquear
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ng-container>
+                                <ng-container *ngFor="let os of dataSourceData?.items">
+                                    <div class="list-grid-pesquisa grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                        *transloco="let t">
+                                        <div>
+                                            {{ os.codOS }}
+                                        </div>
+
+                                        <div>
+                                            {{ os.dataHoraAberturaOS | date:'dd/MM HH:mm' }}
+                                        </div>
+
+                                        <div>
+                                            <span class="py-1 px-2 rounded" [ngStyle]="{
+                                                    'background-color': os.statusServico?.corFundo, 
+                                                    'color': os.statusServico?.corFonte }">
+                                                {{ os.statusServico?.nomeStatusServico }}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            {{ os.tipoIntervencao?.nomTipoIntervencao }}
+                                        </div>
+
+                                        <div>
+                                            {{ (os.localAtendimento?.nomeLocal || t('nao informado')) | titlecase }}
+                                        </div>
+
+                                        <div>
+                                            {{ os.cliente?.nomeFantasia || t('nao informado') }}
+                                        </div>
+                                        <button mat-menu-item (click)="bloquearDesbloquearChamado(os)">
+                                            <mat-icon class="icon-size-5"
+                                                [class.text-red-600]="!os?.indBloqueioReincidencia"
+                                                [class.text-green-600]="os?.indBloqueioReincidencia"
+                                                [svgIcon]="os?.indBloqueioReincidencia ? 'heroicons_solid:lock-openned' : 'heroicons_solid:lock-closed'"></mat-icon>
+                                            {{ os?.indBloqueioReincidencia ? 'Desbloquear' : 'Bloquear' }}
+                                        </button>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="!dataSourceData?.items.length">
+                                    <div class="list-grid grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                        *transloco="let t">
+                                        <div class="hidden truncate">
+                                            {{ t('nenhum registro encontrado') }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+                            <mat-paginator
+                                class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                                [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                                [pageSize]="10" [pageSizeOptions]="[10]" [showFirstLastButtons]="true"
+                                (page)="paginar()">
+                            </mat-paginator>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

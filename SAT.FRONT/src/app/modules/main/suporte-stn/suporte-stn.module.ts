@@ -52,6 +52,7 @@ import { OrdemServicoStnFormInformacaoComponent } from './ordem-servico-stn-form
 import { OrdemServicoStnFormHistoricoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico/ordem-servico-stn-form-historico.component';
 import { OrdemServicoStnFormAtendimentoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-atendimento/ordem-servico-stn-form-atendimento.component';
 import { OrdemServicoStnFormHistoricoOsComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico-os/ordem-servico-stn-form-historico-os.component';
+import { SuporteStnBloquearOSComponent } from './suporte-stn-bloquear-os/suporte-stn-bloquear-os.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -74,7 +75,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     OrdemServicoStnFormInformacaoComponent,
     OrdemServicoStnFormHistoricoComponent,
     OrdemServicoStnFormAtendimentoComponent,
-    OrdemServicoStnFormHistoricoOsComponent
+    OrdemServicoStnFormHistoricoOsComponent,
+    SuporteStnBloquearOSComponent
   ],
   imports: [
     CommonModule,

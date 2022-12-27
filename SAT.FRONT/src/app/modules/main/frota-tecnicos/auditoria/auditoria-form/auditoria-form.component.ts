@@ -11,6 +11,7 @@ import { UsuarioService } from 'app/core/services/usuario.service';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import moment from 'moment';
+import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 
 @Component({
   selector: 'app-auditoria-form',
@@ -68,6 +69,7 @@ export class AuditoriaFormComponent implements OnInit, OnDestroy {
 						sortActive: 'NomeUsuario',
 						sortDirection: 'asc',
             codPerfis: PerfilEnum.FILIAL_TECNICO_DE_CAMPO.toString(),
+            indAtivo: statusConst.ATIVO,
 						filter: query,
 						pageSize: 100,
 					}).toPromise();

@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
+    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t" [hidden]="!os">
         <div class="w-full max-w-screen-xl mx-auto">
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
                 <mat-tab [label]="t('informacoes')">

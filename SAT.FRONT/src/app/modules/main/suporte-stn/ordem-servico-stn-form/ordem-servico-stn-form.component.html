@@ -37,14 +37,14 @@
             </div>
         </div>
 
-        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div class="flex flex-shrink-0 items-center px-4 mt-6 sm:mt-0 sm:ml-4">
             <div class="flex items-center justify-end">
-                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 px-4">
                     <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                <button class="fuse-mat-button-rounded bg-gray-100" mat-flat-button  *ngIf="laudo" 
+                <button class="fuse-mat-button-rounded px-4 bg-gray-100" mat-flat-button  *ngIf="laudo" 
                     [matTooltip]="'Ir para Laudo'" [routerLink]="['/suporte-stn/laudo/form/' + laudo.codLaudo]">
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                 </button>

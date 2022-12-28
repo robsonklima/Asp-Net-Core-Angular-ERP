@@ -39,20 +39,21 @@
 
         <div class="flex flex-shrink-0 items-center px-4 mt-6 sm:mt-0 sm:ml-4">
             <div class="flex items-center justify-end">
-                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 px-4">
+                <mat-form-field *ngIf="!validarStatus() && !os"
+                    class="fuse-mat-dense fuse-mat-no-subscript min-w-50 px-4">
                     <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                     <input matInput #codOSInputControl placeholder="Digite a OS..." [autocomplete]="'off'">
                 </mat-form-field>
 
-                <button class="fuse-mat-button-rounded px-4 bg-gray-100" mat-flat-button  *ngIf="laudo" 
+                <button class="fuse-mat-button-rounded px-4 bg-gray-100" mat-flat-button *ngIf="laudo"
                     [matTooltip]="'Ir para Laudo'" [routerLink]="['/suporte-stn/laudo/form/' + laudo.codLaudo]">
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                 </button>
-                
-                <!-- <button class="ml-3" mat-icon-button matTooltip="{{ t('novo atendimento') }}" (click)="salvar()"
-                    *ngIf="!atendimentos.length">
-                    <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
-                </button> -->
+
+                <button class="ml-3 px-4" mat-icon-button matTooltip="{{ t('nova tratativa') }}" (click)="criar()"
+                    *ngIf="!validarStatus() && os">
+                    <mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                </button>
 
             </div>
         </div>
@@ -63,28 +64,32 @@
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
                 <mat-tab [label]="t('informacoes')">
                     <ng-template matTabContent>
-                        <app-ordem-servico-stn-form-informacao [codOS] = "os?.codOS"></app-ordem-servico-stn-form-informacao>
+                        <app-ordem-servico-stn-form-informacao
+                            [codOS]="os?.codOS"></app-ordem-servico-stn-form-informacao>
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab [label]="t('atendimento')">
+                <mat-tab *ngIf="validarStatus()" [label]="t('atendimento')">
                     <ng-template matTabContent>
-                        <app-ordem-servico-stn-form-atendimento [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-atendimento>
+                        <app-ordem-servico-stn-form-atendimento
+                            [codAtendimento]="codAtendimento"></app-ordem-servico-stn-form-atendimento>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab [label]="t('historico')">
                     <ng-template matTabContent>
-                        <app-ordem-servico-stn-form-historico [codAtendimento] = "codAtendimento"></app-ordem-servico-stn-form-historico>
+                        <app-ordem-servico-stn-form-historico
+                            [codAtendimento]="codAtendimento"></app-ordem-servico-stn-form-historico>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab [label]="t('oss do equipamento')">
                     <ng-template matTabContent>
-                        <app-ordem-servico-stn-form-historico-os [codOS] = "os?.codOS" [codEquipContrato] = "os?.codEquipContrato"></app-ordem-servico-stn-form-historico-os>
+                        <app-ordem-servico-stn-form-historico-os [codOS]="os?.codOS"
+                            [codEquipContrato]="os?.codEquipContrato"></app-ordem-servico-stn-form-historico-os>
                     </ng-template>
                 </mat-tab>
-                
+
             </mat-tab-group>
         </div>
     </div>

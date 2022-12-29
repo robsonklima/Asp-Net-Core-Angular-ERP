@@ -86,6 +86,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
         CodOS: this.os.codOS,
         DataHoraAberturaSTN: moment().format('YYYY-MM-DD HH:mm:ss'),
         CodStatusSTN: 1,
+        codTecnico: this.userSession.usuario.codUsuario,
         CodUsuarioCad: this.userSession.usuario.codUsuario,
         IndAtivo: statusConst.ATIVO,
       }

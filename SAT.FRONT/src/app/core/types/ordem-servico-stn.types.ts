@@ -23,10 +23,10 @@ export interface OrdemServicoSTN {
     numTratativas: number | null;
     indEvitaPendencia: number | null;
     indPrimeiraLigacao: number | null;
-    nomeSolicitante: string;
-    obsSistema: string;
-    ordemServico: OrdemServico;
-    ordemServicoSTNOrigem: OrdemServicoSTNOrigem;
+    nomeSolicitante?: string;
+    obsSistema?: string;
+    ordemServico?: OrdemServico;
+    ordemServicoSTNOrigem?: OrdemServicoSTNOrigem;
 }
 
 export interface OrdemServicoSTNData extends Meta

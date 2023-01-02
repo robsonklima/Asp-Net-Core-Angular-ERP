@@ -50,8 +50,7 @@ export class SuporteStnBloquearOSComponent implements OnInit, OnDestroy {
 				this.pesquisar();
 			});
 		}
-
-        this._cdr.detectChanges();
+		this._cdr.detectChanges();
 	}
 
 	criarForm() {
@@ -68,7 +67,6 @@ export class SuporteStnBloquearOSComponent implements OnInit, OnDestroy {
 			this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
 			return;
 		}
-
 		this.obterChamados();
 	}
 
@@ -101,7 +99,7 @@ export class SuporteStnBloquearOSComponent implements OnInit, OnDestroy {
 		});
 	}
 
-    public async bloquearDesbloquearChamado(os: OrdemServico) {
+	public async bloquearDesbloquearChamado(os: OrdemServico) {
 		this.isLoading = true;
 
 		os.indBloqueioReincidencia = os.indBloqueioReincidencia ? 0 : 1;

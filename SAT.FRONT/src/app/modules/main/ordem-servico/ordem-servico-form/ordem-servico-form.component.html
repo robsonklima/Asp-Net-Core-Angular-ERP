@@ -74,29 +74,33 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('serie') }} ou {{ t('ATM Id') }}</mat-label>
+
                         <mat-select formControlName="atmId">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                     noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="atmIdFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
+
                             <mat-option *ngFor="let equipamento of atmsIds" [value]="equipamento?.codEquipContrato">
                                 {{ equipamento?.numSerie || equipamento?.atmId }} - {{
                                 equipamento?.cliente?.nomeFantasia }}
                             </mat-option>
                         </mat-select>
+                        
                         <mat-error>Preencher este campo</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('local de atendimento') }}</mat-label>
-
+                        
                         <mat-select formControlName="codPosto" [disabled]="!locais?.length">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="locaisFiltro" [searching]="searching"
                                     placeholderLabel="Pesquisa..." noEntriesFoundLabel="'nenhum registro encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
+
                             <mat-option *ngFor="let local of locais"
                                 [matTooltip]="local?.endereco + ', ' + local?.bairro + ' - ' + local?.cidade?.nomeCidade"
                                 [value]="local?.codPosto">

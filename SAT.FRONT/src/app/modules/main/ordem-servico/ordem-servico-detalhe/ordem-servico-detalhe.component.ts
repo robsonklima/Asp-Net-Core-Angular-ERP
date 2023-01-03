@@ -128,10 +128,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
 			if (data) {
-
 				if (data.agendamento.dataAgendamento < moment().format('YYYY-MM-DD HH:mm:ss')) {
-
-					this._snack.exibirToast('O Chamado não deve ser agendado em datas retroativas', 'error');
+					this._snack.exibirToast('O Chamado não pode ser agendado para datas retroativas', 'error');
 					return;
 				}
 
@@ -142,14 +140,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 						this._snack.exibirToast('Chamado agendado com sucesso!', 'success');
 						await this.criarAgendaTecnico();
 						this.obterDados();
-					},
-						error => {
-							this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-						});
-				},
-					() => {
+					}, () => {
 						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 					});
+				},
+				() => {
+					this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+				});
 			}
 		});
 	}

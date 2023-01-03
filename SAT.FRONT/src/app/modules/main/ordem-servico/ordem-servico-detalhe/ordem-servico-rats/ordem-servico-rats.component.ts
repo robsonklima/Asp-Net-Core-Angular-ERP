@@ -20,7 +20,7 @@ export class OrdemServicoRatsComponent implements OnInit {
     private _relatorioAtendimentoService: RelatorioAtendimentoService,
     private _userService: UserService
   ) { 
-      this.sessionData = JSON.parse(this._userService.userSession);
+    this.sessionData = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
@@ -37,8 +37,7 @@ export class OrdemServicoRatsComponent implements OnInit {
   }
 
   getTimeFromMins(mins) {
-		var h = mins / 60 | 0,
-			m = mins % 60 | 0;
+		var h = mins / 60 | 0, m = mins % 60 | 0;
 		return moment.utc().hours(h).minutes(m).format("HH:mm");
 	}
 }

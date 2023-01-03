@@ -117,6 +117,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => modelos.Any(p => p == os.OrdemServico.Equipamento.CodEquip.ToString()));
             }
 
+            if (parameters.CodOrigemChamadoSTN != null)
+            {
+                query = query.Where(a => a.CodOrigemChamadoSTN == parameters.CodOrigemChamadoSTN);
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodOrigemChamadoSTNs))
             {
                 int[] cods = parameters.CodOrigemChamadoSTNs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

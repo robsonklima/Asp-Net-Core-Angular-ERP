@@ -196,6 +196,7 @@ public class ConfigurationIOC
         builder.RegisterType<ImprodutividadeRepository>().As<IImprodutividadeRepository>();
         builder.RegisterType<CheckListPOSRepository>().As<ICheckListPOSRepository>();
         builder.RegisterType<CheckListPOSItensRepository>().As<ICheckListPOSItensRepository>();
+        builder.RegisterType<TipoChamadoSTNRepository>().As<ITipoChamadoSTNRepository>();
         
         #endregion
 
@@ -382,6 +383,7 @@ public class ConfigurationIOC
         builder.RegisterType<ImprodutividadeService>().As<IImprodutividadeService>();
         builder.RegisterType<CheckListPOSService>().As<ICheckListPOSService>();
         builder.RegisterType<CheckListPOSItensService>().As<ICheckListPOSItensService>();
+        builder.RegisterType<TipoChamadoSTNService>().As<ITipoChamadoSTNService>();
 
         #endregion
 

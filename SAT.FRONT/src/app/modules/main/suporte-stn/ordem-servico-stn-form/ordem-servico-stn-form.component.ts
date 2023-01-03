@@ -68,6 +68,9 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
+    if(this.isAddMode)
+      this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codOS: codOS }).toPromise()).items.shift();
+    
     this.obterLaudo();
     this.isLoading = false;
     this._cdr.detectChanges();

@@ -12,4 +12,5 @@ export interface TipoChamadoSTNData extends Meta {
 
 export interface TipoChamadoSTNParameters extends QueryStringParameters {
   codTipoChamadoSTN?: number;
+  indAtivo?: number;
 };

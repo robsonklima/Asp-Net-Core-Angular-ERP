@@ -83,6 +83,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodStatusServicoSTN != null)
+            {
+                status = status.Where(a => a.CodStatusServicoSTN == parameters.CodStatusServicoSTN);
+            };
+
             return PagedList<StatusServicoSTN>.ToPagedList(status, parameters.PageNumber, parameters.PageSize);
         }
 

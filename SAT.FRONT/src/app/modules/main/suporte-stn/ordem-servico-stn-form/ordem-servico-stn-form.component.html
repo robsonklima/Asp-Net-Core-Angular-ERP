@@ -72,14 +72,14 @@
                 <mat-tab *ngIf="validarStatus()" [label]="t('atendimento')">
                     <ng-template matTabContent>
                         <app-ordem-servico-stn-form-atendimento
-                            [codAtendimento]="codAtendimento"></app-ordem-servico-stn-form-atendimento>
+                            [codAtendimento]="atendimentos?.codAtendimento"></app-ordem-servico-stn-form-atendimento>
                     </ng-template>
                 </mat-tab>
 
                 <mat-tab [label]="t('historico')">
                     <ng-template matTabContent>
                         <app-ordem-servico-stn-form-historico
-                            [codAtendimento]="codAtendimento"></app-ordem-servico-stn-form-historico>
+                            [codAtendimento]="atendimentos?.codAtendimento"></app-ordem-servico-stn-form-historico>
                     </ng-template>
                 </mat-tab>
 

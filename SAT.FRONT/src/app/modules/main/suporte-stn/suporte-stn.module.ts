@@ -8,7 +8,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -53,6 +53,7 @@ import { OrdemServicoStnFormHistoricoComponent } from './ordem-servico-stn-form/
 import { OrdemServicoStnFormAtendimentoComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-atendimento/ordem-servico-stn-form-atendimento.component';
 import { OrdemServicoStnFormHistoricoOsComponent } from './ordem-servico-stn-form/ordem-servico-stn-form-historico-os/ordem-servico-stn-form-historico-os.component';
 import { SuporteStnBloquearOSComponent } from './suporte-stn-bloquear-os/suporte-stn-bloquear-os.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -117,7 +118,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatTooltipModule,
     FiltroModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    MatRadioModule
   ]
 })
 export class SuporteSTNModule { }

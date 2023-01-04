@@ -50,6 +50,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   form: FormGroup;
   searching: boolean;
   causasFiltro: FormControl = new FormControl();
+  tipoCausaFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -77,7 +78,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 
     this.inicializarForm();
     this.obterOrigens();
-    //this.obterTipoCausa();
+    this.obterTipoCausa();
     this.obterTipoChamados();
     this.obterStatus();
     this.obterCausas();
@@ -103,18 +104,27 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   }
 
   registrarEmitters() {
-    this.form.controls['tipoServico'].valueChanges.subscribe(async tipoServico => {
-      this.obterTipoCausa(tipoServico);
-      // const data = await this._tipoServicoService.obterPorParametros({
-      //   sortActive: 'nomeServico',
-      //   sortDirection: 'asc',
-      //   pageSize: 100,
-      // }).toPromise();
+    
+    this.tipoCausaFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._tipoServicoService.obterPorParametros({
+            sortActive: 'codETipoServico',
+            sortDirection: 'asc',
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
 
-      // this.tipoCausa = data.items.filter(
-      //   t => t.codETipoServico.substring(0, 1) === String(tipoServico)
-      // );
-    });
+          return data.items.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.tipoCausa = await data;
+      });
 
     this.causasFiltro.valueChanges
       .pipe(
@@ -143,27 +153,25 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.componentes = (await this._causaService.obterPorParametros({ codECausa: this.atendimento.codDefeito }).toPromise()).items;
   }
 
-  async obterOrigens(filter: string = '') {
+  async obterOrigens() {
     this.origens = (await this._ordemServicoSTNOrigemSrv.obterPorParametros({
       sortActive: 'descOrigemChamadoSTN',
       sortDirection: 'asc',
-      filter: filter
     }).toPromise()).items;
   }
 
-  async obterTipoCausa(filter: string = '') {
+  async obterTipoCausa() {
     this.tipoCausa = (await this._tipoServicoService.obterPorParametros({ 
         sortActive: 'nomeServico',
         sortDirection: 'asc',
         pageSize: 100,
-     }).toPromise()).items.filter(
-      t => t.codETipoServico.substring(0, 1) === String(filter)
-    );
+     }).toPromise()).items;
   }
 
-  async obterStatus(filter: string = '') {
+  async obterStatus() {
     this.status = (await this._statusSTNService.obterPorParametros({
-      filter: filter
+      sortDirection: 'asc',
+      pageSize: 100,
     }).toPromise()).items;
   }
 

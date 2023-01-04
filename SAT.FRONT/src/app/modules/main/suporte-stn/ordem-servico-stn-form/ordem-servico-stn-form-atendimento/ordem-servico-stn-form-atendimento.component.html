@@ -12,14 +12,14 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('Protocolo Atendimento STN') }}</mat-label>
-                        <input matInput formControlName="codAtendimento" [value]="atendimento.codAtendimento"
+                        <input matInput formControlName="codAtendimento" [value]="atendimento?.codAtendimento"
                             [ngModel]="atendimento.codAtendimento" [readonly]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('Data Hora Abertura') }}</mat-label>
                         <input matInput readonly=“true” [matDatepicker]="contratoData"
-                            formControlName="dataHoraAberturaSTN" [value]="atendimento.dataHoraAberturaSTN"
+                            formControlName="dataHoraAberturaSTN" [value]="atendimento?.dataHoraAberturaSTN"
                             [ngModel]="atendimento.dataHoraAberturaSTN" [readonly]="true">
                         <mat-datepicker #contratoData></mat-datepicker>
                     </mat-form-field>
@@ -72,7 +72,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('Responsável Suporte STN') }}</mat-label>
-                        <input matInput [value]="usuario.nomeUsuario" [readonly]="true">
+                        <input matInput [value]="usuario?.nomeUsuario" [readonly]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
@@ -100,9 +100,9 @@
                         </div>
 
                         <div class="truncate max-w-1/2">
-                            <mat-slide-toggle [color]="'primary'" [checked]="atendimento.indEvitaPendencia == 1" [(ngModel)]="atendimento.indEvitaPendencia" 
+                            <mat-slide-toggle [color]="'primary'" [checked]="atendimento?.indEvitaPendencia == 1" [(ngModel)]="atendimento.indEvitaPendencia" 
                                 (change)="onChangePendencia($event)">
-                                {{ atendimento.indEvitaPendencia ? 'Sim' : 'Não' }}
+                                {{ atendimento?.indEvitaPendencia ? 'Sim' : 'Não' }}
                             </mat-slide-toggle>
                         </div>
                     </div>
@@ -121,6 +121,12 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4 py-3">
                         <mat-label>{{ t('Tipo Causa') }}</mat-label>
                         <mat-select formControlName="codTipoCausa">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="tipoCausaFiltro"></ngx-mat-select-search>
+                            </mat-option>
+                            
                             <mat-option *ngFor="let tipo of tipoCausa" [value]="tipo?.codETipoServico">
                                 {{ tipo?.codETipoServico }} - {{ tipo?.nomeServico }}
                             </mat-option>
@@ -136,8 +142,8 @@
                                 [formControl]="causasFiltro"></ngx-mat-select-search>
                         </mat-option>
 
-                        <mat-option *ngFor="let componente of componentes" [value]="componente.codCausa">
-                            {{ componente.codECausa }} - {{ componente.nomeCausa | titlecase }}
+                        <mat-option *ngFor="let componente of componentes" [value]="componente?.codCausa">
+                            {{ componente?.codECausa }} - {{ componente?.nomeCausa | titlecase }}
                         </mat-option>
                     </mat-select>
                     </mat-form-field>
@@ -145,7 +151,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('Ação Suporte') }}</mat-label>
                         <textarea class="flex items-center justify-between" matInput formControlName="acaoSTN"
-                            [rows]="5" maxlength="1000" [value]="protocolo.acaoSTN"></textarea>
+                            [rows]="5" maxlength="1000" [value]="protocolo?.acaoSTN"></textarea>
                     </mat-form-field>
 
                 </div>

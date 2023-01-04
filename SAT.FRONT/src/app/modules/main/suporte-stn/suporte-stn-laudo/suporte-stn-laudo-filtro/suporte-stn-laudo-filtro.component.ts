@@ -47,7 +47,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		this.form = this._formBuilder.group({
 			CodClientes: [undefined],
 			CodEquips: [undefined],
-			CodLaudoStatus: [undefined],
+			CodLaudosStatus: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -84,7 +84,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		let params: LaudoStatusParameters = {
 			filter: filtro,
 			sortActive: 'nomeStatus',
-			sortDirection: 'asc',
+			sortDirection: 'asc'
 		};
 
 		const data = await this._laudoStatusService.obterPorParametros(params).toPromise();

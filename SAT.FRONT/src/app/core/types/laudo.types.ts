@@ -44,4 +44,6 @@ export interface LaudoParameters extends QueryStringParameters {
     codTecnico?: number;
     indAtivo?: number;
     codRAT?: number;
+    codLaudoStatus?: number;
+    codLaudosStatus?: string;
 };

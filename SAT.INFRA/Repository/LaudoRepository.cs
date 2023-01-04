@@ -55,7 +55,7 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Or)
                     .ThenInclude(l => l.LocalAtendimento)
                 .Include(l => l.Or)
-                    .ThenInclude(l => l.RelatoriosAtendimento)                    
+                    .ThenInclude(l => l.RelatoriosAtendimento)
                         .ThenInclude(l => l.Fotos)
                 .Include(l => l.Tecnico)
                 .SingleOrDefault(a => a.CodLaudo == codigo);
@@ -82,7 +82,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(l => l.LocalAtendimento)
                 .Include(l => l.Or)
                     .ThenInclude(l => l.RelatoriosAtendimento)
-                        .ThenInclude(l => l.Fotos)                    
+                        .ThenInclude(l => l.Fotos)
                 .Include(l => l.Tecnico)
                 .AsQueryable();
 
@@ -104,6 +104,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodTecnico.HasValue)
                 laudos = laudos.Where(l => l.Tecnico.CodTecnico == parameters.CodTecnico.Value);
 
+            if (parameters.CodLaudoStatus.HasValue)
+                laudos = laudos.Where(l => l.LaudoStatus.CodLaudoStatus == parameters.CodLaudoStatus.Value);
+
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {
                 var clientes = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
@@ -122,9 +125,9 @@ namespace SAT.INFRA.Repository
                 laudos = laudos.Where(l => usuarios.Any(p => p == l.Tecnico.CodTecnico.ToString()));
             }
 
-            if (!string.IsNullOrEmpty(parameters.CodLaudoStatus))
+            if (!string.IsNullOrEmpty(parameters.CodLaudosStatus))
             {
-                var laudoStatus = parameters.CodLaudoStatus.Split(',').Select(e => e.Trim());
+                var laudoStatus = parameters.CodLaudosStatus.Split(',').Select(e => e.Trim());
                 laudos = laudos.Where(l => laudoStatus.Any(p => p == l.LaudoStatus.CodLaudoStatus.ToString()));
             }
 

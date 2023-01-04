@@ -98,22 +98,8 @@ namespace SAT.UTILS
             container.Border(1).BorderColor(Colors.Grey.Lighten1).Padding(10).Column(column =>
             {
                 column.Spacing(1);
-
                 column.Item().Element(ComporDadosOs);
                 column.Item().Element(ComporRelatorios);
-                // column.Item().PageBreak();
-                // if (false)
-                // { TRECHO COMENTADO PARA INSERIR LAUDO NA OS, TRABALHO PELA METADE DEVIDO ATENCAO PARA OTURAS DEMANDAS
-                //      DEVE-SE ADICIONAR UM PARAMETRO PARA INSERIR OU NAO O LAUDO PARA FAZER A CHAMADA NO FRONT
-                //
-                //     var laudo = new LaudoPdfHelper(OrdemServico);
-                //     column.Item().AlignCenter().Text($"RELATÓRIO DE AVALIAÇÃO TÉCNICA - DETECÇÃO ANALÍTICA DE FALHAS").Bold();
-                //     column.Item().Element(laudo.ComporSituacao);
-                //     column.Item().Element(laudo.ComporChecagemVisual);
-                //     column.Item().Element(laudo.ComporInfraEstruturaSite);
-                //     column.Item().Element(laudo.ComporConclusao);
-                //     column.Item().Element(laudo.ComporAssinatura);
-                // }
             });
         }
 
@@ -339,6 +325,12 @@ namespace SAT.UTILS
                     {
                         t.Span($"Desc. Solução: ").FontSize(8).Bold();
                         t.Span($"{rel.RelatoSolucao}").FontSize(8);
+                    });
+
+                    grid.Item(12).Text(t =>
+                    {
+                        t.Span($"Obs.: ").FontSize(8).Bold();
+                        t.Span($"{rel.ObsRAT}").FontSize(8);
                     });
 
                     grid.Item(12).Table(table =>

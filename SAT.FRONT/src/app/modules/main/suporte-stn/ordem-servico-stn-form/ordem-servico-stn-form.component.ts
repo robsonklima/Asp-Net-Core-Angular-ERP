@@ -21,7 +21,7 @@ import { LaudoService } from 'app/core/services/laudo.service';
 export class OrdemServicoStnFormComponent implements AfterViewInit {
   codAtendimento: number;
   os: OrdemServico;
-  atendimentos: OrdemServicoSTN;
+  atendimento: OrdemServicoSTN;
   ultimoAtendimento: OrdemServicoSTN;
   ordemServicoSTN: OrdemServicoSTN;
   laudo: Laudo;
@@ -50,9 +50,9 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this._cdr.detectChanges();
 
     this.isAddMode = !this.codAtendimento;
-    this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
+    this.atendimento = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.registrarEmitters();
-    this.obterDados(this.atendimentos.codOS);
+    this.obterDados(this.atendimento.codOS);
   }
 
   private registrarEmitters() {
@@ -71,7 +71,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
     if(this.isAddMode)
-      this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codOS: codOS }).toPromise()).items.shift();
+      this.atendimento = (await this._ordemServicoSTNService.obterPorParametros({ codOS: codOS }).toPromise()).items.shift();
     
     this.obterLaudo();
     this.isLoading = false;
@@ -80,7 +80,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 
   async obterLaudo() {
     this.laudo = (await this._laudoService.obterPorParametros({
-      codOS: this.atendimentos.codOS
+      codOS: this.atendimento.codOS
     }).toPromise()).items.shift();
   }
 
@@ -104,7 +104,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   }
 
   validarStatus() {
-    if (this.atendimentos?.codStatusSTN == (1 || 2))
+    if (this.atendimento?.codStatusSTN == (1 || 2))
       return true;
 
     return false;

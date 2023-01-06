@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { CausaImprodutividadeService } from 'app/core/services/causa-improdutividade.service';
 import { CausaService } from 'app/core/services/causa.service';
@@ -10,7 +10,6 @@ import { ProtocoloChamadoSTNService } from 'app/core/services/protocolo-chamado-
 import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
 import { TipoChamadoSTNService } from 'app/core/services/tipo-chamado-stn.service';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
-import { UsuarioService } from 'app/core/services/usuario.service';
 import { CausaImprodutividade } from 'app/core/types/causa-improdutividade.types';
 import { Causa } from 'app/core/types/causa.types';
 import { Improdutividade } from 'app/core/types/improdutividade.types';
@@ -21,7 +20,7 @@ import { StatusServicoSTN } from 'app/core/types/status-servico-stn.types';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoChamadoSTN } from 'app/core/types/tipo-chamado-stn.types';
 import { TipoServico } from 'app/core/types/tipo-servico.types';
-import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
 import { forkJoin, Subject } from 'rxjs';
@@ -34,21 +33,20 @@ import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   @Input() codAtendimento: number;
   atendimento: OrdemServicoSTN;
-  status: StatusServicoSTN[] = [];
   protocolo: ProtocoloChamadoSTN;
-  tipoCausa: TipoServico[] = [];
-  tipoChamadoSTN: TipoChamadoSTN[] = [];
   tipoServico: string;
-  modulos: Causa[] = [];
-  subModulos: Causa[] = [];
-  componentes: Causa[] = [];
-  usuario: Usuario;
-  origens: OrdemServicoSTNOrigem[] = [];
-  improdutividades: Improdutividade[] = [];
-  causaImprodutividade: CausaImprodutividade[] = [];
   userSession: UsuarioSessao;
   form: FormGroup;
   searching: boolean;
+  modulos: Causa[] = [];
+  subModulos: Causa[] = [];
+  causas: Causa[] = [];
+  tipoCausa: TipoServico[] = [];
+  status: StatusServicoSTN[] = [];
+  tipoChamadoSTN: TipoChamadoSTN[] = [];
+  origens: OrdemServicoSTNOrigem[] = [];
+  improdutividades: Improdutividade[] = [];
+  causaImprodutividade: CausaImprodutividade[] = [];
   causasFiltro: FormControl = new FormControl();
   tipoCausaFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
@@ -61,49 +59,61 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     private _ordemServicoSTNOrigemSrv: OrdemServicoSTNOrigemService,
     private _tipoServicoService: TipoServicoService,
     private _causaService: CausaService,
-    private _usuarioService: UsuarioService,
     private _causaImprodutividadeService: CausaImprodutividadeService,
     private _improdutividadeService: ImprodutividadeService,
     private _formBuilder: FormBuilder,
-    private _userService: UserService) {
+    private _userService: UserService
+  ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
+    this.inicializarForm();
+    this.registrarEmitters();
+   
     this.atendimento = await this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento).toPromise();
     this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
-    this.usuario = (await this._usuarioService.obterPorParametros({ codUsuario: this.atendimento.codUsuarioCad }).toPromise()).items.shift();
     this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
     this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo.codProtocoloChamadoSTN }).toPromise()).items;
 
-    this.inicializarForm();
+    this.preencherForm();
     this.obterOrigens();
     this.obterTipoCausa();
     this.obterTipoChamados();
     this.obterStatus();
     this.obterCausas();
-    this.registrarEmitters();
+
   }
 
+  private preencherForm(): void {
+    this.form.controls['codAtendimento'].setValue(this.atendimento?.codAtendimento);
+    this.form.controls['dataHoraAberturaSTN'].setValue(this.atendimento?.dataHoraAberturaSTN);
+    this.form.controls['codOrigemChamadoSTN'].setValue(this.atendimento?.codOrigemChamadoSTN);
+    this.form.controls['codStatusSTN'].setValue(this.atendimento?.codStatusSTN);
+    this.form.controls['codTipoChamadoSTN'].setValue(this.protocolo?.codTipoChamadoSTN);
+    this.form.controls['nomeUsuario'].setValue(this.atendimento?.usuario?.nomeUsuario);
+    this.form.controls['tecnicoCampo'].setValue(this.protocolo?.tecnicoCampo);
+    this.form.controls['codTipoCausa'].setValue(this.causas[0]?.codCausa);
+    this.form.controls['acaoSTN'].setValue(this.protocolo?.acaoSTN);
+  }
+  
   inicializarForm() {
     this.form = this._formBuilder.group({
-      codAtendimento:[this.atendimento?.codAtendimento],
-      dataHoraAberturaSTN:[this.atendimento?.dataHoraAberturaSTN],
-      codOrigemChamadoSTN: [this.atendimento?.codOrigemChamadoSTN],
-      codStatusSTN: [this.atendimento?.codStatusSTN],
-      codTipoChamadoSTN:[this.protocolo?.codTipoChamadoSTN],
-      nomeUsuario: [this.usuario?.nomeUsuario],
-      tecnicoCampo: [this.protocolo?.tecnicoCampo],
+      codAtendimento: [undefined],
+      dataHoraAberturaSTN: [undefined],
+      codOrigemChamadoSTN: [undefined],
+      codStatusSTN: [undefined],
+      codTipoChamadoSTN:[undefined],
+      nomeUsuario: [undefined],
+      tecnicoCampo: [undefined],
       tipoServico: [undefined],
-      codTipoCausa: [this.componentes?.shift().codCausa],
-      acaoSTN: [this.protocolo?.acaoSTN]
+      codTipoCausa: [undefined],
+      acaoSTN: [undefined],
+      codDefeito: [undefined]
     });
-    console.log(this.form);
-    
   }
 
   registrarEmitters() {
-    
     this.tipoCausaFiltro.valueChanges
       .pipe(
         filter(query => !!query),
@@ -144,12 +154,14 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
         takeUntil(this._onDestroy)
       )
       .subscribe(async data => {
-        this.componentes = await data;
+        this.causas = await data;
       });
   }
 
   async obterCausas() {
-    this.componentes = (await this._causaService.obterPorParametros({ codECausa: this.atendimento.codDefeito }).toPromise()).items;
+    this.causas = (await this._causaService
+      .obterPorParametros({ codECausa: this.atendimento.codDefeito })
+      .toPromise()).items;
   }
 
   async obterOrigens() {

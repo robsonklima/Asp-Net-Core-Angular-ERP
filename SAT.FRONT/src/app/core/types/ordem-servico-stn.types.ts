@@ -1,6 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServicoSTNOrigem } from "./ordem-servico-stn-origem.types";
 import { OrdemServico } from "./ordem-servico.types";
+import { Usuario } from "./usuario.types";
 
 export interface OrdemServicoSTN {
     codAtendimento: number;
@@ -27,6 +28,7 @@ export interface OrdemServicoSTN {
     obsSistema?: string;
     ordemServico?: OrdemServico;
     ordemServicoSTNOrigem?: OrdemServicoSTNOrigem;
+    usuario: Usuario;
 }
 
 export interface OrdemServicoSTNData extends Meta

@@ -25,7 +25,7 @@ export class UsuarioService {
         )
     }
 
-    obterPorCodigo(codUsuario: number): Observable<Usuario> {
+    obterPorCodigo(codUsuario: string): Observable<Usuario> {
         const url = `${c.api}/Usuario/${codUsuario}`;
         return this.http.get<Usuario>(url).pipe(
             map((obj) => obj)

@@ -1,8 +1,7 @@
-<div *ngIf="atendimento">
-    <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden"
-        *transloco="let t">
+<form autocomplete="off" [formGroup]="form" *ngIf="atendimento">
+    <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex flex-col border-b font-medium">
-            <form autocomplete="off" [formGroup]="form" class="flex flex-col bg-card rounded overflow-hidden">
+            <div class="flex flex-col bg-card rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('Atendimento Tratativa STN') }}</p>
                 </div>
@@ -16,15 +15,14 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('Data Hora Abertura') }}</mat-label>
-                        <input matInput [matDatepicker]="contratoData"
-                            formControlName="dataHoraAberturaSTN" [readonly]="true">
+                        <input matInput [matDatepicker]="contratoData" formControlName="dataHoraAberturaSTN" [readonly]="true">
                         <mat-datepicker #contratoData></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('Origem Chamado') }}</mat-label>
                         <mat-select formControlName="codOrigemChamadoSTN">
-                            <mat-option *ngFor="let origem of origens">
+                            <mat-option *ngFor="let origem of origens" [value]="origem.codOrigemChamadoSTN">
                                 {{ origem?.descOrigemChamadoSTN }}
                             </mat-option>
                         </mat-select>
@@ -38,15 +36,14 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-
                 </div>
-            </form>
+            </div>
         </div>
     </fuse-card>
 
     <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden mt-4" *transloco="let t">
         <div class="flex flex-col border-b font-medium">
-            <form autocomplete="off" [formGroup]="form" class="flex flex-col bg-card rounded overflow-hidden">
+            <div class="flex flex-col bg-card rounded overflow-hidden">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('Tratativa de Suporte') }}</p>
                 </div>
@@ -73,7 +70,7 @@
                         <input matInput formControlName="tecnicoCampo">
                     </mat-form-field>
 
-                    <div class="fuse-mat-dense sm:col-span-6">
+                    <!-- <div class="fuse-mat-dense sm:col-span-6">
                         <div class="text-secondary">
                             Motivos da causa de improdutividade?
                         </div>
@@ -81,30 +78,33 @@
                         <div *ngFor="let improdutividade of improdutividades">
                             <mat-slide-toggle [color]="'primary'"
                                 [checked]="verificarSelecionado(improdutividade?.codImprodutividade)"
-                                (change)="onChange($event, improdutividade?.codImprodutividade)">
+                                (change)="onChange($event, improdutividade?.codImprodutividade)"
+                                [ngModelOptions]="{standalone: true}">
                                 {{ improdutividade?.descImprodutividade }}
                             </mat-slide-toggle>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="fuse-mat-dense sm:col-span-6">
+                    <!-- <div class="fuse-mat-dense sm:col-span-6">
                         <div class="text-secondary">
                             Evitou Pendência?
                         </div>
 
                         <div class="truncate max-w-1/2">
                             <mat-slide-toggle [color]="'primary'" [checked]="atendimento?.indEvitaPendencia == 1" [(ngModel)]="atendimento.indEvitaPendencia" 
-                                (change)="onChangePendencia($event)">
+                                (change)="onChangePendencia($event)" [ngModelOptions]="{standalone: true}">
                                 {{ atendimento?.indEvitaPendencia ? 'Sim' : 'Não' }}
                             </mat-slide-toggle>
                         </div>
-                    </div>
+                    </div> -->
 
                     <mat-radio-group class="fuse-mat-dense sm:col-span-4 py-6" [color]="'primary'" formControlName="tipoServico">
                         <div class="py-2">Tipo Serviço</div>
+
                         <mat-radio-button class="mb-2"  [value]="'1'">
                             {{ t('maquina') }}
                         </mat-radio-button>
+
                         <mat-radio-button class="mb-2 ml-4" [value]="'2'">
                             {{ t('extra-maquina') }}
                         </mat-radio-button>
@@ -128,17 +128,19 @@
                     
                     <mat-form-field class="fuse-mat-dense sm:col-span-4 py-3">
                         <mat-label>{{ t('Componente') }}</mat-label>
-                        <mat-select formControlName="codDefeito">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'"
-                                [formControl]="causasFiltro"></ngx-mat-select-search>
-                        </mat-option>
 
-                        <mat-option *ngFor="let componente of componentes" [value]="componente?.codCausa">
-                            {{ componente?.codECausa }} - {{ componente?.nomeCausa | titlecase }}
-                        </mat-option>
-                    </mat-select>
+                        <mat-select formControlName="codDefeito">
+
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'"
+                                    [formControl]="causasFiltro"></ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let causa of causas" [value]="causa?.codCausa">
+                                {{ causa?.codECausa }} - {{ causa?.nomeCausa | titlecase }}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
@@ -148,14 +150,13 @@
                     </mat-form-field>
 
                 </div>
-            </form>
+            </div>
+
             <div class="flex items-center justify-end px-4 py-2" *transloco="let t">
                 <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
-                    <span>
-                        {{ t('salvar') }}
-                    </span>
+                    {{ t('salvar') }}
                 </button>
             </div>
         </div>
     </fuse-card>
-</div>
+</form>

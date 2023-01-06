@@ -16,17 +16,15 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('Data Hora Abertura') }}</mat-label>
-                        <input matInput readonly=“true” [matDatepicker]="contratoData"
-                            formControlName="dataHoraAberturaSTN" [value]="atendimento?.dataHoraAberturaSTN"
-                            [ngModel]="atendimento.dataHoraAberturaSTN" [readonly]="true">
+                        <input matInput [matDatepicker]="contratoData"
+                            formControlName="dataHoraAberturaSTN" [readonly]="true">
                         <mat-datepicker #contratoData></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('Origem Chamado') }}</mat-label>
                         <mat-select formControlName="codOrigemChamadoSTN">
-                            <mat-option *ngFor="let origem of origens" [value]="origem?.codOrigemChamadoSTN"
-                                [(ngModel)]="atendimento.codOrigemChamadoSTN">
+                            <mat-option *ngFor="let origem of origens">
                                 {{ origem?.descOrigemChamadoSTN }}
                             </mat-option>
                         </mat-select>
@@ -35,8 +33,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('Status Protocolo') }}</mat-label>
                         <mat-select formControlName="codStatusSTN">
-                            <mat-option *ngFor="let stat of status" [value]="stat?.codStatusSTN"
-                                [(ngModel)]="atendimento.codStatusSTN">
+                            <mat-option *ngFor="let stat of status" [value]="stat?.codStatusSTN">
                                 {{ stat?.descStatusServicoSTN }}
                             </mat-option>
                         </mat-select>
@@ -60,8 +57,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('Tipo Chamado') }}</mat-label>
                         <mat-select formControlName="codTipoChamadoSTN">
-                            <mat-option *ngFor="let tipo of tipoChamadoSTN" [value]="tipo?.codTipoChamadoSTN"
-                                [(ngModel)]="protocolo.codTipoChamadoSTN">
+                            <mat-option *ngFor="let tipo of tipoChamadoSTN" [value]="tipo?.codTipoChamadoSTN">
                                 {{ tipo?.descTipoChamadoSTN }}
                             </mat-option>
                         </mat-select>
@@ -69,12 +65,12 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('Responsável Suporte STN') }}</mat-label>
-                        <input matInput [value]="usuario?.nomeUsuario" [readonly]="true">
+                        <input matInput formControlName="nomeUsuario" [readonly]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('Técnico de Campo') }}</mat-label>
-                        <input matInput [value]="protocolo?.tecnicoCampo" [ngModel]="protocolo?.tecnicoCampo">
+                        <input matInput formControlName="tecnicoCampo">
                     </mat-form-field>
 
                     <div class="fuse-mat-dense sm:col-span-6">
@@ -148,7 +144,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('Ação Suporte') }}</mat-label>
                         <textarea class="flex items-center justify-between" matInput formControlName="acaoSTN"
-                            [rows]="5" maxlength="1000" [value]="protocolo?.acaoSTN"></textarea>
+                            [rows]="5" maxlength="1000"></textarea>
                     </mat-form-field>
 
                 </div>

@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { LaudoService } from 'app/core/services/laudo.service';
@@ -21,31 +21,25 @@ export class SuporteStnLaudoFormComponent implements OnInit, OnDestroy {
   userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
-    private _router: Router,
     private _userService: UserService,
     private _laudoService: LaudoService,
     private _snack: CustomSnackbarService,
     private _exportacaoService: ExportacaoService
-  )
-  {
+  ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.codLaudo = +this._route.snapshot.paramMap.get('codLaudo');
 
     this.inicializarForm();
     this.laudo = await this._laudoService.obterPorCodigo(this.codLaudo).toPromise();
-    console.log(this.laudo);
-    
   }
 
-  private inicializarForm(): void
-  {
+  private inicializarForm(): void {
     this.form = this._formBuilder.group({
     });
   }
@@ -64,9 +58,7 @@ export class SuporteStnLaudoFormComponent implements OnInit, OnDestroy {
       .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
   }
 
-
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

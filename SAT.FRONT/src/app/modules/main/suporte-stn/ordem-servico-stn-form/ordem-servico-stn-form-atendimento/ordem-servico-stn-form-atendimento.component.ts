@@ -87,20 +87,19 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 
   inicializarForm() {
     this.form = this._formBuilder.group({
-      codOrigemChamadoSTN: [undefined, Validators.required],
-      codTipoCausa: [undefined, Validators.required],
-      dataHoraAberturaSTN: [undefined],
-      codAtendimento: [ this.atendimento.codAtendimento ],
-      codStatusSTN: [undefined],
-      codTipoChamadoSTN: [undefined],
-      tecnicoCampo: [undefined],
-      codGrupoCausa: [undefined],
-      codCausa: [undefined],
-      codDefeito: [undefined],
-      acaoSTN: [undefined],
+      codAtendimento:[this.atendimento?.codAtendimento],
+      dataHoraAberturaSTN:[this.atendimento?.dataHoraAberturaSTN],
+      codOrigemChamadoSTN: [this.atendimento?.codOrigemChamadoSTN],
+      codStatusSTN: [this.atendimento?.codStatusSTN],
+      codTipoChamadoSTN:[this.protocolo?.codTipoChamadoSTN],
+      nomeUsuario: [this.usuario?.nomeUsuario],
+      tecnicoCampo: [this.protocolo?.tecnicoCampo],
       tipoServico: [undefined],
-      nomeTecnico: [undefined]
+      codTipoCausa: [this.componentes?.shift().codCausa],
+      acaoSTN: [this.protocolo?.acaoSTN]
     });
+    console.log(this.form);
+    
   }
 
   registrarEmitters() {

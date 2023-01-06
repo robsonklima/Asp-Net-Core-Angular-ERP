@@ -65,7 +65,7 @@
                 <mat-tab [label]="t('informacoes')">
                     <ng-template matTabContent>
                         <app-ordem-servico-stn-form-informacao
-                            [codOS]="os?.codOS"></app-ordem-servico-stn-form-informacao>
+                            [codOS]="os?.codOS" *ngIf="os?.codOS"></app-ordem-servico-stn-form-informacao>
                     </ng-template>
                 </mat-tab>
 

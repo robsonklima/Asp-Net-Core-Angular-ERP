@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
@@ -8,9 +8,10 @@ import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/r
 
 @Component({
     selector: 'app-ordem-servico-stn-form-informacao',
-    templateUrl: './ordem-servico-stn-form-informacao.component.html'
+    templateUrl: './ordem-servico-stn-form-informacao.component.html',
+    
 })
-export class OrdemServicoStnFormInformacaoComponent implements OnInit {
+export class OrdemServicoStnFormInformacaoComponent implements AfterViewInit {
     @Input() codOS: number;
     os: OrdemServico;
     rat: RelatorioAtendimento;
@@ -20,18 +21,13 @@ export class OrdemServicoStnFormInformacaoComponent implements OnInit {
         private _ordemServicoService: OrdemServicoService,
         private _relatorioAtendimentoService: RelatorioAtendimentoService,
         private _equipamentoContratoService: EquipamentoContratoService,
+        private _cdr: ChangeDetectorRef
     ) { }
 
-    async ngOnInit() {
+    async ngAfterViewInit() {
         this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-        this.rat = (await this.obterRelatoriosAtendimento()).items.shift();
+        this.rat = (await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise()).items.shift();
         this.equipamento = await this._equipamentoContratoService.obterPorCodigo(this.os.codEquipContrato).toPromise();
-
+        this._cdr.detectChanges();
     }
-
-    private async obterRelatoriosAtendimento(): Promise<RelatorioAtendimentoData> {
-        return await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise();
-    }
-
-    salvar() { }
 }

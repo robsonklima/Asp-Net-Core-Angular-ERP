@@ -24,7 +24,7 @@ import { TipoServico } from 'app/core/types/tipo-servico.types';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -82,7 +82,6 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.obterTipoChamados();
     this.obterStatus();
     this.obterCausas();
-
     this.registrarEmitters();
   }
 
@@ -91,7 +90,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
       codOrigemChamadoSTN: [undefined, Validators.required],
       codTipoCausa: [undefined, Validators.required],
       dataHoraAberturaSTN: [undefined],
-      codAtendimento: [undefined],
+      codAtendimento: [ this.atendimento.codAtendimento ],
       codStatusSTN: [undefined],
       codTipoChamadoSTN: [undefined],
       tecnicoCampo: [undefined],
@@ -99,7 +98,8 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
       codCausa: [undefined],
       codDefeito: [undefined],
       acaoSTN: [undefined],
-      tipoServico: [undefined]
+      tipoServico: [undefined],
+      nomeTecnico: [undefined]
     });
   }
 
@@ -211,7 +211,24 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     return _.find(this.causaImprodutividade, { codImprodutividade: codImprodutividade, codProtocolo: this.protocolo?.codProtocoloChamadoSTN }) != null;
   }
 
-  salvar() { }
+  salvar() {
+    this.codAtendimento ? this.atualizar() : this.criar();
+  }
+  
+  atualizar() {
+    throw new Error('Method not implemented.');
+  }
+
+  criar() {
+    forkJoin([
+      this._ordemServicoSTNService.criar(this.form.getRawValue()),
+      this._ordemServicoSTNService.criar(this.form.getRawValue()),
+    ]).subscribe(([result1, result2]) => {
+      if (result1 && result2) {
+        //mensagem pro usuario dizendo que cadastrou os 2
+      }      
+    });
+  }
 
   ngOnDestroy() {
     this._onDestroy.next();

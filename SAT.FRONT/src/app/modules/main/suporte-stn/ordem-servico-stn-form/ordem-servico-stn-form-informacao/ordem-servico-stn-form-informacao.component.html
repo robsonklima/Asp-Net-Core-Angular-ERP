@@ -1,115 +1,118 @@
-<div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="codOS">
-    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
-        *transloco="let t">
-        <div class="flex flex-col mt-4 border-t border-b font-medium">
-            <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
-                <p class="text-lg font-medium">Dados OS Perto</p>
+<div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="os">
+    <fuse-card class="flex flex-col col-span-3 flex-auto bg-card 2xl overflow-hidden" *transloco="let t">
+        <div class="flex flex-col font-medium">
+            <div class="bg-gray-50 p-4 border-b">
+                <p class="text-lg font-medium">
+                    Dados OS Perto
+                </p>
             </div>
+
             <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
 
-            <div class="flex items-center justify-between py-3">
-                <div class="text-secondary">{{ t('OS Cliente') }}</div>
-                <div>{{ os?.codOS || "Não informado" }}</div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">{{ t('OS Cliente') }}</div>
+                    <div>{{ os?.codOS || "Não informado" }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Data Hora Abertura
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Status
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.statusServico?.nomeStatusServico }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        intervenção
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.tipoIntervencao?.nomTipoIntervencao }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Cliente
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.cliente?.nomeFantasia }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Filial
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.filial?.nomeFilial }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Local de Atendimento
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.localAtendimento?.nomeLocal | uppercase }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Reincidência
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.numReincidencia || 0 }}
+                    </div>
+                </div>
+
+                <!-- <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Qtd. OS 90 Dias
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.equipamentoContrato?.mtbf?.qtdOS}}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        MTBF 90 Dias
+                    </div>
+
+                    <div class="truncate max-w-1/2">
+                        {{ os?.equipamentoContrato?.mtbf?.resultado}}
+                    </div>
+                </div> -->
             </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Data Hora Abertura
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Status
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.statusServico?.nomeStatusServico }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    intervenção
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.tipoIntervencao?.nomTipoIntervencao }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Cliente
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.cliente?.nomeFantasia }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Filial
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.filial?.nomeFilial }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Local de Atendimento
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.localAtendimento?.nomeLocal | uppercase }}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Reincidência
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.numReincidencia || 0 }}
-                </div>
-            </div>
-
-            <!-- <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    Qtd. OS 90 Dias
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.equipamentoContrato?.mtbf?.qtdOS}}
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-                <div class="text-secondary">
-                    MTBF 90 Dias
-                </div>
-
-                <div class="truncate max-w-1/2">
-                    {{ os?.equipamentoContrato?.mtbf?.resultado}}
-                </div>
-            </div> -->
         </div>
-    </div>
-
     </fuse-card>
-    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
-        *transloco="let t">
+
+    <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex flex-col mt-4 border-t border-b divide-y font-medium">
             <div class="bg-gray-50 dark:bg-gray-700 p-4 ">
-                <p class="text-lg font-medium">Dados Atendimento Campo</p>
+                <p class="text-lg font-medium">
+                    Dados Atendimento Campo
+                </p>
             </div>
 
             <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
@@ -173,7 +176,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </fuse-card>
 </div>

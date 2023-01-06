@@ -47,6 +47,8 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     this.codAtendimento = +this._route.snapshot.paramMap.get('codAtendimento');
+    this._cdr.detectChanges();
+
     this.isAddMode = !this.codAtendimento;
     this.atendimentos = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.registrarEmitters();

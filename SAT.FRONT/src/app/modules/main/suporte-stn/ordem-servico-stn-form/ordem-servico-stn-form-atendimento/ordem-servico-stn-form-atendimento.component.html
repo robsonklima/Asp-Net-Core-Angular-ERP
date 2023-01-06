@@ -70,7 +70,7 @@
                         <input matInput formControlName="tecnicoCampo">
                     </mat-form-field>
 
-                    <!-- <div class="fuse-mat-dense sm:col-span-6">
+                    <div class="fuse-mat-dense sm:col-span-6">
                         <div class="text-secondary">
                             Motivos da causa de improdutividade?
                         </div>
@@ -78,25 +78,25 @@
                         <div *ngFor="let improdutividade of improdutividades">
                             <mat-slide-toggle [color]="'primary'"
                                 [checked]="verificarSelecionado(improdutividade?.codImprodutividade)"
-                                (change)="onChange($event, improdutividade?.codImprodutividade)"
-                                [ngModelOptions]="{standalone: true}">
+                                (change)="onChange($event, improdutividade?.codImprodutividade)">
                                 {{ improdutividade?.descImprodutividade }}
                             </mat-slide-toggle>
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <div class="fuse-mat-dense sm:col-span-6">
+                    <div class="fuse-mat-dense sm:col-span-6">
                         <div class="text-secondary">
                             Evitou Pendência?
                         </div>
 
                         <div class="truncate max-w-1/2">
-                            <mat-slide-toggle [color]="'primary'" [checked]="atendimento?.indEvitaPendencia == 1" [(ngModel)]="atendimento.indEvitaPendencia" 
-                                (change)="onChangePendencia($event)" [ngModelOptions]="{standalone: true}">
+                            <mat-slide-toggle [color]="'primary'"
+                                [checked]="atendimento?.indEvitaPendencia == 1" 
+                                (change)="onChangePendencia($event)">
                                 {{ atendimento?.indEvitaPendencia ? 'Sim' : 'Não' }}
                             </mat-slide-toggle>
                         </div>
-                    </div> -->
+                    </div>
 
                     <mat-radio-group class="fuse-mat-dense sm:col-span-4 py-6" [color]="'primary'" formControlName="tipoServico">
                         <div class="py-2">Tipo Serviço</div>

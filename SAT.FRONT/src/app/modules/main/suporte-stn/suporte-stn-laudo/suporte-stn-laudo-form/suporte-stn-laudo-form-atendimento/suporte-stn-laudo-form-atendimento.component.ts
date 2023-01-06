@@ -55,7 +55,7 @@ export class SuporteStnLaudoFormAtendimentoComponent implements OnInit, OnDestro
 		this.form = this._formBuilder.group({
 			relatoCliente: [undefined],
 			conclusao: [undefined],
-			codLaudoStatus: [undefined],
+			codLaudoStatus: [this.laudo.codLaudoStatus],
 			tensaoComCarga: [undefined],
 			tensaoSemCarga: [undefined],
 			tensaoTerraENeutro: [undefined],

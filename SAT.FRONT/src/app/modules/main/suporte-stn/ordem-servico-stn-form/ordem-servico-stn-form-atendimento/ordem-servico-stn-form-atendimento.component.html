@@ -31,7 +31,8 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('Status Protocolo') }}</mat-label>
                         <mat-select formControlName="codStatusSTN">
-                            <mat-option *ngFor="let stat of status" [value]="stat?.codStatusSTN">
+                            <mat-option *ngFor="let stat of status" [value]="stat?.codStatusServicoSTN"
+                            [(ngModel)]="atendimento.codStatusSTN">
                                 {{ stat?.descStatusServicoSTN }}
                             </mat-option>
                         </mat-select>
@@ -98,19 +99,6 @@
                         </div>
                     </div>
 
-                    <mat-radio-group class="fuse-mat-dense sm:col-span-4 py-6" [color]="'primary'" formControlName="tipoServico">
-                        <div class="py-2">Tipo Serviço</div>
-
-                        <mat-radio-button class="mb-2"  [value]="'1'">
-                            {{ t('maquina') }}
-                        </mat-radio-button>
-
-                        <mat-radio-button class="mb-2 ml-4" [value]="'2'">
-                            {{ t('extra-maquina') }}
-                        </mat-radio-button>
-                    </mat-radio-group>
-
-
                     <mat-form-field class="fuse-mat-dense sm:col-span-4 py-3">
                         <mat-label>{{ t('Tipo Causa') }}</mat-label>
                         <mat-select formControlName="codTipoCausa">
@@ -120,7 +108,7 @@
                                     [formControl]="tipoCausaFiltro"></ngx-mat-select-search>
                             </mat-option>
                             
-                            <mat-option *ngFor="let tipo of tipoCausa" [value]="tipo?.codETipoServico">
+                            <mat-option *ngFor="let tipo of tiposCausas" [value]="tipo?.codETipoServico">
                                 {{ tipo?.codETipoServico }} - {{ tipo?.nomeServico }}
                             </mat-option>
                         </mat-select>
@@ -137,7 +125,7 @@
                                     [formControl]="causasFiltro"></ngx-mat-select-search>
                             </mat-option>
 
-                            <mat-option *ngFor="let causa of causas" [value]="causa?.codCausa">
+                            <mat-option *ngFor="let causa of causas" [value]="causa?.codECausa">
                                 {{ causa?.codECausa }} - {{ causa?.nomeCausa | titlecase }}
                             </mat-option>
                         </mat-select>

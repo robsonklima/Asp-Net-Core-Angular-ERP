@@ -94,12 +94,13 @@ namespace SAT.INFRA.Repository
                 protocoloChamadoSTNs = protocoloChamadoSTNs.Where(a =>
                     a.CodProtocoloChamadoSTN.ToString().Contains(parameters.Filter));
             }
-
             
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 protocoloChamadoSTNs = protocoloChamadoSTNs.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
+
+            var query = protocoloChamadoSTNs.ToQueryString();
 
             return PagedList<ProtocoloChamadoSTN>.ToPagedList(protocoloChamadoSTNs, parameters.PageNumber, parameters.PageSize);
         }

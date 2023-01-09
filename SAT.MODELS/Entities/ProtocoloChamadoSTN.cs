@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
     {
         public int CodProtocoloChamadoSTN { get; set; }
         public int CodAtendimento { get; set; }
-        public int CodTipoChamadoSTN { get; set; }
+        public int? CodTipoChamadoSTN { get; set; }
         public int IndPrimeiraLigacao { get; set; }
         public string AcaoSTN { get; set; }
         public string TecnicoCampo { get; set; }

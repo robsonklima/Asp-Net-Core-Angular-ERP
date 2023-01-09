@@ -11,11 +11,15 @@
         </div>
     </div>
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
                     <mat-select formControlName="CodClientes" multiple="true">
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clientesFiltro">
+                        </ngx-mat-select-search>
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codClientes, clientes,
                         'codCliente')" [value]="0">
                             TODAS
@@ -29,6 +33,9 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('equipamento') }}</mat-label>
                     <mat-select formControlName="CodEquips" multiple="true">
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="equipsFiltro">
+                        </ngx-mat-select-search>
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codEquips, equips,
                         'codEquip')" [value]="0">
                             TODAS

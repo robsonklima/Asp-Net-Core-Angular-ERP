@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { ClienteService } from 'app/core/services/cliente.service';
@@ -11,6 +11,8 @@ import { IFilterBase } from 'app/core/types/filtro.types';
 import { LaudoStatus, LaudoStatusParameters } from 'app/core/types/laudo-status.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
+import { Subject } from 'rxjs';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-suporte-stn-laudo-filtro',
@@ -21,6 +23,9 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	clientes: Cliente[] = [];
 	equips: Equipamento[] = [];
 	status: LaudoStatus[] = [];
+	clientesFiltro: FormControl = new FormControl();
+	equipsFiltro: FormControl = new FormControl();
+	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		protected _userService: UserService,
@@ -35,6 +40,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	ngOnInit(): void {
 		this.createForm();
 		this.loadData();
+		this.registrarEmitters();
 	}
 
 	loadData(): void {
@@ -51,6 +57,52 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
+
+	registrarEmitters() {
+		this.clientesFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._clienteService.obterPorParametros({
+            sortActive: 'codCliente',
+            sortDirection: 'asc',
+            indAtivo: statusConst.ATIVO,
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
+
+          return data.items.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.clientes = await data;
+      });
+
+	  this.equipsFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          const data = await this._equipamentoService.obterPorParametros({
+            sortActive: 'codEquip',
+            sortDirection: 'asc',
+            filter: query,
+            pageSize: 100,
+          }).toPromise();
+
+          return data.items.slice();
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.equips = await data;
+      });
+		}
+	
 
 	async obterClientes(filtro: string = '') {
 		let params: ClienteParameters = {
@@ -90,5 +142,10 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		const data = await this._laudoStatusService.obterPorParametros(params).toPromise();
 		this.status = data.items;
 	}
+
+	ngOnDestroy() {
+		this._onDestroy.next();
+		this._onDestroy.complete();
+	  }
 
 }

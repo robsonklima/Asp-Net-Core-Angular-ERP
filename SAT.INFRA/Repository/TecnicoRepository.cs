@@ -62,7 +62,7 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.DespesaCartaoCombustivelTecnico)
                      .ThenInclude(t => t.DespesaCartaoCombustivel)
                 .Include(t => t.TecnicoContas)
-                .Include(t => t.Veiculos)
+                .Include(t => t.Veiculos.OrderByDescending(v => v.CodVeiculoCombustivel))
                 .FirstOrDefault(t => t.CodTecnico == codigo);
         }
 

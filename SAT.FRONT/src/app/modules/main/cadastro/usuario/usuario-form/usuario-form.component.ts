@@ -365,6 +365,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     const form = this.form.getRawValue();
 
     let obj = {
+      ...this.usuario,
       ...form,
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),

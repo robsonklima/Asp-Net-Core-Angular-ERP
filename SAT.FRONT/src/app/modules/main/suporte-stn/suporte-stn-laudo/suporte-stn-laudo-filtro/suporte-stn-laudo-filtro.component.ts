@@ -6,13 +6,14 @@ import { ClienteService } from 'app/core/services/cliente.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { LaudoStatusService } from 'app/core/services/laudo-status.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { Equipamento, EquipamentoFilterEnum, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { LaudoStatus, LaudoStatusParameters } from 'app/core/types/laudo-status.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
+import _ from 'lodash';
 import { Subject } from 'rxjs';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-suporte-stn-laudo-filtro',
@@ -47,6 +48,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		this.obterClientes();
 		this.obterEquipamentos();
 		this.obterLaudoStatus();
+		this.aoSelecionarCliente();
 	}
 
 	createForm(): void {
@@ -60,48 +62,35 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 
 	registrarEmitters() {
 		this.clientesFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const data = await this._clienteService.obterPorParametros({
-            sortActive: 'codCliente',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterClientes(this.clientesFiltro.value);
+			});
 
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data => {
-        this.clientes = await data;
-      });
+		this.form.controls['CodClientes'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.clientesFiltro.value);
+			});
 
-	  this.equipsFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const data = await this._equipamentoService.obterPorParametros({
-            sortActive: 'codEquip',
-            sortDirection: 'asc',
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
-
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data => {
-        this.equips = await data;
-      });
-		}
+		this.equipsFiltro.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.equipsFiltro.value);
+			});
+	}
 	
 
 	async obterClientes(filtro: string = '') {
@@ -123,6 +112,8 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	async obterEquipamentos(filtro: string = '') {
 		let params: EquipamentoParameters = {
 			filter: filtro,
+			filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
+			codClientes: this.form.controls['CodClientes'].value.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 100
@@ -141,6 +132,20 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 
 		const data = await this._laudoStatusService.obterPorParametros(params).toPromise();
 		this.status = data.items;
+	}
+
+	aoSelecionarCliente() {
+		this.form.controls['CodClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['CodClientes'].value && this.form.controls['CodClientes'].value != '') {
+					this.obterEquipamentos();
+					this.form.controls['CodEquips'].enable();
+				}
+				else {
+					this.form.controls['CodEquips'].setValue(null);
+				}
+			});
 	}
 
 	ngOnDestroy() {

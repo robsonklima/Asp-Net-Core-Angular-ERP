@@ -8,7 +8,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { OrdemServicoSTNOrigem, OrdemServicoSTNOrigemParameters } from 'app/core/types/ordem-servico-stn-origem.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
-import { Equipamento, EquipamentoParameters } from 'app/core/types/equipamento.types';
+import { Equipamento, EquipamentoFilterEnum, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -16,7 +16,7 @@ import { UserService } from 'app/core/user/user.service';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
@@ -58,6 +58,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 		this.obterEquipamentos();
 		this.obterOSOrigens();
 		this.obterUsuarios();
+		this.aoSelecionarCliente();
 	}
 
 	createForm(): void {
@@ -73,48 +74,35 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 
 	registrarEmitters() {
 		this.clientesFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const data = await this._clienteService.obterPorParametros({
-            sortActive: 'codCliente',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterClientes(this.clientesFiltro.value);
+			});
 
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data => {
-        this.clientes = await data;
-      });
+		this.form.controls['codClientes'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.clientesFiltro.value);
+			});
 
-	  this.equipsFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query => {
-          const data = await this._equipamentoService.obterPorParametros({
-            sortActive: 'codEquip',
-            sortDirection: 'asc',
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
-
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data => {
-        this.equips = await data;
-      });
-		}
+		this.equipsFiltro.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.equipsFiltro.value);
+			});
+	}
 
 	async obterClientes(filtro: string = '') {
 		let params: ClienteParameters = {
@@ -148,6 +136,8 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 	async obterEquipamentos(filtro: string = '') {
 		let params: EquipamentoParameters = {
 			filter: filtro,
+			filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
+			codClientes: this.form.controls['codClientes'].value.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 100
@@ -182,6 +172,20 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 
 		const data = await this._usuarioService.obterPorParametros(params).toPromise();
 		this.usuarios = data.items;
+	}
+
+	aoSelecionarCliente() {
+		this.form.controls['codClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
+					this.obterEquipamentos();
+					this.form.controls['codEquips'].enable();
+				}
+				else {
+					this.form.controls['codEquips'].setValue(null);
+				}
+			});
 	}
 
 	ngOnDestroy() {

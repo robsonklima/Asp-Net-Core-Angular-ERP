@@ -58,6 +58,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(l => l.RelatoriosAtendimento)
                         .ThenInclude(l => l.Fotos)
                 .Include(l => l.Tecnico)
+                .Include(l => l.Usuario)
                 .SingleOrDefault(a => a.CodLaudo == codigo);
             }
             catch (Exception ex)
@@ -83,6 +84,7 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Or)
                     .ThenInclude(l => l.RelatoriosAtendimento)
                 .Include(l => l.Tecnico)
+                .Include(l => l.Usuario)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
@@ -105,6 +107,9 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodLaudoStatus.HasValue)
                 laudos = laudos.Where(l => l.LaudoStatus.CodLaudoStatus == parameters.CodLaudoStatus.Value);
+
+            if (parameters.CodTipoIntervencao.HasValue)
+                laudos = laudos.Where(l => l.Or.CodTipoIntervencao == parameters.CodTipoIntervencao.Value);
 
             if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
             {

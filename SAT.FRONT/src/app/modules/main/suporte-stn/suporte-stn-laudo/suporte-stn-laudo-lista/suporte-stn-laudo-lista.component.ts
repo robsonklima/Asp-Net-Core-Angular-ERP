@@ -103,8 +103,6 @@ export class SuporteStnLaudoListaComponent extends Filterable implements AfterVi
     this.sidenav.closedStart.subscribe(() => {
       this.onSidenavClosed();
       this.obterDados();
-      console.log(this.filter);
-      
     });
   }
 

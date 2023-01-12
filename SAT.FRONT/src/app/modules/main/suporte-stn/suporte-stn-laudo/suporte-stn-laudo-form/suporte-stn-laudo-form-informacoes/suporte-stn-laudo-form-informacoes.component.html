@@ -43,6 +43,11 @@
                 <div class="px-6">{{ laudo?.or?.equipamento?.codEEquip || "Não informado" }}</div>
             </div>
 
+            <div class="flex items-center justify-between py-3">
+                <div class="text-secondary px-6">{{ t('Alterado Por') }}</div>
+                <div class="px-6">{{ laudo?.usuario?.nomeUsuario || "Não informado" }}</div>
+            </div>
+
         </div>
     </fuse-card>
 </div>

@@ -47,6 +47,19 @@
                 </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('intervencao') }}</mat-label>
+                    <mat-select formControlName="CodTipoIntervencao" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTipoIntervencao, intervencoes,
+                        'codTipoIntervencao')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let intervencao of intervencoes" [value]="intervencao.codTipoIntervencao">
+                            {{ intervencao.nomTipoIntervencao }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="CodLaudosStatus" multiple="true">
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codLaudosStatus, status,

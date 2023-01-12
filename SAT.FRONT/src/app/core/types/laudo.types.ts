@@ -4,6 +4,7 @@ import { LaudoSituacao } from "./laudo-situacao.types";
 import { LaudoStatus } from "./laudo-status.types";
 import { OrdemServico } from "./ordem-servico.types";
 import { Tecnico } from "./tecnico.types";
+import { Usuario } from "./usuario.types";
 
 export interface Laudo
 {
@@ -32,10 +33,11 @@ export interface Laudo
     laudoStatus: LaudoStatus;
     tecnico?: Tecnico[];
     or?: OrdemServico[];
+    usuario?: Usuario[];
 }
 
 export interface LaudoData extends Meta {
-    items: Laudo[]
+    items: Laudo[];
 };
 
 export interface LaudoParameters extends QueryStringParameters {

@@ -31,5 +31,6 @@ namespace SAT.MODELS.Entities
         public LaudoStatus LaudoStatus { get; set; }
         public OrdemServico Or { get; set; }
         public Tecnico Tecnico { get; set; }
+        public Usuario Usuario { get; set; }
     }
 }

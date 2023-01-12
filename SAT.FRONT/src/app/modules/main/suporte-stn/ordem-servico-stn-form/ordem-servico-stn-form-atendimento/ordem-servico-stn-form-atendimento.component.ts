@@ -108,6 +108,9 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.form.controls['codDefeito'].setValue(this.atendimento?.codDefeito);
     this.form.controls['acaoSTN'].setValue(this.protocolo?.acaoSTN);
 
+    console.log(this.form);
+    
+
   }
   
   inicializarForm() {

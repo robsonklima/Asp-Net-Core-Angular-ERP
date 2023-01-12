@@ -5,11 +5,13 @@ import { FilterBase } from 'app/core/filters/filter-base';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { LaudoStatusService } from 'app/core/services/laudo-status.service';
+import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Equipamento, EquipamentoFilterEnum, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { IFilterBase } from 'app/core/types/filtro.types';
 import { LaudoStatus, LaudoStatusParameters } from 'app/core/types/laudo-status.types';
 import { statusConst } from 'app/core/types/status-types';
+import { TipoIntervencao, TipoIntervencaoParameters } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
 import { Subject } from 'rxjs';
@@ -24,6 +26,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 	clientes: Cliente[] = [];
 	equips: Equipamento[] = [];
 	status: LaudoStatus[] = [];
+	intervencoes: TipoIntervencao [] = [];
 	clientesFiltro: FormControl = new FormControl();
 	equipsFiltro: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
@@ -33,6 +36,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		protected _formBuilder: FormBuilder,
 		private _clienteService: ClienteService,
 		private _equipamentoService: EquipamentoService,
+		private _tipoIntervencaoService: TipoIntervencaoService,
 		private _laudoStatusService: LaudoStatusService,
 	) {
 		super(_userService, _formBuilder, 'suporte-stn');
@@ -48,6 +52,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		this.obterClientes();
 		this.obterEquipamentos();
 		this.obterLaudoStatus();
+		this.obterTipoIntervencao();
 		this.aoSelecionarCliente();
 	}
 
@@ -56,6 +61,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 			CodClientes: [undefined],
 			CodEquips: [undefined],
 			CodLaudosStatus: [undefined],
+			CodTipoIntervencao: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -132,6 +138,17 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 
 		const data = await this._laudoStatusService.obterPorParametros(params).toPromise();
 		this.status = data.items;
+	}
+
+	async obterTipoIntervencao(filtro: string = ''){
+		let params: TipoIntervencaoParameters = {
+			filter: filtro,
+			sortActive: 'nomTipoIntervencao',
+			sortDirection: 'asc'
+		};
+
+		const data = await this._tipoIntervencaoService.obterPorParametros(params).toPromise();
+		this.intervencoes = data.items;
 	}
 
 	aoSelecionarCliente() {

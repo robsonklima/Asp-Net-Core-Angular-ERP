@@ -33,6 +33,12 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodTecnico);
 
             builder
+                .HasOne(prop => prop.Usuario)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioManut)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+
+            builder
                 .HasOne(prop => prop.Or)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodOS)

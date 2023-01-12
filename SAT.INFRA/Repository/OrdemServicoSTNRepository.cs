@@ -61,6 +61,8 @@ namespace SAT.INFRA.Repository
                 .Include(o => o.OrdemServico)
                     .ThenInclude(o => o.Cliente)
                 .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Tecnico)
+                .Include(o => o.OrdemServico)
                     .ThenInclude(o => o.EquipamentoContrato)
                         .ThenInclude(o => o.Equipamento)
                 .FirstOrDefault(p => p.CodAtendimento == codAtendimento);
@@ -76,6 +78,8 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(o => o.Filial)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(o => o.Cliente)
+                .Include(o => o.OrdemServico)
+                    .ThenInclude(o => o.Tecnico)
                 .Include(o => o.OrdemServico)
                     .ThenInclude(o => o.EquipamentoContrato)
                         .ThenInclude(o => o.Equipamento)

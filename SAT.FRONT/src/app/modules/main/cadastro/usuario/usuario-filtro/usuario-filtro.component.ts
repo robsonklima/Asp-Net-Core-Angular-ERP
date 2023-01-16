@@ -43,21 +43,23 @@ export class UsuarioFiltroComponent extends FilterBase implements OnInit, IFilte
 		this.form = this._formBuilder.group({
 			indAtivo: [undefined],
 			codCargos: [undefined]
-
 		});
+
 		this.form.patchValue(this.filter?.parametros);
 	}
 
 	async obterCargos(filtro: string = '') {
-		let params: CargoParameters = {
+		const params: CargoParameters = {
 			filter: filtro,
 			sortActive: 'nomeCargo',
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
+
 		const data = await this._cargoService
 			.obterPorParametros(params)
 			.toPromise();
+
 		this.cargos = data.items;
 	}
 

@@ -375,7 +375,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
           Enumerable.from(this.form.controls['codContrato'].value).select(t => t).distinct().toArray().join(',')
           : null,
         indPermiteRegistrarEquipPOS: +form.indPermiteRegistrarEquipPOS,
-        indPonto: +form.indPonto
+        indPonto: +form.indPonto,
+        codLingua: 1
       }
     };
 

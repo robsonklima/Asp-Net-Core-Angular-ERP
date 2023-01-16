@@ -16,22 +16,27 @@
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ordem reparo') }}</mat-label>
+
                     <input matInput formControlName="codOR">
+
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:bookmark'">
                     </mat-icon>
                 </mat-form-field>   
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status') }}</mat-label>
+
                     <mat-select formControlName="codStatus" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="statusFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
+
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codStatus, status, 'codStatus')" [value]="0">
                             TODAS
                         </mat-option>
+
                         <mat-option *ngFor="let s of status" [value]="s.codStatus">
                             {{ s.descStatus }}
                         </mat-option>
@@ -54,8 +59,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'ordem-reparo'" [filterBase]="this">
-                </salvar-filtro-usuario>
+                <salvar-filtro-usuario [filterName]="'ordem-reparo'" [filterBase]="this"></salvar-filtro-usuario>
             </div>
         </form>
     </ng-container>

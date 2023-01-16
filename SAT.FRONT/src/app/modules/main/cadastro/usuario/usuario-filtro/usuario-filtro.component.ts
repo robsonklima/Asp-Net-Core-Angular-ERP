@@ -1,23 +1,19 @@
-import { UserService } from '../../../../../core/user/user.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
+import { CargoService } from 'app/core/services/cargo.service';
+import { Cargo, CargoParameters } from 'app/core/types/cargo.types';
 import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Cargo, CargoParameters } from 'app/core/types/cargo.types';
-import { Perfil, PerfilParameters } from 'app/core/types/perfil.types';
-import { CargoService } from 'app/core/services/cargo.service';
-import { PerfilService } from 'app/core/services/perfil.service';
-
+import { UserService } from '../../../../../core/user/user.service';
 
 @Component({
 	selector: 'app-usuario-filtro',
 	templateUrl: './usuario-filtro.component.html'
 })
 export class UsuarioFiltroComponent extends FilterBase implements OnInit, IFilterBase {
-
 	@Input() sidenav: MatSidenav;
 
 	cargos: Cargo[] = [];
@@ -66,7 +62,6 @@ export class UsuarioFiltroComponent extends FilterBase implements OnInit, IFilte
 	}
 
 	private registrarEmitters() {
-
 		this.cargoFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -76,7 +71,6 @@ export class UsuarioFiltroComponent extends FilterBase implements OnInit, IFilte
 			.subscribe(() => {
 				this.obterCargos(this.cargoFilterCtrl.value);
 			});
-
 	}
 
 	ngOnDestroy() {

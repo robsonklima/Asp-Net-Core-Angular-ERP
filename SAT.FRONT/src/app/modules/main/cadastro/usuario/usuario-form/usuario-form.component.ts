@@ -328,12 +328,14 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   }
 
   async buscaCEP(cepCmp: any) {
-    if (cepCmp.target.value) {
+    const cep: string = cepCmp.target.value;
+
+    if (cep) {
       this.form.disable();
       // Google
       // Tenta pelo cep (nem sempre os endereços são corretos)
       this._googleGeolocationService
-        .obterPorParametros({ enderecoCep: cepCmp.target.value.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .obterPorParametros({ enderecoCep: cep.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
         .subscribe((mapService: Geolocalizacao) => {
           if (mapService) {
             this.form.controls['endereco'].setValue(mapService.endereco);
@@ -377,7 +379,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
           : null,
         indPermiteRegistrarEquipPOS: +form.indPermiteRegistrarEquipPOS,
         indPonto: +form.indPonto,
-        codLingua: 1
+        codLingua: 1,
+        codFusoHorario: 19
       }
     };
 

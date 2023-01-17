@@ -117,7 +117,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text => {
+      map(async () => {
         const endereco = this.form.controls['endereco']?.value || '';
         const numero = this.form.controls['numero']?.value || '';
         const codCidade = this.form.controls['codCidade'].value;
@@ -143,10 +143,10 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       this._tecnicoService.obterPorCodigo(this.codTecnico)
         .pipe(first())
         .subscribe(data => {
-          this.form.patchValue(data);
           this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
           this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
           this.tecnico = data;
+          this.form.patchValue(data);
         });
     }
   }

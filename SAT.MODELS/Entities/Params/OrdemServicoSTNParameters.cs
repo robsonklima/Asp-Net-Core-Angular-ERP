@@ -12,5 +12,6 @@ namespace SAT.MODELS.Entities.Params
         public int? CodOrigemChamadoSTN { get; set; }
         public string CodOrigemChamadoSTNs { get; set; }
         public string CodUsuarios { get; set; }
+        public string codStatusServicoSTNs { get; set; }
     }
 }

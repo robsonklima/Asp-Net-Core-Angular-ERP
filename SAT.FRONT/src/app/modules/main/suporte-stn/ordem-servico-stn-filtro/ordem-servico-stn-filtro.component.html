@@ -85,6 +85,19 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('status') }}</mat-label>
+                    <mat-select formControlName="codStatusServicoSTNs" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codStatusServicoSTNs, status,
+                        'codStatusServicoSTN')" [value]="0">
+                            TODAS
+                        </mat-option>
+                        <mat-option *ngFor="let stat of status" [value]="stat.codStatusServicoSTN">
+                            {{ stat.descStatusServicoSTN }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div class="mt-6 border-t"></div>

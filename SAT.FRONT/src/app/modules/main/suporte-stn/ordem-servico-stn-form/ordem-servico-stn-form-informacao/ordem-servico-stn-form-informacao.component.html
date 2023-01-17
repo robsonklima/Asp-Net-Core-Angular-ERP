@@ -83,26 +83,6 @@
                         {{ os?.numReincidencia || 0 }}
                     </div>
                 </div>
-
-                <!-- <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Qtd. OS 90 Dias
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        {{ os?.equipamentoContrato?.mtbf?.qtdOS}}
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        MTBF 90 Dias
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        {{ os?.equipamentoContrato?.mtbf?.resultado}}
-                    </div>
-                </div> -->
             </div>
         </div>
     </fuse-card>
@@ -143,7 +123,7 @@
                     </div>
 
                     <div class="truncate max-w-1/2">
-                        {{ rat?.tecnico?.nome }}
+                        {{ os?.tecnico?.nome }}
                     </div>
                 </div>
 
@@ -153,7 +133,7 @@
                     </div>
 
                     <div class="truncate max-w-1/2">
-                        {{ rat?.tecnico?.fonePerto }}
+                        {{ os?.tecnico?.fonePerto }}
                     </div>
                 </div>
 
@@ -174,6 +154,16 @@
 
                     <div class="max-w-1/2 text-right">
                         {{ rat?.relatoSolucao }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between py-1">
+                    <div class="text-secondary">
+                        Relato da RAT
+                    </div>
+
+                    <div class="max-w-1/2 text-right">
+                        {{ rat?.obsRAT }}
                     </div>
                 </div>
             </div>

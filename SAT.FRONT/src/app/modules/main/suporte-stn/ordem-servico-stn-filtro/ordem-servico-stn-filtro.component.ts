@@ -16,8 +16,10 @@ import { UserService } from 'app/core/user/user.service';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
-import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
+import { StatusServicoSTN, StatusServicoSTNParameters } from 'app/core/types/status-servico-stn.types';
+import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
 
 @Component({
 	selector: 'app-ordem-servico-stn-filtro',
@@ -30,6 +32,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 	equips: Equipamento[] = [];
 	origens: OrdemServicoSTNOrigem[] = [];
 	usuarios: Usuario[] = [];
+	status: StatusServicoSTN [] = [];
 	clientesFiltro: FormControl = new FormControl();
 	equipsFiltro: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
@@ -41,6 +44,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 		private _filialService: FilialService,
 		private _equipamentoService: EquipamentoService,
 		private _osSTNOrigemService: OrdemServicoSTNOrigemService,
+		private _statusServicoSTNService: StatusServicoSTNService,
 		private _usuarioService: UsuarioService
 	) {
 		super(_userService, _formBuilder, 'ordem-servico-stn');
@@ -58,6 +62,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 		this.obterEquipamentos();
 		this.obterOSOrigens();
 		this.obterUsuarios();
+		this.obterStatus();
 		this.aoSelecionarCliente();
 	}
 
@@ -68,6 +73,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 			codEquips: [undefined],
 			codOrigemChamadoSTNs: [undefined],
 			codUsuarios: [undefined],
+			codStatusServicoSTNs: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -131,6 +137,19 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 
 		const data = await this._filialService.obterPorParametros(params).toPromise();
 		this.filiais = data.items;
+	}
+
+	async obterStatus(filtro: string = '') {
+		let params: StatusServicoSTNParameters = {
+			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'descStatusServicoSTN',
+			sortDirection: 'asc',
+			pageSize: 100
+		};
+
+		const data = await this._statusServicoSTNService.obterPorParametros(params).toPromise();
+		this.status = data.items;
 	}
 
 	async obterEquipamentos(filtro: string = '') {

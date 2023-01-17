@@ -132,6 +132,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => cods.Contains(os.OrdemServicoSTNOrigem.CodOrigemChamadoSTN));
             };
 
+            if (!string.IsNullOrWhiteSpace(parameters.codStatusServicoSTNs))
+            {
+                int[] cods = parameters.codStatusServicoSTNs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(os => cods.Contains(os.StatusSTN.CodStatusServicoSTN));
+            };
+
             if (!string.IsNullOrEmpty(parameters.CodUsuarios))
             {
                 var usuarios = parameters.CodUsuarios.Split(',').Select(e => e.Trim());

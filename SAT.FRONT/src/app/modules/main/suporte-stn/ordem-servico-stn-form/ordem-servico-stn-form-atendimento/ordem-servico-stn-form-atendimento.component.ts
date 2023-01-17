@@ -8,6 +8,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { ImprodutividadeService } from 'app/core/services/improdutividade.service';
 import { OrdemServicoSTNOrigemService } from 'app/core/services/ordem-servico-stn-origem.service';
 import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { ProtocoloChamadoSTNService } from 'app/core/services/protocolo-chamado-stn.service';
 import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
 import { TipoChamadoSTNService } from 'app/core/services/tipo-chamado-stn.service';
@@ -17,6 +18,7 @@ import { Causa } from 'app/core/types/causa.types';
 import { Improdutividade } from 'app/core/types/improdutividade.types';
 import { OrdemServicoSTNOrigem } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTN } from 'app/core/types/ordem-servico-stn.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { ProtocoloChamadoSTN } from 'app/core/types/protocolo-chamado-stn.types';
 import { StatusServicoSTN } from 'app/core/types/status-servico-stn.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -37,6 +39,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   @Input() codAtendimento: number;
   atendimento: OrdemServicoSTN;
   protocolo: ProtocoloChamadoSTN;
+  os: OrdemServico;
   userSession: UsuarioSessao;
   form: FormGroup;
   isAddMode: boolean;
@@ -62,6 +65,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     private _causaService: CausaService,
     private _causaImprodutividadeService: CausaImprodutividadeService,
     private _improdutividadeService: ImprodutividadeService,
+    private _ordemServicoService: OrdemServicoService,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
@@ -77,6 +81,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.atendimento = await this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento).toPromise();
     this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift(); 
     this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
+    this.os = await this._ordemServicoService.obterPorCodigo(this.atendimento.codOS).toPromise();
     this.isAddMode = !this.protocolo;
 
     if(this.isAddMode)
@@ -103,7 +108,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.form.controls['codStatusSTN'].setValue(this.atendimento?.codStatusSTN);
     this.form.controls['codTipoChamadoSTN'].setValue(this.protocolo?.codTipoChamadoSTN);
     this.form.controls['nomeUsuario'].setValue(this.atendimento?.usuario?.nomeUsuario);
-    this.form.controls['tecnicoCampo'].setValue(this.protocolo?.tecnicoCampo);
+    this.form.controls['tecnicoCampo'].setValue(this.os?.tecnico?.nome);
     this.form.controls['codTipoCausa'].setValue(this.atendimento?.codTipoCausa);
     this.form.controls['codDefeito'].setValue(this.atendimento?.codDefeito);
     this.form.controls['acaoSTN'].setValue(this.protocolo?.acaoSTN);

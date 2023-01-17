@@ -134,10 +134,6 @@
 
                         <mat-select class="min-h-10" formControlName="codCidade"
                             [disabled]="!cidades.length || form.disabled">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="cidadeFiltro" placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
-                            </mat-option>
                             <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
                                 <span>
                                     {{ (cidade.nomeCidade || t('nao informado')) | titlecase }}

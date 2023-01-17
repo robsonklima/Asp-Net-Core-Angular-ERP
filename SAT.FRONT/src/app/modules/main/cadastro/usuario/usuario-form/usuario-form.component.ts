@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { CargoService } from 'app/core/services/cargo.service';
@@ -13,6 +14,7 @@ import { PaisService } from 'app/core/services/pais.service';
 import { PerfilService } from 'app/core/services/perfil.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
+import { TurnoService } from 'app/core/services/turno.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cargo } from 'app/core/types/cargo.types';
@@ -26,16 +28,14 @@ import { Perfil } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
+import { Turno } from 'app/core/types/turno.types';
 import { UnidadeFederativa } from 'app/core/types/unidade-federativa.types';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
-import { Location } from '@angular/common';
-import Enumerable from 'linq';
-import { Turno } from 'app/core/types/turno.types';
-import { TurnoService } from 'app/core/services/turno.service';
 
 @Component({
   selector: 'app-usuario-form',
@@ -71,7 +71,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   public transportadoras: Transportadora[] = [];
   public turnos: Turno[] = [];
 
-  cidadeFiltro: FormControl = new FormControl();
   clienteFilterCtrl: FormControl = new FormControl();
   contratosFilterCtrl: FormControl = new FormControl();
 
@@ -267,17 +266,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       this.cidades = await this._cidadeService.obterCidades(this.form.controls['codUF'].value);
       this._cdr.detectChanges();
     });
-
-    this.cidadeFiltro.valueChanges.pipe(
-      filter(filtro => !!filtro),
-      debounceTime(700),
-      delay(500),
-      takeUntil(this._onDestroy),
-      map(async filtro => {
-        this.cidades = await this._cidadeService.obterCidades(this.form.controls['codUF'].value, filtro);
-        this._cdr.detectChanges();
-      })
-    ).toPromise();
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
       this.autorizadas = [];

@@ -137,7 +137,8 @@ namespace SAT.INFRA.Repository
                 query = query.Where(
                     p =>
                     p.CodPlantaoTecnico.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    p.Tecnico.Nome.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    p.Tecnico.Nome.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    p.Tecnico.Filial.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

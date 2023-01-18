@@ -141,6 +141,17 @@ namespace SAT.INFRA.Repository
                     query = query.Where(os => os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodUsuariosSTN))
+            {
+                int[] cods = parameters.CodUsuariosSTN.Split(",").Select(a => int.Parse(a.Trim())).Where(s => s > 0).Distinct().ToArray();
+
+                if (parameters.Include == OrdemServicoIncludeEnum.OS_LISTA)
+                    query = query.Where(os => (os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value))
+                        || cods.Contains(os.RelatoriosAtendimento.FirstOrDefault().CodTecnico.Value));
+                else
+                    query = query.Where(os => os.CodTecnico.HasValue && cods.Contains(os.CodTecnico.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
             {
                 int[] cods = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

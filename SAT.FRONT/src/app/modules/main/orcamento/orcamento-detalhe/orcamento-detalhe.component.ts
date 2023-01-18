@@ -453,6 +453,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 				this._orcamentoService.atualizar(this.orcamento).subscribe();
 				this.os.observacaoCliente = this.os.observacaoCliente + "Orçamento enviado:" + moment().format('DD/MM/YYYY HH:mm');
 				this._osService.atualizar(this.os).subscribe();
+				this._orcService.atualizarTotalizacao(this.codOrc);
 
 				switch (tipoEnvio) {
 					case 1:

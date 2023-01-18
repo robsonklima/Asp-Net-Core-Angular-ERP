@@ -18,7 +18,7 @@ import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialEnum } from 'app/core/enums/FilialEnum';
-import { Equipamento, EquipamentoFilterEnum } from 'app/core/types/equipamento.types';
+import { Equipamento, EquipamentoFilterEnum, EquipamentoParameters } from 'app/core/types/equipamento.types';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 
 
@@ -68,6 +68,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 		this.obterAutorizadas();
 
 		this.registrarEmmiters();
+		this.aoSelecionarCliente();
 
 	}
 
@@ -147,14 +148,16 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 	}
 
 	async obterEquipamentos(filtro: string = '') {
-		const data = await this._equipamentoService
-			.obterPorParametros({
-				codClientes: this.form.controls['codClientes'].value,
-				filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
-				filter: filtro
-			})
-			.toPromise();
+		let params: EquipamentoParameters = {
+			filter: filtro,
+			filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
+			codClientes: this.form.controls['codClientes'].value.join(','),
+			sortActive: 'nomeEquip',
+			sortDirection: 'asc',
+			pageSize: 100
+		};
 
+		const data = await this._equipamentoService.obterPorParametros(params).toPromise();
 		this.equipamentos = data.items;
 	}
 
@@ -169,7 +172,7 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 				}
 			});
 
-		this.clienteFilterCtrl.valueChanges
+			this.clienteFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
@@ -177,6 +180,16 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 			)
 			.subscribe(() => {
 				this.obterClientes(this.clienteFilterCtrl.value);
+			});
+
+		this.form.controls['codClientes'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterEquipamentos(this.clienteFilterCtrl.value);
 			});
 
 		this.regiaoFilterCtrl.valueChanges
@@ -208,6 +221,33 @@ export class DensidadeFiltroComponent extends FilterBase implements OnInit, IFil
 				this.obterEquipamentos(this.equipamentoCtrl.value);
 			});
 	}
+
+	aoSelecionarCliente() {
+		if (
+			this.form.controls['codClientes'].value &&
+			this.form.controls['codClientes'].value != ''
+		) {
+			this.obterEquipamentos();
+			this.form.controls['codEquips'].enable();
+		}
+		else {
+			this.form.controls['codEquips'].disable();
+		}
+
+		this.form.controls['codClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
+					this.obterEquipamentos();
+					this.form.controls['codEquips'].enable();
+				}
+				else {
+					this.form.controls['codEquips'].setValue(null);
+					this.form.controls['codEquips'].disable();
+				}
+			});
+	}
+
 
 	limpar() {
 		super.limpar();

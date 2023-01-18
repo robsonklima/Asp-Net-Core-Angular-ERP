@@ -112,6 +112,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.aoSelecionarFilial();
 		this.aoSelecionarCliente();
 		this.aoSelecionarContrato();
+		this.aoSelecionarUF();
 	}
 
 	createForm(): void {
@@ -218,6 +219,32 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 
 					this.form.controls['codContratos'].setValue(null);
 					this.form.controls['codContratos'].disable();
+				}
+			});
+	}
+
+	aoSelecionarUF(){
+		if (
+			this.form.controls['codUfs'].value &&
+			this.form.controls['codUfs'].value != ''
+		) {
+			this.obterCidades();
+			this.form.controls['codCidades'].enable();
+		}
+		else {
+			this.form.controls['codCidades'].disable();
+		}
+
+		this.form.controls['codUfs']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codUfs'].value && this.form.controls['codUfs'].value != '') {
+					this.obterCidades();
+					this.form.controls['codCidades'].enable();
+				}
+				else {
+					this.form.controls['codCidades'].setValue(null);
+					this.form.controls['codCidades'].disable();
 				}
 			});
 	}

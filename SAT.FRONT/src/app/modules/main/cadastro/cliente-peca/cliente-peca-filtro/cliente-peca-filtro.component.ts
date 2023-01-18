@@ -12,6 +12,7 @@ import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { ClienteService } from 'app/core/services/cliente.service';
+import { statusConst } from 'app/core/types/status-types';
 
 
 
@@ -52,6 +53,7 @@ export class ClientePecaFiltroComponent extends FilterBase implements OnInit, IF
         this.obterContratos();
         this.obterClientes();
 		this.registrarEmitters();
+		this.aoSelecionarCliente();
 	}
 
 	createForm(): void {
@@ -79,9 +81,11 @@ export class ClientePecaFiltroComponent extends FilterBase implements OnInit, IF
 		this.status = data.items;
 	}
 
-    async obterContratos(filtro: string = '') {
+	async obterContratos(filtro: string = '') {
 		let params: ContratoParameters = {
 			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			codClientes: this.form.controls['CodClientes'].value.join(','),
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -89,6 +93,7 @@ export class ClientePecaFiltroComponent extends FilterBase implements OnInit, IF
 		const data = await this._contratoService
 			.obterPorParametros(params)
 			.toPromise();
+
 		this.contratos = data.items;
 	}
 
@@ -103,6 +108,32 @@ export class ClientePecaFiltroComponent extends FilterBase implements OnInit, IF
 			.obterPorParametros(params)
 			.toPromise();
 		this.clientes = data.items;
+	}
+
+	aoSelecionarCliente() {
+		if (
+			this.form.controls['CodClientes'].value &&
+			this.form.controls['CodClientes'].value != ''
+		) {
+			this.obterContratos();
+			this.form.controls['CodContratos'].enable();
+		}
+		else {
+			this.form.controls['CodContratos'].disable();
+		}
+
+		this.form.controls['CodClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['CodClientes'].value && this.form.controls['CodClientes'].value != '') {
+					this.obterContratos();
+					this.form.controls['CodContratos'].enable();
+				}
+				else {
+					this.form.controls['CodContratos'].setValue(null);
+					this.form.controls['CodContratos'].disable();
+				}
+			});
 	}
 
 

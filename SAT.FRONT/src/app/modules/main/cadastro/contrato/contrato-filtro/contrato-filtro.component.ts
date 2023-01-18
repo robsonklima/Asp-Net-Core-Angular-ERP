@@ -10,6 +10,7 @@ import { ClienteService } from 'app/core/services/cliente.service';
 import { TipoContratoService } from 'app/core/services/tipo-contrato.service';
 import { TipoContrato, TipoContratoParameters } from 'app/core/types/tipo-contrato.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { statusConst } from 'app/core/types/status-types';
 
 
 
@@ -75,6 +76,7 @@ export class ContratoFiltroComponent extends FilterBase implements OnInit, IFilt
     async obterClientes(filtro: string = '') {
 		let params: ClienteParameters = {
 			filter: filtro,
+			indAtivo: statusConst.ATIVO,
 			sortActive: 'razaoSocial',
 			sortDirection: 'asc',
 			pageSize: 1000

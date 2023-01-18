@@ -83,7 +83,7 @@ export class SuporteStnLaudoFormAtendimentoComponent implements OnInit, OnDestro
 	}
 
 	async obterLaudoSituacao() {
-		this.situacao = await this._laudoSituacaoService.obterPorCodigo(this.laudo.codLaudo).toPromise();
+		this.situacao = (await this._laudoSituacaoService.obterPorParametros({ codLaudo: this.laudo.codLaudo }).toPromise()).items.shift();
 	}
 
 	private atualizarLaudo() {

@@ -182,6 +182,9 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('unidade federativa') }}</mat-label>
                     <mat-select formControlName="codUfs" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codUfs, ufs, 'codUF')" [value]="0">
+                            TODOS
+                        </mat-option>
                         <mat-option *ngFor="let uf of ufs" [value]="uf.codUF">
                             {{ uf.siglaUF }}
                         </mat-option>
@@ -191,6 +194,14 @@
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cidade') }}</mat-label>
                     <mat-select formControlName="codCidades" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="cidadeFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades, 'codCidade')" [value]="0">
+                            TODOS
+                        </mat-option>
                         <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
                             {{ cidade.nomeCidade }}
                         </mat-option>

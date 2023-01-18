@@ -65,6 +65,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	tipoContratoFilterCtrl: FormControl = new FormControl();
 	tipoEquipamentoFilterCtrl: FormControl = new FormControl();
 	grupoEquipamentoFilterCtrl: FormControl = new FormControl();
+	cidadeFilterCtrl: FormControl = new FormControl();
 	codClientesSelected: string;
 	protected _onDestroy = new Subject<void>();
 
@@ -108,7 +109,9 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.obterGrupoEquipamentos();
 		this.registrarEmitters();
 
+		this.aoSelecionarFilial();
 		this.aoSelecionarCliente();
+		this.aoSelecionarContrato();
 	}
 
 	createForm(): void {
@@ -131,17 +134,108 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.form.patchValue(this.filter?.parametros);
 	}
 
+	aoSelecionarContrato(){
+		if (
+			this.form.controls['codContratos'].value &&
+			this.form.controls['codContratos'].value != ''
+		) {
+			this.obterEquipamentos();
+			this.form.controls['codEquips'].enable();
+		}
+		else {
+			this.form.controls['codEquips'].disable();
+		}
+
+		this.form.controls['codContratos']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codContratos'].value && this.form.controls['codContratos'].value != '') {
+					this.obterEquipamentos();
+					this.form.controls['codEquips'].enable();
+				}
+				else {
+					this.form.controls['codEquips'].setValue(null);
+					this.form.controls['codEquips'].disable();
+				}
+			});
+	}
+
+	aoSelecionarFilial() {
+		this.form.controls['codFiliais']
+			.valueChanges
+			.subscribe(() => {
+				if ((this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != '')) {
+					var filialFilter: any = this.form.controls['codFiliais'].value;
+
+					this.obterRegioesAutorizadas(filialFilter);
+					this.obterAutorizadas(filialFilter);
+
+					this.form.controls['codRegioes'].enable();
+					this.form.controls['codAutorizadas'].enable();
+				}
+				else {
+					this.form.controls['codRegioes'].disable();
+					this.form.controls['codAutorizadas'].disable();
+				}
+			});
+
+		if (this.userSession.usuario.codFilial) {
+			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
+			this.form.controls['codFiliais'].disable();
+		}
+		else {
+			this.form.controls['codFiliais'].enable();
+		}
+	}
+
+	aoSelecionarCliente() {
+		if (
+			this.form.controls['codClientes'].value &&
+			this.form.controls['codClientes'].value != ''
+		) {
+			this.obterContratos();
+			this.obterLocaisAtendimentos();
+			this.form.controls['codPostos'].enable();
+			this.form.controls['codContratos'].enable();
+		}
+		else {
+			this.form.controls['codPostos'].disable();
+			this.form.controls['codContratos'].disable();
+		}
+
+		this.form.controls['codClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
+					this.obterContratos();
+					this.obterLocaisAtendimentos();
+					this.form.controls['codPostos'].enable();
+					this.form.controls['codContratos'].enable();
+				}
+				else {
+					this.form.controls['codPostos'].setValue(null);
+					this.form.controls['codPostos'].disable();
+
+					this.form.controls['codContratos'].setValue(null);
+					this.form.controls['codContratos'].disable();
+				}
+			});
+	}
+
 	async obterClientes(filtro: string = '') {
 		let params: ClienteParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeFantasia',
 			sortDirection: 'asc',
+			codCliente: this.userSession?.usuario?.codCliente,
 			pageSize: 1000
 		};
+
 		const data = await this._clienteService
 			.obterPorParametros(params)
 			.toPromise();
+
 		this.clientes = data.items;
 	}
 
@@ -270,10 +364,11 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
-	async obterCidades(ufFilter: any = '') {
+	async obterCidades(filtro: string = '') {
 		let params: CidadeParameters = {
-		indAtivo: statusConst.ATIVO,
-			codUF: ufFilter,
+			indAtivo: statusConst.ATIVO,
+			codUF: this.form.controls['codUfs'].value.join(','),
+			filter: filtro,
 			pageSize: 500
 		};
 
@@ -314,40 +409,6 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.toPromise();
 
 		this.locaisAtendimento = Enumerable.from(data.items).orderBy(i => i.nomeLocal.trim()).toArray();
-	}
-
-	aoSelecionarCliente() {
-		if (
-			this.form.controls['codClientes'].value &&
-			this.form.controls['codClientes'].value != ''
-		) {
-			this.obterEquipamentos();
-			this.obterLocaisAtendimentos();
-			this.form.controls['codPostos'].enable();
-			this.form.controls['codEquipamentos'].enable();
-		}
-		else {
-			this.form.controls['codPostos'].disable();
-			this.form.controls['codEquipamentos'].disable();
-		}
-
-		this.form.controls['codClientes']
-			.valueChanges
-			.subscribe(() => {
-				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
-					this.obterEquipamentos();
-					this.obterLocaisAtendimentos();
-					this.form.controls['codPostos'].enable();
-					this.form.controls['codEquipamentos'].enable();
-				}
-				else {
-					this.form.controls['codPostos'].setValue(null);
-					this.form.controls['codPostos'].disable();
-
-					this.form.controls['codEquipamentos'].setValue(null);
-					this.form.controls['codEquipamentos'].disable();
-				}
-			});
 	}
 
 	private registrarEmitters() {
@@ -444,7 +505,19 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 			.subscribe(() => {
 				this.obterEquipamentos(this.equipamentoFilterCtrl.value);
 			});
+
+		this.cidadeFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterCidades(this.cidadeFilterCtrl.value);
+			});
+
 	}
+
 	obterModelosPorContrato() {
 		this.equipamentos = [];
 		

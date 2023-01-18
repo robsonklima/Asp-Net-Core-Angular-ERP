@@ -28,6 +28,7 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 	feriadoFilterCtrl: FormControl = new FormControl();
 	cidades: Cidade[] = [];
 	ufs: UnidadeFederativa[] = [];
+	cidadeFilterCtrl: FormControl = new FormControl();
 	
 	
 	protected _onDestroy = new Subject<void>();
@@ -53,6 +54,7 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 		this.obterCidades(); 
 		this.obterUfs(); 
 		this.registrarEmitters();
+		this.aoSelecionarUF();
 	}
 
 	createForm(): void {
@@ -79,10 +81,11 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 		this.feriados = data.items;
 	}
 
-	async obterCidades(ufFilter: any = '') {
+	async obterCidades(filtro: string = '') {
 		let params: CidadeParameters = {
 			indAtivo: statusConst.ATIVO,
-			codUF: ufFilter,
+			codUF: this.form.controls['codUfs'].value.join(','),
+			filter: filtro,
 			pageSize: 500
 		};
 
@@ -95,6 +98,7 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 
 	async obterUfs() {
 		let params: UnidadeFederativaParameters = {
+			codPais: 1,
 			pageSize: 1000
 		};
 
@@ -126,6 +130,42 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 			)
 			.subscribe(() => {
 				this.obterCidades(this.form.controls['codUfs'].value);				
+			});
+
+		this.cidadeFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterCidades(this.cidadeFilterCtrl.value);
+			});
+	}
+
+	aoSelecionarUF(){
+		if (
+			this.form.controls['codUfs'].value &&
+			this.form.controls['codUfs'].value != ''
+		) {
+			this.obterCidades();
+			this.form.controls['codCidades'].enable();
+		}
+		else {
+			this.form.controls['codCidades'].disable();
+		}
+
+		this.form.controls['codUfs']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codUfs'].value && this.form.controls['codUfs'].value != '') {
+					this.obterCidades();
+					this.form.controls['codCidades'].enable();
+				}
+				else {
+					this.form.controls['codCidades'].setValue(null);
+					this.form.controls['codCidades'].disable();
+				}
 			});
 	}
 

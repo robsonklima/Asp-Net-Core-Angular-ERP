@@ -12,21 +12,9 @@
     </div>
 
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('cidade') }}</mat-label>
-                    <mat-select formControlName="codCidades" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades,
-                            'codCidade')" [value]="0">
-                            TODAS
-                        </mat-option>
-                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
-                            {{ cidade.nomeCidade }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('unidade federativa') }}</mat-label>
                     <mat-select formControlName="codUfs" multiple="true">
@@ -40,6 +28,22 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cidade') }}</mat-label>
+                    <mat-select formControlName="codCidades" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="cidadeFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codCidades, cidades, 'codCidade')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
+                            {{ cidade.nomeCidade }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>      
             </div>
 
             <div class="mt-6 border-t"></div>

@@ -7,6 +7,7 @@ namespace SAT.MODELS.Views
         public int? CodOS { get; set; }
         public string NumOSCliente { get; set; }
         public string NumOSQuarteirizada { get; set; }
+        public DateTime? DataHoraIntegracao { get; set; }
         public DateTime? DataHoraAberturaOS { get; set; }
         public DateTime? DataHoraFechamento { get; set; }
         public DateTime? DataHoraTransf { get; set; }
@@ -47,6 +48,7 @@ namespace SAT.MODELS.Views
         public string NumSerie { get; set; }
         public int? NumReincidencia { get; set; }
         public string NumSerieCliente { get; set; }
+        public DateTime? DataFimGarantia { get; set; }
         public string PontoEstrategico { get; set; }
         public string SLA { get; set; }
         public string DefeitoRelatado { get; set; }

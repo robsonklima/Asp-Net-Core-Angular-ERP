@@ -56,7 +56,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
       this._orItemService.atualizar({ 
         ...this.item, 
         ...{ 
-          codStatus: orStatusConst.EM_REPARO,
+          codStatus: orStatusConst.OR_ENCERRADA,
           codTecnico: this.userSession.usuario.codUsuario
         }
       }).subscribe();

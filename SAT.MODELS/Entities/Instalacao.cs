@@ -149,5 +149,6 @@ namespace SAT.MODELS.Entities
         public InstalacaoNFVenda InstalacaoNFVenda { get; set; }
         public List<InstalacaoRessalva> InstalacoesRessalva { get; set; }
         public List<InstalacaoPagtoInstal> InstalacaoPagtoInstal { get; set; }
+        public List<InstalacaoInfoBordero> InstalacaoInfoBorderos { get; set; }
     }
 }

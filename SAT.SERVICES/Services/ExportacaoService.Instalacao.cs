@@ -66,7 +66,7 @@ namespace SAT.SERVICES.Services
                                 EquipamentoRebaixado = i.IndEquipRebaixadoBI == 1 ? "SIM" : "NÃO",
                                 ResponsavelInstalacaoBanco = i.NomeRespBancoBI,
                                 MatResponsavelInstalacaoBanco = i.NumMatriculaBI,
-                                TermoAceite = i.IndBiorigEnt,
+                                TermoAceite = i.IndBiorigEnt == 1 ? "SIM" : "NÃO",
                                 TermoDescaracterizacao = i.TermoDescaracterizacao,
                                 Laudo = i.IndLaudoOK == 1 ? "SIM" : "NÃO",
                                 RE5330 = i.IndRE5330OK == 1 ? "SIM" : "NÃO",

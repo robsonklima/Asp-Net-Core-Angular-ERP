@@ -349,7 +349,6 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   atualizar(): void {
     const form: any = this.form.getRawValue();
 
-
     let obj = {
       ...this.tecnico,
       ...form,

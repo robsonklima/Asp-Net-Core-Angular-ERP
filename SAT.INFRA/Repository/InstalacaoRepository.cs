@@ -104,7 +104,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.InstalacaoNFAut!)
                     .DefaultIfEmpty()
                 .Include(i => i.InstalacaoNFVenda!)
-                    .DefaultIfEmpty()
+                    .DefaultIfEmpty()                    
                 .AsNoTracking()
                 .AsQueryable();
 

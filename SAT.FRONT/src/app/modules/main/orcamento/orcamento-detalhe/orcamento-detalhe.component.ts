@@ -1,8 +1,10 @@
 import { EmailService } from 'app/core/services/email.service';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, ViewEncapsulation } from '@angular/core';
-import { Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento,
-		 OrcamentoMotivo, OrcamentoStatus } from 'app/core/types/orcamento.types';
+import {
+	Orcamento, OrcamentoDadosLocal, OrcamentoDadosLocalEnum, OrcamentoDeslocamento,
+	OrcamentoMotivo, OrcamentoStatus
+} from 'app/core/types/orcamento.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -89,16 +91,16 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	verificarPermissaoFaturar() {
-		this.possuiPermissaoFaturar = this.orcamento?.indFaturamento == 1 || 
-			(this.os?.codStatusServico !== 3 && this.os?.codTipoIntervencao !== 17) || 
+		this.possuiPermissaoFaturar = this.orcamento?.indFaturamento == 1 ||
+			(this.os?.codStatusServico !== 3 && this.os?.codTipoIntervencao !== 17) ||
 			(this.os?.equipamentoContrato?.contrato?.indPedido && !this.orcamento?.numPedido);
 	}
 
 	private verificarPermissaoExclusao() {
-		this.possuiPermissaoExclusao = this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_CREDITO || 
-			this.userSession?.usuario?.codPerfil == PerfilEnum.ADM_DO_SISTEMA || 
-			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_PONTO || 
-			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR || 
+		this.possuiPermissaoExclusao = this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_CREDITO ||
+			this.userSession?.usuario?.codPerfil == PerfilEnum.ADM_DO_SISTEMA ||
+			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_PONTO ||
+			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR ||
 			this.userSession?.usuario?.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO
 	}
 
@@ -175,7 +177,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 			],
 		});
 	}
-	
+
 	private formatarLocais() {
 		this.dadosLocalFaturamento = {
 			tipo: OrcamentoDadosLocalEnum.FATURAMENTO,
@@ -274,43 +276,43 @@ export class OrcamentoDetalheComponent implements OnInit {
 									<tbody>
 										<tr>
 											<td style="font-weight: bold;">Razão Social:</td>
-											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF?? "---"}</td>
+											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">CEP:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepEnvioNF ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Endereço:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">Complemento:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">Número:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroEnvioNF ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Bairro:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">Cidade:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.nomeCidade ?? "---"}</td>
 											<td style="font-weight: bold;">UF:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">CNPJ:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">Ins. Estadual:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualEnvioNF ?? "---"}</td>
 											<td></td>
 											<td></td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Responsável:</td>
-											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF?? "---"}</td>
+											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelEnvioNF ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">E-mail:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailEnvioNF ?? "---"}</td>
 											<td style="font-weight: bold;">DDD+Fone:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneEnvioNF ?? "---"}</td>
 											<td></td>
 											<td></td>
 										</tr>
@@ -335,43 +337,43 @@ export class OrcamentoDetalheComponent implements OnInit {
 									<tbody>
 										<tr>
 											<td style="font-weight: bold;">Razão Social:</td>
-											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento?? "---"}</td>
+											<td colspan="3">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.razaoSocialFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">CEP:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cepFaturamento ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Endereço:</td>
-											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento?? "---"}</td>
+											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.enderecoFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">Complemento:</td>
-											<td> ${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoFaturamento?? "---"}</td>
+											<td> ${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.complementoFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">Número:</td>
-											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroFaturamento?? "---"}</td>
+											<td >${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.numeroFaturamento ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Bairro:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.bairroFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">Cidade:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.nomeCidade?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.nomeCidade ?? "---"}</td>
 											<td style="font-weight: bold;">UF:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">CNPJ:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.cnpjFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">Ins. Estadual:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.inscricaoEstadualFaturamento ?? "---"}</td>
 											<td></td>
 											<td></td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">Responsável:</td>
-											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento?? "---"}</td>
+											<td colspan="5">${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.responsavelFaturamento ?? "---"}</td>
 										</tr>
 										<tr>
 											<td style="font-weight: bold;">E-mail:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.emailFaturamento ?? "---"}</td>
 											<td style="font-weight: bold;">DDD+Fone:</td>
-											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneFaturamento?? "---"}</td>
+											<td>${this.orcamento.localEnvioNFFaturamentoVinculado?.localEnvioNFFaturamento?.foneFaturamento ?? "---"}</td>
 											<td></td>
 											<td></td>
 										</tr>
@@ -449,6 +451,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 				this.orcamento.codusuarioEnvioCliente = this.userSession.usuario.codUsuario;
 				this.orcamento.dataHoraEnvioCliente = moment().format('yyyy-MM-DD HH:mm:ss');
 				this._orcamentoService.atualizar(this.orcamento).subscribe();
+				this.os.observacaoCliente = this.os.observacaoCliente + "Orçamento enviado:" + moment().format('DD/MM/YYYY HH:mm');
+				this._osService.atualizar(this.os).subscribe();
+				this._orcService.atualizarTotalizacao(this.codOrc);
 
 				switch (tipoEnvio) {
 					case 1:
@@ -460,9 +465,9 @@ export class OrcamentoDetalheComponent implements OnInit {
 								codOrc: this.codOrc,
 								incluirLaudoExportacao: data.incluirLaudoExportacao
 							}
-							
+
 						}
-						
+
 						this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 						this.atualizaIntervencaoOS();
 						break;
@@ -475,7 +480,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 								emailDestinatarios: data.emailDestinatarios
 							}
 						).subscribe(() => {
-							this._snack.exibirToast('E-mail enviado','success')
+							this._snack.exibirToast('E-mail enviado', 'success');
 						});
 						break;
 

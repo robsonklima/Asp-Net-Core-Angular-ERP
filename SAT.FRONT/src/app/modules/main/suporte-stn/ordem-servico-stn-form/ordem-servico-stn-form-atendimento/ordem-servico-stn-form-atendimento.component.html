@@ -68,10 +68,14 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('Técnico de Campo') }}</mat-label>
-                        <input matInput formControlName="tecnicoCampo">
+                        <mat-select formControlName="codTecnicos">
+                            <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico?.nome">
+                                {{ tecnico?.nome }}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
-                    <div class="fuse-mat-dense sm:col-span-6">
+                    <div class="fuse-mat-dense sm:col-span-4">
                         <div class="text-secondary">
                             Motivos da causa de improdutividade?
                         </div>
@@ -85,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div class="fuse-mat-dense sm:col-span-6">
+                    <div class="fuse-mat-dense sm:col-span-4">
                         <div class="text-secondary">
                             Evitou Pendência?
                         </div>
@@ -98,6 +102,22 @@
                             </mat-slide-toggle>
                         </div>
                     </div>
+
+                    <div class="fuse-mat-dense sm:col-span-4">
+                        <div class="text-secondary">
+                            Filial do Técnico
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            <mat-slide-toggle [color]="'primary'"
+                                [checked]="checkFilial == true" 
+                                (change)="onChangeFilial($event)">
+                                {{ checkFilial ? 'Filial da OS' : 'Brasil' }}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+
+
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4 py-3">
                         <mat-label>{{ t('Tipo Causa') }}</mat-label>

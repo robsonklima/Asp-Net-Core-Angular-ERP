@@ -15,25 +15,6 @@
         <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('nome peca') }}</mat-label>
-                    <mat-select formControlName="codPecas" multiple="true">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="pecaFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codPecas, pecas,
-                            'codPeca')" [value]="0">
-                            TODAS
-                        </mat-option>
-                       <mat-option *ngFor="let peca of pecas" [value]="peca.codPeca">
-                            {{ peca.nomePeca }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('status') }}</mat-label>
                     <mat-select formControlName="CodPecaStatus" multiple="true">
 

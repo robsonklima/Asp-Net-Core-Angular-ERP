@@ -58,12 +58,6 @@
                  <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('autorizada') }}</mat-label>
                     <mat-select formControlName="codAutorizadas" multiple="true">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="autorizadaFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codAutorizadas, autorizadas,
                             'codAutorizada')" [value]="0">
                             TODAS
@@ -77,12 +71,6 @@
                  <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('regiao') }}</mat-label>
                     <mat-select formControlName="codRegioes" multiple="true">
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="regiaoFilterCtrl">
-                            </ngx-mat-select-search>
-                        </mat-option>
-                        
                         <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codRegioes, regioes,
                             'codRegiao')" [value]="0">
                             TODAS

@@ -45,6 +45,7 @@ export class EquipamentoModuloFiltroComponent extends FilterBase implements OnIn
 		this.obterEquipamentos();
 		this.obterTipoEquipamentos();
 		this.registrarEmitters();
+		this.aoSelecionarTipo();
 	}
 
 	createForm(): void {
@@ -60,6 +61,7 @@ export class EquipamentoModuloFiltroComponent extends FilterBase implements OnIn
 	async obterEquipamentos(filtro: string = '') {
 		let params: EquipamentoParameters = {
 			filter: filtro,
+			CodTipoEquips: this.form.controls['codTipoEquips'].value.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -103,6 +105,32 @@ export class EquipamentoModuloFiltroComponent extends FilterBase implements OnIn
 			)
 			.subscribe(() => {
 				this.obterTipoEquipamentos(this.tipoEquipamentoFilterCtrl.value);
+			});
+	}
+
+	aoSelecionarTipo(){
+		if (
+			this.form.controls['codTipoEquips'].value &&
+			this.form.controls['codTipoEquips'].value != ''
+		) {
+			this.obterEquipamentos();
+			this.form.controls['codEquips'].enable();
+		}
+		else {
+			this.form.controls['codEquips'].disable();
+		}
+
+		this.form.controls['codTipoEquips']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codTipoEquips'].value && this.form.controls['codTipoEquips'].value != '') {
+					this.obterEquipamentos();
+					this.form.controls['codEquips'].enable();
+				}
+				else {
+					this.form.controls['codEquips'].setValue(null);
+					this.form.controls['codEquips'].disable();
+				}
 			});
 	}
 

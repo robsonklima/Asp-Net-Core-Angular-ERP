@@ -32,6 +32,9 @@ import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/loc
 import { statusConst } from 'app/core/types/status-types';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
+import { UsuarioService } from 'app/core/services/usuario.service';
 
 @Component({
 	selector: 'app-ordem-servico-filtro',
@@ -50,6 +53,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	tipoEquip: TipoEquipamento[] = [];
 	equipamentos: Equipamento[] = [];
 	tecnicos: Tecnico[] = [];
+	usuarios: Usuario[] = [];
 	locaisAtendimento: LocalAtendimento[] = [];
 	pas: number[] = [];
 	validaCliente: boolean = this._userService.isCustomer;
@@ -62,6 +66,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 	statusServicoFilterCtrl: FormControl = new FormControl();
 	tipoIntervencaoFilterCtrl: FormControl = new FormControl();
 	tecnicoFilterCtrl: FormControl = new FormControl();
+	tecnicoSTNFilterCtrl: FormControl = new FormControl();
 	equipamentoCtrl: FormControl = new FormControl();
 
 	readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -78,6 +83,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		private _tecnicoService: TecnicoService,
 		protected _userService: UserService,
 		private _localAtendimentoSvc: LocalAtendimentoService,
+		private _usuarioService: UsuarioService,
 		protected _formBuilder: FormBuilder
 	) {
 		super(_userService, _formBuilder, 'ordem-servico');
@@ -96,6 +102,7 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 		this.obterClientes();
 		this.obterTiposIntervencao();
 		this.obterStatusServicos();
+		this.obterUsuarios();
 		this.registrarEmitters();
 
 		this.aoSelecionarFilial();
@@ -128,7 +135,8 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			dataHoraSolucaoFim: [undefined],
 			numSerie: [undefined],
 			defeito: [undefined],
-			solucao: [undefined]
+			solucao: [undefined],
+			codUsuariosSTN: [undefined],
 		});
 
 		this.form.patchValue(this.filter?.parametros);
@@ -235,6 +243,20 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 			.toPromise();
 
 		this.tecnicos = data.items;
+	}
+
+	async obterUsuarios(filtro: string = '') {
+		let params: UsuarioParameters = {
+			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			codPerfis: PerfilEnum.FILIAL_SUPORTE_TÉCNICO_CAMPO.toString(),
+			sortActive: 'nomeUsuario',
+			sortDirection: 'asc',
+			pageSize: 100
+		};
+
+		const data = await this._usuarioService.obterPorParametros(params).toPromise();
+		this.usuarios = data.items;
 	}
 
 	aoSelecionarFilial() {

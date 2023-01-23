@@ -11,6 +11,7 @@ import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.serv
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { ProtocoloChamadoSTNService } from 'app/core/services/protocolo-chamado-stn.service';
 import { StatusServicoSTNService } from 'app/core/services/status-servico-stn.service';
+import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TipoChamadoSTNService } from 'app/core/services/tipo-chamado-stn.service';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaImprodutividade } from 'app/core/types/causa-improdutividade.types';
@@ -19,9 +20,11 @@ import { Improdutividade } from 'app/core/types/improdutividade.types';
 import { OrdemServicoSTNOrigem } from 'app/core/types/ordem-servico-stn-origem.types';
 import { OrdemServicoSTN } from 'app/core/types/ordem-servico-stn.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 import { ProtocoloChamadoSTN } from 'app/core/types/protocolo-chamado-stn.types';
 import { StatusServicoSTN } from 'app/core/types/status-servico-stn.types';
 import { statusConst } from 'app/core/types/status-types';
+import { Tecnico } from 'app/core/types/tecnico.types';
 import { TipoChamadoSTN } from 'app/core/types/tipo-chamado-stn.types';
 import { TipoServico } from 'app/core/types/tipo-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -40,6 +43,9 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   atendimento: OrdemServicoSTN;
   protocolo: ProtocoloChamadoSTN;
   os: OrdemServico;
+  checkFilial: Boolean;
+  filialTecnicos: string;
+  tecnicos: Tecnico[] = [];
   userSession: UsuarioSessao;
   form: FormGroup;
   isAddMode: boolean;
@@ -66,6 +72,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     private _causaImprodutividadeService: CausaImprodutividadeService,
     private _improdutividadeService: ImprodutividadeService,
     private _ordemServicoService: OrdemServicoService,
+    private _tecnicoService: TecnicoService,
     private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
@@ -94,6 +101,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo.codProtocoloChamadoSTN }).toPromise()).items;    
 
     this.preencherForm();
+    this.obterTecnicos();
     this.obterOrigens();
     this.obterTipoCausa();
     this.obterTipoChamados();
@@ -108,13 +116,10 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.form.controls['codStatusSTN'].setValue(this.atendimento?.codStatusSTN);
     this.form.controls['codTipoChamadoSTN'].setValue(this.protocolo?.codTipoChamadoSTN);
     this.form.controls['nomeUsuario'].setValue(this.atendimento?.usuario?.nomeUsuario);
-    this.form.controls['tecnicoCampo'].setValue(this.os?.tecnico?.nome);
+    this.form.controls['codTecnicos'].setValue(this.os?.tecnico?.nome);
     this.form.controls['codTipoCausa'].setValue(this.atendimento?.codTipoCausa);
     this.form.controls['codDefeito'].setValue(this.atendimento?.codDefeito);
     this.form.controls['acaoSTN'].setValue(this.protocolo?.acaoSTN);
-
-    console.log(this.form);
-    
 
   }
   
@@ -126,7 +131,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
       codStatusSTN: [undefined],
       codTipoChamadoSTN:[undefined],
       nomeUsuario: [undefined],
-      tecnicoCampo: [undefined],
+      codTecnicos: [undefined],
       codTipoCausa: [undefined],
       acaoSTN: [undefined],
       codDefeito: [undefined]
@@ -193,6 +198,16 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     });
   }
 
+  async obterTecnicos(){
+    this.tecnicos = (await this._tecnicoService.obterPorParametros({
+      codFiliais: this.filialTecnicos,
+      codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
+      sortActive: 'nome',
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO
+    }).toPromise()).items;
+  }
+
   async obterCausas() {
     this.causas = (await this._causaService
       .obterPorParametros({ 
@@ -257,6 +272,19 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     }
   }
 
+  async onChangeFilial($event: MatSlideToggleChange) {
+    if ($event.checked) {
+      this.filialTecnicos = this.os.codFilial.toString(); 
+      this.checkFilial = true;
+    }
+    else {
+      this.filialTecnicos = null;
+      this.checkFilial = false;     
+    }
+
+    this.obterTecnicos();
+  }
+
   public verificarSelecionado(codImprodutividade: number): boolean {
     return _.find(this.causaImprodutividade, { codImprodutividade: codImprodutividade, codProtocolo: this.protocolo?.codProtocoloChamadoSTN }) != null;
   }
@@ -281,10 +309,12 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 			...{
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario?.codUsuario,
-        indAtivo: statusConst.ATIVO
+        indAtivo: statusConst.ATIVO,
+        acaoSTN: this.form?.controls['acaoSTN']?.value +  moment().format(' DD/MM HH:mm') + ' * ',
+        tecnicoCampo: this.form.controls['codTecnicos']?.value
 			}
 		};
-    
+
     forkJoin([
       this._ordemServicoSTNService.atualizar(atendimento),
       this._protocoloChamadoSTNService.atualizar(protocolo),

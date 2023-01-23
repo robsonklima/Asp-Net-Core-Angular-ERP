@@ -11,10 +11,12 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
-import { RegiaoService } from 'app/core/services/regiao.service';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
-import { Regiao, RegiaoParameters } from 'app/core/types/regiao.types';
+import { Regiao } from 'app/core/types/regiao.types';
+import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import Enumerable from 'linq';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 
 
 @Component({
@@ -40,7 +42,7 @@ export class LocalAtendimentoFiltroComponent extends FilterBase implements OnIni
 		private _clienteService: ClienteService,
 		private _filialService: FilialService,
 		private _autorizadaService: AutorizadaService,
-		private _regiaoService: RegiaoService,
+		private _regiaoAutorizadaService: RegiaoAutorizadaService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
@@ -56,8 +58,9 @@ export class LocalAtendimentoFiltroComponent extends FilterBase implements OnIni
 		this.obterClientes();
 		this.obterFiliais();
 		this.obterAutorizadas();
-		this.obterRegioes();
+		this.obterRegioesAutorizadas();
 		this.registrarEmitters();
+		this.aoSelecionarFilial();
 	}
 
 	createForm(): void {
@@ -99,30 +102,60 @@ export class LocalAtendimentoFiltroComponent extends FilterBase implements OnIni
 		this.filiais = data.items;
 	}
 
-	async obterAutorizadas(filtro: string = '') {
-		let params: AutorizadaParameters = {
-			filter: filtro,
-			sortActive: 'nomeFantasia',
-			sortDirection: 'asc',
+	async obterRegioesAutorizadas(filialFilter: any = '') {
+		let params: RegiaoAutorizadaParameters = {
+			indAtivo: statusConst.ATIVO,
+			codFiliais: filialFilter,
 			pageSize: 1000
 		};
+
+		const data = await this._regiaoAutorizadaService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.regioes = Enumerable.from(data.items).where(ra => ra.regiao?.indAtivo == 1).select(ra => ra.regiao).distinct(r => r.codRegiao).orderBy(i => i.nomeRegiao).toArray();
+	}
+
+	async obterAutorizadas(filialFilter: any = '') {
+		let params: AutorizadaParameters = {
+			indAtivo: statusConst.ATIVO,
+			codFiliais: filialFilter,
+			pageSize: 1000
+		};
+
 		const data = await this._autorizadaService
 			.obterPorParametros(params)
 			.toPromise();
-		this.autorizadas = data.items;
+
+		this.autorizadas = Enumerable.from(data.items).orderBy(i => i.nomeFantasia).toArray();
 	}
 
-	async obterRegioes(filtro: string = '') {
-		let params: RegiaoParameters = {
-			filter: filtro,
-			sortActive: 'nomeRegiao',
-			sortDirection: 'asc',
-			pageSize: 1000
-		};
-		const data = await this._regiaoService
-			.obterPorParametros(params)
-			.toPromise();
-		this.regioes = data.items;
+	aoSelecionarFilial() {
+		this.form.controls['codFiliais']
+			.valueChanges
+			.subscribe(() => {
+				if ((this.form.controls['codFiliais'].value && this.form.controls['codFiliais'].value != '')) {
+					var filialFilter: any = this.form.controls['codFiliais'].value;
+
+					this.obterRegioesAutorizadas(filialFilter);
+					this.obterAutorizadas(filialFilter);
+
+					this.form.controls['codRegioes'].enable();
+					this.form.controls['codAutorizadas'].enable();
+				}
+				else {
+					this.form.controls['codRegioes'].disable();
+					this.form.controls['codAutorizadas'].disable();
+				}
+			});
+
+		if (this.userSession.usuario.codFilial) {
+			this.form.controls['codFiliais'].setValue([this.userSession.usuario.codFilial]);
+			this.form.controls['codFiliais'].disable();
+		}
+		else {
+			this.form.controls['codFiliais'].enable();
+		}
 	}
 
 
@@ -139,14 +172,15 @@ export class LocalAtendimentoFiltroComponent extends FilterBase implements OnIni
 				this.obterClientes(this.clienteFilterCtrl.value);
 			});
 
-		this.filialFilterCtrl.valueChanges
+		this.form.controls['codFiliais'].valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()
 			)
-			.subscribe(() => {
-				this.obterFiliais(this.filialFilterCtrl.value);
+			.subscribe(() => {				
+				this.obterAutorizadas(this.form.controls['codFiliais'].value);
+				this.obterRegioesAutorizadas(this.form.controls['codFiliais'].value);
 			});
 
 		this.autorizadaFilterCtrl.valueChanges
@@ -166,7 +200,7 @@ export class LocalAtendimentoFiltroComponent extends FilterBase implements OnIni
 				distinctUntilChanged()
 			)
 			.subscribe(() => {
-				this.obterRegioes(this.regiaoFilterCtrl.value);
+				this.obterRegioesAutorizadas(this.regiaoFilterCtrl.value);
 			});
 	
 	}

@@ -320,7 +320,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
       this._protocoloChamadoSTNService.atualizar(protocolo),
     ]).subscribe(([result1, result2]) => {
         this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
-        this._router.navigate(['suporte-stn/form/' + atendimento.codAtendimento]);
+        this._router.navigate(['suporte-stn/lista']);
       });
   }
 

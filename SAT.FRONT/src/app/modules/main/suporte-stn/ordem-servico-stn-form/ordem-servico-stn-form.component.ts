@@ -104,7 +104,7 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   }
 
   validarStatus() {
-    if (this.atendimento?.codStatusSTN == (1 || 2))
+    if (this.atendimento?.codStatusSTN == 1 || this.atendimento?.codStatusSTN == 2)
       return true;
 
     return false;

@@ -162,6 +162,7 @@ namespace SAT.MODELS.Entities.Constants
         public static int TMR_5160_290_02_062 = 793;
         public static int TMR_5160_290_02_363 = 807;
         public static int TPR_4111_290_01_946 = 810;
+        public static int TMR_5160_290_02_363_LEGADO_INATIVO = 1016;
         public static int TMF_5100_290_02_402 = 1101;
         public static int TC_3100_290_02_071 = 1138;
         public static int TMRSD_5100_290_02_323 = 1164;

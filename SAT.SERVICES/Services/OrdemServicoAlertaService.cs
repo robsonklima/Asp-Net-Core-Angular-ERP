@@ -53,6 +53,7 @@ namespace SAT.SERVICES.Services
                 alertas = ObterAvisoChamadosMesmoEquip(os, alertas);
                 alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
                 alertas = ObterAvisoBaterias(os, alertas);
+                alertas = ObterAvisoTrancaReciclador(os, alertas);
             }
 
             return alertas;
@@ -348,6 +349,40 @@ namespace SAT.SERVICES.Services
                 };
 
                 alerta.Descricao.Add("Revisar a bateria do teclado, se detectarmos baterias diferentes da marca TEKCELL devemos trocar para este fornecedor.");
+                listaAlertas.Add(alerta);
+            }
+            return listaAlertas;
+        }
+
+        private List<Alerta> ObterAvisoTrancaReciclador(OrdemServico os, List<Alerta> listaAlertas)
+        {
+            var gerarAlerta = false;
+
+            switch (os.CodCliente)
+            {
+                case Constants.CLIENTE_SICOOB:
+                    if (
+                        os.CodEquip == Constants.TMR_5150_290_02_061 ||
+                        os.CodEquip == Constants.TMR_5160_290_02_363 ||
+                        os.CodEquip == Constants.TMR_5160_290_02_363_LEGADO_INATIVO)
+                    {
+                        gerarAlerta = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (gerarAlerta)
+            {
+                var alerta = new Alerta
+                {
+                    Titulo = "Alerta de Funcionalidade - Tranca do Reciclador",
+                    Descricao = new List<string>(),
+                    Tipo = Constants.WARNING
+                };
+
+                alerta.Descricao.Add("Revisar a funcionalidade da tranca do reciclador inferior mediante diadnóstico de teste - HARDLOCK. e relatar no chamado essa ação");
                 listaAlertas.Add(alerta);
             }
             return listaAlertas;

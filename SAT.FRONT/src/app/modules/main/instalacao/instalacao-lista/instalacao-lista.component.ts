@@ -44,7 +44,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 64px 120px 120px 72px 72px 56px;
+          grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px;
       }
     `
   ],

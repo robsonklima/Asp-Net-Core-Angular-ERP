@@ -182,7 +182,9 @@
                                         </div> 
                                         
                                         <div class="flex">
-                                            {{ data.codOS }}
+                                            <a class="text-blue-600" [routerLink]="['/ordem-servico/detalhe/' + data.codOS]">
+                                                {{ data.codOS }}
+                                            </a>
                                         </div> 
 
                                         <div class="flex">
@@ -545,7 +547,7 @@
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                     <mat-label>{{ t('os') }}</mat-label>
-                                                    <input matInput formControlName="os">
+                                                    <input matInput formControlName="os">                                                                                                    
                                                 </mat-form-field>
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">

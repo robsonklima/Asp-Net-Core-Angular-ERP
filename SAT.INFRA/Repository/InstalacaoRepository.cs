@@ -92,7 +92,11 @@ namespace SAT.INFRA.Repository
                         .ThenInclude(u => u.UnidadeFederativa)
                     .DefaultIfEmpty()
                 .Include(i => i.OrdemServico!)
+                    .ThenInclude(s => s.StatusServico)
                     .DefaultIfEmpty()
+                .Include(i => i.OrdemServico!)
+                    .ThenInclude(r => r.RelatoriosAtendimento)
+                    .DefaultIfEmpty()                    
                 .Include(i => i.InstalacaoStatus!)
                     .DefaultIfEmpty()
                 .Include(i => i.Autorizada!)
@@ -104,7 +108,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.InstalacaoNFAut!)
                     .DefaultIfEmpty()
                 .Include(i => i.InstalacaoNFVenda!)
-                    .DefaultIfEmpty()                    
+                    .DefaultIfEmpty()                
                 .AsNoTracking()
                 .AsQueryable();
 

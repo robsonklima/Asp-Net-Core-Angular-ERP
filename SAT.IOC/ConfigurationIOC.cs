@@ -197,6 +197,7 @@ public class ConfigurationIOC
         builder.RegisterType<CheckListPOSRepository>().As<ICheckListPOSRepository>();
         builder.RegisterType<CheckListPOSItensRepository>().As<ICheckListPOSItensRepository>();
         builder.RegisterType<TipoChamadoSTNRepository>().As<ITipoChamadoSTNRepository>();
+        builder.RegisterType<PecasLaboratorioRepository>().As<IPecasLaboratorioRepository>();
         
         #endregion
 
@@ -384,6 +385,7 @@ public class ConfigurationIOC
         builder.RegisterType<CheckListPOSService>().As<ICheckListPOSService>();
         builder.RegisterType<CheckListPOSItensService>().As<ICheckListPOSItensService>();
         builder.RegisterType<TipoChamadoSTNService>().As<ITipoChamadoSTNService>();
+        builder.RegisterType<PecasLaboratorioService>().As<IPecasLaboratorioService>();
 
         #endregion
 

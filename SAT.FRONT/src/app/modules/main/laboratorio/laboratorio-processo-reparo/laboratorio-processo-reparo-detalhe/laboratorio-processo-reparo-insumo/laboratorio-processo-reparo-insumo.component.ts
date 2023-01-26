@@ -4,9 +4,11 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { ORCheckListService } from 'app/core/services/or-checklist.service';
 import { ORItemInsumoService } from 'app/core/services/or-item-insumo.service';
 import { ORItemService } from 'app/core/services/or-item.service';
+import { PecasLaboratorioService } from 'app/core/services/pecas-laboratorio.service';
 import { ORCheckList, ORCheckListData } from 'app/core/types/or-checklist.types';
 import { ORItemInsumo } from 'app/core/types/or-item-insumo.types';
 import { ORItem } from 'app/core/types/or-item.types';
+import { PecasLaboratorio } from 'app/core/types/pecas-laboratorio.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
@@ -20,8 +22,9 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   @Input() codORItem: number;
   usuarioSessao: UsuarioSessao;
   orItem: ORItem;
-  checklists: ORCheckList[] = [];
+  checklists: ORCheckList;
   orItemInsumo: ORItemInsumo;
+  insumos: PecasLaboratorio[] = [];
   loading: boolean = true;
   form: FormGroup;
   qtdUtilizada: number;
@@ -31,6 +34,7 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
     private _orItemService: ORItemService,
     private _orChecklistService: ORCheckListService,
     private _orItemInsumoService: ORItemInsumoService,
+    private _pecasLaboratorioService: PecasLaboratorioService,
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService
   ) {
@@ -40,12 +44,15 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   async ngOnInit() {
     this.criarForm();
     this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
-    this.checklists = (await this.obterCheckList()).items;
+    this.checklists = (await this.obterCheckList()).items.shift();
+    this.obterPecasInsumos();
     this.loading = false;
   }
 
   private async obterCheckList(): Promise<ORCheckListData> {
-    return await this._orChecklistService.obterPorParametros({ codPeca: this.orItem.codPeca }).toPromise();
+    return await this._orChecklistService.obterPorParametros({ 
+      codPeca: this.orItem.codPeca,
+    }).toPromise();
   }
 
   criarForm() {
@@ -54,7 +61,7 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
     });
   }
 
-  async obterInsumos(item: ORCheckList) {
+  async obterInsumos(item: PecasLaboratorio) {
     this.orItemInsumo = (await this._orItemInsumoService.obterPorParametros({
       codORItem: this.orItem.codORItem,
       codPeca: item.codPeca,
@@ -62,7 +69,13 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
     }).toPromise()).items.shift();
   }
 
-  async toggleRealizado(ev: any, item: ORCheckList) {
+  async obterPecasInsumos(){
+    this.insumos = (await this._pecasLaboratorioService.obterPorParametros({
+      codChecklist: this.checklists.codORCheckList
+    }).toPromise()).items;
+  }
+
+  async toggleRealizado(ev: any, item: PecasLaboratorio) {
     if (this.qtdUtilizada) {
       if (ev.checked) {
         this._orItemInsumoService.criar({

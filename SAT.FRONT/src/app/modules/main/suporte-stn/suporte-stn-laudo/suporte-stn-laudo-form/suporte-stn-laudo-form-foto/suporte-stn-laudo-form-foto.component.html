@@ -1,5 +1,31 @@
-<div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="relatorioAtendimento?.fotos.length">
-    <div *ngFor="let foto of relatorioAtendimento?.fotos" class="flex flex-col max-w-40 w-full filter-article hover:opacity-80 cursor-pointer" (click)="ampliarFoto(foto)">
-        <img class="object-cover h-28 rounded-md w-full" [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto">
+<div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+    <div class="col-span-12 bg-grey-500 mb-4"
+        *ngIf="(this.userSession.usuario.codPerfil === 79 || this.userSession.usuario.codPerfil === 3 )">
+        <span>Selecione a Foto</span>
+        <input type="file" accept="image/*" (change)="selecionarImagem($event)">
+    </div>
+
+    <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
+        <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
+            <img class="object-cover h-48 w-full"
+                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
+                onError="this.src='assets/images/avatars/gallery.png';" alt="">
+            <div class="m-1 p-1 text-center">
+                <div class="flex items-center">
+                    <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)" mat-icon-button
+                        [disabled]="!(this.userSession.usuario.codPerfil === 79 || this.userSession.usuario.codPerfil === 3 )">
+                        <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+        </fuse-card>
+    </div>
+
+    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2" *ngIf="!relatorioAtendimento?.fotos?.length">
+        <p>
+            {{ ('nenhuma foto encontrada') }}
+        </p>
     </div>
 </div>

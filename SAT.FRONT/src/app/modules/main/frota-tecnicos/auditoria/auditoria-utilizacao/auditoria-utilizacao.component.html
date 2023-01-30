@@ -1,7 +1,6 @@
-<div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
+<form autocomplete="off" [formGroup]="form" class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 gap-6 w-full min-w-0">
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
-        <form autocomplete="off" [formGroup]="form">
             <div class="flex flex-col mt-4 font-medium" *ngIf="auditoria">
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('Data inicial de análise') }}</div>
@@ -77,12 +76,10 @@
 
 
             </div>
-        </form>
     </fuse-card>
 
     <fuse-card class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
         *transloco="let t">
-        <form autocomplete="off" [formGroup]="form">
             <div class="flex flex-col mt-4 font-medium" *ngIf="auditoria">
 
                 <div class="flex items-center justify-between">
@@ -144,16 +141,14 @@
                         [class.text-green-500]="validarcorUsoParticular(auditoria)"
                         [class.text-red-500]="!validarcorUsoParticular(auditoria)">
                         <input matInput formControlName="usoParticular" [(ngModel)]="auditoria.usoParticular"
-                            readonly=“true” >
+                            readonly=“true”>
                     </mat-form-field>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
-                    <textarea class="flex items-center justify-between" matInput #obsInputControl formControlName="observacoes"
-                        [rows]="4" maxlength="1000"></textarea>
+                    <textarea matInput #obsInputControl formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
                 </div>
             </div>
-        </form>
     </fuse-card>
-</div>
+</form>

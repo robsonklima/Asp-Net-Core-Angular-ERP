@@ -17,6 +17,8 @@ import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-
 import moment from 'moment';
 import { DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
+import { DespesaConfiguracaoCombustivelService } from 'app/core/services/despesa-configuracao-combustivel.service';
 declare var L: any;
 
 @Component({
@@ -29,6 +31,7 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
   userSession: UserSession;
   codAuditoria: number;
   auditoria: Auditoria;
+  valorCombustivel: DespesaConfiguracaoCombustivel;
   mapsPlaceholder: any = [];
   tanques: AuditoriaVeiculoTanque[] = [];
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
@@ -39,6 +42,7 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _userSvc: UserService,
     private _auditoriaService: AuditoriaService,
+    private _valorCombustivelService: DespesaConfiguracaoCombustivelService,
     private _auditoriaVeiculoTanqueService: AuditoriaVeiculoTanqueService,
     private _despesaPeriodoTecnicoService: DespesaPeriodoTecnicoService,
     private _snack: CustomSnackbarService,
@@ -55,7 +59,6 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     this.criarForm();
     this.registrarEmitters();
     this.obterTanques();
-
   }
 
   criarForm() {
@@ -93,6 +96,13 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
       });
   }
 
+  private async obterValorCombustivel() {
+    this.valorCombustivel = (await this._valorCombustivelService.obterPorParametros({
+      codFilial: this.auditoria.usuario.codFilial,
+      codUf: this.auditoria.usuario.tecnico.cidade.codUF,
+    }).toPromise()).items.shift();
+  }
+
   private async obterTanques() {
     const data = await this._auditoriaVeiculoTanqueService.obterPorParametros({}).toPromise();
     this.tanques = data.items;
@@ -106,7 +116,9 @@ export class AuditoriaUtilizacaoDialogComponent implements OnInit {
     if (!veiculoTanque)
       return;
 
-    this.auditoria.auditoriaVeiculo.auditoriaVeiculoTanque.qtdLitros = veiculoTanque.qtdLitros;;
+    await this.obterValorCombustivel();
+    this.auditoria.auditoriaVeiculo.auditoriaVeiculoTanque.qtdLitros = veiculoTanque.qtdLitros;
+    this.auditoria.valorTanque = veiculoTanque.qtdLitros * this.valorCombustivel.precoLitro;
   }
 
   private zerarValores() {

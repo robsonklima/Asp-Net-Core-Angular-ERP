@@ -7,7 +7,7 @@
 <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 bg-card shadow rounded overflow-hidden">
     <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
         <div class="flex-auto px-6 pt-1 bg-card overflow-hidden">
-            <table *ngIf="checklists.length" class="w-full text-sm text-left text-gray-500">
+            <table *ngIf="insumos.length" class="w-full text-sm text-left text-gray-500">
                 <tbody>
                     <tr class="font-semibold">
                         <td class="py-1 text-center w-26">
@@ -31,22 +31,22 @@
                         </td>
                     </tr>
 
-                    <tr class="border-t-2" *ngFor="let checklist of checklists">
+                    <tr class="border-t-2" *ngFor="let insumo of insumos">
                         <td class="text-center w-26">
-                            <mat-checkbox [color]="'primary'" (change)="toggleRealizado($event, checklist)">
+                            <mat-checkbox [color]="'primary'" (change)="toggleRealizado($event, insumo)">
                             </mat-checkbox>
                         </td>
 
                         <td class="font-medium text-left">
-                            {{ checklist?.peca?.nomePeca }}
+                            {{ insumo?.peca?.nomePeca }}
                         </td>
 
                         <td class="font-medium text-left">
-                            {{ checklist?.codMagnus }}
+                            {{ insumo?.codMagnus }}
                         </td>
 
                         <td class="font-medium text-center">
-                            1
+                            {{ insumo?.quantidade }}
                         </td>
 
                         <td class="font-medium text-center pt-2.5" [formGroup]="form">
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div *ngIf="!checklists.length && !loading"
+            <div *ngIf="!insumos.length && !loading"
                 class="pt-6 pb-5 text-lg font-semibold tracking-tight text-center bg-card">
                 Nenhum insumo encontrado!
             </div>            

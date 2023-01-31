@@ -129,6 +129,12 @@ namespace SAT.INFRA.Repository
                 laudos = laudos.Where(l => usuarios.Any(p => p == l.Tecnico.CodTecnico.ToString()));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodTipoIntervencoes))
+            {
+                var intervencoes = parameters.CodTipoIntervencoes.Split(',').Select(e => e.Trim());
+                laudos = laudos.Where(l => intervencoes.Any(p => p == l.Or.TipoIntervencao.CodTipoIntervencao.ToString()));
+            }
+
             if (!string.IsNullOrEmpty(parameters.CodLaudosStatus))
             {
                 var laudoStatus = parameters.CodLaudosStatus.Split(',').Select(e => e.Trim());

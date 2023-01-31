@@ -10,6 +10,7 @@ import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { AuditoriaVeiculoTanque } from 'app/core/types/auditoria-veiculo-tanque.types';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
 import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 
 @Component({
@@ -27,23 +28,30 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
   despesasPeriodoTecnico: DespesaPeriodoTecnico[] = [];
   configuracaoCombustivel: DespesaConfiguracaoCombustivel;
   protected _onDestroy = new Subject<void>();
-  @ViewChild('relatoInputControl') obsInputControl: ElementRef;
+  @ViewChild('obsInputControl') obsInputControl: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _userService: UserService,
+    private _snack: CustomSnackbarService,
     private _auditoriaService: AuditoriaService,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
+    this.inicializarForm();
+
     this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
     this.codAuditoriaVeiculo = +this._route.snapshot.paramMap.get('codAuditoriaVeiculo');
     this.obterAuditoria();
-    this.inicializarForm();
+
     this.registrarEmitters();
+
+    this.preencherForm();
+
+    
   }
 
   obterAuditoria() {
@@ -82,6 +90,14 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     });
   }
 
+  private preencherForm(): void {
+    this.form.controls['valorTanque'].setValue(this.auditoria?.valorTanque);
+    this.form.controls['observacoes'].setValue(this.auditoria?.observacoes);
+    this.form.controls['dataHoraRetiradaVeiculo'].setValue(this.auditoria?.dataHoraRetiradaVeiculo);
+    this.form.controls['totalDiasEmUso'].setValue(this.auditoria?.totalDiasEmUso);
+  
+  }
+
   private registrarEmitters() { 
     fromEvent(this.obsInputControl.nativeElement, 'keyup').pipe(
       map((event: any) => {
@@ -90,8 +106,16 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       , debounceTime(1000)
       , distinctUntilChanged()).subscribe((text: string) => {
         this.auditoria.observacoes = text;
-        this._auditoriaService.atualizar(this.auditoria).subscribe();
+        this._auditoriaService.atualizar(this.auditoria).subscribe(() => {
+          this._snack.exibirToast('Descrição da observação atualizada', 'success');
+        },
+        (error) => {
+          this._snack.exibirToast('Erro ao atualizar a descrição da observação', 'danger');
+        });
       });
+
+      console.log(this.auditoria.observacoes);
+      
    }
 
   validarCorKMParticular(auditoria) {

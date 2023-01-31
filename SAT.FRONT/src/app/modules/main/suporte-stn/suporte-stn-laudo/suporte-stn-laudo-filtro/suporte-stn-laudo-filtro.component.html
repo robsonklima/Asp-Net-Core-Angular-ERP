@@ -48,8 +48,8 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('intervencao') }}</mat-label>
-                    <mat-select formControlName="CodTipoIntervencao" multiple="true">
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codTipoIntervencao, intervencoes,
+                    <mat-select formControlName="CodTipoIntervencoes" multiple="true">
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodTipoIntervencoes, intervencoes,
                         'codTipoIntervencao')" [value]="0">
                             TODAS
                         </mat-option>

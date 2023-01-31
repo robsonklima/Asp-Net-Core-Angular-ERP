@@ -283,6 +283,7 @@ namespace SAT.INFRA.Context
         public DbSet<CausaImprodutividade> CausaImprodutividade { get; set; }
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
+        public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -483,6 +484,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CausaImprodutividade>(new CausaImprodutividadeMap().Configure);
             modelBuilder.Entity<CheckListPOS>(new CheckListPOSMap().Configure);
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
+            modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -143,6 +143,10 @@
                                 <div>
                                     {{ t('acoes') }}
                                 </div>
+
+                                <div>
+                                    {{ t('anexos') }}
+                                </div>                                
                             </div>
 
                             <ng-container>
@@ -211,7 +215,15 @@
                                                 <mat-icon mat-icon-button matTooltip="{{ t('ressalvas') }}"
                                                     [svgIcon]="'heroicons_outline:clipboard'">
                                                 </mat-icon>
-                                            </button>
+                                            </button>                                             
+                                        </div>
+
+                                        <div>
+                                            <button class="ml-2" (click)="selecionarArquivo($event)">
+                                                <mat-icon mat-icon-button matTooltip="{{ t('anexos') }}"
+                                                    [svgIcon]="'heroicons_outline:paper-clip'">
+                                                </mat-icon>
+                                            </button>    
                                         </div>
                                     </div>
                                     <div class="grid">

@@ -44,9 +44,9 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
     /* language=SCSS */
     `
       .list-grid-instalacao {
-          grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px;
+          grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px 56px;
       }
-    `
+    `  
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
@@ -600,6 +600,11 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       height: '600px'
     });
   }
+
+  
+	selecionarArquivo(ev: any) {
+    
+	}
 
   ngOnDestroy() {
     this._onDestroy.next();

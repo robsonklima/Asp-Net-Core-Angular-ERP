@@ -131,6 +131,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
         public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }        
         public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }        
+        public DbSet<InstalacaoAnexo> InstalacaoAnexo { get; set; }
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }

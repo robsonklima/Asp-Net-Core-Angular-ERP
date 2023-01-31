@@ -10,6 +10,7 @@ import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { CidadeService } from 'app/core/services/cidade.service';
 import { ClienteBancada, ClienteBancadaParameters } from 'app/core/types/cliente-bancada.types';
 import { ClienteBancadaService } from 'app/core/services/cliente-bancada.service';
+import { statusConst } from 'app/core/types/status-types';
 
 
 
@@ -76,7 +77,8 @@ export class ClienteBancadaFiltroComponent extends FilterBase implements OnInit,
 			filter: filtro,
 			sortActive: 'nomeCidade',
 			sortDirection: 'asc',
-			pageSize: 1000
+			pageSize: 1000,
+			indAtivo: statusConst.ATIVO,
 		};
 		const data = await this._cidadeService
 			.obterPorParametros(params)

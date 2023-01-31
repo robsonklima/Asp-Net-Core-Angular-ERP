@@ -104,6 +104,7 @@ export class ClienteBancadaListaComponent extends Filterable implements AfterVie
 		}
 
 		this._cdr.detectChanges();
+		this.isLoading = false;
 	}
 
 	async obterDados(filtro: string = '') {

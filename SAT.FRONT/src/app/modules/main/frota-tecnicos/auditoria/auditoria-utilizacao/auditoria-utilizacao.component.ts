@@ -10,7 +10,7 @@ import { DespesaPeriodoTecnico } from 'app/core/types/despesa-periodo.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -79,23 +79,19 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       kmParticular: [undefined],
       kmParticularMes: [undefined],
       usoParticular: [undefined],
-
     });
   }
 
   private registrarEmitters() { 
-    this.form.controls['observacoes']
-			.valueChanges
-			.subscribe((texto) => {
-        console.log(texto);
-
-        //this.auditoria.observacoes = texto;
-        
-        console.log(this.auditoria.observacoes);
-        
-        
-        // this._auditoriaService.atualizar(this.auditoria).subscribe();
-        // this._snack.exibirToast('Observação atualizada', 'success');
+    this.form.controls['observacoes'].valueChanges
+			.pipe(
+        debounceTime(700),
+				distinctUntilChanged(),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe((obs) => {
+				this._auditoriaService.atualizar({ ...this.auditoria, ...{ observacoes: obs } }).subscribe();
+        this._snack.exibirToast('Observação atualizada', 'success');
 			});
    }
 

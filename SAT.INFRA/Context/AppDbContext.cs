@@ -131,6 +131,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
         public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }        
         public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }        
+        public DbSet<InstalacaoAnexo> InstalacaoAnexo { get; set; }
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
@@ -282,6 +283,7 @@ namespace SAT.INFRA.Context
         public DbSet<CausaImprodutividade> CausaImprodutividade { get; set; }
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
+        public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -483,6 +485,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CheckListPOS>(new CheckListPOSMap().Configure);
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
             modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
+            modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

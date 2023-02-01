@@ -7,7 +7,7 @@ namespace SAT.MODELS.Views {
         public string TempoOcioso { get; set; }
         public string TempoEmReparo { get; set; }
         public int QtdEmReparo { get; set; }
-        public int NumBancada { get; set; }
+        public int? NumBancada { get; set; }
         public string TempoReparoPeca { get; set; }
         public string StatusReparo { get; set; }
         public int? CodOR { get; set; }

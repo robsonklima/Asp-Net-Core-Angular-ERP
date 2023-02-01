@@ -61,7 +61,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 			CodClientes: [undefined],
 			CodEquips: [undefined],
 			CodLaudosStatus: [undefined],
-			CodTipoIntervencao: [undefined]
+			CodTipoIntervencoes: [undefined]
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

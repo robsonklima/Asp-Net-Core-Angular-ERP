@@ -79,6 +79,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
       kmParticular: [undefined],
       kmParticularMes: [undefined],
       usoParticular: [undefined],
+
     });
   }
 
@@ -90,6 +91,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
 				takeUntil(this._onDestroy)
 			)
 			.subscribe((obs) => {
+        if (!this.auditoria) return;
 				this._auditoriaService.atualizar({ ...this.auditoria, ...{ observacoes: obs } }).subscribe();
         this._snack.exibirToast('Observação atualizada', 'success');
 			});

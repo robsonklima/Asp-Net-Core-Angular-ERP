@@ -482,6 +482,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CausaImprodutividade>(new CausaImprodutividadeMap().Configure);
             modelBuilder.Entity<CheckListPOS>(new CheckListPOSMap().Configure);
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
+            modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

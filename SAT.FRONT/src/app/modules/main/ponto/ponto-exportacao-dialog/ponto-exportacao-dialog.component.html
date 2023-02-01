@@ -1,0 +1,88 @@
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6">
+    <div class="relative flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">
+            Exportação
+        </div>
+        
+        <button
+            mat-icon-button
+            mat-dialog-close
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+    </div>
+
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="form">
+
+        <mat-form-field>
+            <mat-label>Filial</mat-label>
+
+            <mat-select formControlName="codFiliais" multiple="true" [disabled]="!filiais.length">
+                <mat-option
+                    class="mat-primary fill"
+                    (click)="selectAll(form.controls.codFiliais, filiais, 'codFilial')"
+                    [value]="0">
+                    SELECIONAR TODAS
+                </mat-option>
+
+                <mat-option class="uppercase"
+                    *ngFor="let filial of filiais"
+                    [value]="filial.codFilial">
+                    <span>{{ filial.nomeFilial }}</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Usuário</mat-label>
+
+            <mat-select formControlName="codUsuarios" multiple="true" [disabled]="!usuarios.length">
+                <mat-option
+                    class="mat-primary fill"
+                    (click)="selectAll(form.controls.codUsuarios, usuarios, 'codUsuario')"
+                    [value]="0">
+                    SELECIONAR TODOS
+                </mat-option>
+
+                <mat-option class="uppercase"
+                    *ngFor="let usuario of usuarios"
+                    [value]="usuario.codUsuario">
+                    <span>{{ usuario.nomeUsuario }}</span>
+                    <span class="text-secondary">{{ usuario.filial.nomeFilial }}</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+            <div class="-ml-2">
+                
+            </div>
+
+            <div class="flex items-center mt-4 sm:mt-0">
+                <button
+                    mat-dialog-close
+                    class="sm:mx-3"
+                    mat-button>
+                    <span>Cancelar</span>
+                </button>
+                
+                <button
+                    class="order-first sm:order-last"
+                    mat-flat-button
+                    [disabled]="loading"
+                    (click)="exportar()"
+                    [color]="'primary'">
+                    Exportar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

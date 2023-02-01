@@ -20,7 +20,7 @@ namespace SAT.SERVICES.Services {
                                 Status = t.TicketStatus.Descricao
                             });
 
-            var wsOs = Workbook.Worksheets.Add("creditos");
+            var wsOs = Workbook.Worksheets.Add("tickets");
 			wsOs.Cell(2, 1).Value = sheet;
 			WriteHeaders(sheet.FirstOrDefault(), wsOs);
         }

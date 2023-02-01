@@ -111,8 +111,8 @@
                                             mat-stroked-button
                                             [matTooltip]="'Exportar'"
                                             matTooltipPosition="above"
-                                            [disabled]="true"
-                                            *ngIf="userSession.usuario.codPerfil !== 35">
+                                            [disabled]="userSession.usuario.codPerfil != 3 && userSession.usuario.codPerfil != 44"
+                                            (click)="abrirExportacao(data)">
                                             <mat-icon
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:cloud-download'"></mat-icon>

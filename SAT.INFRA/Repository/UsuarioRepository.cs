@@ -174,6 +174,12 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => filiais.Contains(u.CodFilial.Value));
             }
 
+            if (!string.IsNullOrEmpty(parameters.CodUsuarios))
+            {
+                var usuarios = parameters.CodUsuarios.Split(',').Select(e => e.Trim());
+                query = query.Where(u => usuarios.Any(p => p == u.CodUsuario));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))
             {
                 int[] perfis = parameters.CodPerfisNotIn.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
@@ -185,6 +191,12 @@ namespace SAT.INFRA.Repository
 
             if (parameters.UltimoAcessoFim.HasValue)
                 query = query.Where(r => r.UltimoAcesso <= parameters.UltimoAcessoFim);
+
+            if (parameters.PontoInicio.HasValue && parameters.PontoFim.HasValue)
+            {
+                query = query.Include(u => u.PontosUsuario.Where(r => r.DataHoraRegistro.Date >= parameters.PontoInicio.Value.Date && 
+                    r.DataHoraRegistro.Date <= parameters.PontoFim.Value.Date));
+            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

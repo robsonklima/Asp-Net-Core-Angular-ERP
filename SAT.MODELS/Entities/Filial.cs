@@ -11,6 +11,7 @@ namespace SAT.MODELS.Entities
         public string RazaoSocial { get; set; }
         public string NomeFilial { get; set; }
         public string InscricaoEstadual { get; set; }
+        public string NumColetorPonto { get; set; }
         public string Email { get; set; }
         public decimal? ICMS { get; set; }
         [ForeignKey("CodCidade")]

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Reflection;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +62,7 @@ namespace SAT.SERVICES.Services
         private readonly ITicketRepository _ticketRepo;
         private readonly ILaudoRepository _laudoRepo;
         private readonly IInstalacaoRepository _instalacaoRepo;
+        private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -110,6 +110,7 @@ namespace SAT.SERVICES.Services
             ITicketLogTransacaoRepository ticketLogTransacaoRepo,
             ITicketRepository ticketRepo,
             ILaudoRepository laudoRepo,
+            IPontoUsuarioRepository pontoUsuarioRepo,
             IInstalacaoRepository instalacaoRepo
         )
         {
@@ -159,6 +160,7 @@ namespace SAT.SERVICES.Services
             _ticketRepo = ticketRepo;
             _laudoRepo = laudoRepo;
             _instalacaoRepo = instalacaoRepo;
+            _pontoUsuarioRepo = pontoUsuarioRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -170,6 +172,8 @@ namespace SAT.SERVICES.Services
                     return ExportExcel(exportacao.EntityParameters, exportacao.TipoArquivo);
                 case ExportacaoFormatoEnum.PDF:
                     return ExportPDF(exportacao);
+                case ExportacaoFormatoEnum.TXT:
+                    return ExportTXT(exportacao.EntityParameters, exportacao.TipoArquivo);
                 default:
                     return null;
             }
@@ -427,6 +431,17 @@ namespace SAT.SERVICES.Services
             var fullPath = Path.Combine(Path.GetTempPath(), file);
 
             return fullPath;
+        }
+
+        private dynamic ExportTXT(dynamic parameters, ExportacaoTipoEnum tipo)
+        {
+            switch (tipo)
+            {
+                case ExportacaoTipoEnum.PONTO_USUARIO:
+                    return GerarTXTPontoUsuario(((JObject)parameters).ToObject<UsuarioParameters>());
+                default:
+                    return null;
+            }
         }
     }
 }

@@ -11,7 +11,8 @@ export interface Exportacao
 
 export enum ExportacaoFormatoEnum {
     EXCEL,
-    PDF
+    PDF,
+    TXT
 }
 
 export enum ExportacaoTipoEnum {
@@ -56,5 +57,6 @@ export enum ExportacaoTipoEnum {
     DESPESA_CARTAO_COMBUSTIVEL,
     TICKET_LOG_TRANSACAO,
     INSTALACAO,
-    LAUDO
+    LAUDO,
+    PONTO_USUARIO
 }

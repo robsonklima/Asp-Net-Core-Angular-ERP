@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities.Params
     public class UsuarioParameters : QueryStringParameters
     {
         public string CodUsuario { get; set; }
+        public string CodUsuarios { get; set; }
         public string NomeUsuario { get; set; }
         public string Email { get; set; }
         public int? CodFilial { get; set; }
@@ -22,5 +23,7 @@ namespace SAT.MODELS.Entities.Params
         public string CodPerfisNotIn { get; set; }
         public DateTime? UltimoAcessoInicio { get; set; }
         public DateTime? UltimoAcessoFim { get; set; }
+        public DateTime? PontoInicio { get; set; }
+        public DateTime? PontoFim { get; set; }
     }
 }

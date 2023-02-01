@@ -1,5 +1,4 @@
 using System.Linq;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services {

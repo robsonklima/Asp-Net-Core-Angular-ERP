@@ -43,6 +43,7 @@ namespace SAT.MODELS.Enums
         DESPESA_CARTAO_COMBUSTIVEL,
         TICKET_LOG_TRANSACAO,
         INSTALACAO,
-        LAUDO
+        LAUDO,
+        PONTO_USUARIO
     }
 }

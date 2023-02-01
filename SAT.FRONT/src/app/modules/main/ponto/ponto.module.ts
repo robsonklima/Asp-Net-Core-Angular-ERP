@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PontoUsuarioFormComponent } from './ponto-usuario-form/ponto-usuario-form.component';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PontoExportacaoDialogComponent } from './ponto-exportacao-dialog/ponto-exportacao-dialog.component';
 
 registerLocaleData(localeBr, 'pt');
 
@@ -52,7 +53,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     PontoHorariosListaComponent,
     PontoRelatoriosAtendimentoComponent,
     PontoInconsistenciaFormComponent,
-    PontoUsuarioFormComponent
+    PontoUsuarioFormComponent,
+    PontoExportacaoDialogComponent
   ],
   imports: [
     CommonModule,

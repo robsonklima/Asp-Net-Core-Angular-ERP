@@ -29,7 +29,7 @@ import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { TipoIntervencaoConst, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { RoleEnum } from 'app/core/user/user.types';
@@ -681,6 +681,11 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 					}
 				}
 			}
+		}
+
+		// Orçamento Pendente aprovação do cliente, refatorar a constante tipoIntervencaoConst
+		if (this.ordemServico.codTipoIntervencao == 19 && this.relatorioAtendimento.codStatusServico == statusServicoConst.FECHADO) {
+			return this._snack.exibirToast("Não é possível fechar um chamado do tipo de intervenção ORÇAMENTO PENDENTE APROVAÇÃO CLIENTE", "error");
 		}
 
 		// Atualizar OS

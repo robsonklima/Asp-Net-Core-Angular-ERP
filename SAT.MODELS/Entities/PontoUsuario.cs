@@ -1,14 +1,12 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
     public class PontoUsuario
     {
-        [Key]
         public int CodPontoUsuario { get; set; }
         public int CodPontoPeriodo { get; set; }
+        public PontoPeriodo PontoPeriodo { get; set; }
         public string CodUsuario { get; set; }
         public DateTime DataHoraRegistro { get; set; }
         public DateTime DataHoraEnvio { get; set; }
@@ -21,8 +19,5 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
-
-        [ForeignKey("CodPontoPeriodo")]
-        public PontoPeriodo PontoPeriodo { get; set; }
     }
 }

@@ -1,24 +1,24 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
-import { PontoPeriodoData, PontoPeriodoParameters } from 'app/core/types/ponto-periodo.types';
+import { PontoPeriodo, PontoPeriodoData, PontoPeriodoParameters } from 'app/core/types/ponto-periodo.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { PontoExportacaoDialogComponent } from '../ponto-exportacao-dialog/ponto-exportacao-dialog.component';
 
 @Component({
   selector: 'app-ponto-periodo-lista',
   templateUrl: './ponto-periodo-lista.component.html',
   styles: [
-    /* language=SCSS */
-    `
-      .list-grid-ge {
-          grid-template-columns: 72px 136px 136px 136px auto 154px 200px;
-      }
-    `
+    `.list-grid-ge {
+      grid-template-columns: 72px 136px 136px 136px auto 154px 200px;
+    }`
   ],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
@@ -34,7 +34,9 @@ export class PontoPeriodoListaComponent implements AfterViewInit {
   constructor(
     private _cdr: ChangeDetectorRef,
     private _pontoPeriodoSvc: PontoPeriodoService,
-    private _userSvc: UserService
+    private _userSvc: UserService,
+    private _dialog: MatDialog,
+    private _exportacaoService: ExportacaoService
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
@@ -86,6 +88,15 @@ export class PontoPeriodoListaComponent implements AfterViewInit {
     this.isLoading = false;
     this._cdr.detectChanges();
   }
+
+  abrirExportacao(periodo: PontoPeriodo) {
+		this._dialog.open(PontoExportacaoDialogComponent, {
+			width: '768px',
+			data: {
+				periodo: periodo
+			},
+		});
+	}
 
   paginar() {
     this.obterDados();

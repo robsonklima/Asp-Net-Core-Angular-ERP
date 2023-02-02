@@ -13,6 +13,7 @@ export interface Filial {
     cnpj?: string;
     bairro: string;
     orcamentoISS?: OrcamentoISS;
+    numColetorPonto?: string;
     icms?: number;
     email?: string;
     codCidade?: number;

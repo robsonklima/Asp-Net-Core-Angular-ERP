@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Filial> builder)
         {
-            builder
-                .ToTable("Filial");
-
-            builder
-                .HasKey(prop => prop.CodFilial);
+            builder.ToTable("Filial");
+            builder.HasKey(prop => prop.CodFilial);
 
             builder
                 .HasOne(prop => prop.FilialAnalista)

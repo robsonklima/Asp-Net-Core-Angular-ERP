@@ -82,10 +82,12 @@ export interface UsuarioSessao {
 
 export interface UsuarioParameters extends QueryStringParameters {
     codUsuario?: string;
+    codUsuarios?: string;
     nomeUsuario?: string;
     email?: string;
     codCargos?: number;
     codFilial?: number;
+    codFiliais?: string;
     indAtivo?: number;
     codTecnico?: number;
     codPontoPeriodo?: number;
@@ -94,6 +96,8 @@ export interface UsuarioParameters extends QueryStringParameters {
     ultimoAcessoInicio?: string;
     ultimoAcessoFim?: string;
     codPerfis?: string;
+    pontoInicio?: string | null;
+    pontoFim?: string | null;
 };
 
 export interface UsuariosLogados {

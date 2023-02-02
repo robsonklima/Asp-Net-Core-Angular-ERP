@@ -3,6 +3,7 @@
         <app-agenda-tecnico-chamados-filtro [sidenav]="sidenav"></app-agenda-tecnico-chamados-filtro>
     </mat-drawer>
 
+
     <mat-drawer-content class="min-h-full">
         <div class="flex-auto" *transloco="let t">
             <div class="flex flex-col sm:flex-row md:flex-col flex-auto py-5 px-6 md:px-8 border-b min-h-4/5">
@@ -31,16 +32,20 @@
             <mat-progress-spinner class="self-center" [diameter]="30" [mode]="'indeterminate'" *ngIf="isLoading">
             </mat-progress-spinner>
             <ng-container *ngIf="!isLoading">
-                <div class="flex pt-1 mb-1 cursor-move" *ngFor="let event of externalEvents" mbsc-draggable [dragData]="event">
+                <div class="flex pt-1 mb-1 cursor-move" *ngFor="let event of externalEvents" mbsc-draggable
+                    [dragData]="event">
                     <div class="p-2 w-full text-xs rounded-sm"
                         [ngClass]="{'bg-gray-200': event.indAgendamento == 0,'bg-purple-200': event.indAgendamento == 1}">
                         <div>
                             <span class="font-bold">{{ event.title | uppercase }}</span>
                             {{ event.regiao }} - {{ event.autorizada }}
                         </div>
-                        <div>{{ event.ordemServico?.codOS }} - {{ event.cliente }} - {{ event.intervencao }} - {{ "Série: " + event.serie }}</div>
+                        <div>{{ event.ordemServico?.codOS }} - {{ event.cliente }} - {{ event.intervencao }} - {{
+                            "Série: " + event.serie }}</div>
                         <div *ngIf="event.ordemServico?.prazosAtendimento?.length">
-                            {{ "SLA: " + (event.ordemServico?.prazosAtendimento[event.ordemServico?.prazosAtendimento?.length - 1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
+                            {{ "SLA: " +
+                            (event.ordemServico?.prazosAtendimento[event.ordemServico?.prazosAtendimento?.length -
+                            1]?.dataHoraLimiteAtendimento | date:'dd/MM/yy HH:mm') }}
                         </div>
                     </div>
                 </div>

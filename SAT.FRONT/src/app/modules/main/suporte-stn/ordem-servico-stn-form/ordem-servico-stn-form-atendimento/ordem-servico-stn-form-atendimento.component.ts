@@ -211,7 +211,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   async obterCausas() {
     this.causas = (await this._causaService
       .obterPorParametros({ 
-        sortActive: 'nomeCausa',
+        sortActive: 'codECausa',
         sortDirection: 'asc',
         indAtivo: statusConst.ATIVO
        })

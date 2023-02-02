@@ -56,7 +56,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
       this._orItemService.atualizar({ 
         ...this.item, 
         ...{ 
-          codStatus: orStatusConst.TRANSFERENCIA_CD_ESTOQUE,
+          codStatus: orStatusConst.EM_REPARO,
           codTecnico: this.userSession.usuario.codUsuario
         }
       }).subscribe();
@@ -86,6 +86,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
           ...this.item?.temposReparo[0],
           ...{
             indAtivo: novoStatus,
+            codStatus: orStatusConst.TRANSFERENCIA_CD_ESTOQUE,
             dataHoraFim: moment().format('YYYY-MM-DD HH:mm:ss')
           }
         }).toPromise();

@@ -90,6 +90,7 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 			...parametros,
 			...this.filter?.parametros
 		}).toPromise();
+		
 		this.dataSourceData = data;
 		this.isLoading = false;
 		this._cdr.detectChanges();

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { EmailService } from 'app/core/services/email.service';
 import { OrcamentoService } from 'app/core/services/orcamento.service';
 import { OrcamentoAprovacao } from 'app/core/types/orcamento.types';
 import { EmailValidator } from 'app/core/validators/email.validator';
@@ -16,7 +15,6 @@ export class OrcamentoAprovacaoComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private _emailService: EmailService,
     private _snack: CustomSnackbarService,
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,

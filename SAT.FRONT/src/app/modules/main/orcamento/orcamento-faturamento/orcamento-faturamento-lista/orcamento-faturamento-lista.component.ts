@@ -60,9 +60,9 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 				})
 				, debounceTime(1000)
 				, distinctUntilChanged()
-			).subscribe((text: string) => {
+			).subscribe(() => {
 				this.paginator.pageIndex = 0;
-				this.obterDados(text);
+				this.obterDados();
 			});
 
 			this.sort.sortChange.subscribe(() => {
@@ -74,7 +74,7 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 		this._cdr.detectChanges();
 	}
 
-	async obterDados(filtro: string = '') {
+	async obterDados() {
 		this.isLoading = true;
 
 		const parametros: LocalEnvioNFFaturamentoParameters = {
@@ -83,7 +83,7 @@ export class OrcamentoFaturamentoListaComponent implements AfterViewInit {
 			sortActive: this.sort.active || 'codLocalEnvioNFFaturamento' || 'cnpjFaturamento',
 			sortDirection: 'desc',
 			pageSize: this.paginator?.pageSize,
-			filter: filtro
+			filter: this.searchInputControl.nativeElement.value
 		}
 
 		const data: LocalEnvioNFFaturamentoData = await this._localEnvioNFFaturamentoService.obterPorParametros({

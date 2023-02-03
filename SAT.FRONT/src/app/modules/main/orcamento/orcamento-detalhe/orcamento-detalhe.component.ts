@@ -237,7 +237,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	enviarEmail(tipoEnvio: number) {
-
 		let dados;
 		switch (tipoEnvio) {
 			case 1:
@@ -446,13 +445,14 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
+			this.os.observacaoCliente = this.os.observacaoCliente + "  -  Orçamento enviado:" + moment().format('DD/MM/YYYY HH:mm');
+			this._osService.atualizar(this.os).subscribe();
+
 			if (data) {
 				this.orcamento.indEnvioCliente = 1;
 				this.orcamento.codusuarioEnvioCliente = this.userSession.usuario.codUsuario;
 				this.orcamento.dataHoraEnvioCliente = moment().format('yyyy-MM-DD HH:mm:ss');
 				this._orcamentoService.atualizar(this.orcamento).subscribe();
-				this.os.observacaoCliente = this.os.observacaoCliente + "Orçamento enviado:" + moment().format('DD/MM/YYYY HH:mm');
-				this._osService.atualizar(this.os).subscribe();
 				this._orcService.atualizarTotalizacao(this.codOrc);
 
 				switch (tipoEnvio) {

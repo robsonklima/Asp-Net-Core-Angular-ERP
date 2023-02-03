@@ -12,7 +12,8 @@
     </div>
 
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('ativo') }}</mat-label>
@@ -34,7 +35,7 @@
                     {{ t('salvar') }}
                 </button>
 
-                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'secundary'">
+                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
                     {{ t('aplicar') }}
                 </button>
 

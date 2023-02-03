@@ -44,7 +44,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 export class EquipamentoContratoListaComponent extends Filterable implements AfterViewInit, IFilterable {
 	@ViewChild('sidenav') sidenav: MatSidenav;
 	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl') searchInputControl: ElementRef;
 	@ViewChild(MatSort) sort: MatSort;
 	dataSourceData: EquipamentoContratoData;
 	isLoading: boolean = false;

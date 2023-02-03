@@ -85,6 +85,17 @@ namespace SAT.INFRA.Repository
                 .AsNoTracking()
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                contratoServicos = contratoServicos.Where(c => 
+                    c.TipoServico.NomeServico.Contains(parameters.Filter) ||
+                    c.AcordoNivelServico.NomeSLA.Contains(parameters.Filter) ||
+                    c.Equipamento.NomeEquip.Contains(parameters.Filter) ||
+                    c.Equipamento.DescEquip.Contains(parameters.Filter) ||
+                    c.Valor.ToString().Contains(parameters.Filter)
+                );
+            }
+
             if (parameters.CodContrato != null)
             {
                 contratoServicos = contratoServicos.Where(a => a.CodContrato == parameters.CodContrato);

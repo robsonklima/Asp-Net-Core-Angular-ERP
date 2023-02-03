@@ -5,6 +5,11 @@
 		</div>
 
 		<div class="flex place-content-end">
+			<mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50 mr-4">
+				<mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+				<input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+			</mat-form-field>
+
 			<button mat-icon-button [matTooltip]="t('novo')"
 				[routerLink]="'/contrato/' + codContrato + '/contrato-servico-form'">
 				<mat-icon class="text-green-500" [svgIcon]="'heroicons_outline:plus-circle'">
@@ -22,15 +27,19 @@
 								<div>
 									{{ t("tipo servico") }}
 								</div>
+
 								<div>
 									{{ t("sla") }}
 								</div>
+
 								<div class="text-center">
 									{{ t("modelo") }}
 								</div>
+
 								<div class="hidden md:block text-center">
 									{{ t("valor") }}
 								</div>
+								
 								<div class="text-right pr-2">
 									{{ t("acao") }}
 								</div>
@@ -44,7 +53,6 @@
 
 									<div class="flex truncate">
 										{{ servico.acordoNivelServico.nomeSLA }}
-
 									</div>
 
 									<div class="text-center md:block">
@@ -53,7 +61,6 @@
 										<span>{{ servico.equipamento.tipoEquipamento.codETipoEquip }}</span>
 										<span> - </span>
 										<span>{{ servico.equipamento.grupoEquipamento.codEGrupoEquip }}</span>
-
 									</div>
 
 									<div class=" hidden text-center md:block">

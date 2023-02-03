@@ -1,15 +1,15 @@
-import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
+import { ContratoServico, ContratoServicoData, ContratoServicoParameters } from 'app/core/types/contrato-servico.types';
 import { Contrato } from 'app/core/types/contrato.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ContratoServico, ContratoServicoData, ContratoServicoParameters } from 'app/core/types/contrato-servico.types';
-import { ContratoServicoService } from 'app/core/services/contrato-servico.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-contrato-servico-lista',
@@ -27,14 +27,13 @@ import { ContratoServicoService } from 'app/core/services/contrato-servico.servi
     animations: fuseAnimations
 })
 export class ContratoServicoListaComponent implements AfterViewInit {
-   
     userSession: UserSession;
-    @ViewChild(MatSort) private sort: MatSort;
     contratoServicoData: ContratoServicoData;
     selectedItem: Contrato | null = null;
     codContrato: number;
     filtro: any;
     isLoading: boolean = false;
+    @ViewChild('searchInputControl') searchInputControl: ElementRef;
     protected _onDestroy = new Subject<void>();
 
     constructor(
@@ -43,26 +42,36 @@ export class ContratoServicoListaComponent implements AfterViewInit {
         private _userService: UserService,
         private _route: ActivatedRoute,
         public _dialog: MatDialog
-
     ) {
-
         this.userSession = JSON.parse(this._userService.userSession);
-    }
-
-    ngOnInit(): void {
-
     }
 
     ngAfterViewInit(): void {
         this.isLoading = true;
         this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
         this.obterContratosServico();
+        this.registrarEmitters();
         this._cdr.detectChanges();
     }
 
-    async obterContratosServico() {
+    registrarEmitters() {
+        fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			map((event: any) => {
+				return event.target.value;
+			})
+			, debounceTime(1000)
+			, distinctUntilChanged()
+		).subscribe((text: string) => {
+            this.obterContratosServico(text);
+		});
+    }
 
-        const params: ContratoServicoParameters = { codContrato: this.codContrato };
+    async obterContratosServico(text: string='') {
+        this.isLoading = true;
+        const params: ContratoServicoParameters = { 
+            codContrato: this.codContrato,
+            filter: text
+        };
 
         const data = await this._contratoServicoService
             .obterPorParametros(params)

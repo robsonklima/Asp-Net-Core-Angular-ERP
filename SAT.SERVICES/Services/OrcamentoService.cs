@@ -100,7 +100,7 @@ namespace SAT.SERVICES.Services
             _orcamentoRepo.Atualizar(orcamento);
 
             var os = _ordemServicoRepo.ObterPorCodigo((int)orcamento.CodigoOrdemServico);
-            os.ObservacaoCliente = $@"{(aprovacao.IsAprovado == true ? "Aprovado" : "Reprovado")} / { aprovacao.Nome } / { aprovacao.Email } / 
+            os.ObservacaoCliente = $@"{(aprovacao.IsAprovado == true ? "Aprovado" : "Reprovado")} / {DateTime.Now} / { aprovacao.Nome } / { aprovacao.Email } / 
                 { aprovacao.Departamento } / { aprovacao.Telefone } / { aprovacao.Ramal } - { os.ObservacaoCliente }";
 
             _ordemServicoRepo.Atualizar(os);

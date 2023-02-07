@@ -284,6 +284,7 @@ namespace SAT.INFRA.Context
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
+        public DbSet<OSBancada> OSBancada { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -486,6 +487,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
             modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
             modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
+            modelBuilder.Entity<OSBancada>(new OSBancadaMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

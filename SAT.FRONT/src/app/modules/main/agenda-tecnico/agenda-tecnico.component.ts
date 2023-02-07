@@ -268,6 +268,7 @@ export class AgendaTecnicoComponent extends Filterable implements AfterViewInit,
 			var os = await this._ordemServicoSvc.obterPorCodigo(agenda.codOS).toPromise();
 			os.codTecnico = agenda.codTecnico
 			os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+			os.dataHoraTransf = moment().format('YYYY-MM-DD HH:mm:ss');
 			os.codUsuarioManut = this.userSession.usuario.codUsuario;
 			this._ordemServicoSvc.atualizar(os).toPromise();
 		}

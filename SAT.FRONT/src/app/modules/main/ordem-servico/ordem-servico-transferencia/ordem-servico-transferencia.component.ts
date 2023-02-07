@@ -91,12 +91,13 @@ export class OrdemServicoTransferenciaComponent implements AfterViewInit {
       tipo: AgendaTecnicoTipoEnum.OS
     }
 
-    this._agendaTecnicoService.criar(agenda).subscribe((agenda) => {
+    this._agendaTecnicoService.criar(agenda).subscribe(() => {
       this.os.codTecnico = tecnico.codTecnico;
       this.os.codUsuarioManut = this.sessionData.usuario.codUsuario;
       this.os.codUsuarioManutencao = this.sessionData.usuario.codUsuario;
       this.os.codStatusServico = statusServicoConst.TRANSFERIDO;
       this.os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+      this.os.dataHoraTransf = moment().format('YYYY-MM-DD HH:mm:ss');
       this._ordemServicoService.atualizar(this.os).subscribe(() => {
         this.isLoading = false;
         this._snack.exibirToast(`Chamado transferido para ${tecnico.nome.replace(/ .*/, '')}`, 'success');

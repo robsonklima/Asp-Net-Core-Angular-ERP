@@ -7,6 +7,6 @@ namespace SAT.MODELS.Views
         public string CodMagnus { get; set; }
         public string NomePecaAbrev { get; set; }
         public int QtdReparada { get; set; }
-        public string TempoMedioReparo { get; set; }
+        public int TempoMedioReparo { get; set; }
     }
 }

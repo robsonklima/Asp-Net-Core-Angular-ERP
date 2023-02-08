@@ -24,5 +24,10 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterTopFaltantes(parameters);
         }
+
+        public List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterTempoMedioReparo(parameters);
+        }
     }
 }

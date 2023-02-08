@@ -1,11 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
+import moment from 'moment';
 import {
   ApexAxisChartSeries,
   ApexChart,
   ChartComponent,
   ApexDataLabels,
   ApexXAxis,
-  ApexPlotOptions
+  ApexPlotOptions,
+  ApexTooltip
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -14,6 +17,7 @@ export type ChartOptions = {
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   xaxis: ApexXAxis;
+  tooltip: ApexTooltip;
 };
 
 @Component({
@@ -26,6 +30,7 @@ export class LaboratorioDashboardTempoMedioReparoComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(
+    private _dashboardLabService: DashboardLabService,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -33,12 +38,20 @@ export class LaboratorioDashboardTempoMedioReparoComponent implements OnInit {
     this.montarGrafico();
   }
 
-  montarGrafico() {
+  private async montarGrafico() {
+    const data = await this._dashboardLabService
+      .obterTempoMedioReparo({ sortActive: 'TempoMedioReparo', sortDirection: 'desc' }).toPromise();
+
+    const labels = data.map(d => d.nomePecaAbrev);
+    const temposMediosReparo = data.map(d => d.tempoMedioReparo);
+    
+    
+
     this.chartOptions = {
       series: [
         {
-          name: "basic",
-          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+          name: "Tempo Médio de Reparo (min)",
+          data: temposMediosReparo
         }
       ],
       chart: {
@@ -54,19 +67,16 @@ export class LaboratorioDashboardTempoMedioReparoComponent implements OnInit {
         enabled: false
       },
       xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany"
-        ]
-      }
+        categories: labels,
+        labels: {
+          formatter: function(val) {
+            return moment().startOf('day').add(val, 'minutes').format('hh:mm');
+          }
+        }
+      },
+      tooltip: {
+        enabled: false
+      },
     };
 
     this._cdr.detectChanges();

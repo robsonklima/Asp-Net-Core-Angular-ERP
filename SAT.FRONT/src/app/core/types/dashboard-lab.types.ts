@@ -19,6 +19,15 @@ export interface ViewDashboardLabTopFaltantes {
     qtdEmReparo: number;
 }
 
+export interface ViewDashboardLabTopTempoMedioReparo {
+    codPeca: number;
+    nomePeca: string;
+    codMagnus: string;
+    nomePecaAbrev: string;
+    qtdReparada: number;
+    tempoMedioReparo: number;
+}
+
 export interface DashboardLabParameters extends QueryStringParameters {
     ano?: number;
 };

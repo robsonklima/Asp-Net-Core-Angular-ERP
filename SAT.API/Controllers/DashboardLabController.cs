@@ -31,5 +31,11 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterTopFaltantes(parameters);
         }
+
+        [HttpGet("TempoMedioReparo")]
+        public List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterTempoMedioReparo(parameters);
+        }
     }
 }

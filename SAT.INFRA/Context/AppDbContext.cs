@@ -292,6 +292,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardLabTopFaltantes> ViewDashboardLabTopFaltantes { get; set; }
         public DbSet<OSBancada> OSBancada { get; set; }
         public DbSet<PecaRE5114> PecaRE5114 { get; set; }
+        public DbSet<OSBancadaPecas> OSBancadaPecas { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

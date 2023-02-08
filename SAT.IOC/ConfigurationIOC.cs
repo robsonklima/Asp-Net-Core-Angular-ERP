@@ -200,6 +200,7 @@ public class ConfigurationIOC
         builder.RegisterType<PecasLaboratorioRepository>().As<IPecasLaboratorioRepository>();
         builder.RegisterType<OSBancadaRepository>().As<IOSBancadaRepository>();
         builder.RegisterType<PecaRE5114Repository>().As<IPecaRE5114Repository>();
+        builder.RegisterType<OSBancadaPecasRepository>().As<IOSBancadaPecasRepository>();
         
         #endregion
 
@@ -390,6 +391,7 @@ public class ConfigurationIOC
         builder.RegisterType<PecasLaboratorioService>().As<IPecasLaboratorioService>();
         builder.RegisterType<OSBancadaService>().As<IOSBancadaService>();
         builder.RegisterType<PecaRE5114Service>().As<IPecaRE5114Service>();
+        builder.RegisterType<OSBancadaPecasService>().As<IOSBancadaPecasService>();
 
         #endregion
 

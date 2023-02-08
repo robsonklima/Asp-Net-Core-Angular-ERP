@@ -49,5 +49,11 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterTopItensMaisAntigos(parameters);
         }
+
+        [HttpGet("IndiceReincidencia")]
+        public List<ViewDashboardLabIndiceReincidencia> ObterIndiceReincidencia([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterIndiceReincidencia(parameters);
+        }
     }
 }

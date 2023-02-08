@@ -43,6 +43,16 @@ export interface ViewDashboardLabTopItensMaisAntigos {
     qtd: number;
 }
 
+export interface ViewDashboardLabIndiceReincidencia {
+    ano: number;
+    mes: number;
+    mesExtenso: string;
+    qtdRecebida: number;
+    qtdReincidencia: number;
+    qtdReparada: number;
+    indiceReincidencia: number;
+}
+
 export interface DashboardLabParameters extends QueryStringParameters {
     ano?: number;
 };

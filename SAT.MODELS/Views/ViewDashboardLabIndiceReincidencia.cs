@@ -8,6 +8,6 @@ namespace SAT.MODELS.Views
         public int QtdRecebida { get; set; }
         public int QtdReincidencia { get; set; }
         public int QtdReparada { get; set; }
-        public float IndiceReincidencia { get; set; }
+        public decimal IndiceReincidencia { get; set; }
     }
 }

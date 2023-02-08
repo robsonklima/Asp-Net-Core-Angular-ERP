@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DashboardLabParameters, ViewDashboardLabProdutividadeTecnica, ViewDashboardLabRecebidosReparados, ViewDashboardLabTopFaltantes, ViewDashboardLabTopItensMaisAntigos, ViewDashboardLabTopTempoMedioReparo } from '../types/dashboard-lab.types';
+import { DashboardLabParameters, ViewDashboardLabIndiceReincidencia, ViewDashboardLabProdutividadeTecnica, ViewDashboardLabRecebidosReparados, ViewDashboardLabTopFaltantes, ViewDashboardLabTopItensMaisAntigos, ViewDashboardLabTopTempoMedioReparo } from '../types/dashboard-lab.types';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,18 @@ export class DashboardLabService {
 
     return this.http.get(`${c.api}/DashboardLab/TopItensMaisAntigos`, { params: params }).pipe(
       map((data: ViewDashboardLabTopItensMaisAntigos[]) => data)
+    )
+  }
+
+  obterIndiceReincidencia(parameters: DashboardLabParameters): Observable<ViewDashboardLabIndiceReincidencia[]> {
+    let params = new HttpParams();
+    
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/DashboardLab/IndiceReincidencia`, { params: params }).pipe(
+      map((data: ViewDashboardLabIndiceReincidencia[]) => data)
     )
   }
 }

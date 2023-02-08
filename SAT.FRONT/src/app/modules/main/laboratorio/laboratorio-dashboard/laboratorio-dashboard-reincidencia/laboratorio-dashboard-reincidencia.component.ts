@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -30,6 +31,7 @@ export class LaboratorioDashboardReincidenciaComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(
+    private _dashboardLabService: DashboardLabService,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -37,12 +39,16 @@ export class LaboratorioDashboardReincidenciaComponent implements OnInit {
     this.montarGrafico();
   }
 
-  montarGrafico() {
+  private async montarGrafico() {
+    const data = await this._dashboardLabService.obterIndiceReincidencia({ }).toPromise();
+    const labels = data.map(d => d.mesExtenso);
+    const values = data.map(d => d.indiceReincidencia);
+
     this.chartOptions = {
       series: [
         {
-          name: "Desktops",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+          name: "Índice de Reincidência por Mês",
+          data: values
         }
       ],
       chart: {
@@ -58,10 +64,6 @@ export class LaboratorioDashboardReincidenciaComponent implements OnInit {
       stroke: {
         curve: "straight"
       },
-      title: {
-        text: "Product Trends by Month",
-        align: "left"
-      },
       grid: {
         row: {
           colors: ["#f3f3f3", "transparent"], 
@@ -69,18 +71,13 @@ export class LaboratorioDashboardReincidenciaComponent implements OnInit {
         }
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep"
-        ]
-      }
+        categories: labels,
+        labels: {
+          formatter: function(val) {
+            return val + "";
+          }
+        }
+      },
     };
 
     this.isLoading = false;

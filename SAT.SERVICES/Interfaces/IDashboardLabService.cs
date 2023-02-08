@@ -11,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo(DashboardLabParameters parameters);
         List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica(DashboardLabParameters parameters);
         List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos(DashboardLabParameters parameters);
+        List<ViewDashboardLabIndiceReincidencia> ObterIndiceReincidencia(DashboardLabParameters parameters);
     }
 }

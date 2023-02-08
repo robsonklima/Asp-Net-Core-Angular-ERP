@@ -39,5 +39,10 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterTopItensMaisAntigos(parameters);
         }
+
+        public List<ViewDashboardLabIndiceReincidencia> ObterIndiceReincidencia(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterIndiceReincidencia(parameters);
+        }
     }
 }

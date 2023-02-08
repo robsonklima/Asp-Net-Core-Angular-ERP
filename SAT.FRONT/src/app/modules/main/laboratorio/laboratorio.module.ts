@@ -62,7 +62,6 @@ import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-r
 import { LaboratorioProcessoReparoInsumoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo.component';
 import { ProcessoReparoListaMaisOpcoesComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/processo-reparo-lista-mais-opcoes/processo-reparo-lista-mais-opcoes.component';
 import { LaboratorioDashboardComponent } from './laboratorio-dashboard/laboratorio-dashboard.component';
-import { LaboratorioDashboardFaltantesPendentesReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-faltantes-pendentes-reparados/laboratorio-dashboard-faltantes-pendentes-reparados.component';
 import { LaboratorioDashboardTempoMedioReparoComponent } from './laboratorio-dashboard/laboratorio-dashboard-tempo-medio-reparo/laboratorio-dashboard-tempo-medio-reparo.component';
 import { LaboratorioDashboardProdutividadeTecnicaComponent } from './laboratorio-dashboard/laboratorio-dashboard-produtividade-tecnica/laboratorio-dashboard-produtividade-tecnica.component';
 import { LaboratorioDashboardItensAntigosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-antigos/laboratorio-dashboard-itens-antigos.component';
@@ -70,6 +69,7 @@ import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboa
 import { LaboratorioDashboardPainelControleComponent } from './laboratorio-dashboard/laboratorio-dashboard-painel-controle/laboratorio-dashboard-painel-controle.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-reparados/laboratorio-dashboard-itens-recebidos-reparados.component';
+import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -105,7 +105,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     ProcessoReparoListaMaisOpcoesComponent,
     LaboratorioDashboardComponent,
     LaboratorioDashboardItensRecebidosReparadosComponent,
-    LaboratorioDashboardFaltantesPendentesReparadosComponent,
+    LaboratorioDashboardTopFaltantesComponent,
     LaboratorioDashboardTempoMedioReparoComponent,
     LaboratorioDashboardProdutividadeTecnicaComponent,
     LaboratorioDashboardItensAntigosComponent,

@@ -49,6 +49,9 @@ export class LaboratorioDashboardItensRecebidosReparadosComponent implements Aft
   }
 
   private async montarGrafico() {
+    const data = await this._dashboardLabService.obterRecebidosReparados({  }).toPromise();
+    console.log(data)
+
     this.chartOptions = {
       series: [
         {

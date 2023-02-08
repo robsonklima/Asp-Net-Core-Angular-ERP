@@ -34,5 +34,10 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterProdutividadeTecnica(parameters);
         }
+
+        public List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterTopItensMaisAntigos(parameters);
+        }
     }
 }

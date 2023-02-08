@@ -43,5 +43,11 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterProdutividadeTecnica(parameters);
         }
+
+        [HttpGet("TopItensMaisAntigos")]
+        public List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterTopItensMaisAntigos(parameters);
+        }
     }
 }

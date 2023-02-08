@@ -35,6 +35,14 @@ export interface ViewDashboardLabProdutividadeTecnica {
     total: number;
 }
 
+export interface ViewDashboardLabTopItensMaisAntigos {
+    codPeca: number;
+    nomePeca: string;
+    nomeAbrev: string;
+    codMagnus: string;
+    qtd: number;
+}
+
 export interface DashboardLabParameters extends QueryStringParameters {
     ano?: number;
 };

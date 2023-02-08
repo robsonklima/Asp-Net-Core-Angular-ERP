@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -26,6 +27,7 @@ export class LaboratorioDashboardItensAntigosComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(
+    private _dashboardLabService: DashboardLabService,
     private _cdr: ChangeDetectorRef
   ) { }
 
@@ -33,17 +35,23 @@ export class LaboratorioDashboardItensAntigosComponent implements OnInit {
     this.montarGrafico();
   }
 
-  montarGrafico() {
+  private async montarGrafico() {
+    const data = await this._dashboardLabService
+      .obterTopItensMaisAntigos({ sortActive: 'Qtd', sortDirection: 'desc' }).toPromise();
+
+    const labels = data.map(d => d.nomeAbrev);
+    const values = data.map(d => d.qtd);
+
     this.chartOptions = {
       series: [
         {
-          name: "basic",
-          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+          name: "Itens Mais Antigos",
+          data: values
         }
       ],
       chart: {
         type: "bar",
-        height: 350
+        height: 600
       },
       plotOptions: {
         bar: {
@@ -54,18 +62,7 @@ export class LaboratorioDashboardItensAntigosComponent implements OnInit {
         enabled: false
       },
       xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany"
-        ]
+        categories: labels
       }
     };
 

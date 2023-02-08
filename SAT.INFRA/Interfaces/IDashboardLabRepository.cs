@@ -10,5 +10,6 @@ namespace SAT.INFRA.Interfaces
         List<ViewDashboardLabTopFaltantes> ObterTopFaltantes(DashboardLabParameters parameters);
         List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo(DashboardLabParameters parameters);
         List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica(DashboardLabParameters parameters);
+        List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos(DashboardLabParameters parameters);
     }
 }

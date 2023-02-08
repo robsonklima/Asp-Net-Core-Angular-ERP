@@ -59,5 +59,15 @@ namespace SAT.INFRA.Repository
 
             return query.ToList();
         }
+
+        public List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos(DashboardLabParameters parameters)
+        {
+            var query = _context.ViewDashboardLabTopItensMaisAntigos.AsQueryable();
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+            return query.ToList();
+        }
     }
 }

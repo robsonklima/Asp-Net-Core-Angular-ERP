@@ -502,6 +502,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardLabTopItensMaisAntigos>(new ViewDashboardLabTopItensMaisAntigosMap().Configure);
             modelBuilder.Entity<ViewDashboardLabIndiceReincidencia>(new ViewDashboardLabIndiceReincidenciaMap().Configure);
             modelBuilder.Entity<ViewDashboardLabTopTempoMedioReparo>(new ViewDashboardLabTopTempoMedioReparoMap().Configure);
+            modelBuilder.Entity<OSBancadaPecas>(new OSBancadaPecasMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

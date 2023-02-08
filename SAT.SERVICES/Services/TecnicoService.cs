@@ -4,6 +4,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.MODELS.Views;
 
 namespace SAT.SERVICES.Services
 {
@@ -60,6 +61,22 @@ namespace SAT.SERVICES.Services
         public Tecnico ObterPorCodigo(int codigo)
         {
             return _tecnicosRepo.ObterPorCodigo(codigo);
+        }
+
+        public ListViewModel ObterDeslocamentos(TecnicoParameters parameters)
+        {
+            PagedList<ViewTecnicoDeslocamento> data = _tecnicosRepo.ObterDeslocamentos(parameters);
+
+            return new ListViewModel
+            {
+                Items = data,
+                TotalCount = data.TotalCount,
+                CurrentPage = data.CurrentPage,
+                PageSize = data.PageSize,
+                TotalPages = data.TotalPages,
+                HasNext = data.HasNext,
+                HasPrevious = data.HasPrevious
+            };
         }
     }
 }

@@ -797,5 +797,9 @@
     "codigos de instalacao": "Enter installation codes:",
     "num bem trade in": "Num Bem Trade In",
     "bloquearos": "Block OS",
-    "data criacao": "Creation Date"
+    "data criacao": "Creation Date",
+    "intencao": "Intention",
+    "checkin": "Checkin",
+    "checkout": "Checkout",
+    "transferencia": "Transference"
 }

@@ -74,6 +74,7 @@ namespace SAT.INFRA.Context
         public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
         public DbSet<DispBBRegiaoFilial> DispBBRegiaoFilial { get; set; }
         public DbSet<DispBBPercRegiao> DispBBPercRegiao { get; set; }
+        public DbSet<ViewTecnicoDeslocamento> ViewTecnicoDeslocamento { get; set; }
         public DbSet<DispBBDesvio> DispBBDesvio { get; set; }
         public DbSet<PontoMovel> PontoMovel { get; set; }
         public DbSet<PontoMovelTipoHorario> PontoMovelTipoHorario { get; set; }
@@ -486,6 +487,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
             modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
             modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
+            modelBuilder.Entity<ViewTecnicoDeslocamento>(new ViewTecnicoDeslocamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

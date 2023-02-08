@@ -18,8 +18,7 @@ namespace SAT.INFRA.Repository
 
         public List<ViewDashboardLabRecebidosReparados> ObterRecebidosReparados(DashboardLabParameters parameters)
         {
-            var query = _context.ViewDashboardLabRecebidosReparados
-                .AsQueryable();
+            var query = _context.ViewDashboardLabRecebidosReparados.AsQueryable();
 
             if (parameters.Ano.HasValue)
             {
@@ -31,8 +30,7 @@ namespace SAT.INFRA.Repository
 
         public List<ViewDashboardLabTopFaltantes> ObterTopFaltantes(DashboardLabParameters parameters)
         {
-            var query = _context.ViewDashboardLabTopFaltantes
-                .AsQueryable();
+            var query = _context.ViewDashboardLabTopFaltantes.AsQueryable();
 
             return query.ToList();
         }

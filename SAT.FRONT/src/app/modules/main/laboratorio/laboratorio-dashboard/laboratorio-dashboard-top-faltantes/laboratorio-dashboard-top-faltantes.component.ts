@@ -48,27 +48,25 @@ export class LaboratorioDashboardTopFaltantesComponent implements OnInit {
   }
 
   private async montarGrafico() {
+    const data = await this._dashboardLabService.obterTopFaltantes({}).toPromise();
+    const labels = data.map(d => d.nomePecaAbrev);
+    const qtdFaltante = data.map(d => d.qtdFaltante);
+    const qtdPendente = data.map(d => d.qtdPendente);
+    const qtdEmReparo = data.map(d => d.qtdEmReparo);
+
     this.chartOptions = {
       series: [
         {
-          name: "Marine Sprite",
-          data: [44, 55, 41, 37, 22, 43, 21]
+          name: "Quantidade Faltante",
+          data: qtdFaltante
         },
         {
-          name: "Striking Calf",
-          data: [53, 32, 33, 52, 13, 43, 32]
+          name: "Quantidade Pendente",
+          data: qtdPendente
         },
         {
-          name: "Tank Picture",
-          data: [12, 17, 11, 9, 15, 11, 20]
-        },
-        {
-          name: "Bucket Slope",
-          data: [9, 7, 5, 8, 6, 9, 4]
-        },
-        {
-          name: "Reborn Kid",
-          data: [25, 12, 19, 32, 25, 24, 10]
+          name: "Quantidade em Reparo",
+          data: qtdEmReparo
         }
       ],
       chart: {
@@ -85,14 +83,11 @@ export class LaboratorioDashboardTopFaltantesComponent implements OnInit {
         width: 1,
         colors: ["#fff"]
       },
-      title: {
-        text: "Fiction Books Sales"
-      },
       xaxis: {
-        categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+        categories: labels,
         labels: {
           formatter: function(val) {
-            return val + "K";
+            return val + "";
           }
         }
       },
@@ -104,7 +99,7 @@ export class LaboratorioDashboardTopFaltantesComponent implements OnInit {
       tooltip: {
         y: {
           formatter: function(val) {
-            return val + "K";
+            return val + "";
           }
         }
       },

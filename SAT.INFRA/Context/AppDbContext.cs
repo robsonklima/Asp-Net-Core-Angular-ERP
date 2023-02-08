@@ -285,6 +285,10 @@ namespace SAT.INFRA.Context
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
+        public DbSet<ViewDashboardLabProdutividadeTecnica> ViewDashboardLabProdutividadeTecnica { get; set; }
+        public DbSet<ViewDashboardLabTopItensMaisAntigos> ViewDashboardLabTopItensMaisAntigos { get; set; }
+        public DbSet<ViewDashboardLabTopTempoMedioReparo> ViewDashboardLabTopTempoMedioReparo { get; set; }
+        public DbSet<ViewDashboardLabIndiceReincidencia> ViewDashboardLabIndiceReincidencia { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

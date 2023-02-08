@@ -12,5 +12,7 @@ namespace SAT.MODELS.Views
         public string MediaHorasUteisConv { get; set; }
         public int Qtdhoras { get; set; }
         public int QtdReparada { get; set; }
+        public int QtdPendente { get; set; }
+        public int QtdEmReparo { get; set; }
     }
 }

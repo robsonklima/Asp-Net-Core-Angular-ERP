@@ -28,6 +28,13 @@ export interface ViewDashboardLabTopTempoMedioReparo {
     tempoMedioReparo: number;
 }
 
+export interface ViewDashboardLabProdutividadeTecnica {
+    nomeUsuario: string;
+    eletronico: number;
+    mecanico: number;
+    total: number;
+}
+
 export interface DashboardLabParameters extends QueryStringParameters {
     ano?: number;
 };

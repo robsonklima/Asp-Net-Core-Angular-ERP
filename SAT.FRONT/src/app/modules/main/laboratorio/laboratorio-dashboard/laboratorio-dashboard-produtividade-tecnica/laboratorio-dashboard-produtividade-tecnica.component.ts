@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -28,6 +29,7 @@ export class LaboratorioDashboardProdutividadeTecnicaComponent implements OnInit
   isLoading: boolean = true;
 
   constructor(
+    private _dashboardLabService: DashboardLabService,
     private _cdr: ChangeDetectorRef
   ) {}
 
@@ -35,17 +37,24 @@ export class LaboratorioDashboardProdutividadeTecnicaComponent implements OnInit
     this.montarGrafico();
   }
 
-  montarGrafico() {
+  private async montarGrafico() {
+    const data = await this._dashboardLabService
+      .obterProdutividadeTecnica({ sortActive: 'Total', sortDirection: 'desc' }).toPromise();
+    const labels = data.map(d => d.nomeUsuario);
+    const eletronico = data.map(d => d.eletronico);
+    const mecanico = data.map(d => d.mecanico);
+    
+
     this.chartOptions = {
       series: [
         {
-          name: "serie1",
-          data: [44, 55, 41, 64, 22, 43, 21]
+          name: "Eletrônico",
+          data: eletronico
         },
         {
-          name: "serie2",
+          name: "Mecânico",
 
-          data: [53, 32, 33, 52, 13, 44, 32]
+          data: mecanico
         }
       ],
       chart: {
@@ -74,7 +83,7 @@ export class LaboratorioDashboardProdutividadeTecnicaComponent implements OnInit
         colors: ["#fff"]
       },
       xaxis: {
-        categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007]
+        categories: labels
       }
     };
 

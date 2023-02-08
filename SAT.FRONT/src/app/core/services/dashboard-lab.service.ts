@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DashboardLabParameters, ViewDashboardLabRecebidosReparados, ViewDashboardLabTopFaltantes, ViewDashboardLabTopTempoMedioReparo } from '../types/dashboard-lab.types';
+import { DashboardLabParameters, ViewDashboardLabProdutividadeTecnica, ViewDashboardLabRecebidosReparados, ViewDashboardLabTopFaltantes, ViewDashboardLabTopTempoMedioReparo } from '../types/dashboard-lab.types';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +44,18 @@ export class DashboardLabService {
 
     return this.http.get(`${c.api}/DashboardLab/TempoMedioReparo`, { params: params }).pipe(
       map((data: ViewDashboardLabTopTempoMedioReparo[]) => data)
+    )
+  }
+
+  obterProdutividadeTecnica(parameters: DashboardLabParameters): Observable<ViewDashboardLabProdutividadeTecnica[]> {
+    let params = new HttpParams();
+    
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/DashboardLab/ProdutividadeTecnica`, { params: params }).pipe(
+      map((data: ViewDashboardLabProdutividadeTecnica[]) => data)
     )
   }
 }

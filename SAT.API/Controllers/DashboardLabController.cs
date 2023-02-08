@@ -37,5 +37,11 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterTempoMedioReparo(parameters);
         }
+
+        [HttpGet("ProdutividadeTecnica")]
+        public List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterProdutividadeTecnica(parameters);
+        }
     }
 }

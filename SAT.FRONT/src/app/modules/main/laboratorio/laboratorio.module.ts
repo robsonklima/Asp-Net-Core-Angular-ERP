@@ -38,6 +38,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { laboratorioRoutes } from './laboratorio.routing';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
 import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
 import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
@@ -66,8 +67,6 @@ import { LaboratorioDashboardTempoMedioReparoComponent } from './laboratorio-das
 import { LaboratorioDashboardProdutividadeTecnicaComponent } from './laboratorio-dashboard/laboratorio-dashboard-produtividade-tecnica/laboratorio-dashboard-produtividade-tecnica.component';
 import { LaboratorioDashboardItensAntigosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-antigos/laboratorio-dashboard-itens-antigos.component';
 import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboard/laboratorio-dashboard-reincidencia/laboratorio-dashboard-reincidencia.component';
-import { LaboratorioDashboardPainelControleComponent } from './laboratorio-dashboard/laboratorio-dashboard-painel-controle/laboratorio-dashboard-painel-controle.component';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-reparados/laboratorio-dashboard-itens-recebidos-reparados.component';
 import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 
@@ -110,7 +109,6 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioDashboardProdutividadeTecnicaComponent,
     LaboratorioDashboardItensAntigosComponent,
     LaboratorioDashboardReincidenciaComponent,
-    LaboratorioDashboardPainelControleComponent
 
   ],
   imports: [

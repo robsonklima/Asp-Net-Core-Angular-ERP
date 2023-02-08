@@ -49,5 +49,15 @@ namespace SAT.INFRA.Repository
 
             return query.ToList();
         }
+
+        public List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica(DashboardLabParameters parameters)
+        {
+            var query = _context.ViewDashboardLabProdutividadeTecnica.AsQueryable();
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+            return query.ToList();
+        }
     }
 }

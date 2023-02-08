@@ -29,5 +29,10 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterTempoMedioReparo(parameters);
         }
+
+        public List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterProdutividadeTecnica(parameters);
+        }
     }
 }

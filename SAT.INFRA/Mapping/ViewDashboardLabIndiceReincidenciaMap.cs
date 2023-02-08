@@ -4,9 +4,9 @@ using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Mapping
 {
-    public class ViewDashboardIndiceReincidenciaMap : IEntityTypeConfiguration<ViewDashboardLabTopItensMaisAntigos>
+    public class ViewDashboardLabIndiceReincidenciaMap : IEntityTypeConfiguration<ViewDashboardLabIndiceReincidencia>
     {
-        public void Configure(EntityTypeBuilder<ViewDashboardLabTopItensMaisAntigos> builder)
+        public void Configure(EntityTypeBuilder<ViewDashboardLabIndiceReincidencia> builder)
         {
             builder
                 .ToView("vwc_v2_laboratorio_dashboard_indice_reincidencia")

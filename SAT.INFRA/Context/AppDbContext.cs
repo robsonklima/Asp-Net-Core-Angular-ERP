@@ -493,12 +493,9 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
             modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
             modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
-<<<<<<< HEAD
             modelBuilder.Entity<ViewTecnicoDeslocamento>(new ViewTecnicoDeslocamentoMap().Configure);
-=======
             modelBuilder.Entity<OSBancada>(new OSBancadaMap().Configure);
             modelBuilder.Entity<PecaRE5114>(new PecaRE5114Map().Configure);
->>>>>>> 8848cdffd9dc41071205a15a14d09b2afc8d5df2
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -5,10 +5,17 @@
         </div>
 
         <div class="pt-2 flex flex-col flex-auto">
-            
+            <apx-chart
+                *ngIf="chartOptions?.series?.length"
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [dataLabels]="chartOptions.dataLabels"
+                [plotOptions]="chartOptions.plotOptions"
+                [xaxis]="chartOptions.xaxis"
+            ></apx-chart>
         </div>
 
-        <div class="flex justify-center items-center min-h-60">
+        <div class="flex justify-center items-center min-h-60" *ngIf="isLoading">
             <div class="text-center">
                 <mat-progress-spinner [diameter]="42" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>

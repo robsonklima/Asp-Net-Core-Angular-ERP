@@ -31,10 +31,10 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-laboratorio-dashboard-itens-recebidos-separados',
-  templateUrl: './laboratorio-dashboard-itens-recebidos-separados.component.html'
+  selector: 'app-laboratorio-dashboard-itens-recebidos-reparados',
+  templateUrl: './laboratorio-dashboard-itens-recebidos-reparados.component.html'
 })
-export class LaboratorioDashboardItensRecebidosSeparadosComponent implements AfterViewInit {
+export class LaboratorioDashboardItensRecebidosReparadosComponent implements AfterViewInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   loading: boolean = true;

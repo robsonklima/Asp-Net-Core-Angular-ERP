@@ -1,30 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TecnicoListaComponent } from './tecnico-lista/tecnico-lista.component';
-import { TecnicoFormComponent } from './tecnico-form/tecnico-form.component';
-import { RouterModule } from '@angular/router';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from 'app/shared/shared.module';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { FuseHighlightModule } from '@fuse/components/highlight';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { tecnicoRoutes } from './tecnico.routing';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { TecnicoFiltroComponent } from './tecnico-filtro/tecnico-filtro.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { TranslocoModule } from '@ngneat/transloco';
+import { SharedModule } from 'app/shared/shared.module';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../../filtros/filtro.module';
+import { TecnicoFiltroComponent } from './tecnico-filtro/tecnico-filtro.component';
+import { TecnicoFormComponent } from './tecnico-form/tecnico-form.component';
+import { TecnicoListaComponent } from './tecnico-lista/tecnico-lista.component';
+import { tecnicoRoutes } from './tecnico.routing';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -61,6 +61,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatDatepickerModule,
     MatTooltipModule,
     MatMenuModule
-  ]
+  ],
 })
 export class TecnicoModule { }

@@ -38,6 +38,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../filtros/filtro.module';
 import { OrdemServicoAgendamentoComponent } from './ordem-servico-agendamento/ordem-servico-agendamento.component';
 import { OrdemServicoCancelamentoComponent } from './ordem-servico-cancelamento/ordem-servico-cancelamento.component';
+import { OrdemServicoDeslocamentosMapaComponent } from './ordem-servico-deslocamentos-mapa/ordem-servico-deslocamentos-mapa.component';
+import { OrdemServicoDeslocamentosComponent } from './ordem-servico-deslocamentos/ordem-servico-deslocamentos.component';
 import { OrdemServicoAgendamentosComponent } from './ordem-servico-detalhe/ordem-servico-agendamentos/ordem-servico-agendamentos.component';
 import { OrdemServicoAlertasComponent } from './ordem-servico-detalhe/ordem-servico-alertas/ordem-servico-alertas.component';
 import { OrdemServicoDetalheComponent } from './ordem-servico-detalhe/ordem-servico-detalhe.component';
@@ -82,7 +84,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
         OrdemServicoRATFotosComponent,
         OrdemServicoAgendamentosComponent,
         OrdemServicoAlertasComponent,
-        OrdemServicoLogsComponent
+        OrdemServicoLogsComponent,
+        OrdemServicoDeslocamentosComponent,
+        OrdemServicoDeslocamentosMapaComponent
     ],
     imports: [
         RouterModule.forChild(ordemServicoRoutes),

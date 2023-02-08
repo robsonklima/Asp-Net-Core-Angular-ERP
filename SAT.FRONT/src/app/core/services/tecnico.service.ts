@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { Tecnico, TecnicoData, TecnicoParameters } from '../types/tecnico.types';
+import { Tecnico, TecnicoData, TecnicoParameters, ViewTecnicoDeslocamentoData } from '../types/tecnico.types';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +21,19 @@ export class TecnicoService {
         return this.http.get(`${c.api}/Tecnico`, { params: params }).pipe(
 
             map((data: TecnicoData) => data)
+        )
+    }
+
+    obterDeslocamentos(parameters: TecnicoParameters): Observable<ViewTecnicoDeslocamentoData> {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key => {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(`${c.api}/Tecnico/Deslocamentos`, { params: params }).pipe(
+
+            map((data: ViewTecnicoDeslocamentoData) => data)
         )
     }
 

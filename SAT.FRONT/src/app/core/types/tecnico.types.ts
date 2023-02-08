@@ -106,6 +106,34 @@ export interface TecnicoParameters extends QueryStringParameters {
     naoVinculados?: number;
 };
 
+export interface ViewTecnicoDeslocamento {
+    codOS: number;
+    codStatusServico: number;
+    codFilial: number;
+    pA: number;
+    tecnico: string;
+    filial: string;
+    transf: string | null;
+    leitura: string | null;
+    intencao: string | null;
+    intencaoLat: number | null;
+    intencaoLng: number | null;
+    checkin: string | null;
+    checkinLat: string;
+    checkinLng: string;
+    checkout: string | null;
+    checkoutLat: string;
+    checkoutLng: string;
+    localLat?: string;
+    localLng?: string;
+    codRegiao: number;
+    codAutorizada: number;
+}
+
+export interface ViewTecnicoDeslocamentoData extends Meta {
+    items: ViewTecnicoDeslocamento[];
+};
+
 export enum TecnicoIncludeEnum {
     TECNICO_ORDENS_SERVICO = 1
 }

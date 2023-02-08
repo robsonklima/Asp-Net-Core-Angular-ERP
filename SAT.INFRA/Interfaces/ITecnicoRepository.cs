@@ -16,5 +16,6 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codTecnico);
         Tecnico ObterPorCodigo(int codigo);
         List<ViewTecnicoTempoAtendimento> ObterTempoAtendimento(int codTecnico);
+        PagedList<ViewTecnicoDeslocamento> ObterDeslocamentos(TecnicoParameters parameters);
     }
 }

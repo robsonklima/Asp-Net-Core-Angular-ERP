@@ -27,6 +27,12 @@ namespace SAT.API.Controllers
             return _tecnicoService.ObterPorParametros(parameters);
         }
 
+        [HttpGet("Deslocamentos")]
+        public ListViewModel GetDeslocamentos([FromQuery] TecnicoParameters parameters)
+        {
+            return _tecnicoService.ObterDeslocamentos(parameters);
+        }
+
         [HttpGet("{codTecnico}")]
         public Tecnico Get(int codTecnico)
         {

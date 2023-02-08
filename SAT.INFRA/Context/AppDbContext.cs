@@ -497,6 +497,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewTecnicoDeslocamento>(new ViewTecnicoDeslocamentoMap().Configure);
             modelBuilder.Entity<OSBancada>(new OSBancadaMap().Configure);
             modelBuilder.Entity<PecaRE5114>(new PecaRE5114Map().Configure);
+            modelBuilder.Entity<OSBancadaPecas>(new OSBancadaPecasMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

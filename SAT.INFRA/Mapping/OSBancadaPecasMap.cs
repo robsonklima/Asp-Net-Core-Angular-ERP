@@ -9,8 +9,11 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<OSBancadaPecas> builder)
         {
             builder
-                .ToTable("OSBancadaPecas")
-                .HasNoKey();
+                .ToTable("OSBancadaPecas");
+
+            builder
+                .HasKey(c => new { c.CodOsbancada, c.CodPecaRe5114 });
+                
 
             builder
                 .HasOne(prop => prop.OSBancada)

@@ -10,7 +10,5 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         InstalacaoAnexo ObterPorCodigo(int codigo);
         ListViewModel ObterPorParametros(InstalacaoAnexoParameters parameters);
-        void AlterarInstalacaoAnexoPerfil(ImagemPerfilModel model);
-        ImagemPerfilModel BuscarInstalacaoAnexoUsuario(string codUsuario);
     }
 }

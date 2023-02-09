@@ -40,6 +40,7 @@ import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instal
 import { InstalacaoPleitoFiltroComponent } from './instalacao-pleito-filtro/instalacao-pleito-filtro.component';
 import { InstalacaoLoteFiltroComponent } from './instalacao-lote-filtro/instalacao-lote-filtro.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { InstalacaoAnexoDialogComponent } from './instalacao-anexo-dialog/instalacao-anexo-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -56,6 +57,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoPleitoListaComponent,
     InstalacaoPleitoFiltroComponent,
     InstalacaoLoteFiltroComponent,
+    InstalacaoAnexoDialogComponent,
   ],
   imports: [
     CommonModule,

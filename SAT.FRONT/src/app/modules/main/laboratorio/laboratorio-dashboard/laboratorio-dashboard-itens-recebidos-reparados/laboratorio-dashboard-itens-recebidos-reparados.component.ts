@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { DashboardLabService } from 'app/core/services/dashboard-lab.service';
-import { ViewDashboardLabTopFaltantes } from 'app/core/types/dashboard-lab.types';
+import _ from 'lodash';
+import moment from 'moment';
 
 import {
   ApexAxisChartSeries,
@@ -30,40 +31,43 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-laboratorio-dashboard-faltantes-pendentes-reparados',
-  templateUrl: './laboratorio-dashboard-faltantes-pendentes-reparados.component.html'
+  selector: 'app-laboratorio-dashboard-itens-recebidos-reparados',
+  templateUrl: './laboratorio-dashboard-itens-recebidos-reparados.component.html'
 })
-export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements OnInit {
+export class LaboratorioDashboardItensRecebidosReparadosComponent implements AfterViewInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   loading: boolean = true;
 
   constructor(
-    private _dashboardLabService: DashboardLabService
+    private _dashboardLabService: DashboardLabService,
+    private _cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  async ngAfterViewInit() {
     this.montarGrafico();
   }
 
   private async montarGrafico() {
-    const data: ViewDashboardLabTopFaltantes[] = await this._dashboardLabService
-      .obterTopFaltantes({})
-      .toPromise();
-
-    const labels = data.map(d => d.nomePecaAbrev);
-    const qtd = data.map(d => d.qtd);
-    const qtdHoras = data.map(d => d.qtdhoras);
+    const data = await this._dashboardLabService.obterRecebidosReparados({  }).toPromise();
+    const labels = data.map(d => d.anoMes);
+    const sucatas = data.filter(d => d.tipo.toLowerCase() == 'sucatas').map(d => d.qtd)
+    const recebidos = data.filter(d => d.tipo.toLowerCase() == 'recebidos').map(d => d.qtd)
+    const reparos = data.filter(d => d.tipo.toLowerCase() == 'reparos').map(d => d.qtd)
 
     this.chartOptions = {
       series: [
         {
-          name: "Quantidade",
-          data: qtd
+          name: "Sucatas",
+          data: sucatas
         },
         {
-          name: "Qtd Horas",
-          data: qtdHoras
+          name: "Recebidos",
+          data: recebidos
+        },
+        {
+          name: "Reparos",
+          data: reparos
         }
       ],
       chart: {
@@ -73,7 +77,7 @@ export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "55%"
+          columnWidth: "55%",
         }
       },
       dataLabels: {
@@ -98,12 +102,13 @@ export class LaboratorioDashboardFaltantesPendentesReparadosComponent implements
       tooltip: {
         y: {
           formatter: function(val) {
-            return "$ " + val + " thousands";
+            return "" + val + "";
           }
         }
       }
     };
 
     this.loading = false;
+    this._cdr.detectChanges();
   }
 }

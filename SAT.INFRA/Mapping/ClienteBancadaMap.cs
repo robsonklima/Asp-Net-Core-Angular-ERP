@@ -15,10 +15,11 @@ namespace SAT.INFRA.Mapping
                 .HasKey(i => i.CodClienteBancada);
 
             builder
-                .HasOne(i => i.Cidade)
+                .HasOne(prop => prop.Cidade)
                 .WithMany()
-                .HasForeignKey("CodCidade")
-                .HasPrincipalKey("CodCidade");
+                .HasForeignKey(prop => prop.CodCidade)
+                .HasPrincipalKey(prop => prop.CodCidade);
+
         }
     }
 }

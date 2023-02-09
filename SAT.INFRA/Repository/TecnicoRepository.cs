@@ -96,5 +96,39 @@ namespace SAT.INFRA.Repository
 
             return query.ToList();
         }
+
+        public PagedList<ViewTecnicoDeslocamento> ObterDeslocamentos(TecnicoParameters parameters)
+        {
+            var query = _context.ViewTecnicoDeslocamento.AsQueryable();
+
+            if (!string.IsNullOrEmpty(parameters.Filter)) {
+                query = query.Where(t => t.Tecnico.Contains(parameters.Filter) || t.Filial.Contains(parameters.Filter));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodFiliais))
+            {
+                int[] filiais = parameters.CodFiliais.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => filiais.Contains(t.CodFilial));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodRegioes))
+            {
+                int[] regioes = parameters.CodRegioes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => regioes.Contains(t.CodRegiao));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.CodAutorizadas))
+            {
+                int[] autorizadas = parameters.CodAutorizadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(t => autorizadas.Contains(t.CodAutorizada));
+            }
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+
+            return PagedList<ViewTecnicoDeslocamento>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

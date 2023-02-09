@@ -6,17 +6,18 @@
 
         <div class="pt-2 flex flex-col flex-auto">
             <apx-chart
-                *ngIf="chartOptions?.series"
-                [series]="chartOptions?.series"
-                [chart]="chartOptions?.chart"
-                [dataLabels]="chartOptions?.dataLabels"
-                [plotOptions]="chartOptions?.plotOptions"
-                [yaxis]="chartOptions?.yaxis"
-                [legend]="chartOptions?.legend"
-                [fill]="chartOptions?.fill"
-                [stroke]="chartOptions?.stroke"
-                [tooltip]="chartOptions?.tooltip"
-                [xaxis]="chartOptions?.xaxis"
+                *ngIf="chartOptions?.series?.length"
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [dataLabels]="chartOptions.dataLabels"
+                [plotOptions]="chartOptions.plotOptions"
+                [xaxis]="chartOptions.xaxis"
+                [stroke]="chartOptions.stroke"
+                [fill]="chartOptions.fill"
+                [yaxis]="chartOptions.yaxis"
+                [title]="chartOptions.title"
+                [tooltip]="chartOptions.tooltip"
+                [legend]="chartOptions.legend"
             ></apx-chart>
         </div>
 

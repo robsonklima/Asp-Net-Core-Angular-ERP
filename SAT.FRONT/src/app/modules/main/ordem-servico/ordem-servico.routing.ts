@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { OrdemServicoDeslocamentosComponent } from './ordem-servico-deslocamentos/ordem-servico-deslocamentos.component';
 import { OrdemServicoDetalheComponent } from './ordem-servico-detalhe/ordem-servico-detalhe.component';
 import { OrdemServicoFormComponent } from './ordem-servico-form/ordem-servico-form.component';
 import { OrdemServicoImpressaoComponent } from './ordem-servico-impressao/ordem-servico-impressao.component';
@@ -34,5 +35,9 @@ export const ordemServicoRoutes: Route[] = [
     {
         path: 'pesquisa',
         component: OrdemServicoPesquisaComponent
-    }
+    },
+    {
+        path: 'tecnicos-deslocamentos',
+        component: OrdemServicoDeslocamentosComponent
+    },
 ];

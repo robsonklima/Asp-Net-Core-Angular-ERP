@@ -74,6 +74,7 @@ namespace SAT.INFRA.Context
         public DbSet<DispBBCriticidade> DispBBCriticidade { get; set; }
         public DbSet<DispBBRegiaoFilial> DispBBRegiaoFilial { get; set; }
         public DbSet<DispBBPercRegiao> DispBBPercRegiao { get; set; }
+        public DbSet<ViewTecnicoDeslocamento> ViewTecnicoDeslocamento { get; set; }
         public DbSet<DispBBDesvio> DispBBDesvio { get; set; }
         public DbSet<PontoMovel> PontoMovel { get; set; }
         public DbSet<PontoMovelTipoHorario> PontoMovelTipoHorario { get; set; }
@@ -275,8 +276,7 @@ namespace SAT.INFRA.Context
         public DbSet<ItemSolucao> ItemSolucao { get; set; }
         public DbSet<TicketAnexo> TicketAnexo { get; set; }
         public DbSet<TicketBacklogView> TicketBacklogView { get; set; }
-        public DbSet<ViewDashboardLabRecebidosReparados> ViewDashboardLabRecebidosReparados { get; set; }
-        public DbSet<ViewDashboardLabTopFaltantes> ViewDashboardLabTopFaltantes { get; set; }
+        
         public DbSet<ProtocoloChamadoSTN> ProtocoloChamadoSTN { get; set; }
         public DbSet<TipoChamadoSTN> TipoChamadoSTN { get; set; }
         public DbSet<Improdutividade> Improdutividade { get; set; }
@@ -284,6 +284,15 @@ namespace SAT.INFRA.Context
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
+        public DbSet<ViewDashboardLabProdutividadeTecnica> ViewDashboardLabProdutividadeTecnica { get; set; }
+        public DbSet<ViewDashboardLabTopItensMaisAntigos> ViewDashboardLabTopItensMaisAntigos { get; set; }
+        public DbSet<ViewDashboardLabTopTempoMedioReparo> ViewDashboardLabTopTempoMedioReparo { get; set; }
+        public DbSet<ViewDashboardLabIndiceReincidencia> ViewDashboardLabIndiceReincidencia { get; set; }
+        public DbSet<ViewDashboardLabRecebidosReparados> ViewDashboardLabRecebidosReparados { get; set; }
+        public DbSet<ViewDashboardLabTopFaltantes> ViewDashboardLabTopFaltantes { get; set; }
+        public DbSet<OSBancada> OSBancada { get; set; }
+        public DbSet<PecaRE5114> PecaRE5114 { get; set; }
+        public DbSet<OSBancadaPecas> OSBancadaPecas { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -476,8 +485,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<TicketBacklogView>(new TicketBacklogViewMap().Configure);
             modelBuilder.Entity<InstalacaoPleito>(new InstalacaoPleitoMap().Configure);
             modelBuilder.Entity<InstalacaoTipoPleito>(new InstalacaoTipoPleitoMap().Configure);
-            modelBuilder.Entity<ViewDashboardLabRecebidosReparados>(new ViewDashboardLabRecebidosReparadosMap().Configure);
-            modelBuilder.Entity<ViewDashboardLabTopFaltantes>(new ViewDashboardLabTopFaltantesMap().Configure);
             modelBuilder.Entity<ProtocoloChamadoSTN>(new ProtocoloChamadoSTNMap().Configure);
             modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);
             modelBuilder.Entity<Improdutividade>(new ImprodutividadeMap().Configure);
@@ -486,6 +493,16 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<CheckListPOSItens>(new CheckListPOSItensMap().Configure);
             modelBuilder.Entity<PontoUsuario>(new PontoUsuarioMap().Configure);
             modelBuilder.Entity<PecasLaboratorio>(new PecasLaboratorioMap().Configure);
+            modelBuilder.Entity<ViewTecnicoDeslocamento>(new ViewTecnicoDeslocamentoMap().Configure);
+            modelBuilder.Entity<OSBancada>(new OSBancadaMap().Configure);
+            modelBuilder.Entity<PecaRE5114>(new PecaRE5114Map().Configure);
+            modelBuilder.Entity<ViewDashboardLabRecebidosReparados>(new ViewDashboardLabRecebidosReparadosMap().Configure);
+            modelBuilder.Entity<ViewDashboardLabTopFaltantes>(new ViewDashboardLabTopFaltantesMap().Configure);
+            modelBuilder.Entity<ViewDashboardLabProdutividadeTecnica>(new ViewDashboardLabProdutividadeTecnicaMap().Configure);
+            modelBuilder.Entity<ViewDashboardLabTopItensMaisAntigos>(new ViewDashboardLabTopItensMaisAntigosMap().Configure);
+            modelBuilder.Entity<ViewDashboardLabIndiceReincidencia>(new ViewDashboardLabIndiceReincidenciaMap().Configure);
+            modelBuilder.Entity<ViewDashboardLabTopTempoMedioReparo>(new ViewDashboardLabTopTempoMedioReparoMap().Configure);
+            modelBuilder.Entity<OSBancadaPecas>(new OSBancadaPecasMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

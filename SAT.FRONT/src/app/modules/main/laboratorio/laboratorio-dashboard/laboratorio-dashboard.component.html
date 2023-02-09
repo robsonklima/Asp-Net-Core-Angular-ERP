@@ -60,11 +60,11 @@
 
                 <hr class="w-full border-b mt-5 mb-2 opacity-50">
                 
-                <app-laboratorio-dashboard-itens-recebidos-separados *ngIf="slideSelecionado == 0"
-                ></app-laboratorio-dashboard-itens-recebidos-separados>
+                <app-laboratorio-dashboard-itens-recebidos-reparados *ngIf="slideSelecionado == 0"
+                ></app-laboratorio-dashboard-itens-recebidos-reparados>
 
-                <app-laboratorio-dashboard-faltantes-pendentes-reparados *ngIf="slideSelecionado == 1"
-                ></app-laboratorio-dashboard-faltantes-pendentes-reparados>
+                <app-laboratorio-dashboard-top-faltantes *ngIf="slideSelecionado == 1"
+                ></app-laboratorio-dashboard-top-faltantes>
 
                 <app-laboratorio-dashboard-tempo-medio-reparo *ngIf="slideSelecionado == 2"
                 ></app-laboratorio-dashboard-tempo-medio-reparo>
@@ -77,9 +77,6 @@
 
                 <app-laboratorio-dashboard-reincidencia *ngIf="slideSelecionado == 5"
                 ></app-laboratorio-dashboard-reincidencia>
-
-                <app-laboratorio-dashboard-painel-controle *ngIf="slideSelecionado == 6"
-                ></app-laboratorio-dashboard-painel-controle>
             </div>
     </div>
 </div>

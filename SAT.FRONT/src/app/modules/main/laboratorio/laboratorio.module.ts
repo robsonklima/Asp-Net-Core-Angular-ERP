@@ -38,6 +38,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { laboratorioRoutes } from './laboratorio.routing';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
 import { PainelControlePecasComponent } from './laboratorio-painel-controle/painel-controle-pecas/painel-controle-pecas.component';
 import { PainelControleTecnicosComponent } from './laboratorio-painel-controle/painel-controle-tecnicos/painel-controle-tecnicos.component';
@@ -62,14 +63,12 @@ import { LaboratorioProcessoReparoFormComponent } from './laboratorio-processo-r
 import { LaboratorioProcessoReparoInsumoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo.component';
 import { ProcessoReparoListaMaisOpcoesComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/processo-reparo-lista-mais-opcoes/processo-reparo-lista-mais-opcoes.component';
 import { LaboratorioDashboardComponent } from './laboratorio-dashboard/laboratorio-dashboard.component';
-import { LaboratorioDashboardItensRecebidosSeparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-separados/laboratorio-dashboard-itens-recebidos-separados.component';
-import { LaboratorioDashboardFaltantesPendentesReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-faltantes-pendentes-reparados/laboratorio-dashboard-faltantes-pendentes-reparados.component';
 import { LaboratorioDashboardTempoMedioReparoComponent } from './laboratorio-dashboard/laboratorio-dashboard-tempo-medio-reparo/laboratorio-dashboard-tempo-medio-reparo.component';
 import { LaboratorioDashboardProdutividadeTecnicaComponent } from './laboratorio-dashboard/laboratorio-dashboard-produtividade-tecnica/laboratorio-dashboard-produtividade-tecnica.component';
 import { LaboratorioDashboardItensAntigosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-antigos/laboratorio-dashboard-itens-antigos.component';
 import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboard/laboratorio-dashboard-reincidencia/laboratorio-dashboard-reincidencia.component';
-import { LaboratorioDashboardPainelControleComponent } from './laboratorio-dashboard/laboratorio-dashboard-painel-controle/laboratorio-dashboard-painel-controle.component';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-reparados/laboratorio-dashboard-itens-recebidos-reparados.component';
+import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -104,13 +103,12 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioProcessoReparoInsumoComponent,
     ProcessoReparoListaMaisOpcoesComponent,
     LaboratorioDashboardComponent,
-    LaboratorioDashboardItensRecebidosSeparadosComponent,
-    LaboratorioDashboardFaltantesPendentesReparadosComponent,
+    LaboratorioDashboardItensRecebidosReparadosComponent,
+    LaboratorioDashboardTopFaltantesComponent,
     LaboratorioDashboardTempoMedioReparoComponent,
     LaboratorioDashboardProdutividadeTecnicaComponent,
     LaboratorioDashboardItensAntigosComponent,
     LaboratorioDashboardReincidenciaComponent,
-    LaboratorioDashboardPainelControleComponent
 
   ],
   imports: [

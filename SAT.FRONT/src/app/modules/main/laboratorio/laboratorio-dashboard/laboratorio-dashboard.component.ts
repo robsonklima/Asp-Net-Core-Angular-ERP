@@ -11,12 +11,11 @@ export class LaboratorioDashboardComponent implements OnInit {
   slideSelecionado: number = 0;
   slides: any = [
     'Recebidos e Reparados',
-    'Pendências e Reparos',
+    'Top Faltantes',
     'Tempo Reparo',
     'Produtividade',
     'Antigos',
     'Reincidência',
-    'Painel'
   ];
   protected _onDestroy = new Subject<void>();
 

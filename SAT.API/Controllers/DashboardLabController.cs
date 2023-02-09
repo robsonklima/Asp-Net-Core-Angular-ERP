@@ -31,5 +31,29 @@ namespace SAT.API.Controllers
         {
             return _dashboardLabService.ObterTopFaltantes(parameters);
         }
+
+        [HttpGet("TempoMedioReparo")]
+        public List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterTempoMedioReparo(parameters);
+        }
+
+        [HttpGet("ProdutividadeTecnica")]
+        public List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterProdutividadeTecnica(parameters);
+        }
+
+        [HttpGet("TopItensMaisAntigos")]
+        public List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterTopItensMaisAntigos(parameters);
+        }
+
+        [HttpGet("IndiceReincidencia")]
+        public List<ViewDashboardLabIndiceReincidencia> ObterIndiceReincidencia([FromQuery] DashboardLabParameters parameters)
+        {
+            return _dashboardLabService.ObterIndiceReincidencia(parameters);
+        }
     }
 }

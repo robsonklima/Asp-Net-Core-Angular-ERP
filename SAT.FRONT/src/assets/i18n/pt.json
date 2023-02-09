@@ -822,5 +822,9 @@
     "codigos de instalacao": "Informe os códigos de Instalação:",
     "num bem trade in": "Num Bem Trade In",
     "bloquearos": "Bloquear OS",
-    "data criacao": "Data de Criação"
+    "data criacao": "Data de Criação",
+    "intencao": "Intenção",
+    "checkin": "Checkin",
+    "checkout": "Checkout",
+    "transferencia": "Transferência"
 }

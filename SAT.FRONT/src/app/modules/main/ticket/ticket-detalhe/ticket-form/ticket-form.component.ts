@@ -111,9 +111,9 @@ export class TicketFormComponent implements OnInit, OnDestroy, OnChanges {
 				value: this.isAddMode ? ticketStatusConst.AGUARDANDO : undefined,
 				disabled: this.isAddMode
 			},],
-			codModulo: [undefined, Validators.required],
-			codClassificacao: [undefined, [Validators.required]],
-			codPrioridade: [undefined, Validators.required],
+			codModulo: [undefined],
+			codClassificacao: [undefined],
+			codPrioridade: [undefined],
 			titulo: [undefined, Validators.required],
 			descricao: [undefined, Validators.required],
 		});

@@ -24,5 +24,25 @@ namespace SAT.SERVICES.Services
         {
             return _dashboardLabRepo.ObterTopFaltantes(parameters);
         }
+
+        public List<ViewDashboardLabTopTempoMedioReparo> ObterTempoMedioReparo(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterTempoMedioReparo(parameters);
+        }
+
+        public List<ViewDashboardLabProdutividadeTecnica> ObterProdutividadeTecnica(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterProdutividadeTecnica(parameters);
+        }
+
+        public List<ViewDashboardLabTopItensMaisAntigos> ObterTopItensMaisAntigos(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterTopItensMaisAntigos(parameters);
+        }
+
+        public List<ViewDashboardLabIndiceReincidencia> ObterIndiceReincidencia(DashboardLabParameters parameters)
+        {
+            return _dashboardLabRepo.ObterIndiceReincidencia(parameters);
+        }
     }
 }

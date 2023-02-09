@@ -12,7 +12,6 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { FilialService } from 'app/core/services/filial.service';
-import { ImportacaoService } from 'app/core/services/importacao.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -24,30 +23,28 @@ import { Filial } from 'app/core/types/filial.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { ImportacaoLinha } from 'app/core/types/importacao.types';
 import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
-import { Instalacao, InstalacaoParameters, InstalacaoData } from 'app/core/types/instalacao.types';
+import { Instalacao, InstalacaoData, InstalacaoParameters } from 'app/core/types/instalacao.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { forEach } from 'lodash';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { InstalacaoAnexoDialogComponent } from '../instalacao-anexo-dialog/instalacao-anexo-dialog.component';
 import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
+
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
-  styles: [
-    /* language=SCSS */
-    `
-      .list-grid-instalacao {
-          grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px 56px;
-      }
-    `  
-  ],
+  styles: [`
+    .list-grid-instalacao {
+        grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px 56px;
+    }
+  `],
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
@@ -216,7 +213,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       codContrato: this.codContrato || undefined,
       codInstalLote: this.codInstalLote || undefined,
       pageSize: this.paginator?.pageSize,
-      //filter: this.searchInputControl.nativeElement.val,
       filter: filtro,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'CodInstalacao',
@@ -288,8 +284,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       this.fecharDetalhe();
       return;
     }
-
-    //this.isLoading = true;
 
     this._instalacaoSvc.obterPorCodigo(codInstalacao)
       .subscribe((instalacao) => {
@@ -588,11 +582,12 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   toggleSelecionarTodos(e: any) {
-    this.dataSourceData.items = this.dataSourceData.items.map(i => { return { ...i, selecionado: e.checked } });
+    this.dataSourceData.items = this.dataSourceData.items
+      .map(i => { return { ...i, selecionado: e.checked } });
   }
 
   abrirRessalvas(codInstalacao: number): void {
-    const dialogRef = this._dialog.open(InstalacaoRessalvaDialogComponent, {
+    this._dialog.open(InstalacaoRessalvaDialogComponent, {
       data: {
         codInstalacao: codInstalacao,
       },
@@ -600,10 +595,17 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       height: '600px'
     });
   }
-
   
-	selecionarArquivo(ev: any) {
-    
+	abrirPaginaAnexo(instalacao: Instalacao) {
+    const dialogRef = this._dialog.open(InstalacaoAnexoDialogComponent, {
+      data: {
+        instalacao: instalacao,
+      },
+    });    
+
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {}
+    });
 	}
 
   ngOnDestroy() {

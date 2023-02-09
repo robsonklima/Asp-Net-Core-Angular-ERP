@@ -24,13 +24,6 @@ export class InstalacaoAnexoService {
     )
   }
 
-  buscarInstalacaoAnexoUsuario(codUsuario: string): Observable<ImagemPerfilModel> {
-    const url = `${c.api}/InstalacaoAnexo/BuscaInstalacaoAnexoUsuario/${codUsuario}`;
-    return this.http.get<ImagemPerfilModel>(url).pipe(
-      map((obj) => obj)
-    );
-  }
-
   obterPorCodigo(codInstalAnexo: number): Observable<InstalacaoAnexo> {
     const url = `${c.api}/InstalacaoAnexo/${codInstalAnexo}`;
     return this.http.get<InstalacaoAnexo>(url).pipe(
@@ -51,11 +44,4 @@ export class InstalacaoAnexoService {
       map((obj) => obj)
     );
   }
-
-  alterarInstalacaoAnexoPerfil(imagemModel: ImagemPerfilModel): Observable<ImagemPerfilModel> {
-    return this.http.post<ImagemPerfilModel>(`${c.api}/InstalacaoAnexo/AlterarInstalacaoAnexoPerfil/`, imagemModel).pipe(
-      map((obj) => obj)
-    );
-  }
-
 }

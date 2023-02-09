@@ -8,14 +8,9 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<InstalacaoAnexo> builder)
         {
-            builder
-                .ToTable("InstalAnexo");
-
-            builder
-                .HasKey(i => i.CodInstalAnexo);
-
-            builder
-                .Ignore(i => i.Base64);
+            builder.ToTable("InstalAnexo");
+            builder.HasKey(i => i.CodInstalAnexo);
+            builder.Ignore(i => i.Base64);
         }
     }
 }

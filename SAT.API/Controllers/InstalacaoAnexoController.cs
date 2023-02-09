@@ -44,19 +44,5 @@ namespace SAT.API.Controllers
         {
             _instalacaoAnexoService.Deletar(codInstalAnexo);
         }
-
-        [HttpPost("{imageUrl}")]
-        public void AlterarInstalacaoAnexoPerfil([FromBody] ImagemPerfilModel model)
-        {
-            _instalacaoAnexoService.AlterarInstalacaoAnexoPerfil(model);
-        }
-
-        [HttpGet]
-        [Route("BuscaInstalacaoAnexoUsuario/{codUsuario}")]
-        public ImagemPerfilModel BuscaInstalacaoAnexoUsuario(string codUsuario)
-        {
-            return _instalacaoAnexoService.BuscarInstalacaoAnexoUsuario(codUsuario);
-        }
-
     }
 }

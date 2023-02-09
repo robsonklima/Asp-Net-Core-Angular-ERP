@@ -1,1 +1,20 @@
-<p>instalacao-anexo-dialog works!</p>
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6" *transloco="let t">
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Adicionar Anexo à Instalação {{ instalacao?.codInstalacao }}</div>
+        <button
+            mat-icon-button
+            mat-dialog-close
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div class="flex flex-col flex-auto p-8 sm:p-8 overflow-y-auto">
+        <div>
+            <mat-label>Arquivo</mat-label>
+            <input type="file" (change)="onFileSelected($event)" />
+        </div>
+    </div>
+</div>

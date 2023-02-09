@@ -1,14 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("InstalAnexo") ]
     public class InstalacaoAnexo
     {
-        [Key]
-        public int CodInstalAnexo { get; set; }
+        public int? CodInstalAnexo { get; set; }
         public int? CodInstalacao { get; set; }
         public int? CodInstalPleito { get; set; }
         public int? CodInstalLote { get; set; }

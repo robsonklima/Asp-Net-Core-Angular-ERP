@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -9,18 +13,38 @@ namespace SAT.SERVICES.Services
     public class InstalacaoAnexoService : IInstalacaoAnexoService
     {
         private readonly IInstalacaoAnexoRepository _instalacaoAnexoRepo;
+        private readonly ISequenciaRepository _sequenciaRepo;
 
-        public InstalacaoAnexoService(IInstalacaoAnexoRepository instalacaoAnexoRepo)
+        public InstalacaoAnexoService(
+            IInstalacaoAnexoRepository instalacaoAnexoRepo,
+            ISequenciaRepository sequenciaRepo
+        )
         {
             _instalacaoAnexoRepo = instalacaoAnexoRepo;
+            _sequenciaRepo = sequenciaRepo;
         }
 
         public InstalacaoAnexo Criar(InstalacaoAnexo instalacaoAnexo)
         {
+            string target = Directory.GetCurrentDirectory() + "/Upload";
+
+            if (!Directory.Exists(target))
+                Directory.CreateDirectory(target);
+
+            string fileName = instalacaoAnexo.NomeAnexo;
+            string imgPath = Path.Combine(target, fileName);
+
+            string existsFile = Directory.GetFiles(target).FirstOrDefault(s => Path.GetFileNameWithoutExtension(s) == fileName.Split('.')[0]);
+
+            if (!string.IsNullOrWhiteSpace(existsFile))
+                File.Delete(existsFile);
+
+            byte[] imageBytes = Convert.FromBase64String(instalacaoAnexo.Base64);
+            File.WriteAllBytes(imgPath, imageBytes);
+
+            instalacaoAnexo.CodInstalAnexo = _sequenciaRepo.ObterContador("InstalAnexo");
             _instalacaoAnexoRepo.Criar(instalacaoAnexo);
             
-            // To do Salvar Arquivo
-
             return instalacaoAnexo;
         }
 

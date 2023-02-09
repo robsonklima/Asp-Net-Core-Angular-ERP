@@ -67,7 +67,7 @@
                         <mat-label>{{ t('contrato') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codContrato" [disabled]="!contratos.length">
-                            <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato">
+                            <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato" [matTooltip]="contrato.nomeContrato">
                                 {{ contrato.nomeContrato }}
                             </mat-option>
                         </mat-select>
@@ -149,7 +149,7 @@
                                 </ngx-mat-select-search>
                             </mat-option>
 
-                            <mat-option *ngFor="let local of locais" [value]="local.codPosto">
+                            <mat-option *ngFor="let local of locais" [value]="local.codPosto" [matTooltip]="local.nomeLocal">
                                 <span class="opacity-60 text-md">
                                     {{ local.numAgencia }}/{{ local.dcPosto }}
                                 </span>

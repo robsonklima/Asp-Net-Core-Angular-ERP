@@ -1,4 +1,5 @@
 import { ContratoEquipamento } from "./contrato-equipamento.types";
+import { Equipamento } from "./equipamento.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { InstalacaoLote } from "./instalacao-lote.types";
 import { TipoContrato } from "./tipo-contrato.types";
@@ -97,4 +98,5 @@ export interface ContratoServico {
     dataHoraCadastroDel?: string;
     codUsuarioManutencaoDel?: string;
     dataHoraManutencaoDel?: string;
+    equipamento?: Equipamento;
 }

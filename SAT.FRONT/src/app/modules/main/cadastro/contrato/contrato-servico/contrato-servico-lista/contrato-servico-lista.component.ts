@@ -81,7 +81,7 @@ export class ContratoServicoListaComponent implements AfterViewInit {
         this.isLoading = false;
     }
 
-    async excluir(contratoServico: ContratoServico) {
+    async excluir(codigoServico: number) {
         const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
             data: {
                 titulo: 'Confirmação',
@@ -95,7 +95,7 @@ export class ContratoServicoListaComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                await this._contratoServicoService.deletar(contratoServico.codContratoServico).toPromise();
+                await this._contratoServicoService.deletar(codigoServico).toPromise();
                 this.obterContratosServico();
             }
         });

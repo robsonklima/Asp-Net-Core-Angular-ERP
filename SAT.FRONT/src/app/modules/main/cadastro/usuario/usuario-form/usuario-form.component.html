@@ -57,7 +57,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-4" disabled="!isAddMode">
                         <mat-label>Login</mat-label>
-                        <input matInput placeholder="nome.sobrenome" formControlName="codUsuario" readonly="!isAddMode">
+                        <input matInput placeholder="nome.sobrenome" formControlName="codUsuario">
                         <mat-icon matSuffix *ngIf="isAddMode">
                             <mat-icon class="icon-size-5 text-red-500" *ngIf="codUsuarioExiste && codUsuarioValidado"
                                 matTooltip="{{t('login indisponivel')}}"

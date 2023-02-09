@@ -37,6 +37,7 @@ export class ContratoServicoFormComponent implements OnInit {
 	servicos: TipoServico[] = [];
 	contratoServico: ContratoServico;
 	searching: boolean;
+	equipamento: Equipamento;
 	protected _onDestroy = new Subject<void>();
 	modelosFiltro: FormControl = new FormControl();
 	slasFiltro: FormControl = new FormControl();
@@ -104,6 +105,10 @@ export class ContratoServicoFormComponent implements OnInit {
 			codSLA: new FormControl(undefined, Validators.required),
 			valor: new FormControl(undefined, Validators.required),
 		});
+	}
+
+	private async obterEquipamentos(){
+		this.equipamento = await this._equipamentoService.obterPorCodigo(this.form.controls['codEquip'].value).toPromise();
 	}
 
 	private registrarEmitters() {
@@ -193,7 +198,8 @@ export class ContratoServicoFormComponent implements OnInit {
 		this.isAddMode ? this.criar() : this.atualizar();
 	}
 
-	private atualizar(): void {
+	private async atualizar(){
+		await this.obterEquipamentos();
 		this.form.disable();
 		const form: any = this.form.getRawValue();
 		let obj = {
@@ -201,6 +207,8 @@ export class ContratoServicoFormComponent implements OnInit {
 			...form,
 			...{
 				codContrato: this.codContrato,
+				codTipoEquip: this.equipamento.codTipoEquip,
+				codGrupoEquip: this.equipamento.codGrupoEquip,
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioManut: this.userSession.usuario?.codUsuario
 			}
@@ -217,13 +225,16 @@ export class ContratoServicoFormComponent implements OnInit {
 
 	}
 
-	private criar(): void {
+	private async criar(){
+		await this.obterEquipamentos();
 		this.form.disable();
 		const form: any = this.form.getRawValue();
 		let obj = {
 			...form,
 			...{
 				codContrato: this.codContrato,
+				codTipoEquip: this.equipamento.codTipoEquip,
+				codGrupoEquip: this.equipamento.codGrupoEquip,
 				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioCad: this.userSession.usuario?.codUsuario
 			}
@@ -235,7 +246,7 @@ export class ContratoServicoFormComponent implements OnInit {
 
 		this._contratoServicoService.criar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro adicionado com sucesso!", "success");
-			this._router.navigate(['contrato/' + this.codContrato + '/contrato-servico']);
+			this._router.navigate(['contrato/' + this.codContrato]);
 		});
 	}
 

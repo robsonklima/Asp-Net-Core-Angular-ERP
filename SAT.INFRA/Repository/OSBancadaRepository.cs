@@ -53,7 +53,7 @@ namespace SAT.INFRA.Repository
             return _context.OSBancada
                 .Include(i => i.Filial)
                 .Include(i => i.ClienteBancada)
-                .FirstOrDefault(c => c.CodClienteBancada == codigo);
+                .FirstOrDefault(c => c.CodOsbancada == codigo);
         }
 
         public PagedList<OSBancada> ObterPorParametros(OSBancadaParameters parameters)

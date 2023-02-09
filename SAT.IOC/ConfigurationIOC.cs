@@ -203,6 +203,7 @@ public class ConfigurationIOC
         builder.RegisterType<OSBancadaPecasRepository>().As<IOSBancadaPecasRepository>();
         builder.RegisterType<InstalacaoAnexoRepository>().As<IInstalacaoAnexoRepository>();
         builder.RegisterType<OsBancadaPecasOrcamentoRepository>().As<IOsBancadaPecasOrcamentoRepository>();
+        builder.RegisterType<OrcamentoPecasEspecRepository>().As<IOrcamentoPecasEspecRepository>();
         
         #endregion
 
@@ -396,6 +397,7 @@ public class ConfigurationIOC
         builder.RegisterType<OSBancadaPecasService>().As<IOSBancadaPecasService>();
         builder.RegisterType<InstalacaoAnexoService>().As<IInstalacaoAnexoService>();
         builder.RegisterType<OsBancadaPecasOrcamentoService>().As<IOsBancadaPecasOrcamentoService>();
+        builder.RegisterType<OrcamentoPecasEspecService>().As<IOrcamentoPecasEspecService>();
 
         #endregion
 

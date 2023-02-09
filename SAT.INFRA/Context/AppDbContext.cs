@@ -294,6 +294,7 @@ namespace SAT.INFRA.Context
         public DbSet<PecaRE5114> PecaRE5114 { get; set; }
         public DbSet<OSBancadaPecas> OSBancadaPecas { get; set; }
         public DbSet<OsBancadaPecasOrcamento> OsBancadaPecasOrcamento { get; set; }
+        public DbSet<OrcamentoPecasEspec> OrcamentoPecasEspec { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -506,6 +507,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OSBancadaPecas>(new OSBancadaPecasMap().Configure);
             modelBuilder.Entity<InstalacaoAnexo>(new InstalacaoAnexoMap().Configure);
             modelBuilder.Entity<OsBancadaPecasOrcamento>(new OsBancadaPecasOrcamentoMap().Configure);
+            modelBuilder.Entity<OrcamentoPecasEspec>(new OrcamentoPecasEspecMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

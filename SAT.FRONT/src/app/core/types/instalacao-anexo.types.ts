@@ -26,6 +26,6 @@ export interface InstalacaoAnexoParameters extends QueryStringParameters {
     codInstalacao?: number;
     codInstalPleito?: number;
     codInstalLote?: number;
-    nomeAnexo: string;
-    descAnexo: string;
+    nomeAnexo?: string;
+    descAnexo?: string;
 };

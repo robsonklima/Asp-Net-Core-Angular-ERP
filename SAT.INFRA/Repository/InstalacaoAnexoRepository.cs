@@ -52,11 +52,11 @@ namespace SAT.INFRA.Repository
         {
             var instalacaoAnexos = _context.InstalacaoAnexo.AsQueryable();
 
-            if (parameters.CodInstalAnexo.HasValue)
-                instalacaoAnexos = instalacaoAnexos.Where(f => f.CodInstalAnexo == parameters.CodInstalAnexo);
-
             if (parameters.CodInstalacao.HasValue)
                 instalacaoAnexos = instalacaoAnexos.Where(f => f.CodInstalacao == parameters.CodInstalacao);
+            
+            if (parameters.CodInstalAnexo.HasValue)
+                instalacaoAnexos = instalacaoAnexos.Where(f => f.CodInstalAnexo == parameters.CodInstalAnexo);
 
             if (parameters.CodInstalLote.HasValue)
                 instalacaoAnexos = instalacaoAnexos.Where(f => f.CodInstalLote == parameters.CodInstalLote);                                

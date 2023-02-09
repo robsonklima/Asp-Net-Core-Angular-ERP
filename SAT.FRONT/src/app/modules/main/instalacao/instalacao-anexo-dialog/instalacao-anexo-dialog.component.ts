@@ -18,6 +18,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class InstalacaoAnexoDialogComponent implements OnInit {
   instalacao: Instalacao;
   instalacaoAnexo: InstalacaoAnexo;
+  instalacaoAnexos: InstalacaoAnexo[] = [];
   userSession: UserSession;
 
   constructor(
@@ -28,10 +29,25 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     private _snack: CustomSnackbarService
   ) {
     this.instalacao = data?.instalacao;
+    console.log(this.instalacao);
+    
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.obterAnexos();
+  }
+
+  private async obterAnexos() {
+    const data = await this._instalacaoAnexoService
+      .obterPorParametros({ codInstalacao: this.instalacao.codInstalacao })
+      .toPromise();
+
+    this.instalacaoAnexos = data.items;
+
+    console.log(this.instalacaoAnexos);
+    
+  }
 
   async onFileSelected(event) {
     await this.convertFile(event.target.files[0]).subscribe(base64 => {
@@ -103,6 +119,14 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  deletar(codInstalAnexo: number) {
+
+  }
+
+  download(anexo: InstalacaoAnexo) {
+
   }
 
   salvar() {

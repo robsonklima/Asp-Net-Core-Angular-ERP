@@ -21,9 +21,6 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.ViewDashboardLabRecebidosReparados.AsQueryable();
 
-            if (parameters.Ano.HasValue)
-                query = query.Where(q => q.Ano == parameters.Ano);
-
             if (parameters.SortActive != null && parameters.SortDirection != null)
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

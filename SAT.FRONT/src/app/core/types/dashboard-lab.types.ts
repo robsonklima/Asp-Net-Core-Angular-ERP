@@ -1,9 +1,7 @@
 import { QueryStringParameters } from "./generic.types";
 
 export interface ViewDashboardLabRecebidosReparados {
-    mes: number;
-    ano: number;
-    mesExtenso: string;
+    anoMes: string;
     tipo: string;
     qtd: number;
 }

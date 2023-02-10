@@ -211,7 +211,11 @@ export class DespesaManutencaoComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
-        this._despesaItemSvc.deletar(di.codDespesaItem).subscribe(() => {
+        di.indAtivo = statusConst.INATIVO;
+        di.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+        di.codUsuarioManut = this.userSession.usuario?.codUsuario;
+        
+        this._despesaItemSvc.atualizar(di).subscribe(() => {
           this._snack.exibirToast('Despesa removida com sucesso!', 'success');
           this.obterDespesa();
         }, e => {

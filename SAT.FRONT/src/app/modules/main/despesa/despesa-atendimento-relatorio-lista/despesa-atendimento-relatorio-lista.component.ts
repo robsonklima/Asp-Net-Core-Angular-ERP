@@ -14,6 +14,7 @@ import { DespesaData, DespesaTipoEnum } from 'app/core/types/despesa.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimentoData, RelatorioAtendimentoParameters } from 'app/core/types/relatorio-atendimento.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import Enumerable from 'linq';
 import moment from 'moment';
@@ -170,6 +171,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 		return Enumerable.from(this.despesas.items)
 			.where(d => d.codRAT == codRAT)
 			.sum(d => Enumerable.from(d.despesaItens)
+				.where(i => i.indAtivo == statusConst.ATIVO)
 				.sum(di => di.despesaValor));
 	}
 

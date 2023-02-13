@@ -801,5 +801,7 @@
     "intencao": "Intention",
     "checkin": "Checkin",
     "checkout": "Checkout",
-    "transferencia": "Transference"
+    "transferencia": "Transference",
+    "modo aprovacao": "Approval Mode",
+    "intervalos acesso": "Access Intervals"
 }

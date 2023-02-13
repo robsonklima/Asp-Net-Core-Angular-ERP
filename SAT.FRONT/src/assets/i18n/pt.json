@@ -826,5 +826,7 @@
     "intencao": "Intenção",
     "checkin": "Checkin",
     "checkout": "Checkout",
-    "transferencia": "Transferência"
+    "transferencia": "Transferência",
+    "modo aprovacao": "Modo Aprovação",
+    "intervalos acesso": "Intervalos Acesso"
 }

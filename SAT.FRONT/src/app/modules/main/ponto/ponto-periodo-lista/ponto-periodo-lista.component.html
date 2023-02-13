@@ -125,7 +125,7 @@
                                             color="primary"
                                             [routerLink]="'/ponto/ponto-periodo-form/' + data.codPontoPeriodo"
                                             matTooltipPosition="above"
-                                            *ngIf="userSession.usuario.codPerfil == 44">
+                                            *ngIf="userSession.usuario.codPerfil == 44 || userSession.usuario.codPerfil == 3">
                                             <mat-icon
                                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                         </button>

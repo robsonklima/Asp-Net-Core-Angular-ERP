@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -10,7 +9,7 @@ using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class InstalacaoAnexoService : IInstalacaoAnexoService
+    public class InstalacaoAnexoService : IInstalacaoAnexoService   
     {
         private readonly IInstalacaoAnexoRepository _instalacaoAnexoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
@@ -26,7 +25,7 @@ namespace SAT.SERVICES.Services
 
         public InstalacaoAnexo Criar(InstalacaoAnexo instalacaoAnexo)
         {
-            string target = Directory.GetCurrentDirectory() + "/Upload";
+            string target = Directory.GetCurrentDirectory() + "/Upload/Instalacao";
 
             if (!Directory.Exists(target))
                 Directory.CreateDirectory(target);

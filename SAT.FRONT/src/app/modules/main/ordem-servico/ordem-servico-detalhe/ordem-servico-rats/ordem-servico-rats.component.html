@@ -4,7 +4,7 @@
 
         <div>
             <button mat-icon-button [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
-                matTooltip="Editar RAT">
+            *ngIf="!this.perfilCliente" matTooltip="Editar RAT">
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                 </mat-icon>
             </button>

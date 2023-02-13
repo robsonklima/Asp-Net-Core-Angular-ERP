@@ -96,10 +96,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			dataFechamentoInicio: [''],
 			numRAT: [''],
 			numAgencia: [''],
-			codClientes: [{
-				disabled: this.userSession.usuario.codCliente,
-				value: this.userSession.usuario.codCliente || undefined
-			}]
+			codClientes: ['']
 		});
 	}
 
@@ -142,6 +139,14 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 		const form = this.form.getRawValue();
 		this.isLoading = true;
 
+		let codClientes;
+		if(this.userSession.usuario.codCliente)
+			codClientes = this.userSession.usuario.codCliente.toString();
+
+		else
+			if (form.codClientes.length)
+				codClientes = form.codClientes?.join(',');
+
 		this._osSvc.obterPorParametros({
 			pageNumber: this.paginator?.pageIndex + 1,
 			sortActive: this.sort.active || 'codOS',
@@ -151,7 +156,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
 			numSerie: form.numSerie,
-			codClientes: form.codClientes?.join(',')
+			codClientes: codClientes
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {
 				this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);

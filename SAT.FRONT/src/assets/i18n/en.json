@@ -801,5 +801,8 @@
     "intencao": "Intention",
     "checkin": "Checkin",
     "checkout": "Checkout",
-    "transferencia": "Transference"
+    "transferencia": "Transference",
+    "orçamento bancada": "Bench Budget",
+    "os bancada": "Bench OS",
+    "nota fiscal": "Invoice"
 }

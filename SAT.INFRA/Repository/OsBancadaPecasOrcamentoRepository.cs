@@ -52,6 +52,9 @@ namespace SAT.INFRA.Repository
         {
             return _context.OsBancadaPecasOrcamento
                 .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.Filial)
+                .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.ClienteBancada)
                 .Include(i => i.PecaRE5114)
                 .FirstOrDefault(c => c.CodOrcamento == codigo);
         }
@@ -60,6 +63,9 @@ namespace SAT.INFRA.Repository
         {
             IQueryable<OsBancadaPecasOrcamento> osBancadaPecasOrcamentos = _context.OsBancadaPecasOrcamento
                 .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.Filial)
+                .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.ClienteBancada)
                 .Include(i => i.PecaRE5114)
                 .AsQueryable();
 

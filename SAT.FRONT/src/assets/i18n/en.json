@@ -803,5 +803,8 @@
     "checkout": "Checkout",
     "transferencia": "Transference",
     "modo aprovacao": "Approval Mode",
-    "intervalos acesso": "Access Intervals"
+    "intervalos acesso": "Access Intervals",
+    "orçamento bancada": "Bench Budget",
+    "os bancada": "Bench OS",
+    "nota fiscal": "Invoice"
 }

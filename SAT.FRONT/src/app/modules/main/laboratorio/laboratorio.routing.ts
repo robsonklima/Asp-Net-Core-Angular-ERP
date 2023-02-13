@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-bancada.component';
 import { LaboratorioCheckListListaComponent } from './laboratorio-checklist/laboratorio-checklist-lista/laboratorio-checklist-lista.component';
 import { LaboratorioDashboardComponent } from './laboratorio-dashboard/laboratorio-dashboard.component';
+import { LaboratorioOrcamentoListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-lista/laboratorio-orcamento-lista.component';
 import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
@@ -62,5 +63,9 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'dashboard',
         component: LaboratorioDashboardComponent
+    },
+    {
+        path: 'orcamento-bancada',
+        component: LaboratorioOrcamentoListaComponent
     }
 ];

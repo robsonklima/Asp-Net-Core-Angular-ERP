@@ -114,6 +114,10 @@ export class PontoExportacaoDialogComponent implements OnInit {
         select.patchValue([]);
   }
 
+  fechar() {
+    this.dialogRef.close();
+  }
+
   ngOnDestroy() {
 		this._onDestroy.next();
 		this._onDestroy.complete();

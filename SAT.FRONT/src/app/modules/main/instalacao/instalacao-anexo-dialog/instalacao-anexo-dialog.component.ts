@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { InstalacaoAnexoService } from 'app/core/services/instalacao-anexo.service';
 import { InstalacaoAnexo } from 'app/core/types/instalacao-anexo.types';
@@ -8,6 +8,7 @@ import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Observable, ReplaySubject } from 'rxjs';
 
@@ -26,7 +27,8 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     public _dialogRef: MatDialogRef<MessagesComponent>,
     private _instalacaoAnexoService: InstalacaoAnexoService,
     private _userService: UserService,
-    private _snack: CustomSnackbarService
+    private _snack: CustomSnackbarService,
+    private _dialog: MatDialog
   ) {
     this.instalacao = data?.instalacao;
     console.log(this.instalacao);
@@ -122,7 +124,24 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
   }
 
   deletar(codInstalAnexo: number) {
-
+      const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+        data: {
+          titulo: 'Confirmação',
+          message: 'Deseja excluir este arquivo?',
+          buttonText: {
+            ok: 'Sim',
+            cancel: 'Não'
+          }
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+        if (confirmacao) {
+          this._instalacaoAnexoService.deletar(codInstalAnexo).subscribe(() => {
+            this.obterAnexos();
+          });
+        }
+      });
   }
 
   download(anexo: InstalacaoAnexo) {

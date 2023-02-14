@@ -78,8 +78,7 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit {
       .sum(d => Enumerable.from(d.despesaItens)
       .where(i => 
         i.indAtivo == statusConst.ATIVO &&
-        i.codDespesaTipo != DespesaTipoEnum.KM && 
-        i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL)
+        i.codDespesaTipo != DespesaTipoEnum.KM)
       .sum(i => i.despesaValor));
   }
 

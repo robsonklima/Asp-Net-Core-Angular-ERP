@@ -34,6 +34,11 @@ import { PontoUsuarioFormComponent } from './ponto-usuario-form/ponto-usuario-fo
 import { FuseAlertModule } from '@fuse/components/alert';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PontoExportacaoDialogComponent } from './ponto-exportacao-dialog/ponto-exportacao-dialog.component';
+import { FiltroModule } from '../filtros/filtro.module';
+import { PontoColaboradorFiltroComponent } from './ponto-colaborador-filtro/ponto-colaborador-filtro.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 registerLocaleData(localeBr, 'pt');
 
@@ -54,7 +59,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     PontoRelatoriosAtendimentoComponent,
     PontoInconsistenciaFormComponent,
     PontoUsuarioFormComponent,
-    PontoExportacaoDialogComponent
+    PontoExportacaoDialogComponent,
+    PontoColaboradorFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -79,6 +85,10 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatCheckboxModule,
     FuseAlertModule,
     ReactiveFormsModule,
+    FiltroModule,
+    MatSidenavModule,
+    FuseHighlightModule,
+    NgxMatSelectSearchModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }]
 })

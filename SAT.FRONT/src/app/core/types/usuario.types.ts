@@ -7,6 +7,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { Localizacao } from "./localizacao.types";
 import { Navegacao } from "./navegacao.types";
 import { Perfil } from "./perfil.types";
+import { PontoPeriodoUsuario } from "./ponto-periodo-usuario.types";
 import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
 import { UsuarioSeguranca } from "./usuario-seguranca.types";
@@ -67,6 +68,7 @@ export class Usuario {
     usuarioDispositivos: any[];
     ultimoAcesso: string;
     foto: ImagemPerfilModel;
+    pontosPeriodoUsuario?: PontoPeriodoUsuario[];
 }
 
 export interface UsuarioData extends Meta {
@@ -98,6 +100,8 @@ export interface UsuarioParameters extends QueryStringParameters {
     codPerfis?: string;
     pontoInicio?: string | null;
     pontoFim?: string | null;
+    codPontoPeriodoUsuarioStatus?: string;
+
 };
 
 export interface UsuariosLogados {

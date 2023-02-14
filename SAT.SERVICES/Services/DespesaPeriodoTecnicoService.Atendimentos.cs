@@ -78,8 +78,7 @@ namespace SAT.SERVICES.Services
                 }).Sum(d =>
                     d.DespesaItens?.Where(di =>
                         di.IndAtivo == 1 &&
-                        di.CodDespesaTipo != (int)DespesaTipoEnum.KM &&
-                        di.CodDespesaTipo != (int)DespesaTipoEnum.COMBUSTIVEL)
+                        di.CodDespesaTipo != (int)DespesaTipoEnum.KM)
                     .Sum(di => di.DespesaValor)) ?? 0;
 
         private decimal TotalAdiantamentoUtilizado(string codTecnico, int codPeriodo) =>

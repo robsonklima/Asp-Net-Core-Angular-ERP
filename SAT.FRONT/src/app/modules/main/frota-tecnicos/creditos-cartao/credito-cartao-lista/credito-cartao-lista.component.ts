@@ -199,7 +199,7 @@ export class CreditoCartaoListaComponent extends Filterable implements AfterView
     return Enumerable.from(p.despesas).sum(i =>
       Enumerable.from(i.despesaItens)
         .where(i => i.indAtivo
-          && (i.codDespesaTipo == DespesaTipoEnum.KM || i.codDespesaTipo == DespesaTipoEnum.COMBUSTIVEL))
+          && (i.codDespesaTipo == DespesaTipoEnum.KM))
         .sum(i => i.despesaValor));
   }
 

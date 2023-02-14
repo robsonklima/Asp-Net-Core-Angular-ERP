@@ -15,6 +15,7 @@ export class OrdemServicoRatsComponent implements OnInit {
   sessionData: UsuarioSessao;
   isLoading: boolean = true;
   rats: RelatorioAtendimento[] = [];
+  perfilCliente: boolean;
 
   constructor(
     private _relatorioAtendimentoService: RelatorioAtendimentoService,
@@ -25,7 +26,7 @@ export class OrdemServicoRatsComponent implements OnInit {
 
   async ngOnInit() {
     this.rats = (await this.obterRATS()).items;
-    console.log(this.rats);
+    this.perfilCliente = this._userService.isCustomer;
     
     this.isLoading = false;
   }

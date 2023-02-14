@@ -29,7 +29,7 @@
 
         <div class="flex items-center justify-between py-1">
             <div class="text-secondary">Solicitação</div>
-            <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
+            <div> {{ r?.dataHoraSolicitacao ? (r?.dataHoraSolicitacao | date:'dd/MM/yyyy HH:mm') : 'Não Informado' }}</div>
         </div>
 
         <div class="flex items-center justify-between py-1">
@@ -42,9 +42,9 @@
 
         <div class="flex items-center justify-between py-1">
             <div class="text-secondary">Horário atendimento</div>
-            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM HH:mm') : 'Não Informado' }} - {{
+            <div> {{ r?.dataHoraInicio ? (r?.dataHoraInicio | date:'dd/MM/yyyy HH:mm') : 'Não Informado' }} - {{
                 r?.dataHoraSolucao ?
-                (r?.dataHoraSolucao | date:'dd/MM HH:mm') : 'Não Informado' }}</div>
+                (r?.dataHoraSolucao | date:'dd/MM/yyyy HH:mm') : 'Não Informado' }}</div>
         </div>
 
         <div class="flex items-center justify-between py-1">

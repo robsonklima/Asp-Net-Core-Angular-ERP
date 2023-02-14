@@ -26,7 +26,7 @@
 
             <form autocomplete="off" [formGroup]="form" (keyup)="monitorarDigitacaoForm($event)" class="flex flex-col bg-card shadow rounded overflow-hidden">
                 <div class="grid sm:grid-cols-12 lg:gap-x-6 md:gap-x-2 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
                         <mat-label>{{ t('os') }}</mat-label>
                         <input
                             [autocomplete]="'off'"
@@ -38,7 +38,7 @@
                             matInput>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('os cliente') }}</mat-label>
                         <input
                             [autocomplete]="'off'"

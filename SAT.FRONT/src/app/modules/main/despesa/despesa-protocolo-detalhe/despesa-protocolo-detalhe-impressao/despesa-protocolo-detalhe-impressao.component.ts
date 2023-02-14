@@ -140,7 +140,7 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   private calcularDespesaTotal(dp: DespesaProtocoloPeriodoTecnico)
   {
     return Enumerable.from(dp.despesaPeriodoTecnico.despesas).where(i => i.indAtivo == statusConst.ATIVO)
-      .selectMany(i => i.despesaItens).where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo != DespesaTipoEnum.KM && i.codDespesaTipo != DespesaTipoEnum.COMBUSTIVEL).sum(i => i.despesaValor);
+      .selectMany(i => i.despesaItens).where(i => i.indAtivo == statusConst.ATIVO && i.codDespesaTipo != DespesaTipoEnum.KM).sum(i => i.despesaValor);
   }
 
   valorDescontinuado()

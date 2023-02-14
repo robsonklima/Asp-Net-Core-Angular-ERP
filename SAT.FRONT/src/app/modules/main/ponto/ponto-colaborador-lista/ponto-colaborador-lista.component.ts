@@ -1,22 +1,24 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { PontoPeriodoService } from 'app/core/services/ponto-periodo.service';
 import { PontoPeriodo } from 'app/core/types/ponto-periodo.types';
 import { statusConst } from 'app/core/types/status-types';
-import { UsuarioData } from 'app/core/types/usuario.types';
+import { UsuarioData, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { Filterable } from 'app/core/filters/filterable';
 
 @Component({
   selector: 'app-ponto-colaborador-lista',
   templateUrl: './ponto-colaborador-lista.component.html',
   styles: [
-    /* language=SCSS */
     `
       .list-grid-pc {
           grid-template-columns: auto 136px 198px 218px 72px 218px 72px;
@@ -26,12 +28,14 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class PontoColaboradorListaComponent implements AfterViewInit {
+export class PontoColaboradorListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  [x: string]: any;
   codPontoPeriodo: number;
   pontoPeriodo: PontoPeriodo;
-  @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
+	@ViewChild('searchInputControl', { read: ElementRef }) searchInputControl: ElementRef;
+	@ViewChild('sidenav') sidenav: MatSidenav;  
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
   filtro: string;
   dataSourceData: UsuarioData;
   isLoading: boolean = false;
@@ -43,12 +47,14 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
     private _route: ActivatedRoute,
     private _pontoPeriodoSvc: PontoPeriodoService
   ) {
+    super(_userSvc,'ponto-colaborador')
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
   ngAfterViewInit(): void {
     this.codPontoPeriodo = +this._route.snapshot.paramMap.get('codPontoPeriodo');
     this.obterDados();
+    this.registerEmitters();
 
     if (this.sort && this.paginator) {
       this.sort.disableClear = true;
@@ -79,9 +85,10 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
     this.isLoading = true;
 
     this.pontoPeriodo = await this._pontoPeriodoSvc.obterPorCodigo(this.codPontoPeriodo).toPromise();
-
-    const data = await this._userSvc
-      .obterPorParametros({
+    
+    const params: UsuarioParameters = 
+    {
+      ...{
         pageSize: this.paginator?.pageSize,
         pageNumber: this.paginator.pageIndex + 1,
         sortActive: this.sort.active || 'nomeUsuario',
@@ -91,15 +98,24 @@ export class PontoColaboradorListaComponent implements AfterViewInit {
         indPonto: 1,
         codFilial: this.userSession?.usuario?.codFilial,
         filter: this.filtro
-      })
-      .toPromise();
-
-    this.dataSourceData = data;
-    this.isLoading = false;
-    this._cdr.detectChanges();
-
-    console.log(this.dataSourceData);
+      },
+      ... this.filter.codPontoPeriodoUsuarioStatus
+    }
+    
+    this._userSvc.obterPorParametros(params).subscribe((data) => 
+        {
+          this.dataSourceData = data;
+          this.isLoading = false;
+          this._cdr.detectChanges(); 
+        });
   }
+
+  registerEmitters(): void {
+      this.sidenav.closedStart.subscribe(() => {
+			this.onSidenavClosed();     
+			this.obterDados();
+		});
+	}
 
   paginar() {
     this.obterDados();

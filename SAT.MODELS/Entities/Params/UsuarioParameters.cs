@@ -25,5 +25,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? UltimoAcessoFim { get; set; }
         public DateTime? PontoInicio { get; set; }
         public DateTime? PontoFim { get; set; }
+        public int? CodPontoPeriodoUsuarioStatus { get; set; }
     }
 }

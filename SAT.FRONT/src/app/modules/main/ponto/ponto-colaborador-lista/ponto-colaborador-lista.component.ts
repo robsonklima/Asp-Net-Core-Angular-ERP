@@ -99,7 +99,7 @@ export class PontoColaboradorListaComponent extends Filterable implements AfterV
         codFilial: this.userSession?.usuario?.codFilial,
         filter: this.filtro
       },
-      ... this.filter.codPontoPeriodoUsuarioStatus
+      ...this.filter?.parametros
     }
     
     this._userSvc.obterPorParametros(params).subscribe((data) => 

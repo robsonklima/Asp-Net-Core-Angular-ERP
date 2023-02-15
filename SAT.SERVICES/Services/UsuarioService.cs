@@ -61,7 +61,7 @@ namespace SAT.SERVICES.Services
         public Usuario ObterPorCodigo(string codigo)
         {
             var usuario = _usuarioRepo.ObterPorCodigo(codigo);
-            // usuario.Foto = _fotoService.BuscarFotoUsuario(usuario.CodUsuario);
+            
             return usuario;
         }
 

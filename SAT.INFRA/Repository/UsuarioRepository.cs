@@ -179,7 +179,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => usuarios.Any(p => p == u.CodUsuario));
             }
 
-            if (parameters.CodPontoPeriodoUsuarioStatus.HasValue)
+            if (parameters.CodPontoPeriodoUsuarioStatus.HasValue && parameters.CodPontoPeriodo.HasValue)
             {
                 query = query
                     .Where(p => p.PontosPeriodoUsuario

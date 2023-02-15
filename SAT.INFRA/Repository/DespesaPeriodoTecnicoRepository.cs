@@ -83,7 +83,7 @@ namespace SAT.INFRA.Repository
                 .Include(dpt => dpt.Tecnico)
                     .ThenInclude(dpt => dpt.TecnicoContas)
                 .Include(dpt => dpt.Tecnico)
-                    .ThenInclude(dpt => dpt.Veiculos)
+                    .ThenInclude(dpt => dpt.Veiculos.Where(v => v.IndAtivo == 1))
                 .Include(dpt => dpt.Tecnico)
                     .ThenInclude(dpt => dpt.DespesaCartaoCombustivelTecnico)
                         .ThenInclude(dpt => dpt.DespesaCartaoCombustivel)

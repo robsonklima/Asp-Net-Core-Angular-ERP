@@ -100,7 +100,7 @@ export interface UsuarioParameters extends QueryStringParameters {
     codPerfis?: string;
     pontoInicio?: string | null;
     pontoFim?: string | null;
-    codPontoPeriodoUsuarioStatus?: string;
+    codPontoPeriodoUsuarioStatus?: number;
 
 };
 

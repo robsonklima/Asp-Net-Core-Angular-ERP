@@ -111,7 +111,7 @@ export class PontoColaboradorListaComponent extends Filterable implements AfterV
   }
 
   registerEmitters(): void {
-      this.sidenav.closedStart.subscribe(() => {
+      this.sidenav.closedStart.subscribe(() => {     
 			this.onSidenavClosed();     
 			this.obterDados();
 		});

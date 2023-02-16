@@ -150,11 +150,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => u.IndPonto == parameters.IndPonto);
             }
 
-            if (parameters.CodPontoPeriodo != null)
-            {
-                query = query.Where(u => u.PontosPeriodoUsuario.Any(pp => pp.PontoPeriodo.CodPontoPeriodo == parameters.CodPontoPeriodo));
-            }
-
             if (!string.IsNullOrWhiteSpace(parameters.PAS))
             {
                 int[] pas = parameters.PAS.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
@@ -179,13 +174,22 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => usuarios.Any(p => p == u.CodUsuario));
             }
 
+            if (parameters.CodPontoPeriodo != null)
+            {
+                query = query
+                    .Where(u => u.PontosPeriodoUsuario
+                        .Any(pp => pp.PontoPeriodo.CodPontoPeriodo == parameters.CodPontoPeriodo))
+                    .Include(u => u.PontosPeriodoUsuario
+                    .Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo));                        
+            }
+
             if (parameters.CodPontoPeriodoUsuarioStatus.HasValue && parameters.CodPontoPeriodo.HasValue)
             {
                 query = query
                     .Where(p => p.PontosPeriodoUsuario
                         .Any(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo))
                     .Include(u => u.PontosPeriodoUsuario
-                    .Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus));
+                    .Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))

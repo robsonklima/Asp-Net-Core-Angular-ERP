@@ -15,8 +15,8 @@
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>
 
-            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}">
-                <!-- [routerLink]="['/frota-tecnico/valores-combustivel/form']"> -->
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                [routerLink]="['/laboratorio/orcamento-bancada/form/']">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
 
@@ -62,11 +62,13 @@
                             <div>
                                 {{ t('filial') }}
                             </div>
+                            <div>
+                                {{ t('acoes') }}
+                            </div>
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let orcamento of dataSourceData?.items">
-                                <!-- <a [routerLink]="['/frota-tecnico/valores-combustivel/form/' + valorCombustivel.codDespesaConfiguracaoCombustivel]"> -->
                                     <div
                                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
@@ -93,8 +95,22 @@
                                         <div class="truncate">
                                             {{ orcamento?.osBancada?.filial?.nomeFilial }}
                                         </div>
+                                        <div class="flex items-center">
+                                            <button class="cursor-pointer" [routerLink]="['/laboratorio/orcamento-bancada/form/' + orcamento.codOsbancada]">
+                                                <mat-icon class="max-w-5 max-h-5 text-green-800"
+                                                    [matTooltip]="t('ir para os bancada')"
+                                                    [svgIcon]="'heroicons_outline:clipboard'">
+                                                </mat-icon>
+                                            </button>
+
+                                            <!-- <button class="cursor-pointer ml-2" [disabled]="!(orc?.codOrc)" [routerLink]="['/orcamento/detalhe/' + orc?.codOrc + '/' + orc?.codOS]">
+                                                <mat-icon class="max-w-5 max-h-5 text-blue-800"
+                                                [matTooltip]="t('ir para orcamento')"
+                                                [svgIcon]="'heroicons_outline:calculator'">
+                                                </mat-icon>
+                                            </button> -->
+                                        </div>
                                     </div>
-                                <!-- </a> -->
                             </ng-container>
                         </ng-container>
                     </div>

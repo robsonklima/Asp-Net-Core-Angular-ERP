@@ -90,6 +90,12 @@ namespace SAT.INFRA.Repository
                 clientBancadas = clientBancadas.Where(dc => cods.Contains(dc.Cidade.CodCidade));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CnpJ_CGC))
+            {
+                var cliente = parameters.CnpJ_CGC.Split(',').Select(e => e.Trim());
+                clientBancadas = clientBancadas.Where(u => cliente.Any(p => p == u.CNPJ_CGC));
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodClienteBancadas))
             {
                 int[] cods = parameters.CodClienteBancadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

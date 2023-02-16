@@ -3,6 +3,7 @@ import { LaboratorioBancadaComponent } from './laboratorio-bancada/laboratorio-b
 import { LaboratorioCheckListListaComponent } from './laboratorio-checklist/laboratorio-checklist-lista/laboratorio-checklist-lista.component';
 import { LaboratorioDashboardComponent } from './laboratorio-dashboard/laboratorio-dashboard.component';
 import { LaboratorioOrcamentoListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-lista/laboratorio-orcamento-lista.component';
+import { LaboratorioOSBancadaFormComponent } from './laboratorio-orcamento/laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
 import { LaboratorioOrdemReparoFormComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-form/laboratorio-ordem-reparo-form.component';
 import { LaboratorioOrdemReparoListaComponent } from './laboratorio-ordem-reparo/laboratorio-ordem-reparo-lista/laboratorio-ordem-reparo-lista.component';
 import { LaboratorioPainelControleComponent } from './laboratorio-painel-controle/laboratorio-painel-controle.component';
@@ -67,5 +68,13 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'orcamento-bancada',
         component: LaboratorioOrcamentoListaComponent
+    },
+    {
+        path: 'orcamento-bancada/form',
+        component: LaboratorioOSBancadaFormComponent
+    },
+    {
+        path: 'orcamento-bancada/form/:codOsbancada',
+        component: LaboratorioOSBancadaFormComponent
     }
 ];

@@ -70,6 +70,7 @@ import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboa
 import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-reparados/laboratorio-dashboard-itens-recebidos-reparados.component';
 import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 import { LaboratorioOrcamentoListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-lista/laboratorio-orcamento-lista.component';
+import { LaboratorioOSBancadaFormComponent } from './laboratorio-orcamento/laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -110,7 +111,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioDashboardProdutividadeTecnicaComponent,
     LaboratorioDashboardItensAntigosComponent,
     LaboratorioDashboardReincidenciaComponent,
-    LaboratorioOrcamentoListaComponent
+    LaboratorioOrcamentoListaComponent,
+    LaboratorioOSBancadaFormComponent
 
   ],
   imports: [

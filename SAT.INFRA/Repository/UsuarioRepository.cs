@@ -179,9 +179,13 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => usuarios.Any(p => p == u.CodUsuario));
             }
 
-            if (parameters.CodPontoPeriodoUsuarioStatus.HasValue)
+            if (parameters.CodPontoPeriodoUsuarioStatus.HasValue && parameters.CodPontoPeriodo.HasValue)
             {
-                query = query.Where(p => p == p.PontosPeriodoUsuario.Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus));
+                query = query
+                    .Where(p => p.PontosPeriodoUsuario
+                        .Any(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo))
+                    .Include(u => u.PontosPeriodoUsuario
+                    .Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))

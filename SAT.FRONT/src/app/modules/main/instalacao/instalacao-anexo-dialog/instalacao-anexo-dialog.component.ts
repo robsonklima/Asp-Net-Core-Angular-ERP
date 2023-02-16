@@ -128,7 +128,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
         data: {
           titulo: 'Confirmação',
           message: 'Deseja excluir este arquivo?',
-          buttonText: {
+          buttonText: { 
             ok: 'Sim',
             cancel: 'Não'
           }

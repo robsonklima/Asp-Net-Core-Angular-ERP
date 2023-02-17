@@ -46,9 +46,6 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
     }
 
     this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(params).toPromise());
-    console.log(this.aprovadas);
-    
-
     this.isLoading = false;
   }
 

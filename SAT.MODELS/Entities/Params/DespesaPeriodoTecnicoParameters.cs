@@ -12,11 +12,12 @@ namespace SAT.MODELS.Entities.Params
         public int? CodDespesaPeriodo { get; set; }
         public string CodDespesaProtocolo { get; set; }
         public int? IndAtivoPeriodo { get; set; }
-        public string CodDespesaPeriodoStatus { get; set; }
         public DateTime? InicioPeriodo { get; set; }
         public DateTime? FimPeriodo { get; set; }
         public DespesaPeriodoTecnicoFilterEnum FilterType { get; set; }
         public DespesaCreditoCartaoStatusEnum? CodCreditoCartaoStatus { get; set; }
         public string CodDespesaPeriodoStatusNotIn { get; set; }
+        public string CodDespesaPeriodoTecnicoStatus { get; set; }
+        public bool EstaEmProtocolo { get; set; }
     }
 }

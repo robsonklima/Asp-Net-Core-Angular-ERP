@@ -72,13 +72,13 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters {
     codDespesaPeriodo?: number;
     codDespesaProtocolo?: string;
     indAtivoPeriodo?: number;
-    codDespesaPeriodoStatus?: string;
+    codDespesaPeriodoTecnicoStatus?: string;
     inicioPeriodo?: string;
     fimPeriodo?: string;
     filterType?: DespesaPeriodoTecnicoFilterEnum;
     codCreditoCartaoStatus?: string;
+    estaEmProtocolo?: boolean;
 };
-
 
 export interface DespesaCreditosCartaoListView {
     protocolo: string;

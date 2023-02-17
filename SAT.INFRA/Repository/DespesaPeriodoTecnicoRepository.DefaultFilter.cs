@@ -50,12 +50,21 @@ namespace SAT.INFRA.Repository
             if (parameters.InicioPeriodo.HasValue && parameters.FimPeriodo.HasValue)
                 query = query.Where(e => e.DespesaPeriodo.DataInicio.Date >= parameters.InicioPeriodo && e.DespesaPeriodo.DataFim.Date <= parameters.FimPeriodo);
 
-            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus))
+            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoTecnicoStatus))
             {
-                int[] codigos = parameters.CodDespesaPeriodoStatus.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
+                int[] codigos = parameters.CodDespesaPeriodoTecnicoStatus.Split(',').Select(f => int.Parse(f.Trim())).Distinct().ToArray();
                 query = query.Where(e => codigos.Contains(e.CodDespesaPeriodoTecnicoStatus));
             }
-            
+
+            if (parameters.EstaEmProtocolo)
+            {
+                query = query.Where(d => d.DespesaProtocoloPeriodoTecnico != null);
+            }
+            else
+            {
+                query = query.Where(d => d.DespesaProtocoloPeriodoTecnico == null);
+            }
+
             return query;
         }
     }

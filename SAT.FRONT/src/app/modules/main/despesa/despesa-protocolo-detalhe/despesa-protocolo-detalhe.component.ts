@@ -136,9 +136,8 @@ export class DespesaProtocoloDetalheComponent implements AfterViewInit {
 
   adicionarPeriodo(): void {
     const dialogRef = this._dialog.open(DespesaProtocoloDetalhePeriodosDialogComponent, {
-      data:
-      {
-        codDespesaProtocolo: this.codDespesaProtocolo
+      data: {
+        protocolo: this.protocolo
       }
     });
 

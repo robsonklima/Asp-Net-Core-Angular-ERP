@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -13,6 +13,8 @@ import { OSBancada } from 'app/core/types/os-bancada.types';
 import { OSBancadaService } from 'app/core/services/os-bancada.service';
 import { ClienteBancada, ClienteBancadaParameters } from 'app/core/types/cliente-bancada.types';
 import { ClienteBancadaService } from 'app/core/services/cliente-bancada.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LaboratorioOSBancadaPecasDialogComponent } from '../laboratorio-os-bancada-pecas/laboratorio-os-bancada-pecas-dialog.component';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-form',
@@ -23,11 +25,13 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
     protected _onDestroy = new Subject<void>();
     public osBancada: OSBancada;
     public clienteBancada: ClienteBancada;
+    public clientes: ClienteBancada[] = [];
     public loading: boolean = true;
     public codOsbancada: number;
     public isAddMode: boolean;
     public form: FormGroup;
     userSession: UsuarioSessao;
+    clienteBancadaFilterCtrl: FormControl = new FormControl();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -36,6 +40,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         private _osBancadaService: OSBancadaService,
         private _clienteBancadaService: ClienteBancadaService,
         public _location: Location,
+        private _dialog: MatDialog,
         private _userService: UserService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
@@ -46,6 +51,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         this.codOsbancada = +this._route.snapshot.paramMap.get('codOsbancada');
         this.isAddMode = !this.codOsbancada;
         this.inicializarForm();
+        this.obterCliente();
 
         if (!this.isAddMode) {
             this._osBancadaService.obterPorCodigo(this.codOsbancada)
@@ -61,42 +67,13 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                         });
                 });
         }
-
         this.registrarEmitters();
-        this.aoSelecionarCNPJ();
         this.loading = false;
     }
 
-    private registrarEmitters() {
-        // this.form.controls['cnpJ_CGC'].valueChanges
-        //     .pipe(
-        //         debounceTime(700),
-        //         distinctUntilChanged(),
-        //         takeUntil(this._onDestroy)
-        //     )
-        //     .subscribe((cnpj) => {
-        //         this.aoSelecionarCNPJ();
-        //     });
-    }
-
-    aoSelecionarCNPJ() {
-        if (
-            this.form.controls['cnpJ_CGC'].value &&
-            this.form.controls['cnpJ_CGC'].value != ''
-        ) {
-            this.obterCliente();
-            this.form.controls['apelido'].enable();
-        }
-        else {
-            this.form.controls['apelido'].disable();
-        }
-    }
-
-
     private inicializarForm() {
         this.form = this._formBuilder.group({
-            cnpJ_CGC: [undefined, Validators.required],
-            apelido: [undefined, Validators.required],
+            codClienteBancada: [undefined, Validators.required],
             nfentrada: [undefined, Validators.required],
             dataNf: [undefined, Validators.required],
             dataChegada: [undefined, Validators.required],
@@ -106,8 +83,21 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    private async obterCliente() {
+    private registrarEmitters() {
+        this.clienteBancadaFilterCtrl.valueChanges
+            .pipe(
+                takeUntil(this._onDestroy),
+                debounceTime(700),
+                distinctUntilChanged()
+            )
+            .subscribe(() => {
+                this.obterCliente(this.clienteBancadaFilterCtrl.value);
+            });
+    }
+
+    private async obterCliente(filtro: string = '') {
         const params: ClienteBancadaParameters = {
+            filter: filtro,
             sortActive: 'nomeCliente',
             sortDirection: 'asc',
             cnpJ_CGC: this.form.controls['cnpJ_CGC'].value,
@@ -115,7 +105,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
             pageSize: 100
         }
         const data = await this._clienteBancadaService.obterPorParametros(params).toPromise();
-        this.clienteBancada = data.items.shift();
+        this.clientes = data.items;
     }
 
     public salvar(): void {
@@ -158,6 +148,12 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
             this._location.back();
         });
     }
+
+    criarPeca() {
+        this._dialog.open(LaboratorioOSBancadaPecasDialogComponent, {
+          data: { osBancada: this.osBancada }
+        });
+      }
 
     ngOnDestroy() {
         this._onDestroy.next();

@@ -29,8 +29,8 @@
         </div>
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-            <button class="ml-4 col-span-2" *transloco="let t" mat-icon-button matTooltip="{{ t('Nova RE5114') }}"
-                [routerLink]="['/laboratorio/orcamento-bancada/form/']">
+            <button class="ml-4 col-span-2" *transloco="let t" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
+            (click)="criarPeca()">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
         </div>
@@ -43,22 +43,23 @@
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('cliente cnpj') }}</mat-label>
-                        <input matInput formControlName="cnpJ_CGC" maxlength="20" [value]="clienteBancada?.cnpJ_CGC">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <mat-select formControlName="codClienteBancada">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteBancadaFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cliente of clientes" [value]="cliente.codClienteBancada">
+                                {{ cliente.apelido }}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('nome') }}</mat-label>
-                        <input matInput formControlName="apelido" maxlength="10" [value]="clienteBancada?.apelido">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('nf cliente') }}</mat-label>
                         <input matInput formControlName="nfentrada" maxlength="10" [value]="osBancada?.nfentrada">
                         <mat-error>
@@ -66,7 +67,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data nf') }}</mat-label>
                         <input matInput [matDatepicker]="contratoData" formControlName="dataNf"
                             [value]="osBancada?.dataNf">
@@ -76,7 +77,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data chegada') }}</mat-label>
                         <input matInput [matDatepicker]="contratoData" formControlName="dataChegada"
                             [value]="osBancada?.dataChegada">

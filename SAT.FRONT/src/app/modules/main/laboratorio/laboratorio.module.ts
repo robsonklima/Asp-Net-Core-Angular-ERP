@@ -71,6 +71,7 @@ import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laborato
 import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 import { LaboratorioOrcamentoListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-lista/laboratorio-orcamento-lista.component';
 import { LaboratorioOSBancadaFormComponent } from './laboratorio-orcamento/laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
+import { LaboratorioOSBancadaPecasDialogComponent } from './laboratorio-orcamento/laboratorio-os-bancada-pecas/laboratorio-os-bancada-pecas-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -112,7 +113,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioDashboardItensAntigosComponent,
     LaboratorioDashboardReincidenciaComponent,
     LaboratorioOrcamentoListaComponent,
-    LaboratorioOSBancadaFormComponent
+    LaboratorioOSBancadaFormComponent,
+    LaboratorioOSBancadaPecasDialogComponent
 
   ],
   imports: [
@@ -157,7 +159,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
         FiltroModule,
         DragDropModule,
         NgxMatSelectSearchModule,
-        NgApexchartsModule
+        NgApexchartsModule,
+        
   ]
 })
 export class LaboratorioModule { }

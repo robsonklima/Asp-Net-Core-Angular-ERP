@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DespesaPeriodoTecnicoService } from 'app/core/services/despesa-periodo-tecnico.service';
 import { DespesaProtocoloPeriodoTecnicoService } from 'app/core/services/despesa-protocolo-periodo-tecnico.service';
-import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoFilterEnum } from 'app/core/types/despesa-periodo.types';
-import { DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
+import { DespesaPeriodoTecnicoData, DespesaPeriodoTecnicoParameters, DespesaPeriodoTecnicoStatusEnum } from 'app/core/types/despesa-periodo.types';
+import { DespesaProtocolo, DespesaProtocoloPeriodoTecnico } from 'app/core/types/despesa-protocolo.types';
+import { DespesaProtocoloDetalheComponent } from '../despesa-protocolo-detalhe.component';
 import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -15,22 +16,22 @@ import moment from 'moment';
 })
 export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
   userSession: UsuarioSessao;
-  codDespesaProtocolo: number;
+  protocolo: DespesaProtocolo;
   aprovadas: DespesaPeriodoTecnicoData;
   isLoading: boolean = false;
   selectedOptions: number[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<DespesaProtocoloDetalhePeriodosDialogComponent>,
+    private dialogRef: MatDialogRef<DespesaProtocoloDetalheComponent>,
     private _despesaPeriodoTecnicoSvc: DespesaPeriodoTecnicoService,
     private _despesaProtocoloTecnicoSvc: DespesaProtocoloPeriodoTecnicoService,
     private _userService: UserService) {
-    if (data)
-      this.codDespesaProtocolo = data.codDespesaProtocolo;
-
-    this.userSession = JSON.parse(this._userService.userSession);
-  }
+      if (data) {
+        this.protocolo = data.protocolo;
+      }
+      this.userSession = JSON.parse(this._userService.userSession);
+    }
 
   async ngOnInit(): Promise<void> {
     await this.loadData();
@@ -39,11 +40,14 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
   private async loadData() {
     this.isLoading = true;
 
-    this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
-      {
-        filterType: DespesaPeriodoTecnicoFilterEnum.FILTER_PERIODOS_APROVADOS
-      }
-    ).toPromise());
+    const params: DespesaPeriodoTecnicoParameters = {
+      codFilial: this.protocolo.codFilial.toString(),
+      codDespesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatusEnum.APROVADO
+    }
+
+    this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(params).toPromise());
+    console.log(this.aprovadas);
+    
 
     this.isLoading = false;
   }
@@ -52,7 +56,7 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
     this.selectedOptions.forEach(async option => {
       var item: DespesaProtocoloPeriodoTecnico =
       {
-        codDespesaProtocolo: this.codDespesaProtocolo,
+        codDespesaProtocolo: this.protocolo.codDespesaProtocolo,
         codDespesaPeriodoTecnico: option,
         codUsuarioCad: this.userSession.usuario.codUsuario,
         dataHoraCad: moment().format('yyyy-MM-DD HH:mm:ss'),

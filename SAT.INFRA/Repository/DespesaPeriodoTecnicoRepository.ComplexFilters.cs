@@ -13,13 +13,15 @@ namespace SAT.INFRA.Repository
         {
             var despesaProtocoloPeriodoTecnico = _context.DespesaProtocoloPeriodoTecnico.AsQueryable();
 
+
             query = from dpt in query
-                    where dpt.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.APROVADO
+                    where dpt.CodDespesaPeriodoTecnicoStatus == (int)DespesaPeriodoTecnicoStatusEnum.REPROVADO
                        && !(from dpp in despesaProtocoloPeriodoTecnico
                             select dpp.CodDespesaPeriodoTecnico).ToString()
                             .Contains(dpt.CodDespesaPeriodoTecnico.ToString())
                     orderby dpt.Tecnico.Nome, dpt.DespesaPeriodo.DataInicio
                     select dpt;
+
 
             return query;
         }

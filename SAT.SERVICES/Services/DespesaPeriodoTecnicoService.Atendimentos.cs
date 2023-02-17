@@ -24,13 +24,13 @@ namespace SAT.SERVICES.Services
                     SortDirection = parameters.SortDirection
                 });
 
-            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoStatus) && !parameters.CodDespesaPeriodoStatus.Contains("0"))
+            if (!string.IsNullOrEmpty(parameters.CodDespesaPeriodoTecnicoStatus) && !parameters.CodDespesaPeriodoTecnicoStatus.Contains("0"))
             {
                 var periodosTecnico = _despesaPeriodoTecnicoRepo.ObterPorParametros(
                         new DespesaPeriodoTecnicoParameters
                         {
                             CodTecnico = parameters.CodTecnico.ToString(),
-                            CodDespesaPeriodoStatus = parameters.CodDespesaPeriodoStatus
+                            CodDespesaPeriodoTecnicoStatus = parameters.CodDespesaPeriodoTecnicoStatus
                         }).Select(p => p.CodDespesaPeriodo);
 
                 periodos =

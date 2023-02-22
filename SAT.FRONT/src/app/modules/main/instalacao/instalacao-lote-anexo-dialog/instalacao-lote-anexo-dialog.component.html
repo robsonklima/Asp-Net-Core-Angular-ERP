@@ -1,0 +1,58 @@
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6" *transloco="let t">
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Adicionar Anexo</div>
+        <button
+            mat-icon-button
+            mat-dialog-close
+            (click)="fechar()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div class="flex flex-col flex-auto p-8 sm:p-8 overflow-y-auto">
+        <div>
+            <mat-label>Arquivo</mat-label>
+            <input type="file" (change)="onFileSelected($event)" />
+        </div>
+    </div>
+
+
+    <div *ngIf="instalacaoAnexos?.length">
+        <div class="flex flex-col flex-auto p-6">
+            <div class="flex flex-wrap -m-2">
+                <ng-container *ngFor="let anexo of instalacaoAnexos; let i=index">
+                    <div class="relative w-40 h-40 m-2 p-4 shadow rounded-2xl bg-card">
+                        <a (click)="deletar(anexo.codInstalAnexo)"
+                            class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8" mat-icon-button>
+                            <mat-icon class="icon-size-5 text-red-500" [svgIcon]="'heroicons_solid:trash'">
+                            </mat-icon>
+                        </a>
+
+                        <a class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
+                            (click)="download(anexo)">
+                            <div class="aspect-w-9 aspect-h-6" [matTooltip]="anexo.nomeAnexo">
+                                <div class="flex items-center justify-center">
+                                    <div class="relative">
+                                        <mat-icon class="icon-size-14 text-hint" [svgIcon]="'iconsmind:file'">
+                                        </mat-icon>
+                                        <div class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white"
+                                            [class.bg-red-600]="anexo.tipo === 'pdf'"
+                                            [class.bg-blue-600]="anexo.tipo === 'doc'"
+                                            [class.bg-green-600]="anexo.tipo === 'xls' || anexo.tipo === 'xlsx'"
+                                            [class.bg-gray-600]="anexo.tipo === 'txt'"
+                                            [class.bg-amber-600]="anexo.tipo === 'jpg' || anexo.tipo === 'jpeg' || anexo.tipo === 'png'">
+                                            {{ anexo.tipo }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                         
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

@@ -60,7 +60,7 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(InstalacaoAnexoParameters parameters)
         {
-            string target = Directory.GetCurrentDirectory() + "/Upload/Instalacao/";
+            string target = Directory.GetCurrentDirectory() + "\\Upload\\Instalacao\\";
             var instalacaoAnexos = _instalacaoAnexoRepo.ObterPorParametros(parameters);
 
             for (int i = 0; i < instalacaoAnexos.Count; i++)

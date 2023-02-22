@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { InstalacaoAnexoService } from 'app/core/services/instalacao-anexo.service';
 import { InstalacaoAnexo } from 'app/core/types/instalacao-anexo.types';
-import { Instalacao } from 'app/core/types/instalacao.types';
+import { InstalacaoLote } from 'app/core/types/instalacao-lote.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -14,11 +14,11 @@ import moment from 'moment';
 import { Observable, ReplaySubject } from 'rxjs';
 
 @Component({
-  selector: 'app-instalacao-anexo-dialog',
-  templateUrl: './instalacao-anexo-dialog.component.html'
+  selector: 'app-instalacao-lote-anexo-dialog',
+  templateUrl: './instalacao-lote-anexo-dialog.component.html'
 })
-export class InstalacaoAnexoDialogComponent implements OnInit {
-  instalacao: Instalacao;
+export class InstalacaoLoteAnexoDialogComponent implements OnInit {
+  instalacaoLote: InstalacaoLote;
   instalacaoAnexo: InstalacaoAnexo;
   instalacaoAnexos: InstalacaoAnexo[] = [];
   userSession: UserSession;
@@ -32,7 +32,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     private _utils: Utils,
     private _dialog: MatDialog
   ) {
-    this.instalacao = data?.instalacao;    
+    this.instalacaoLote = data?.instalacaoLote;    
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
@@ -42,7 +42,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
 
   private async obterAnexos() {
     const data = await this._instalacaoAnexoService
-      .obterPorParametros({ codInstalacao: this.instalacao.codInstalacao })
+      .obterPorParametros({ codInstalLote: this.instalacaoLote.codInstalLote })
       .toPromise();
 
     this.instalacaoAnexos = data.items;    
@@ -56,7 +56,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
         return this._snack.exibirToast('O formato do seu arquivo é inválido', 'error');
 
       this.instalacaoAnexo = {
-        codInstalacao: this.instalacao.codInstalacao,
+        codInstalLote: this.instalacaoLote.codInstalLote,
         indAtivo: +statusConst.ATIVO,
         codUsuarioCad: this.userSession.usuario.codUsuario,
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),

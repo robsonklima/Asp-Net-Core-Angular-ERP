@@ -30,9 +30,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private _dialog: MatDialog
   ) {
-    this.instalacao = data?.instalacao;
-    console.log(this.instalacao);
-    
+    this.instalacao = data?.instalacao;    
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
@@ -45,10 +43,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
       .obterPorParametros({ codInstalacao: this.instalacao.codInstalacao })
       .toPromise();
 
-    this.instalacaoAnexos = data.items;
-
-    console.log(this.instalacaoAnexos);
-    
+    this.instalacaoAnexos = data.items;    
   }
 
   async onFileSelected(event) {
@@ -68,9 +63,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
         descAnexo: nomeArquivo,
         sourceAnexo: nomeArquivo,
         base64: base64,
-      }
-      console.log(this.instalacaoAnexo);
-      
+      }      
       this.salvar();
     });
   }
@@ -145,7 +138,11 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
   }
 
   download(anexo: InstalacaoAnexo) {
-
+    const downloadLink = document.createElement('a');
+    const fileName = anexo.nomeAnexo;
+    downloadLink.href = 'data:application/octet-stream;base64,' + anexo.base64;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
   salvar() {
@@ -155,5 +152,9 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     }, () => {
       this._snack.exibirToast('Erro ao enviar o arquivo para o servidor', 'error');
     })
+  }
+
+  fechar() {
+    this._dialogRef.close();
   }
 }

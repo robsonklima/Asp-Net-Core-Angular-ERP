@@ -4,6 +4,7 @@
         <button
             mat-icon-button
             mat-dialog-close
+            (click)="fechar()"
             [tabIndex]="-1">
             <mat-icon
                 class="text-current"
@@ -32,7 +33,7 @@
 
                         <a class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
                             (click)="download(anexo)">
-                            <div class="aspect-w-9 aspect-h-6">
+                            <div class="aspect-w-9 aspect-h-6" [matTooltip]="anexo.nomeAnexo">
                                 <div class="flex items-center justify-center">
                                     <div class="relative">
                                         <mat-icon class="icon-size-14 text-hint" [svgIcon]="'iconsmind:file'">
@@ -47,20 +48,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
-                                <div class="truncate" [matTooltip]="anexo.nome">
-                                    {{ (anexo.tamanho / 1000 / 1000).toFixed(2) }} mb
-                                </div>
-
-                                <ng-container>
-                                    <div class="text-secondary truncate">{{ anexo.usuarioCad.nomeUsuario }}
-                                    </div>
-                                    <div class="text-secondary text-xs truncate">{{ anexo.dataHoraCad |
-                                        date:'dd/MM HH:mm' }}</div>
-                                </ng-container>
-                            </div> -->
+                            </div>                         
                         </a>
                     </div>
                 </ng-container>

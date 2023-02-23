@@ -34,7 +34,7 @@ namespace SAT.SERVICES.Services
                         if (prop == null)
                         {
                             string saida;
-                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo.ToLower(), out saida);
+                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
                             prop = inst.GetType().GetProperty(saida);
                             dynamic value;
                             value = ConverterCamposEmComum(col) || ConverterCamposInstalacao(col, inst);
@@ -51,7 +51,7 @@ namespace SAT.SERVICES.Services
                     }
                     catch (System.Exception ex)
                     {
-                        linha.Mensagem = $"Erro ao mapear as Instalação. Instalação: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
                         linha.Erro = true;
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -65,19 +65,19 @@ namespace SAT.SERVICES.Services
                     if (inst.CodInstalacao > 0)
                     {
                         inst = _instalacaoRepo.Atualizar(inst);
-                        linha.Mensagem = $"Instalação atualizada com sucesso: {inst.CodInstalacao}";
+                        linha.Mensagem = $"Registro atualizado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
                     else 
                     {
                         inst = _instalacaoRepo.Criar(inst);
-                        linha.Mensagem = $"Instalação criada com sucesso: {inst.CodInstalacao}";
+                        linha.Mensagem = $"Registro criado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    linha.Mensagem = $"Erro ao montar Instalação! Mensagem: {ex.Message}";
+                    linha.Mensagem = $"Erro ao montar registro! Mensagem: {ex.Message}";
                     linha.Erro = true;
                     Mensagem.Add(linha.Mensagem);
                 }
@@ -88,7 +88,7 @@ namespace SAT.SERVICES.Services
             var email = new Email
             {
                 EmailDestinatarios = destinatarios,
-                Assunto = "Atualização/Importação em massa de instalações",
+                Assunto = "SAT 2.0 - Importação",
                 Corpo = String.Join("<br>", Mensagem),
             };
 
@@ -101,12 +101,12 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
-                case "num_serie":
+                case "NumSerie":
                     return _equipamentoContratoRepo
                         .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" })
                         ?.FirstOrDefault()
                         ?.CodEquipContrato;
-                case "nf_venda":
+                case "NfVenda":
                     var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) })?.FirstOrDefault();
                     if (instalNFVenda == null)
                     {
@@ -119,7 +119,7 @@ namespace SAT.SERVICES.Services
                         });
                     }
                     return instalNFVenda.CodInstalNFvenda;
-                case "nf_venda_data":
+                case "NfVendaData":
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);

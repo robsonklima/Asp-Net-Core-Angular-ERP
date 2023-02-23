@@ -203,16 +203,16 @@ namespace SAT.MODELS.Entities.Constants
         //Dicionários
         public static Dictionary<string,string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
             {
-                { "NumSerie", "CodEquipContrato" },
-                { "NfVenda", "CodInstalNFVenda" },
-                { "NfVendaData", "CodInstalNFVenda" },
-                { "NomeContrato", "CodContrato" },
-                { "Cliente", "CodCliente" },
-                { "Autorizada", "CodAutorizada" },
-                { "Regiao", "CodRegiao" },
-                { "NomeGrupoEquip", "CodGrupoEquip" },
-                { "NomeTipoEquip", "CodTipoEquip" },
-                { "NomeEquipamento", "CodEquip" },
+                { "num_serie", "CodEquipContrato" },
+                { "nf_venda", "CodInstalNFVenda" },
+                { "nf_venda_data", "CodInstalNFVenda" },
+                { "nome_contrato", "CodContrato" },
+                { "cliente", "CodCliente" },
+                { "autorizada", "CodAutorizada" },
+                { "regiao", "CodRegiao" },
+                { "nome_grupo_equip", "CodGrupoEquip" },
+                { "nome_tipo_equip", "CodTipoEquip" },
+                { "nome_equipamento", "CodEquip" },
                 { "sla", "CodSLA" },
             };
 

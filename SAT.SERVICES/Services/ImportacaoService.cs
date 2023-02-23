@@ -71,21 +71,21 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
-                case "sla":
+                case "Sla":
                     return _slaRepo.ObterPorParametros(new AcordoNivelServicoParameters { NomeSLA = coluna.Valor })?.FirstOrDefault()?.CodSLA;
-                case "nome_equipamento":
+                case "NomeEquipamento":
                     return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
-                case "nome_grupo_equip":
+                case "NomeGrupoEquip":
                     return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
-                case "nome_tipo_equip":
+                case "nomeTipoEquip":
                     return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
-                case "nome_contrato":
+                case "NomeContrato":
                     return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
-                case "regiao":
+                case "Regiao":
                     return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
-                case "autorizada":
+                case "Autorizada":
                     return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
-                case "cliente":
+                case "Cliente":
                     return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
                 default:
                     return null;

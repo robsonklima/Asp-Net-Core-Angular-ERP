@@ -49,7 +49,7 @@ namespace SAT.SERVICES.Services
                     }
                     catch (System.Exception ex)
                     {
-                        linha.Mensagem = $"Erro ao mapear o Equipamento. Equipamento: {equipamento.CodEquipContrato} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {equipamento.CodEquipContrato} Campo: {col.Campo} Mensagem: {ex.Message}";
                         linha.Erro = true;
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -63,19 +63,19 @@ namespace SAT.SERVICES.Services
                     if (equipamento.CodEquipContrato > 0)
                     {
                         equipamento = _equipamentoContratoRepo.Atualizar(equipamento);
-                        linha.Mensagem = $"Equipamento atualizado com sucesso: {equipamento.CodEquipContrato}";
+                        linha.Mensagem = $"Registro atualizado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);
                     }
                     else 
                     {
                         equipamento = _equipamentoContratoRepo.Criar(equipamento);
-                        linha.Mensagem = $"Equipamento criada com sucesso: {equipamento.CodEquipContrato}";
+                        linha.Mensagem = $"Registro criado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    linha.Mensagem = $"Erro ao montar Equipamento! Mensagem: {ex.Message}";
+                    linha.Mensagem = $"Erro ao montar registro! Mensagem: {ex.Message}";
                     linha.Erro = true;
                     Mensagem.Add(linha.Mensagem);
                 }
@@ -86,7 +86,7 @@ namespace SAT.SERVICES.Services
             var email = new Email
             {
                 EmailDestinatarios = destinatarios,
-                Assunto = "Atualização/Importação em massa de equipamentos em contrato",
+                Assunto = "SAT 2.0 - Importação",
                 Corpo = String.Join("<br>", Mensagem),
             };
 

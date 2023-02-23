@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     styles: [
         /* language=SCSS */
         `.list-grid-u {
-            grid-template-columns: 7% 8% 7% 10% 15% auto 15% auto 15%;
+            grid-template-columns: 7% 8% 7% 6% 8% auto 10% 7% 15%;
         }`
     ],
     encapsulation: ViewEncapsulation.None,

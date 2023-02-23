@@ -142,7 +142,10 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
                 ...{
                     dataCadastro: moment().format('YYYY-MM-DD HH:mm:ss'),
                     codUsuarioCadastro: this.userSession.usuario.codUsuario,
-                    codOsbancada: this.osBancada.codOsbancada
+                    codOsbancada: this.osBancada.codOsbancada,
+                    indSucata: 0,
+                    indDevolver: 0,
+            
                 }
             };
 
@@ -164,7 +167,8 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
                     codUsuarioCadastro: this.userSession.usuario.codUsuario,
                     indPecaDevolvida: 0,
                     codPecaRe5114: pecaRE5114.codPecaRe5114,
-                    codOsbancada: this.osBancada.codOsbancada
+                    codOsbancada: this.osBancada.codOsbancada,
+                    indPecaLiberada: 0,
                 }
             };
 

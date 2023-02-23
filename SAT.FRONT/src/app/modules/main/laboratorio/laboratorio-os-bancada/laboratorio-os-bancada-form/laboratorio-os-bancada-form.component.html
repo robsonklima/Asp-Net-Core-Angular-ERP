@@ -35,12 +35,11 @@
             </button>
         </div>
     </div>
-
-    <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-3xl">
-            <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+    <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 p-4 gap-6 w-full min-w-0">
+        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+            <form autocomplete="off" class="flex flex-col" [formGroup]="form">
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cliente') }}</mat-label>
@@ -125,10 +124,10 @@
                 </div>
             </form>
         </div>
+    
+        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+            <app-laboratorio-os-bancada-pecare5114-lista [codOsbancada]="codOsbancada"></app-laboratorio-os-bancada-pecare5114-lista>
     </div>
-    <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-3xl">
-            <!-- <app-ordem-servico-logs [codOsbancada]="codOsbancada"></app-ordem-servico-logs> -->
-        </div>
     </div>
+    
 </div>

@@ -83,6 +83,11 @@ namespace SAT.INFRA.Repository
                 pecaRE5114 = pecaRE5114.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
+            if (parameters.CodOsbancada != null)
+            {
+                pecaRE5114 = pecaRE5114.Where(a => a.OSBancada.CodOsbancada == parameters.CodOsbancada);
+            };
+
             if (!string.IsNullOrWhiteSpace(parameters.CodPecas))
             {
                 int[] cods = parameters.CodPecas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

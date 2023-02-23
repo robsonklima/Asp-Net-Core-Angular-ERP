@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(OSBancadaPecas osBancada)
         {
             _context.ChangeTracker.Clear();
-            OSBancadaPecas c = _context.OSBancadaPecas.FirstOrDefault(c => c.CodOsbancada == osBancada.CodOsbancada);
+            OSBancadaPecas c = _context.OSBancadaPecas.FirstOrDefault(c => (c.CodOsbancada == osBancada.CodOsbancada) && (c.CodPecaRe5114 == osBancada.CodPecaRe5114) );
 
             if (c != null)
             {

@@ -11,7 +11,7 @@ import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 	templateUrl: './importacao.component.html'
 })
 export class ImportacaoComponent implements AfterViewInit {
-	isLoading: boolean = false;
+	isLoading: boolean;
 	planilhaConfig: any;
 	planilha: any;
 	idPlanilha: number;

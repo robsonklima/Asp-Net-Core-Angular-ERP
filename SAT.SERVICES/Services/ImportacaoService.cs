@@ -88,7 +88,7 @@ namespace SAT.SERVICES.Services
                 case "Cliente":
                     return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
                 default:
-                    return null;
+                    return coluna;
             }
 
         }

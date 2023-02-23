@@ -29,16 +29,16 @@ namespace SAT.SERVICES.Services
                             continue;
 
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                        var prop = inst.GetType().GetProperty(col.Campo);
+                        var prop = inst?.GetType()?.GetProperty(col.Campo);
 
                         if (prop == null)
                         {
                             string saida;
                             Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
-                            prop = inst.GetType().GetProperty(saida);
+                            prop = inst?.GetType()?.GetProperty(saida);
                             dynamic value;
-                            value = ConverterCamposEmComum(col) || ConverterCamposInstalacao(col, inst);
-                            prop.SetValue(inst, value);
+                            value = ConverterCamposInstalacao(col, inst);
+                            prop?.SetValue(inst, value);
                         }
                         else
                         {
@@ -125,7 +125,7 @@ namespace SAT.SERVICES.Services
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);
                     return inst.CodInstalNFVenda;
                 default:
-                    return null;
+                    return ConverterCamposEmComum(coluna);
             }
         }
     }

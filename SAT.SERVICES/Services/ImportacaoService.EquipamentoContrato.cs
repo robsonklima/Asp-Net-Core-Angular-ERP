@@ -27,16 +27,16 @@ namespace SAT.SERVICES.Services
                             continue;
 
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                        var prop = equipamento.GetType().GetProperty(col.Campo);
+                        var prop = equipamento?.GetType()?.GetProperty(col.Campo);
 
                         if (prop == null)
                         {
                             string saida;
                             Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo.ToLower(), out saida);
-                            prop = equipamento.GetType().GetProperty(saida);
+                            prop = equipamento?.GetType()?.GetProperty(saida);
                             dynamic value;
-                            value = ConverterCamposEmComum(col) || ConverterCamposEquipamentoContrato(col, equipamento);
-                            prop.SetValue(equipamento, value);
+                            value = ConverterCamposEquipamentoContrato(col, equipamento);
+                            prop?.SetValue(equipamento, value);
                         }
                         else
                         {
@@ -100,7 +100,7 @@ namespace SAT.SERVICES.Services
             switch (coluna.Campo)
             {
                 default:
-                    return null;
+                    return ConverterCamposEmComum(coluna);
             }
         }
     }

@@ -17,80 +17,54 @@ namespace SAT.SERVICES.Services
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
-            importacao.ImportacaoLinhas
-                        .Where(line =>
-                                !string.IsNullOrEmpty(
-                                            line.ImportacaoColuna
-                                                    .FirstOrDefault(col => col.Campo.Equals("codInstalacao")).Valor))
-                        .ToList()
-                        .ForEach(line =>
-                        {
-                            var inst = new Instalacao();
-                            line.ImportacaoColuna
-                                    .ForEach(col =>
-                                    {
-                                        try
-                                        {
-                                            if (string.IsNullOrEmpty(col.Valor)) return;
-
-                                            col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                                            var prop = inst.GetType().GetProperty(col.Campo);
-
-                                            if (prop == null)
-                                            {
-                                                string saida;
-                                                Constants.CONVERSOR_IMPORTACAO_INSTALACAO.TryGetValue(col.Campo, out saida);
-                                                prop = inst.GetType().GetProperty(saida);
-                                                var value = ConverterValor(col, inst);
-                                                prop.SetValue(inst, value);
-                                            }
-                                            else
-                                            {
-                                                dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
-                                                prop.SetValue(inst, value);
-
-                                                if (col.Campo.Equals("CodInstalacao"))
-                                                    inst = _instalacaoRepo.ObterPorCodigo((int)value);
-                                            }
-                                        }
-                                        catch (System.Exception ex)
-                                        {
-                                            line.Mensagem = $"Erro ao mapear as colunas. Código: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
-                                            line.Erro = true;
-
-                                            return;
-                                        }
-                                    });
-                            try
-                            {
-                                inst.CodUsuarioManut = usuario.CodUsuario;
-                                inst.DataHoraManut = DateTime.Now;
-
-                                _instalacaoRepo.Atualizar(inst);
-
-                                line.Mensagem = $"Implantação: {inst.CodInstalacao} atualizado com sucesso.";
-                                line.Erro = false;
-                                Mensagem.Add(line.Mensagem);
-
-                            }
-                            catch (System.Exception ex)
-                            {
-                                line.Mensagem = $"Erro ao atualizar! Código:{inst.CodInstalacao}. Mensagem: {ex.Message}";
-                                line.Erro = true;
-                                Mensagem.Add(line.Mensagem);
-                            }
-                        });
-
-            string[] destinatarios = { usuario.Email };
-
-            var email = new Email
+            foreach (var linha in importacao.ImportacaoLinhas)
             {
-                EmailDestinatarios = destinatarios,
-                Assunto = "Atualização em massa do módulo Implantação",
-                Corpo = String.Join("<br>", Mensagem),
-            };
+                var inst = new Instalacao();
 
-            _emailService.Enviar(email);
+                foreach (var col in linha.ImportacaoColuna)
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(col.Valor)) continue;
+
+                        col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
+                        var prop = inst.GetType().GetProperty(col.Campo);
+
+                        if (prop == null)
+                        {
+                            string saida;
+                            Constants.CONVERSOR_IMPORTACAO_INSTALACAO.TryGetValue(col.Campo, out saida);
+                            prop = inst.GetType().GetProperty(saida);
+                            var value = ConverterValor(col, inst);
+                            prop.SetValue(inst, value);
+                        }
+                        else
+                        {
+                            dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                            prop.SetValue(inst, value);
+
+                            if (col.Campo.Equals("CodInstalacao"))
+                                inst = _instalacaoRepo.ObterPorCodigo((int)value);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        
+                    }
+                }
+                   
+                try
+                {
+                    inst.CodUsuarioManut = usuario.CodUsuario;
+                    inst.DataHoraManut = DateTime.Now;
+                    _instalacaoRepo.Atualizar(inst);
+
+                }
+                catch (System.Exception ex)
+                {
+                    
+                }
+            }
 
             return importacao;
         }

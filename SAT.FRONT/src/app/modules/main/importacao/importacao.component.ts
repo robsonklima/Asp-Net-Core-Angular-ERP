@@ -11,7 +11,7 @@ import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 	templateUrl: './importacao.component.html'
 })
 export class ImportacaoComponent implements AfterViewInit {
-	isLoading: boolean = false;
+	isLoading: boolean;
 	planilhaConfig: any;
 	planilha: any;
 	idPlanilha: number;
@@ -72,19 +72,26 @@ export class ImportacaoComponent implements AfterViewInit {
 	enviarDados() {
 		this.isLoading = true;
 
+		if (!this.planilha) {
+			this.isLoading = false;
+			return this._snack.exibirToast('A planilha está vazia!', 'error');
+		}
+		
 		const importacaoLinhas = this.planilha.map(lines => {
-			return Object.entries(lines).map(prop => {
-				return {
-					campo: prop[0].trim(),
-					valor: prop[1]
-				}
-			});
+			return Object.entries(lines)
+				.filter(line => Object.values(line).every(x => x !== null || x !== ''))
+				.map(prop => {
+					return {
+						campo: prop[0].trim(),
+						valor: prop[1]
+					}
+				});
 		}).map(col => {
 			return {
 				importacaoColuna: col
 			}
 		});
-		
+
 		this._importacaoService.importar({
 			id: this.idPlanilha,
 			importacaoLinhas: importacaoLinhas

@@ -201,12 +201,18 @@ namespace SAT.MODELS.Entities.Constants
                                                 Whatsapp: (51) 997144990<br>";
         
         //Dicionários
-        public static Dictionary<string,string> CONVERSOR_IMPORTACAO_INSTALACAO = new Dictionary<string, string>
+        public static Dictionary<string,string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
             {
                 { "NumSerie", "CodEquipContrato" },
                 { "NfVenda", "CodInstalNFVenda" },
                 { "NfVendaData", "CodInstalNFVenda" },
-                { "NomeContrato", "CodContrato" }
+                { "NomeContrato", "CodContrato" },
+                { "Cliente", "CodCliente" },
+                { "Autorizada", "CodAutorizada" },
+                { "Regiao", "CodRegiao" },
+                { "NomeGrupoEquip", "CodGrupoEquip" },
+                { "NomeTipoEquip", "CodTipoEquip" },
+                { "NomeEquipamento", "CodEquip" },
             };
 
         // Tecnicos

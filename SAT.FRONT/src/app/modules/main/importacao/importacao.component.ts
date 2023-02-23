@@ -10,7 +10,6 @@ import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
 	selector: 'app-importacao',
 	templateUrl: './importacao.component.html'
 })
-
 export class ImportacaoComponent implements AfterViewInit {
 	isLoading: boolean = false;
 	planilhaConfig: any;
@@ -18,7 +17,6 @@ export class ImportacaoComponent implements AfterViewInit {
 	idPlanilha: number;
 	importacaoTipos: ImportacaoTipo[];
 	codImportacaoTipo: number;
-	loading: boolean;
 
 	constructor(
 		private _importacaoConfService: ImportacaoConfiguracaoService,
@@ -71,7 +69,6 @@ export class ImportacaoComponent implements AfterViewInit {
 		this.planilha = json;
 	}
 
-
 	enviarDados() {
 		this.isLoading = true;
 
@@ -91,13 +88,13 @@ export class ImportacaoComponent implements AfterViewInit {
 		this._importacaoService.importar({
 			id: this.idPlanilha,
 			importacaoLinhas: importacaoLinhas
-		}).subscribe(r => {
+		}).subscribe(importacao => {
 			this.isLoading = false;
 
-			let dados: any[] = r.importacaoLinhas.filter(line => line.erro == 1);
+			let dados: any[] = importacao.importacaoLinhas.filter(line => line.erro == 1);
 			dados.length > 0 
-				? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes','error',10000)
-				: this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes','success',10000); 
+				? this._snack.exibirToast('Importacão concluída com ' + dados.length + ' erros. Um email foi enviado com os detalhes', 'error', 10000)
+				: this._snack.exibirToast('Importação realizada com sucesso. Um email foi enviado com os detalhes', 'success', 10000); 
 		});
 	}
 }

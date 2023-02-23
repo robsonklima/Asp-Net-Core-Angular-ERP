@@ -1,15 +1,8 @@
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System;
-using SAT.MODELS.Entities.Constants;
 
 namespace SAT.SERVICES.Services
 {
@@ -23,6 +16,7 @@ namespace SAT.SERVICES.Services
         private readonly IInstalacaoNFVendaRepository _instalacaoNFVendaRepo;
         private readonly IHttpContextAccessor _contextAcecssor;
         private readonly IEmailService _emailService;
+        private readonly IContratoRepository _contratoRepo;
         private readonly IUsuarioService _usuarioService;
 
         public ImportacaoService(
@@ -34,6 +28,7 @@ namespace SAT.SERVICES.Services
             IInstalacaoNFVendaRepository instalacaoNFVendaRepo,
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
+            IContratoRepository contratoRepo,
             IUsuarioService usuarioService
             )
         {
@@ -45,6 +40,7 @@ namespace SAT.SERVICES.Services
             _instalacaoNFVendaRepo = instalacaoNFVendaRepo;
             _contextAcecssor = httpContextAccessor;
             _emailService = emailService;
+            _contratoRepo = contratoRepo;
             _usuarioService = usuarioService;
         }
 
@@ -54,17 +50,13 @@ namespace SAT.SERVICES.Services
             switch (importacao.Id)
             {
                 case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
-
                     return AtualizacaoInstalacao(importacao);
 
                 case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
-
                     return AberturaChamadosEmMassa(importacao);
 
                 default:
-
                     return null;
-
             }
         }
     }

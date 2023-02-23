@@ -12,7 +12,6 @@ using SAT.UTILS;
 using NLog;
 using NLog.Fluent;
 using SAT.MODELS.Entities.Constants;
-using System.IO;
 
 namespace SAT.SERVICES.Services
 {

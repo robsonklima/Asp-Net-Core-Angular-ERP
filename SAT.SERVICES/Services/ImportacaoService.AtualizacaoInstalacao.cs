@@ -2,7 +2,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
-using SAT.UTILS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ namespace SAT.SERVICES.Services
     public partial class ImportacaoService : IImportacaoService
     {
         public List<string> Mensagem = new List<string>();
+
         private Importacao AtualizacaoInstalacao(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
@@ -25,7 +25,8 @@ namespace SAT.SERVICES.Services
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(col.Valor)) continue;
+                        if (string.IsNullOrEmpty(col.Valor)) 
+                            continue;
 
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
                         var prop = inst.GetType().GetProperty(col.Campo);
@@ -49,7 +50,9 @@ namespace SAT.SERVICES.Services
                     }
                     catch (System.Exception ex)
                     {
-                        
+                        linha.Mensagem = $"Erro ao mapear as Instalação. Instalação: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Erro = true;
+                        Mensagem.Add(linha.Mensagem);
                     }
                 }
                    
@@ -57,14 +60,38 @@ namespace SAT.SERVICES.Services
                 {
                     inst.CodUsuarioManut = usuario.CodUsuario;
                     inst.DataHoraManut = DateTime.Now;
-                    _instalacaoRepo.Atualizar(inst);
 
+                    if (inst.CodInstalacao > 0)
+                    {
+                        inst = _instalacaoRepo.Atualizar(inst);
+                        linha.Mensagem = $"Instalação atualizada com sucesso: {inst.CodInstalacao}";
+                        Mensagem.Add(linha.Mensagem);
+                    }
+                    else 
+                    {
+                        inst = _instalacaoRepo.Criar(inst);
+                        linha.Mensagem = $"Instalação criada com sucesso: {inst.CodInstalacao}";
+                        Mensagem.Add(linha.Mensagem);
+                    }
                 }
                 catch (System.Exception ex)
                 {
-                    
+                    linha.Mensagem = $"Erro ao montar Instalação! Mensagem: {ex.Message}";
+                    linha.Erro = true;
+                    Mensagem.Add(linha.Mensagem);
                 }
             }
+
+            string[] destinatarios = { usuario.Email };
+
+            var email = new Email
+            {
+                EmailDestinatarios = destinatarios,
+                Assunto = "Atualização/Importação em massa de instalações",
+                Corpo = String.Join("<br>", Mensagem),
+            };
+
+            _emailService.Enviar(email);
 
             return importacao;
         }
@@ -73,6 +100,8 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
+                case "NomeContrato":
+                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
                 case "NumSerie":
                     var equip = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" });
                     return equip.FirstOrDefault().CodEquipContrato;

@@ -12,9 +12,11 @@ namespace SAT.SERVICES.Services
     {
         private Importacao ImportacaoOrdemServico(Importacao importacao)
         {
-            List<string> Mensagem = new List<string>();
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
+
             var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count()) + 1;
+            
+            List<string> Mensagem = new List<string>();
 
             importacao.ImportacaoLinhas
                 .Where(line => !string.IsNullOrEmpty(line.ImportacaoColuna
@@ -68,11 +70,11 @@ namespace SAT.SERVICES.Services
 
                         _ordemServicoRepo.Criar(os);
 
-                        Mensagem.Add($"OS Criada com Sucesso: {os.CodOS}");
+                        Mensagem.Add($"Registro criado com sucesso: {os.CodOS}");
                     }
                     catch (System.Exception ex)
                     {
-                        line.Mensagem = $"Erro ao montar OS! Equipamento:{os.CodEquipContrato}. Mensagem: {ex.Message}";
+                        line.Mensagem = $"Erro ao montar registro! Registro:{os.CodEquipContrato}. Mensagem: {ex.Message}";
                         line.Erro = true;
                         Mensagem.Add(line.Mensagem);
                     }
@@ -83,7 +85,7 @@ namespace SAT.SERVICES.Services
             var email = new Email
             {
                 EmailDestinatarios = destinatarios,
-                Assunto = "Abertura em massa de chamados",
+                Assunto = "SAT 2.0 - Importação",
                 Corpo = String.Join("<br>", Mensagem),
             };
 

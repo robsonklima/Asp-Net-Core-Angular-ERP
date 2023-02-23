@@ -1,7 +1,8 @@
-using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -25,6 +26,11 @@ namespace SAT.SERVICES.Services
         private readonly IRegiaoRepository _regiaoRepo;
         private readonly ITipoEquipamentoRepository _tipoEquipRepo;
         private readonly IGrupoEquipamentoRepository _grupoEquipRepo;
+        private readonly IAcordoNivelServicoRepository _slaRepo;
+        private readonly IInstalacaoStatusRepository _instalStatusRepo;
+        private readonly IFilialRepository _filialRepo;
+        private readonly IInstalacaoLoteRepository _instalLoteRepo;
+        private readonly IInstalacaoService _instalacaoService;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -42,7 +48,12 @@ namespace SAT.SERVICES.Services
             IAutorizadaRepository autorizadaRepo,
             IRegiaoRepository regiaoRepo,
             ITipoEquipamentoRepository tipoEquipRepo,
-            IGrupoEquipamentoRepository grupoEquipRepo
+            IGrupoEquipamentoRepository grupoEquipRepo,
+            IAcordoNivelServicoRepository slaRepo,
+            IInstalacaoStatusRepository instalStatusRepo,
+            IFilialRepository filialRepo,
+            IInstalacaoLoteRepository instalLoteRepo,
+            IInstalacaoService instalacaoService
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -61,6 +72,43 @@ namespace SAT.SERVICES.Services
             _regiaoRepo = regiaoRepo;
             _tipoEquipRepo = tipoEquipRepo;
             _grupoEquipRepo = grupoEquipRepo;
+            _slaRepo = slaRepo;
+            _instalStatusRepo = instalStatusRepo;
+            _filialRepo = filialRepo;
+            _instalLoteRepo = instalLoteRepo;
+            _instalacaoService = instalacaoService;
+        }
+
+        private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)
+        {
+            switch (coluna.Campo)
+            {
+                case "NomeSla":
+                    return _slaRepo.ObterPorParametros(new AcordoNivelServicoParameters { NomeSLA = coluna.Valor })?.FirstOrDefault()?.CodSLA;
+                case "NomeEquipamento":
+                    return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
+                case "NomeGrupoEquip":
+                    return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
+                case "NomeTipoEquip":
+                    return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
+                case "NomeContrato":
+                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
+                case "NomeRegiao":
+                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
+                case "NomeAutorizada":
+                    return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
+                case "NomeCliente":
+                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
+                case "NomeInstalStatus":
+                    return _instalStatusRepo.ObterPorParametros(new InstalacaoStatusParameters { NomeInstalStatus = coluna.Valor })?.FirstOrDefault()?.CodInstalStatus;                    
+                case "NomeFilial":
+                    return _filialRepo.ObterPorParametros(new FilialParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodFilial;      
+                case "NomeLote":
+                    return _instalLoteRepo.ObterPorParametros(new InstalacaoLoteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodInstalLote;                                        
+                default:
+                    return coluna;
+            }
+
         }
 
         public Importacao Importar(Importacao importacao)
@@ -69,10 +117,10 @@ namespace SAT.SERVICES.Services
             {
                 case (int)ImportacaoEnum.INSTALACAO:
                     return ImportacaoInstalacao(importacao);
-
                 case (int)ImportacaoEnum.ORDEM_SERVICO:
                     return ImportacaoOrdemServico(importacao);
-
+                case (int)ImportacaoEnum.EQUIPAMENTO_CONTRATO:
+                    return ImportacaoEquipamentoContrato(importacao);
                 default:
                     return null;
             }

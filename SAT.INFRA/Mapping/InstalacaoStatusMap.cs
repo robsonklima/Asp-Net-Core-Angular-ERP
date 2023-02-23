@@ -8,10 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<InstalacaoStatus> builder)
         {
-            builder.ToTable("InstalacaoStatus");
-
-            builder
-                .HasKey(i => new { i.CodInstalStatus });                                                             
+            builder.ToTable("InstalStatus");
+            builder.HasKey(i => new { i.CodInstalStatus });                                                             
         }
     }
 }

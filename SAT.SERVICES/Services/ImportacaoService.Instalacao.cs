@@ -14,6 +14,7 @@ namespace SAT.SERVICES.Services
         private Importacao ImportacaoInstalacao(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
+
             List<string> Mensagem = new List<string>();
 
             foreach (var linha in importacao.ImportacaoLinhas)
@@ -28,15 +29,16 @@ namespace SAT.SERVICES.Services
                             continue;
 
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                        var prop = inst.GetType().GetProperty(col.Campo);
+                        var prop = inst?.GetType()?.GetProperty(col.Campo);
 
                         if (prop == null)
                         {
                             string saida;
                             Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
-                            prop = inst.GetType().GetProperty(saida);
-                            var value = ConverterCamposInstalacao(col, inst);
-                            prop.SetValue(inst, value);
+                            prop = inst?.GetType()?.GetProperty(saida);
+                            dynamic value;
+                            value = ConverterCamposInstalacao(col, inst);
+                            prop?.SetValue(inst, value);
                         }
                         else
                         {
@@ -49,7 +51,7 @@ namespace SAT.SERVICES.Services
                     }
                     catch (System.Exception ex)
                     {
-                        linha.Mensagem = $"Erro ao mapear as Instalação. Instalação: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
                         linha.Erro = true;
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -57,25 +59,26 @@ namespace SAT.SERVICES.Services
                    
                 try
                 {
-                    inst.CodUsuarioManut = usuario.CodUsuario;
-                    inst.DataHoraManut = DateTime.Now;
-
                     if (inst.CodInstalacao > 0)
                     {
+                        inst.CodUsuarioManut = usuario.CodUsuario;
+                        inst.DataHoraManut = DateTime.Now;
                         inst = _instalacaoRepo.Atualizar(inst);
-                        linha.Mensagem = $"Instalação atualizada com sucesso: {inst.CodInstalacao}";
+                        linha.Mensagem = $"Registro atualizado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
                     else 
                     {
-                        inst = _instalacaoRepo.Criar(inst);
-                        linha.Mensagem = $"Instalação criada com sucesso: {inst.CodInstalacao}";
+                        inst.CodUsuarioCad = usuario.CodUsuario;
+                        inst.DataHoraCad = DateTime.Now;
+                        inst = _instalacaoService.Criar(inst);
+                        linha.Mensagem = $"Registro criado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    linha.Mensagem = $"Erro ao montar Instalação! Mensagem: {ex.Message}";
+                    linha.Mensagem = $"Erro ao montar registro! Mensagem: {ex.Message}";
                     linha.Erro = true;
                     Mensagem.Add(linha.Mensagem);
                 }
@@ -86,7 +89,7 @@ namespace SAT.SERVICES.Services
             var email = new Email
             {
                 EmailDestinatarios = destinatarios,
-                Assunto = "Atualização/Importação em massa de instalações",
+                Assunto = "SAT 2.0 - Importação",
                 Corpo = String.Join("<br>", Mensagem),
             };
 
@@ -99,27 +102,13 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
-                case "NomeGrupoEquip":
-                    return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
-                case "NomeTipoEquip":
-                    return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
-                case "Regiao":
-                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
-                case "Autorizada":
-                    return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
-                case "Cliente":
-                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
-                case "NomeEquipamento":
-                    return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
-                case "NomeContrato":
-                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
                 case "NumSerie":
                     return _equipamentoContratoRepo
                         .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" })
                         ?.FirstOrDefault()
                         ?.CodEquipContrato;
-                case "NfVenda":
-                    var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) }).FirstOrDefault();
+                case "NFVenda":
+                    var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) })?.FirstOrDefault();
                     if (instalNFVenda == null)
                     {
                         instalNFVenda = _instalacaoNFVendaRepo.Criar(new InstalacaoNFVenda
@@ -131,13 +120,13 @@ namespace SAT.SERVICES.Services
                         });
                     }
                     return instalNFVenda.CodInstalNFvenda;
-                case "NfVendaData":
+                case "NFVendaData":
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);
                     return inst.CodInstalNFVenda;
                 default:
-                    return null;
+                    return ConverterCamposEmComum(coluna);
             }
         }
     }

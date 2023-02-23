@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -64,14 +65,13 @@ namespace SAT.SERVICES.Services
 
         public Importacao Importar(Importacao importacao)
         {
-
             switch (importacao.Id)
             {
-                case (int)ImportacaoEnum.ATUALIZACAO_IMPLANTACAO:
-                    return AtualizacaoInstalacao(importacao);
+                case (int)ImportacaoEnum.INSTALACAO:
+                    return ImportacaoInstalacao(importacao);
 
-                case (int)ImportacaoEnum.ABERTURA_CHAMADOS_EM_MASSA:
-                    return AberturaChamadosEmMassa(importacao);
+                case (int)ImportacaoEnum.ORDEM_SERVICO:
+                    return ImportacaoOrdemServico(importacao);
 
                 default:
                     return null;

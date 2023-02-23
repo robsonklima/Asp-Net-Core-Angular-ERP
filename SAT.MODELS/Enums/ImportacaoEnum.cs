@@ -2,8 +2,8 @@
 {
     public enum ImportacaoEnum
     {
-        ATUALIZACAO_IMPLANTACAO = 1,
-        ABERTURA_CHAMADOS_EM_MASSA = 2,
-        CRIACAO_LOTES = 3 
+        INSTALACAO = 1,
+        ORDEM_SERVICO = 2,
+        EQUIPAMENTO_CONTRATO = 3 
     }
 }

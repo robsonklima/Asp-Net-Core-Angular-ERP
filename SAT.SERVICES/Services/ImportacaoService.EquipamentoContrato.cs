@@ -11,10 +11,10 @@ namespace SAT.SERVICES.Services
 {
     public partial class ImportacaoService : IImportacaoService
     {
-        private Importacao ImportacaoInstalacao(Importacao importacao)
+        private Importacao ImportacaoEquipamentoContrato(Importacao importacao)
         {
-            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
             List<string> Mensagem = new List<string>();
+            var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
             foreach (var linha in importacao.ImportacaoLinhas)
             {
@@ -35,7 +35,7 @@ namespace SAT.SERVICES.Services
                             string saida;
                             Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
                             prop = inst.GetType().GetProperty(saida);
-                            var value = ConverterCamposInstalacao(col, inst);
+                            var value = ConverterValor(col, inst);
                             prop.SetValue(inst, value);
                         }
                         else
@@ -95,7 +95,7 @@ namespace SAT.SERVICES.Services
             return importacao;
         }
 
-        private dynamic ConverterCamposInstalacao(ImportacaoColuna coluna, Instalacao inst)
+        private dynamic ConverterValor(ImportacaoColuna coluna, Instalacao inst)
         {
             switch (coluna.Campo)
             {

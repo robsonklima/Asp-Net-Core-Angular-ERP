@@ -2,6 +2,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -9,17 +10,15 @@ namespace SAT.SERVICES.Services
 {
     public partial class ImportacaoService : IImportacaoService
     {
-        private Importacao AberturaChamadosEmMassa(Importacao importacao)
+        private Importacao ImportacaoOrdemServico(Importacao importacao)
         {
+            List<string> Mensagem = new List<string>();
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
-
             var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count()) + 1;
 
             importacao.ImportacaoLinhas
-                .Where(line =>
-                        !string.IsNullOrEmpty(
-                                    line.ImportacaoColuna
-                                            .FirstOrDefault(col => col.Campo.Equals("codEquipContrato")).Valor))
+                .Where(line => !string.IsNullOrEmpty(line.ImportacaoColuna
+                    .FirstOrDefault(col => col.Campo.Equals("codEquipContrato")).Valor))
                 .ToList()
                 .ForEach(line =>
                 {

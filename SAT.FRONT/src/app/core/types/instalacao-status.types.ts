@@ -11,6 +11,5 @@ export interface InstalStatusData extends Meta {
 };
 
 export interface InstalStatusParameters extends QueryStringParameters {
-    codInstalStatus?: number;
-    indAtivo?: number;
+    nomeInstalStatus?: string;
 };

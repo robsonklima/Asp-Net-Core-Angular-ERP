@@ -57,17 +57,18 @@ namespace SAT.SERVICES.Services
                    
                 try
                 {
-                    equipamento.CodUsuarioManut = usuario.CodUsuario;
-                    equipamento.DataHoraManut = DateTime.Now;
-
                     if (equipamento.CodEquipContrato > 0)
                     {
+                        equipamento.CodUsuarioManut = usuario.CodUsuario;
+                        equipamento.DataHoraManut = DateTime.Now;
                         equipamento = _equipamentoContratoRepo.Atualizar(equipamento);
                         linha.Mensagem = $"Registro atualizado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);
                     }
                     else 
                     {
+                        equipamento.CodUsuarioCad = usuario.CodUsuario;
+                        equipamento.DataHoraCad = DateTime.Now;
                         equipamento = _equipamentoContratoRepo.Criar(equipamento);
                         linha.Mensagem = $"Registro criado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);

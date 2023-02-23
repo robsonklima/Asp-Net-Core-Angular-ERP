@@ -203,17 +203,20 @@ namespace SAT.MODELS.Entities.Constants
         //Dicionários
         public static Dictionary<string,string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
             {
-                { "num_serie", "CodEquipContrato" },
-                { "nf_venda", "CodInstalNFVenda" },
-                { "nf_venda_data", "CodInstalNFVenda" },
-                { "nome_contrato", "CodContrato" },
-                { "cliente", "CodCliente" },
-                { "autorizada", "CodAutorizada" },
-                { "regiao", "CodRegiao" },
-                { "nome_grupo_equip", "CodGrupoEquip" },
-                { "nome_tipo_equip", "CodTipoEquip" },
-                { "nome_equipamento", "CodEquip" },
-                { "sla", "CodSLA" },
+                { "NumSerie", "CodEquipContrato" },
+                { "NFVenda", "CodInstalNFVenda" },
+                { "NFVendaData", "CodInstalNFVenda" },
+                { "NomeContrato", "CodContrato" },
+                { "NomeCliente", "CodCliente" },
+                { "NomeAutorizada", "CodAutorizada" },
+                { "NomeRegiao", "CodRegiao" },
+                { "NomeGrupoEquip", "CodGrupoEquip" },
+                { "NomeTipoEquip", "CodTipoEquip" },
+                { "NomeEquipamento", "CodEquip" },
+                { "NomeSla", "CodSLA" },
+                { "NomeInstalStatus", "CodInstalStatus" },
+                { "NomeFilial", "CodFilial" },
+                { "NomeLote", "CodInstalLote" }
             };
 
         // Tecnicos

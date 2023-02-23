@@ -64,9 +64,15 @@ namespace SAT.INFRA.Repository
 
             if (parameters.Filter != null)
             {
-                query = query.Where(p =>
-                    p.CodInstalStatus.ToString().Contains(parameters.Filter)
+                query = query.Where(s =>
+                    s.CodInstalStatus.ToString().Contains(parameters.Filter) ||
+                    s.NomeInstalStatus.Contains(parameters.Filter)
                 );
+            }
+
+            if(!string.IsNullOrWhiteSpace(parameters.NomeInstalStatus))
+            {
+                query = query.Where(s => s.NomeInstalStatus.Contains(parameters.NomeInstalStatus));
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

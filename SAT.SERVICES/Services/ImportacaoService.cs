@@ -1,7 +1,8 @@
-using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
@@ -25,6 +26,7 @@ namespace SAT.SERVICES.Services
         private readonly IRegiaoRepository _regiaoRepo;
         private readonly ITipoEquipamentoRepository _tipoEquipRepo;
         private readonly IGrupoEquipamentoRepository _grupoEquipRepo;
+        private readonly IAcordoNivelServicoRepository _slaRepo;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -42,7 +44,8 @@ namespace SAT.SERVICES.Services
             IAutorizadaRepository autorizadaRepo,
             IRegiaoRepository regiaoRepo,
             ITipoEquipamentoRepository tipoEquipRepo,
-            IGrupoEquipamentoRepository grupoEquipRepo
+            IGrupoEquipamentoRepository grupoEquipRepo,
+            IAcordoNivelServicoRepository slaRepo
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -61,6 +64,33 @@ namespace SAT.SERVICES.Services
             _regiaoRepo = regiaoRepo;
             _tipoEquipRepo = tipoEquipRepo;
             _grupoEquipRepo = grupoEquipRepo;
+            _slaRepo = slaRepo;
+        }
+
+        private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)
+        {
+            switch (coluna.Campo)
+            {
+                case "sla":
+                    return _slaRepo.ObterPorParametros(new AcordoNivelServicoParameters { NomeSLA = coluna.Valor })?.FirstOrDefault()?.CodSLA;
+                case "nome_equipamento":
+                    return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
+                case "nome_grupo_equip":
+                    return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
+                case "nome_tipo_equip":
+                    return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
+                case "nome_contrato":
+                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
+                case "regiao":
+                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
+                case "autorizada":
+                    return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
+                case "cliente":
+                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
+                default:
+                    return null;
+            }
+
         }
 
         public Importacao Importar(Importacao importacao)
@@ -69,10 +99,10 @@ namespace SAT.SERVICES.Services
             {
                 case (int)ImportacaoEnum.INSTALACAO:
                     return ImportacaoInstalacao(importacao);
-
                 case (int)ImportacaoEnum.ORDEM_SERVICO:
                     return ImportacaoOrdemServico(importacao);
-
+                case (int)ImportacaoEnum.EQUIPAMENTO_CONTRATO:
+                    return ImportacaoEquipamentoContrato(importacao);
                 default:
                     return null;
             }

@@ -14,6 +14,7 @@ namespace SAT.SERVICES.Services
         private Importacao ImportacaoInstalacao(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
+
             List<string> Mensagem = new List<string>();
 
             foreach (var linha in importacao.ImportacaoLinhas)
@@ -33,9 +34,10 @@ namespace SAT.SERVICES.Services
                         if (prop == null)
                         {
                             string saida;
-                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
+                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo.ToLower(), out saida);
                             prop = inst.GetType().GetProperty(saida);
-                            var value = ConverterCamposInstalacao(col, inst);
+                            dynamic value;
+                            value = ConverterCamposEmComum(col) || ConverterCamposInstalacao(col, inst);
                             prop.SetValue(inst, value);
                         }
                         else
@@ -99,27 +101,13 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
-                case "NomeGrupoEquip":
-                    return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
-                case "NomeTipoEquip":
-                    return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
-                case "Regiao":
-                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
-                case "Autorizada":
-                    return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
-                case "Cliente":
-                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
-                case "NomeEquipamento":
-                    return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
-                case "NomeContrato":
-                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
-                case "NumSerie":
+                case "num_serie":
                     return _equipamentoContratoRepo
                         .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" })
                         ?.FirstOrDefault()
                         ?.CodEquipContrato;
-                case "NfVenda":
-                    var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) }).FirstOrDefault();
+                case "nf_venda":
+                    var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) })?.FirstOrDefault();
                     if (instalNFVenda == null)
                     {
                         instalNFVenda = _instalacaoNFVendaRepo.Criar(new InstalacaoNFVenda
@@ -131,7 +119,7 @@ namespace SAT.SERVICES.Services
                         });
                     }
                     return instalNFVenda.CodInstalNFvenda;
-                case "NfVendaData":
+                case "nf_venda_data":
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);

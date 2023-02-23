@@ -213,6 +213,7 @@ namespace SAT.MODELS.Entities.Constants
                 { "NomeGrupoEquip", "CodGrupoEquip" },
                 { "NomeTipoEquip", "CodTipoEquip" },
                 { "NomeEquipamento", "CodEquip" },
+                { "sla", "CodSLA" },
             };
 
         // Tecnicos

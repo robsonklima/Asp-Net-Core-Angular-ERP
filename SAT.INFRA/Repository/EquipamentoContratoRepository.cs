@@ -19,7 +19,7 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(EquipamentoContrato equipamentoContrato)
+        public EquipamentoContrato Atualizar(EquipamentoContrato equipamentoContrato)
         {
 
             _context.ChangeTracker.Clear();
@@ -37,9 +37,11 @@ namespace SAT.INFRA.Repository
                     throw new Exception($"", ex);
                 }
             }
+
+            return equip;
         }
 
-        public void Criar(EquipamentoContrato equipamentoContrato)
+        public EquipamentoContrato Criar(EquipamentoContrato equipamentoContrato)
         {
             try
             {
@@ -50,6 +52,8 @@ namespace SAT.INFRA.Repository
             {
                 throw new Exception($"", ex);
             }
+
+            return equipamentoContrato;
         }
 
         public void Deletar(int codigo)

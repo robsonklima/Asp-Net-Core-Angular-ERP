@@ -14,7 +14,7 @@ import { OSBancadaService } from 'app/core/services/os-bancada.service';
 import { ClienteBancada, ClienteBancadaParameters } from 'app/core/types/cliente-bancada.types';
 import { ClienteBancadaService } from 'app/core/services/cliente-bancada.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LaboratorioOSBancadaPecasDialogComponent } from '../laboratorio-os-bancada-pecas/laboratorio-os-bancada-pecas-dialog.component';
+import { LaboratorioOSBancadaPecasDialogComponent } from '../laboratorio-os-bancada-pecas-dialog/laboratorio-os-bancada-pecas-dialog.component';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-form',
@@ -49,8 +49,8 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
     async ngOnInit() {
 
         this.codOsbancada = +this._route.snapshot.paramMap.get('codOsbancada');
-        this.isAddMode = !this.codOsbancada;
         this.inicializarForm();
+        this.isAddMode = !this.codOsbancada;
         this.obterCliente();
 
         if (!this.isAddMode) {
@@ -100,7 +100,6 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
             filter: filtro,
             sortActive: 'nomeCliente',
             sortDirection: 'asc',
-            cnpJ_CGC: this.form.controls['cnpJ_CGC'].value,
             indAtivo: statusConst.ATIVO,
             pageSize: 100
         }
@@ -124,9 +123,10 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                 codUsuarioManut: this.userSession.usuario?.codUsuario
             }
         };
+        console.log(obj);
 
-        this._clienteBancadaService.atualizar(obj).subscribe(() => {
-            this._snack.exibirToast(`Preço atualizado com sucesso!`, "success");
+        this._osBancadaService.atualizar(obj).subscribe(() => {
+            this._snack.exibirToast(`OS de Bancada atualizado com sucesso!`, "success");
             this._location.back();
         });
     }
@@ -142,8 +142,9 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                 dataCadastro: moment().format('YYYY-MM-DD HH:mm:ss')
             }
         };
+        console.log(obj);
 
-        this._clienteBancadaService.criar(obj).subscribe(() => {
+        this._osBancadaService.criar(obj).subscribe(() => {
             this._snack.exibirToast(`OS de Bancada criada com sucesso!`, "success");
             this._location.back();
         });

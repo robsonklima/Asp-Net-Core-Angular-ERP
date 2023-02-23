@@ -1,13 +1,13 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div
-        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"  *transloco="let t">
         <div class="absolute inset-x-0 bottom-0">
         </div>
 
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/orcamento-bancada">
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/os-bancada">
                         {{ t('atendimento bancada') }}
                     </a>
                 </div>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-            <button class="ml-4 col-span-2" *transloco="let t" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
+            <button *ngIf="codOsbancada" class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
             (click)="criarPeca()">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
@@ -50,14 +50,14 @@
                                     noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteBancadaFilterCtrl">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option *ngFor="let cliente of clientes" [value]="cliente.codClienteBancada">
+                            <mat-option *ngFor="let cliente of clientes"  [value]="cliente.codClienteBancada">
                                 {{ cliente.apelido }}
                             </mat-option>
                         </mat-select>
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
-                    </mat-form-field>
+                    </mat-form-field> 
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nf cliente') }}</mat-label>
@@ -69,22 +69,16 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data nf') }}</mat-label>
-                        <input matInput [matDatepicker]="contratoData" formControlName="dataNf"
-                            [value]="osBancada?.dataNf">
-                        <mat-datepicker #contratoData></mat-datepicker>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
+                        <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataNf" required [value]="osBancada?.dataNf">
+                        <mat-datepicker-toggle matSuffix [for]="cadastroData"></mat-datepicker-toggle>
+                        <mat-datepicker #cadastroData></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('data chegada') }}</mat-label>
-                        <input matInput [matDatepicker]="contratoData" formControlName="dataChegada"
-                            [value]="osBancada?.dataChegada">
-                        <mat-datepicker #contratoData></mat-datepicker>
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
+                        <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData2" formControlName="dataChegada" required [value]="osBancada?.dataChegada">
+                        <mat-datepicker-toggle matSuffix [for]="cadastroData2"></mat-datepicker-toggle>
+                        <mat-datepicker #cadastroData2></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
@@ -107,7 +101,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>{{ t('obs') }}</mat-label>
-                        <input matInput formControlName="observacao" maxlength="10" [value]="osBancada?.observacao">
+                        <input matInput formControlName="observacao" [value]="osBancada?.observacao">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -121,8 +115,7 @@
                         {{ t('cancelar') }}
                     </button>
 
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid"
-                        [routerLink]="['/laboratorio/orcamento-bancada/form/' + osBancada?.codOsbancada]">
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>
@@ -131,6 +124,11 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <!-- <app-ordem-servico-logs [codOsbancada]="codOsbancada"></app-ordem-servico-logs> -->
         </div>
     </div>
 </div>

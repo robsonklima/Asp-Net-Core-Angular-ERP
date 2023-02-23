@@ -9,12 +9,10 @@ namespace SAT.SERVICES.Services
     public class OSBancadaPecasService : IOSBancadaPecasService
     {
         private readonly IOSBancadaPecasRepository _osBancadaPecasRepo;
-        private readonly ISequenciaRepository _sequenciaRepo;
 
         public OSBancadaPecasService(IOSBancadaPecasRepository osBancadaPecasRepo, ISequenciaRepository sequenciaRepo)
         {
             _osBancadaPecasRepo = osBancadaPecasRepo;
-            this._sequenciaRepo = sequenciaRepo;
         }
 
         public void Atualizar(OSBancadaPecas osBancadaPecas)
@@ -24,7 +22,6 @@ namespace SAT.SERVICES.Services
 
         public OSBancadaPecas Criar(OSBancadaPecas osBancadaPecas)
         {
-            osBancadaPecas.CodOsbancada = this._sequenciaRepo.ObterContador("OSBancadaPecas");
             this._osBancadaPecasRepo.Criar(osBancadaPecas);
             return osBancadaPecas;
         }

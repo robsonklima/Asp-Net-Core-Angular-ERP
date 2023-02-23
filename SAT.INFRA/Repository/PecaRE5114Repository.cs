@@ -89,6 +89,12 @@ namespace SAT.INFRA.Repository
                 pecaRE5114 = pecaRE5114.Where(dc => cods.Contains(dc.Peca.CodPeca));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.NumRe5114))
+            {
+                string[] cods = parameters.NumRe5114.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                pecaRE5114 = pecaRE5114.Where(dc => cods.Contains(dc.NumRe5114));
+            }
+
             return PagedList<PecaRE5114>.ToPagedList(pecaRE5114, parameters.PageNumber, parameters.PageSize);
         }
     }

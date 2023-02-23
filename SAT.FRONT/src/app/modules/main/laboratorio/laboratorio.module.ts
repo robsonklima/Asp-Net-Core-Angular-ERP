@@ -70,8 +70,9 @@ import { LaboratorioDashboardReincidenciaComponent } from './laboratorio-dashboa
 import { LaboratorioDashboardItensRecebidosReparadosComponent } from './laboratorio-dashboard/laboratorio-dashboard-itens-recebidos-reparados/laboratorio-dashboard-itens-recebidos-reparados.component';
 import { LaboratorioDashboardTopFaltantesComponent } from './laboratorio-dashboard/laboratorio-dashboard-top-faltantes/laboratorio-dashboard-top-faltantes.component';
 import { LaboratorioOrcamentoListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-lista/laboratorio-orcamento-lista.component';
-import { LaboratorioOSBancadaFormComponent } from './laboratorio-orcamento/laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
-import { LaboratorioOSBancadaPecasDialogComponent } from './laboratorio-orcamento/laboratorio-os-bancada-pecas/laboratorio-os-bancada-pecas-dialog.component';
+import { LaboratorioOSBancadaFormComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
+import { LaboratorioOSBancadaPecasDialogComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-pecas-dialog/laboratorio-os-bancada-pecas-dialog.component';
+import { LaboratorioOSBancadaListaComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-lista/laboratorio-os-bancada-lista.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -114,7 +115,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioDashboardReincidenciaComponent,
     LaboratorioOrcamentoListaComponent,
     LaboratorioOSBancadaFormComponent,
-    LaboratorioOSBancadaPecasDialogComponent
+    LaboratorioOSBancadaPecasDialogComponent,
+    LaboratorioOSBancadaListaComponent
 
   ],
   imports: [

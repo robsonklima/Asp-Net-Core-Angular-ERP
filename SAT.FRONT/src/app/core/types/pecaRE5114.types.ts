@@ -9,7 +9,7 @@ export class PecaRE5114
     codPeca?: number;
     numSerie?: string;
     numPecaCliente?: string;
-    codUsuarioCad: string;
+    codUsuarioCadastro: string;
     dataCadastro: string;
     codUsuarioManut?: string;
     dataManut?: string;
@@ -31,5 +31,6 @@ export interface PecaRE5114Data extends Meta
 export interface PecaRE5114Parameters extends QueryStringParameters 
 {
     codPecas?: string;
+    numRe5114?: string;
 };
 

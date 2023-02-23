@@ -25,7 +25,7 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodClienteBancada)
                 .HasPrincipalKey(prop => prop.CodClienteBancada);
-
+            
         }
     }
 }

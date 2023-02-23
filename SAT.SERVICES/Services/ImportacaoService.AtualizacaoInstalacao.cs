@@ -1,5 +1,4 @@
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System;
@@ -34,7 +33,7 @@ namespace SAT.SERVICES.Services
                         if (prop == null)
                         {
                             string saida;
-                            Constants.CONVERSOR_IMPORTACAO_INSTALACAO.TryGetValue(col.Campo, out saida);
+                            ObterDicionarioCamposEspeciais().TryGetValue(col.Campo, out saida);
                             prop = inst.GetType().GetProperty(saida);
                             var value = ConverterValor(col, inst);
                             prop.SetValue(inst, value);
@@ -100,23 +99,36 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
+                case "NomeGrupoEquip":
+                    return _grupoEquipRepo.ObterPorParametros(new GrupoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodGrupoEquip;
+                case "NomeTipoEquip":
+                    return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
+                case "Regiao":
+                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
+                case "Autorizada":
+                    return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
+                case "Cliente":
+                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
+                case "NomeEquipamento":
+                    return _equipamentoRepo.ObterPorParametros(new EquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodEquip;
                 case "NomeContrato":
                     return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
                 case "NumSerie":
-                    var equip = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" });
-                    return equip.FirstOrDefault().CodEquipContrato;
+                    return _equipamentoContratoRepo
+                        .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" })
+                        ?.FirstOrDefault()
+                        ?.CodEquipContrato;
                 case "NfVenda":
                     var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) }).FirstOrDefault();
                     if (instalNFVenda == null)
                     {
-                        instalNFVenda = _instalacaoNFVendaRepo
-                                            .Criar(new InstalacaoNFVenda
-                                            {
-                                                CodCliente = inst.CodCliente,
-                                                NumNFVenda = Int32.Parse(coluna.Valor),
-                                                CodUsuarioCad = _contextAcecssor.HttpContext.User.Identity.Name,
-                                                DataHoraCad = DateTime.Now
-                                            });
+                        instalNFVenda = _instalacaoNFVendaRepo.Criar(new InstalacaoNFVenda
+                        {
+                            CodCliente = inst.CodCliente,
+                            NumNFVenda = Int32.Parse(coluna.Valor),
+                            CodUsuarioCad = _contextAcecssor.HttpContext.User.Identity.Name,
+                            DataHoraCad = DateTime.Now
+                        });
                     }
                     return instalNFVenda.CodInstalNFvenda;
                 case "NfVendaData":
@@ -127,6 +139,22 @@ namespace SAT.SERVICES.Services
                 default:
                     return null;
             }
+        }
+
+        private Dictionary<string,string> ObterDicionarioCamposEspeciais() {
+            return new Dictionary<string, string>
+            {
+                { "NumSerie", "CodEquipContrato" },
+                { "NfVenda", "CodInstalNFVenda" },
+                { "NfVendaData", "CodInstalNFVenda" },
+                { "NomeContrato", "CodContrato" },
+                { "Cliente", "CodCliente" },
+                { "Autorizada", "CodAutorizada" },
+                { "Regiao", "CodRegiao" },
+                { "NomeGrupoEquip", "CodGrupoEquip" },
+                { "NomeTipoEquip", "CodTipoEquip" },
+                { "NomeEquipamento", "CodEquip" },
+            };
         }
     }
 }

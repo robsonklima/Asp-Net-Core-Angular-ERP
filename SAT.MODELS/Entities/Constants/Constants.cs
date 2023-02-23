@@ -200,15 +200,6 @@ namespace SAT.MODELS.Entities.Constants
                                                 Ramal (51) 2126-6944<br> 
                                                 Whatsapp: (51) 997144990<br>";
         
-        //Dicionários
-        public static Dictionary<string,string> CONVERSOR_IMPORTACAO_INSTALACAO = new Dictionary<string, string>
-            {
-                { "NumSerie", "CodEquipContrato" },
-                { "NfVenda", "CodInstalNFVenda" },
-                { "NfVendaData", "CodInstalNFVenda" },
-                { "NomeContrato", "CodContrato" }
-            };
-
         // Tecnicos
         public static int TECNICO_SISTEMA = 2329;
 

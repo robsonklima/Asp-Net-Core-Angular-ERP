@@ -18,6 +18,12 @@ namespace SAT.SERVICES.Services
         private readonly IEmailService _emailService;
         private readonly IContratoRepository _contratoRepo;
         private readonly IUsuarioService _usuarioService;
+        private readonly IEquipamentoRepository _equipamentoRepo;
+        private readonly IClienteRepository _clienteRepo;
+        private readonly IAutorizadaRepository _autorizadaRepo;
+        private readonly IRegiaoRepository _regiaoRepo;
+        private readonly ITipoEquipamentoRepository _tipoEquipRepo;
+        private readonly IGrupoEquipamentoRepository _grupoEquipRepo;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -29,7 +35,13 @@ namespace SAT.SERVICES.Services
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
             IContratoRepository contratoRepo,
-            IUsuarioService usuarioService
+            IUsuarioService usuarioService,
+            IEquipamentoRepository equipamentoRepo,
+            IClienteRepository clienteRepo,
+            IAutorizadaRepository autorizadaRepo,
+            IRegiaoRepository regiaoRepo,
+            ITipoEquipamentoRepository tipoEquipRepo,
+            IGrupoEquipamentoRepository grupoEquipRepo
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -42,6 +54,12 @@ namespace SAT.SERVICES.Services
             _emailService = emailService;
             _contratoRepo = contratoRepo;
             _usuarioService = usuarioService;
+            _equipamentoRepo = equipamentoRepo;
+            _clienteRepo = clienteRepo;
+            _autorizadaRepo = autorizadaRepo;
+            _regiaoRepo = regiaoRepo;
+            _tipoEquipRepo = tipoEquipRepo;
+            _grupoEquipRepo = grupoEquipRepo;
         }
 
         public Importacao Importar(Importacao importacao)

@@ -70,6 +70,9 @@
                                 <div>
                                     {{ t('equipamentos') }}
                                 </div>
+                                <div>
+                                    {{ t('anexos') }}
+                                </div>                                   
                             </div>
 
                             <ng-container>
@@ -94,6 +97,13 @@
                                         <div class="truncate">
                                             {{ data.qtdEquipLote }}
                                         </div>
+                                        <div>
+                                            <button class="ml-2" (click)="abrirPaginaAnexo(data)">
+                                                <mat-icon mat-icon-button matTooltip="{{ t('anexos') }}"
+                                                    [svgIcon]="'heroicons_outline:paper-clip'">
+                                                </mat-icon>
+                                            </button>    
+                                        </div>                                        
                                     </div>
                                 </ng-container>
                             </ng-container>

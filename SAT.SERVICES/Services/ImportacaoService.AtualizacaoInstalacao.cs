@@ -2,7 +2,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
-using SAT.UTILS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,80 +12,82 @@ namespace SAT.SERVICES.Services
     public partial class ImportacaoService : IImportacaoService
     {
         public List<string> Mensagem = new List<string>();
+
         private Importacao AtualizacaoInstalacao(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
-            importacao.ImportacaoLinhas
-                        .Where(line =>
-                                !string.IsNullOrEmpty(
-                                            line.ImportacaoColuna
-                                                    .FirstOrDefault(col => col.Campo.Equals("codInstalacao")).Valor))
-                        .ToList()
-                        .ForEach(line =>
+            foreach (var linha in importacao.ImportacaoLinhas)
+            {
+                var inst = new Instalacao();
+
+                foreach (var col in linha.ImportacaoColuna)
+                {
+                    try
+                    {
+                        if (string.IsNullOrEmpty(col.Valor)) 
+                            continue;
+
+                        col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
+                        var prop = inst.GetType().GetProperty(col.Campo);
+
+                        if (prop == null)
                         {
-                            var inst = new Instalacao();
-                            line.ImportacaoColuna
-                                    .ForEach(col =>
-                                    {
-                                        try
-                                        {
-                                            if (string.IsNullOrEmpty(col.Valor)) return;
+                            string saida;
+                            Constants.CONVERSOR_IMPORTACAO_INSTALACAO.TryGetValue(col.Campo, out saida);
+                            prop = inst.GetType().GetProperty(saida);
+                            var value = ConverterValor(col, inst);
+                            prop.SetValue(inst, value);
+                        }
+                        else
+                        {
+                            dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                            prop.SetValue(inst, value);
 
-                                            col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                                            var prop = inst.GetType().GetProperty(col.Campo);
+                            if (col.Campo.Equals("CodInstalacao"))
+                                inst = _instalacaoRepo.ObterPorCodigo((int)value);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        linha.Mensagem = $"Erro ao mapear as Instalação. Instalação: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Erro = true;
+                        Mensagem.Add(linha.Mensagem);
+                    }
+                }
+                   
+                try
+                {
+                    inst.CodUsuarioManut = usuario.CodUsuario;
+                    inst.DataHoraManut = DateTime.Now;
 
-                                            if (prop == null)
-                                            {
-                                                string saida;
-                                                Constants.CONVERSOR_IMPORTACAO_INSTALACAO.TryGetValue(col.Campo, out saida);
-                                                prop = inst.GetType().GetProperty(saida);
-                                                var value = ConverterValor(col, inst);
-                                                prop.SetValue(inst, value);
-                                            }
-                                            else
-                                            {
-                                                dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
-                                                prop.SetValue(inst, value);
-
-                                                if (col.Campo.Equals("CodInstalacao"))
-                                                    inst = _instalacaoRepo.ObterPorCodigo((int)value);
-                                            }
-                                        }
-                                        catch (System.Exception ex)
-                                        {
-                                            line.Mensagem = $"Erro ao mapear as colunas. Código: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
-                                            line.Erro = true;
-
-                                            return;
-                                        }
-                                    });
-                            try
-                            {
-                                inst.CodUsuarioManut = usuario.CodUsuario;
-                                inst.DataHoraManut = DateTime.Now;
-
-                                _instalacaoRepo.Atualizar(inst);
-
-                                line.Mensagem = $"Implantação: {inst.CodInstalacao} atualizado com sucesso.";
-                                line.Erro = false;
-                                Mensagem.Add(line.Mensagem);
-
-                            }
-                            catch (System.Exception ex)
-                            {
-                                line.Mensagem = $"Erro ao atualizar! Código:{inst.CodInstalacao}. Mensagem: {ex.Message}";
-                                line.Erro = true;
-                                Mensagem.Add(line.Mensagem);
-                            }
-                        });
+                    if (inst.CodInstalacao > 0)
+                    {
+                        inst = _instalacaoRepo.Atualizar(inst);
+                        linha.Mensagem = $"Instalação atualizada com sucesso: {inst.CodInstalacao}";
+                        Mensagem.Add(linha.Mensagem);
+                    }
+                    else 
+                    {
+                        inst = _instalacaoRepo.Criar(inst);
+                        linha.Mensagem = $"Instalação criada com sucesso: {inst.CodInstalacao}";
+                        Mensagem.Add(linha.Mensagem);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    linha.Mensagem = $"Erro ao montar Instalação! Mensagem: {ex.Message}";
+                    linha.Erro = true;
+                    Mensagem.Add(linha.Mensagem);
+                }
+            }
 
             string[] destinatarios = { usuario.Email };
 
             var email = new Email
             {
                 EmailDestinatarios = destinatarios,
-                Assunto = "Atualização em massa do módulo Implantação",
+                Assunto = "Atualização/Importação em massa de instalações",
                 Corpo = String.Join("<br>", Mensagem),
             };
 
@@ -99,6 +100,8 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
+                case "NomeContrato":
+                    return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
                 case "NumSerie":
                     var equip = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" });
                     return equip.FirstOrDefault().CodEquipContrato;

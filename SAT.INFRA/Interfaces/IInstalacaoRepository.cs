@@ -6,10 +6,10 @@ namespace SAT.INFRA.Interfaces
 {
     public interface IInstalacaoRepository
     {
-        void Criar(Instalacao instalacao);
+        Instalacao Criar(Instalacao instalacao);
         PagedList<Instalacao> ObterPorParametros(InstalacaoParameters parameters);
         void Deletar(int codigo);
-        void Atualizar(Instalacao instalacao);
+        Instalacao Atualizar(Instalacao instalacao);
         Instalacao ObterPorCodigo(int codigo);
     }
 }

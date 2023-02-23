@@ -18,7 +18,7 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(Instalacao instalacao)
+        public Instalacao Atualizar(Instalacao instalacao)
         {
             _context.ChangeTracker.Clear();
             Instalacao inst = _context.Instalacao.FirstOrDefault(i => i.CodInstalacao == instalacao.CodInstalacao);
@@ -28,12 +28,15 @@ namespace SAT.INFRA.Repository
                 _context.Entry(inst).CurrentValues.SetValues(instalacao);
                 _context.SaveChanges();
             }
+
+            return inst;
         }
 
-        public void Criar(Instalacao instalacao)
+        public Instalacao Criar(Instalacao instalacao)
         {
             _context.Add(instalacao);
             _context.SaveChanges();
+            return instalacao;
         }
 
         public void Deletar(int codigo)

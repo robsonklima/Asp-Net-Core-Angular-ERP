@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -8,7 +7,7 @@ namespace SAT.MODELS.Entities
     {
         public int CodInstalacao { get; set; }
         public int? CodInstalLote { get; set; }
-        public int? CodContrato { get; set; }
+        public int CodContrato { get; set; }
         public int? CodTipoEquip { get; set; }
         public int? CodGrupoEquip { get; set; }
         public int? CodEquip { get; set; }

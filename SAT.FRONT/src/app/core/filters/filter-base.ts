@@ -157,6 +157,8 @@ export class FilterBase implements IFilterBaseCore {
         } else {
             const dialogRef = this._dialog.open(DialogSaveFilterComponent);
             dialogRef.afterClosed().subscribe(async (data: any) => {
+                if (!data?.nomeFiltro) return;
+
                 this._filtroService.criar({
                     nomeFiltro: data.nomeFiltro,
                     ...params

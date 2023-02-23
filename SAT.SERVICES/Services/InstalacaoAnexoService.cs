@@ -6,6 +6,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -59,7 +60,13 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(InstalacaoAnexoParameters parameters)
         {
+            string target = Directory.GetCurrentDirectory() + "\\Upload\\Instalacao\\";
             var instalacaoAnexos = _instalacaoAnexoRepo.ObterPorParametros(parameters);
+
+            for (int i = 0; i < instalacaoAnexos.Count; i++)
+            {
+                instalacaoAnexos[i].Base64 = StorageBase64.ConverteStorageEmBase64(target + instalacaoAnexos[i].NomeAnexo);
+            }
 
             var lista = new ListViewModel
             {

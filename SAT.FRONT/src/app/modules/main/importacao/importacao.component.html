@@ -20,7 +20,7 @@
                                     </mat-select>
                                 </mat-form-field>
 
-                                <button class="ml-4 mt-1" mat-raised-button [color]="'primary'" (click)="enviarDados()" [disabled]="loading || !codImportacaoTipo">
+                                <button class="ml-4 mt-1" mat-raised-button [color]="'primary'" (click)="enviarDados()" [disabled]="isLoading || !codImportacaoTipo">
                                     {{ t('importar') }}
                                 </button>
                             </div>
@@ -31,13 +31,13 @@
 
             <div class="flex-auto mt-4 sm:mt-6" *transloco="let t">
                 <div class="w-11/12 ml-10">
-                    <div *ngIf="!isLoading" class="
+                    <div [class.hidden]="isLoading" class="
                         w-full
                         flex flex-col flex-auto
                         rounded
                         h-full
                         overflow-auto">
-                        <app-planilha *ngIf="codImportacaoTipo" class="mt-2" [data]="planilhaConfig" (sheetData)="retornaPlanilha($event)">
+                        <app-planilha [class.hidden]="!codImportacaoTipo" class="mt-2" [data]="planilhaConfig" (sheetData)="retornaPlanilha($event)">
                         </app-planilha>
                     </div>
 

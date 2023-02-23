@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
@@ -9,11 +10,12 @@ import { ContratoService } from 'app/core/services/contrato.service';
 import { InstalacaoLoteService } from 'app/core/services/instalacao-lote.service';
 import { Contrato } from 'app/core/types/contrato.types';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { InstalacaoLoteData, InstalacaoLoteParameters } from 'app/core/types/instalacao-lote.types';
+import { InstalacaoLote, InstalacaoLoteData, InstalacaoLoteParameters } from 'app/core/types/instalacao-lote.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { InstalacaoLoteAnexoDialogComponent } from '../instalacao-lote-anexo-dialog/instalacao-lote-anexo-dialog.component';
 
 @Component({
   selector: 'app-instalacao-lote-lista',
@@ -22,7 +24,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     /* language=SCSS */
     `
       .list-grid-instalacao-lote {
-          grid-template-columns: 72px auto 240px 120px 154px;
+          grid-template-columns: 72px auto 240px 120px 154px 56px;
       }
     `
   ],
@@ -46,6 +48,7 @@ export class InstalacaoLoteListaComponent extends Filterable implements AfterVie
     private _instalacaoLoteSvc: InstalacaoLoteService,
     private _contratoSvc: ContratoService,
     protected _userService: UserService,
+    private _dialog: MatDialog,
     private _userSvc: UserService,
     private _route: ActivatedRoute
   ) {
@@ -108,7 +111,7 @@ export class InstalacaoLoteListaComponent extends Filterable implements AfterVie
 
     const parametros: InstalacaoLoteParameters = {
       pageSize: this.paginator?.pageSize,
-      filter: filtro, //this.searchInputControl.nativeElement.val,
+      filter: filtro,
       pageNumber: this.paginator.pageIndex + 1,
       sortActive: this.sort.active || 'NomeLote',
       sortDirection: this.sort.direction || 'asc',
@@ -131,4 +134,16 @@ export class InstalacaoLoteListaComponent extends Filterable implements AfterVie
   paginar() {
     this.obterDados();
   }
+
+  abrirPaginaAnexo(instalacaoLote: InstalacaoLote) {
+    const dialogRef = this._dialog.open(InstalacaoLoteAnexoDialogComponent, {
+      data: {
+        instalacaoLote: instalacaoLote,
+      },
+    });    
+
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {}
+    });
+	}
 }

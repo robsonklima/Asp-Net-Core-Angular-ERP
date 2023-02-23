@@ -7,6 +7,7 @@ import { Instalacao } from 'app/core/types/instalacao.types';
 import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { Utils } from 'app/core/utils/utils';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
@@ -28,11 +29,10 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     private _instalacaoAnexoService: InstalacaoAnexoService,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
+    private _utils: Utils,
     private _dialog: MatDialog
   ) {
-    this.instalacao = data?.instalacao;
-    console.log(this.instalacao);
-    
+    this.instalacao = data?.instalacao;    
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
@@ -45,10 +45,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
       .obterPorParametros({ codInstalacao: this.instalacao.codInstalacao })
       .toPromise();
 
-    this.instalacaoAnexos = data.items;
-
-    console.log(this.instalacaoAnexos);
-    
+    this.instalacaoAnexos = data.items;    
   }
 
   async onFileSelected(event) {
@@ -60,7 +57,6 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
 
       this.instalacaoAnexo = {
         codInstalacao: this.instalacao.codInstalacao,
-        codInstalLote: this.instalacao.codInstalLote,
         indAtivo: +statusConst.ATIVO,
         codUsuarioCad: this.userSession.usuario.codUsuario,
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -68,9 +64,7 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
         descAnexo: nomeArquivo,
         sourceAnexo: nomeArquivo,
         base64: base64,
-      }
-      console.log(this.instalacaoAnexo);
-      
+      }      
       this.salvar();
     });
   }
@@ -84,43 +78,12 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
   }
 
   getFileName(base64: string): string {
-    return moment().format('YYYYMMDDHHmmssSSS') + '.' + this.getExtension(base64.substring(0, 5))
+    return moment().format('YYYYMMDDHHmmssSSS') + '.' + this._utils.obterExtensionBase64(base64);
   }
 
   getFileSize(base64: string): number {
     const decoded = atob(base64);
     return decoded.length;
-  }
-
-  getExtension(str: string) {
-    switch (str.toUpperCase())
-    {
-      case "IVBOR":
-        return "png";
-      case "/9J/4":
-        return "jpg";
-      case "AAAAF":
-        return "mp4";
-      case "JVBER":
-        return "pdf";
-      case "AAABA":
-        return "ico";
-      case "UMFYI":
-        return "rar";
-      case "E1XYD":
-        return "rtf";
-      case "U1PKC":
-        return "txt";
-      case "MQOWM":
-      case "77U/M":
-        return "srt";
-      case "0M8R4":
-        return "xls";
-      case "UESDB":
-        return "xlsx";
-      default:
-        return '';
-    }
   }
 
   deletar(codInstalAnexo: number) {
@@ -145,7 +108,11 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
   }
 
   download(anexo: InstalacaoAnexo) {
-
+    const downloadLink = document.createElement('a');
+    const fileName = anexo.nomeAnexo;
+    downloadLink.href = 'data:application/octet-stream;base64,' + anexo.base64;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
   salvar() {
@@ -155,5 +122,9 @@ export class InstalacaoAnexoDialogComponent implements OnInit {
     }, () => {
       this._snack.exibirToast('Erro ao enviar o arquivo para o servidor', 'error');
     })
+  }
+
+  fechar() {
+    this._dialogRef.close();
   }
 }

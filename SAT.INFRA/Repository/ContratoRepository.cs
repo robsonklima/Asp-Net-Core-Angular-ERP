@@ -127,6 +127,8 @@ namespace SAT.INFRA.Repository
                 contratos = contratos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
+            var aq = contratos.ToQueryString();
+
             return PagedList<Contrato>.ToPagedList(contratos, parameters.PageNumber, parameters.PageSize);
         }
     }

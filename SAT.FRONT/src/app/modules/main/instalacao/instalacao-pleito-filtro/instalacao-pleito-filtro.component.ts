@@ -11,10 +11,12 @@ import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { InstalacaoTipoPleitoService } from 'app/core/services/instalacao-tipo-pleito-service';
 import { statusConst } from 'app/core/types/status-types';
+import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
+import { ClienteService } from 'app/core/services/cliente.service';
 
 @Component({
-  selector: 'app-instalacao-pleito-filtro',
-  templateUrl: './instalacao-pleito-filtro.component.html' 
+	selector: 'app-instalacao-pleito-filtro',
+	templateUrl: './instalacao-pleito-filtro.component.html'
 })
 export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
 
@@ -23,11 +25,14 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 	tipoFilterCtrl: FormControl = new FormControl();
 	contratos: Contrato[] = [];
 	contratoFilterCtrl: FormControl = new FormControl();
+	clientes: Cliente[] = [];
+	clienteFilterCtrl: FormControl = new FormControl();
 	protected _onDestroy = new Subject<void>();
 
 	constructor(
 		private _tipoPleitoService: InstalacaoTipoPleitoService,
 		private _contratoService: ContratoService,
+		private _clienteService: ClienteService,
 		protected _userService: UserService,
 		protected _formBuilder: FormBuilder
 	) {
@@ -39,16 +44,19 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 		this.loadData();
 	}
 
-	async loadData() {
-		this.obterTipos();
-		this.obterContratos();
-		this.registrarEmitters();
-	}
 
+	async loadData() {
+		this.obterClientes();
+		this.obterTipos();
+		this.registrarEmitters();
+
+		this.aoSelecionarCliente();
+	}
 	createForm(): void {
 		this.form = this._formBuilder.group({
-			CodContratos: [undefined],
-			CodInstalTipoPleitos: [undefined],
+			codClientes: [undefined],
+			codContratos: [undefined],
+			codInstalTipoPleitos: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}
@@ -60,17 +68,35 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
-		const data = await this._tipoPleitoService 
+		const data = await this._tipoPleitoService
 			.obterPorParametros(params)
 			.toPromise();
-		this.tipos = data.items;	
+		this.tipos = data.items;
+	}
+
+	async obterClientes(filtro: string = '') {
+		let params: ClienteParameters = {
+			filter: filtro,
+			indAtivo: statusConst.ATIVO,
+			sortActive: 'nomeFantasia',
+			sortDirection: 'asc',
+			codCliente: this.userSession?.usuario?.codCliente,
+			pageSize: 1000
+		};
+
+		const data = await this._clienteService
+			.obterPorParametros(params)
+			.toPromise();
+
+		this.clientes = data.items;
 	}
 
 	async obterContratos(filtro: string = '') {
 		let params: ContratoParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			sortActive: 'nomeContrato',
+			codClientes: this.form.controls['codClientes'].value.join(','),
+			sortActive: 'nroContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
 		};
@@ -80,7 +106,53 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 		this.contratos = data.items;
 	}
 
+	aoSelecionarCliente() {
+		if (
+			this.form.controls['codClientes'].value &&
+			this.form.controls['codClientes'].value != ''
+		) {
+			this.obterContratos();
+			this.form.controls['codContratos'].enable();
+		}
+		else {
+			this.form.controls['codContratos'].disable();
+		}
+
+		this.form.controls['codClientes']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codClientes'].value && this.form.controls['codClientes'].value != '') {
+					this.obterContratos();
+					this.form.controls['codContratos'].enable();
+				}
+				else {
+					this.form.controls['codContratos'].setValue(null);
+					this.form.controls['codContratos'].disable();
+				}
+			});
+	}
+
 	private registrarEmitters() {
+		this.clienteFilterCtrl.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterClientes(this.clienteFilterCtrl.value);
+			});
+
+		this.form.controls['codClientes'].valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterContratos(this.clienteFilterCtrl.value);
+			});
+
 		this.tipoFilterCtrl.valueChanges
 			.pipe(
 				takeUntil(this._onDestroy),
@@ -91,15 +163,6 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 
 				this.obterTipos(this.tipoFilterCtrl.value);
 			});
-		this.contratoFilterCtrl.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterContratos(this.contratoFilterCtrl.value);
-			});		
 	}
 
 	limpar() {
@@ -110,5 +173,5 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 	ngOnDestroy() {
 		this._onDestroy.next();
 		this._onDestroy.complete();
-	}11:32
+	}
 }

@@ -216,7 +216,8 @@ namespace SAT.MODELS.Entities.Constants
                 { "NomeSla", "CodSLA" },
                 { "NomeInstalStatus", "CodInstalStatus" },
                 { "NomeFilial", "CodFilial" },
-                { "NomeLote", "CodInstalLote" }
+                { "NomeLote", "CodInstalLote" },
+                { "NumAgenciaDC", "CodPosto" }
             };
 
         // Tecnicos

@@ -124,7 +124,19 @@ namespace SAT.SERVICES.Services
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);
-                    return inst.CodInstalNFVenda;
+                    return inst.CodInstalNFVenda;      
+                case "NumAgenciaDC":
+                    var agenciaDc = coluna.Valor.Split("/");
+                    if (agenciaDc.Count() < 2)
+                        return null;
+
+                    string agencia = agenciaDc[0];
+                    string dc = agenciaDc[1];
+
+                    return _localAtendimentoRepo
+                        .ObterPorParametros(new LocalAtendimentoParameters { CodClientes = $"{inst.CodCliente}", DCPosto = dc, NumAgencia = agencia  })
+                        ?.FirstOrDefault()
+                        ?.CodPosto;                            
                 default:
                     return ConverterCamposEmComum(coluna);
             }

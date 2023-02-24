@@ -108,7 +108,6 @@ namespace SAT.SERVICES.Services
                 default:
                     return coluna;
             }
-
         }
 
         public Importacao Importar(Importacao importacao)

@@ -72,6 +72,12 @@ namespace SAT.INFRA.Repository
                     i.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)                 
                 );
             }
+            
+            if (!string.IsNullOrWhiteSpace(parameters.CodClientes))
+            {
+                int[] cods = parameters.CodClientes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.Contrato.CodCliente));
+            } 
 
             if (parameters.CodContrato.HasValue)
             {

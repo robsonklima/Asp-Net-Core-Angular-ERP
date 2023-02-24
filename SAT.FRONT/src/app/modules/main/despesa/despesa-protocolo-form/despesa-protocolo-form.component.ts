@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { Subject } from 'rxjs';
-import { Location } from '@angular/common';
-import moment from 'moment';
 import { DespesaProtocolo } from 'app/core/types/despesa-protocolo.types';
 import { DespesaProtocoloService } from 'app/core/services/despesa-protocolo.service';
 import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { Subject } from 'rxjs';
+import { Location } from '@angular/common';
+import moment from 'moment';
 
 @Component({
   selector: 'app-despesa-protocolo-form',
@@ -40,7 +40,6 @@ export class DespesaProtocoloFormComponent implements OnInit, OnDestroy {
   }
 
   private inicializarForm() {
-
     this.form = this._formBuilder.group({
         codAuditoriacodDespesaProtocolo: [
         {
@@ -51,7 +50,6 @@ export class DespesaProtocoloFormComponent implements OnInit, OnDestroy {
       nomeProtocolo: [{value: undefined,disabled: true}],
       obsProtocolo: [undefined, Validators.required],
     });
-
   }
 
   private registrarEmitters() {}
@@ -72,8 +70,6 @@ export class DespesaProtocoloFormComponent implements OnInit, OnDestroy {
             indIntegracao: 0,
             indImpresso: 0,
             indFechamento: 0,
-                
-        
       }
     };
 

@@ -17,12 +17,12 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { TecnicoCategoriaCreditoEnum } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import Enumerable from 'linq';
-import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { CreditoCreditarDialogComponent } from './credito-creditar-dialog/credito-creditar-dialog.component';
+import { fromEvent } from 'rxjs';
+import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
   selector: 'app-credito-cartao-lista',
@@ -88,7 +88,6 @@ export class CreditoCartaoListaComponent extends Filterable implements AfterView
   }
 
   registerEmitters(): void {
-
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
       map((event: any) => {
         return event.target.value;

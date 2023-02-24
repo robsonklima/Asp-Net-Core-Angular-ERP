@@ -123,7 +123,6 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                 codUsuarioManut: this.userSession.usuario?.codUsuario
             }
         };
-        console.log(obj);
 
         this._osBancadaService.atualizar(obj).subscribe(() => {
             this._snack.exibirToast(`OS de Bancada atualizado com sucesso!`, "success");
@@ -142,7 +141,6 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                 dataCadastro: moment().format('YYYY-MM-DD HH:mm:ss')
             }
         };
-        console.log(obj);
 
         this._osBancadaService.criar(obj).subscribe(() => {
             this._snack.exibirToast(`OS de Bancada criada com sucesso!`, "success");

@@ -42,7 +42,8 @@ export class DespesaProtocoloDetalhePeriodosDialogComponent implements OnInit {
 
     const params: DespesaPeriodoTecnicoParameters = {
       codFilial: this.protocolo.codFilial.toString(),
-      codDespesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatusEnum.APROVADO
+      codDespesaPeriodoTecnicoStatus: DespesaPeriodoTecnicoStatusEnum.APROVADO,
+      naoEstaEmProtocolo: true
     }
 
     this.aprovadas = (await this._despesaPeriodoTecnicoSvc.obterPorParametros(params).toPromise());

@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import _ from 'lodash';
 import { OSBancada } from 'app/core/types/os-bancada.types';
 import { LaboratorioOSBancadaFormComponent } from '../laboratorio-os-bancada-form/laboratorio-os-bancada-form.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -14,10 +13,11 @@ import { Peca, PecaParameters } from 'app/core/types/peca.types';
 import { PecaService } from 'app/core/services/peca.service';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import moment from 'moment';
 import { PecaRE5114Service } from 'app/core/services/pecaRE5114.service';
 import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import moment from 'moment';
+import _ from 'lodash';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-pecas-dialog',
@@ -58,6 +58,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
         this.registrarEmitters();
         this.loading = false;
     }
+
     private async obterPecas(filtro: string = '') {
         let params: PecaParameters = {
             filter: filtro,
@@ -72,6 +73,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
 
         this.pecas = data.items;
     }
+
     private async obterFilial() {
         let params: FilialParameters = {
             sortActive: 'nomeFilial',
@@ -126,7 +128,6 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
         this._dialogRef.close();
     }
 
-
     async salvar() {
         await this.criarPecaRE5114();
         this.criarOSBancadaPecas();
@@ -171,11 +172,6 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
                     indPecaLiberada: 0,
                 }
             };
-
-            console.log(pecaRE5114);
-            console.log(obj);
-            
-            
 
             this._osBancadaPecasService.criar(obj).subscribe(() => {
                 this._snack.exibirToast("Peça adicionada com sucesso!", "success");

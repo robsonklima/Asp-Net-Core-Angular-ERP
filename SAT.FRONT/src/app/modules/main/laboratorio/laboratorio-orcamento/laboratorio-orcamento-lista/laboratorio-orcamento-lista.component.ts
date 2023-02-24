@@ -98,8 +98,6 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
 
         const data = await this._osBancadaPecasOrcService.obterPorParametros(parametros).toPromise();
         this.dataSourceData = data;
-        console.log(data);
-        
         this.isLoading = false;
         this._cdr.detectChanges();
     }

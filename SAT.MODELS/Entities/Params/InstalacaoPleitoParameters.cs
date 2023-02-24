@@ -8,6 +8,7 @@ namespace SAT.MODELS.Entities.Params
         public int? CodInstalPleito { get; set; }
         public int? CodInstalTipoPleito { get; set; }
         public string CodContratos { get; set; }
-        public string CodInstalTipoPleitos { get; set; }        
+        public string CodInstalTipoPleitos { get; set; }                
+        public string CodClientes { get; set; }
     }
 }

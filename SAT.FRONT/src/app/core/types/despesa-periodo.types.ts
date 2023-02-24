@@ -77,7 +77,7 @@ export interface DespesaPeriodoTecnicoParameters extends QueryStringParameters {
     fimPeriodo?: string;
     filterType?: DespesaPeriodoTecnicoFilterEnum;
     codCreditoCartaoStatus?: string;
-    estaEmProtocolo?: boolean;
+    naoEstaEmProtocolo?: boolean;
 };
 
 export interface DespesaCreditosCartaoListView {

@@ -18,6 +18,6 @@ namespace SAT.MODELS.Entities.Params
         public DespesaCreditoCartaoStatusEnum? CodCreditoCartaoStatus { get; set; }
         public string CodDespesaPeriodoStatusNotIn { get; set; }
         public string CodDespesaPeriodoTecnicoStatus { get; set; }
-        public bool EstaEmProtocolo { get; set; }
+        public bool NaoEstaEmProtocolo { get; set; }
     }
 }

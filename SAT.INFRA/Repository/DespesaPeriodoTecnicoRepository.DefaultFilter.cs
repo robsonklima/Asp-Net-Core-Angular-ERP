@@ -56,14 +56,8 @@ namespace SAT.INFRA.Repository
                 query = query.Where(e => codigos.Contains(e.CodDespesaPeriodoTecnicoStatus));
             }
 
-            if (parameters.EstaEmProtocolo)
-            {
-                query = query.Where(d => d.DespesaProtocoloPeriodoTecnico != null);
-            }
-            else
-            {
+            if (parameters.NaoEstaEmProtocolo)
                 query = query.Where(d => d.DespesaProtocoloPeriodoTecnico == null);
-            }
 
             return query;
         }

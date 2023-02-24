@@ -1,7 +1,6 @@
 import { Filial } from "./filial.types";
 import { ClienteBancada } from "./cliente-bancada.types";
 import { Meta, QueryStringParameters } from "./generic.types";
-import { OSBancadaPecas } from "./os-bancada-pecas.types";
 
 export class OSBancada {
     codOsbancada: number;

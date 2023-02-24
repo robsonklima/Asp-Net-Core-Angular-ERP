@@ -4,10 +4,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { OSBancadaService } from 'app/core/services/os-bancada.service';
+import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OSBancadaData, OSBancadaParameters } from 'app/core/types/os-bancada.types';
+import { OSBancadaPecasData, OSBancadaPecasParameters } from 'app/core/types/os-bancada-pecas.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -19,7 +18,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     styles: [
         /* language=SCSS */
         `.list-grid-u {
-            grid-template-columns: 10% 20% 10% 10% 10% 5% 10%;
+            grid-template-columns: 100px 100px auto 100px 100px 100px 90px;
         }`
     ],
     encapsulation: ViewEncapsulation.None,
@@ -30,15 +29,14 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
     @ViewChild('sidenav') public sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    dataSourceData: OSBancadaData;
+    dataSourceData: OSBancadaPecasData;
     isLoading: boolean = false;
     @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
     constructor(
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
-        private _osBancadaService: OSBancadaService,
-        private _exportacaoService: ExportacaoService
+        private _osBancadaPecasService: OSBancadaPecasService
     ) {
         super(_userService, 'os-bancada');
         this.userSession = JSON.parse(this._userService.userSession);
@@ -79,7 +77,7 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
     async obterDados(filtro: string = '') {
         this.isLoading = true;
 
-        const parametros: OSBancadaParameters = {
+        const parametros: OSBancadaPecasParameters = {
             ...{
                 pageNumber: this.paginator?.pageIndex + 1,
                 sortActive: 'codOsbancada',
@@ -90,22 +88,11 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
             ...this.filter?.parametros
         }
 
-        const data = await this._osBancadaService.obterPorParametros(parametros).toPromise();
+        const data = await this._osBancadaPecasService.obterPorParametros(parametros).toPromise();
         this.dataSourceData = data;
         
         this.isLoading = false;
         this._cdr.detectChanges();
-    }
-
-    exportar() {
-
-        // let params: Exportacao = {
-        //     formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-        //     tipoArquivo: ExportacaoTipoEnum.VALOR_COMBUSTIVEL,
-        //     entityParameters: {}
-        // }
-
-        // this._exportacaoService.exportar(FileMime.Excel,params);
     }
 
     paginar() {

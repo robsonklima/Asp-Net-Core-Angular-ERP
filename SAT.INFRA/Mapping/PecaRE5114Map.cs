@@ -19,12 +19,6 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodPeca)
                 .HasPrincipalKey(prop => prop.CodPeca);
-            
-            builder
-                .HasOne(prop => prop.OSBancada)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodOsbancada)
-                .HasPrincipalKey(prop => prop.CodOsbancada);
 
         }
     }

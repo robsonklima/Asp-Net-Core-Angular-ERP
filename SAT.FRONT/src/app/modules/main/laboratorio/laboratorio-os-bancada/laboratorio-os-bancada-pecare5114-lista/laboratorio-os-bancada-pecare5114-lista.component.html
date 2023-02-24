@@ -15,18 +15,18 @@
             </div>
 
             <ng-container>
-                <ng-container *ngFor="let pecaRE5114 of dataSourceData?.items">
-                    <a (click)="editarPeca(pecaRE5114)">
+                <ng-container *ngFor="let os of dataSourceData?.items">
+                    <a (click)="editarPeca(os)">
                     <div
                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                         <div class="flex items-center">
-                            {{ pecaRE5114.numRe5114 }}
+                            {{ os?.pecaRE5114.numRe5114 }}
                         </div>
                         <div class="flex items-center">
-                            {{ pecaRE5114.peca.codMagnus }}
+                            {{ os?.pecaRE5114.peca.codMagnus }}
                         </div>
                         <div class="flex items-center">
-                            {{ pecaRE5114.peca.nomePeca }}
+                            {{ os?.pecaRE5114.peca.nomePeca }}
                         </div>
                     </div>
                     </a>

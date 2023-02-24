@@ -75,25 +75,25 @@
                                             {{ orcamento?.codOrcamento }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.codOsbancada }}
+                                            {{ orcamento?.osBancadaPecas?.osBancada?.codOsbancada }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.osBancada?.nfentrada }}
+                                            {{ orcamento?.osBancadaPecas?.osBancada?.nfentrada }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.pecaRE5114?.codPecaRe5114 }}
+                                            {{ orcamento?.osBancadaPecas?.pecaRE5114?.codPecaRe5114 }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.pecaRE5114?.peca?.codMagnus }}
+                                            {{ orcamento?.osBancadaPecas?.pecaRE5114?.peca?.codMagnus }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.pecaRE5114?.peca?.nomePeca }}
+                                            {{ orcamento?.osBancadaPecas?.pecaRE5114?.peca?.nomePeca }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.osBancada?.clienteBancada?.apelido }}
+                                            {{ orcamento?.osBancadaPecas?.osBancada?.clienteBancada?.apelido }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.osBancada?.filial?.nomeFilial }}
+                                            {{ orcamento?.osBancadaPecas?.osBancada?.filial?.nomeFilial }}
                                         </div>
                                         <div class="flex items-center">
                                             <button class="cursor-pointer" [routerLink]="['/laboratorio/orcamento-bancada/form/' + orcamento.codOsbancada]">

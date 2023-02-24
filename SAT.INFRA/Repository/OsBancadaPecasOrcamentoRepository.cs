@@ -56,6 +56,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.OSBancada)
                     .ThenInclude(i => i.ClienteBancada)
                 .Include(i => i.PecaRE5114)
+                    .ThenInclude(i => i.Peca)
                 .FirstOrDefault(c => c.CodOrcamento == codigo);
         }
 
@@ -67,6 +68,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.OSBancada)
                     .ThenInclude(i => i.ClienteBancada)
                 .Include(i => i.PecaRE5114)
+                    .ThenInclude(i => i.Peca)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))

@@ -71,6 +71,7 @@ namespace SAT.INFRA.Repository
                     s.CodClienteBancada.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.Cidade.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.Contato.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    s.CNPJ_CGC.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.NomeCliente.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
              );
 
@@ -88,6 +89,12 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodCidades.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 clientBancadas = clientBancadas.Where(dc => cods.Contains(dc.Cidade.CodCidade));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CnpJ_CGC))
+            {
+                var cliente = parameters.CnpJ_CGC.Split(',').Select(e => e.Trim());
+                clientBancadas = clientBancadas.Where(u => cliente.Any(p => p == u.CNPJ_CGC));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodClienteBancadas))

@@ -26,26 +26,25 @@ namespace SAT.SERVICES.Services
                 {
                     var os = new OrdemServico();
                     line.ImportacaoColuna
-                            .ForEach(col =>
+                        .ForEach(col =>
+                        {
+                            try
                             {
-                                try
-                                {
-                                    if (string.IsNullOrEmpty(col.Valor)) return;
+                                if (string.IsNullOrEmpty(col.Valor)) return;
 
-                                    col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
-                                    var prop = os.GetType().GetProperty(col.Campo);
-                                    dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-                                    prop.SetValue(os, value);
-                                }
-                                catch (System.Exception ex)
-                                {
-                                    line.Mensagem = $"Erro ao mapear as OS. Equipamento: {os.CodEquipContrato} Campo: {col.Campo} Mensagem: {ex.Message}";
-                                    line.Erro = true;
-                                    Mensagem.Add(line.Mensagem);
-                                    return;
-                                }
-                            });
-
+                                col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
+                                var prop = os.GetType().GetProperty(col.Campo);
+                                dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                                prop.SetValue(os, value);
+                            }
+                            catch (System.Exception ex)
+                            {
+                                line.Mensagem = $"Erro ao mapear as OS. Equipamento: {os.CodEquipContrato} Campo: {col.Campo} Mensagem: {ex.Message}";
+                                line.Erro = true;
+                                Mensagem.Add(line.Mensagem);
+                                return;
+                            }
+                        });
                     try
                     {
                         var equip = _equipamentoContratoRepo.ObterPorCodigo(os.CodEquipContrato.Value);

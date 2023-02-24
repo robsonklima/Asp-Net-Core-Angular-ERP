@@ -59,18 +59,19 @@ namespace SAT.SERVICES.Services
                    
                 try
                 {
-                    inst.CodUsuarioManut = usuario.CodUsuario;
-                    inst.DataHoraManut = DateTime.Now;
-
                     if (inst.CodInstalacao > 0)
                     {
+                        inst.CodUsuarioManut = usuario.CodUsuario;
+                        inst.DataHoraManut = DateTime.Now;
                         inst = _instalacaoRepo.Atualizar(inst);
                         linha.Mensagem = $"Registro atualizado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
                     else 
                     {
-                        inst = _instalacaoRepo.Criar(inst);
+                        inst.CodUsuarioCad = usuario.CodUsuario;
+                        inst.DataHoraCad = DateTime.Now;
+                        inst = _instalacaoService.Criar(inst);
                         linha.Mensagem = $"Registro criado com sucesso: {inst.CodInstalacao}";
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -106,7 +107,7 @@ namespace SAT.SERVICES.Services
                         .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.CodCliente}" })
                         ?.FirstOrDefault()
                         ?.CodEquipContrato;
-                case "NfVenda":
+                case "NFVenda":
                     var instalNFVenda = _instalacaoNFVendaRepo.ObterPorParametros(new InstalacaoNFVendaParameters { NumNFVenda = Int32.Parse(coluna.Valor) })?.FirstOrDefault();
                     if (instalNFVenda == null)
                     {
@@ -119,11 +120,23 @@ namespace SAT.SERVICES.Services
                         });
                     }
                     return instalNFVenda.CodInstalNFvenda;
-                case "NfVendaData":
+                case "NFVendaData":
                     var updateNFVenda = _instalacaoNFVendaRepo.ObterPorCodigo(inst.CodInstalNFVenda.Value);
                     updateNFVenda.DataNFVenda = DateTime.Parse(coluna.Valor);
                     _instalacaoNFVendaRepo.Atualizar(updateNFVenda);
-                    return inst.CodInstalNFVenda;
+                    return inst.CodInstalNFVenda;      
+                case "NumAgenciaDC":
+                    var agenciaDc = coluna.Valor.Split("/");
+                    if (agenciaDc.Count() < 2)
+                        return null;
+
+                    string agencia = agenciaDc[0];
+                    string dc = agenciaDc[1];
+
+                    return _localAtendimentoRepo
+                        .ObterPorParametros(new LocalAtendimentoParameters { CodClientes = $"{inst.CodCliente}", DCPosto = dc, NumAgencia = agencia  })
+                        ?.FirstOrDefault()
+                        ?.CodPosto;                            
                 default:
                     return ConverterCamposEmComum(coluna);
             }

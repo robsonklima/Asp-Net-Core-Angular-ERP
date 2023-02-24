@@ -832,5 +832,21 @@
     "orçamento bancada": "Orçamento Bancada",
     "os bancada": "OS Bancada",
     "nota fiscal": "Nota Fiscal",
-    "re5114": "RE5114"
+    "re5114": "RE5114",
+    "nf cliente": "NF Cliente",
+    "data chegada": "Data Chegada",
+    "prazo entrega": "Prazo Entrega",
+    "data nf": "Data NF",
+    "atendimento bancada": "Atendimento Bancada",
+    "obs": "Obs",
+    "defeito constatado": "Defeito Constatado",
+    "motivo Sucata": "Motivo Sucata",
+    "motivo Devolucao": "Motivo Devolução",
+    "peca re5114": "Peça RE5114",
+    "tecnico relatante": "Técnico Relatante",
+    "Numero serie": "Número Série",
+    "cod peca cliente": "Cód Peça Cliente",
+    "valor entrada": "Valor Entrada",
+    "num item nf": "Num Item NF",
+    "defeito relatado": "Defeito Relatado"
 }

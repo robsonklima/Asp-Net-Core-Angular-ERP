@@ -39,3 +39,9 @@ export interface OSBancadaPecasParameters extends QueryStringParameters {
     codOsbancadas?: string;
     codPecaRe5114s?: string;
 };
+
+export enum OSBancadaPecasGarantiaEnum {
+    SEM_GARANTIA = 1,
+    GARANTIA_VENDA = 2,
+    GARANTIA_CONSERTO = 3
+}

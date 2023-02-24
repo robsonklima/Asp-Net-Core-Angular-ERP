@@ -290,7 +290,6 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   }
 
   salvar(){
-
     const form: any = this.form.getRawValue();
 		
     let atendimento: OrdemServicoSTN = {

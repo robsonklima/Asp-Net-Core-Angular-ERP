@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>Edição Peca RE5114: N° {{pecaRe5114?.numRe5114}}</h2>
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 ">
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('defeito constatado') }}</mat-label>
+            <textarea matInput formControlName="defeitoConstatado" [value]="osBancadaPeca?.defeitoConstatado" [rows]="2"
+                maxlength="1000"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('solucao') }}</mat-label>
+            <textarea matInput formControlName="solucao" [value]="osBancadaPeca?.solucao" [rows]="2"
+                maxlength="1000"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('garantia') }}</mat-label>
+            <mat-select formControlName="indGarantia" [value]="osBancadaPeca?.indGarantia">
+                <mat-option [value]="0">
+                    Sem Garantia
+                </mat-option>
+                <mat-option [value]="1">
+                    Garantia Venda
+                </mat-option>
+                <mat-option [value]="2">
+                    Garantia Conserto
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="fuse-mat-dense sm:col-span-6">
+            
+            <div>
+                <mat-label>{{ t('Sem Conserto - Sucata') }}</mat-label>
+            </div>
+
+            <mat-slide-toggle [color]="'primary'" [checked]="pecaRe5114?.indSucata == 1"
+                (change)="onChangeSucata($event)">
+                {{ pecaRe5114?.indSucata ? 'Sim' : 'Não' }}
+            </mat-slide-toggle>
+
+            <div>
+                <mat-label>{{ t('Sem Conserto - Devolver') }}</mat-label>
+            </div>
+
+            <mat-slide-toggle [color]="'primary'" [checked]="pecaRe5114?.indDevolver == 1"
+                (change)="onChangeDevolucao($event)">
+                {{ pecaRe5114?.indDevolver ? 'Sim' : 'Não' }}
+            </mat-slide-toggle>
+
+            <div>
+                <mat-label>{{ t('Peça Liberada') }}</mat-label>
+            </div>
+
+            <mat-slide-toggle [color]="'primary'" [checked]="osBancadaPeca?.indPecaLiberada == 1"
+                (change)="onChangeLiberado($event)">
+                {{ osBancadaPeca?.indPecaLiberada ? 'Sim' : 'Não' }}
+            </mat-slide-toggle>
+
+        </div>
+
+        <mat-form-field *ngIf="pecaRe5114?.indSucata == 1" class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('motivo Sucata') }}</mat-label>
+            <textarea matInput formControlName="motivoSucata" [rows]="2" maxlength="1000"></textarea>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="pecaRe5114?.indDevolver == 1" class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('motivo Devolucao') }}</mat-label>
+            <textarea matInput formControlName="motivoDevolucao" [rows]="2" maxlength="1000"></textarea>
+        </mat-form-field>
+
+
+    </div>
+</form>
+
+<div class="flex justify-center items-center min-h-36" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button>
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+        Salvar
+    </button>
+</mat-dialog-actions>

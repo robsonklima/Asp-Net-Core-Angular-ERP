@@ -1,0 +1,133 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"  *transloco="let t">
+        <div class="absolute inset-x-0 bottom-0">
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/os-bancada">
+                        {{ t('atendimento bancada') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codOsbancada }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('atendimento bancada') }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+            <button *ngIf="codOsbancada" class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
+            (click)="criarPeca()">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 p-4 gap-6 w-full min-w-0">
+        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+            <form autocomplete="off" class="flex flex-col" [formGroup]="form">
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <mat-select formControlName="codClienteBancada">
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteBancadaFilterCtrl">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let cliente of clientes"  [value]="cliente.codClienteBancada">
+                                {{ cliente.apelido }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field> 
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nf cliente') }}</mat-label>
+                        <input matInput formControlName="nfentrada" maxlength="10" [value]="osBancada?.nfentrada">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('data nf') }}</mat-label>
+                        <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataNf" required [value]="osBancada?.dataNf">
+                        <mat-datepicker-toggle matSuffix [for]="cadastroData"></mat-datepicker-toggle>
+                        <mat-datepicker #cadastroData></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('data chegada') }}</mat-label>
+                        <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData2" formControlName="dataChegada" required [value]="osBancada?.dataChegada">
+                        <mat-datepicker-toggle matSuffix [for]="cadastroData2"></mat-datepicker-toggle>
+                        <mat-datepicker #cadastroData2></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('prazo entrega') }}</mat-label>
+                        <input matInput formControlName="prazoEntrega" maxlength="10" [value]="osBancada?.prazoEntrega">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('valor') }}</mat-label>
+                        <input matInput formControlName="valorNf" [value]="osBancada?.valorNf" mask="separator.2"
+                            prefix="R$ " thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('obs') }}</mat-label>
+                        <input matInput formControlName="observacao" [value]="osBancada?.observacao">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                    <button (click)="_location.back()" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+    
+        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"*transloco="let t">
+            <app-laboratorio-os-bancada-pecare5114-lista [codOsbancada]="codOsbancada"></app-laboratorio-os-bancada-pecare5114-lista>
+    </div>
+    </div>
+    
+</div>

@@ -12,25 +12,40 @@
     </div>
 
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cliente') }}</mat-label>
+                    <mat-select formControlName="codClientes" multiple="true">
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="clienteFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codClientes, clientes, 'codCliente')" [value]="0">
+                            TODOS
+                        </mat-option>
+                        <mat-option *ngFor="let cliente of clientes" [value]="cliente.codCliente">
+                            {{ cliente.nomeFantasia }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('contrato') }}</mat-label>
-                    <mat-select formControlName="CodContratos" multiple="true">
-
+                    <mat-select formControlName="codContratos" multiple="true">
                         <mat-option>
                             <ngx-mat-select-search placeholderLabel="Pesquisa..."
                                 noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="contratoFilterCtrl">
                             </ngx-mat-select-search>
                         </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodContratos, contratos,
-                            'codContrato')" [value]="0">
-                            TODAS
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codContratos, contratos, 'codContrato')" [value]="0">
+                            TODOS
                         </mat-option>
-
-                        <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato ">
+                        <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato">
                             {{ contrato.nomeContrato }}
                         </mat-option>
                     </mat-select>
@@ -38,19 +53,12 @@
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo') }}</mat-label>
-                    <mat-select formControlName="CodInstalTipoPleitos" multiple="true">
-
-                        <mat-option>
-                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tipoFilterCtrl">
-                            </ngx-mat-select-search>
+                    <mat-select formControlName="codInstalTipoPleitos" multiple="true">
+                        <mat-option class="mat-primary fill"
+                            (click)="selectAll(form.controls.codInstalTipoPleitos, tipos, 'codInstalTipoPleito')"
+                            [value]="0">
+                            TODOS
                         </mat-option>
-
-                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodInstalTipoPleitos, tipos,
-                            'codInstalTipoPleito')" [value]="0">
-                            TODAS
-                        </mat-option>
-
                         <mat-option *ngFor="let tipo of tipos" [value]="tipo.codInstalTipoPleito ">
                             {{ tipo.nomeTipoPleito }}
                         </mat-option>

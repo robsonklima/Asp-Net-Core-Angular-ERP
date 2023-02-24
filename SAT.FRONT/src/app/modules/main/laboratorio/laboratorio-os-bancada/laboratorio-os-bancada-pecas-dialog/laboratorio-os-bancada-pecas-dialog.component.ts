@@ -174,8 +174,6 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
                     indPecaLiberada: 0,
                 }
             };
-            console.log(obj);
-            
 
             this._osBancadaPecasService.criar(obj).subscribe(() => {
                 this._snack.exibirToast("Peça adicionada com sucesso!", "success");

@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace SAT.MODELS.Entities
 {
-    [Table("InstalPleito")]
     public class InstalacaoPleito
     {
-        [Key]
         public int CodInstalPleito { get; set; }
         public int CodContrato { get; set; }
         public int CodInstalTipoPleito { get; set; }

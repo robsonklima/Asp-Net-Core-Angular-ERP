@@ -43,7 +43,7 @@ namespace SAT.SERVICES.Services
 
         public InstalacaoPleito Criar(InstalacaoPleito instalacaoPleito)
         {
-            instalacaoPleito.CodInstalPleito = _sequenciaRepo.ObterContador("InstalacaoPleito");
+            instalacaoPleito.CodInstalPleito = _sequenciaRepo.ObterContador("InstalPleito");
             _instalacaoPleitoRepo.Criar(instalacaoPleito);
             return instalacaoPleito;
         }

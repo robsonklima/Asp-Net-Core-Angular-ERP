@@ -131,6 +131,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoMotivoRes> InstalacaoMotivoRes { get; set; }
         public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
         public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }        
+        public DbSet<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }   
         public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }        
         public DbSet<InstalacaoAnexo> InstalacaoAnexo { get; set; }
         public DbSet<Laudo> Laudo { get; set; }
@@ -487,6 +488,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<TicketAnexo>(new TicketAnexoMap().Configure);
             modelBuilder.Entity<TicketBacklogView>(new TicketBacklogViewMap().Configure);
             modelBuilder.Entity<InstalacaoPleito>(new InstalacaoPleitoMap().Configure);
+            modelBuilder.Entity<InstalacaoPleitoInstal>(new InstalacaoPleitoInstalMap().Configure);
             modelBuilder.Entity<InstalacaoTipoPleito>(new InstalacaoTipoPleitoMap().Configure);
             modelBuilder.Entity<ProtocoloChamadoSTN>(new ProtocoloChamadoSTNMap().Configure);
             modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);

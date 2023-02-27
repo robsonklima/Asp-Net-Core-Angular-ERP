@@ -38,6 +38,10 @@ export const instalacaoRoutes: Route[] = [
         component: InstalacaoListaComponent
     },
     {
+        path: 'pleito/lista/:codInstalPleito',
+        component: InstalacaoListaComponent
+    },
+    {
         path: ':codContrato/:codInstalacao',
         component: InstalacaoListaMaisOpcoesComponent
     },

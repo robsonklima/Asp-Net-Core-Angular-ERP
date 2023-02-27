@@ -19,6 +19,10 @@ namespace SAT.SERVICES.Services
             _instalacaoPleitoInstalRepo = instalacaoPleitoInstalRepo;
             _sequenciaRepo = sequenciaRepo;
         }
+        public InstalacaoPleitoInstal ObterPorCodigo(int codInstalPleito)
+        {
+            return _instalacaoPleitoInstalRepo.ObterPorCodigo(codInstalPleito);
+        }
 
         public ListViewModel ObterPorParametros(InstalacaoPleitoInstalParameters parameters)
         {

@@ -60,7 +60,6 @@ namespace SAT.INFRA.Repository
             var instalacoes = _context.InstalacaoPleito
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacaoTipoPleito)
-                .Include(i => i.InstalacaoPleitoInstal)
                 .AsNoTracking() 
                 .AsQueryable();
 

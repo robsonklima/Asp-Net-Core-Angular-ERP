@@ -48,6 +48,13 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
+        public InstalacaoPleitoInstal ObterPorCodigo(int codInstalPleito)
+        {
+
+            var data = _context.InstalacaoPleitoInstal.FirstOrDefault(i => i.CodInstalPleito == codInstalPleito);
+
+            return data;
+        }
 
         public PagedList<InstalacaoPleitoInstal> ObterPorParametros(InstalacaoPleitoInstalParameters parameters)
         {

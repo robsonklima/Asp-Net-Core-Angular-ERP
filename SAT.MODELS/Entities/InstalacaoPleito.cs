@@ -17,6 +17,5 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public Contrato Contrato { get; set; }
         public InstalacaoTipoPleito InstalacaoTipoPleito { get; set; }
-        public List<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }
     }
 }

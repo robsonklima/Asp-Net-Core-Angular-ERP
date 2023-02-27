@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { InstalacaoPleitoService } from 'app/core/services/instalacao-pleito.service';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { InstalacaoPleitoInstalData, InstalacaoPleitoInstalParameters } from 'app/core/types/instalacao-pleito-instal.types';
 import { InstalacaoPleito, InstalacaoPleitoData, InstalacaoPleitoParameters } from 'app/core/types/instalacao-pleito.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';

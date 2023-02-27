@@ -23,13 +23,7 @@ namespace SAT.INFRA.Mapping
                .HasOne(prop => prop.InstalacaoTipoPleito)
                .WithMany()
                .HasForeignKey(prop => prop.CodInstalTipoPleito)
-               .HasPrincipalKey(prop => prop.CodInstalTipoPleito);       
-
-            builder
-               .HasMany(prop => prop.InstalacaoPleitoInstal)
-               .WithOne()
-               .HasForeignKey(prop => prop.CodInstalPleito)
-               .HasPrincipalKey(prop => prop.CodInstalPleito);                                      
+               .HasPrincipalKey(prop => prop.CodInstalTipoPleito);                                         
         }
     }
 }

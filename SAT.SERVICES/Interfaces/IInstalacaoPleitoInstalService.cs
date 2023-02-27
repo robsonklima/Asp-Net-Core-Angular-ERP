@@ -10,5 +10,6 @@ namespace SAT.SERVICES.Interfaces
         InstalacaoPleitoInstal Criar(InstalacaoPleitoInstal instalacaoPleitoInstal);
         void Deletar(int codInstalacao, int codInstalPleito);
         void Atualizar(InstalacaoPleitoInstal instalacaoPleitoInstal);
+        InstalacaoPleitoInstal ObterPorCodigo(int codInstalPleito);
     }
 }

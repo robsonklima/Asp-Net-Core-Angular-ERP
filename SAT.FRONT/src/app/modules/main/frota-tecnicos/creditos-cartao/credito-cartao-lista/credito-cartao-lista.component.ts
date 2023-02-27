@@ -121,9 +121,6 @@ export class CreditoCartaoListaComponent extends Filterable implements AfterView
       }
     ).toPromise());
 
-    console.log(this.periodos);
-    
-
     this.periodos.items = this.periodos.items.filter((value, index, self) =>
       index === self.findIndex((t) => (
         t.codDespesaPeriodoTecnico === value.codDespesaPeriodoTecnico

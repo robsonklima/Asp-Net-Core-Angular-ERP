@@ -15,17 +15,10 @@ namespace SAT.INFRA.Mapping
                 .HasKey(i => i.CodOrcamento);
 
             builder
-                .HasOne(prop => prop.OSBancada)
+                .HasOne(prop => prop.OSBancadaPecas)
                 .WithMany()
-                .HasForeignKey(prop => prop.CodOsbancada)
-                .HasPrincipalKey(prop => prop.CodOsbancada);
-            
-            builder
-                .HasOne(prop => prop.PecaRE5114)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodPecaRe5114)
-                .HasPrincipalKey(prop => prop.CodPecaRe5114);
-
+                .HasForeignKey(prop => new { prop.CodOsbancada, prop.CodPecaRe5114 })
+                .HasPrincipalKey(prop => new { prop.CodOsbancada, prop.CodPecaRe5114 });
         }
     }
 }

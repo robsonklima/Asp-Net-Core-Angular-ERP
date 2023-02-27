@@ -20,6 +20,5 @@ namespace SAT.MODELS.Entities
         public string MotivoSucata { get; set; }
         public int? CodOsbancada { get; set; }
         public Peca Peca { get; set; }
-        public OSBancada OSBancada { get; set; }
     }
 }

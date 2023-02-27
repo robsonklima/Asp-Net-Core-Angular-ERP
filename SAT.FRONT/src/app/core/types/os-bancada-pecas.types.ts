@@ -27,7 +27,7 @@ export class OSBancadaPecas {
     codPecaRe5114troca?: number;
     numItemNf?: number;
     nomeTecnicoRelatante?: string;
-    oSBancada?: OSBancada;
+    osBancada?: OSBancada;
     pecaRE5114?: PecaRE5114;
 }
 

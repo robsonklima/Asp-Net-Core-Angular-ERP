@@ -1,10 +1,10 @@
-<h2 mat-dialog-title>Edição Peca RE5114: N° {{pecaRe5114?.numRe5114}}</h2>
+<h2 mat-dialog-title>Edição Peca RE5114: N° {{ pecaRe5114?.numRe5114 }}</h2>
 <form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
     <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 ">
 
         <mat-form-field class="fuse-mat-dense sm:col-span-12">
             <mat-label>{{ t('defeito constatado') }}</mat-label>
-            <textarea matInput formControlName="defeitoConstatado" [value]="osBancadaPeca?.defeitoConstatado" [rows]="2"
+            <textarea matInput formControlName="defeitoConstatado" [value]="osBancadaPeca?.defeitoConstatado"  [rows]="2"
                 maxlength="1000"></textarea>
         </mat-form-field>
 

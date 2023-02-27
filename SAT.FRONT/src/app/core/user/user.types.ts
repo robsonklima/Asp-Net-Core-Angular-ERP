@@ -87,7 +87,8 @@ export enum RoleEnum {
     FINANCEIRO_COORDENADOR_CREDITO = 100,
     FILIAL_LIDER_DE_SETOR = 80,    
     PV_CENTRAL_ATENDENTE = 2,
-    PLANTAO_HELP_DESK = 89
+    PLANTAO_HELP_DESK = 89,
+    CLIENTE_AVANCADO = 33
 }
 
 export enum RoleGroup {

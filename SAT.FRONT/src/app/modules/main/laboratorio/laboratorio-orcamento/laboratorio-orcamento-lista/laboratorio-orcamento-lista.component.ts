@@ -1,10 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { OsBancadaPecasOrcamentoService } from 'app/core/services/os-bancada-pecas-orcamento.service';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OsBancadaPecasOrcamentoData, OsBancadaPecasOrcamentoParameters } from 'app/core/types/os-bancada-pecas-orcamento.types';
@@ -19,13 +18,13 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     styles: [
         /* language=SCSS */
         `.list-grid-u {
-            grid-template-columns: 7% 8% 7% 6% 8% auto 10% 7% 15%;
+            grid-template-columns: 60px 80px 70px 70px 80px auto 200px 80px 120px;
         }`
     ],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LaboratorioOrcamentoListaComponent extends Filterable implements OnInit, AfterViewInit, IFilterable {
+export class LaboratorioOrcamentoListaComponent extends Filterable implements OnInit, IFilterable {
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,7 +37,6 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
         private _osBancadaPecasOrcService: OsBancadaPecasOrcamentoService,
-        private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'orcamento-bancada');
         this.userSession = JSON.parse(this._userService.userSession);
@@ -47,15 +45,7 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
     ngOnInit(): void {
     }
 
-    registerEmitters(): void {
-        // this.sidenav.closedStart.subscribe(() => {
-        //     this.onSidenavClosed();
-        //     this.obterDados();
-        // });
-    }
-
     async ngAfterViewInit() {
-        this.registerEmitters();
         await this.obterDados();
 
         if (this.sort && this.paginator) {
@@ -82,13 +72,16 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
         this._cdr.detectChanges();
     }
 
+    registerEmitters(): void {
+   }
+
     async obterDados(filtro: string = '') {
         this.isLoading = true;
 
-        const parametros: OsBancadaPecasOrcamentoParameters = {
+    const parametros: OsBancadaPecasOrcamentoParameters = {
             ...{
                 pageNumber: this.paginator?.pageIndex + 1,
-                sortActive: 'codOsbancada',
+                sortActive: 'codPecaRe5114',
                 sortDirection: 'desc',
                 pageSize: this.paginator?.pageSize,
                 filter: filtro
@@ -98,21 +91,9 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
 
         const data = await this._osBancadaPecasOrcService.obterPorParametros(parametros).toPromise();
         this.dataSourceData = data;
-        console.log(data);
         
         this.isLoading = false;
         this._cdr.detectChanges();
-    }
-
-    exportar() {
-
-        // let params: Exportacao = {
-        //     formatoArquivo: ExportacaoFormatoEnum.EXCEL,
-        //     tipoArquivo: ExportacaoTipoEnum.VALOR_COMBUSTIVEL,
-        //     entityParameters: {}
-        // }
-
-        // this._exportacaoService.exportar(FileMime.Excel,params);
     }
 
     paginar() {

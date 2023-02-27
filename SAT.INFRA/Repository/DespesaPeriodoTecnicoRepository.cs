@@ -101,8 +101,6 @@ namespace SAT.INFRA.Repository
             query = AplicarFiltros(query, parameters);
             query = AplicarOrdenacao(query, parameters.SortActive, parameters.SortDirection);
 
-            var b = query.ToQueryString();
-
             return query.AsNoTracking();
         }
 

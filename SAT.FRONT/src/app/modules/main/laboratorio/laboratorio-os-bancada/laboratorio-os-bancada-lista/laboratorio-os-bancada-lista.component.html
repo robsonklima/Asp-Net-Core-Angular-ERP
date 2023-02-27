@@ -20,10 +20,6 @@
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
 
-            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}">
-                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
-            </button>
-
         </div>
     </div>
 
@@ -36,6 +32,9 @@
                             matSort matSortDisableClear *transloco="let t">
                             <div class="md:block" [mat-sort-header]="'os'">
                                 {{ t('os bancada') }}
+                            </div>
+                            <div>
+                                {{ t('Num RE5114') }}
                             </div>
                             <div>
                                 {{ t('cliente') }}
@@ -63,19 +62,22 @@
                                             {{ os?.codOsbancada }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.clienteBancada?.apelido }}
+                                            {{ os?.pecaRE5114.numRe5114 }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.nfentrada }}
+                                            {{ os?.osBancada?.clienteBancada?.apelido }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.dataChegada | date:'dd/MM/yyyy' }}
+                                            {{ os?.osBancada?.nfentrada }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.prazoEntrega }}
+                                            {{ os?.osBancada?.dataChegada | date:'dd/MM/yyyy' }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.valorNf | currency: 'BRL' }}
+                                            {{ os?.osBancada?.prazoEntrega }}
+                                        </div>
+                                        <div class="flex items-center">
+                                            {{ os?.osBancada?.valorNf | currency: 'BRL' }}
                                         </div>
                                     </div>
                                 </a>

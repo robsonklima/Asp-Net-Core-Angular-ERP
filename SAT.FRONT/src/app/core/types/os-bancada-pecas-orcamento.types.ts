@@ -1,6 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
-import { OSBancada } from "./os-bancada.types";
-import { PecaRE5114 } from "./pecaRE5114.types";
+import { OSBancadaPecas } from "./os-bancada-pecas.types";
 
 export class OsBancadaPecasOrcamento {
     codOrcamento: number;
@@ -17,8 +16,8 @@ export class OsBancadaPecasOrcamento {
     motivoReprov?: string;
     dataHoraManut?: string;
     codOrcamentoQtdPai?: number;
-    osBancada?: OSBancada;
-    pecaRE5114?: PecaRE5114;
+    osBancadaPecas?: OSBancadaPecas;
+
 }
 
 export interface OsBancadaPecasOrcamentoData extends Meta {

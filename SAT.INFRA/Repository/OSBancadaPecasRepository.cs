@@ -31,6 +31,17 @@ namespace SAT.INFRA.Repository
             }
         }
 
+         public OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114)
+        {
+            return _context.OSBancadaPecas
+                .Include(i => i.PecaRE5114)
+                .Include(i => i.OSBancada)
+                .SingleOrDefault(
+                    i =>
+                    i.CodOsbancada == codOsbancada &&
+                    i.CodPecaRe5114 == codPecaRe5114 );
+        }
+
         public void Criar(OSBancadaPecas osBancada)
         {
             _context.Add(osBancada);
@@ -50,15 +61,22 @@ namespace SAT.INFRA.Repository
         public PagedList<OSBancadaPecas> ObterPorParametros(OSBancadaPecasParameters parameters)
         {
             IQueryable<OSBancadaPecas> osBancadaPecas = _context.OSBancadaPecas
+                 .Include(i => i.OSBancada)
+                     .ThenInclude(i => i.Filial)
                 .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.ClienteBancada)
                 .Include(i => i.PecaRE5114)
+                    .ThenInclude(i => i.Peca)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
                 osBancadaPecas = osBancadaPecas.Where(
                     s =>
-                    s.OSBancada.CodOsbancada.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.PecaRE5114.CodPecaRe5114.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    s.CodOsbancada.ToString().Contains(parameters.Filter) ||
+                    s.PecaRE5114.NumRe5114.Contains(parameters.Filter) ||
+                    s.OSBancada.ClienteBancada.Apelido.Contains(parameters.Filter) ||
+                    s.OSBancada.ClienteBancada.NomeCliente.Contains(parameters.Filter) ||
+                    s.OSBancada.Nfentrada.Contains(parameters.Filter)
              );
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

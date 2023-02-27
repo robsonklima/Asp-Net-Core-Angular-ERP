@@ -10,5 +10,6 @@ namespace SAT.SERVICES.Interfaces
         OSBancadaPecas Criar(OSBancadaPecas osBancadaPecas);
         void Deletar(int codigo, int codigoPeca);
         void Atualizar(OSBancadaPecas osBancadaPecas);
+        OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114);
     }
 }

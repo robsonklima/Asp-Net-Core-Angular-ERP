@@ -19,7 +19,7 @@ namespace SAT.MODELS.Entities
         public string MotivoReprov { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public int? CodOrcamentoQtdPai { get; set; }
-        public OSBancada OSBancada { get; set; }
-        public PecaRE5114 PecaRE5114 { get; set; }
+        public OSBancadaPecas OSBancadaPecas { get; set; }
+
     }
 }

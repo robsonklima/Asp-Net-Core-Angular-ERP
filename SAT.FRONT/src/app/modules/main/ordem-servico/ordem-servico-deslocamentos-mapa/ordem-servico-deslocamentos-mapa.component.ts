@@ -31,9 +31,6 @@ export class OrdemServicoDeslocamentosMapaComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.deslocamento = data.deslocamento;
-
-    console.log(this.deslocamento);
-    
   }
 
   async ngOnInit() {

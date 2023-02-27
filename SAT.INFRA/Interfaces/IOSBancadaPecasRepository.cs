@@ -10,5 +10,6 @@ namespace SAT.INFRA.Interfaces
         void Criar(OSBancadaPecas osBancadaPecas);
         void Atualizar(OSBancadaPecas osBancadaPecas);
         void Deletar(int CodOsbancada, int codPecaRe5114);
+        OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114);
     }
 }

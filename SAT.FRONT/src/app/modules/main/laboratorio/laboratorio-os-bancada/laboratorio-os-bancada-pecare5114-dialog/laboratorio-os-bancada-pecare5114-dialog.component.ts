@@ -36,13 +36,14 @@ export class LaboratorioOSBancadaPecaRE5114DialogComponent implements OnInit {
         private _userService: UserService,
         private _snack: CustomSnackbarService,
     ) {
-        this.pecaRe5114 = data?.pecaRE5114;
+        this.osBancadaPeca = data?.osBancadaPecas;
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
     async ngOnInit() {
         this.inicializarForm();
-        this.osBancadaPeca = (await this._osBancadaPecaService.obterPorParametros({ codPecaRe5114s: this.pecaRe5114.codPecaRe5114.toString() }).toPromise()).items.shift();
+        this.pecaRe5114 = await this._pecaRE5114Service.obterPorCodigo(this.osBancadaPeca.codPecaRe5114).toPromise();
+        this.preencherForm();
         this.loading = false;
     }
 
@@ -60,6 +61,15 @@ export class LaboratorioOSBancadaPecaRE5114DialogComponent implements OnInit {
         });
     }
 
+    private preencherForm(): void {
+        this.form.controls['numRe5114'].setValue(this.pecaRe5114?.numRe5114);
+        this.form.controls['indGarantia'].setValue(this.osBancadaPeca?.indGarantia);
+        this.form.controls['defeitoConstatado'].setValue(this.osBancadaPeca?.defeitoConstatado);
+        this.form.controls['solucao'].setValue(this.osBancadaPeca?.solucao);
+        this.form.controls['motivoSucata'].setValue(this.pecaRe5114?.motivoSucata);
+        this.form.controls['motivoDevolucao'].setValue(this.pecaRe5114?.motivoDevolucao);
+    }
+
     async onChangeSucata($event: MatSlideToggleChange) {
         if ($event.checked)
             this.pecaRe5114.indSucata = 1;
@@ -75,11 +85,11 @@ export class LaboratorioOSBancadaPecaRE5114DialogComponent implements OnInit {
     }
 
     async onChangeLiberado($event: MatSlideToggleChange) {
-        if ($event.checked){
+        if ($event.checked) {
             this.osBancadaPeca.indPecaLiberada = 1;
             this.osBancadaPeca.dataHoraPecaLiberada = moment().format('YYYY-MM-DD HH:mm:ss');
         }
-        else{
+        else {
             this.osBancadaPeca.indPecaLiberada = 0;
             this.osBancadaPeca.dataHoraPecaLiberada = null;
         }
@@ -88,7 +98,6 @@ export class LaboratorioOSBancadaPecaRE5114DialogComponent implements OnInit {
     cancelar() {
         this._dialogRef.close();
     }
-
 
     async salvar() {
         const form: any = this.form.getRawValue();

@@ -59,7 +59,6 @@ namespace SAT.INFRA.Repository
         {
             return _context.PecaRE5114
             .Include(p => p.Peca)
-            .Include(p => p.OSBancada)
             .FirstOrDefault(p => p.CodPecaRe5114 == codigo);
         }
 
@@ -67,26 +66,19 @@ namespace SAT.INFRA.Repository
         {
              IQueryable<PecaRE5114> pecaRE5114 = _context.PecaRE5114
                 .Include(i => i.Peca)
-                .Include(i => i.OSBancada)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
                 pecaRE5114 = pecaRE5114.Where(
                     s =>
                     s.CodPecaRe5114.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.Peca.CodPeca.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.OSBancada.CodOsbancada.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    s.Peca.CodPeca.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
              );
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 pecaRE5114 = pecaRE5114.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
-
-            if (parameters.CodOsbancada != null)
-            {
-                pecaRE5114 = pecaRE5114.Where(a => a.OSBancada.CodOsbancada == parameters.CodOsbancada);
-            };
 
             if (!string.IsNullOrWhiteSpace(parameters.CodPecas))
             {

@@ -26,6 +26,11 @@ namespace SAT.SERVICES.Services
             return osBancadaPecas;
         }
 
+        public OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114)
+        {
+            return _osBancadaPecasRepo.ObterPorCodigo(codOsbancada, codPecaRe5114);
+        }
+
         public void Deletar(int codigo, int codigoPeca)
         {
             this._osBancadaPecasRepo.Deletar(codigo,codigoPeca);

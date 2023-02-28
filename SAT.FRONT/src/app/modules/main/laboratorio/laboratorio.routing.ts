@@ -11,6 +11,7 @@ import { LaboratorioPainelControleComponent } from './laboratorio-painel-control
 import { LaboratorioProcessoReparoDetalheComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-detalhe.component';
 import { LaboratorioProcessoReparoHistoricoComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-historico/laboratorio-processo-reparo-historico.component';
 import { LaboratorioProcessoReparoListaComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-lista/laboratorio-processo-reparo-lista.component';
+import { LaboratorioOrcamentoFormComponent } from './laboratorio-orcamento/laboratorio-orcamento-form/laboratorio-orcamento-form.component';
 
 export const laboratorioRoutes: Route[] = [
     {
@@ -69,6 +70,14 @@ export const laboratorioRoutes: Route[] = [
     {
         path: 'orcamento-bancada',
         component: LaboratorioOrcamentoListaComponent
+    },
+    {
+        path: 'orcamento-bancada/form',
+        component: LaboratorioOrcamentoFormComponent
+    },
+    {
+        path: 'orcamento-bancada/form/:codOrcamento',
+        component: LaboratorioOrcamentoFormComponent
     },
     {
         path: 'os-bancada/form',

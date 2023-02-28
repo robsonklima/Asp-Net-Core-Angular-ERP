@@ -27,4 +27,11 @@ export interface OsBancadaPecasOrcamentoData extends Meta {
 export interface OsBancadaPecasOrcamentoParameters extends QueryStringParameters {
     codOsbancadas?: string;
     codPecaRe5114s?: string;
+    codOrcamento?: number;
+    numRe5114?: string;
 };
+
+export enum OsBancadaPecasOrcamentoEnum {
+    REPROVADO = 0,
+    APROVADO = 1
+}

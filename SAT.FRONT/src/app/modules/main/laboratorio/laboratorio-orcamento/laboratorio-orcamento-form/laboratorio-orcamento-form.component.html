@@ -1,0 +1,167 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div class="absolute inset-x-0 bottom-0">
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/orcamento-bancada">
+                        {{ t('orcamento bancada') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codOrcamento }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 *ngIf="!codOrcamento" class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('orcamento bancada') }}
+                </h2>
+                <h2 *ngIf="codOrcamento" class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('RE5114: ') }}
+                    #{{ orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114 }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
+            <!-- <button *ngIf="codOsbancada" class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
+            (click)="criarPeca()">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button> -->
+        </div>
+    </div>
+    <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 p-4 gap-6 w-full min-w-0">
+        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+            *transloco="let t">
+            <form autocomplete="off" class="flex flex-col" [formGroup]="form">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
+
+                    <mat-form-field *ngIf="!codOrcamento" class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('RE5114') }}</mat-label>
+                        <input #numRE5114InputControl matInput formControlName="numRe5114" maxlength="10"
+                            [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('codMagnus') }}</mat-label>
+                        <input matInput formControlName="codMagnus"
+                            [value]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.codMagnus">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('cliente') }}</mat-label>
+                        <input matInput formControlName="apelido"
+                            [value]="orcamento?.osBancadaPecas?.osBancada?.clienteBancada?.apelido">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('peca') }}</mat-label>
+                        <input matInput formControlName="nomePeca"
+                            [value]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.nomePeca"
+                            [matTooltip]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.nomePeca">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nf cliente') }}</mat-label>
+                        <input matInput formControlName="nfentrada"
+                            [value]="orcamento?.osBancadaPecas?.osBancada?.nfentrada">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('n serie') }}</mat-label>
+                        <input matInput formControlName="numSerie" maxlength="10"
+                            [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numSerie">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('valor pre aprovado') }}</mat-label>
+                        <input matInput formControlName="valorPreAprovado" [value]="orcamento?.valorPreAprovado"
+                            mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
+                            [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('Status de Aprovação') }}</mat-label>
+                        <mat-select formControlName="indOrcamentoAprov" [value]="orcamento?.indOrcamentoAprov">
+                            <mat-option [value]="0">
+                                Reprovado
+                            </mat-option>
+                            <mat-option [value]="1">
+                                Aprovado
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('obs') }}</mat-label>
+                        <input matInput formControlName="observacao" [value]="orcamento?.observacao">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('motivo reprovacao') }}</mat-label>
+                        <textarea matInput formControlName="motivoReprov" [rows]="2" maxlength="1000"></textarea>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                    <button (click)="_location.back()" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="codOrcamento"
+            class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <!-- <app-laboratorio-os-bancada-pecare5114-lista [codOsbancada]="codOsbancada"></app-laboratorio-os-bancada-pecare5114-lista> -->
+        </div>
+    </div>
+
+</div>

@@ -75,6 +75,7 @@ import { LaboratorioOSBancadaPecasDialogComponent } from './laboratorio-os-banca
 import { LaboratorioOSBancadaListaComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-lista/laboratorio-os-bancada-lista.component';
 import { LaboratorioOSBancadaPecaRE5114ListaComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-pecare5114-lista/laboratorio-os-bancada-pecare5114-lista.component';
 import { LaboratorioOSBancadaPecaRE5114DialogComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-pecare5114-dialog/laboratorio-os-bancada-pecare5114-dialog.component';
+import { LaboratorioOrcamentoFormComponent } from './laboratorio-orcamento/laboratorio-orcamento-form/laboratorio-orcamento-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -120,7 +121,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioOSBancadaPecasDialogComponent,
     LaboratorioOSBancadaListaComponent,
     LaboratorioOSBancadaPecaRE5114ListaComponent,
-    LaboratorioOSBancadaPecaRE5114DialogComponent
+    LaboratorioOSBancadaPecaRE5114DialogComponent,
+    LaboratorioOrcamentoFormComponent
 
   ],
   imports: [

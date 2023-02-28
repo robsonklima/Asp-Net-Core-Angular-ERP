@@ -17,8 +17,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
     styles: [
         /* language=SCSS */
-        `.list-grid-u {
-            grid-template-columns: 60px 80px 70px 70px 80px auto 200px 80px 120px;
+        `.list-grid-orc {
+            grid-template-columns: 60px 80px 70px 70px 80px auto 200px 80px 80px 120px;
         }`
     ],
     encapsulation: ViewEncapsulation.None,

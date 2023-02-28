@@ -194,14 +194,32 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nivel severidade') }}</mat-label>
+                        <mat-select formControlName="codSeveridade">
+                            <mat-option [value]="1">
+                                Nível 1
+                            </mat-option>
+                            <mat-option [value]="2">
+                                Nível 2
+                            </mat-option>
+                            <mat-option [value]="3">
+                                Nível 3
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome solicitante') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'" matPrefix>
                         </mat-icon>
                         <input matInput formControlName="nomeSolicitante">
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('telefone solicitante') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'" matPrefix>
                         </mat-icon>

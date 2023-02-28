@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
@@ -6,7 +6,6 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { InstalacaoPleitoService } from 'app/core/services/instalacao-pleito.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { InstalacaoPleitoInstalData, InstalacaoPleitoInstalParameters } from 'app/core/types/instalacao-pleito-instal.types';
 import { InstalacaoPleito, InstalacaoPleitoData, InstalacaoPleitoParameters } from 'app/core/types/instalacao-pleito.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -109,9 +108,6 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
     }).toPromise();
 
     this.dataSourceData = data;
-
-    console.log(this.dataSourceData);
-    
     this.isLoading = false;
     this._cdr.detectChanges();
   }
@@ -119,5 +115,4 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
   paginar() {
     this.obterDados();
   }
-
 }

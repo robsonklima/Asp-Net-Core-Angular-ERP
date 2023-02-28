@@ -1,1 +1,69 @@
-<p>instalacao-pleito-detalhe works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div  class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/instalacao/pleito">
+                        {{ t('pleitos') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codInstalPleito }}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('pleito') }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}" (click)="exportar()">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:download'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('pleito') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pleito-form></app-instalacao-pleito-form>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('equipamentos') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pleito-instalacao-lista></app-instalacao-pleito-instalacao-lista>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

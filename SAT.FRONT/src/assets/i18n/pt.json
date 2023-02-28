@@ -812,7 +812,7 @@
     "nome local entrega": "Nome Local Entrega",
     "leitura": "Leitura",
     "remetente": "Remetente",
-    "consulta de pleito": "Consulta de Pleito",
+    "pleitos": "Pleitos",
     "dt envio": "Dt Envio",
     "qtd": "Qtd",
     "cobrancas": "Cobranças",
@@ -848,5 +848,6 @@
     "cod peca cliente": "Cód Peça Cliente",
     "valor entrada": "Valor Entrada",
     "num item nf": "Num Item NF",
-    "defeito relatado": "Defeito Relatado"
+    "defeito relatado": "Defeito Relatado",
+    "pleito": "Pleito"
 }

@@ -1,5 +1,6 @@
 import { Meta } from "@angular/platform-browser";
 import { QueryStringParameters } from "./generic.types";
+import { Instalacao } from "./instalacao.types";
 
 export interface InstalacaoPleitoInstal {
     codInstalacao?: number;
@@ -7,6 +8,7 @@ export interface InstalacaoPleitoInstal {
     codEquipContrato?: number | null;
     codUsuarioCad?: string;
     dataHoraCad?: string;
+    instalacao?: Instalacao;
 }
 
 export interface InstalacaoPleitoInstalData extends Meta {

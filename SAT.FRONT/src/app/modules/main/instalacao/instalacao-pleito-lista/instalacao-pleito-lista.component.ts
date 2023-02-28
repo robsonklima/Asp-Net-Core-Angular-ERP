@@ -109,6 +109,9 @@ export class InstalacaoPleitoListaComponent extends Filterable implements AfterV
     }).toPromise();
 
     this.dataSourceData = data;
+
+    console.log(this.dataSourceData);
+    
     this.isLoading = false;
     this._cdr.detectChanges();
   }

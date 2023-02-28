@@ -9,6 +9,5 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioCad { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public Instalacao Instalacao { get; set; }
-        public InstalacaoPleito InstalacaoPleito { get; set; }
     }
 }

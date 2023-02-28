@@ -32,12 +32,9 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
 		this.isAddMode = !this.codInstalPleito;
 
     if (!this.isAddMode)
-      await this._instalPleitoService
+      this.instalPleito = await this._instalPleitoService
         .obterPorCodigo(this.codInstalPleito)
-        .subscribe((test) => {
-          let a = test
-          console.log(test)
-        });
+        .toPromise();
 
 		this.inicializarForm();
     this.isLoading = false;

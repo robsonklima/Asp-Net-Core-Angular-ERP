@@ -787,7 +787,7 @@
     "nome local entrega": "Delivery Location Name",
     "leitura": "Read",
     "remetente": "To be Translated",
-    "consulta de pleito": "Consultation",
+    "pleitos": "Pending",
     "dt envio": "Shipping Date",
     "qtd": "Qty",
     "cobrancas": "Charges",
@@ -807,6 +807,6 @@
     "orçamento bancada": "Bench Budget",
     "os bancada": "Bench OS",
     "nota fiscal": "Invoice",
-    "nivel severidade": "Severity Level"
-
+    "nivel severidade": "Severity Level",
+    "pleito": "Pending"
 }

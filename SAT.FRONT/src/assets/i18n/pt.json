@@ -812,7 +812,7 @@
     "nome local entrega": "Nome Local Entrega",
     "leitura": "Leitura",
     "remetente": "Remetente",
-    "consulta de pleito": "Consulta de Pleito",
+    "pleitos": "Pleitos",
     "dt envio": "Dt Envio",
     "qtd": "Qtd",
     "cobrancas": "Cobranças",
@@ -849,5 +849,6 @@
     "valor entrada": "Valor Entrada",
     "num item nf": "Num Item NF",
     "defeito relatado": "Defeito Relatado",
-    "nivel severidade": "Nivel de Severidade"
+    "nivel severidade": "Nivel de Severidade",
+    "pleito": "Pleito"
 }

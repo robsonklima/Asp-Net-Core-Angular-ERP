@@ -7,17 +7,17 @@ export class InstalacaoPleito {
     codInstalPleito: number;
     codContrato?: number;
     codInstalTipoPleito?: number;
-    nomePleito: string;
-    descPleito: string;
-    dataEnvio: string;
+    nomePleito?: string;
+    descPleito?: string;
+    dataEnvio?: string;
     indAtivo?: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
-    codUsuarioManut: string;
-    dataHoraManut: string;
-    contrato: Contrato;
-    instalacaoTipoPleito: InstalacaoTipoPleito;
-    instalacaoPleitoInstal: InstalacaoPleitoInstal[];
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
+    codUsuarioManut?: string;
+    dataHoraManut?: string;
+    contrato?: Contrato;
+    instalacaoTipoPleito?: InstalacaoTipoPleito;
+    instalacaoPleitoInstal?: InstalacaoPleitoInstal;
 }
 
 export interface InstalacaoPleitoData extends Meta {

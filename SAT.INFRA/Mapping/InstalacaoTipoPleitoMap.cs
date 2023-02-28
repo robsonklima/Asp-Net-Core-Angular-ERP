@@ -9,9 +9,7 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<InstalacaoTipoPleito> builder)
         {
             builder.ToTable("InstalTipoPleito");
-
-            builder
-                .HasKey(i => new { i.CodInstalTipoPleito });                                   
+            builder.HasKey(i => new { i.CodInstalTipoPleito });                                   
         }
     }
 }

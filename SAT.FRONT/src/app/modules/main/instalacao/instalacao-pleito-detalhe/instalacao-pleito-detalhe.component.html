@@ -40,6 +40,30 @@
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
-        
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('pleito') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pleito-form></app-instalacao-pleito-form>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('equipamentos') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pleito-instalacao-lista></app-instalacao-pleito-instalacao-lista>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </div>

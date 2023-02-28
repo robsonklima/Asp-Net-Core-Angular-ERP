@@ -28,7 +28,7 @@
             <ng-container>
                 <ng-container>
                     <div class="grid" *transloco="let t">
-                        <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid-p z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear *transloco="let t">
                             <div class="md:block" [mat-sort-header]="'os'">
                                 {{ t('os bancada') }}
@@ -57,7 +57,7 @@
                             <ng-container *ngFor="let os of dataSourceData?.items">
                                 <a [routerLink]="'/laboratorio/os-bancada/form/' + os.codOsbancada">
                                     <div
-                                        class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        class="list-grid-p grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
                                             {{ os?.codOsbancada }}
                                         </div>

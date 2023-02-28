@@ -848,5 +848,6 @@
     "cod peca cliente": "Cód Peça Cliente",
     "valor entrada": "Valor Entrada",
     "num item nf": "Num Item NF",
-    "defeito relatado": "Defeito Relatado"
+    "defeito relatado": "Defeito Relatado",
+    "nivel severidade": "Nivel de Severidade"
 }

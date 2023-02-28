@@ -36,7 +36,7 @@
             <ng-container>
                 <ng-container>
                     <div class="grid" *transloco="let t">
-                        <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="list-grid-orc z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear *transloco="let t">
                             <div class="md:block" [mat-sort-header]="'orcamento'">
                                 {{ t('orcamento') }}
@@ -63,6 +63,9 @@
                                 {{ t('filial') }}
                             </div>
                             <div>
+                                {{ t('status') }}
+                            </div>
+                            <div>
                                 {{ t('acoes') }}
                             </div>
                         </div>
@@ -70,7 +73,7 @@
                         <ng-container>
                             <ng-container *ngFor="let orcamento of dataSourceData?.items">
                                     <div
-                                        class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                                        class="list-grid-orc grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
                                             {{ orcamento?.codOrcamento }}
                                         </div>
@@ -81,7 +84,7 @@
                                             {{ orcamento?.osBancadaPecas?.osBancada?.nfentrada }}
                                         </div>
                                         <div class="truncate">
-                                            {{ orcamento?.osBancadaPecas?.pecaRE5114?.codPecaRe5114 }}
+                                            {{ orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114 }}
                                         </div>
                                         <div class="truncate">
                                             {{ orcamento?.osBancadaPecas?.pecaRE5114?.peca?.codMagnus }}
@@ -95,20 +98,26 @@
                                         <div class="truncate">
                                             {{ orcamento?.osBancadaPecas?.osBancada?.filial?.nomeFilial }}
                                         </div>
+                                        <!-- <div class="truncate"   
+                                            [class.bg-green-600]="orcamento?.indOrcamentoAprov == 0"
+                                            [class.bg-red-600]="orcamento?.indOrcamentoAprov == 1">
+                                            {{ orcamento?.indOrcamentoAprov?.OsBancadaPecasOrcamentoEnum }}
+                                        </div> -->
+                                        <div class="truncate">
+                                        <span class="py-1 px-2 rounded text-white"
+                                                [class.bg-green-600]="orcamento.indOrcamentoAprov == 1"
+                                                [class.bg-red-600]="orcamento.indOrcamentoAprov == 0 ">
+                                                {{ orcamento.indOrcamentoAprov ? 'Aprovado' : 'Reprovado' }}
+                                            </span>
+                                        </div>
+
                                         <div class="flex items-center">
-                                            <button class="cursor-pointer" [routerLink]="['/laboratorio/orcamento-bancada/form/' + orcamento.codOsbancada]">
+                                            <button class="cursor-pointer" [routerLink]="['/laboratorio/orcamento-bancada/form/' + orcamento.codOrcamento]">
                                                 <mat-icon class="max-w-5 max-h-5 text-green-800"
-                                                    [matTooltip]="t('ir para os bancada')"
+                                                    [matTooltip]="t('orcamento')"
                                                     [svgIcon]="'heroicons_outline:clipboard'">
                                                 </mat-icon>
                                             </button>
-
-                                            <!-- <button class="cursor-pointer ml-2" [disabled]="!(orc?.codOrc)" [routerLink]="['/orcamento/detalhe/' + orc?.codOrc + '/' + orc?.codOS]">
-                                                <mat-icon class="max-w-5 max-h-5 text-blue-800"
-                                                [matTooltip]="t('ir para orcamento')"
-                                                [svgIcon]="'heroicons_outline:calculator'">
-                                                </mat-icon>
-                                            </button> -->
                                         </div>
                                     </div>
                             </ng-container>

@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities.Params
     {
         public string CodPecaRe5114s { get; set; }
         public string CodOSBancadas { get; set; }
+        public string NumRe5114 { get; set; }
 
     }
 }

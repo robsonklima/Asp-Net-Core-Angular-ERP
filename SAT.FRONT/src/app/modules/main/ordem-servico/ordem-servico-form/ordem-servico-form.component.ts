@@ -150,7 +150,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			codEquip: [undefined],
 			codContrato: [undefined],
 			indAtivo: [undefined],
-			enderecoLocal: [undefined]
+			enderecoLocal: [undefined],
+			codSeveridade: [undefined]
 		});
 	}
 

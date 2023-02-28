@@ -30,9 +30,9 @@
                         </ngx-mat-select-search>
                     </mat-option>
 
-                    <mat-option *ngFor="let contrato of contratos" [value]="contrato.codContrato">
-                        <span class="font-semibold">{{ contrato.nomeContrato }}</span>
-                        <span class="text-secondary">{{ contrato.cliente.nomeFantasia }}</span>
+                    <mat-option *ngFor="let contrato of contratos" [value]="contrato?.codContrato">
+                        <span class="font-semibold">{{ contrato?.nomeContrato }}</span>
+                        <span class="text-secondary">{{ contrato?.cliente?.nomeFantasia }}</span>
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-            <button [routerLink]="['/defeito']" mat-button>
+            <button [routerLink]="['/instalacao/pleito']" mat-button>
                 {{ t('cancelar') }}
             </button>
 

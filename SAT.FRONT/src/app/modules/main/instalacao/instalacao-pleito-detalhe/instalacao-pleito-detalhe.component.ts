@@ -36,12 +36,7 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
         .obterPorCodigo(this.codInstalPleito)
         .toPromise();
 
-		this.inicializarForm();
     this.isLoading = false;
-  }
-
-  inicializarForm() {
-    
   }
 
   exportar() {

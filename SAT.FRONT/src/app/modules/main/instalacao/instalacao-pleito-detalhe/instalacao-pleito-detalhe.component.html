@@ -49,7 +49,7 @@
                 </ng-template>
 
                 <ng-template matTabContent>
-                    <app-instalacao-pleito-form></app-instalacao-pleito-form>
+                    <app-instalacao-pleito-form *ngIf="!isLoading" [instalPleito]="instalPleito"></app-instalacao-pleito-form>
                 </ng-template>
             </mat-tab>
 

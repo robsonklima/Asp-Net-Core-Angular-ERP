@@ -1,5 +1,9 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div  class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div  class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div>

@@ -44,6 +44,8 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
   }
 
   exportar() {
+    this.isLoading = true;
+
     const exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.PDF,
 			tipoArquivo: ExportacaoTipoEnum.INSTALACAO_PLEITO,
@@ -51,7 +53,9 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
 				codinstalPleito: this.codInstalPleito
 			}
 		}
+
 		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+    this.isLoading = false;
   }
 
   ngOnDestroy() {

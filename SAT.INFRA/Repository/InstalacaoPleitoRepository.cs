@@ -53,8 +53,19 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Contrato)   
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacoesPleitoInstal)
-                    .ThenInclude(c => c.Instalacao)
-                        .ThenInclude(c => c.EquipamentoContrato)
+                    .ThenInclude(c => c.Instalacao.EquipamentoContrato.Contrato)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.InstalacaoLote)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.LocalAtendimentoIns)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.Filial)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.Equipamento)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.InstalacaoNFVenda)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.LocalAtendimentoIns.Cidade.UnidadeFederativa)
                 .FirstOrDefault(i => i.CodInstalPleito == codigo);
         }
 
@@ -64,8 +75,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacoesPleitoInstal)
-                    .ThenInclude(c => c.Instalacao)
-                        .ThenInclude(c => c.EquipamentoContrato)
+                    .ThenInclude(c => c.Instalacao.EquipamentoContrato.Cliente)
                 .AsNoTracking() 
                 .AsQueryable();
 
@@ -98,12 +108,6 @@ namespace SAT.INFRA.Repository
             {
                 instalacoes = instalacoes.Where(i => i.CodInstalTipoPleito == parameters.CodInstalTipoPleito);
             }       
-
-            // if (!string.IsNullOrWhiteSpace(parameters.CodContratos))
-            // {
-            //     int[] cods = parameters.CodContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
-            //     instalacoes = instalacoes.Where(i => cods.Contains(i.Contrato.CodContrato));
-            // }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodInstalTipoPleitos))
             {

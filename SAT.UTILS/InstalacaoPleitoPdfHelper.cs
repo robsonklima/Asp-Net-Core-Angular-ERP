@@ -93,7 +93,8 @@ namespace SAT.UTILS
             container.Padding(10).Column(column =>
             {
                 column.Spacing(1);
-                column.Item().Element(ComporDadosInstalacaoPleito);
+                //column.Item().Element(ComporDadosInstalacaoPleito);
+                column.Item().Element(ComporTabelaPrincipal);
             });
         }
 
@@ -105,12 +106,165 @@ namespace SAT.UTILS
                 grid.HorizontalSpacing(15);
                 grid.AlignCenter();
 
-                grid.Item(4).Text(t =>
+                grid.Item(1).Text(t =>
                 {
                     t.Span($"Cadastro: ").FontSize(8).Bold();
                     t.Span($"{pleito.DataHoraCad}").FontSize(8);
                 });
             });
+        }
+
+        void ComporTabelaPrincipal(IContainer container)
+        {
+            container
+                .PaddingTop(20)
+                .Table(table =>
+                {
+                    table.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(40);
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.RelativeColumn();
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(40);
+                        columns.ConstantColumn(45);
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(30);
+                    });
+                    
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Lote").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Contrato").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("NF Venda").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("NF Remessa").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Prefixo").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Posto").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Agência").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Endereço").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Cidade").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("UF").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Filial").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Equipamento").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Num. Série").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Num. Bem Cliente").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Qtd").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Valor Instalação").FontSize(6).Bold();
+                    });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                        t.Span("Valor Unitário").FontSize(6).Bold();
+                    });
+
+                    pleito.InstalacoesPleitoInstal.ForEach(item =>
+                    {
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span(item?.Instalacao?.InstalacaoLote?.NomeLote).FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span(item?.Instalacao?.EquipamentoContrato?.Contrato?.NomeContrato).FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.InstalacaoNFVenda?.NumNFVenda}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.NFRemessa}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.NumAgencia}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.DCPosto}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.NomeLocal}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.Endereco}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.Cidade?.NomeCidade}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.LocalAtendimentoIns?.Cidade?.UnidadeFederativa?.SiglaUF}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.Filial?.NomeFilial}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.Equipamento?.NomeEquip}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.NumSerie}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.NumSerieCliente}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{1}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratoEquipamento?.VlrInstalacao}").FontSize(6);
+                        });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratoEquipamento?.VlrUnitario}").FontSize(6);
+                        });
+                    });
+                });
         }
     }
 }

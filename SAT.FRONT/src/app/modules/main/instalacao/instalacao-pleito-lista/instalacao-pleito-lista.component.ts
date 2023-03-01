@@ -25,6 +25,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
+
 export class InstalacaoPleitoListaComponent extends Filterable implements AfterViewInit, IFilterable {
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator) paginator: MatPaginator;

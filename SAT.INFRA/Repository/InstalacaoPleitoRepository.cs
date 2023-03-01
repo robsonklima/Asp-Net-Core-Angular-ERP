@@ -52,6 +52,9 @@ namespace SAT.INFRA.Repository
             return _context.InstalacaoPleito
                 .Include(i => i.Contrato)   
                 .Include(i => i.InstalacaoTipoPleito)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao)
+                        .ThenInclude(c => c.EquipamentoContrato)
                 .FirstOrDefault(i => i.CodInstalPleito == codigo);
         }
 
@@ -60,6 +63,9 @@ namespace SAT.INFRA.Repository
             var instalacoes = _context.InstalacaoPleito
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacaoTipoPleito)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao)
+                        .ThenInclude(c => c.EquipamentoContrato)
                 .AsNoTracking() 
                 .AsQueryable();
 

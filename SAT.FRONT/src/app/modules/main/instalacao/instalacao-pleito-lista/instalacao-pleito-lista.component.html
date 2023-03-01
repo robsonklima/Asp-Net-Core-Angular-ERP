@@ -55,6 +55,9 @@
                                 <div>
                                     {{ t('dt envio') }}
                                 </div>
+                                <div>
+                                    {{ t('qtd') }}
+                                </div>                                
                             </div>
 
                             <ng-container>
@@ -80,6 +83,9 @@
                                             <div>
                                                 {{ data.dataEnvio | date:'dd/MM/yyyy' }}
                                             </div>
+                                            <div>
+                                                {{ data.instalacoesPleitoInstal.length }}
+                                            </div>                                            
                                         </div>
                                     </a>
                                 </ng-container>

@@ -42,6 +42,7 @@ export class InstalacaoPleitoFormComponent implements OnInit {
     }  
 
   ngOnInit(): void {
+    console.log(this.instalPleito); 
     this.isAddMode = !this.instalPleito;
     this.obterTiposPleito();
     this.inicializarForm();

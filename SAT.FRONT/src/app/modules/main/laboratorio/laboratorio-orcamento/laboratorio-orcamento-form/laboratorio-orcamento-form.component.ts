@@ -113,12 +113,8 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
     async obterDados(codigo: number){
         this.pecaRE5114 = (await this._peca5114Service.obterPorParametros({
             numRe5114: codigo.toString()}).toPromise()).items.shift();
-        console.log(this.pecaRE5114);
         
         this.osBancada = await this._osbancadaService.obterPorCodigo(this.pecaRE5114.codOsbancada).toPromise();
-        console.log(this.osBancada);
-        
-
         this.preencherForm();
     }
 
@@ -138,14 +134,6 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
                 codUsuarioManut: this.userSession.usuario?.codUsuario
             }
         };
-
-        console.log(obj);
-        
-
-        // this._osBancadaService.atualizar(obj).subscribe(() => {
-        //     this._snack.exibirToast(`OS de Bancada atualizado com sucesso!`, "success");
-        //     this._location.back();
-        // });
     }
 
     criar(): void {
@@ -159,24 +147,10 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
                 codOsbancada: this.osBancada.codOsbancada
             }
         };
-
-        console.log(obj);
-
-        // this._osBancadaPecaOrcamentoService.criar(obj).subscribe(() => {
-        //     this._snack.exibirToast(`Orçamento criado com sucesso!`, "success");
-        //     this._location.back();
-        // });
     }
-
-    // criarPeca() {
-    //     this._dialog.open(LaboratorioOSBancadaPecasDialogComponent, {
-    //       data: { osBancada: this.osBancada }
-    //     });
-    //   }
 
     ngOnDestroy() {
         this._onDestroy.next();
         this._onDestroy.complete();
     }
-
 }

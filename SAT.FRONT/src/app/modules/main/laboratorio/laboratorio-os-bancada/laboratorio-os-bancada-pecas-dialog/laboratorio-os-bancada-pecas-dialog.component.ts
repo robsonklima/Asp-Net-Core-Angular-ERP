@@ -157,9 +157,6 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
 
     private async criarOSBancadaPecas(){
         const pecaRE5114 = (await this.obterPeca5114()).items.shift();
-        console.log(pecaRE5114);
-        
-
         const form: any = this.form.getRawValue();
 
             let obj: OSBancadaPecas = {

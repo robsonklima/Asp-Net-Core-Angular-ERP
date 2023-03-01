@@ -63,9 +63,9 @@ namespace SAT.MODELS.Entities
         public int? CodPosVenda { get; set; }
         public int? IndPedido { get; set; }
         public virtual List<InstalacaoLote> Lotes { get; set; }
-        public virtual ContratoEquipamento ContratoEquipamento { get; set; }
         public virtual List<ContratoServico> ContratosServico { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual TipoContrato TipoContrato { get; set; }
+        public virtual List<ContratoEquipamento> ContratosEquipamento { get; set; }
     }
 }

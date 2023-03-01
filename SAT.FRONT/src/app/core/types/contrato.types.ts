@@ -63,7 +63,7 @@ export class Contrato {
     codPosVenda: number;
     indPedido: number;
     lotes: InstalacaoLote[];
-    contratoEquipamento: ContratoEquipamento;
+    contratosEquipamento: ContratoEquipamento[];
     contratosServico: ContratoServico[];
     tipoContrato: TipoContrato;
 }

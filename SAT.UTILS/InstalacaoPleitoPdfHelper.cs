@@ -57,32 +57,38 @@ namespace SAT.UTILS
 
         void ComposeHeader(IContainer container)
         {
-            container.PaddingBottom(5).Row(row =>
+            var titleStyle = TextStyle.Default.FontSize(12).SemiBold().FontColor(Colors.Black);
+
+            container.Row(row =>
             {
+                row.Spacing(20);
+
+                row.RelativeItem().Column(column =>
+                {
+                    column.Item().Text($"BORDERÔ SEM NOTA FISCAL").Style(titleStyle);
+                    column.Item().Text($"TERMO DE ACEITE ORIGINAL");
+                });
+
                 row.ConstantItem(280).Column(column =>
                 {
-
                     column.Item().Row(async cr =>
                     {
                         cr.Spacing(20);
 
-                        using (HttpClient webClient = new HttpClient())
-                        {
-                            byte[] dataArr = await webClient
-                                .GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png")
-                                .Result.Content
-                                .ReadAsByteArrayAsync();
-
-                            cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
-                        } 
                         cr.RelativeItem().Column(t =>
                         {
-                            t.Item().Text($"Perto S.A").SemiBold().FontSize(8);
-                            t.Item().Text($"Tecnologia para Bancos e Varejo").FontSize(8);
-                            t.Item().Text($"Rua Nissin Castiel, 640 Distrito Industrial").FontSize(8);
-                            t.Item().Text($"CEP: 94045-420 | Gravataí | RS | Brasil").FontSize(8);
-                            t.Item().Text($"(51) 3489-8700 - www.perto.com.br").FontSize(8);
+                            t.Item().AlignRight().Text($"Perto S.A").SemiBold().FontSize(10);
+                            t.Item().AlignRight().Text($"Tecnologia para Bancos e Varejo").FontSize(10);
+                            t.Item().AlignRight().Text($"www.perto.com.br").FontSize(10);
                         });
+
+                        using (HttpClient webClient = new HttpClient())
+                        {
+                            byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png")
+                                .Result.Content.ReadAsByteArrayAsync();
+
+                            cr.ConstantItem(35).AlignRight().Image(dataArr, ImageScaling.FitArea);
+                        }
                     });
                 });
             });
@@ -126,8 +132,8 @@ namespace SAT.UTILS
                         columns.RelativeColumn();
                         columns.ConstantColumn(30);
                         columns.ConstantColumn(40);
-                        columns.RelativeColumn();
-                        columns.RelativeColumn();
+                        columns.ConstantColumn(40);
+                        columns.ConstantColumn(40);
                         columns.RelativeColumn();
                         columns.RelativeColumn();
                         columns.ConstantColumn(30);
@@ -255,13 +261,27 @@ namespace SAT.UTILS
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span($"{1}").FontSize(6);
                         });
+
+                        var valorInstalacao = 0;
+                        
+                        // item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento
+                        //     .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
+                        //     .Sum(ce => ce.VlrInstalacao);
+
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratoEquipamento?.VlrInstalacao}").FontSize(6);
+                            t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
                         });
+
+                        var valorUnitario = 0; 
+                        
+                        // item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento
+                        //     .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
+                        //     .Sum(ce => ce.VlrUnitario);
+
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratoEquipamento?.VlrUnitario}").FontSize(6);
+                            t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
                         });
                     });
                 });

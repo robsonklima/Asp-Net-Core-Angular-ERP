@@ -66,6 +66,10 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.Instalacao.InstalacaoNFVenda)
                 .Include(i => i.InstalacoesPleitoInstal)
                     .ThenInclude(c => c.Instalacao.LocalAtendimentoIns.Cidade.UnidadeFederativa)
+                // .Include(i => i.InstalacoesPleitoInstal)
+                //     .ThenInclude(c => c.Instalacao)
+                //         .ThenInclude(c => c.Contrato)
+                //             .ThenInclude(c => c.ContratosEquipamento)
                 .FirstOrDefault(i => i.CodInstalPleito == codigo);
         }
 

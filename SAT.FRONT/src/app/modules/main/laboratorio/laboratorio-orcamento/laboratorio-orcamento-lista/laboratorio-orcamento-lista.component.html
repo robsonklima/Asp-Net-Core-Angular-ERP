@@ -98,16 +98,15 @@
                                         <div class="truncate">
                                             {{ orcamento?.osBancadaPecas?.osBancada?.filial?.nomeFilial }}
                                         </div>
-                                        <!-- <div class="truncate"   
-                                            [class.bg-green-600]="orcamento?.indOrcamentoAprov == 0"
-                                            [class.bg-red-600]="orcamento?.indOrcamentoAprov == 1">
-                                            {{ orcamento?.indOrcamentoAprov?.OsBancadaPecasOrcamentoEnum }}
-                                        </div> -->
                                         <div class="truncate">
-                                        <span class="py-1 px-2 rounded text-white"
+                                            <span *ngIf="orcamento.indOrcamentoAprov == 0 || orcamento.indOrcamentoAprov == 1"  class="py-1 px-2 rounded text-white"
                                                 [class.bg-green-600]="orcamento.indOrcamentoAprov == 1"
                                                 [class.bg-red-600]="orcamento.indOrcamentoAprov == 0 ">
-                                                {{ orcamento.indOrcamentoAprov ? 'Aprovado' : 'Reprovado' }}
+                                                {{ orcamento.indOrcamentoAprov ? 'Aprovado' : 'Reprovado'}}
+                                            </span>
+                                            <span *ngIf="orcamento.indOrcamentoAprov != 0 && orcamento.indOrcamentoAprov != 1" class="py-1 px-2 rounded text-white"
+                                                [class.bg-gray-600]="!orcamento.indOrcamentoAprov">
+                                                {{ 'Pendente' }}
                                             </span>
                                         </div>
 

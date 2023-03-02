@@ -32,4 +32,5 @@ export interface OrcamentoPecasEspecParameters extends QueryStringParameters {
     codPecas?: string;
     codOrcamentos?: string;
     codPecaRe5114s?: string;
+    codOrcamento?: number;
 };

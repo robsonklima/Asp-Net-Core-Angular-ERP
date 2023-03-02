@@ -24,7 +24,7 @@ namespace SAT.SERVICES.Services
 
         public OsBancadaPecasOrcamento Criar(OsBancadaPecasOrcamento osBancadaPecasOrcamento)
         {
-            osBancadaPecasOrcamento.CodOsbancada = this._sequenciaRepo.ObterContador("OsbancadaPecasOrcamento");
+            osBancadaPecasOrcamento.CodOrcamento = this._sequenciaRepo.ObterContador("OsbancadaPecasOrcamento");
             this._osBancadaPecasOrcamentoRepo.Criar(osBancadaPecasOrcamento);
             return osBancadaPecasOrcamento;
         }

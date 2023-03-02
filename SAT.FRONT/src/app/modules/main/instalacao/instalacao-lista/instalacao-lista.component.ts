@@ -30,6 +30,7 @@ import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import Enumerable from 'linq';
 import moment from 'moment';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -279,7 +280,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   alternarDetalhe(codInstalacao: number): void {
-
     if (this.instalacaoSelecionada && this.instalacaoSelecionada.codInstalacao === codInstalacao) {
       this.fecharDetalhe();
       return;
@@ -309,8 +309,13 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
         this.form.controls['siglaUF'].setValue(instalacao.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF);
         this.form.controls['cep'].setValue(instalacao.localAtendimentoSol?.cep);
 
-        //Eliano voltar aqui e avaliar a regra considerando que agora ContratosEquipamento é uma coleção e nao mais uma propriedade composta
-        if (instalacao.equipamentoContrato.contrato.contratosEquipamento[0].codContratoEquipDataEnt > 0) {
+        var codContratoEquipDataIns = Enumerable.from(instalacao?.equipamentoContrato?.contrato?.contratosEquipamento)
+          .where(i => i.codEquip == instalacao.codEquip && i.codContrato == instalacao.codContrato)[0]?.codContratoEquipDataIns;
+
+        var codContratoEquipDataEnt = Enumerable.from(instalacao?.equipamentoContrato?.contrato?.contratosEquipamento)
+          .where(i => i.codEquip == instalacao.codEquip && i.codContrato == instalacao.codContrato)[0]?.codContratoEquipDataEnt;
+
+        if (codContratoEquipDataEnt > 0) {
           this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.contrato?.dataAssinatura).format('DD/MM/yyyy'));
         }
         else {
@@ -403,16 +408,22 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
 
         this.form.controls['nfRemessaConferida'].setValue(instalacao.nfRemessaConferida);
 
-        //Eliano voltar aqui e avaliar a regra considerando que agora ContratosEquipamento é uma coleção e nao mais uma propriedade composta
-        switch (instalacao.equipamentoContrato.contrato.contratosEquipamento[0].codContratoEquipDataIns) {
+        var qtdLimDiaIns = Enumerable.from(instalacao?.equipamentoContrato?.contrato?.contratosEquipamento)
+          .where(i => i.codEquip == instalacao.codEquip && i.codContrato == instalacao.codContrato)[0]?.qtdLimDiaIns
+
+        if (!qtdLimDiaIns) {
+          qtdLimDiaIns = 0;
+        }
+
+        switch (codContratoEquipDataIns) {
           case 0:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           case 1:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           case 2:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           default:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
         }
 
         if (instalacao.dataSugInstalacao) {
@@ -597,18 +608,18 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       height: '600px'
     });
   }
-  
-	abrirPaginaAnexo(instalacao: Instalacao) {
+
+  abrirPaginaAnexo(instalacao: Instalacao) {
     const dialogRef = this._dialog.open(InstalacaoAnexoDialogComponent, {
       data: {
         instalacao: instalacao,
       },
-    });    
+    });
 
     dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
-			if (confirmacao) {}
+      if (confirmacao) { }
     });
-	}
+  }
 
   ngOnDestroy() {
     this._onDestroy.next();

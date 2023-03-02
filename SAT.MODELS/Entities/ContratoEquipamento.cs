@@ -5,7 +5,6 @@ namespace SAT.MODELS.Entities
     public class ContratoEquipamento
     {
         public int CodContrato { get; set; }
-        public Contrato Contrato { get; set; }
         public int CodTipoEquip { get; set; }
         public TipoEquipamento TipoEquipamento { get; set; }
         public int CodGrupoEquip { get; set; }

@@ -64,11 +64,5 @@ namespace SAT.SERVICES.Services
         {
             return _contratoRepo.ObterPorCodigo(codigo);
         }
-
-        public IActionResult ExportToExcel(ContratoParameters parameters)
-        {
-            var os = _contratoRepo.ObterPorParametros(parameters);
-            return null; // new BaseExcelService<Contrato>().CreateWorkbook(os.Cast<Contrato>().ToList());
-        }
     }
 }

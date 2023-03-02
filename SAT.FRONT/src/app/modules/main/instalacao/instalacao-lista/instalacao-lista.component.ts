@@ -309,7 +309,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
         this.form.controls['siglaUF'].setValue(instalacao.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF);
         this.form.controls['cep'].setValue(instalacao.localAtendimentoSol?.cep);
 
-        if (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataEnt > 0) {
+        //Eliano voltar aqui e avaliar a regra considerando que agora ContratosEquipamento é uma coleção e nao mais uma propriedade composta
+        if (instalacao.equipamentoContrato.contrato.contratosEquipamento[0].codContratoEquipDataEnt > 0) {
           this.form.controls['dataLimiteEnt'].setValue(moment(instalacao.contrato?.dataAssinatura).format('DD/MM/yyyy'));
         }
         else {
@@ -402,15 +403,16 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
 
         this.form.controls['nfRemessaConferida'].setValue(instalacao.nfRemessaConferida);
 
-        switch (instalacao.equipamentoContrato.contrato.contratoEquipamento.codContratoEquipDataIns) {
+        //Eliano voltar aqui e avaliar a regra considerando que agora ContratosEquipamento é uma coleção e nao mais uma propriedade composta
+        switch (instalacao.equipamentoContrato.contrato.contratosEquipamento[0].codContratoEquipDataIns) {
           case 0:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           case 1:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           case 2:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           default:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratoEquipamento.qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(instalacao.equipamentoContrato.contrato.contratosEquipamento[0].qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
         }
 
         if (instalacao.dataSugInstalacao) {

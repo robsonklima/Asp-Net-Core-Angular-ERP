@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Contrato> builder)
         {
-            builder
-                .ToTable("Contrato");
-
-            builder
-                .HasKey(prop => prop.CodContrato);
+            builder.ToTable("Contrato");
+            builder.HasKey(prop => prop.CodContrato);
 
             builder
                 .HasOne(prop => prop.Cliente)
@@ -39,7 +36,10 @@ namespace SAT.INFRA.Mapping
                .HasPrincipalKey("CodContrato");
 
             builder
-                .Ignore(prop => prop.ContratoEquipamento);
+                .HasMany(prop => prop.ContratosEquipamento)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodContrato)
+                .HasPrincipalKey(prop => prop.CodContrato);
         }
     }
 }

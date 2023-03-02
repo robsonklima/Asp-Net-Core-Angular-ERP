@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { InstalacaoPleitoService } from 'app/core/services/instalacao-pleito.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { InstalacaoPleito } from 'app/core/types/instalacao-pleito.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -21,7 +24,8 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _route: ActivatedRoute,
-    private _instalPleitoService: InstalacaoPleitoService
+    private _instalPleitoService: InstalacaoPleitoService,
+    private _exportacaoService: ExportacaoService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -32,23 +36,26 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
 		this.isAddMode = !this.codInstalPleito;
 
     if (!this.isAddMode)
-      await this._instalPleitoService
+      this.instalPleito = await this._instalPleitoService
         .obterPorCodigo(this.codInstalPleito)
-        .subscribe((test) => {
-          let a = test
-          console.log(test)
-        });
+        .toPromise();
 
-		this.inicializarForm();
     this.isLoading = false;
   }
 
-  inicializarForm() {
-    
-  }
-
   exportar() {
-    
+    this.isLoading = true;
+
+    const exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.PDF,
+			tipoArquivo: ExportacaoTipoEnum.INSTALACAO_PLEITO,
+			entityParameters: {
+				codinstalPleito: this.codInstalPleito
+			}
+		}
+
+		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+    this.isLoading = false;
   }
 
   ngOnDestroy() {

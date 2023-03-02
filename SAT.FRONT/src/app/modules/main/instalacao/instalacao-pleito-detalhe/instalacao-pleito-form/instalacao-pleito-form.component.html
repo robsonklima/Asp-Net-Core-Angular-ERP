@@ -1,1 +1,74 @@
-<p>instalacao-pleito-form works!</p>
+<div class="max-w-3xl" *transloco="let t">
+    <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
+        </div>
+
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('nome') }}</mat-label>
+                <input matInput formControlName="nomePleito">
+                <mat-error>
+                    {{ t('preencher campo') }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('descricao') }}</mat-label>
+                <textarea matInput formControlName="descPleito" [placeholder]="t('descricao')" [rows]="3" maxlength="1000"></textarea>
+                <mat-error>
+                    {{ t('preencher campo') }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('contrato') }}</mat-label>
+                <mat-select formControlName="codContrato">
+                    <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="contratoFilterCtrl">
+                        </ngx-mat-select-search>
+                    </mat-option>
+
+                    <mat-option *ngFor="let contrato of contratos" [value]="contrato?.codContrato">
+                        <span class="font-semibold">{{ contrato?.nomeContrato }}</span>
+                        <span class="text-secondary">{{ contrato?.cliente?.nomeFantasia }}</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('tipo') }}</mat-label>
+                
+                <mat-select formControlName="codInstalTipoPleito">
+                    <mat-option *ngFor="let tipo of tiposPleito" [value]="tipo.codInstalTipoPleito">
+                        {{ tipo.nomeTipoPleito }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('data') }}</mat-label>
+
+                <input matInput [matDatepicker]="pickerData" formControlName="dataEnvio" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+            <button [routerLink]="['/instalacao/pleito']" mat-button>
+                {{ t('cancelar') }}
+            </button>
+
+            <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                <span *ngIf="!form.disabled">
+                    {{ t('salvar') }}
+                </span>
+                
+                <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                </mat-progress-spinner>
+            </button>
+        </div>
+    </form>
+</div>

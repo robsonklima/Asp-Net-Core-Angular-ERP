@@ -154,8 +154,6 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
                 codOsbancada: this.osBancada.codOsbancada
             }
         };
-
-        console.log(obj);
         
         this._osBancadaPecaOrcamentoService.criar(obj).subscribe(() => {
             this._snack.exibirToast(`Orçamento criado com sucesso!`, "success");
@@ -173,5 +171,4 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
         this._onDestroy.next();
         this._onDestroy.complete();
     }
-
 }

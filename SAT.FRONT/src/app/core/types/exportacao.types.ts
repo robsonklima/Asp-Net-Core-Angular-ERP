@@ -58,5 +58,6 @@ export enum ExportacaoTipoEnum {
     TICKET_LOG_TRANSACAO,
     INSTALACAO,
     LAUDO,
-    PONTO_USUARIO
+    PONTO_USUARIO,
+    INSTALACAO_PLEITO
 }

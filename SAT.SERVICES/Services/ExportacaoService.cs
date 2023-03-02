@@ -63,6 +63,7 @@ namespace SAT.SERVICES.Services
         private readonly ILaudoRepository _laudoRepo;
         private readonly IInstalacaoRepository _instalacaoRepo;
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
+        private readonly IInstalacaoPleitoRepository _instalacaoPleitoRepo;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -111,7 +112,8 @@ namespace SAT.SERVICES.Services
             ITicketRepository ticketRepo,
             ILaudoRepository laudoRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
-            IInstalacaoRepository instalacaoRepo
+            IInstalacaoRepository instalacaoRepo,
+            IInstalacaoPleitoRepository instalacaoPleitoRepo
         )
         {
             _emaiLService = emaiLService;
@@ -161,6 +163,7 @@ namespace SAT.SERVICES.Services
             _laudoRepo = laudoRepo;
             _instalacaoRepo = instalacaoRepo;
             _pontoUsuarioRepo = pontoUsuarioRepo;
+            _instalacaoPleitoRepo = instalacaoPleitoRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -191,6 +194,8 @@ namespace SAT.SERVICES.Services
                     return GerarPdfDespesaPeriodoTecnico(exportacao);
                 case ExportacaoTipoEnum.LAUDO:
                     return GerarPdfLaudo(exportacao);
+                case ExportacaoTipoEnum.INSTALACAO_PLEITO:
+                    return GerarPdfInstalacaoPleito(exportacao);
                 default:
                     return null;
             }

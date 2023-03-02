@@ -51,14 +51,15 @@ namespace SAT.INFRA.Repository
         public InstalacaoPleitoInstal ObterPorCodigo(int codInstalPleito)
         {
 
-            var data = _context.InstalacaoPleitoInstal.FirstOrDefault(i => i.CodInstalPleito == codInstalPleito);
-
-            return data;
+            return _context.InstalacaoPleitoInstal
+                .Include(i => i.Instalacao)
+                .FirstOrDefault(i => i.CodInstalPleito == codInstalPleito);
         }
 
         public PagedList<InstalacaoPleitoInstal> ObterPorParametros(InstalacaoPleitoInstalParameters parameters)
         {
             var instalacoes = _context.InstalacaoPleitoInstal
+                .Include(i => i.Instalacao)
                 .AsNoTracking() 
                 .AsQueryable();
 

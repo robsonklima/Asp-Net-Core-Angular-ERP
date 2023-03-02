@@ -108,15 +108,15 @@ export class ContratoFormComponent implements OnInit {
 		}).toPromise()).items;
 
 		this.clienteFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(400),
-        distinctUntilChanged()
-      )
-      .subscribe(() =>
-      {
-        this.obterClientes(this.clienteFilterCtrl.value);
-      });
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(400),
+				distinctUntilChanged()
+			)
+			.subscribe(() =>
+			{
+				this.obterClientes(this.clienteFilterCtrl.value);
+			});
 	}
 
 	salvar(): void {

@@ -29,10 +29,10 @@ namespace SAT.API.Controllers
             return _instalacaoPleitoService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{CodInstalPleito}")]
-        public InstalacaoPleito Get(int codInstalacaoPleito)
+        [HttpGet("{codInstalPleito}")]
+        public InstalacaoPleito Get(int codInstalPleito)
         {
-            return _instalacaoPleitoService.ObterPorCodigo(codInstalacaoPleito);
+            return _instalacaoPleitoService.ObterPorCodigo(codInstalPleito);
         }
 
         [HttpPost]

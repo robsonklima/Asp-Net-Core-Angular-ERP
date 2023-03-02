@@ -44,7 +44,6 @@ namespace SAT.UTILS
                     page.Content().Element(ComporContent);
                     page.Footer().Element(ComporFooter);
                     page.Size(PageSizes.A4.Landscape());
-
                 });
         }
 
@@ -179,7 +178,6 @@ namespace SAT.UTILS
         {
             container
                 .PaddingTop(20)
-                //.Background(Colors.Grey.Lighten5)
                 .Table(table =>
                 {
                     table.ColumnsDefinition(columns =>

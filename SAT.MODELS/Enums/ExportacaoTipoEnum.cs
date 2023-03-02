@@ -44,6 +44,7 @@ namespace SAT.MODELS.Enums
         TICKET_LOG_TRANSACAO,
         INSTALACAO,
         LAUDO,
-        PONTO_USUARIO
+        PONTO_USUARIO,
+        INSTALACAO_PLEITO
     }
 }

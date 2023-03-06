@@ -79,7 +79,6 @@ namespace SAT.INFRA.Repository
         public PagedList<ContratoEquipamento> ObterPorParametros(ContratoEquipamentoParameters parameters)
         {
             var contratoEquipamentos = _context.ContratoEquipamento
-                .Include(c => c.Contrato)
                 .Include(c => c.TipoEquipamento)
                 .Include(c => c.GrupoEquipamento)
                 .Include(c => c.Equipamento)

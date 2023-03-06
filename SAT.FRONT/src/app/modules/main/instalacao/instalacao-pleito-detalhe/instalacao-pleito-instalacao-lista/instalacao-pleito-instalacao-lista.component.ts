@@ -11,5 +11,7 @@ export class InstalacaoPleitoInstalacaoListaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.instalPleito);
+    
   }
 }

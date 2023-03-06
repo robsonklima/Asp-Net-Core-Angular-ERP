@@ -262,22 +262,18 @@ namespace SAT.UTILS
                             t.Span($"{1}").FontSize(6);
                         });
 
-                        var valorInstalacao = 0;
-                        
-                        // item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento
-                        //     .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
-                        //     .Sum(ce => ce.VlrInstalacao);
+                        var valorInstalacao = item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento?
+                             .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
+                             .Sum(ce => ce.VlrInstalacao);                        
 
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
                             t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
                         });
 
-                        var valorUnitario = 0; 
-                        
-                        // item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento
-                        //     .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
-                        //     .Sum(ce => ce.VlrUnitario);
+                        var valorUnitario = item?.Instalacao?.EquipamentoContrato?.Contrato?.ContratosEquipamento?
+                             .Where(ce => ce?.CodEquip == item?.Instalacao?.CodEquip)
+                             .Sum(ce => ce.VlrUnitario);
 
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {

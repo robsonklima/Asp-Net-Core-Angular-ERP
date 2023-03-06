@@ -17,6 +17,9 @@ export class OrcamentoPecasEspec {
     codBancadaLista?: number;
     valorDesconto?: number;
     percIpi?: number;
+    valorPecaDesconto?: number;
+    ipiIncluido?: number;
+    valorTotal?: number;
     pecaRE5114?: PecaRE5114;
     peca?: Peca;
     oSBancada?: OSBancada;

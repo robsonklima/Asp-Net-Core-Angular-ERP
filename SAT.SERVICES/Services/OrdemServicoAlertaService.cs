@@ -369,6 +369,13 @@ namespace SAT.SERVICES.Services
                         gerarAlerta = true;
                     }
                     break;
+                case Constants.CLIENTE_BB:
+                    if (
+                        os.CodEquip == Constants.TAART_290_02_309)
+                    {
+                        gerarAlerta = true;
+                    }
+                    break;
                 default:
                     break;
             }

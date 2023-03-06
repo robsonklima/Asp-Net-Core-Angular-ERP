@@ -14,6 +14,7 @@ import { OsBancadaPecasOrcamento } from 'app/core/types/os-bancada-pecas-orcamen
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { OrcamentoPecasEspec } from 'app/core/types/orcamento-pecas-espec.types';
 import { OrcamentoPecasEspecService } from 'app/core/services/orcamento-pecas-espec.service';
+import { OsBancadaPecasOrcamentoService } from 'app/core/services/os-bancada-pecas-orcamento.service';
 
 @Component({
     selector: 'app-laboratorio-orcamento-peca-dialog',
@@ -23,8 +24,11 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
     orcamento: OsBancadaPecasOrcamento;
     pecaOrcamento: OrcamentoPecasEspec;
     peca: Peca;
-    quantidade: number = 0;
+    quantidade: number;
     valorDesconto: number = 0.0;
+    valorPecaDesconto: number;
+    valorTotal: number;
+    valorIPI: number;
     userSession: UserSession;
     public form: FormGroup;
     loading: boolean = false;
@@ -38,6 +42,7 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
         private _formBuilder: FormBuilder,
         public _dialogRef: MatDialogRef<LaboratorioOrcamentoFormComponent>,
         private _pecaService: PecaService,
+        private _osBancadaPecasOrcamentoService: OsBancadaPecasOrcamentoService,
         private _orcamentoPecaEspecService: OrcamentoPecasEspecService,
         private _userService: UserService,
         private _snack: CustomSnackbarService,
@@ -104,7 +109,21 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
         this._dialogRef.close();
     }
 
-    async salvar() {
+    private async calcularValores(): Promise<any> {
+            return new Promise((resolve) => {
+                this.valorPecaDesconto = 0.0;
+                this.valorTotal = 0.0;
+                this.valorIPI = 0.0;
+
+                this.valorPecaDesconto = this.peca.valPeca - ((this.peca.valPeca * this.valorDesconto)/100);
+                this.valorTotal = this.valorPecaDesconto * this.quantidade;
+                this.valorIPI = ((this.peca.valPeca * this.peca.valIPI)/100) * this.quantidade;
+
+              resolve(null);
+            });
+          }
+
+    private criarPeca(){
         const form: any = this.form.getRawValue();
 
         let obj: OrcamentoPecasEspec = {
@@ -115,7 +134,10 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
                 valorDesconto: this.valorDesconto,
                 codOrcamento: this.orcamento.codOrcamento,
                 codOsbancada: this.orcamento.codOsbancada,
-                codPecaRe5114: this.orcamento.codPecaRe5114
+                codPecaRe5114: this.orcamento.codPecaRe5114,
+                valorPecaDesconto: this.valorPecaDesconto,
+                valorTotal: this.valorTotal,
+                ipiIncluido: this.valorIPI
             }
         };
 
@@ -125,8 +147,19 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
           }, e => {
             this.form.enable();
           });
+    }
 
-          this.dialogRef.close(true);
+    private atualizarOrcamento(){
+        this.orcamento.valorTotal = this.orcamento.valorTotal + this.valorTotal;
+        this._osBancadaPecasOrcamentoService.atualizar({ ...this.orcamento, ...{ valorTotal: this.orcamento.valorTotal } }).subscribe();
+    }
+
+    async salvar() {
+        await this.calcularValores();
+        this.criarPeca();
+        this.atualizarOrcamento();
+
+        this.dialogRef.close(true);
     }
 
     ngOnDestroy() {

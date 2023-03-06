@@ -47,7 +47,7 @@ export class InstalacaoContratoFiltroComponent extends FilterBase implements OnI
 	async loadData() {
 		this.obterTipos();
 		this.obterClientes();
-		//this.obterContratos();
+		this.obterContratos();
 		this.registrarEmitters();
 	}
 

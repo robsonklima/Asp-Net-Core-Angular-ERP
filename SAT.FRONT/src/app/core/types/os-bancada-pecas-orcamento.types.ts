@@ -16,6 +16,7 @@ export class OsBancadaPecasOrcamento {
     motivoReprov?: string;
     dataHoraManut?: string;
     codOrcamentoQtdPai?: number;
+    valorTotal?: number;
     osBancadaPecas?: OSBancadaPecas;
 
 }

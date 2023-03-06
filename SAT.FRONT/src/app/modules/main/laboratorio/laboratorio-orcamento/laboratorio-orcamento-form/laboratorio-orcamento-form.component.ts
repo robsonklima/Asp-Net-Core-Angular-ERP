@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -15,6 +15,7 @@ import { OSBancadaService } from 'app/core/services/os-bancada.service';
 import { OSBancada } from 'app/core/types/os-bancada.types';
 import { PecaRE5114 } from 'app/core/types/pecaRE5114.types';
 import moment from 'moment';
+import { LaboratorioOrcamentoPecaDialogComponent } from '../laboratorio-orcamento-peca-dialog/laboratorio-orcamento-peca-dialog.component';
 
 @Component({
     selector: 'app-laboratorio-orcamento-form',
@@ -115,6 +116,7 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
             numRe5114: codigo.toString()}).toPromise()).items.shift();
         
         this.osBancada = await this._osbancadaService.obterPorCodigo(this.pecaRE5114.codOsbancada).toPromise();
+
         this.preencherForm();
     }
 
@@ -134,6 +136,11 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
                 codUsuarioManut: this.userSession.usuario?.codUsuario
             }
         };
+
+        this._osBancadaPecaOrcamentoService.atualizar(obj).subscribe(() => {
+            this._snack.exibirToast(`Orçamento atualizado com sucesso!`, "success");
+            this._location.back();
+        });
     }
 
     criar(): void {
@@ -147,7 +154,18 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
                 codOsbancada: this.osBancada.codOsbancada
             }
         };
+        
+        this._osBancadaPecaOrcamentoService.criar(obj).subscribe(() => {
+            this._snack.exibirToast(`Orçamento criado com sucesso!`, "success");
+            this._location.back();
+        });
     }
+
+    adicionarPeca() {
+        this._dialog.open(LaboratorioOrcamentoPecaDialogComponent, {
+          data: { orcamento: this.orcamento }
+        });
+      }
 
     ngOnDestroy() {
         this._onDestroy.next();

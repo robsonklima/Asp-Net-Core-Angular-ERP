@@ -17,6 +17,7 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public string NumOrdemCompra { get; set; }
         public string MotivoReprov { get; set; }
+        public decimal? ValorTotal { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public int? CodOrcamentoQtdPai { get; set; }
         public OSBancadaPecas OSBancadaPecas { get; set; }

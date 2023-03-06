@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Inclusão de Peça</h2>
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 ">
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('Código Magnus') }}</mat-label>
+            <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+            <input matInput #pecaInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('peca') }}</mat-label>
+            <input matInput maxlength="10" [value]="peca?.nomePeca">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('quantidade') }}</mat-label>
+            <input matInput formControlName="quantidade" [(ngModel)]="quantidade">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('valor unitario') }}</mat-label>
+            <input matInput maxlength="10" [value]="peca?.valPeca">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('ipi') }}</mat-label>
+            <input matInput maxlength="10" [value]="peca?.valIPI">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="fuse-mat-dense sm:col-span-6">
+            <div>
+                <mat-label>{{ t('Desconto') }}</mat-label>
+            </div>
+
+            <mat-slide-toggle [color]="'primary'" [checked]="valorDesconto > 0" (change)="onChangeDesconto($event)">
+            </mat-slide-toggle>
+        </div>
+
+    </div>
+</form>
+
+<div class="flex justify-center items-center min-h-36" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button>
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+        Salvar
+    </button>
+</mat-dialog-actions>

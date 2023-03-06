@@ -16,6 +16,9 @@ namespace SAT.MODELS.Entities
         public int? CodBancadaLista { get; set; }
         public decimal? ValorDesconto { get; set; }
         public decimal? PercIpi { get; set; }
+        public decimal? ValorPecaDesconto { get; set; }
+        public decimal? IPIIncluido { get; set; }
+        public decimal? ValorTotal { get; set; }
         public PecaRE5114 PecaRE5114 { get; set; }
         public Peca Peca { get; set; }
         public OSBancada OSBancada { get; set; }

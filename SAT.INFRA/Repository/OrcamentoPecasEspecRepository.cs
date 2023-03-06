@@ -54,7 +54,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.OSBancada)
                 .Include(i => i.OSBancadaPecasOrcamento)
                 .Include(i => i.PecaRE5114)
-                    .ThenInclude(i => i.Peca)
+                .Include(i => i.Peca)
                 .FirstOrDefault(c => c.CodOrcamentoPecasEspec == codigo);
         }
 
@@ -64,7 +64,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.OSBancada)
                 .Include(i => i.OSBancadaPecasOrcamento)
                 .Include(i => i.PecaRE5114)
-                    .ThenInclude(i => i.Peca)
+                .Include(i => i.Peca)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(parameters.Filter))
@@ -75,6 +75,11 @@ namespace SAT.INFRA.Repository
                     s.OSBancadaPecasOrcamento.CodOrcamento.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.PecaRE5114.CodPecaRe5114.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
              );
+
+            if (parameters.CodOrcamento != null)
+            {
+                orcamentoPecasEspecs = orcamentoPecasEspecs.Where(a => a.CodOrcamento == parameters.CodOrcamento);
+            };
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

@@ -22,10 +22,12 @@
             </div>
 
             <div class="mt-2">
-                <h2 *ngIf="!codOrcamento" class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 *ngIf="!codOrcamento"
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ t('orcamento bancada') }}
                 </h2>
-                <h2 *ngIf="codOrcamento" class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 *ngIf="codOrcamento"
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ t('RE5114: ') }}
                     #{{ orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114 }}
                 </h2>
@@ -33,19 +35,19 @@
         </div>
 
         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-            <!-- <button *ngIf="codOsbancada" class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
-            (click)="criarPeca()">
+            <button *ngIf="codOrcamento" class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Nova Peça') }}"
+                (click)="adicionarPeca()">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-            </button> -->
+            </button>
         </div>
     </div>
-    <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 p-4 gap-6 w-full min-w-0">
-        <div class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+    <div class="grid grid-cols-6 sm:grid-cols-1 md: p-4 gap-1 min-w-0">
+        <div class="flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden"
             *transloco="let t">
             <form autocomplete="off" class="flex flex-col" [formGroup]="form">
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
 
-                    <mat-form-field *ngIf="!codOrcamento" class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field *ngIf="!codOrcamento" class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('RE5114') }}</mat-label>
                         <input #numRE5114InputControl matInput formControlName="numRe5114" maxlength="10"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114">
@@ -54,7 +56,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('codMagnus') }}</mat-label>
                         <input matInput formControlName="codMagnus"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.codMagnus">
@@ -63,7 +65,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cliente') }}</mat-label>
                         <input matInput formControlName="apelido"
                             [value]="orcamento?.osBancadaPecas?.osBancada?.clienteBancada?.apelido">
@@ -72,7 +74,16 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
+                        <mat-label>{{ t('nf cliente') }}</mat-label>
+                        <input matInput formControlName="nfentrada"
+                            [value]="orcamento?.osBancadaPecas?.osBancada?.nfentrada">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('peca') }}</mat-label>
                         <input matInput formControlName="nomePeca"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.nomePeca"
@@ -82,16 +93,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('nf cliente') }}</mat-label>
-                        <input matInput formControlName="nfentrada"
-                            [value]="orcamento?.osBancadaPecas?.osBancada?.nfentrada">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-1">
                         <mat-label>{{ t('n serie') }}</mat-label>
                         <input matInput formControlName="numSerie" maxlength="10"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numSerie">
@@ -101,7 +103,7 @@
                     </mat-form-field>
 
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('valor pre aprovado') }}</mat-label>
                         <input matInput formControlName="valorPreAprovado" [value]="orcamento?.valorPreAprovado"
                             mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
@@ -111,7 +113,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('Status de Aprovação') }}</mat-label>
                         <mat-select formControlName="indOrcamentoAprov" [value]="orcamento?.indOrcamentoAprov">
                             <mat-option [value]="0">
@@ -126,7 +128,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('obs') }}</mat-label>
                         <input matInput formControlName="observacao" [value]="orcamento?.observacao">
                         <mat-error>
@@ -134,9 +136,12 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('motivo reprovacao') }}</mat-label>
-                        <textarea matInput formControlName="motivoReprov" [rows]="2" maxlength="1000"></textarea>
+                        <input matInput formControlName="motivoReprov" [value]="orcamento?.motivoReprov">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
                     </mat-form-field>
 
                 </div>
@@ -158,9 +163,8 @@
             </form>
         </div>
 
-        <div *ngIf="codOrcamento"
-            class="flex flex-col col-span-3 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-            <!-- <app-laboratorio-os-bancada-pecare5114-lista [codOsbancada]="codOsbancada"></app-laboratorio-os-bancada-pecare5114-lista> -->
+        <div *ngIf="codOrcamento" class="flex flex-col col-span-3 flex-auto p-6 bg-card rounded-2xl overflow-hidden">
+            <app-laboratorio-orcamento-peca-lista [codOrcamento]="codOrcamento"></app-laboratorio-orcamento-peca-lista>
         </div>
     </div>
 

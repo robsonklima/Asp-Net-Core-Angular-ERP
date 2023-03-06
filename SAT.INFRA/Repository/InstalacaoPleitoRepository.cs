@@ -53,7 +53,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Contrato)   
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacoesPleitoInstal)
-                    .ThenInclude(c => c.Instalacao.EquipamentoContrato.Contrato)
+                    .ThenInclude(c => c.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacoesPleitoInstal)
                     .ThenInclude(c => c.Instalacao.InstalacaoLote)
                 .Include(i => i.InstalacoesPleitoInstal)
@@ -66,10 +66,7 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(c => c.Instalacao.InstalacaoNFVenda)
                 .Include(i => i.InstalacoesPleitoInstal)
                     .ThenInclude(c => c.Instalacao.LocalAtendimentoIns.Cidade.UnidadeFederativa)
-                // .Include(i => i.InstalacoesPleitoInstal)
-                //     .ThenInclude(c => c.Instalacao)
-                //         .ThenInclude(c => c.Contrato)
-                //             .ThenInclude(c => c.ContratosEquipamento)
+                .Include(i => i.InstalacoesPleitoInstal)
                 .FirstOrDefault(i => i.CodInstalPleito == codigo);
         }
 
@@ -80,6 +77,8 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacoesPleitoInstal)
                     .ThenInclude(c => c.Instalacao.EquipamentoContrato.Cliente)
+                .Include(i => i.InstalacoesPleitoInstal)
+                    .ThenInclude(c => c.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)                    
                 .AsNoTracking() 
                 .AsQueryable();
 

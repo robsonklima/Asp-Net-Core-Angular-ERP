@@ -18,7 +18,7 @@ namespace SAT.SERVICES.Services
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<LaudoParameters>();
             var laudo = _laudoRepo.ObterPorCodigo(parameters.CodLaudo.Value);
             var os = _osRepo.ObterPorCodigo(laudo.CodOS);
-            var laudoImpressao = new LaudoPdfHelper(os, laudo);
+            var laudoImpressao = new LaudoPdfHelper(os,laudo);
             var laudoPdf = GenerateFilePath($"LAUDO-{laudo.CodOS}.pdf");
             laudoImpressao.GeneratePdf(laudoPdf);
             arquivos.Add(laudoPdf);

@@ -21,8 +21,9 @@ namespace SAT.INFRA.Repository
         public void Atualizar(InstalacaoPleitoInstal instalacaoPleitoInstal)
         {
             _context.ChangeTracker.Clear();
-            InstalacaoPleitoInstal inst = _context.InstalacaoPleitoInstal.FirstOrDefault(i => (i.CodInstalPleito == instalacaoPleitoInstal.CodInstalPleito)
-                                                                                        && (i.CodInstalacao == instalacaoPleitoInstal.CodInstalacao));
+            InstalacaoPleitoInstal inst = _context.InstalacaoPleitoInstal
+                .FirstOrDefault(i => (i.CodInstalPleito == instalacaoPleitoInstal.CodInstalPleito)
+                    && (i.CodInstalacao == instalacaoPleitoInstal.CodInstalacao));
 
             if (inst != null)
             {
@@ -39,8 +40,9 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int CodInstalacao, int CodInstalPleito)
         {
-            InstalacaoPleitoInstal inst = _context.InstalacaoPleitoInstal.FirstOrDefault(i => (i.CodInstalPleito == CodInstalPleito)
-                                                                                        && (i.CodInstalacao == CodInstalacao));
+            InstalacaoPleitoInstal inst = _context.InstalacaoPleitoInstal
+                .FirstOrDefault(i => (i.CodInstalPleito == CodInstalPleito)
+                    && (i.CodInstalacao == CodInstalacao));
 
             if (inst != null)
             {

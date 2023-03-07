@@ -12,11 +12,11 @@ import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServico, OrdemServicoData, OrdemServicoFilterEnum, OrdemServicoIncludeEnum, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
 import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
-import Enumerable from 'linq';
-import moment from 'moment';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
+import Enumerable from 'linq';
+import moment from 'moment';
 
 @Component({
 	selector: 'ordem-servico-lista',

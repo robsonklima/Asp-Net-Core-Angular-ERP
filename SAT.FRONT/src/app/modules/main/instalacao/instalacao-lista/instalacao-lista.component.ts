@@ -512,7 +512,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   async confirmarAberturaChamados() {
-    const itens = this.dataSourceData.items.filter(i => i.selecionado);
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);  
 
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
@@ -551,7 +551,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           codFilial: equip.codFilial,
           codAutorizada: equip.codAutorizada,
           codRegiao: equip.codRegiao,
-          codPosto: equip.codPosto,
+          codPosto: instalacao.codPosto,
           codEquip: equip.codEquip,
           codTipoEquip: equip.codTipoEquip,
           codGrupoEquip: equip.codGrupoEquip,

@@ -21,6 +21,7 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public int? CodOrcamentoQtdPai { get; set; }
         public OSBancadaPecas OSBancadaPecas { get; set; }
+        public Usuario Usuario { get; set; }
 
     }
 }

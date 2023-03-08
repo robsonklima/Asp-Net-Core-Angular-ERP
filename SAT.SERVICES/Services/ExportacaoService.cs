@@ -64,6 +64,10 @@ namespace SAT.SERVICES.Services
         private readonly IInstalacaoRepository _instalacaoRepo;
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IInstalacaoPleitoRepository _instalacaoPleitoRepo;
+        private readonly IOsBancadaPecasOrcamentoRepository _osBancadaPecasOrcamentoRepo;
+        private readonly IOSBancadaPecasRepository _osBancadaPecasRepo;
+        private readonly IOrcamentoPecasEspecRepository _orcamentoPecasEspecRepo;
+        
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -113,7 +117,10 @@ namespace SAT.SERVICES.Services
             ILaudoRepository laudoRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
             IInstalacaoRepository instalacaoRepo,
-            IInstalacaoPleitoRepository instalacaoPleitoRepo
+            IInstalacaoPleitoRepository instalacaoPleitoRepo,
+            IOsBancadaPecasOrcamentoRepository osBancadaPecasOrcamentoRepo,
+            IOSBancadaPecasRepository osBancadaPecasRepo,
+            IOrcamentoPecasEspecRepository orcamentoPecasEspecRepo
         )
         {
             _emaiLService = emaiLService;
@@ -164,6 +171,9 @@ namespace SAT.SERVICES.Services
             _instalacaoRepo = instalacaoRepo;
             _pontoUsuarioRepo = pontoUsuarioRepo;
             _instalacaoPleitoRepo = instalacaoPleitoRepo;
+            _osBancadaPecasOrcamentoRepo = osBancadaPecasOrcamentoRepo;
+            _osBancadaPecasRepo = osBancadaPecasRepo;
+            _orcamentoPecasEspecRepo = orcamentoPecasEspecRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -196,6 +206,10 @@ namespace SAT.SERVICES.Services
                     return GerarPdfLaudo(exportacao);
                 case ExportacaoTipoEnum.INSTALACAO_PLEITO:
                     return GerarPdfInstalacaoPleito(exportacao);
+                case ExportacaoTipoEnum.ORC_BANCADA:
+                    return GerarPdfOrcBancada(exportacao);
+                case ExportacaoTipoEnum.NF_BANCADA:
+                    return GerarPdfNFBancada(exportacao);
                 default:
                     return null;
             }

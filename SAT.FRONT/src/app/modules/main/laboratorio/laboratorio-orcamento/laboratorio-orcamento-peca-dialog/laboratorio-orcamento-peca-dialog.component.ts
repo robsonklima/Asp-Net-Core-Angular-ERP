@@ -116,8 +116,9 @@ export class LaboratorioOrcamentoPecaDialogComponent implements OnInit, AfterVie
                 this.valorIPI = 0.0;
 
                 this.valorPecaDesconto = this.peca.valPeca - ((this.peca.valPeca * this.valorDesconto)/100);
-                this.valorTotal = this.valorPecaDesconto * this.quantidade;
                 this.valorIPI = ((this.peca.valPeca * this.peca.valIPI)/100) * this.quantidade;
+                this.valorTotal = (this.valorPecaDesconto * this.quantidade) + this.valorIPI;
+                
 
               resolve(null);
             });

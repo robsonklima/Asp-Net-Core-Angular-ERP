@@ -34,8 +34,12 @@ namespace SAT.INFRA.Repository
          public OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114)
         {
             return _context.OSBancadaPecas
-                .Include(i => i.PecaRE5114)
                 .Include(i => i.OSBancada)
+                     .ThenInclude(i => i.Filial)
+                .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.ClienteBancada.Cidade.UnidadeFederativa)
+                .Include(i => i.PecaRE5114)
+                    .ThenInclude(i => i.Peca)
                 .SingleOrDefault(
                     i =>
                     i.CodOsbancada == codOsbancada &&
@@ -64,7 +68,7 @@ namespace SAT.INFRA.Repository
                  .Include(i => i.OSBancada)
                      .ThenInclude(i => i.Filial)
                 .Include(i => i.OSBancada)
-                    .ThenInclude(i => i.ClienteBancada)
+                    .ThenInclude(i => i.ClienteBancada.Cidade.UnidadeFederativa)
                 .Include(i => i.PecaRE5114)
                     .ThenInclude(i => i.Peca)
                 .AsQueryable();
@@ -83,6 +87,16 @@ namespace SAT.INFRA.Repository
             {
                 osBancadaPecas = osBancadaPecas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
+
+            if (parameters.CodOsbancada != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.CodOsbancada == parameters.CodOsbancada);
+            };
+
+            if (parameters.CodPecaRe5114 != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.CodPecaRe5114 == parameters.CodPecaRe5114);
+            };
 
             if (!string.IsNullOrWhiteSpace(parameters.CodOsbancadas))
             {

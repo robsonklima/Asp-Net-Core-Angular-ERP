@@ -4,7 +4,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { OsBancadaPecasOrcamentoService } from 'app/core/services/os-bancada-pecas-orcamento.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OsBancadaPecasOrcamentoData, OsBancadaPecasOrcamentoParameters } from 'app/core/types/os-bancada-pecas-orcamento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -37,6 +41,8 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
         private _osBancadaPecasOrcService: OsBancadaPecasOrcamentoService,
+        private _snack: CustomSnackbarService,
+        private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'orcamento-bancada');
         this.userSession = JSON.parse(this._userService.userSession);
@@ -95,6 +101,20 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
         this.isLoading = false;
         this._cdr.detectChanges();
     }
+
+    exportar(orcamento) {
+        let exportacaoParam: Exportacao = {
+          formatoArquivo: ExportacaoFormatoEnum.PDF,
+          tipoArquivo: ExportacaoTipoEnum.ORC_BANCADA,
+          entityParameters: {
+            codOrcamento: orcamento.codOrcamento
+          }
+        }
+    
+        this._exportacaoService
+          .exportar(FileMime.PDF, exportacaoParam)
+          .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
+      }
 
     paginar() {
         this.obterDados();

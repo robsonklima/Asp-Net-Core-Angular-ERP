@@ -17,7 +17,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './instalacao-pleito-instalacao-lista.component.html',
   styles: [
     `.list-grid-instalacao-pleito-instal {
-          grid-template-columns: 72px 72px;
+          grid-template-columns: 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px 72px;
       }`
   ],
   encapsulation: ViewEncapsulation.None,
@@ -42,7 +42,7 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
-  async ngAfterViewInit() {
+  async ngAfterViewInit() {   
     this.obterDados();
     this.registerEmitters();
   }
@@ -64,7 +64,10 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
       ...parametros
     }).toPromise();
 
-    this.dataSourceData = data;    
+    this.dataSourceData = data;
+    
+    console.log(this.dataSourceData);
+    
     this.isLoading = false;
   }
 

@@ -21,8 +21,64 @@
                             </div>
 
                             <div class="md:block" [mat-sort-header]="'codInstalacao'">
-                                {{ t('codigo') }}
+                                {{ t('cod instalacao') }}
+                            </div>                            
+
+                            <div class="md:block">
+                                {{ t('filial') }}
+                            </div>        
+                            
+                            <div class="md:block">
+                                {{ t('contrato') }}
+                            </div>        
+                            
+                            <div class="md:block">
+                                {{ t('tipo novo') }}
+                            </div>   
+                            
+                            <div class="md:block">
+                                {{ t('serie') }}
+                            </div>     
+                            
+                            <div class="md:block">
+                                {{ t('prefixo sb') }}
+                            </div>                               
+
+                            <div class="md:block">
+                                {{ t('dependencia') }}
                             </div>
+
+                            <div class="md:block">
+                                {{ t('municipio') }}
+                            </div>     
+                            
+                            <div class="md:block">
+                                {{ t('uf') }}
+                            </div>       
+                            
+                            <div class="md:block">
+                                {{ t('nf remessa') }}
+                            </div>                                 
+                            
+                            <div class="md:block">
+                                {{ t('dt instalacao') }}
+                            </div>  
+
+                            <div class="md:block">
+                                {{ t('termo de aceite') }}
+                            </div>                              
+
+                            <div class="md:block">
+                                {{ t('rat') }}
+                            </div>      
+                            
+                            <div class="md:block">
+                                {{ t('num bem trade in') }}
+                            </div>      
+                            
+                            <div class="md:block">
+                                {{ t('borderos') }}
+                            </div>                                
                         </div>
 
                         <ng-container>
@@ -35,6 +91,62 @@
                                     <div class="flex items-center">
                                         {{ pleito.codInstalacao }}
                                     </div>
+
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.filial?.nomeFilial }}
+                                    </div>        
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.contrato?.nomeContrato }}
+                                    </div>        
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.equipamento?.nomeEquip }}
+                                    </div>   
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.equipamentoContrato?.numSerie }}
+                                    </div>     
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.localAtendimentoSol?.numAgencia }} / {{ pleito.localAtendimentoSol?.dcPosto  }}
+                                    </div>                               
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.localAtendimentoSol?.nomeLocal }}
+                                    </div>
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.localAtendimentoSol?.cidade?.nomeCidade }}
+                                    </div>     
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF }}
+                                    </div>       
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.nfRemessa }}
+                                    </div>                                 
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.dataBI | date:'dd/MM/YYYY' }}
+                                    </div>  
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.codInstalacao }}
+                                    </div>                                  
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao.ordemServico?.relatoriosAtendimento[0]?.numRAT }}
+                                    </div>      
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.BemTradeIn }}
+                                    </div>      
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.codInstalacao }}
+                                    </div>                                      
                                 </div>
                             </ng-container>
                         </ng-container>

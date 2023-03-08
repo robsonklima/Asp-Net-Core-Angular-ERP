@@ -1,1 +1,53 @@
-<p>instalacao-pleito-instalacao-lista works!</p>
+
+<div class="sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden" *transloco="let t">
+    <div class="flex flex-auto overflow-hidden">
+        <div class="top-0 right-0 w-200 z-99999">
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+            </mat-form-field>            
+        </div>  
+    </div>
+
+    <div class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto overflow-hidden sm:overflow-y-auto bg-card">
+            <ng-container>
+                <ng-container>
+                    <div class="grid" *transloco="let t">
+                        <div class="list-grid-instalacao-pleito-instal z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50"
+                            matSort matSortDisableClear *transloco="let t">
+                            <div class="md:block" [mat-sort-header]="'codInstalPleito'">
+                                {{ t('codigo') }}
+                            </div>
+
+                            <div class="md:block" [mat-sort-header]="'codInstalacao'">
+                                {{ t('codigo') }}
+                            </div>
+                        </div>
+
+                        <ng-container>
+                            <ng-container *ngFor="let pleito of dataSourceData?.items">
+                                <div class="list-grid-instalacao-pleito-instal grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
+                                    <div class="flex items-center">
+                                        {{ pleito.codInstalPleito }}
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        {{ pleito.codInstalacao }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                    <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                        class="sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50"
+                        [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                        [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        (page)="paginar()">
+                    </mat-paginator>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

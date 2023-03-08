@@ -19,8 +19,6 @@ namespace SAT.SERVICES.Services
             List<string> Mensagem = new List<string>();
 
             importacao.ImportacaoLinhas
-                .Where(line => !string.IsNullOrEmpty(line.ImportacaoColuna
-                    .FirstOrDefault(col => col.Campo.Equals("codEquipContrato")).Valor))
                 .ToList()
                 .ForEach(line =>
                 {

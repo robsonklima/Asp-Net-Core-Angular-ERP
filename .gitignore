@@ -17,3 +17,4 @@ SAT.API/Logs/
 *.mp4
 SAT.FRONT/src/environments/environment.ts
 SAT.TASKS/Logs/
+SAT.API/Startup.cs

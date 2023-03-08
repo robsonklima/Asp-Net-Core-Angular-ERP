@@ -59,5 +59,7 @@ export enum ExportacaoTipoEnum {
     INSTALACAO,
     LAUDO,
     PONTO_USUARIO,
-    INSTALACAO_PLEITO
+    INSTALACAO_PLEITO,
+    ORC_BANCADA,
+    NF_BANCADA
 }

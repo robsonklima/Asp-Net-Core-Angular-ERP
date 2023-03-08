@@ -6,6 +6,8 @@ namespace SAT.MODELS.Entities.Params
     {
         public string CodOsbancadas { get; set; }
         public string CodPecaRe5114s { get; set; }
+        public int? CodOsbancada { get; set; }
+        public int? CodPecaRe5114 { get; set; }
 
     }
 }

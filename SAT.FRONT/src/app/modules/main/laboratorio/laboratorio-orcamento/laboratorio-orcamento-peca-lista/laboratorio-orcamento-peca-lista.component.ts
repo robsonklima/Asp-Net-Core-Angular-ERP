@@ -90,8 +90,8 @@ export class LaboratorioOrcamentoPecaListaComponent implements AfterViewInit {
 
     atualizar(orcamentoPeca: OrcamentoPecasEspec) {
         orcamentoPeca.valorPecaDesconto = orcamentoPeca.valorPeca - ((orcamentoPeca.valorPeca * orcamentoPeca.valorDesconto) / 100);
-        orcamentoPeca.valorTotal = orcamentoPeca.valorPecaDesconto * orcamentoPeca.quantidade;
         orcamentoPeca.ipiIncluido = ((orcamentoPeca.valorPeca * orcamentoPeca.percIpi) / 100) * orcamentoPeca.quantidade;
+        orcamentoPeca.valorTotal = (orcamentoPeca.valorPecaDesconto * orcamentoPeca.quantidade) + orcamentoPeca.ipiIncluido;
 
         this._orcamentoPecasEspecService.atualizar(orcamentoPeca).subscribe();
 

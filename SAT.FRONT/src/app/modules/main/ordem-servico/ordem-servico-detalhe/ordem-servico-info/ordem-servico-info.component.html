@@ -141,10 +141,10 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-between mt-8">
+        <div *ngIf="!perfilCliente" class="flex items-center justify-between mt-8">
             <div class="text-lg font-medium">{{ t('marcacao especial') }}</div>
         </div>
-        <div class="flex mt-2 border-t text-justify">
+        <div *ngIf="!perfilCliente" class="flex mt-2 border-t text-justify">
             <div class="py-1">
                 <ng-container>
                     <div> {{ os?.descMotivoMarcaEspecial || 'Não Informado' }}</div>

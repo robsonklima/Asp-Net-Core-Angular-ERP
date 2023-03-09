@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'app-ordem-servico-info',
@@ -7,9 +8,13 @@ import { OrdemServico } from 'app/core/types/ordem-servico.types';
 })
 export class OrdemServicoInfoComponent implements OnInit {
   @Input() os: OrdemServico;
+  perfilCliente: boolean;
 
-  constructor() { }
+  constructor(
+    private _userService: UserService,
+  ) { }
 
   ngOnInit(): void {
+    this.perfilCliente = this._userService.isCustomer;
   }
 }

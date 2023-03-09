@@ -253,7 +253,7 @@ namespace SAT.UTILS
                         column.Item().Text(text =>
                         {
                             text.Span($"Data da NF Entrada: ").SemiBold().FontSize(10);
-                            text.Span($"{nota.OSBancada?.DataNf.Value.ToString("dd/MM/yyyy")}").FontSize(10);
+                            text.Span(nota.OSBancada.DataNf != null ? nota.OSBancada?.DataNf.Value.ToString("dd/MM/yyyy") : "").FontSize(10);
                         });
                     });
                 });

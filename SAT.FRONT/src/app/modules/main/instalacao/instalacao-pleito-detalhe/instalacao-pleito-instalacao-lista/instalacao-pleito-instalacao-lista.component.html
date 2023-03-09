@@ -7,6 +7,11 @@
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>            
         </div>  
+        <button class="ml-2" (click)="adicionarInstalacaoPleitoInstal()">
+            <mat-icon class="text-green-500	" 
+                [svgIcon]="'heroicons_outline:plus-circle'">
+            </mat-icon>    
+        </button>             
     </div>
 
     <div class="flex flex-auto overflow-hidden">
@@ -137,7 +142,7 @@
                                     </div>      
                                     
                                     <div class="flex items-center">
-                                        {{ instalPleito.descPleito }}
+                                        {{ instalPleito.instalacaoTipoPleito?.nomeTipoPleito }}
                                     </div>                                      
                                 </div>
                             </ng-container>

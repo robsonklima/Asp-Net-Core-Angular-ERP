@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
@@ -9,6 +10,7 @@ import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { InstalacaoPleitoInstalacaoDialogComponent } from '../../instalacao-pleito-instalacao-dialog/instalacao-pleito-instalacao-dialog.component';
 
 @Component({
   selector: 'app-instalacao-pleito-instalacao-lista',
@@ -35,6 +37,7 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _InstalacaoPleitoInstalSvc: InstalacaoPleitoInstalService,
+    private _dialog: MatDialog,
     private _userSvc: UserService
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -90,6 +93,16 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     }
 
     this._cdr.detectChanges();
+  }
+
+  adicionarInstalacaoPleitoInstal(): void {
+    this._dialog.open(InstalacaoPleitoInstalacaoDialogComponent, {
+      data: {
+        codInstalPleito: this.instalPleito?.codInstalPleito,
+      },
+      width: '960px',
+      height: '600px'
+    });
   }
 
   paginar() {

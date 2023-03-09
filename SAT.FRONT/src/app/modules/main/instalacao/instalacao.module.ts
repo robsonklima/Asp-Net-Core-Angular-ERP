@@ -45,6 +45,7 @@ import { InstalacaoLoteAnexoDialogComponent } from './instalacao-lote-anexo-dial
 import { InstalacaoPleitoDetalheComponent } from './instalacao-pleito-detalhe/instalacao-pleito-detalhe.component';
 import { InstalacaoPleitoFormComponent } from './instalacao-pleito-detalhe/instalacao-pleito-form/instalacao-pleito-form.component';
 import { InstalacaoPleitoInstalacaoListaComponent } from './instalacao-pleito-detalhe/instalacao-pleito-instalacao-lista/instalacao-pleito-instalacao-lista.component';
+import { InstalacaoPleitoInstalacaoDialogComponent } from './instalacao-pleito-instalacao-dialog/instalacao-pleito-instalacao-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -66,6 +67,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoPleitoDetalheComponent,
     InstalacaoPleitoFormComponent,
     InstalacaoPleitoInstalacaoListaComponent,
+    InstalacaoPleitoInstalacaoDialogComponent,
   ],
   imports: [
     CommonModule,

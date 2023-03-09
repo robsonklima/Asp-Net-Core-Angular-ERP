@@ -12,11 +12,19 @@
                 <div class="md:block">
                     {{ t('Peca') }}
                 </div>
+                <div class="md:block">
+                    {{ t('Status') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Ações') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Impressões') }}
+                </div>
             </div>
 
             <ng-container>
                 <ng-container *ngFor="let os of dataSourceData?.items">
-                    <a (click)="editarPeca(os)">
                     <div
                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                         <div class="flex items-center">
@@ -25,11 +33,25 @@
                         <div class="flex items-center">
                             {{ os?.pecaRE5114.peca.codMagnus }}
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center" [matTooltip]="os?.pecaRE5114.peca.nomePeca">
                             {{ os?.pecaRE5114.peca.nomePeca }}
                         </div>
+                        <div class="flex items-center">
+                            {{ validarStatus(os) }}
+                        </div>
+                        <div class="flex items-center">
+                            <button mat-button matTooltip="Editar" (click)="editarPeca(os)">
+                                <mat-icon class="icon-size-5 text-blue-600"
+                                    [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="os.indImpressao == 1"
+                                (change)="onChange($event,os)">
+                                {{ os.indImpressao ? 'Sim' : 'Não' }}
+                            </mat-slide-toggle>
+                        </div>
                     </div>
-                    </a>
                 </ng-container>
             </ng-container>
         </div>

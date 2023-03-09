@@ -23,6 +23,7 @@ namespace SAT.MODELS.Entities
         public int? CodPecaRe5114troca { get; set; }
         public int? NumItemNf { get; set; }
         public string NomeTecnicoRelatante { get; set; }
+        public byte? IndImpressao { get; set; }
         public OSBancada OSBancada { get; set; }
         public PecaRE5114 PecaRE5114 { get; set; }
     }

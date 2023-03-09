@@ -33,6 +33,9 @@
             (click)="criarPeca()">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
+            <button mat-icon-button matTooltip="Download PDF" (click)="exportar(codOsbancada)">
+                <mat-icon class="max-w-5 max-h-5 text-blue-700" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+            </button>
         </div>
     </div>
     <div class="grid grid-cols-6 sm:grid-cols-1 md:grid-cols-6 p-4 gap-6 w-full min-w-0">

@@ -93,6 +93,16 @@ namespace SAT.INFRA.Repository
                 osBancadaPecas = osBancadaPecas.Where(a => a.CodOsbancada == parameters.CodOsbancada);
             };
 
+            if (parameters.IndImpressao != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.IndImpressao == parameters.IndImpressao);
+            };
+
+            if (parameters.IndPecaDevolvida != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.IndPecaDevolvida == parameters.IndPecaDevolvida);
+            };
+
             if (parameters.CodPecaRe5114 != null)
             {
                 osBancadaPecas = osBancadaPecas.Where(a => a.CodPecaRe5114 == parameters.CodPecaRe5114);

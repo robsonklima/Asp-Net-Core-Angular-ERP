@@ -9,6 +9,7 @@ using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace SAT.SERVICES.Services
 {
@@ -67,6 +68,8 @@ namespace SAT.SERVICES.Services
         private readonly IOsBancadaPecasOrcamentoRepository _osBancadaPecasOrcamentoRepo;
         private readonly IOSBancadaPecasRepository _osBancadaPecasRepo;
         private readonly IOrcamentoPecasEspecRepository _orcamentoPecasEspecRepo;
+        private readonly IUsuarioService _usuarioService;
+        private readonly IHttpContextAccessor _contextAcecssor;
         
 
         public ExportacaoService(
@@ -120,7 +123,9 @@ namespace SAT.SERVICES.Services
             IInstalacaoPleitoRepository instalacaoPleitoRepo,
             IOsBancadaPecasOrcamentoRepository osBancadaPecasOrcamentoRepo,
             IOSBancadaPecasRepository osBancadaPecasRepo,
-            IOrcamentoPecasEspecRepository orcamentoPecasEspecRepo
+            IOrcamentoPecasEspecRepository orcamentoPecasEspecRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IUsuarioService usuarioService
         )
         {
             _emaiLService = emaiLService;
@@ -174,6 +179,8 @@ namespace SAT.SERVICES.Services
             _osBancadaPecasOrcamentoRepo = osBancadaPecasOrcamentoRepo;
             _osBancadaPecasRepo = osBancadaPecasRepo;
             _orcamentoPecasEspecRepo = orcamentoPecasEspecRepo;
+            _usuarioService = usuarioService;
+            _contextAcecssor = httpContextAccessor;
             FilePath = GenerateFilePath(".xlsx");
         }
 

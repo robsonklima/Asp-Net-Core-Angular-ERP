@@ -37,9 +37,6 @@
                                 {{ t('Num RE5114') }}
                             </div>
                             <div>
-                                {{ t('cliente') }}
-                            </div>
-                            <div>
                                 {{ t('nf cliente') }}
                             </div>
                             <div>
@@ -50,6 +47,12 @@
                             </div>
                             <div>
                                 {{ t('valor') }}
+                            </div>
+                            <div>
+                                {{ t('status') }}
+                            </div>
+                            <div>
+                                {{ t('cliente') }}
                             </div>
                         </div>
 
@@ -65,9 +68,6 @@
                                             {{ os?.pecaRE5114.numRe5114 }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os?.osBancada?.clienteBancada?.apelido }}
-                                        </div>
-                                        <div class="flex items-center">
                                             {{ os?.osBancada?.nfentrada }}
                                         </div>
                                         <div class="flex items-center">
@@ -78,6 +78,12 @@
                                         </div>
                                         <div class="flex items-center">
                                             {{ os?.osBancada?.valorNf | currency: 'BRL' }}
+                                        </div>
+                                        <div class="flex items-center">
+                                            {{ validarStatus(os) }}
+                                        </div>
+                                        <div class="flex items-center">
+                                            {{ os?.osBancada?.clienteBancada?.apelido }}
                                         </div>
                                     </div>
                                 </a>

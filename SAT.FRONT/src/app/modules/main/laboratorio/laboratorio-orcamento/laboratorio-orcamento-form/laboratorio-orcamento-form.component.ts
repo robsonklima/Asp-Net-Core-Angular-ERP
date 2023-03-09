@@ -16,6 +16,9 @@ import { OSBancada } from 'app/core/types/os-bancada.types';
 import { PecaRE5114 } from 'app/core/types/pecaRE5114.types';
 import moment from 'moment';
 import { LaboratorioOrcamentoPecaDialogComponent } from '../laboratorio-orcamento-peca-dialog/laboratorio-orcamento-peca-dialog.component';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
 
 @Component({
     selector: 'app-laboratorio-orcamento-form',
@@ -44,6 +47,7 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
         private _peca5114Service: PecaRE5114Service,
         public _location: Location,
         private _dialog: MatDialog,
+        private _exportacaoService: ExportacaoService,
         private _userService: UserService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
@@ -165,6 +169,20 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
         this._dialog.open(LaboratorioOrcamentoPecaDialogComponent, {
           data: { orcamento: this.orcamento }
         });
+      }
+
+      exportar(codOrcamento) {
+        let exportacaoParam: Exportacao = {
+          formatoArquivo: ExportacaoFormatoEnum.PDF,
+          tipoArquivo: ExportacaoTipoEnum.ORC_BANCADA,
+          entityParameters: {
+            codOrcamento: codOrcamento
+          }
+        }
+    
+        this._exportacaoService
+          .exportar(FileMime.PDF, exportacaoParam)
+          .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
       }
 
     ngOnDestroy() {

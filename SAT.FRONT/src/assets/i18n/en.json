@@ -808,5 +808,8 @@
     "os bancada": "Bench OS",
     "nota fiscal": "Invoice",
     "nivel severidade": "Severity Level",
-    "pleito": "Pending"
+    "pleito": "Pending",
+    "cod instalacao": "Installation code",
+    "termo aceite": "Acceptance term",
+    "bordero": "Border"
 }

@@ -7,6 +7,11 @@
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>            
         </div>  
+        <button class="ml-2" (click)="adicionarInstalacaoPleitoInstal()">
+            <mat-icon class="text-green-500	" 
+                [svgIcon]="'heroicons_outline:plus-circle'">
+            </mat-icon>    
+        </button>             
     </div>
 
     <div class="flex flex-auto overflow-hidden">
@@ -16,25 +21,129 @@
                     <div class="grid" *transloco="let t">
                         <div class="list-grid-instalacao-pleito-instal z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50"
                             matSort matSortDisableClear *transloco="let t">
-                            <div class="md:block" [mat-sort-header]="'codInstalPleito'">
-                                {{ t('codigo') }}
+                            <div class="md:block" [mat-sort-header]="'codInstalacao'">
+                                {{ t('cod instalacao') }}
+                            </div>                            
+
+                            <div class="md:block">
+                                {{ t('filial') }}
+                            </div>        
+                            
+                            <div class="md:block">
+                                {{ t('contrato') }}
+                            </div>        
+                            
+                            <div class="md:block">
+                                {{ t('tipo novo') }}
+                            </div>   
+                            
+                            <div class="md:block">
+                                {{ t('serie') }}
+                            </div>     
+                            
+                            <div class="md:block">
+                                {{ t('prefixo sb') }}
+                            </div>                               
+
+                            <div class="md:block">
+                                {{ t('dependencia') }}
                             </div>
 
-                            <div class="md:block" [mat-sort-header]="'codInstalacao'">
-                                {{ t('codigo') }}
-                            </div>
+                            <div class="md:block">
+                                {{ t('municipio') }}
+                            </div>     
+                            
+                            <div class="md:block">
+                                {{ t('uf') }}
+                            </div>       
+                            
+                            <div class="md:block">
+                                {{ t('nf remessa') }}
+                            </div>                                 
+                            
+                            <div class="md:block">
+                                {{ t('dt instalacao') }}
+                            </div>  
+
+                            <div class="md:block">
+                                {{ t('termo aceite') }}
+                            </div>                              
+
+                            <div class="md:block">
+                                {{ t('rat') }}
+                            </div>      
+                            
+                            <div class="md:block">
+                                {{ t('num bem trade in') }}
+                            </div>      
+                            
+                            <div class="md:block">
+                                {{ t('bordero') }}
+                            </div>                                
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let pleito of dataSourceData?.items">
                                 <div class="list-grid-instalacao-pleito-instal grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        {{ pleito.codInstalPleito }}
+                                        {{ pleito.codInstalacao }}
                                     </div>
 
                                     <div class="flex items-center">
-                                        {{ pleito.codInstalacao }}
+                                        {{ pleito.instalacao?.filial?.nomeFilial }}
+                                    </div>        
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.contrato?.nomeContrato }}
+                                    </div>        
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.equipamento?.nomeEquip }}
+                                    </div>   
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.equipamentoContrato?.numSerie }}
+                                    </div>     
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.localAtendimentoSol?.numAgencia }} / {{ pleito.instalacao?.localAtendimentoSol?.dcPosto  }}
+                                    </div>                               
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.localAtendimentoSol?.nomeLocal }}
                                     </div>
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.localAtendimentoSol?.cidade?.nomeCidade }}
+                                    </div>     
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF }}
+                                    </div>       
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.nfRemessa }}
+                                    </div>                                 
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.dataBI | date:'dd/MM/YYYY' }}
+                                    </div>  
+        
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.indBiorigEnt ? t('sim') : t('nao') }}
+                                    </div>                                  
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.ordemServico?.relatoriosAtendimento[0]?.numRAT }}
+                                    </div>      
+                                    
+                                    <div class="flex items-center">
+                                        {{ pleito.instalacao?.bemTradeIn }}
+                                    </div>      
+                                    
+                                    <div class="flex items-center">
+                                        {{ instalPleito.instalacaoTipoPleito?.nomeTipoPleito }}
+                                    </div>                                      
                                 </div>
                             </ng-container>
                         </ng-container>

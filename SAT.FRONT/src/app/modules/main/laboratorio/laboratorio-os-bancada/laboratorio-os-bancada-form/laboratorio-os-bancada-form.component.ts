@@ -15,6 +15,11 @@ import { ClienteBancada, ClienteBancadaParameters } from 'app/core/types/cliente
 import { ClienteBancadaService } from 'app/core/services/cliente-bancada.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LaboratorioOSBancadaPecasDialogComponent } from '../laboratorio-os-bancada-pecas-dialog/laboratorio-os-bancada-pecas-dialog.component';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
+import { ExportacaoService } from 'app/core/services/exportacao.service';
+import { OSBancadaPecas } from 'app/core/types/os-bancada-pecas.types';
+import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-form',
@@ -24,6 +29,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
 
     protected _onDestroy = new Subject<void>();
     public osBancada: OSBancada;
+    public osBancadaPeca: OSBancadaPecas;
     public clienteBancada: ClienteBancada;
     public clientes: ClienteBancada[] = [];
     public loading: boolean = true;
@@ -38,9 +44,11 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         private _snack: CustomSnackbarService,
         private _route: ActivatedRoute,
         private _osBancadaService: OSBancadaService,
+        private _osBancadaPecasService: OSBancadaPecasService,
         private _clienteBancadaService: ClienteBancadaService,
         public _location: Location,
         private _dialog: MatDialog,
+        private _exportacaoService: ExportacaoService,
         private _userService: UserService
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
@@ -152,6 +160,26 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         this._dialog.open(LaboratorioOSBancadaPecasDialogComponent, {
           data: { osBancada: this.osBancada }
         });
+      }
+    
+      async exportar(codOsbancada) {
+        
+        this.osBancadaPeca = (await this._osBancadaPecasService.obterPorParametros({
+            codOsbancada: codOsbancada
+        }).toPromise()).items.shift();
+
+        let exportacaoParam: Exportacao = {
+          formatoArquivo: ExportacaoFormatoEnum.PDF,
+          tipoArquivo: ExportacaoTipoEnum.NF_BANCADA,
+          entityParameters: {
+            codOsbancada: codOsbancada,
+            codPecaRe5114: this.osBancadaPeca.codPecaRe5114
+          }
+        }
+    
+        this._exportacaoService
+          .exportar(FileMime.PDF, exportacaoParam)
+          .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
       }
 
     ngOnDestroy() {

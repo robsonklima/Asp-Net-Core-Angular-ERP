@@ -39,6 +39,9 @@
                 (click)="adicionarPeca()">
                 <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
             </button>
+            <button mat-icon-button matTooltip="Download PDF" (click)="exportar(codOrcamento)">
+                <mat-icon class="max-w-5 max-h-5 text-blue-700" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+            </button>
         </div>
     </div>
     <div class="grid grid-cols-6 sm:grid-cols-1 md: p-4 gap-1 min-w-0">

@@ -44,7 +44,7 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
         private _snack: CustomSnackbarService,
         private _exportacaoService: ExportacaoService
     ) {
-        super(_userService, 'orcamento-bancada');
+        super(_userService, 'laboratorio-orcamento');
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
@@ -53,6 +53,7 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
 
     async ngAfterViewInit() {
         await this.obterDados();
+        this.registerEmitters();
 
         if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -79,6 +80,10 @@ export class LaboratorioOrcamentoListaComponent extends Filterable implements On
     }
 
     registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+            this.onSidenavClosed();
+            this.obterDados();
+          });
    }
 
     async obterDados(filtro: string = '') {

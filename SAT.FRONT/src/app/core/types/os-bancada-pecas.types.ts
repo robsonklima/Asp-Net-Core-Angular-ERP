@@ -27,6 +27,7 @@ export class OSBancadaPecas {
     codPecaRe5114troca?: number;
     numItemNf?: number;
     nomeTecnicoRelatante?: string;
+    indImpressao?: number;
     osBancada?: OSBancada;
     pecaRE5114?: PecaRE5114;
 }
@@ -38,6 +39,8 @@ export interface OSBancadaPecasData extends Meta {
 export interface OSBancadaPecasParameters extends QueryStringParameters {
     codOsbancadas?: string;
     codPecaRe5114s?: string;
+    codOsbancada?: number;
+    codPecaRe5114?: number;
 };
 
 export enum OSBancadaPecasGarantiaEnum {
@@ -45,3 +48,4 @@ export enum OSBancadaPecasGarantiaEnum {
     GARANTIA_VENDA = 2,
     GARANTIA_CONSERTO = 3
 }
+

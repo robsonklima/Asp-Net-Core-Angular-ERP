@@ -13,10 +13,10 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
-	selector: 'app-laboratorio-orcamento-filtro',
-	templateUrl: './laboratorio-orcamento-filtro.component.html'
+	selector: 'app-laboratorio-os-bancada-filtro',
+	templateUrl: './laboratorio-os-bancada-filtro.component.html'
 })
-export class LaboratorioOrcamentoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
+export class LaboratorioOSBancadaFiltroComponent extends FilterBase implements OnInit, IFilterBase {
 	@Input() sidenav: MatSidenav;
 	clientes: ClienteBancada[] = [];
 	status: LaudoStatus[] = [];
@@ -29,7 +29,7 @@ export class LaboratorioOrcamentoFiltroComponent extends FilterBase implements O
 		protected _formBuilder: FormBuilder,
 		private _clienteBancadaService: ClienteBancadaService,
 	) {
-		super(_userService, _formBuilder, 'laboratorio-orcamento');
+		super(_userService, _formBuilder, 'os-bancada');
 	}
 
 	ngOnInit(): void {
@@ -45,7 +45,7 @@ export class LaboratorioOrcamentoFiltroComponent extends FilterBase implements O
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			CodClienteBancadas: [undefined],
-			IndOrcamentoAprov: [undefined],
+			CodStatus: [undefined],
 		});
 		this.form.patchValue(this.filter?.parametros);
 	}

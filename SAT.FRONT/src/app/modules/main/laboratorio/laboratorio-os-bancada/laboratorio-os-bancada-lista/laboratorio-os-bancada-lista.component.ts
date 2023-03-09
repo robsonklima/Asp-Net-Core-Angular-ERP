@@ -41,7 +41,12 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
         super(_userService, 'os-bancada');
         this.userSession = JSON.parse(this._userService.userSession);
     }
+    
     registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+            this.onSidenavClosed();
+            this.obterDados();
+          });
     }
 
     ngOnInit(): void {
@@ -49,6 +54,7 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
 
     async ngAfterViewInit() {
         await this.obterDados();
+        this.registerEmitters();
 
         if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(

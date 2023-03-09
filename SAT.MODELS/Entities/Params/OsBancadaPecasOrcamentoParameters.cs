@@ -8,6 +8,8 @@ namespace SAT.MODELS.Entities.Params
         public string CodOSBancadas { get; set; }
         public string NumRe5114 { get; set; }
         public int? CodOrcamento { get; set; }
+        public string CodClienteBancadas { get; set; }
+        public int? IndOrcamentoAprov { get; set; }
 
     }
 }

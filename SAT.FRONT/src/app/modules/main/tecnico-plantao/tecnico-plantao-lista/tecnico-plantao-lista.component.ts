@@ -148,8 +148,7 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
 
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
 		{
-			if (confirmacao)
-			{
+			if (confirmacao){
         this.isLoading = true;
         
         for (const plantaoRegiao of plantaoTecnico.plantaoRegioes) {

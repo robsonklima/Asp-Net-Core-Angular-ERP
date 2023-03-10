@@ -109,8 +109,10 @@
                                         {{ instalacao.localAtendimentoSol?.numAgencia }} / {{ instalacao.localAtendimentoSol?.dcPosto  }}
                                     </div>                               
         
-                                    <div class="flex items-center">
-                                        {{ instalacao.localAtendimentoSol?.nomeLocal }}
+                                    <div class="flex items-center truncate">
+                                        <span [matTooltip]="instalacao.localAtendimentoSol?.nomeLocal">
+                                            {{ instalacao.localAtendimentoSol?.nomeLocal }}
+                                        </span>
                                     </div>
         
                                     <div class="flex items-center">

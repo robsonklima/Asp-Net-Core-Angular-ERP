@@ -18,7 +18,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './instalacao-pleito-instalacao-lista.component.html',
   styles: [
     `.list-grid-instalacao-pleito-instal {
-          grid-template-columns: 36px 36px 180px 150px 120px 72px auto 100px 36px 72px 72px 36px 42px 110px 150px 36px;
+          grid-template-columns: 42px 42px 180px 150px 120px 72px auto 100px 36px 72px 72px 36px 42px 110px 150px 36px;
       }`
   ],
   encapsulation: ViewEncapsulation.None,

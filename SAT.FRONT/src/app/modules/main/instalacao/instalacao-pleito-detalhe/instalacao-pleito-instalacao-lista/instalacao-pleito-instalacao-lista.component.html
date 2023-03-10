@@ -6,12 +6,7 @@
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
             </mat-form-field>            
-        </div>  
-        <button class="ml-2" (click)="adicionarInstalacaoPleitoInstal()">
-            <mat-icon class="text-green-500	" 
-                [svgIcon]="'heroicons_outline:plus-circle'">
-            </mat-icon>    
-        </button>             
+        </div>           
     </div>
 
     <div class="flex flex-auto overflow-hidden">
@@ -79,71 +74,83 @@
                             
                             <div class="md:block">
                                 {{ t('bordero') }}
-                            </div>                                
+                            </div>             
+                            
+                            <div class="text-left">
+                                <mat-slide-toggle class="-mt-1" color="primary"
+                                    (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
+                            </div>                        
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let pleito of dataSourceData?.items">
+                            <ng-container *ngFor="let instalacao of dataSourceData?.items">
                                 <div class="list-grid-instalacao-pleito-instal grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
-                                        {{ pleito.codInstalacao }}
+                                        {{ instalacao.codInstalacao }}
                                     </div>
 
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.filial?.nomeFilial }}
+                                        {{ instalacao.filial?.nomeFilial }}
                                     </div>        
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.contrato?.nomeContrato }}
+                                        {{ instalacao.contrato?.nomeContrato }}
                                     </div>        
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.equipamento?.nomeEquip }}
+                                        {{ instalacao.equipamento?.nomeEquip }}
                                     </div>   
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.equipamentoContrato?.numSerie }}
+                                        {{ instalacao.equipamentoContrato?.numSerie }}
                                     </div>     
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.localAtendimentoSol?.numAgencia }} / {{ pleito.instalacao?.localAtendimentoSol?.dcPosto  }}
+                                        {{ instalacao.localAtendimentoSol?.numAgencia }} / {{ instalacao.localAtendimentoSol?.dcPosto  }}
                                     </div>                               
         
-                                    <div class="flex items-center">
-                                        {{ pleito.instalacao?.localAtendimentoSol?.nomeLocal }}
+                                    <div class="flex items-center truncate">
+                                        <span [matTooltip]="instalacao.localAtendimentoSol?.nomeLocal">
+                                            {{ instalacao.localAtendimentoSol?.nomeLocal }}
+                                        </span>
                                     </div>
         
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.localAtendimentoSol?.cidade?.nomeCidade }}
+                                        {{ instalacao.localAtendimentoSol?.cidade?.nomeCidade }}
                                     </div>     
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF }}
+                                        {{ instalacao.localAtendimentoSol?.cidade?.unidadeFederativa?.siglaUF }}
                                     </div>       
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.nfRemessa }}
+                                        {{ instalacao.nfRemessa }}
                                     </div>                                 
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.dataBI | date:'dd/MM/YYYY' }}
+                                        {{ instalacao.dataBI | date:'dd/MM/YYYY' }}
                                     </div>  
         
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.indBiorigEnt ? t('sim') : t('nao') }}
+                                        {{ instalacao.indBiorigEnt ? t('sim') : t('nao') }}
                                     </div>                                  
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.ordemServico?.relatoriosAtendimento[0]?.numRAT }}
+                                        {{ instalacao.ordemServico?.relatoriosAtendimento[0]?.numRAT }}
                                     </div>      
                                     
                                     <div class="flex items-center">
-                                        {{ pleito.instalacao?.bemTradeIn }}
+                                        {{ instalacao.bemTradeIn }}
                                     </div>      
                                     
                                     <div class="flex items-center">
                                         {{ instalPleito.instalacaoTipoPleito?.nomeTipoPleito }}
-                                    </div>                                      
+                                    </div>     
+                                    
+                                    <div class="flex-auto">
+                                        <mat-slide-toggle color="primary" [(ngModel)]="instalacao.selecionado">
+                                        </mat-slide-toggle>
+                                    </div>                                    
                                 </div>
                             </ng-container>
                         </ng-container>
@@ -152,7 +159,7 @@
                     <mat-paginator [hidden]="!dataSourceData?.items?.length"
                         class="sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50"
                         [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
-                        [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
                         (page)="paginar()">
                     </mat-paginator>
                 </ng-container>

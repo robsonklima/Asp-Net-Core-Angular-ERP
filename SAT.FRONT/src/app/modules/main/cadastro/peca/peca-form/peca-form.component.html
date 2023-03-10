@@ -44,7 +44,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cod magnus') }}</mat-label>
-                        <input matInput formControlName="codMagnus" mask="000.000.000" [showMaskTyped]="true">
+                        <input matInput formControlName="codMagnus">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -68,6 +68,15 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('venda brl') }}</mat-label>
+                        <input matInput formControlName="valPeca" mask="separator.2" prefix="R$" thousandSeparator="."
+                        decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>    
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('custo usd') }}</mat-label>
                         <input matInput formControlName="valCustoDolar" mask="separator.2" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
@@ -76,30 +85,11 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('custo eur') }}</mat-label>
-                        <input matInput formControlName="valCustoEuro" mask="separator.2" thousandSeparator="." suffix="€" [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('venda brl') }}</mat-label>
-                        <input matInput formControlName="valPeca" mask="separator.2" prefix="R$" thousandSeparator="."
-                        decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>       
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda usd') }}</mat-label>
                         <input matInput formControlName="valPecaDolar" mask="separator.2" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('venda eur') }}</mat-label>
-                        <input matInput formControlName="valPecaEuro" mask="separator.2" thousandSeparator="." suffix="€" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">

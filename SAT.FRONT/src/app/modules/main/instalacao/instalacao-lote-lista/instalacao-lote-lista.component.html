@@ -44,6 +44,11 @@
                         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                         <input matInput #searchInputControl [autocomplete]="'off'" [placeholder]="'Pesquisar...'">
                     </mat-form-field>
+
+                    <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                        [routerLink]="[ '/instalacao/lote/form/' + codContrato ]">
+                        <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
                 </div>
             </div>
         </div>

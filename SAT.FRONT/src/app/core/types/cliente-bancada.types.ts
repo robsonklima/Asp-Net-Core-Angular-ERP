@@ -41,4 +41,5 @@ export interface ClienteBancadaData extends Meta {
 export interface ClienteBancadaParameters extends QueryStringParameters {
     indAtivo?: number;
     cnpJ_CGC?: string;
+    codClienteBancadas?: string;
 };

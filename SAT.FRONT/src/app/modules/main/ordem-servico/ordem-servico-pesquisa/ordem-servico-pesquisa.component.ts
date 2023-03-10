@@ -9,6 +9,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { OrdemServicoData } from 'app/core/types/ordem-servico.types';
 import { statusConst } from 'app/core/types/status-types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { Subject } from 'rxjs';
@@ -156,6 +157,10 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			numOSQuarteirizada: form.numOSQuarteirizada,
 			numOSCliente: form.numOSCliente,
 			numSerie: form.numSerie,
+			codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA},
+														${TipoIntervencaoEnum.COFRE},
+														${TipoIntervencaoEnum.PREVENTIVA},
+														${TipoIntervencaoEnum.PREVENTIVA_GERENCIAL}` : null,
 			codClientes: codClientes
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {

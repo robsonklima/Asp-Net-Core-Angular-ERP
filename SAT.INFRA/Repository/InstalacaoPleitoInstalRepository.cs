@@ -54,16 +54,26 @@ namespace SAT.INFRA.Repository
         {
 
             return _context.InstalacaoPleitoInstal
-                .Include(i => i.Instalacao)
-                    .ThenInclude(e => e.EquipamentoContrato.Contrato.ContratosEquipamento)
+                .Include(i => i.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)
+                .Include(i => i.Instalacao.Filial)                  
+                .Include(i => i.Instalacao.Contrato)
+                .Include(i => i.Instalacao.EquipamentoContrato)
+                .Include(i => i.Instalacao.LocalAtendimentoSol.Cidade.UnidadeFederativa)
+                .Include(i => i.Instalacao.Equipamento)
+                .Include(i => i.Instalacao.OrdemServico.RelatoriosAtendimento)
                 .FirstOrDefault(i => i.CodInstalPleito == codInstalPleito);
         }
 
         public PagedList<InstalacaoPleitoInstal> ObterPorParametros(InstalacaoPleitoInstalParameters parameters)
         {
             var instalacoes = _context.InstalacaoPleitoInstal
-                .Include(i => i.Instalacao)
-                    .ThenInclude(e => e.EquipamentoContrato.Contrato.ContratosEquipamento)
+                .Include(i => i.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)
+                .Include(i => i.Instalacao.Filial)
+                .Include(i => i.Instalacao.Contrato)
+                .Include(i => i.Instalacao.EquipamentoContrato)
+                .Include(i => i.Instalacao.LocalAtendimentoSol.Cidade.UnidadeFederativa)
+                .Include(i => i.Instalacao.Equipamento)
+                .Include(i => i.Instalacao.OrdemServico.RelatoriosAtendimento)
                 .AsNoTracking() 
                 .AsQueryable();
 

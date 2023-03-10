@@ -6,7 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OSBancadaPecasData, OSBancadaPecasParameters } from 'app/core/types/os-bancada-pecas.types';
+import { OSBancadaPecas, OSBancadaPecasData, OSBancadaPecasParameters } from 'app/core/types/os-bancada-pecas.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     styles: [
         /* language=SCSS */
         `.list-grid-p {
-            grid-template-columns: 100px 100px auto 100px 100px 100px 90px;
+            grid-template-columns: 150px 150px  150px 150px 150px 120px 120px auto;
         }`
     ],
     encapsulation: ViewEncapsulation.None,
@@ -41,7 +41,12 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
         super(_userService, 'os-bancada');
         this.userSession = JSON.parse(this._userService.userSession);
     }
+    
     registerEmitters(): void {
+        this.sidenav.closedStart.subscribe(() => {
+            this.onSidenavClosed();
+            this.obterDados();
+          });
     }
 
     ngOnInit(): void {
@@ -49,6 +54,7 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
 
     async ngAfterViewInit() {
         await this.obterDados();
+        this.registerEmitters();
 
         if (this.sort && this.paginator) {
             fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -93,6 +99,20 @@ export class LaboratorioOSBancadaListaComponent extends Filterable implements On
         
         this.isLoading = false;
         this._cdr.detectChanges();
+    }
+
+    
+    validarStatus(oSBancadaPecas: OSBancadaPecas)
+    {
+        var osBancadaPecas = oSBancadaPecas;
+
+        if(osBancadaPecas.indPecaDevolvida == 1 )
+            return "Devolvida";
+
+        else if(osBancadaPecas.indPecaLiberada == 1 )
+            return "Liberada";
+
+        return "Transferido";
     }
 
     paginar() {

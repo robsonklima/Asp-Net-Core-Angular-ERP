@@ -21,7 +21,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 		/* language=SCSS */
 		`
       .list-grid-ge {
-          grid-template-columns: 15% auto 15%;
+          grid-template-columns: 8% 8% auto 15%;
           
           /* @screen sm {
               grid-template-columns: 15% auto 15%;

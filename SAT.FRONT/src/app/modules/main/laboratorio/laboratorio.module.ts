@@ -78,6 +78,8 @@ import { LaboratorioOSBancadaPecaRE5114DialogComponent } from './laboratorio-os-
 import { LaboratorioOrcamentoFormComponent } from './laboratorio-orcamento/laboratorio-orcamento-form/laboratorio-orcamento-form.component';
 import { LaboratorioOrcamentoPecaListaComponent } from './laboratorio-orcamento/laboratorio-orcamento-peca-lista/laboratorio-orcamento-peca-lista.component';
 import { LaboratorioOrcamentoPecaDialogComponent } from './laboratorio-orcamento/laboratorio-orcamento-peca-dialog/laboratorio-orcamento-peca-dialog.component';
+import { LaboratorioOrcamentoFiltroComponent } from './laboratorio-orcamento/laboratorio-orcamento-filtro/laboratorio-orcamento-filtro.component';
+import { LaboratorioOSBancadaFiltroComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-filtro/laboratorio-os-bancada-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -126,7 +128,9 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioOSBancadaPecaRE5114DialogComponent,
     LaboratorioOrcamentoFormComponent,
     LaboratorioOrcamentoPecaListaComponent,
-    LaboratorioOrcamentoPecaDialogComponent
+    LaboratorioOrcamentoPecaDialogComponent,
+    LaboratorioOrcamentoFiltroComponent,
+    LaboratorioOSBancadaFiltroComponent
 
   ],
   imports: [

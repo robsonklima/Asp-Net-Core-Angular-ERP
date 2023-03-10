@@ -1,5 +1,6 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OSBancadaPecas } from "./os-bancada-pecas.types";
+import { Usuario } from "./usuario.types";
 
 export class OsBancadaPecasOrcamento {
     codOrcamento: number;
@@ -18,6 +19,7 @@ export class OsBancadaPecasOrcamento {
     codOrcamentoQtdPai?: number;
     valorTotal?: number;
     osBancadaPecas?: OSBancadaPecas;
+    usuario?: Usuario;
 
 }
 

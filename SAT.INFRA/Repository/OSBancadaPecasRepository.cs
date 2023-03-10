@@ -34,8 +34,12 @@ namespace SAT.INFRA.Repository
          public OSBancadaPecas ObterPorCodigo(int codOsbancada, int codPecaRe5114)
         {
             return _context.OSBancadaPecas
-                .Include(i => i.PecaRE5114)
                 .Include(i => i.OSBancada)
+                     .ThenInclude(i => i.Filial)
+                .Include(i => i.OSBancada)
+                    .ThenInclude(i => i.ClienteBancada.Cidade.UnidadeFederativa)
+                .Include(i => i.PecaRE5114)
+                    .ThenInclude(i => i.Peca)
                 .SingleOrDefault(
                     i =>
                     i.CodOsbancada == codOsbancada &&
@@ -64,7 +68,7 @@ namespace SAT.INFRA.Repository
                  .Include(i => i.OSBancada)
                      .ThenInclude(i => i.Filial)
                 .Include(i => i.OSBancada)
-                    .ThenInclude(i => i.ClienteBancada)
+                    .ThenInclude(i => i.ClienteBancada.Cidade.UnidadeFederativa)
                 .Include(i => i.PecaRE5114)
                     .ThenInclude(i => i.Peca)
                 .AsQueryable();
@@ -84,6 +88,42 @@ namespace SAT.INFRA.Repository
                 osBancadaPecas = osBancadaPecas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
+            if (parameters.CodOsbancada != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.CodOsbancada == parameters.CodOsbancada);
+            };
+
+            if (parameters.CodStatus != null)
+            {
+                switch (parameters.CodStatus)
+                {
+                    case 1:
+                        osBancadaPecas = osBancadaPecas.Where(a => a.IndPecaDevolvida == 1);
+                        break;
+                    case 2:
+                        osBancadaPecas = osBancadaPecas.Where(a => (a.IndPecaLiberada == 1 && a.IndPecaDevolvida == 0));
+                        break;
+                    case 3:
+                        osBancadaPecas = osBancadaPecas.Where(a => (a.IndPecaLiberada == 0 && a.IndPecaDevolvida == 0));
+                        break;
+                }
+            };
+
+            if (parameters.IndImpressao != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.IndImpressao == parameters.IndImpressao);
+            };
+
+            if (parameters.IndPecaDevolvida != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.IndPecaDevolvida == parameters.IndPecaDevolvida);
+            };
+
+            if (parameters.CodPecaRe5114 != null)
+            {
+                osBancadaPecas = osBancadaPecas.Where(a => a.CodPecaRe5114 == parameters.CodPecaRe5114);
+            };
+
             if (!string.IsNullOrWhiteSpace(parameters.CodOsbancadas))
             {
                 int[] cods = parameters.CodOsbancadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
@@ -94,6 +134,12 @@ namespace SAT.INFRA.Repository
             {
                 int[] cods = parameters.CodPecaRe5114s.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 osBancadaPecas = osBancadaPecas.Where(dc => cods.Contains(dc.PecaRE5114.CodPecaRe5114));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodClienteBancadas))
+            {
+                int[] cods = parameters.CodClienteBancadas.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                osBancadaPecas = osBancadaPecas.Where(dc => cods.Contains(dc.OSBancada.ClienteBancada.CodClienteBancada));
             }
 
             return PagedList<OSBancadaPecas>.ToPagedList(osBancadaPecas, parameters.PageNumber, parameters.PageSize);

@@ -45,6 +45,8 @@ namespace SAT.MODELS.Enums
         INSTALACAO,
         LAUDO,
         PONTO_USUARIO,
-        INSTALACAO_PLEITO
+        INSTALACAO_PLEITO,
+        ORC_BANCADA,
+        NF_BANCADA
     }
 }

@@ -168,4 +168,8 @@ export interface InstalacaoData extends Meta {
 export interface InstalacaoParameters extends QueryStringParameters {
     codContrato?: number;
     codInstalLote?: number;
+    codTipoEquip?: number;
+    codGrupoEquip?: number;
+    codEquip?: number;
+    codEquips?: string;
 };

@@ -40,6 +40,9 @@
                             <div class="md:block" [mat-sort-header]="'codPeca'">
                                 {{ t('codigo') }}
                             </div>
+                            <div [mat-sort-header]="'codMagnus'">
+                                {{ t('Cód. Magnus') }}
+                            </div>
                             <div [mat-sort-header]="'nome'">
                                 {{ t('nome') }}
                             </div>
@@ -53,6 +56,9 @@
                                     [routerLink]="['/peca/form/' + peca.codPeca]">
                                     <div class="flex items-center">
                                         {{ peca.codPeca }}
+                                    </div>
+                                    <div class="truncate">
+                                        {{ peca.codMagnus || t('nao informado') }}
                                     </div>
                                     <div class="truncate">
                                         {{ peca.nomePeca || t('nao informado') }}

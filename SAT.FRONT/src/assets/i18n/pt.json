@@ -850,5 +850,8 @@
     "num item nf": "Num Item NF",
     "defeito relatado": "Defeito Relatado",
     "nivel severidade": "Nivel de Severidade",
-    "pleito": "Pleito"
+    "pleito": "Pleito",
+    "cod instalacao": "Cod Instalação",
+    "termo aceite": "Termo de Aceite",
+    "bordero": "Borderô"
 }

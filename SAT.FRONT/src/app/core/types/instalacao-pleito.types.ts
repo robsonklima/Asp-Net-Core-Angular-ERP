@@ -28,4 +28,6 @@ export interface InstalacaoPleitoParameters extends QueryStringParameters {
     codInstalPleito?: number;
     codInstalTipoPleito?: number;
     codContrato?: number;
+    codEquips?: string;
+    codInstalacoes?: string;
 };

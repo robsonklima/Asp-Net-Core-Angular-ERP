@@ -171,4 +171,5 @@ export interface InstalacaoParameters extends QueryStringParameters {
     codTipoEquip?: number;
     codGrupoEquip?: number;
     codEquip?: number;
+    codEquips?: string;
 };

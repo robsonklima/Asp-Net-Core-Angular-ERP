@@ -81,9 +81,7 @@ namespace SAT.INFRA.Repository
                     .DefaultIfEmpty()
                 .Include(i => i.Equipamento!)
                     .DefaultIfEmpty()
-                .Include(i => i.EquipamentoContrato!)
-                    .ThenInclude(c => c.Contrato.ContratosEquipamento!)
-                    .DefaultIfEmpty()
+                .Include(c => c.EquipamentoContrato.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacaoLote!)
                     .DefaultIfEmpty()
                 .Include(i => i.Contrato)
@@ -91,13 +89,8 @@ namespace SAT.INFRA.Repository
                     .DefaultIfEmpty()
                 .Include(i => i.LocalAtendimentoIns!)
                     .DefaultIfEmpty()
-                .Include(i => i.LocalAtendimentoSol!)
-                    .ThenInclude(c => c.Cidade)
-                        .ThenInclude(u => u.UnidadeFederativa)
-                    .DefaultIfEmpty()
-                .Include(i => i.OrdemServico!)
-                    .ThenInclude(s => s.StatusServico)
-                    .DefaultIfEmpty()
+                .Include(i => i.LocalAtendimentoSol.Cidade.UnidadeFederativa)
+                .Include(i => i.OrdemServico!.StatusServico)
                 .Include(i => i.OrdemServico!)
                     .ThenInclude(r => r.RelatoriosAtendimento)
                     .DefaultIfEmpty()                    
@@ -138,6 +131,12 @@ namespace SAT.INFRA.Repository
                 int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 instalacoes = instalacoes.Where(i => cods.Contains(i.CodInstalacao));
             }            
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodEquips))
+            {
+                int[] cods = parameters.CodEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.Equipamento.CodEquip));
+            }   
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
@@ -31,8 +31,8 @@ import { TipoServicoEnum } from 'app/core/types/tipo-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
-import { Subject } from 'rxjs';
-import { debounceTime, delay, filter, first, map, takeUntil, tap } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-equipamento-contrato-form',
@@ -117,14 +117,18 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			this.obterContratoServico();
 		});
 
-		this.locaisFiltro.valueChanges.pipe(
-			filter(query => !!query),
-			debounceTime(700),
-			delay(500),
-			takeUntil(this._onDestroy),
-			map(async query => { this.obterLocais(query) })
-		).subscribe(() => { });
+		this.locaisFiltro.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocais(this.locaisFiltro.value);
+			});
 
+
+	
 		if (!this.isAddMode) {
 			this._equipamentoContratoService.obterPorCodigo(this.codEquipContrato)
 				.pipe(first())
@@ -285,8 +289,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			indAtivo: statusConst.ATIVO,
 			filter: filtro,
 			codCliente: this.form.controls['codCliente'].value,
-			codFilial: this.form.controls['codFilial'].value,
-			pageSize: 10000
+			pageSize: 10
 		}
 
 		const data = await this._localAtendimentoService.obterPorParametros(params).toPromise();

@@ -387,7 +387,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				dataHoraManutencao: moment().format('yyyy-MM-DD HH:mm:ss'),
 				codUsuarioManutencao: this.userSession.usuario.codUsuario
 			}
-		}).subscribe((os: OrdemServico) => {
+		}).subscribe(() => {
 			this._snack.exibirToast("Sua solicitação foi realizada com sucesso! O chamado será reprocessado dentro de alguns minutos", 'success');
 			this.isLoading = false;
 		}, e => {

@@ -157,30 +157,37 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
     }
 
     criarPeca() {
-        this._dialog.open(LaboratorioOSBancadaPecasDialogComponent, {
-          data: { osBancada: this.osBancada }
+        const dialogRef = this._dialog.open(LaboratorioOSBancadaPecasDialogComponent, {
+            data: { osBancada: this.osBancada }
         });
-      }
-    
-      async exportar(codOsbancada) {
-        
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                this.ngOnInit();
+            }
+        });
+
+    }
+
+    async exportar(codOsbancada) {
+
         this.osBancadaPeca = (await this._osBancadaPecasService.obterPorParametros({
             codOsbancada: codOsbancada
         }).toPromise()).items.shift();
 
         let exportacaoParam: Exportacao = {
-          formatoArquivo: ExportacaoFormatoEnum.PDF,
-          tipoArquivo: ExportacaoTipoEnum.NF_BANCADA,
-          entityParameters: {
-            codOsbancada: codOsbancada,
-            codPecaRe5114: this.osBancadaPeca.codPecaRe5114
-          }
+            formatoArquivo: ExportacaoFormatoEnum.PDF,
+            tipoArquivo: ExportacaoTipoEnum.NF_BANCADA,
+            entityParameters: {
+                codOsbancada: codOsbancada,
+                codPecaRe5114: this.osBancadaPeca.codPecaRe5114
+            }
         }
-    
+
         this._exportacaoService
-          .exportar(FileMime.PDF, exportacaoParam)
-          .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
-      }
+            .exportar(FileMime.PDF, exportacaoParam)
+            .catch(e => { this._snack.exibirToast(`Não foi possível realizar o download ${e.message}`) });
+    }
 
     ngOnDestroy() {
         this._onDestroy.next();

@@ -16,7 +16,7 @@ import _ from 'lodash';
     templateUrl: './laboratorio-orcamento-peca-lista.component.html',
     styles: [
         /* language=SCSS */
-        `.list-grid-u {
+        `.list-grid-orc-peca {
             grid-template-columns: 70px auto 70px 80px 50px 50px 100px 100px 70px 70px 50px;
         }`
     ],

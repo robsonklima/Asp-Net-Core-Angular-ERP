@@ -13,6 +13,7 @@ import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { SmsService } from 'app/core/services/sms.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
     selector: 'auth-sign-in',
@@ -138,7 +139,7 @@ export class AuthSignInComponent implements OnInit {
         return new Promise((resolve, reject) => {
             let dispositivo: UsuarioDispositivo = {
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
-                indAtivo: 0,
+                indAtivo: statusConst.INATIVO,
                 codUsuario: this.signInForm.value.codUsuario,
                 sistemaOperacional: this.deviceInfo.os,
                 navegador: this.deviceInfo.browser,

@@ -59,8 +59,14 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
     }
 
     editarPeca(osBancadaPecas: OSBancadaPecas) {
-        this._dialog.open(LaboratorioOSBancadaPecaRE5114DialogComponent, {
+        const dialogRef = this._dialog.open(LaboratorioOSBancadaPecaRE5114DialogComponent, {
             data: { osBancadaPecas: osBancadaPecas }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                    this.obterDados();
+            }
         });
     }
 
@@ -80,12 +86,11 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
         if ($event.checked && osBancadaPecas.indPecaLiberada == 1)
             osBancadaPecas.indPecaDevolvida = 1;
 
-        else
-        {
+        else {
             osBancadaPecas.indPecaDevolvida = 0;
             osBancadaPecas.indImpressao = 0;
         }
- 
+
         this._osBancadaPecasService.atualizar(osBancadaPecas).subscribe();
     }
 

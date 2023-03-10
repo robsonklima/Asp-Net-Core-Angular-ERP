@@ -166,8 +166,14 @@ export class LaboratorioOrcamentoFormComponent implements OnInit, OnDestroy {
     }
 
     adicionarPeca() {
-        this._dialog.open(LaboratorioOrcamentoPecaDialogComponent, {
+        const dialogRef = this._dialog.open(LaboratorioOrcamentoPecaDialogComponent, {
           data: { orcamento: this.orcamento }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                this.ngOnInit();
+            }
         });
       }
 

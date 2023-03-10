@@ -8,7 +8,7 @@
             <div class="flex flex-wrap items-center font-medium">
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/laboratorio/orcamento-bancada">
-                        {{ t('orcamento bancada') }}
+                        {{ t('Orçamento Bancada') }}
                     </a>
                 </div>
 
@@ -60,7 +60,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
-                        <mat-label>{{ t('codMagnus') }}</mat-label>
+                        <mat-label>{{ t('Cod.Magnus') }}</mat-label>
                         <input matInput formControlName="codMagnus"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.peca?.codMagnus">
                         <mat-error>
@@ -97,7 +97,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-1">
-                        <mat-label>{{ t('n serie') }}</mat-label>
+                        <mat-label>{{ t('N° Serie') }}</mat-label>
                         <input matInput formControlName="numSerie" maxlength="10"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numSerie">
                         <mat-error>
@@ -107,7 +107,7 @@
 
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
-                        <mat-label>{{ t('valor pre aprovado') }}</mat-label>
+                        <mat-label>{{ t('Valor Pré Aprovado') }}</mat-label>
                         <input matInput formControlName="valorPreAprovado" [value]="orcamento?.valorPreAprovado"
                             mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=","
                             [showMaskTyped]="false" [dropSpecialCharacters]="true">
@@ -140,7 +140,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('motivo reprovacao') }}</mat-label>
+                        <mat-label>{{ t('Motivo Reprovação') }}</mat-label>
                         <input matInput formControlName="motivoReprov" [value]="orcamento?.motivoReprov">
                         <mat-error>
                             {{ t('preencher campo') }}

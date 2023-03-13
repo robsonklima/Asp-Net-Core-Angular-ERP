@@ -445,8 +445,6 @@ export class OrcamentoDetalheComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe(async (data: any) => {
-			this.os.observacaoCliente = this.os.observacaoCliente + "  -  Orçamento enviado:" + moment().format('DD/MM/YYYY HH:mm');
-			this._osService.atualizar(this.os).subscribe();
 
 			if (data) {
 				this.orcamento.indEnvioCliente = 1;

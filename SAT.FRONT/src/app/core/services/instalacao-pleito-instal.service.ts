@@ -23,8 +23,8 @@ export class InstalacaoPleitoInstalService {
     )
   }
 
-  obterPorCodigo(codInstalPleitoInstal: number): Observable<InstalacaoPleitoInstal> {
-    const url = `${c.api}/InstalacaoPleitoInstal/${codInstalPleitoInstal}`;
+  obterPorCodigo(codInstalacao, codInstalPleito: number): Observable<InstalacaoPleitoInstal> {
+    const url = `${c.api}/InstalacaoPleitoInstal/${codInstalacao}/${codInstalPleito}`;
     return this.http.get<InstalacaoPleitoInstal>(url).pipe(
       map((obj) => obj)
     );
@@ -44,8 +44,8 @@ export class InstalacaoPleitoInstalService {
     );
   }
 
-  deletar(codInstalPleitoInstal: number): Observable<InstalacaoPleitoInstal> {
-    const url = `${c.api}/InstalacaoPleitoInstal/${codInstalPleitoInstal}`;
+  deletar(codInstalacao, codInstalPleito: number): Observable<InstalacaoPleitoInstal> {
+    const url = `${c.api}/InstalacaoPleitoInstal/${codInstalacao}/${codInstalPleito}`;
 
     return this.http.delete<InstalacaoPleitoInstal>(url).pipe(
       map((obj) => obj)

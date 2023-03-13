@@ -17,7 +17,7 @@ export class InstalacaoPleito {
     dataHoraManut?: string;
     contrato?: Contrato;
     instalacaoTipoPleito?: InstalacaoTipoPleito;
-    instalacaoPleitoInstal?: InstalacaoPleitoInstal;
+    instalacoesPleitoInstal?: InstalacaoPleitoInstal[] = [];
 }
 
 export interface InstalacaoPleitoData extends Meta {

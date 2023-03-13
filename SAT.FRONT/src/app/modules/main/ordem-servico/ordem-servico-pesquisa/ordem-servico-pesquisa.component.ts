@@ -160,7 +160,7 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA},
 														${TipoIntervencaoEnum.COFRE},
 														${TipoIntervencaoEnum.PREVENTIVA},
-														${TipoIntervencaoEnum.PREVENTIVA_GERENCIAL}` : null,
+														${TipoIntervencaoEnum.MANUTENÇÃO_GERENCIAL}` : null,
 			codClientes: codClientes
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {

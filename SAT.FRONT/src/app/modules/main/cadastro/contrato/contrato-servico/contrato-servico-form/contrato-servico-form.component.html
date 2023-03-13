@@ -1,122 +1,128 @@
-                <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-                    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-                        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-                            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-                        </div>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
 
-                        <div class="flex-1 md:min-w-0">
-                            <div class="flex flex-wrap items-center font-medium">
-                                <div>
-                                    <a class="whitespace-nowrap text-primary-500" routerLink="/contrato">
-                                        {{ t('contratos') }}
-                                    </a>
-                                </div>
-                                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isLoading">
-                                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                                    </mat-icon>
+        <div class="flex-1 md:min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/contrato">
+                        {{ t('contratos') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isLoading">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
 
-                                    <a class="whitespace-nowrap text-primary" [routerLink]="'/contrato/' + codContrato">
-                                        {{ contrato?.nroContrato }}
-                                    </a>
-                                </div>
-                                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isLoading">
-                                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                                    </mat-icon>
+                    <a class="whitespace-nowrap text-primary" [routerLink]="'/contrato/' + codContrato">
+                        {{ contrato?.nroContrato }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isLoading">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
 
-                                    <span class="ml-1 text-secondary">
-                                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                                    {{ t('servico') }}
-                                </h2>
-                            </div>
-                        </div>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('servico') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-5xl">
+            <form autocomplete="off" [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
+                <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <div class="flex items-center">
+                        <span class="text-lg font-medium">{{ t('informacoes') }}</span>
                     </div>
-                
-                    <div class="flex-auto p-6 sm:p-10">
-                        <div class="max-w-5xl">
-                            <form autocomplete="off" [formGroup]="form" class="flex flex-col bg-card shadow rounded overflow-hidden">
-                                <div class="grid grid-cols-2 justfy-between bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                                    <div class="flex items-center">
-                                        <span class="text-lg font-medium">{{ t('informacoes') }}</span>
-                                    </div>
-                                    <div class="flex place-content-end">
-                                    </div>
-                                </div>
-                                
-                                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
-                                        <mat-label>{{ t('tipo servico') }}</mat-label>
-                                        <mat-select formControlName="codServico" #modeloSelect>
-                                            <mat-option>
-                                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="servicosFiltro">
-                                                </ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let servico of servicos" [value]="servico.codServico" matTooltip="{{ servico.nomeServico }}" matTooltipPosition="right">
-                                                <span>{{ servico.nomeServico }}</span>
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                
-                                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
-                                        <mat-label>{{ t('sla') }}</mat-label>
-                                        <mat-select formControlName="codSLA" #modeloSelect>
-                                            <mat-option>
-                                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="slasFiltro">
-                                                </ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let sla of slas" [value]="sla.codSLA" matTooltip="{{ sla.nomeSLA }}" matTooltipPosition="right">
-                                                <span>{{ sla.nomeSLA }}</span>
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                
-                                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
-                                        <mat-label>{{ t('modelo') }}</mat-label>
-                                        <mat-select formControlName="codEquip" #modeloSelect>
-                                            <mat-option>
-                                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}" [formControl]="modelosFiltro">
-                                                </ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip" matTooltip="{{ modelo.nomeEquip }}" matTooltipPosition="right">
-                                                <span>{{ modelo.nomeEquip }}</span>
-                                                <span> - </span>
-                                                <span>{{ modelo.tipoEquipamento.codETipoEquip }}</span>
-                                                <span> - </span>
-                                                <span>{{ modelo.grupoEquipamento.codEGrupoEquip }}</span>
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                
-                                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
-                                        <mat-label>{{ t('valor unitario') }}</mat-label>
-                                        <input matInput formControlName="valor" mask="separator.2" thousandSeparator="."
-                                        decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true" maxlength="10">
-                                        <mat-error>{{t('preencher campo')}}</mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div *ngIf="!form.valid">
-                                    <app-formulario-erros [form]="form"></app-formulario-erros>
-                                </div>
-                                
-                                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                                    <button mat-button [color]="'primary'" (click)="salvar()"  [disabled]="!form.valid">
-                                        <span *ngIf="!form.disabled">
-                                            {{ t('salvar') }}
-                                        </span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="flex place-content-end">
                     </div>
                 </div>
-            
-        
-    
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>{{ t('tipo servico') }}</mat-label>
+                        <mat-select formControlName="codServico" #modeloSelect>
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}"
+                                    [formControl]="servicosFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let servico of servicos" [value]="servico.codServico"
+                                matTooltip="{{ servico.nomeServico }}" matTooltipPosition="right">
+                                <span>{{ servico.nomeServico }}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>{{ t('sla') }}</mat-label>
+                        <mat-select formControlName="codSLA" #modeloSelect>
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}"
+                                    [formControl]="slasFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let sla of slas" [value]="sla.codSLA" matTooltip="{{ sla.nomeSLA }}"
+                                matTooltipPosition="right">
+                                <span>{{ sla.nomeSLA }}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-5">
+                        <mat-label>{{ t('modelo') }}</mat-label>
+                        <mat-select formControlName="codEquip" #modeloSelect>
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                    noEntriesFoundLabel="{{ t('nenhum registro encontrado') }}"
+                                    [formControl]="modelosFiltro">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let modelo of modelos" [value]="modelo.codEquip"
+                                matTooltip="{{ modelo.nomeEquip }}" matTooltipPosition="right">
+                                <span>{{ modelo.nomeEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.tipoEquipamento.codETipoEquip }}</span>
+                                <span> - </span>
+                                <span>{{ modelo.grupoEquipamento.codEGrupoEquip }}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-2">
+                        <mat-label>{{ t('valor unitario') }}</mat-label>
+                        <input matInput formControlName="valor" mask="separator.2" thousandSeparator="."
+                            decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true"
+                            maxlength="10">
+                        <mat-error>{{t('preencher campo')}}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div *ngIf="!form.valid">
+                    <app-formulario-erros [form]="form"></app-formulario-erros>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

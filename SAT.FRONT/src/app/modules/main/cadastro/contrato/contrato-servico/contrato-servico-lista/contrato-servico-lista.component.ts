@@ -56,19 +56,19 @@ export class ContratoServicoListaComponent implements AfterViewInit {
 
     registrarEmitters() {
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-			map((event: any) => {
-				return event.target.value;
-			})
-			, debounceTime(1000)
-			, distinctUntilChanged()
-		).subscribe((text: string) => {
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+        ).subscribe((text: string) => {
             this.obterContratosServico(text);
-		});
+        });
     }
 
-    async obterContratosServico(text: string='') {
+    async obterContratosServico(text: string = '') {
         this.isLoading = true;
-        const params: ContratoServicoParameters = { 
+        const params: ContratoServicoParameters = {
             codContrato: this.codContrato,
             filter: text
         };

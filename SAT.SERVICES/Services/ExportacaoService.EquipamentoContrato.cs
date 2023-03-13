@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;

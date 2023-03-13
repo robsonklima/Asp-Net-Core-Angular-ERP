@@ -10,6 +10,6 @@ namespace SAT.INFRA.Interfaces
         PagedList<InstalacaoPleitoInstal> ObterPorParametros(InstalacaoPleitoInstalParameters parameters);
         void Deletar(int codInstalacao, int CodInstalPleito);
         void Atualizar(InstalacaoPleitoInstal instalacaoPleitoInstal);
-        InstalacaoPleitoInstal ObterPorCodigo(int CodInstalPleito);
+        InstalacaoPleitoInstal ObterPorCodigo(int codInstalacao, int CodInstalPleito);
     }
 }

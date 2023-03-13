@@ -74,12 +74,7 @@
                             
                             <div class="md:block">
                                 {{ t('bordero') }}
-                            </div>             
-                            
-                            <div class="text-left">
-                                <mat-slide-toggle class="-mt-1" color="primary"
-                                    (change)="toggleSelecionarTodos($event)"></mat-slide-toggle>
-                            </div>                        
+                            </div>                                                         
                         </div>
 
                         <ng-container>
@@ -148,9 +143,11 @@
                                     </div>     
                                     
                                     <div class="flex-auto">
-                                        <mat-slide-toggle color="primary" [(ngModel)]="instalacao.selecionado">
-                                        </mat-slide-toggle>
-                                    </div>                                    
+                                        <mat-slide-toggle [color]="'primary'" [checked]="isInstalacaoPleito(instalacao.codInstalacao)"
+                                             (change)="onChange($event, instalacao)">
+                                             
+                                         </mat-slide-toggle>                                        
+                                    </div>  
                                 </div>
                             </ng-container>
                         </ng-container>

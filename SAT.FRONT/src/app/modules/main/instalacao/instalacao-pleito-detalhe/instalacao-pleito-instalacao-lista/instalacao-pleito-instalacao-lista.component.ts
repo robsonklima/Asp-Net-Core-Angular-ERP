@@ -1,15 +1,18 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
+import { InstalacaoPleitoInstalService } from 'app/core/services/instalacao-pleito-instal.service';
 import { InstalacaoService } from 'app/core/services/instalacao.service';
-import { ContratoEquipamento, ContratoEquipamentoData, ContratoEquipamentoParameters } from 'app/core/types/contrato-equipamento.types';
+import { InstalacaoPleitoInstal } from 'app/core/types/instalacao-pleito-instal.types';
 import { InstalacaoPleito } from 'app/core/types/instalacao-pleito.types';
-import { InstalacaoData, InstalacaoParameters } from 'app/core/types/instalacao.types';
+import { Instalacao, InstalacaoData, InstalacaoParameters } from 'app/core/types/instalacao.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import moment from 'moment';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -30,6 +33,7 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSourceData: InstalacaoData;
+  instalPleitoInstal: InstalacaoPleitoInstal;
   isLoading: boolean = false;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
   userSession: UserSession;
@@ -38,8 +42,8 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _instalacaoSvc: InstalacaoService,
+    private _instalPleitoInstalSvc: InstalacaoPleitoInstalService,
     private _contratoEquipamentoSvc: ContratoEquipamentoService,
-    private _dialog: MatDialog,
     private _userSvc: UserService
   ) {
     this.userSession = JSON.parse(this._userSvc.userSession);
@@ -110,10 +114,27 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     this._cdr.detectChanges();
   }
 
-  toggleSelecionarTodos(e: any) {
-    this.dataSourceData.items = this.dataSourceData.items
-      .map(i => { return { ...i, selecionado: e.checked } });
+  async onChange($event: MatSlideToggleChange, instalacao: Instalacao) {
+    if ($event.checked) {
+      this._instalPleitoInstalSvc.criar({
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.userSession.usuario.codUsuario,
+        codInstalPleito: this.instalPleito.codInstalPleito,
+        codInstalacao: instalacao.codInstalacao,
+        codEquipContrato: instalacao.codEquipContrato
+      }).subscribe();
+    } else {
+      this._instalPleitoInstalSvc.deletar(instalacao.codInstalacao, this.instalPleito.codInstalPleito).subscribe();
+    }
   }
+
+  isInstalacaoPleito(codInstalacao: number) {
+    if (this.instalPleito.instalacoesPleitoInstal.find(i => i.codInstalacao == codInstalacao)) {        
+			return true;
+    }
+    
+		return false
+	}
 
   paginar() {
     this.obterDados();

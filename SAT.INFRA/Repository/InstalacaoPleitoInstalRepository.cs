@@ -50,7 +50,7 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
-        public InstalacaoPleitoInstal ObterPorCodigo(int codInstalPleito)
+        public InstalacaoPleitoInstal ObterPorCodigo(int codInstalacao, int codInstalPleito)
         {
 
             return _context.InstalacaoPleitoInstal
@@ -61,7 +61,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Instalacao.LocalAtendimentoSol.Cidade.UnidadeFederativa)
                 .Include(i => i.Instalacao.Equipamento)
                 .Include(i => i.Instalacao.OrdemServico.RelatoriosAtendimento)
-                .FirstOrDefault(i => i.CodInstalPleito == codInstalPleito);
+                .FirstOrDefault(i => i.CodInstalacao == codInstalacao && i.CodInstalPleito == codInstalPleito);
         }
 
         public PagedList<InstalacaoPleitoInstal> ObterPorParametros(InstalacaoPleitoInstalParameters parameters)

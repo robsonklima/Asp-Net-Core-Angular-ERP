@@ -107,7 +107,7 @@ export class ContratoServicoFormComponent implements OnInit {
 		});
 	}
 
-	private async obterEquipamentos(){
+	private async obterEquipamentos() {
 		this.equipamento = await this._equipamentoService.obterPorCodigo(this.form.controls['codEquip'].value).toPromise();
 	}
 
@@ -198,7 +198,7 @@ export class ContratoServicoFormComponent implements OnInit {
 		this.isAddMode ? this.criar() : this.atualizar();
 	}
 
-	private async atualizar(){
+	private async atualizar() {
 		await this.obterEquipamentos();
 		this.form.disable();
 		const form: any = this.form.getRawValue();
@@ -220,12 +220,11 @@ export class ContratoServicoFormComponent implements OnInit {
 
 		this._contratoServicoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-			this._router.navigate(['contrato/' + this.codContrato + '/contrato-servico']);
+			this._router.navigate(['contrato/' + this.codContrato]);
 		});
-
 	}
 
-	private async criar(){
+	private async criar() {
 		await this.obterEquipamentos();
 		this.form.disable();
 		const form: any = this.form.getRawValue();

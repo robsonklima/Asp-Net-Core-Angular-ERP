@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
             grid-template-columns: auto 75px auto 75px 75px;
             
             @screen sm {
-                grid-template-columns: 100px auto 250px 200px 200px;
+                grid-template-columns: 200px 60px auto 60px 100px;
             }
         }
     `],
@@ -56,19 +56,19 @@ export class ContratoServicoListaComponent implements AfterViewInit {
 
     registrarEmitters() {
         fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-			map((event: any) => {
-				return event.target.value;
-			})
-			, debounceTime(1000)
-			, distinctUntilChanged()
-		).subscribe((text: string) => {
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+        ).subscribe((text: string) => {
             this.obterContratosServico(text);
-		});
+        });
     }
 
-    async obterContratosServico(text: string='') {
+    async obterContratosServico(text: string = '') {
         this.isLoading = true;
-        const params: ContratoServicoParameters = { 
+        const params: ContratoServicoParameters = {
             codContrato: this.codContrato,
             filter: text
         };

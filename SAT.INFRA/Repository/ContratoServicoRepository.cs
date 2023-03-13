@@ -21,7 +21,7 @@ namespace SAT.INFRA.Repository
         {
             _context.ChangeTracker.Clear();
             ContratoServico ce = _context.ContratoServico
-                .FirstOrDefault(ce => ce.CodContrato == contratoServico.CodContrato && ce.CodEquip == contratoServico.CodEquip);
+                .FirstOrDefault(ce => ce.CodContratoServico == contratoServico.CodContratoServico);
             try
             {
                 if (ce != null)

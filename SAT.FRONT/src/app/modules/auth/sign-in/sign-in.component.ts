@@ -139,7 +139,7 @@ export class AuthSignInComponent implements OnInit {
         return new Promise((resolve, reject) => {
             let dispositivo: UsuarioDispositivo = {
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm'),
-                indAtivo: statusConst.INATIVO,
+                indAtivo: statusConst.ATIVO,
                 codUsuario: this.signInForm.value.codUsuario,
                 sistemaOperacional: this.deviceInfo.os,
                 navegador: this.deviceInfo.browser,

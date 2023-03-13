@@ -61,7 +61,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('custo brl') }}</mat-label>
                         <input matInput formControlName="valCusto" mask="separator.2" thousandSeparator="."
-                        decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                            decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -69,24 +69,13 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda brl') }}</mat-label>
+                        <mat-label 
+                            [class.text-green-500]="peca?.isValorAtualizado"
+                            [class.text-red-500]="!peca?.isValorAtualizado">
+                            {{peca?.isValorAtualizado ? "  Peça Atualizada": "  Peça Desatualizada" }}
+                        </mat-label>
                         <input matInput formControlName="valPeca" mask="separator.2" prefix="R$" thousandSeparator="."
-                        decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>    
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('custo usd') }}</mat-label>
-                        <input matInput formControlName="valCustoDolar" mask="separator.2" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('venda usd') }}</mat-label>
-                        <input matInput formControlName="valPecaDolar" mask="separator.2" thousandSeparator="." prefix="$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                            decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -95,7 +84,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('valor peca assistencia') }}</mat-label>
                         <input matInput formControlName="valPecaAssistencia" mask="separator.2" thousandSeparator="."
-                        decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                            decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -103,7 +92,7 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valIpiassistencia" mask="percent" suffix="%" >
+                        <input matInput formControlName="valIpiassistencia" mask="percent" suffix="%">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -111,8 +100,8 @@
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ipi') }}</mat-label>
-                        <input matInput formControlName="valIPI" mask="percentage" 
-                        suffix="%" [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                        <input matInput formControlName="valIPI" mask="percentage" suffix="%" [showMaskTyped]="false"
+                            [dropSpecialCharacters]="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -143,7 +132,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>Código Substituição</mat-label>
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:puzzle'"></mat-icon>
                         <mat-select formControlName="codPecaSubstituicao" [disabled]="!pecasSubstituicao.length">
@@ -161,6 +150,12 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+
+                    <div class="fuse-mat-dense sm:col-span-6">
+                        <div class="text-secondary">Atualizar valor de venda apartir de: </div>
+                        <div>{{ peca?.dataHoraAtualizacaoValor | date:'dd/MM/yyyy HH:mm' }}</div>
+                    </div>
+
                 </div>
 
                 <div *ngIf="!form.valid">

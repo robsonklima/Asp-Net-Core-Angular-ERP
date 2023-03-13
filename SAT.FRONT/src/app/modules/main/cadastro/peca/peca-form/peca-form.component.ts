@@ -28,7 +28,7 @@ export class PecaFormComponent implements OnInit
   public _onDestroy = new Subject<void>();
   public form: FormGroup;
   private userSession: UsuarioSessao;
-  private peca: Peca;
+  public peca: Peca;
 
   constructor(
     private _router: Router,
@@ -43,6 +43,7 @@ export class PecaFormComponent implements OnInit
 
   async ngOnInit() 
   {
+    
     this.codPeca = +this._route.snapshot.paramMap.get('codPeca');
     this.isAddMode = !this.codPeca;
 
@@ -57,7 +58,9 @@ export class PecaFormComponent implements OnInit
         .toPromise();
 
     this.form.patchValue(data);
+    
     this.peca = data;
+    
     
   }
 
@@ -73,9 +76,7 @@ export class PecaFormComponent implements OnInit
       codMagnus: [undefined, Validators.required],
       nomePeca: [undefined, Validators.required],
       valCusto: [undefined, Validators.required],
-      valCustoDolar: [undefined, Validators.required],
       valPeca: [undefined, Validators.required],
-      valPecaDolar: [undefined, Validators.required],
       valPecaAssistencia: [undefined],
       valIpiassistencia: [undefined],
       valIPI: [undefined, Validators.required],
@@ -83,7 +84,9 @@ export class PecaFormComponent implements OnInit
       ncm: [undefined, Validators.required],
       pecaFamilia: [undefined],
       codPecaSubstituicao: [undefined],
-      codPecaStatus: [undefined, Validators.required]
+      codPecaStatus: [undefined, Validators.required],
+      dataHoraAtualizacaoValor: [undefined],
+      isValorAtualizado: [undefined]
     });
   }
 
@@ -131,7 +134,7 @@ export class PecaFormComponent implements OnInit
       ...
       {
         dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioManut: this.userSession.usuario.codUsuario
+        codUsuarioManut: this.userSession.usuario.codUsuario,
       }
     };
 

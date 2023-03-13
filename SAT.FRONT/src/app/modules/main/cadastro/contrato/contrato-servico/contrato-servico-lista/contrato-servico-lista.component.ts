@@ -19,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
             grid-template-columns: auto 75px auto 75px 75px;
             
             @screen sm {
-                grid-template-columns: 100px auto 250px 200px 200px;
+                grid-template-columns: 200px 60px auto 60px 100px;
             }
         }
     `],

@@ -220,9 +220,8 @@ export class ContratoServicoFormComponent implements OnInit {
 
 		this._contratoServicoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-			this._router.navigate(['contrato/' + this.codContrato + '/contrato-servico']);
+			this._router.navigate(['contrato/' + this.codContrato ]);
 		});
-
 	}
 
 	private async criar(){

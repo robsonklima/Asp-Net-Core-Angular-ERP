@@ -49,7 +49,7 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodSLA)
                 .HasPrincipalKey(prop => prop.CodSLA);
-
+            
             builder
                 .HasOne(prop => prop.Cliente)
                 .WithMany()

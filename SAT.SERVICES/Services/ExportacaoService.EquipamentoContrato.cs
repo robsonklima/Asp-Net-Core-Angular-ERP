@@ -54,8 +54,6 @@ namespace SAT.SERVICES.Services
 												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento ?? Constants.NENHUM_REGISTRO,
 												RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
 												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0,
-												SoftwareEmbarcado = eq?.ContratoServico != null ? eq?.ContratoServico?.CodServico == 59 ? "SIM" : "NÃO" : Constants.NENHUM_REGISTRO ,
-												MonitoramentoRemoto = eq?.ContratoServico != null ? eq?.ContratoServico?.CodServico == 60 ? "SIM" : "NÃO" : Constants.NENHUM_REGISTRO ,
 											});
 
             var wsEq = Workbook.Worksheets.Add("Equipamentos");

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -86,6 +87,16 @@ namespace SAT.SERVICES.Services
                 _emaiLService.Enviar(exportacao.Email);
                 return new NoContentResult();
             }
+
+            var os = _osRepo.ObterPorCodigo(orcamento.OrdemServico.CodOS);
+
+            if(os.ObservacaoCliente != null)
+                os.ObservacaoCliente = os.ObservacaoCliente + " - Orçamento enviado: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            
+            else
+                os.ObservacaoCliente = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            _osRepo.Atualizar(os);
 
             byte[] file = File.ReadAllBytes(orcamentoPdf);
             

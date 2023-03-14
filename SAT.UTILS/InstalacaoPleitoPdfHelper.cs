@@ -3,11 +3,12 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SAT.MODELS.Entities;
+using SAT.MODELS.ViewModels;
+
 namespace SAT.UTILS
 {
     public class InstalacaoPleitoPdfHelper : IDocument
     {
-
         public InstalacaoPleito pleito { get; }
         public List<Instalacao> inst { get; }
 
@@ -104,6 +105,7 @@ namespace SAT.UTILS
                 column.Spacing(1);
                 column.Item().Element(ComporDadosCliente);
                 column.Item().Element(ComporTabelaPrincipal);
+                column.Item().Element(ComporTotal);
                 column.Item().Element(ComporProtocolo);
                 column.Item().Element(ComporInformacoesPerto);
             });
@@ -191,6 +193,112 @@ namespace SAT.UTILS
             });
         }
 
+        void ComporTotal(IContainer container)
+        {   
+            var qtd = 0;
+            decimal valorInstalacao = 0;
+            decimal valorUnitario = 0;
+            decimal valorEntregue80perc = 0;
+            decimal valorInstalado20perc = 0;
+
+            inst.ForEach(item =>
+            {
+                qtd = qtd + 1;
+
+                var valorInstalacaoItens = item?.Contrato?.ContratosEquipamento?
+                             .Where(ce => ce?.CodEquip == item?.CodEquip)
+                             .Sum(ce => ce.VlrInstalacao); 
+
+                valorInstalacao = valorInstalacao + (valorInstalacaoItens != null ? (decimal)valorInstalacaoItens : 0);
+
+                decimal valorUnitarioItens = (decimal)item.Contrato.ContratosEquipamento
+                        .Where(ce => ce.CodEquip == item.CodEquip)
+                        .Sum(ce => ce.VlrUnitario);
+
+                valorUnitario = valorUnitario + valorUnitarioItens;
+            });
+
+            valorEntregue80perc =  valorUnitario * (decimal)0.8;
+            valorInstalado20perc = valorUnitario * (decimal)0.2;
+
+            container.Table(table =>
+            {
+                table.ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn();
+                    columns.ConstantColumn(20);
+
+                    if (pleito.CodInstalTipoPleito == 6)
+                    {
+                        columns.ConstantColumn(40);
+                    }
+                    else if (pleito.CodInstalTipoPleito == 7)
+                    {
+                        columns.ConstantColumn(45);
+                    }
+                    else if (pleito.CodInstalTipoPleito == 8)
+                    {
+                        columns.ConstantColumn(45);
+                    }
+                    else
+                    {
+                        columns.ConstantColumn(40);
+                        columns.ConstantColumn(40);
+                    }
+                });
+
+                table.Cell().BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                {
+                    t.Span("Totais").FontSize(6).Bold();
+                });
+
+                table.Cell()
+                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                {
+                    t.Span($"{qtd}").FontSize(6);
+                });
+
+                if (pleito.CodInstalTipoPleito == 6)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
+                        });
+                }
+                else if (pleito.CodInstalTipoPleito == 7)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", valorEntregue80perc)).FontSize(6);
+                        });
+                }
+                else if (pleito.CodInstalTipoPleito == 8)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", valorInstalado20perc)).FontSize(6);
+                        });
+                }
+                else
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
+                        });
+
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
+                        });
+                }
+            });
+        }
+
         void ComporTabelaPrincipal(IContainer container)
         {
             container
@@ -211,24 +319,27 @@ namespace SAT.UTILS
                         columns.ConstantColumn(40);
                         columns.ConstantColumn(45);
                         columns.ConstantColumn(45);
-                        columns.ConstantColumn(30);
-                        columns.ConstantColumn(30);
+                        columns.ConstantColumn(45);
+                        columns.ConstantColumn(45);
                         columns.ConstantColumn(20);
 
                         if (pleito.CodInstalTipoPleito == 6)
                         {
                             columns.ConstantColumn(40);
-                        }  else if (pleito.CodInstalTipoPleito == 7)
+                        }
+                        else if (pleito.CodInstalTipoPleito == 7)
                         {
                             columns.ConstantColumn(45);
-                        } else if (pleito.CodInstalTipoPleito == 8)
+                        }
+                        else if (pleito.CodInstalTipoPleito == 8)
                         {
                             columns.ConstantColumn(45);
-                        } else
+                        }
+                        else
                         {
-                            columns.ConstantColumn(30);
-                            columns.ConstantColumn(30);
-                        }                      
+                            columns.ConstantColumn(40);
+                            columns.ConstantColumn(40);
+                        }
                     });
 
                     table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
@@ -409,49 +520,49 @@ namespace SAT.UTILS
 
                         var valorUnitario = item?.Contrato?.ContratosEquipamento?
                              .Where(ce => ce?.CodEquip == item?.CodEquip)
-                             .Sum(ce => ce.VlrUnitario);           
+                             .Sum(ce => ce.VlrUnitario);
 
-                        var valorEntregue80perc = ((float?)valorUnitario) * 0.8;                                        
+                        var valorEntregue80perc = ((float?)valorUnitario) * 0.8;
                         var valorInstalado20perc = ((float?)valorUnitario) * 0.2;
 
-                    if (pleito.CodInstalTipoPleito == 6)
-                    {
-                        table.Cell()
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                            {
-                                t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
-                            });
-                    }
-                    else if (pleito.CodInstalTipoPleito == 7)
-                    {                        
-                        table.Cell()
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                            {
-                                t.Span(string.Format("{0:C}", valorEntregue80perc)).FontSize(6);
-                            });                        
-                    }
-                    else if (pleito.CodInstalTipoPleito == 8)
-                    {                        
-                        table.Cell()
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                            {
-                                t.Span(string.Format("{0:C}", valorInstalado20perc)).FontSize(6);
-                            });                        
-                    }
-                    else
-                    {
-                        table.Cell()
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                            {
-                                t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
-                            });                                               
+                        if (pleito.CodInstalTipoPleito == 6)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
+                                });
+                        }
+                        else if (pleito.CodInstalTipoPleito == 7)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", valorEntregue80perc)).FontSize(6);
+                                });
+                        }
+                        else if (pleito.CodInstalTipoPleito == 8)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", valorInstalado20perc)).FontSize(6);
+                                });
+                        }
+                        else
+                        {
+                            table.Cell()
+                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
+                                });
 
-                        table.Cell()
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                            {
-                                t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
-                            });
-                    }                            
+                            table.Cell()
+                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
+                                });
+                        }
                     });
                 });
         }

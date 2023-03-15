@@ -134,6 +134,10 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }   
         public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }        
         public DbSet<InstalacaoAnexo> InstalacaoAnexo { get; set; }
+        public DbSet<InstalacaoPagto> InstalacaoPagto { get; set; }        
+        public DbSet<InstalacaoPagtoInstal> InstalacaoPagtoInstal { get; set; }                
+        public DbSet<InstalacaoMotivoMulta> InstalacaoMotivoMulta { get; set; }                
+        public DbSet<InstalacaoTipoParcela> InstalacaoTipoParcela { get; set; }                
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
@@ -490,6 +494,10 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<InstalacaoPleito>(new InstalacaoPleitoMap().Configure);
             modelBuilder.Entity<InstalacaoPleitoInstal>(new InstalacaoPleitoInstalMap().Configure);
             modelBuilder.Entity<InstalacaoTipoPleito>(new InstalacaoTipoPleitoMap().Configure);
+            modelBuilder.Entity<InstalacaoPagto>(new InstalacaoPagtoMap().Configure);
+            modelBuilder.Entity<InstalacaoPagtoInstal>(new InstalacaoPagtoInstalMap().Configure);
+            modelBuilder.Entity<InstalacaoMotivoMulta>(new InstalacaoMotivoMultaMap().Configure);
+            modelBuilder.Entity<InstalacaoTipoParcela>(new InstalacaoTipoParcelaMap().Configure);           
             modelBuilder.Entity<ProtocoloChamadoSTN>(new ProtocoloChamadoSTNMap().Configure);
             modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);
             modelBuilder.Entity<Improdutividade>(new ImprodutividadeMap().Configure);

@@ -101,6 +101,10 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoPleitoRepository>().As<IInstalacaoPleitoRepository>();
         builder.RegisterType<InstalacaoPleitoInstalRepository>().As<IInstalacaoPleitoInstalRepository>();
         builder.RegisterType<InstalacaoTipoPleitoRepository>().As<IInstalacaoTipoPleitoRepository>();
+        builder.RegisterType<InstalacaoPagtoRepository>().As<IInstalacaoPagtoRepository>();
+        builder.RegisterType<InstalacaoPagtoInstalRepository>().As<IInstalacaoPagtoInstalRepository>();                
+        builder.RegisterType<InstalacaoTipoParcelaRepository>().As<IInstalacaoTipoParcelaRepository>();
+        builder.RegisterType<InstalacaoMotivoMultaRepository>().As<IInstalacaoMotivoMultaRepository>();                
         builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();                
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();
@@ -310,6 +314,10 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoPleitoInstalService>().As<IInstalacaoPleitoInstalService>();
         builder.RegisterType<InstalacaoMotivoResService>().As<IInstalacaoMotivoResService>();        
         builder.RegisterType<InstalacaoTipoPleitoService>().As<IInstalacaoTipoPleitoService>();        
+        builder.RegisterType<InstalacaoPagtoService>().As<IInstalacaoPagtoService>();     
+        builder.RegisterType<InstalacaoPagtoInstalService>().As<IInstalacaoPagtoInstalService>();     
+        builder.RegisterType<InstalacaoTipoParcelaService>().As<IInstalacaoTipoParcelaService>();     
+        builder.RegisterType<InstalacaoMotivoMultaService>().As<IInstalacaoMotivoMultaService>();                             
         builder.RegisterType<NotificacaoService>().As<INotificacaoService>();
         builder.RegisterType<PontoPeriodoUsuarioService>().As<IPontoPeriodoUsuarioService>();
         builder.RegisterType<OrcamentoService>().As<IOrcamentoService>();

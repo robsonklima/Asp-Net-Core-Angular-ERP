@@ -1,0 +1,24 @@
+import { Contrato } from "./contrato.types";
+import { Meta, QueryStringParameters } from "./generic.types";
+
+export class InstalacaoPagto {
+    codInstalPagto: number;
+    codContrato?: number;
+    dataPagto?: string;
+    vlrPagto?: number;
+    obsPagto?: string; 
+    codUsuarioCad?: string; 
+    dataHoraCad?: string; 
+    codUsuarioManut?: string; 
+    dataHoraManut?: string; 
+    contrato?: Contrato;
+}
+
+export interface InstalacaoPagtoData extends Meta {
+    items: InstalacaoPagto[];
+};
+
+export interface InstalacaoPagtoParameters extends QueryStringParameters {
+    codInstalPagto?: number;
+    codContrato?: number;
+};

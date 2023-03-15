@@ -24,6 +24,7 @@ import { equipamentoModuloRoutes } from './equipamento-modulo.routing';
 import { EquipamentoModuloFiltroComponent } from './equipamento-modulo-filtro/equipamento-modulo-filtro.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FiltroModule } from '../../filtros/filtro.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { FiltroModule } from '../../filtros/filtro.module';
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSlideToggleModule
   ]
 })
 export class EquipamentoModuloModule { }

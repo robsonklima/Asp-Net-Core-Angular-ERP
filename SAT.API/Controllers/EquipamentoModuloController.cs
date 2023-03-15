@@ -45,10 +45,10 @@ namespace SAT.API.Controllers
             _equipamentoModuloService.Atualizar(acao);
         }
 
-        [HttpDelete("{codEquipamentoModulo}")]
-        public void Delete(int codAcao)
+        [HttpDelete("{codConfigEquipModulos}")]
+        public void Delete(int codConfigEquipModulos)
         {
-            _equipamentoModuloService.Deletar(codAcao);
+            _equipamentoModuloService.Deletar(codConfigEquipModulos);
         }
     }
 }

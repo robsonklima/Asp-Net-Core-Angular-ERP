@@ -1,18 +1,18 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { forkJoin, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
-import { Location } from '@angular/common';
+import { FormGroup } from '@angular/forms';
+import { fromEvent, Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { CausaService } from 'app/core/services/causa.service';
 import { Causa } from 'app/core/types/causa.types';
-import Enumerable from 'linq';
 import { EquipamentoModulo } from 'app/core/types/equipamento-modulo.types';
 import { EquipamentoModuloService } from 'app/core/services/equipamento-modulo.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { statusConst } from 'app/core/types/status-types';
 import moment from 'moment';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-equipamento-modulo-form',
@@ -25,20 +25,17 @@ export class EquipamentoModuloFormComponent implements OnInit, OnDestroy {
   nomeEquip: string;
   form: FormGroup;
   equipamentoModulo: EquipamentoModulo;
+  equipamentosModulos: EquipamentoModulo[] = [];
   public isLoading: Boolean = true;
   public causas: Causa[] = [];
   public equipamentoCausas: Causa[] = [];
-
-  causasFiltro: FormControl = new FormControl();
+  @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
   protected _onDestroy = new Subject<void>();
 
   constructor(
     private _userService: UserService,
-    private _formBuilder: FormBuilder,
     private _equipamentoModuloService: EquipamentoModuloService,
-    private _snack: CustomSnackbarService,
-    private _location: Location,
     private _route: ActivatedRoute,
     private _causaService: CausaService
   ) {
@@ -47,44 +44,17 @@ export class EquipamentoModuloFormComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.codEquip = +this._route.snapshot.paramMap.get('codEquip');
+    this.obterEquipamentoModulos();
+    this.obterCausas();
+  }
 
-    this.obterCausas().then(async () => {
-      this.form = this._formBuilder.group({
-        codEquip: [
-          {
-            value: undefined,
-            disabled: true
-          },
-        ],
-        codConfigEquipModulos: [undefined],
-        codECausa: [undefined],
-        codUsuarioManut: [undefined],
-        dataHoraManut: [undefined],
-        codUsuarioCad: [undefined],
-        dataHoraCad: [undefined],
-        indAtivo: [undefined]
-      });
+  private async obterEquipamentoModulos() {
+    this.equipamentosModulos = (await this._equipamentoModuloService.obterPorParametros({
+      indAtivo: statusConst.ATIVO,
+      codEquip: this.codEquip
+    }).toPromise()).items
 
-      this.causasFiltro.valueChanges
-        .pipe(
-          takeUntil(this._onDestroy),
-          debounceTime(500),
-          distinctUntilChanged()
-        )
-        .subscribe(async (filtro) => {
-          this.obterCausas(filtro);
-        });
-
-      this._equipamentoModuloService.obterPorParametros({ codEquip: this.codEquip })
-        .pipe(first())
-        .subscribe(async apiData => {
-          this.form.controls["codECausa"].setValue(Enumerable.from(apiData.items).where(s => s.indAtivo == 1).select(s => s.codECausa).toArray());
-          this.equipamentoCausas = Enumerable.from(apiData.items).select(s => s.causa).toArray();
-          this.nomeEquip = Enumerable.from(apiData.items).firstOrDefault().equipamento?.nomeEquip;
-        });
-
-      this.isLoading = false;
-    })
+    this.nomeEquip = this.equipamentosModulos[0].equipamento.nomeEquip;
   }
 
   private async obterCausas(filtro: string = '') {
@@ -98,34 +68,29 @@ export class EquipamentoModuloFormComponent implements OnInit, OnDestroy {
     this.causas = data.items;
   }
 
-  salvar(): void {
-    this.isLoading = true;
-    const form: any = this.form.getRawValue();
-    let eventos: any[] = [];
+  verificarDefeitoSelecionado(codECausa: string): boolean {
+    return _.find(this.equipamentosModulos, { codECausa: codECausa }) != null;
+  }
 
-    let lista = Enumerable.from(this.equipamentoCausas).select(s => s.codECausa).toArray();
-    lista.push(...form.codECausa);
-
-    for (let causa of Enumerable.from(lista).distinct().toArray()) {
-      let parametros = {
-        ...form,
+  async onChange($event: MatSlideToggleChange, codigo) {
+    if ($event.checked) {
+      this._equipamentoModuloService.criar({
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
         codEquip: this.codEquip,
-        codECausa: causa,
-        indAtivo: form.codECausa.includes(causa) ? 1 : 0,
-        codUsuarioManut: this.usuarioSessao.usuario?.codUsuario,
-        dataHoraManut: moment().format('yyyy-MM-DD HH:mm:ss'),
-        codConfigEquipModulos: 0
-      };
-      eventos.push(this._equipamentoModuloService.atualizar(parametros));
-    }
+        codECausa: codigo,
+        indAtivo: statusConst.ATIVO
+      }).subscribe();
+    } else {
+      const equipModulo = (await this._equipamentoModuloService.obterPorParametros({
+        codEquip: this.codEquip,
+        codECausa: codigo
+      }).toPromise()).items.shift();
 
-    forkJoin({
-      ...eventos
-    }).subscribe(resultado => {
-      this.isLoading = false;
-      this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-      this._location.back();
-    });
+      console.log(equipModulo.codConfigEquipModulos);
+      
+      this._equipamentoModuloService.deletar(equipModulo.codConfigEquipModulos).toPromise();
+    }
   }
 
   ngOnDestroy(): void {

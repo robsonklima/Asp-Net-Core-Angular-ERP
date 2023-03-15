@@ -44,8 +44,8 @@ export class EquipamentoModuloService {
     );
   }
 
-  deletar(codAcao: number): Observable<EquipamentoModulo> {
-    const url = `${c.api}/EquipamentoModulo/${codAcao}`;
+  deletar(codConfigEquipModulos: number): Observable<EquipamentoModulo> {
+    const url = `${c.api}/EquipamentoModulo/${codConfigEquipModulos}`;
 
     return this.http.delete<EquipamentoModulo>(url).pipe(
       map((obj) => obj)

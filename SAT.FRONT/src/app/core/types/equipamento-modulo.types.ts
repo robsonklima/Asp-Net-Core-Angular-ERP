@@ -4,16 +4,16 @@ import { Meta, QueryStringParameters } from "./generic.types";
 import { TipoEquipamento } from "./tipo-equipamento.types";
 
 export class EquipamentoModulo {
-    codConfigEquipModulos: number;
-    codEquip: number;
-    codECausa: string;
-    codUsuarioCad: string;
-    codUsuarioManut: string;
+    codConfigEquipModulos?: number;
+    codEquip?: number;
+    codECausa?: string;
+    codUsuarioCad?: string;
+    codUsuarioManut?: string;
     dataHoraCad?: string;
     dataHoraManut?: string;
-    equipamento: Equipamento;
-    tipoEquipamento: TipoEquipamento;
-    causa: Causa;
+    equipamento?: Equipamento;
+    tipoEquipamento?: TipoEquipamento;
+    causa?: Causa;
     indAtivo?: number;
 }
 
@@ -23,6 +23,7 @@ export interface EquipamentoModuloData extends Meta {
 
 export interface EquipamentoModuloParameters extends QueryStringParameters {
     codEquip?: number;
+    codECausa?: string;
     codTipoEquip?: number;
     indAtivo?: number;
 };

@@ -74,6 +74,7 @@ export interface DespesaProtocoloImpressaoListView
     pedagio: string;
     km: string;
     taxi: string;
+    refeicao: string;
     telefone: string;
     internet: string;
     despesas: string;

@@ -37,6 +37,7 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
   totalPedagio: number = 0;
   totalTaxi: number = 0;
   totalTelefone: number = 0;
+  totalRefeicao: number = 0;
   totalInternet: number = 0;
   totalDespesas: number = 0;
   totalAdiantamentos: number = 0;
@@ -110,6 +111,7 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
           pecas: this.obterValorPecas(dp),
           pedagio: this.obterValorPedagio(dp),
           km: this.valorDescontinuado(),
+          refeicao: this.obterRefeicao(dp),
           taxi: this.obterValorTaxi(dp),
           telefone: this.obterValorTelefone(dp),
           internet: this.obterValorInternet(dp),
@@ -271,6 +273,14 @@ export class DespesaProtocoloDetalheImpressaoComponent implements OnInit
     this.totalTelefone += telefone;
 
     return this.toInterface(telefone);
+  }
+
+  private obterRefeicao(dp: DespesaProtocoloPeriodoTecnico)
+  {
+    var refeicao = this.calcularTipoDespesa(dp, DespesaTipoEnum.REFEICAO);
+    this.totalRefeicao += refeicao;
+
+    return this.toInterface(refeicao);
   }
 
   private obterValorInternet(dp: DespesaProtocoloPeriodoTecnico)

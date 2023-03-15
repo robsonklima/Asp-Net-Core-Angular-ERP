@@ -68,9 +68,8 @@ namespace SAT.UTILS
 
                 row.RelativeItem().Column(column =>
                 {
-                    column.Item().Text($"BORDERÔ SEM NOTA FISCAL").Style(titleStyle);
-                    column.Item().Text($"TERMO DE ACEITE ORIGINAL");
-                    column.Item().Text($"CÓD.: {pleito.CodInstalPleito}");
+                    column.Item().Text($"BORDERÔ - {pleito.InstalacaoTipoPleito?.NomeTipoPleito}").Style(titleStyle);
+                    column.Item().Text($"CÓD.: {pleito.CodInstalPleito} - {inst[0]?.Equipamento?.NomeEquip}");
                 });
 
                 row.ConstantItem(280).Column(column =>
@@ -157,7 +156,7 @@ namespace SAT.UTILS
                 {
                     tr.RelativeItem().Border(1).Column(column =>
                     {
-                        column.Item().Element(CellStyle).AlignCenter().Text($"PROTOCOLAR ESTA VIA").Style(FontStyle());
+                         column.Item().Element(CellStyle).AlignCenter().Text($"PROTOCOLAR ESTA VIA").Style(FontStyle());
                         column.Item().Element(CellStyle).AlignCenter().Text($"Data ____ / ___________ / _______").Style(FontStyle());
                         column.Item().Element(CellStyle).AlignCenter().Text($"Recebido por ________________________").Style(FontStyle());
                         column.Item().Element(CellStyle).AlignCenter().Text($"(Nome Legível)").Style(FontStyle());
@@ -198,8 +197,6 @@ namespace SAT.UTILS
             var qtd = 0;
             decimal valorInstalacao = 0;
             decimal valorUnitario = 0;
-            decimal valorEntregue80perc = 0;
-            decimal valorInstalado20perc = 0;
 
             inst.ForEach(item =>
             {
@@ -218,33 +215,13 @@ namespace SAT.UTILS
                 valorUnitario = valorUnitario + valorUnitarioItens;
             });
 
-            valorEntregue80perc =  valorUnitario * (decimal)0.8;
-            valorInstalado20perc = valorUnitario * (decimal)0.2;
-
             container.Table(table =>
             {
                 table.ColumnsDefinition(columns =>
                 {
                     columns.RelativeColumn();
                     columns.ConstantColumn(20);
-
-                    if (pleito.CodInstalTipoPleito == 6)
-                    {
-                        columns.ConstantColumn(40);
-                    }
-                    else if (pleito.CodInstalTipoPleito == 7)
-                    {
-                        columns.ConstantColumn(45);
-                    }
-                    else if (pleito.CodInstalTipoPleito == 8)
-                    {
-                        columns.ConstantColumn(45);
-                    }
-                    else
-                    {
-                        columns.ConstantColumn(40);
-                        columns.ConstantColumn(40);
-                    }
+                    columns.ConstantColumn(45);
                 });
 
                 table.Cell().BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
@@ -258,20 +235,12 @@ namespace SAT.UTILS
                     t.Span($"{qtd}").FontSize(6);
                 });
 
-                if (pleito.CodInstalTipoPleito == 6)
+                if (pleito.CodInstalTipoPleito == 7)
                 {
                     table.Cell()
                         .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                         {
-                            t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
-                        });
-                }
-                else if (pleito.CodInstalTipoPleito == 7)
-                {
-                    table.Cell()
-                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                        {
-                            t.Span(string.Format("{0:C}", valorEntregue80perc)).FontSize(6);
+                            t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.8))).FontSize(6);
                         });
                 }
                 else if (pleito.CodInstalTipoPleito == 8)
@@ -279,21 +248,39 @@ namespace SAT.UTILS
                     table.Cell()
                         .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                         {
-                            t.Span(string.Format("{0:C}", valorInstalado20perc)).FontSize(6);
+                            t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.2))).FontSize(6);
                         });
                 }
+                else if (pleito.CodInstalTipoPleito == 9)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.9))).FontSize(6);
+                        });
+                }
+                else if (pleito.CodInstalTipoPleito == 10)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.1))).FontSize(6);
+                        });
+                }   
+                else if (pleito.CodInstalTipoPleito == 11)
+                {
+                    table.Cell()
+                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                        {
+                            t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.5))).FontSize(6);
+                        });
+                }                                                 
                 else
                 {
                     table.Cell()
                         .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                         {
                             t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
-                        });
-
-                    table.Cell()
-                        .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                        {
-                            t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
                         });
                 }
             });
@@ -321,25 +308,9 @@ namespace SAT.UTILS
                         columns.ConstantColumn(45);
                         columns.ConstantColumn(45);
                         columns.ConstantColumn(45);
-                        columns.ConstantColumn(20);
-
-                        if (pleito.CodInstalTipoPleito == 6)
-                        {
-                            columns.ConstantColumn(40);
-                        }
-                        else if (pleito.CodInstalTipoPleito == 7)
-                        {
-                            columns.ConstantColumn(45);
-                        }
-                        else if (pleito.CodInstalTipoPleito == 8)
-                        {
-                            columns.ConstantColumn(45);
-                        }
-                        else
-                        {
-                            columns.ConstantColumn(40);
-                            columns.ConstantColumn(40);
-                        }
+                        columns.ConstantColumn(40);                        
+                        columns.ConstantColumn(20);                                                
+                        columns.ConstantColumn(45);
                     });
 
                     table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
@@ -396,21 +367,18 @@ namespace SAT.UTILS
                     });
                     table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                     {
-                        t.Span("Num. Bem Cliente").FontSize(6).Bold();
+                        t.Span("Bem Trade In").FontSize(6).Bold();
                     });
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
+                        t.Span("Pedido Compra").FontSize(6).Bold();
+                    });                    
                     table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                     {
                         t.Span("Qtd").FontSize(6).Bold();
                     });
 
-                    if (pleito.CodInstalTipoPleito == 6)
-                    {
-                        table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                        {
-                            t.Span("Valor Unitário").FontSize(6).Bold();
-                        });
-                    }
-                    else if (pleito.CodInstalTipoPleito == 7)
+                    if (pleito.CodInstalTipoPleito == 7)
                     {
                         table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                         {
@@ -429,10 +397,6 @@ namespace SAT.UTILS
                         table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                         {
                             t.Span("Valor Instalação").FontSize(6).Bold();
-                        });
-                        table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                        {
-                            t.Span("Valor Unitário").FontSize(6).Bold();
                         });
                     }
 
@@ -506,8 +470,13 @@ namespace SAT.UTILS
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                             {
-                                t.Span($"{item?.EquipamentoContrato?.NumSerieCliente}").FontSize(6);
+                                t.Span($"{item?.BemTradeIn}").FontSize(6);
                             });
+                        table.Cell()
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span($"{item?.PedidoCompra}").FontSize(6);
+                            });                            
                         table.Cell()
                             .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                             {
@@ -522,45 +491,52 @@ namespace SAT.UTILS
                              .Where(ce => ce?.CodEquip == item?.CodEquip)
                              .Sum(ce => ce.VlrUnitario);
 
-                        var valorEntregue80perc = ((float?)valorUnitario) * 0.8;
-                        var valorInstalado20perc = ((float?)valorUnitario) * 0.2;
-
-                        if (pleito.CodInstalTipoPleito == 6)
+                        if (pleito.CodInstalTipoPleito == 7)
                         {
                             table.Cell()
-                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                                 {
-                                    t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
-                                });
-                        }
-                        else if (pleito.CodInstalTipoPleito == 7)
-                        {
-                            table.Cell()
-                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                                {
-                                    t.Span(string.Format("{0:C}", valorEntregue80perc)).FontSize(6);
+                                    t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.8))).FontSize(6);
                                 });
                         }
                         else if (pleito.CodInstalTipoPleito == 8)
                         {
                             table.Cell()
-                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                                 {
-                                    t.Span(string.Format("{0:C}", valorInstalado20perc)).FontSize(6);
+                                    t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.2))).FontSize(6);
                                 });
                         }
+                        else if (pleito.CodInstalTipoPleito == 9)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.9))).FontSize(6);
+                                });
+                        }
+                        else if (pleito.CodInstalTipoPleito == 10)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.1))).FontSize(6);
+                                });
+                        }   
+                        else if (pleito.CodInstalTipoPleito == 11)
+                        {
+                            table.Cell()
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                {
+                                    t.Span(string.Format("{0:C}", (valorUnitario * (decimal)0.5))).FontSize(6);
+                                });
+                        }                                                 
                         else
                         {
                             table.Cell()
-                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                                .BorderBottom(1).PaddingTop(1).PaddingBottom(1).Text(t =>
                                 {
                                     t.Span(string.Format("{0:C}", valorInstalacao)).FontSize(6);
-                                });
-
-                            table.Cell()
-                                .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
-                                {
-                                    t.Span(string.Format("{0:C}", valorUnitario)).FontSize(6);
                                 });
                         }
                     });

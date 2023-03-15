@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
-    [Table("InstalMotivoMulta")]
     public class InstalacaoMotivoMulta
     {
-        [Key]
         public int CodInstalMotivoMulta { get; set; }
         public string NomeMotivoMulta { get; set; }
         public string DescMotivoMulta { get; set; }

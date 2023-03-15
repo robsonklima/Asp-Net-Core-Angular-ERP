@@ -1,14 +1,8 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace SAT.MODELS.Entities
 {
-    [Table("InstalPagtoInstal")]
-    
     public class InstalacaoPagtoInstal
     {
-        [Key]
         public int CodInstalacao { get; set; }
         public int CodInstalPagto { get; set; }
         public int CodInstalTipoParcela { get; set; }
@@ -22,5 +16,9 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string Comentario { get; set; }
         public byte? IndImportacao { get; set; }
+        public Instalacao Instalacao { get; set; }  
+        public InstalacaoPagto InstalacaoPagto { get; set; } 
+        public InstalacaoTipoParcela InstalacaoTipoParcela { get; set; } 
+        public InstalacaoMotivoMulta InstalacaoMotivoMulta { get; set; }      
     }
 }

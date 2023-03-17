@@ -140,9 +140,9 @@ namespace SAT.UTILS
                 table.Cell().Element(CellStyle).Text("OS Cliente").Style(FontStyle());
                 table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NumOSCliente).Style(FontStyle());
                 table.Cell().Element(CellStyle).Text("Cód. Pai do Equipamento").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.CodEEquip).Style(FontStyle());
                 table.Cell().Element(CellStyle).Text("Modelo").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip.Split('-')[0]).Style(FontStyle());
+                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip).Style(FontStyle());
                 table.Cell().Element(CellStyle).Text("Série").Style(FontStyle());
                 table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
                 table.Cell().Element(CellStyle).Text("Protocolo STN").Style(FontStyle());

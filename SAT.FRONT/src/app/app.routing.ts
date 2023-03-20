@@ -116,6 +116,7 @@ export const appRoutes: Route[] = [
             { path: 'suporte-stn', loadChildren: () => import('app/modules/main/suporte-stn/suporte-stn.module').then(m => m.SuporteSTNModule) },
             { path: 'laboratorio', loadChildren: () => import('app/modules/main/laboratorio/laboratorio.module').then(m => m.LaboratorioModule) },
             { path: 'contato', loadChildren: () => import('app/modules/main/contato/contato.module').then(m => m.ContatoModule) },
+            { path: 'partes-pecas', loadChildren: () => import('app/modules/main/partes-pecas/partes-pecas.module').then(m => m.PartesPecasModule) },
 
             // Catch all errors
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/main/erro/erro-404/erro-404.module').then(m => m.Erro404Module) },

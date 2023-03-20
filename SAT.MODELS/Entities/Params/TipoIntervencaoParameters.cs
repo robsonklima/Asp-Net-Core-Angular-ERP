@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodTipoIntervencao { get; set; }
         public int? IndAtivo { get; set; }
+        public string CodTiposIntervencao { get; set; }
     }
 }

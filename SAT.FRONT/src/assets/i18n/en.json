@@ -816,5 +816,11 @@
     "pagamentos": "Payment",
     "vlr pagto": "Price paid",
     "dt pagto": "Dt Payment",
-    "pagto": "Payment"
+    "pagto": "Payment",
+    "tipo parcela": "Parcel Type",
+    "vlr parcela": "Parcel Value",
+    "vlr multa": "Fine value",
+    "motivo multa": "Reason Fine",
+    "endossado": "Endorsed",
+    "nf venda": "Sales Invoice"
 }

@@ -18,7 +18,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './instalacao-pagto-instalacao-lista.component.html',
   styles: [
     `.list-grid-instalacao-pagto-instal {
-            grid-template-columns: 42px 120px 120px 120px 36px;
+            grid-template-columns: 120px 120px 120px 72px 100px 100px 180px 100px 72px 36px;
         }`
   ],
   encapsulation: ViewEncapsulation.None,
@@ -67,6 +67,9 @@ export class InstalacaoPagtoInstalacaoListaComponent implements AfterViewInit {
     }).toPromise();
 
     this.dataSourceData = data;
+
+    console.log(this.dataSourceData);
+    
     this.isLoading = false;
   }
 

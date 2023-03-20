@@ -113,11 +113,6 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey<Instalacao>(i => i.CodInstalNFVenda)
                 .HasPrincipalKey<InstalacaoNFVenda>(i => i.CodInstalNFvenda);
-
-            builder
-                .HasMany(i => i.InstalacaoPagtoInstal)
-                .WithOne()
-                .HasForeignKey(i => new { i.CodInstalacao });
         }
     }
 }

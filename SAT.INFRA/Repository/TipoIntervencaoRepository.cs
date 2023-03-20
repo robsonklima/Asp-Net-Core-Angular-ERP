@@ -74,6 +74,12 @@ namespace SAT.INFRA.Repository
                 tipos = tipos.Where(t => t.IndAtivo == parameters.IndAtivo);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
+            {
+                int[] cods = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                tipos = tipos.Where(t => cods.Contains(t.CodTipoIntervencao.Value));
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 tipos = tipos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

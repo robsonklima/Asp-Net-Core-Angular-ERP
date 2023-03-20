@@ -180,7 +180,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 				indAtivo: statusConst.ATIVO,
 				pageSize: 100,
 				sortActive: 'nomTipoIntervencao',
-				sortDirection: 'asc'
+				sortDirection: 'asc',
+				codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA},
+														${TipoIntervencaoEnum.PREVENTIVA}` : null,
 			}).toPromise()).items;
 	}
 

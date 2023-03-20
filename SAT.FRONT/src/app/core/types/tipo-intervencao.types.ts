@@ -17,6 +17,7 @@ export interface TipoIntervencaoData extends Meta {
 export interface TipoIntervencaoParameters extends QueryStringParameters {
 	codTipoIntervencao?: number;
 	indAtivo?: number;
+	codTiposIntervencao?: string;
 };
 
 export enum TipoIntervencaoEnum {

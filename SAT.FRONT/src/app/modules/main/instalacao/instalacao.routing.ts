@@ -3,6 +3,8 @@ import { InstalacaoContratoListaComponent } from './instalacao-contrato-lista/in
 import { InstalacaoListaComponent } from './instalacao-lista/instalacao-lista.component';
 import { InstalacaoLoteFormComponent } from './instalacao-lote-form/instalacao-lote-form.component';
 import { InstalacaoLoteListaComponent } from './instalacao-lote-lista/instalacao-lote-lista.component';
+import { InstalacaoPagtoDetalheComponent } from './instalacao-pagto-detalhe/instalacao-pagto-detalhe.component';
+import { InstalacaoPagtoListaComponent } from './instalacao-pagto-lista/instalacao-pagto-lista.component';
 import { InstalacaoPleitoDetalheComponent } from './instalacao-pleito-detalhe/instalacao-pleito-detalhe.component';
 import { InstalacaoPleitoListaComponent } from './instalacao-pleito-lista/instalacao-pleito-lista.component';
 
@@ -43,5 +45,17 @@ export const instalacaoRoutes: Route[] = [
     {
         path: 'lote/lista/:codContrato/:codInstalLote',
         component: InstalacaoListaComponent
-    }
+    },
+    {
+        path: 'pagto',
+        component: InstalacaoPagtoListaComponent
+    },
+    {
+        path: 'pagto/detalhe',
+        component: InstalacaoPagtoDetalheComponent
+    },
+    {
+        path: 'pagto/detalhe/:codInstalpagto',
+        component: InstalacaoPagtoDetalheComponent
+    },    
 ];

@@ -38,11 +38,12 @@ namespace SAT.INFRA.Repository
             _context.SaveChanges();
         }
 
-        public void Deletar(int CodInstalacao, int CodInstalPagto)
+        public void Deletar(int CodInstalacao, int CodInstalPagto, int CodInstalTipoParcela)
         {
             InstalacaoPagtoInstal inst = _context.InstalacaoPagtoInstal
                 .FirstOrDefault(i => (i.CodInstalPagto == CodInstalPagto)
-                    && (i.CodInstalacao == CodInstalacao));
+                    && (i.CodInstalacao == CodInstalacao)
+                    && (i.CodInstalTipoParcela == CodInstalTipoParcela));
 
             if (inst != null)
             {
@@ -50,22 +51,20 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
-        public InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto)
+        public InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto, int codInstalTipoParcela)
         {
 
             return _context.InstalacaoPagtoInstal
                 .Include(i => i.Instalacao.EquipamentoContrato)                  
-                .Include(i => i.InstalacaoPagto)          
                 .Include(i => i.InstalacaoTipoParcela)
                 .Include(i => i.InstalacaoMotivoMulta)
-                .FirstOrDefault(i => i.CodInstalacao == codInstalacao && i.CodInstalPagto == codInstalPagto);
+                .FirstOrDefault(i => i.CodInstalacao == codInstalacao && i.CodInstalPagto == codInstalPagto && i.CodInstalTipoParcela == codInstalTipoParcela);
         }
 
         public PagedList<InstalacaoPagtoInstal> ObterPorParametros(InstalacaoPagtoInstalParameters parameters)
         {
             var query = _context.InstalacaoPagtoInstal
                 .Include(i => i.Instalacao.EquipamentoContrato)                  
-                .Include(i => i.InstalacaoPagto)          
                 .Include(i => i.InstalacaoTipoParcela)
                 .Include(i => i.InstalacaoMotivoMulta)
                 .AsNoTracking() 
@@ -86,7 +85,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodInstalacao.HasValue)
             {
-                query = query.Where(i => i.CodInstalacao == parameters.CodInstalacao);
+                query = query.Where(i => i.Instalacao.CodInstalacao == parameters.CodInstalacao);
             }       
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

@@ -17,9 +17,9 @@ namespace SAT.SERVICES.Services
             _instalacaoPagtoInstalRepo = instalacaoPagtoInstalRepo;
         }
 
-        public InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto)
+        public InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto, int codInstalTipoParcela)
         {
-            return _instalacaoPagtoInstalRepo.ObterPorCodigo(codInstalacao, codInstalPagto);
+            return _instalacaoPagtoInstalRepo.ObterPorCodigo(codInstalacao, codInstalPagto, codInstalTipoParcela);
         }
 
         public ListViewModel ObterPorParametros(InstalacaoPagtoInstalParameters parameters)
@@ -44,9 +44,9 @@ namespace SAT.SERVICES.Services
             return instalacaoPagtoInstal;
         }
 
-        public void Deletar(int codInstalacao, int codInstalPagto)
+        public void Deletar(int codInstalacao, int codInstalPagto, int codInstalTipoParcela)
         {
-            _instalacaoPagtoInstalRepo.Deletar(codInstalacao, codInstalPagto);
+            _instalacaoPagtoInstalRepo.Deletar(codInstalacao, codInstalPagto, codInstalTipoParcela);
         }
 
         public void Atualizar(InstalacaoPagtoInstal instalacaoPagtoInstal)

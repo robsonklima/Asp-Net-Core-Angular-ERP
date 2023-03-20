@@ -854,5 +854,8 @@
     "cod instalacao": "Cod Instalação",
     "termo aceite": "Termo de Aceite",
     "bordero": "Borderô",
-    "adicionado": "Adicionado"
+    "adicionado": "Adicionado",
+    "pagamentos": "Pagamentos",
+    "vlr pagto": "Vlr Pagto",
+    "dt pagto": "Dt Pagto"
 }

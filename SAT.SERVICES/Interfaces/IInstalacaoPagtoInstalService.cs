@@ -8,8 +8,8 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(InstalacaoPagtoInstalParameters parameters);
         InstalacaoPagtoInstal Criar(InstalacaoPagtoInstal instalacaoPagtoInstal);
-        void Deletar(int codInstalacao, int codInstalPagto);
+        void Deletar(int codInstalacao, int codInstalPagto, int codInstalTipoParcela);
         void Atualizar(InstalacaoPagtoInstal instalacaoPagtoInstal);
-        InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto);
+        InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto, int codInstalTipoParcela);
     }
 }

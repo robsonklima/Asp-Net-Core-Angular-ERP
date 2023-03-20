@@ -19,7 +19,6 @@ export class InstalacaoPagtoInstal {
     comentario?: string;
     indImportacao?: number;
     instalacao?: Instalacao;
-    instalacaoPagto?: InstalacaoPagto;
     instalTipoParcela?:InstalacaoTipoParcela;
     instalMotivoMulta?: InstalacaoMotivoMulta;
 }

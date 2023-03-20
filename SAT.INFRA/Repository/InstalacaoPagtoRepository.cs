@@ -50,12 +50,18 @@ namespace SAT.INFRA.Repository
         public InstalacaoPagto ObterPorCodigo(int codigo)
         {
             return _context.InstalacaoPagto
+                .Include(i => i.Contrato)
+                //.Include(i => i.InstalacoesPagtoInstal) 
+                //     .ThenInclude(c => c.Instalacao)                          
                 .FirstOrDefault(i => i.CodInstalPagto == codigo);
         }
 
         public PagedList<InstalacaoPagto> ObterPorParametros(InstalacaoPagtoParameters parameters)
         {
-            var query = _context.InstalacaoPagto              
+            var query = _context.InstalacaoPagto   
+                .Include(i => i.Contrato)
+                .Include(i => i.InstalacoesPagtoInstal)
+                //     .ThenInclude(c => c.Instalacao)               
                 .AsNoTracking() 
                 .AsQueryable();
 

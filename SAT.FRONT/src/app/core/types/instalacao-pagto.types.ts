@@ -1,5 +1,6 @@
 import { Contrato } from "./contrato.types";
 import { Meta, QueryStringParameters } from "./generic.types";
+import { InstalacaoPagtoInstal } from "./instalacao-pagto-instal.types";
 
 export class InstalacaoPagto {
     codInstalPagto: number;
@@ -12,6 +13,7 @@ export class InstalacaoPagto {
     codUsuarioManut?: string; 
     dataHoraManut?: string; 
     contrato?: Contrato;
+    instalacoesPagtoInstal?: InstalacaoPagtoInstal[] = [];   
 }
 
 export interface InstalacaoPagtoData extends Meta {

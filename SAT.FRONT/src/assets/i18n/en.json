@@ -812,5 +812,8 @@
     "cod instalacao": "Installation code",
     "termo aceite": "Acceptance term",
     "bordero": "Border",
-    "adicionado": "Added"
+    "adicionado": "Added",
+    "pagamentos": "Payment",
+    "vlr pagto": "Price paid",
+    "dt pagto": "Dt Payment"
 }

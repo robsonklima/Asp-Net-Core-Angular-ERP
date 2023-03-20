@@ -8,8 +8,8 @@ namespace SAT.INFRA.Interfaces
     {
         void Criar(InstalacaoPagtoInstal instalacaoPagtoInstal);
         PagedList<InstalacaoPagtoInstal> ObterPorParametros(InstalacaoPagtoInstalParameters parameters);
-        void Deletar(int codInstalacao, int codInstalPagto);
+        void Deletar(int codInstalacao, int codInstalPagto, int codInstalTipoParcela);
         void Atualizar(InstalacaoPagtoInstal instalacaoPagtoInstal);
-        InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto);
+        InstalacaoPagtoInstal ObterPorCodigo(int codInstalacao, int codInstalPagto, int codInstalTipoParcela);
     }
 }

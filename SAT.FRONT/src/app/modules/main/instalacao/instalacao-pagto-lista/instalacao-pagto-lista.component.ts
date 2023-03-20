@@ -47,7 +47,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
   }
 
   ngAfterViewInit(): void {
-    this.obterDados();
+    this.obterDados();    
     this.registerEmitters();
 
     if (this.sort && this.paginator) {
@@ -105,9 +105,10 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
     const data: InstalacaoPagtoData = await this._InstalacaoPagtoSvc.obterPorParametros({
       ...parametros,
       ...this.filter?.parametros
-    }).toPromise();
+    }).toPromise();  
 
     this.dataSourceData = data;
+
     this.isLoading = false;
     this._cdr.detectChanges();
   }

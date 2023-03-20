@@ -1,6 +1,5 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 import { InstalacaoMotivoMulta } from "./instalacao-motivo-multa.types";
-import { InstalacaoPagto } from "./instalacao-pagto.types";
 import { InstalacaoTipoParcela } from "./instalacao-tipo-parcela.types";
 import { Instalacao } from "./instalacao.types";
 
@@ -19,13 +18,13 @@ export class InstalacaoPagtoInstal {
     comentario?: string;
     indImportacao?: number;
     instalacao?: Instalacao;
-    instalTipoParcela?:InstalacaoTipoParcela;
-    instalMotivoMulta?: InstalacaoMotivoMulta;
+    instalacaoTipoParcela?:InstalacaoTipoParcela;
+    instalacaoMotivoMulta?: InstalacaoMotivoMulta;
 }
 
 export interface InstalacaoPagtoInstalData extends Meta {
     items: InstalacaoPagtoInstal[];
-};
+}
 
 export interface InstalacaoPagtoInstalParameters extends QueryStringParameters {
     codInstalacao?: number;

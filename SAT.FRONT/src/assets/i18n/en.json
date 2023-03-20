@@ -815,5 +815,6 @@
     "adicionado": "Added",
     "pagamentos": "Payment",
     "vlr pagto": "Price paid",
-    "dt pagto": "Dt Payment"
+    "dt pagto": "Dt Payment",
+    "pagto": "Payment"
 }

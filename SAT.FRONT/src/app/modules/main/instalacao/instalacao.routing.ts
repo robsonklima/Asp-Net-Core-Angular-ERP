@@ -55,7 +55,7 @@ export const instalacaoRoutes: Route[] = [
         component: InstalacaoPagtoDetalheComponent
     },
     {
-        path: 'pagto/detalhe/:codInstalpagto',
+        path: 'pagto/detalhe/:codInstalPagto',
         component: InstalacaoPagtoDetalheComponent
     },    
 ];

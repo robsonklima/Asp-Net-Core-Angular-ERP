@@ -52,7 +52,11 @@ namespace SAT.INFRA.Repository
             return _context.InstalacaoPagto
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacoesPagtoInstal) 
-                     .ThenInclude(c => c.Instalacao)                          
+                     .ThenInclude(c => c.Instalacao)
+                .Include(i => i.InstalacoesPagtoInstal)                               
+                     .ThenInclude(c => c.InstalacaoTipoParcela)   
+                .Include(i => i.InstalacoesPagtoInstal)                            
+                     .ThenInclude(c => c.InstalacaoMotivoMulta)                                                  
                 .FirstOrDefault(i => i.CodInstalPagto == codigo);
         }
 
@@ -61,7 +65,11 @@ namespace SAT.INFRA.Repository
             var query = _context.InstalacaoPagto   
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacoesPagtoInstal)
-                     .ThenInclude(c => c.Instalacao)               
+                     .ThenInclude(c => c.Instalacao)     
+                .Include(i => i.InstalacoesPagtoInstal)                               
+                     .ThenInclude(c => c.InstalacaoTipoParcela)   
+                .Include(i => i.InstalacoesPagtoInstal)                            
+                     .ThenInclude(c => c.InstalacaoMotivoMulta)   
                 .AsNoTracking() 
                 .AsQueryable();
 

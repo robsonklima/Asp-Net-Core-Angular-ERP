@@ -1,1 +1,77 @@
-<p>instalacao-pagto-detalhe works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/instalacao/pagto">
+                        {{ t('pagtos') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codInstalPagto }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('pagto') }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('exportar') }}"
+                (click)="exportar()">
+                <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:download'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('pagto') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pagto-form *ngIf="!isLoading"
+                        [instalPagto]="instalPagto"></app-instalacao-pagto-form>
+                </ng-template>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <span class="text-slate-900">
+                        {{ t('equipamentos') }}
+                    </span>
+                </ng-template>
+
+                <ng-template matTabContent>
+                    <app-instalacao-pagto-instalacao-lista *ngIf="!isLoading"
+                        [instalPagto]="instalPagto"></app-instalacao-pagto-instalacao-lista>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

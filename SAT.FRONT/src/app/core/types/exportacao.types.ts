@@ -61,5 +61,6 @@ export enum ExportacaoTipoEnum {
     PONTO_USUARIO,
     INSTALACAO_PLEITO,
     ORC_BANCADA,
-    NF_BANCADA
+    NF_BANCADA,
+    INSTALACAO_PAGTO
 }

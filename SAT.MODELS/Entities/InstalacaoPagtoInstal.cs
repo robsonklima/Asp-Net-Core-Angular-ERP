@@ -3,9 +3,9 @@ namespace SAT.MODELS.Entities
 {
     public class InstalacaoPagtoInstal
     {
-        public int CodInstalacao { get; set; }
-        public int CodInstalPagto { get; set; }
-        public int CodInstalTipoParcela { get; set; }
+        public int? CodInstalacao { get; set; }
+        public int? CodInstalPagto { get; set; }
+        public int? CodInstalTipoParcela { get; set; }
         public decimal VlrParcela { get; set; }
         public int? CodInstalMotivoMulta { get; set; }
         public decimal? VlrMulta { get; set; }
@@ -17,7 +17,6 @@ namespace SAT.MODELS.Entities
         public string Comentario { get; set; }
         public byte? IndImportacao { get; set; }
         public Instalacao Instalacao { get; set; }  
-        public InstalacaoPagto InstalacaoPagto { get; set; } 
         public InstalacaoTipoParcela InstalacaoTipoParcela { get; set; } 
         public InstalacaoMotivoMulta InstalacaoMotivoMulta { get; set; }      
     }

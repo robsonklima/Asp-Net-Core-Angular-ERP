@@ -46,6 +46,11 @@ import { InstalacaoPleitoDetalheComponent } from './instalacao-pleito-detalhe/in
 import { InstalacaoPleitoFormComponent } from './instalacao-pleito-detalhe/instalacao-pleito-form/instalacao-pleito-form.component';
 import { InstalacaoPleitoInstalacaoListaComponent } from './instalacao-pleito-detalhe/instalacao-pleito-instalacao-lista/instalacao-pleito-instalacao-lista.component';
 import { InstalacaoPleitoInstalacaoDialogComponent } from './instalacao-pleito-instalacao-dialog/instalacao-pleito-instalacao-dialog.component';
+import { InstalacaoPagtoListaComponent } from './instalacao-pagto-lista/instalacao-pagto-lista.component';
+import { InstalacaoPagtoDetalheComponent } from './instalacao-pagto-detalhe/instalacao-pagto-detalhe.component';
+import { InstalacaoPagtoFormComponent } from './instalacao-pagto-detalhe/instalacao-pagto-form/instalacao-pagto-form.component';
+import { InstalacaoPagtoInstalacaoListaComponent } from './instalacao-pagto-detalhe/instalacao-pagto-instalacao-lista/instalacao-pagto-instalacao-lista.component';
+import { InstalacaoPagtoFiltroComponent } from './instalacao-pagto-filtro/instalacao-pagto-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -68,6 +73,11 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoPleitoFormComponent,
     InstalacaoPleitoInstalacaoListaComponent,
     InstalacaoPleitoInstalacaoDialogComponent,
+    InstalacaoPagtoListaComponent,
+    InstalacaoPagtoDetalheComponent,
+    InstalacaoPagtoFormComponent,
+    InstalacaoPagtoInstalacaoListaComponent,
+    InstalacaoPagtoFiltroComponent,
   ],
   imports: [
     CommonModule,

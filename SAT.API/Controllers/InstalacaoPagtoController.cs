@@ -47,7 +47,7 @@ namespace SAT.API.Controllers
             _instalacaoPagtoService.Atualizar(instalacaoPagto);
         }
 
-        [HttpDelete("{CodInstalPagto}")]
+        [HttpDelete("{codInstalPagto}")]
         public void Delete(int codInstalacaoPagto)
         {
             _instalacaoPagtoService.Deletar(codInstalacaoPagto);

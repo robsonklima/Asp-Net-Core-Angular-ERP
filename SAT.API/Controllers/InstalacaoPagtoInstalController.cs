@@ -29,10 +29,10 @@ namespace SAT.API.Controllers
             return _instalacaoPagtoInstalService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{CodInstalacao}/{CodInstalPagto}")]
-        public InstalacaoPagtoInstal Get(int codInstalacao, int codInstalPagto)
+        [HttpGet("{codInstalacao}/{codInstalPagto}/{codInstalTipoParcela}")]
+        public InstalacaoPagtoInstal Get(int codInstalacao, int codInstalPagto, int codInstalTipoParcela)
         {
-            return _instalacaoPagtoInstalService.ObterPorCodigo(codInstalacao, codInstalPagto);
+            return _instalacaoPagtoInstalService.ObterPorCodigo(codInstalacao, codInstalPagto, codInstalTipoParcela);
         }
 
         [HttpPost]
@@ -47,10 +47,10 @@ namespace SAT.API.Controllers
             _instalacaoPagtoInstalService.Atualizar(instalacaoPagtoInstal);
         }
 
-        [HttpDelete("{CodInstalacao}/{CodInstalPagto}")]
-        public void Delete(int codInstalacao, int codInstalPagto)
+        [HttpDelete("{codInstalacao}/{codInstalPagto}/{codInstalTipoParcela}")]
+        public void Delete(int codInstalacao, int codInstalPagto, int codInstalTipoParcela)
         {
-            _instalacaoPagtoInstalService.Deletar(codInstalacao, codInstalPagto);
+            _instalacaoPagtoInstalService.Deletar(codInstalacao, codInstalPagto, codInstalTipoParcela);
         }
     }
 }

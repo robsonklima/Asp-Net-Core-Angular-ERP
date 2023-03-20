@@ -61,19 +61,12 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            EquipamentoModulo a = _context.EquipamentoModulo.SingleOrDefault();
+            EquipamentoModulo equip = _context.EquipamentoModulo.FirstOrDefault(equip => equip.CodConfigEquipModulos == codigo);
 
-            if (a != null)
+            if (equip != null)
             {
-                try
-                {
-                    _context.EquipamentoModulo.Remove(a);
-                    _context.SaveChanges();
-                }
-                catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                _context.EquipamentoModulo.Remove(equip);
+                _context.SaveChanges();
             }
         }
 
@@ -124,6 +117,9 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo.HasValue)
                 equipamentoModulo = equipamentoModulo.Where(e => e.IndAtivo == parameters.IndAtivo);
+
+            if (parameters.CodEquip.HasValue)
+                equipamentoModulo = equipamentoModulo.Where(e => e.CodEquip == parameters.CodEquip);
 
             return PagedList<EquipamentoModulo>.ToPagedList(equipamentoModulo, parameters.PageNumber, parameters.PageSize);
         }

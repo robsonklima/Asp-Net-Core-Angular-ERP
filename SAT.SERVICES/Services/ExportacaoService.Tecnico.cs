@@ -19,7 +19,9 @@ namespace SAT.SERVICES.Services {
                                 FonePerto = tecnico.FonePerto ?? Constants.NENHUM_REGISTRO,
                                 FoneParticular = tecnico.FoneParticular ?? Constants.NENHUM_REGISTRO,
                                 DataAdmissao = tecnico.DataAdmissao,
-                                Ativo = tecnico.IndAtivo == 1 ? "SIM" : "NÃO"
+                                Ativo = tecnico.IndAtivo == 1 ? "SIM" : "NÃO",
+                                Cidade = tecnico.Cidade.NomeCidade ?? Constants.NENHUM_REGISTRO,
+                                Regiao = tecnico.Regiao.NomeRegiao ?? Constants.NENHUM_REGISTRO
                             });
 
             var wsOs = Workbook.Worksheets.Add("Tecnicos");

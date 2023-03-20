@@ -49,10 +49,21 @@ namespace SAT.UTILS
 
         public void ComporContent(IContainer container)
         {
+            var totalKM = _impressao.Itens.Sum(p => (p.KmPercorrido));
+            var totalValor = _impressao.Itens.Sum(p => (p.DespesaValor));
+
             container.Column(column =>
             {
                 column.Item().Element(ComporInformacoesTecnico);
                 column.Item().Element(ComporDespesaItens);
+                column.Item().AlignRight().Text(text =>
+                {
+                    text.Span($"Total KM Percorrido: ").Bold().FontSize(6);
+                    text.Span($"{totalKM}").Bold().FontSize(6);
+                    text.Span("     ");
+                    text.Span($"Valor Total: ").Bold().FontSize(6);
+                    text.Span(string.Format("{0:C}", totalValor)).Bold().FontSize(6);
+                });
             });
         }
 
@@ -119,55 +130,67 @@ namespace SAT.UTILS
 
                     var cartao = _impressao.Despesa.Tecnico?.DespesaCartaoCombustivelTecnico?
                         .OrderByDescending(c => c.CodDespesaCartaoCombustivelTecnico).FirstOrDefault()?.DespesaCartaoCombustivel;
-                    
+
                     var conta = _impressao.Despesa.Tecnico?.TecnicoContas?
                         .OrderByDescending(c => c.CodTecnicoConta).FirstOrDefault();
 
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Nome: ").FontSize(6).Bold();
                         t.Span(tecnico?.Nome).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("CPF: ").FontSize(6).Bold();
                         t.Span(tecnico?.Cpf).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Endereço: ").FontSize(6).Bold();
                         t.Span(tecnico?.Endereco).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Veículo: ").FontSize(6).Bold();
                         t.Span(veiculo?.Modelo).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Placa: ").FontSize(6).Bold();
                         t.Span(veiculo?.Placa).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Ano: ").FontSize(6).Bold();
                         t.Span($"{veiculo?.Ano}").FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Cartão Combustível: ").FontSize(6).Bold();
                         t.Span(cartao?.Numero).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Filial: ").FontSize(6).Bold();
                         t.Span(tecnico?.Filial?.NomeFilial).FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Centro de Custo: ").FontSize(6).Bold();
                         t.Span("5001").FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Banco: ").FontSize(6).Bold();
                         t.Span($"{conta?.NumBanco}").FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Agência: ").FontSize(6).Bold();
                         t.Span($"{conta?.NumAgencia}").FontSize(6);
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Conta: ").FontSize(6).Bold();
                         t.Span($"{conta?.NumConta}").FontSize(6);
                     });
@@ -197,108 +220,136 @@ namespace SAT.UTILS
                         columns.ConstantColumn(30);
                         columns.ConstantColumn(30);
                     });
-                    
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Data").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Dia").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("OS").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("RAT").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Cliente").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Local Origem").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Local Destino").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("H.I.").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("H.F.").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Km Previsto").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Km Percorrido").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("NF").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Tipo").FontSize(6).Bold();
                     });
-                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
+                    table.Cell().BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                    {
                         t.Span("Valor").FontSize(6).Bold();
                     });
 
                     _impressao.Itens.ForEach(item =>
                     {
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.DataHoraSolucao).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.DataHoraSolucao).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.DiaSemana).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.DiaSemana).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item.CodOS}").FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span($"{item.CodOS}").FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.NumRAT).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.NumRAT).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.NomeCliente).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.NomeCliente).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.LocalOrigem).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.LocalOrigem).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.LocalDestino).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.LocalDestino).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.HoraInicio).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.HoraInicio).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.HoraFim).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.HoraFim).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item.KmPrevisto}").FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span($"{item.KmPrevisto}").FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item.KmPercorrido}").FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span($"{item.KmPercorrido}").FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.NumNF).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.NumNF).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span(item.NomeTipo).FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span(item.NomeTipo).FontSize(6);
+                            });
                         table.Cell().Background(item.CodDespesaItemAlerta > 0 ? Colors.Grey.Lighten2 : Colors.Grey.Lighten5)
-                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t => {
-                            t.Span($"{item.DespesaValor}").FontSize(6);
-                        });
+                            .BorderBottom(1).BorderTop(1).PaddingTop(1).PaddingBottom(1).Text(t =>
+                            {
+                                t.Span($"{item.DespesaValor}").FontSize(6);
+                            });
                     });
                 });
         }
@@ -325,78 +376,97 @@ namespace SAT.UTILS
                             columns.ConstantColumn(100);
                         });
 
-                        table.Cell().ColumnSpan(6).BorderBottom(1).PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().ColumnSpan(6).BorderBottom(1).PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Totalização de Despesas").FontSize(8).Bold();
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Aluguel de Carro: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.AluguelCarro)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Outros: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Outros)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Cartão Telefônico: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.CartaoTelefonico)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Passagem Aérea: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.PassagemAerea)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Combustível: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Combustivel)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Peça/Componente: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.PecasComponentes)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Correio: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Correio)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Pedágio: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Pedagio)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Estacionamento: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Estacionamento)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Cartão Combustível: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.CartaoCombustivel)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Ferramentas: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Ferramentas)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Refeição: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Refeicao)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Frete: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Frete)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Táxi: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Taxi)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Hotel: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Hotel)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Telefone: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Telefone)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Ônibus: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Onibus)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Internet: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.Internet)).FontSize(6);
                         });
@@ -410,39 +480,47 @@ namespace SAT.UTILS
                             columns.ConstantColumn(100);
                         });
 
-                        table.Cell().ColumnSpan(2).BorderBottom(1).PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().ColumnSpan(2).BorderBottom(1).PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Totais").FontSize(8).Bold();
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Despesas: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.DespesaOutros)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Percentual Outros: ").FontSize(6).Bold();
                             t.Span($"{_impressao.PercentualOutros}%").FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Adiantamentos: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.AdiantamentoUtilizado)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Percentual CB: ").FontSize(6).Bold();
                             t.Span($"{_impressao.PercentualDespesaCB}%").FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Receber via Depósito: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.AReceberViaDeposito)).FontSize(6);
                         });
-                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t => {
+                        table.Cell().BorderBottom(1).PaddingTop(1).AlignLeft().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Crédito via CB: ").FontSize(6).Bold();
                             t.Span(string.Format("{0:C}", _impressao.DespesaKM)).FontSize(6);
                         });
-                        table.Cell().ColumnSpan(2).PaddingTop(8).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().ColumnSpan(2).PaddingTop(8).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Revisei as despesas deste relatório e estou de pleno acordo com as mesmas.").FontSize(6);
                         });
                     });
 
-                    table.Cell().PaddingTop(4).AlignCenter().PaddingBottom(1).Table(table => 
+                    table.Cell().PaddingTop(4).AlignCenter().PaddingBottom(1).Table(table =>
                     {
                         table.ColumnsDefinition(columns =>
                         {
@@ -457,59 +535,77 @@ namespace SAT.UTILS
                             columns.RelativeColumn();
                         });
 
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("____________________").FontSize(6).Bold();
                         });
 
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Data").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Funcionário").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Data").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Administrativo").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Data").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Líder").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Coordenador").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Gerência").FontSize(6);
                         });
-                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t => {
+                        table.Cell().PaddingTop(1).AlignCenter().PaddingBottom(1).Text(t =>
+                        {
                             t.Span("Controladoria").FontSize(6);
                         });
                     });

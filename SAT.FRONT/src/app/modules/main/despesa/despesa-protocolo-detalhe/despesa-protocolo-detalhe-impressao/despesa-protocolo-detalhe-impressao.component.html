@@ -95,6 +95,10 @@
                             </div>
                             <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
+                                {{ "Ref." | uppercase }}
+                            </div>
+                            <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
                                 {{ "Táxi" | uppercase }}
                             </div>
                             <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
@@ -198,6 +202,10 @@
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
                                         border-r p-1">
+                                    {{ e.refeicao }}
+                                </div>
+                                <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
+                                        border-r p-1">
                                     {{ e.taxi }}
                                 </div>
                                 <div class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono  break-word
@@ -295,6 +303,10 @@
                                 <div
                                     class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
                                     {{ valorDescontinuado() }}
+                                </div>
+                                <div
+                                    class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">
+                                    {{ toInterface(totalRefeicao) }}
                                 </div>
                                 <div
                                     class="flex-1 min-w-10 max-w-10 w-10 text-left font-mono font-semibold border-r p-1">

@@ -32,7 +32,7 @@
     </div>
 
     <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-3xl">
+        <div class="w-350">
             <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -42,47 +42,24 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('equipamento') }}</mat-label>
                         <input matInput value="{{nomeEquip}}" disabled="true">
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
                     </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
-                        <mat-label>{{ t('causa') }}</mat-label>
-
-                        <mat-select class="min-h-10" formControlName="codECausa" [disabled]="!causas?.length"
-                            multiple="true" required>
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="causasFiltro" placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let causa of causas" [value]="causa.codECausa">
-                                {{ causa.codECausa }} <span class="text-secondary">{{ causa.nomeCausa }}</span>
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
                 </div>
 
-                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button [routerLink]="['/equipamento-modulo']" mat-button *ngIf="!isLoading">
-                        {{ t('cancelar') }}
-                    </button>
-
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()"
-                        [disabled]="!form.valid || isLoading">
-                        <span *ngIf="!form.disabled">
-                            {{ t('salvar') }}
-                        </span>
-                        <mat-progress-spinner *ngIf="form.disabled || isLoading" [diameter]="24"
-                            [mode]="'indeterminate'">
-                        </mat-progress-spinner>
-                    </button>
+                <div class="w-350">
+                    <div class="grid sm:grid-cols-4 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
+                        <div *ngFor="let causa of causas">
+                            <mat-slide-toggle [color]="'primary'" [checked]="verificarDefeitoSelecionado(causa.codECausa)"
+                                (change)="onChange($event, causa.codECausa)">
+                                {{ causa.codECausa +" - "+ causa.nomeCausa }}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

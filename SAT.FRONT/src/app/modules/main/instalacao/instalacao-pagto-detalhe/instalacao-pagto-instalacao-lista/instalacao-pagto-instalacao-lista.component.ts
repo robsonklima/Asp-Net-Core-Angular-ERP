@@ -58,6 +58,7 @@ export class InstalacaoPagtoInstalacaoListaComponent implements AfterViewInit {
       sortActive: this.sort.active || 'CodInstalPagto',
       sortDirection: this.sort.direction || 'desc',
       pageSize: this.paginator?.pageSize,
+      codInstalPagto: this.instalPagto.codInstalPagto,
       filter: filtro
     }
 

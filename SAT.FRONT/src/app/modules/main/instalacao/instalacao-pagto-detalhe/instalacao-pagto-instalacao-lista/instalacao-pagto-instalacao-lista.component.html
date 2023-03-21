@@ -7,9 +7,9 @@
             </mat-form-field>
 
             <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
-            [routerLink]="['/instalacao/pagto/detalhe/form']">
-            <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
-        </button>            
+                [routerLink]="['/instalacao/pagto/instalacao/form']">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
         </div>
     </div>
 
@@ -54,7 +54,7 @@
 
                             <div class="md:block">
                                 {{ t('nf venda') }}
-                            </div>                         
+                            </div>
                         </div>
 
                         <ng-container>
@@ -83,13 +83,12 @@
 
                                     <div class="flex items-center">
                                         <input (change)="onVlrMultaChange($event, instalPagtoInstal)" matInput
-                                            id="vlrMulta" matInput>
+                                            id="vlrMulta" [(ngModel)]="instalPagtoInstal.vlrMulta" matInput>
                                     </div>
 
                                     <div class="flex items-center">
-                                        <mat-select
-                                            id="codInstalMotivoMulta"
-                                            [(ngModel)]="instalPagtoInstal.instalacaoMotivoMulta.nomeMotivoMulta"
+                                        <mat-select id="codInstalMotivoMulta"
+                                            [(ngModel)]="instalPagtoInstal.codInstalMotivoMulta"
                                             (selectionChange)="onInstalMotivoMultaChange($event.value, instalPagtoInstal)">
                                             <mat-option *ngFor="let motivoMulta of motivosMulta"
                                                 [value]="motivoMulta.codInstalMotivoMulta">
@@ -100,6 +99,7 @@
 
                                     <div class="flex items-center">
                                         <mat-select id="indEndossarMulta"
+                                            [(ngModel)]="instalPagtoInstal.indEndossarMulta"
                                             (selectionChange)="onIndEndossarMultaChange($event.value, instalPagtoInstal)">
                                             <mat-option [value]="1">
                                                 SIM
@@ -112,7 +112,7 @@
 
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacao?.instalacaoNFVenda?.numNFVenda }}
-                                    </div>                                
+                                    </div>
                                 </div>
                             </ng-container>
                         </ng-container>

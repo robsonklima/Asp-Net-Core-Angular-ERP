@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto.service';
+import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto-service';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { InstalacaoPagto, InstalacaoPagtoData, InstalacaoPagtoParameters } from 'app/core/types/instalacao-pagto.types';
 import { UserService } from 'app/core/user/user.service';
@@ -39,7 +39,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
   constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _InstalacaoPagtoSvc: InstalacaoPagtoService,
+    private _instalacaoPagtoSvc: InstalacaoPagtoService,
     private _userSvc: UserService
   ) {
     super(_userService, 'instalacao-pagto')
@@ -102,7 +102,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
       filter: filtro
     }
 
-    const data: InstalacaoPagtoData = await this._InstalacaoPagtoSvc.obterPorParametros({
+    const data: InstalacaoPagtoData = await this._instalacaoPagtoSvc.obterPorParametros({
       ...parametros,
       ...this.filter?.parametros
     }).toPromise();  

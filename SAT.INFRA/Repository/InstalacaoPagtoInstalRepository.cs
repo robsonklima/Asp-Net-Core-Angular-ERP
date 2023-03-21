@@ -6,6 +6,7 @@ using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -23,12 +24,21 @@ namespace SAT.INFRA.Repository
             _context.ChangeTracker.Clear();
             InstalacaoPagtoInstal inst = _context.InstalacaoPagtoInstal
                 .FirstOrDefault(i => (i.CodInstalPagto == instalacaoPagtoInstal.CodInstalPagto)
-                    && (i.CodInstalacao == instalacaoPagtoInstal.CodInstalacao));
+                    && (i.CodInstalacao == instalacaoPagtoInstal.CodInstalacao)
+                    && (i.CodInstalTipoParcela == instalacaoPagtoInstal.CodInstalTipoParcela));
 
             if (inst != null)
             {
                 _context.Entry(inst).CurrentValues.SetValues(instalacaoPagtoInstal);
-                _context.SaveChanges();
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 

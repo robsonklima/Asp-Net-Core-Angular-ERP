@@ -23,8 +23,8 @@ export class InstalacaoMotivoMultaService {
     )
   }
 
-  obterPorCodigo(codInstalacaoMotivoMulta: number): Observable<InstalacaoMotivoMulta> {
-    const url = `${c.api}/InstalacaoMotivoMulta/${codInstalacaoMotivoMulta}`;
+  obterPorCodigo(codInstalMotivoMulta: number): Observable<InstalacaoMotivoMulta> {
+    const url = `${c.api}/InstalacaoMotivoMulta/${codInstalMotivoMulta}`;
     return this.http.get<InstalacaoMotivoMulta>(url).pipe(
       map((obj) => obj)
     );
@@ -44,8 +44,8 @@ export class InstalacaoMotivoMultaService {
     );
   }
 
-  deletar(codInstalacaoMotivoMulta: number): Observable<InstalacaoMotivoMulta> {
-    const url = `${c.api}/InstalacaoMotivoMulta/${codInstalacaoMotivoMulta}`;
+  deletar(codInstalMotivoMulta: number): Observable<InstalacaoMotivoMulta> {
+    const url = `${c.api}/InstalacaoMotivoMulta/${codInstalMotivoMulta}`;
 
     return this.http.delete<InstalacaoMotivoMulta>(url).pipe(
       map((obj) => obj)

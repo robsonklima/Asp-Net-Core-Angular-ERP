@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Location } from '@angular/common';
 import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { InstalacaoPagtoService } from 'app/core/services/instalacao-Pagto.service';
 import { Contrato } from 'app/core/types/contrato.types';
 import { InstalacaoPagto } from 'app/core/types/instalacao-Pagto.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -14,6 +13,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { InstalacaoTipoParcela } from 'app/core/types/instalacao-tipo-parcela.types';
 import { InstalacaoTipoParcelaService } from 'app/core/services/instalacao-tipo-parcela.service';
+import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto-service';
 
 @Component({
   selector: 'app-instalacao-pagto-form',

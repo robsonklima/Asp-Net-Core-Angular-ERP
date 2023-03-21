@@ -4,8 +4,8 @@
             <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                 <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                 <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
-            </mat-form-field>            
-        </div>           
+            </mat-form-field>
+        </div>
     </div>
 
     <div class="flex flex-auto overflow-hidden">
@@ -17,85 +17,94 @@
                             matSort matSortDisableClear *transloco="let t">
                             <div class="md:block" [mat-sort-header]="'codInstalacao'">
                                 {{ t('cod instalacao') }}
-                            </div>                            
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('serie') }}
-                            </div>                
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('modelo') }}
-                            </div>       
-                                         
+                            </div>
+
                             <div class="md:block">
                                 {{ t('tipo parcela') }}
-                            </div>   
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('vlr parcela') }}
-                            </div>    
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('vlr multa') }}
-                            </div>         
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('motivo multa') }}
-                            </div>      
-                            
+                            </div>
+
                             <div class="md:block">
                                 {{ t('endossado') }}
-                            </div>   
+                            </div>
 
                             <div class="md:block">
                                 {{ t('nf venda') }}
-                            </div>                               
+                            </div>
                         </div>
 
                         <ng-container>
                             <ng-container *ngFor="let instalPagtoInstal of dataSourceData?.items">
-                                <div class="list-grid-instalacao-pagto-instal grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
+                                <div
+                                    class="list-grid-instalacao-pagto-instal grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b">
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacao?.codInstalacao }}
-                                    </div>                                     
-                                    
+                                    </div>
+
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacao?.equipamentoContrato?.numSerie }}
-                                    </div>   
-                                    
+                                    </div>
+
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacao?.equipamento?.nomeEquip }}
-                                    </div>       
-                                    
+                                    </div>
+
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacaoTipoParcela?.nomeTipoParcela }}
-                                    </div>         
-                                    
+                                    </div>
+
                                     <div class="hidden md:block truncate">
                                         {{ instalPagtoInstal?.vlrParcela | currency:'BRL':'symbol-narrow' }}
-                                    </div>             
-                                    
-                                    <div class="hidden md:block truncate">
-                                        {{ instalPagtoInstal?.vlrMulta | currency:'BRL':'symbol-narrow' }}
-                                    </div>     
-                                    
-                                    <div class="flex items-center">
-                                        {{ instalPagtoInstal?.instalMotivoMulta?.nomeMotivoMulta }}
-                                    </div>       
+                                    </div>
 
                                     <div class="flex items-center">
-                                        {{ instalPagtoInstal?.indEndossarMulta ? t('sim') : t('nao') }}
-                                    </div>                                                                      
-                                    
+                                        <input matInput id="vlrMulta" mask="separator.2" prefix="R$"
+                                            thousandSeparator="." decimalMarker="," [showMaskTyped]="false"
+                                            [dropSpecialCharacters]="true" (change)="onVlrMultaChange($event.value, instalPagtoInstal)">
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <mat-select id="codInstalMotivoMulta" (selectionChange)="onInstalMotivoMultaChange($event.value, instalPagtoInstal)">
+                                            <mat-option *ngFor="let motivoMulta of motivosMulta"
+                                                [value]="motivoMulta.codInstalMotivoMulta">
+                                                {{ motivoMulta.nomeMotivoMulta }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <mat-select id="indEndossarMulta" (selectionChange)="onIndEndossarMultaChange($event.value, instalPagtoInstal)">
+                                            <mat-option [value]="1">
+                                                SIM
+                                            </mat-option>
+                                            <mat-option [value]="0">
+                                                NÃO
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+
                                     <div class="flex items-center">
                                         {{ instalPagtoInstal?.instalacao?.instalacaoNFVenda?.numNFVenda }}
-                                    </div>   
-
-                                    <div class="flex-auto">
-                                        <mat-slide-toggle [color]="'primary'" [checked]="isInstalacaoPagto(instalPagtoInstal.codInstalPagtoInstal)"
-                                             (change)="onChange($event, instalPagtoInstal)">                                             
-                                         </mat-slide-toggle>                                        
-                                    </div>  
+                                    </div>
                                 </div>
                             </ng-container>
                         </ng-container>

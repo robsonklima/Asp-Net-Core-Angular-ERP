@@ -1,14 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto-service';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { InstalacaoPagto, InstalacaoPagtoData, InstalacaoPagtoParameters } from 'app/core/types/instalacao-pagto.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -18,7 +21,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   styles: [
     `
       .list-grid-instalacao-pagto {
-          grid-template-columns: 72px 200px auto 200px 140px 72px 72px;
+          grid-template-columns: 72px 200px auto 200px 140px 72px 72px 36px;
       }
     `
   ],
@@ -40,6 +43,8 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
     private _instalacaoPagtoSvc: InstalacaoPagtoService,
+    private _dialog: MatDialog,
+    private _snack: CustomSnackbarService,
     private _userSvc: UserService
   ) {
     super(_userService, 'instalacao-pagto')
@@ -111,6 +116,27 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
 
     this.isLoading = false;
     this._cdr.detectChanges();
+  }
+
+  excluir(codInstalPagto: number) {
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        mensagem: 'Deseja excluir este Pagamento?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
+        this._instalacaoPagtoSvc.deletar(codInstalPagto).subscribe(() => {
+          this._snack.exibirToast('Pagamento Excluído', 'sucess');
+        })
+      }
+    });
   }
 
   paginar() {

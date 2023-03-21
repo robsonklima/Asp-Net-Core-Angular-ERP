@@ -84,7 +84,18 @@ export class InstalacaoPagtoInstalacaoListaComponent implements AfterViewInit {
   }
 
   onVlrMultaChange(vlrMulta: any, instal: InstalacaoPagtoInstal) {
-    console.log(vlrMulta, instal);
+    let obj: InstalacaoPagtoInstal = {
+      ...instal,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario.codUsuario,
+        vlrMulta: vlrMulta.target.value
+      }
+    };
+    
+    this._instalPagtoInstalSvc.atualizar(obj).subscribe(() => {
+      this._snack.exibirToast("Motivo tualizado com sucesso!", "success");
+    });
   }
 
   async obterDados(filtro: string = '') {

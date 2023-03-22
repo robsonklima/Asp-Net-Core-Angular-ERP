@@ -1,0 +1,59 @@
+<ng-container>
+    <ng-container>
+        <div class="grid" *transloco="let t">
+            <div class="list-grid-ppd z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                matSort matSortDisableClear *transloco="let t">
+                <div class="md:block">
+                    {{ t('Num Re5114') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Cod Magnus') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Peca') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Status') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Ações') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Impressões') }}
+                </div>
+            </div>
+
+            <ng-container>
+                <!-- <ng-container *ngFor="let os of dataSourceData?.items">
+                    <div
+                        class="list-grid-ppd grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                        <div class="flex items-center">
+                            {{ os?.pecaRE5114.numRe5114 }}
+                        </div>
+                        <div class="flex items-center">
+                            {{ os?.pecaRE5114.peca.codMagnus }}
+                        </div>
+                        <div class="flex items-center truncate" [matTooltip]="os?.pecaRE5114.peca.nomePeca">
+                            {{ os?.pecaRE5114.peca.nomePeca }}
+                        </div>
+                        <div class="flex items-center">
+                            {{ validarStatus(os) }}
+                        </div>
+                        <div class="flex items-center">
+                            <button mat-button matTooltip="Editar" (click)="editarPeca(os)">
+                                <mat-icon class="icon-size-5 text-blue-600"
+                                    [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="os.indImpressao == 1"
+                                (change)="onChange($event,os)">
+                                {{ os.indImpressao ? 'Sim' : 'Não' }}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                </ng-container> -->
+            </ng-container>
+        </div>
+    </ng-container>
+</ng-container>

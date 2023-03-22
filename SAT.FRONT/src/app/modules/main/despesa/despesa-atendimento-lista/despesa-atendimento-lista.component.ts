@@ -253,11 +253,10 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 	}
 
 	async obterDespesaPeriodoTecnico(dpi: DespesaPeriodoTecnicoAtendimentoItem): Promise<DespesaPeriodoTecnicoData> {
-		return (await this._despesaPeriodoTecnicoSvc.obterPorParametros(
-			{
-				codTecnico: this.codTecnico,
-				codDespesaPeriodo: dpi.codDespesaPeriodo
-			}).toPromise());
+		return (await this._despesaPeriodoTecnicoSvc.obterPorParametros({
+			codTecnico: this.codTecnico,
+			codDespesaPeriodo: dpi.codDespesaPeriodo
+		}).toPromise());
 	}
 
 	async obterTecnico() {
@@ -266,8 +265,7 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 
 	listarAdiantamentos(dpi: DespesaPeriodoTecnicoAtendimentoItem) {
 		this._dialog.open(DespesaAtendimentoAdiantamentoDialogComponent, {
-			data:
-			{
+			data: {
 				codTecnico: this.codTecnico,
 				codPeriodo: dpi.codDespesaPeriodo
 			}

@@ -52,7 +52,7 @@
 
                     <mat-form-field *ngIf="!codOrcamento" class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('RE5114') }}</mat-label>
-                        <input #numRE5114InputControl matInput formControlName="numRe5114" maxlength="10"
+                        <input #numRE5114InputControl matInput formControlName="numRe5114"
                             [value]="orcamento?.osBancadaPecas?.pecaRE5114?.numRe5114">
                         <mat-error>
                             {{ t('preencher campo') }}

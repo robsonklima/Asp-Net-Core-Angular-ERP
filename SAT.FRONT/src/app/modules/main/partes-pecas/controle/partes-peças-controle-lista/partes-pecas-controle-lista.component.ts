@@ -4,12 +4,12 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
-import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { IFilterable } from 'app/core/types/filtro.types';
-import { OSBancadaPecas, OSBancadaPecasData, OSBancadaPecasParameters } from 'app/core/types/os-bancada-pecas.types';
+import { OrdemServico, OrdemServicoData, OrdemServicoParameters } from 'app/core/types/ordem-servico.types';
+import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
-import { fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import _ from 'lodash';
 
 @Component({
     selector: 'app-partes-pecas-controle-lista',
@@ -18,7 +18,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     styles: [
         /* language=SCSS */
         `.list-grid-partes {
-            grid-template-columns: 150px;
+            grid-template-columns: 120px 120px 100px 200px 80px 200px 200px 400px auto;
         }`
     ],
     encapsulation: ViewEncapsulation.None,
@@ -29,79 +29,77 @@ export class PartesPecasControleListaComponent extends Filterable implements OnI
     @ViewChild('sidenav') public sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    dataSourceData: OSBancadaPecasData;
+    dataSourceData: OrdemServicoData;
+    rat: RelatorioAtendimento;
     isLoading: boolean = false;
     @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
     constructor(
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
-        private _osBancadaPecasService: OSBancadaPecasService
+        private _osService: OrdemServicoService
     ) {
         super(_userService, 'partes-pecas');
         this.userSession = JSON.parse(this._userService.userSession);
     }
-    
+
     registerEmitters(): void {
         this.sidenav.closedStart.subscribe(() => {
             this.onSidenavClosed();
-            this.obterDados();
-          });
+            this.obterOS();
+        });
     }
 
     ngOnInit(): void {
     }
 
     async ngAfterViewInit() {
-        await this.obterDados();
+        await this.obterOS();
         this.registerEmitters();
 
         if (this.sort && this.paginator) {
-            fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-                map((event: any) => {
-                    return event.target.value;
-                })
-                , debounceTime(700)
-                , distinctUntilChanged()
-            ).subscribe((text: string) => {
-                this.paginator.pageIndex = 0;
-                this.searchInputControl.nativeElement.val = text;
-                this.obterDados(text);
-            });
-
             this.sort.disableClear = true;
             this._cdr.markForCheck();
 
             this.sort.sortChange.subscribe(() => {
                 this.paginator.pageIndex = 0;
-                this.obterDados();
+                this.obterOS();
             });
         }
         this._cdr.detectChanges();
     }
 
-    async obterDados(filtro: string = '') {
+    async obterOS(filtro: string = '') {
         this.isLoading = true;
 
-        const parametros: OSBancadaPecasParameters = {
+        const parametros: OrdemServicoParameters = {
             ...{
                 pageNumber: this.paginator?.pageIndex + 1,
-                sortActive: 'codOsbancada',
+                sortActive: 'codOS',
                 sortDirection: 'desc',
                 pageSize: this.paginator?.pageSize,
-                filter: filtro
+                filter: filtro,
+                codStatusServicos: "9,10,11,6,7",
             },
-            ...this.filter?.parametros
+           ...this.filter?.parametros
         }
-
-        const data = await this._osBancadaPecasService.obterPorParametros(parametros).toPromise();
-        this.dataSourceData = data;
+        console.log(parametros);
         
+
+        const data = await this._osService.obterPorParametros(parametros).toPromise();
+        this.dataSourceData = data;
+
         this.isLoading = false;
         this._cdr.detectChanges();
     }
 
+    isUltimaRAT(os: OrdemServico) {
+        var count = os?.relatoriosAtendimento.length - 1;
+        this.rat = os?.relatoriosAtendimento[count];
+        return this.rat?.codRAT;
+    }
+
     paginar() {
-        this.obterDados();
+        this.obterOS();
     }
 }

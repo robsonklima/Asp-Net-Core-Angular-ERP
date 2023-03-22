@@ -89,6 +89,12 @@ namespace SAT.INFRA.Repository
                 status = status.Where(s => s.CodStatusServico == parameters.CodStatusServico);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodStatusServicos))
+            {
+                int[] cods = parameters.CodStatusServicos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                status = status.Where(s => cods.Contains(s.CodStatusServico));
+            }
+
             if (parameters.IndAtivo != null)
             {
                 status = status.Where(s => s.IndAtivo == parameters.IndAtivo);

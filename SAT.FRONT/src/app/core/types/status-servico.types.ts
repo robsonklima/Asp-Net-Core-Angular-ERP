@@ -23,6 +23,7 @@ export interface StatusServicoData extends Meta {
 export interface StatusServicoParameters extends QueryStringParameters {
 	codStatusServico?: number;
 	indAtivo?: number;
+	codStatusServicos?: string;
 };
 
 export const statusServicoConst = {

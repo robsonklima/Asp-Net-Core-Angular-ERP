@@ -23,8 +23,8 @@ export class InstalacaoPagtoService {
     )
   }
 
-  obterPorCodigo(codInstalacaoPagto: number): Observable<InstalacaoPagto> {
-    const url = `${c.api}/InstalacaoPagto/${codInstalacaoPagto}`;
+  obterPorCodigo(codInstalPagto: number): Observable<InstalacaoPagto> {
+    const url = `${c.api}/InstalacaoPagto/${codInstalPagto}`;
     return this.http.get<InstalacaoPagto>(url).pipe(
       map((obj) => obj)
     );
@@ -44,8 +44,8 @@ export class InstalacaoPagtoService {
     );
   }
 
-  deletar(codInstalacaoPagto: number): Observable<InstalacaoPagto> {
-    const url = `${c.api}/InstalacaoPagto/${codInstalacaoPagto}`;
+  deletar(codInstalPagto: number): Observable<InstalacaoPagto> {
+    const url = `${c.api}/InstalacaoPagto/${codInstalPagto}`;
 
     return this.http.delete<InstalacaoPagto>(url).pipe(
       map((obj) => obj)

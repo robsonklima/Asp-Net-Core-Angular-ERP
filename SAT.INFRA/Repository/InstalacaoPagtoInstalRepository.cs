@@ -6,6 +6,7 @@ using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -23,12 +24,21 @@ namespace SAT.INFRA.Repository
             _context.ChangeTracker.Clear();
             InstalacaoPagtoInstal inst = _context.InstalacaoPagtoInstal
                 .FirstOrDefault(i => (i.CodInstalPagto == instalacaoPagtoInstal.CodInstalPagto)
-                    && (i.CodInstalacao == instalacaoPagtoInstal.CodInstalacao));
+                    && (i.CodInstalacao == instalacaoPagtoInstal.CodInstalacao)
+                    && (i.CodInstalTipoParcela == instalacaoPagtoInstal.CodInstalTipoParcela));
 
             if (inst != null)
             {
                 _context.Entry(inst).CurrentValues.SetValues(instalacaoPagtoInstal);
-                _context.SaveChanges();
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -55,7 +65,9 @@ namespace SAT.INFRA.Repository
         {
 
             return _context.InstalacaoPagtoInstal
-                .Include(i => i.Instalacao.EquipamentoContrato.Equipamento)                  
+                .Include(i => i.Instalacao.EquipamentoContrato)                  
+                .Include(i => i.Instalacao.Equipamento)
+                .Include(i => i.Instalacao.InstalacaoNFVenda)                                
                 .Include(i => i.InstalacaoTipoParcela)
                 .Include(i => i.InstalacaoMotivoMulta)
                 .FirstOrDefault(i => i.CodInstalacao == codInstalacao && i.CodInstalPagto == codInstalPagto && i.CodInstalTipoParcela == codInstalTipoParcela);
@@ -64,7 +76,9 @@ namespace SAT.INFRA.Repository
         public PagedList<InstalacaoPagtoInstal> ObterPorParametros(InstalacaoPagtoInstalParameters parameters)
         {
             var query = _context.InstalacaoPagtoInstal
-                .Include(i => i.Instalacao.EquipamentoContrato.Equipamento)                  
+                .Include(i => i.Instalacao.EquipamentoContrato)  
+                .Include(i => i.Instalacao.Equipamento)  
+                .Include(i => i.Instalacao.InstalacaoNFVenda)                                
                 .Include(i => i.InstalacaoTipoParcela)
                 .Include(i => i.InstalacaoMotivoMulta)
                 .AsNoTracking() 

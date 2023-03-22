@@ -52,6 +52,7 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 
 		this.aoSelecionarCliente();
 	}
+	
 	createForm(): void {
 		this.form = this._formBuilder.group({
 			codClientes: [undefined],

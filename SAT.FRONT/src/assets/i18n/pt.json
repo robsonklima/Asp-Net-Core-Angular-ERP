@@ -860,5 +860,11 @@
     "pagamentos": "Pagamentos",
     "vlr pagto": "Vlr Pagto",
     "dt pagto": "Dt Pagto",
-    "pagto": "Pagto"
+    "pagto": "Pagto",
+    "tipo parcela": "Tipo Parc",
+    "vlr parcela": "Vlr Parcela",
+    "vlr multa": "Vlr Multa",
+    "motivo multa": "Motivo Multa",
+    "endossado": "Endossado",
+    "nf venda": "NF Venda"
 }

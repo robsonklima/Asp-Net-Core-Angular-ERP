@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
 import { InstalacaoPagtoInstalService } from 'app/core/services/instalacao-Pagto-instal.service';
-import { InstalacaoPagtoService } from 'app/core/services/instalacao-Pagto.service';
+import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto-service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
 import { InstalacaoPagto } from 'app/core/types/instalacao-pagto.types';

@@ -1,5 +1,3 @@
-export { };
-
 export class GroupBy {
     public key: string;
     public value: any[] = [];

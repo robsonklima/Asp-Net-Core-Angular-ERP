@@ -208,11 +208,14 @@ namespace SAT.UTILS
 
                 valorInstalacao = valorInstalacao + (valorInstalacaoItens != null ? (decimal)valorInstalacaoItens : 0);
 
-                decimal valorUnitarioItens = (decimal)item.Contrato.ContratosEquipamento
-                        .Where(ce => ce.CodEquip == item.CodEquip)
-                        .Sum(ce => ce.VlrUnitario);
+                if (item != null) 
+                {
+                    decimal valorUnitarioItens = (decimal)item.Contrato.ContratosEquipamento
+                            .Where(ce => ce.CodEquip == item.CodEquip)
+                            .Sum(ce => ce.VlrUnitario);
 
-                valorUnitario = valorUnitario + valorUnitarioItens;
+                    valorUnitario = valorUnitario + valorUnitarioItens;
+                }
             });
 
             container.Table(table =>

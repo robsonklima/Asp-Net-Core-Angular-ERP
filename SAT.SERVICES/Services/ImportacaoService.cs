@@ -15,6 +15,7 @@ namespace SAT.SERVICES.Services
         private readonly ILocalAtendimentoRepository _localAtendimentoRepo;
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
         private readonly IInstalacaoRepository _instalacaoRepo;
+        private readonly IInstalacaoPagtoInstalRepository _instalacaoPagtoInstalRepo;
         private readonly IInstalacaoNFVendaRepository _instalacaoNFVendaRepo;
         private readonly IHttpContextAccessor _contextAcecssor;
         private readonly IEmailService _emailService;
@@ -31,6 +32,7 @@ namespace SAT.SERVICES.Services
         private readonly IFilialRepository _filialRepo;
         private readonly IInstalacaoLoteRepository _instalLoteRepo;
         private readonly IInstalacaoService _instalacaoService;
+        private readonly IInstalacaoPagtoInstalService _instalacaoPagtoInstalService;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -38,6 +40,7 @@ namespace SAT.SERVICES.Services
             ILocalAtendimentoRepository localAtendimentoRepo,
             IEquipamentoContratoRepository equipamentoContratoRepo,
             IInstalacaoRepository instalacaoRepo,
+            IInstalacaoPagtoInstalRepository instalacaoPagtoInstalRepo,
             IInstalacaoNFVendaRepository instalacaoNFVendaRepo,
             IHttpContextAccessor httpContextAccessor,
             IEmailService emailService,
@@ -53,7 +56,8 @@ namespace SAT.SERVICES.Services
             IInstalacaoStatusRepository instalStatusRepo,
             IFilialRepository filialRepo,
             IInstalacaoLoteRepository instalLoteRepo,
-            IInstalacaoService instalacaoService
+            IInstalacaoService instalacaoService,
+            IInstalacaoPagtoInstalService instalacaoPagtoInstalService
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -61,6 +65,7 @@ namespace SAT.SERVICES.Services
             _localAtendimentoRepo = localAtendimentoRepo;
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _instalacaoRepo = instalacaoRepo;
+            _instalacaoPagtoInstalRepo = instalacaoPagtoInstalRepo;
             _instalacaoNFVendaRepo = instalacaoNFVendaRepo;
             _contextAcecssor = httpContextAccessor;
             _emailService = emailService;
@@ -77,6 +82,7 @@ namespace SAT.SERVICES.Services
             _filialRepo = filialRepo;
             _instalLoteRepo = instalLoteRepo;
             _instalacaoService = instalacaoService;
+            _instalacaoPagtoInstalService = instalacaoPagtoInstalService;
         }
 
         private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)
@@ -120,6 +126,8 @@ namespace SAT.SERVICES.Services
                     return ImportacaoOrdemServico(importacao);
                 case (int)ImportacaoEnum.EQUIPAMENTO_CONTRATO:
                     return ImportacaoEquipamentoContrato(importacao);
+                case (int)ImportacaoEnum.INSTALACAO_PAGTO_INSTAL:
+                    return ImportacaoInstalacaoPagtoInstal(importacao);                    
                 default:
                     return null;
             }

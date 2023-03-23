@@ -37,11 +37,8 @@ registerLocaleData(localePt);
 @Component({
 	selector: 'app-despesa-atendimento-lista',
 	templateUrl: './despesa-atendimento-lista.component.html',
-	styles: [`.list-grid-despesa-atendimento {
+	styles: [`.list-grid-despesa-atend {
             grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px;
-            /* @screen sm { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
-            @screen md { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; }
-            @screen lg { grid-template-columns: 80px 80px 70px 90px 90px 115px auto 50px 150px; } */
         }
     `],
 	encapsulation: ViewEncapsulation.None,

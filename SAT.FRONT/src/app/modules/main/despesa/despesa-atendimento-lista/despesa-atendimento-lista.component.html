@@ -49,7 +49,7 @@
                     <ng-container>
                         <ng-container>
                             <div class="grid">
-                                <div class="list-grid-despesa-atendimento z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                <div class="list-grid-despesa-atend z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                                     matSort matSortDisableClear>
                                     <div>
                                         {{ t('data inicial') }}
@@ -81,7 +81,7 @@
                                 </div>
                                 <ng-container *ngIf="atendimentos?.items?.length">
                                     <ng-container *ngFor="let dp of atendimentos?.items">
-                                        <div class="list-grid-despesa-atendimento grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
+                                        <div class="list-grid-despesa-atend grid items-center h-11 pt-2 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100"
                                             [ngClass]="{'bg-red-200 hover:bg-red-300':
                                             dp.status?.codDespesaPeriodoTecnicoStatus ==
                                                 3, 'bg-green-100 hover:bg-green-200':

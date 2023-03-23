@@ -71,7 +71,8 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
     this.inicializarForms();
     this.registrarEmitters();
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode)
+    {
       this.obterCheckList();
     }
   }
@@ -100,35 +101,35 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
   async obterPecas(filtro): Promise<PecaData> {
     if (!filtro) return;
 
-		let params: PecaParameters = {
-			sortActive: 'nomePeca',
-			sortDirection: 'asc',
+    let params: PecaParameters = {
+      sortActive: 'nomePeca',
+      sortDirection: 'asc',
       pageSize: 120,
       filter: filtro
-		};
+    };
 
-		return await this._pecaService
-			.obterPorParametros(params)
-			.toPromise();
-	}
+    return await this._pecaService
+      .obterPorParametros(params)
+      .toPromise();
+  }
 
   private registrarEmitters() {
     this.pecaFilterCtrl.valueChanges
-			.pipe(
-				tap(() => this.isLoading = true),
-				debounceTime(700),
+      .pipe(
+        tap(() => this.isLoading = true),
+        debounceTime(700),
         distinctUntilChanged(),
         delay(500),
-				map(async query => {
+        map(async query => {
           return (await this.obterPecas(query))?.items?.slice();
-				}),
-				takeUntil(this._onDestroy)
-			)
-			.subscribe(async data => {
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
         const registros = await data;
         if (registros) this.pecas = registros;
         this.isLoading = false;
-			});
+      });
   }
 
   salvarCheckList(): void {
@@ -142,12 +143,14 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    if (this.isAddMode) {
+    if (this.isAddMode)
+    {
       this._orChecklistService.criar(obj).subscribe(() => {
         this._snack.exibirToast("Registro criado com sucesso!", "success");
         this._location.back();
       })
-    } else {
+    } else
+    {
       this._orChecklistService.atualizar(obj).subscribe(() => {
         this._snack.exibirToast("Registro atualizado com sucesso!", "success");
         this._location.back();
@@ -155,7 +158,7 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  abrirCheckListItemForm(item: ORCheckListItem=null) {
+  abrirCheckListItemForm(item: ORCheckListItem = null) {
     const dialogRef = this._dialog.open(LaboratorioChecklistItemFormDialogComponent, {
       data: {
         orCheckListItem: item,
@@ -165,7 +168,8 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao) {
+      if (confirmacao)
+      {
         this.obterCheckList();
       }
     });
@@ -173,26 +177,27 @@ export class LaboratorioChecklistFormComponent implements OnInit, OnDestroy {
 
   excluirCheckListItem(codigo: number) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja excluir esta atividade?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja excluir esta atividade?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-			if (confirmacao) {
-				this._orChecklistItemService.deletar(codigo).subscribe(() => {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao)
+      {
+        this._orChecklistItemService.deletar(codigo).subscribe(() => {
           this._snack.exibirToast("Atividade excluída com sucesso!", "success");
           setTimeout(() => {
             this.obterCheckList();
           }, 1200);
         });
-			}
-		});
+      }
+    });
   }
 
   ngOnDestroy(): void {

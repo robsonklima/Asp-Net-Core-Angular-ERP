@@ -9,7 +9,7 @@ import { TipoServico } from "./tipo-servico.types";
 export class RelatorioAtendimentoDetalhe
 {
     codRATDetalhe?: number;
-    codRAT: number;
+    codRAT?: number;
     codOS?: number;
     tipoCausa?: TipoCausa;
     grupoCausa?: GrupoCausa;
@@ -17,14 +17,14 @@ export class RelatorioAtendimentoDetalhe
     causa?: Causa;
     acao?: Acao;
     tipoServico?: TipoServico;
-    codTipoCausa: number;
-    codGrupoCausa: number;
-    codDefeito: number;
-    codCausa: number;
-    codAcao: number;
-    codServico: number;
-    codUsuarioCad: string;
-    dataHoraCad: string;
+    codTipoCausa?: number;
+    codGrupoCausa?: number;
+    codDefeito?: number;
+    codCausa?: number;
+    codAcao?: number;
+    codServico?: number;
+    codUsuarioCad?: string;
+    dataHoraCad?: string;
     dataHoraManut?: string;
     codModulo?: number;
     codSubModulo?: number;

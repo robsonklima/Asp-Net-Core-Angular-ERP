@@ -20,5 +20,8 @@ namespace SAT.MODELS.Entities
         public DateTime? DataEmbarque { get; set; }
         public DateTime? DataChegada { get; set; }
         public string NroNf { get; set; }
+        public RelatorioAtendimentoPecaStatus RelatorioAtendimentoPecaStatus { get; set; }
+        public Usuario Usuario { get; set; }
+        
     }
 }

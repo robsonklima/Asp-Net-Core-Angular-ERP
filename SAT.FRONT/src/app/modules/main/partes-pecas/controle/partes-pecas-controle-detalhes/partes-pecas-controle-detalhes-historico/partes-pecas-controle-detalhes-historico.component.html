@@ -1,65 +1,61 @@
 <h2 mat-dialog-title>Histórico de Eventos</h2>
-<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" *transloco="let t">
     <div class="grid sm:grid-cols-1 gap-x-1 flex-col flex-auto p-4 pb-6 ">
 
-        <ng-container>
-            <!-- <ng-container *ngFor="let peca of ratDetalhesPeca"> -->
-        -- Registro --
-        
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Status:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Descrição:') }}</div>
-            <div>
-                <!-- {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Não informado' }} -->
+        <ng-container *ngFor="let peca of ratPecaStatus">
+            -- Registro --
+
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Status:') }}</div>
+                <div>{{ peca?.relatorioAtendimentoPecaStatus?.descricao }}</div>
             </div>
-        </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Usuário:') }}</div>
-            <div>
-                <!-- {{ os?.usuarioCadastro?.nomeUsuario || os?.codUsuarioCad || 'Não informado' }} -->
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Descrição:') }}</div>
+                <div>
+                    {{ peca?.descricao }}
+                </div>
             </div>
-        </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Data:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Usuário:') }}</div>
+                <div>
+                    {{ peca?.usuario?.nomeUsuario }}
+                </div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Transportadora:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Data:') }}</div>
+                <div>{{ peca?.dataHoraCad | date:'dd/MM/yyyy HH:mm' }}</div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Status:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Transportadora:') }}</div>
+                <div>{{ peca?.transportadora }}</div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Data Embarque:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Data Embarque:') }}</div>
+                <div>{{ peca?.dataEmbarque | date:'dd/MM/yyyy HH:mm' }}</div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Nro NF:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Nro NF:') }}</div>
+                <div>{{ peca?.nroNf }}</div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Nro Minuta:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Nro Minuta:') }}</div>
+                <div>{{ peca?.nroMinuta }}</div>
+            </div>
 
-        <div class="flex items-center justify-between py-1">
-            <div class="text-secondary">{{ t('Data Chegada:') }}</div>
-            <!-- <div>{{ os?.dataHoraAberturaOS | date:'dd/MM/yyyy HH:mm' }}</div> -->
-        </div>
-    </ng-container>
+            <div class="flex items-center justify-between py-1 px-3">
+                <div class="text-secondary">{{ t('Data Chegada:') }}</div>
+                <div>{{ peca?.dataChegada | date:'dd/MM/yyyy HH:mm' }}</div>
+            </div>
+        </ng-container>
+        <div *ngIf="ratPecaStatus.length == 0"> Nenhum status informado </div>
     </div>
 </form>
 
@@ -68,13 +64,3 @@
         <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
     </div>
 </div>
-
-<mat-dialog-actions align="end">
-    <button class="px-6 mr-2" mat-button (click)="cancelar()">
-        Cancelar
-    </button>
-
-    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
-        Salvar
-    </button>
-</mat-dialog-actions>

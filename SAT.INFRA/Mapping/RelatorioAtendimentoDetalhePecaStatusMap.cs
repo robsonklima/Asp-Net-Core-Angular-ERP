@@ -9,7 +9,7 @@ namespace SAT.INFRA.Mapping
         public void Configure(EntityTypeBuilder<RelatorioAtendimentoDetalhePecaStatus> builder)
         {
             builder.
-                ToTable("RelatorioAtendimentoDetalhePecaStatus");
+                ToTable("RATDetalhesPecasStatus");
 
             builder.
                 HasKey(i => new { i.CodRATDetalhesPecasStatus });

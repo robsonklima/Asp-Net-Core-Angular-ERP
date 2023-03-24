@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Adicionar Status</h2>
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 ">
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('Descrição Status') }}</mat-label>
+            <textarea matInput formControlName="descricao" [rows]="2"
+                maxlength="1000"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('status') }}</mat-label>
+            <mat-select formControlName="codRATDetalhesPecas">
+                <mat-option *ngFor="let stat of status" [value]="stat.codRatpecasStatus">
+                    {{ stat.descricao }}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('Transportadora') }}</mat-label>
+            <input matInput formControlName="transportadora">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('Data Embarque') }}</mat-label>
+            <input matInput (click)="embarqueData.open()" (keydown)="false" [matDatepicker]="embarqueData" formControlName="dataEmbarque">
+            <mat-datepicker-toggle matSuffix [for]="embarqueData"></mat-datepicker-toggle>
+            <mat-datepicker #embarqueData></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('Data Chegada') }}</mat-label>
+            <input matInput (click)="chegadaData.open()" (keydown)="false" [matDatepicker]="chegadaData" formControlName="dataChegada">
+            <mat-datepicker-toggle matSuffix [for]="chegadaData"></mat-datepicker-toggle>
+            <mat-datepicker #chegadaData></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('N° NF') }}</mat-label>
+            <input matInput formControlName="nroNf">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('N° Minuta') }}</mat-label>
+            <input matInput formControlName="nroMinuta">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+
+<div class="flex justify-center items-center min-h-36" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button>
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="criar()">
+        Salvar
+    </button>
+</mat-dialog-actions>

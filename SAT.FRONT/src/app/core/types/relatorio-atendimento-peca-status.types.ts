@@ -1,4 +1,4 @@
-import { Meta } from "./generic.types";
+import { Meta, QueryStringParameters } from "./generic.types";
 
 export class RelatorioAtendimentoPecaStatus {
     codRatpecasStatus?: number;
@@ -7,7 +7,11 @@ export class RelatorioAtendimentoPecaStatus {
     dataHoraCad?: string;
 
 }
-export interface RelatorioAtendimentoDetalheStatusData extends Meta {
+
+export interface RelatorioAtendimentoPecaStatusData extends Meta {
     items: RelatorioAtendimentoPecaStatus[]
 };
 
+export interface RelatorioAtendimentoPecaStatusParameters extends QueryStringParameters {
+    codRatpecasStatus?: number;
+};

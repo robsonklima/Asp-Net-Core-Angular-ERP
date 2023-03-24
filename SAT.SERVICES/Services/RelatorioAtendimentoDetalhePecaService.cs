@@ -34,9 +34,8 @@ namespace SAT.SERVICES.Services
 
         public void Atualizar(RelatorioAtendimentoDetalhePeca ratDetalhePeca)
         {
-            //return _ratDetalhePecaRepo.(codigo);
+            _ratDetalhePecaRepo.Atualizar(ratDetalhePeca);
         }
-
         public RelatorioAtendimentoDetalhePeca ObterPorCodigo(int codigo)
         {
             return _ratDetalhePecaRepo.ObterPorCodigo(codigo);

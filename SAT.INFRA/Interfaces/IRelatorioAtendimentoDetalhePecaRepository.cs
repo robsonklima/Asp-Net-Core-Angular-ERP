@@ -6,6 +6,7 @@ namespace SAT.INFRA.Interfaces
     {
         void Deletar(int codRATDetalhePeca);
         void Criar(RelatorioAtendimentoDetalhePeca detalhePeca);
+        void Atualizar(RelatorioAtendimentoDetalhePeca detalhePeca);
         RelatorioAtendimentoDetalhePeca ObterPorCodigo(int codigo);
 
     }

@@ -10,7 +10,7 @@
 
         <mat-form-field class="fuse-mat-dense sm:col-span-6">
             <mat-label>{{ t('status') }}</mat-label>
-            <mat-select formControlName="codRATDetalhesPecas">
+            <mat-select formControlName="codRatpecasStatus">
                 <mat-option *ngFor="let stat of status" [value]="stat.codRatpecasStatus">
                     {{ stat.descricao }}
                 </mat-option>

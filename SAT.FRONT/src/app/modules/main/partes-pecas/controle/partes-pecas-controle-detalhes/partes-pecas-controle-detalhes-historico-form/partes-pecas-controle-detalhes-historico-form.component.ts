@@ -35,6 +35,7 @@ export class PartesPecasControleDetalhesHistoricoFormComponent implements OnInit
         private _ratPecaStatusServico: RelatorioAtendimentoPecaStatusService,
         private _userService: UserService,
         private _snack: CustomSnackbarService,
+        private dialogRef: MatDialogRef<PartesPecasControleDetalhesComponent>
     ) {
         this.codRatDetalhesPecas = data?.codRatDetalhesPecas;
         this.userSession = JSON.parse(this._userService.userSession);
@@ -67,6 +68,7 @@ export class PartesPecasControleDetalhesHistoricoFormComponent implements OnInit
             dataEmbarque: [undefined],
             transportadora: [undefined],
             codRATDetalhesPecas: [undefined],
+            codRatpecasStatus: [undefined],
         });
     }
 
@@ -88,12 +90,12 @@ export class PartesPecasControleDetalhesHistoricoFormComponent implements OnInit
 
         this._ratDetalhePecaStatusServico.criar(obj).subscribe(() => {
             this._snack.exibirToast("Status adicionado com sucesso!", "success");
-            this._dialogRef.close(true);
+            this.dialogRef.close(true);
         }, e => {
             this.form.enable();
         });
 
-        this._dialogRef.close(true);
+        this.dialogRef.close(true);
     }
 
     ngOnDestroy() {

@@ -1,4 +1,3 @@
-import { constant } from "lodash";
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export class AuditoriaStatus {

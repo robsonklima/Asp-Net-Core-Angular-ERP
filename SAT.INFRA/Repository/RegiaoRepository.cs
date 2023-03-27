@@ -94,7 +94,12 @@ namespace SAT.INFRA.Repository
             if (parameters.CodRegiao != null)
             {
                 regioes = regioes.Where(r => r.CodRegiao == parameters.CodRegiao);
-            }
+            }                  
+
+            if (!string.IsNullOrWhiteSpace(parameters.NomeRegiao))
+            {
+               regioes = regioes.Where(r => r.NomeRegiao == parameters.NomeRegiao);
+            }                       
 
             if (parameters.IndAtivo != null)
             {

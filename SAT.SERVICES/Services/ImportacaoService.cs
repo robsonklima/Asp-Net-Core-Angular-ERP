@@ -33,6 +33,7 @@ namespace SAT.SERVICES.Services
         private readonly IInstalacaoLoteRepository _instalLoteRepo;
         private readonly IInstalacaoService _instalacaoService;
         private readonly IInstalacaoPagtoInstalService _instalacaoPagtoInstalService;
+        private readonly IEquipamentoContratoService _equipamentoContratoService;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -57,7 +58,8 @@ namespace SAT.SERVICES.Services
             IFilialRepository filialRepo,
             IInstalacaoLoteRepository instalLoteRepo,
             IInstalacaoService instalacaoService,
-            IInstalacaoPagtoInstalService instalacaoPagtoInstalService
+            IInstalacaoPagtoInstalService instalacaoPagtoInstalService,
+            IEquipamentoContratoService equipamentoContratoService
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -83,6 +85,7 @@ namespace SAT.SERVICES.Services
             _instalLoteRepo = instalLoteRepo;
             _instalacaoService = instalacaoService;
             _instalacaoPagtoInstalService = instalacaoPagtoInstalService;
+            _equipamentoContratoService = equipamentoContratoService;
         }
 
         private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)
@@ -99,18 +102,20 @@ namespace SAT.SERVICES.Services
                     return _tipoEquipRepo.ObterPorParametros(new TipoEquipamentoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodTipoEquip;
                 case "NomeContrato":
                     return _contratoRepo.ObterPorParametros(new ContratoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodContrato;
+                case "NroContrato":
+                    return _contratoRepo.ObterPorParametros(new ContratoParameters { NroContrato = coluna.Valor })?.FirstOrDefault()?.CodContrato;
                 case "NomeRegiao":
-                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
+                    return _regiaoRepo.ObterPorParametros(new RegiaoParameters { NomeRegiao = coluna.Valor })?.FirstOrDefault()?.CodRegiao;
                 case "NomeAutorizada":
                     return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
                 case "NomeCliente":
                     return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
                 case "NomeInstalStatus":
-                    return _instalStatusRepo.ObterPorParametros(new InstalacaoStatusParameters { NomeInstalStatus = coluna.Valor })?.FirstOrDefault()?.CodInstalStatus;                    
+                    return _instalStatusRepo.ObterPorParametros(new InstalacaoStatusParameters { NomeInstalStatus = coluna.Valor })?.FirstOrDefault()?.CodInstalStatus;
                 case "NomeFilial":
-                    return _filialRepo.ObterPorParametros(new FilialParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodFilial;      
+                    return _filialRepo.ObterPorParametros(new FilialParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodFilial;
                 case "NomeLote":
-                    return _instalLoteRepo.ObterPorParametros(new InstalacaoLoteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodInstalLote;                                        
+                    return _instalLoteRepo.ObterPorParametros(new InstalacaoLoteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodInstalLote;
                 default:
                     return coluna;
             }
@@ -127,7 +132,7 @@ namespace SAT.SERVICES.Services
                 case (int)ImportacaoEnum.EQUIPAMENTO_CONTRATO:
                     return ImportacaoEquipamentoContrato(importacao);
                 case (int)ImportacaoEnum.INSTALACAO_PAGTO_INSTAL:
-                    return ImportacaoInstalacaoPagtoInstal(importacao);                    
+                    return ImportacaoInstalacaoPagtoInstal(importacao);
                 default:
                     return null;
             }

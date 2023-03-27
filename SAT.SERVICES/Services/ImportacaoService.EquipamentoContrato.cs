@@ -1,8 +1,10 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SAT.SERVICES.Services
@@ -29,18 +31,24 @@ namespace SAT.SERVICES.Services
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
                         var prop = equipamento?.GetType()?.GetProperty(col.Campo);
 
-                        if (prop == null)
+                        if (prop == null) 
                         {
                             string saida;
-                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo.ToLower(), out saida);
+                            Constants.DICIONARIO_CAMPOS_PLANILHA.TryGetValue(col.Campo, out saida);
                             prop = equipamento?.GetType()?.GetProperty(saida);
                             dynamic value;
                             value = ConverterCamposEquipamentoContrato(col, equipamento);
                             prop?.SetValue(equipamento, value);
                         }
                         else
-                        {
-                            dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                        {    
+                            dynamic value;
+
+                            if(col.Campo.Equals("IndGarantia") || col.Campo.Equals("IndReceita") || col.Campo.Equals("IndRepasse") || col.Campo.Equals("IndInstalacao"))
+                                value = byte.Parse(col.Valor);
+                            else 
+                                value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+
                             prop.SetValue(equipamento, value);
 
                             if (col.Campo.Equals("CodEquipContrato"))
@@ -69,7 +77,7 @@ namespace SAT.SERVICES.Services
                     {
                         equipamento.CodUsuarioCad = usuario.CodUsuario;
                         equipamento.DataHoraCad = DateTime.Now;
-                        equipamento = _equipamentoContratoRepo.Criar(equipamento);
+                        equipamento = _equipamentoContratoService.Criar(equipamento);
                         linha.Mensagem = $"Registro criado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -100,6 +108,17 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
+                case "NumAgenciaDC":
+                    if (coluna.Valor.Count() < 8) 
+                        return null;
+
+                    return _localAtendimentoRepo.ObterPorParametros(new LocalAtendimentoParameters
+                    {
+                        IndAtivo = 1,
+                        CodCliente = equipamento.CodCliente,
+                        NumAgencia = coluna.Valor.Substring(0, 5),
+                        DCPosto = coluna.Valor.Substring(6, 2)
+                    })?.FirstOrDefault()?.CodPosto;
                 default:
                     return ConverterCamposEmComum(coluna);
             }

@@ -79,6 +79,8 @@ export interface ContratoParameters extends QueryStringParameters {
     codCliente?: number;
     codClientes?: string;
     filter?: string;
+    nroContrato?: string;
+    nomeContrato?: string;
 };
 
 export interface ContratoServico {

@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodRegiao { get; set; }
         public int? IndAtivo { get; set; }
+        public string NomeRegiao { get; set; }
     }
 }

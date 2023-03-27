@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
                             prop.SetValue(inst, value);
 
 
-                            if (col.Campo.Equals("NOME_DO_ULTIMO_CAMPO"))
+                            if (col.Campo.Equals("VlrMulta"))
                             {
                                 int codInstalacao = Int32.Parse(linha.ImportacaoColuna[0].Valor);
                                 int codInstalPagto = Int32.Parse(linha.ImportacaoColuna[0].Valor);
@@ -99,6 +99,16 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
+                case "NumSerie":
+                    return _equipamentoContratoRepo
+                        .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.Instalacao.CodCliente}" })
+                        ?.FirstOrDefault()
+                        ?.CodEquipContrato;          
+                case "NroContrato":
+                    return _contratoRepo
+                        .ObterPorParametros(new ContratoParameters { NroContrato = coluna.Valor, CodClientes = $"{inst.Instalacao.CodCliente}" })
+                        ?.FirstOrDefault()
+                        ?.CodContrato;                                       
                 default:
                     return ConverterCamposEmComum(coluna);
             }

@@ -151,6 +151,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.NomeSLA))
+            {
+               slas = slas.Where(r => r.NomeSLA == parameters.NomeSLA);
+            }                       
+
             if (parameters.CodSLA != null)
             {
                 slas = slas.Where(s => s.CodSLA == parameters.CodSLA);

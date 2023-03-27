@@ -1,11 +1,8 @@
 <ng-container>
     <ng-container>
         <div class="grid" *transloco="let t">
-            <div class="list-grid-ppd z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            <div class="list-grid-ppd z-10 sticky top-0 grid gap-4 py-2 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                 matSort matSortDisableClear *transloco="let t">
-                <div class="md:block">
-                    {{ t('Num Re5114') }}
-                </div>
                 <div class="md:block">
                     {{ t('Cod Magnus') }}
                 </div>
@@ -13,46 +10,80 @@
                     {{ t('Peca') }}
                 </div>
                 <div class="md:block">
-                    {{ t('Status') }}
+                    {{ t('Qtd Peca') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Qtd Liberada') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Qtd Faltante') }}
+                </div>
+                <div class="md:block">
+                    {{ t('Status Peça') }}
                 </div>
                 <div class="md:block">
                     {{ t('Ações') }}
                 </div>
                 <div class="md:block">
-                    {{ t('Impressões') }}
+                    {{ t('Modificadores de Status') }}
                 </div>
             </div>
 
             <ng-container>
-                <!-- <ng-container *ngFor="let os of dataSourceData?.items">
+                <ng-container *ngFor="let peca of ratDetalhesPeca">
                     <div
                         class="list-grid-ppd grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                         <div class="flex items-center">
-                            {{ os?.pecaRE5114.numRe5114 }}
+                            {{ peca?.peca.codMagnus }}
+                        </div>
+                        <div class="flex items-center truncate" [matTooltip]="peca?.peca.nomePeca">
+                            {{ peca?.peca.nomePeca }}
+                        </div>
+                        <div class="flex items-center truncate">
+                            {{ peca?.qtdePecas }}
                         </div>
                         <div class="flex items-center">
-                            {{ os?.pecaRE5114.peca.codMagnus }}
-                        </div>
-                        <div class="flex items-center truncate" [matTooltip]="os?.pecaRE5114.peca.nomePeca">
-                            {{ os?.pecaRE5114.peca.nomePeca }}
+                            {{ peca?.qtdeLib }}
                         </div>
                         <div class="flex items-center">
-                            {{ validarStatus(os) }}
+                            {{peca?.indCentral == 1 ? peca?.qtdeLib : 0 }}
                         </div>
                         <div class="flex items-center">
-                            <button mat-button matTooltip="Editar" (click)="editarPeca(os)">
-                                <mat-icon class="icon-size-5 text-blue-600"
-                                    [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
+                            {{ peca?.descStatus }}
+                        </div>
+                        <div class="flex items-center">
+                            <button class="mat-icon" [disabled]="isLoading" [matTooltip]="'Ir para OS'"
+                                (click)="obterOS(peca?.codRATDetalhe)">
+                                <mat-icon class="icon-size-2" [svgIcon]="'heroicons_outline:clipboard'"></mat-icon>
+                            </button>
+                            <button class="mat-icon" [disabled]="isLoading" [matTooltip]="'Ir para Historico'"
+                                (click)="abrirHistorico(peca?.codRATDetalhePeca)">
+                                <mat-icon class="icon-size-2" [svgIcon]="'heroicons_outline:book-open'"></mat-icon>
                             </button>
                         </div>
                         <div class="flex items-center">
-                            <mat-slide-toggle [color]="'primary'" [checked]="os.indImpressao == 1"
-                                (change)="onChange($event,os)">
-                                {{ os.indImpressao ? 'Sim' : 'Não' }}
-                            </mat-slide-toggle>
+                            <button class="mt-0.5 bg-transparent hover:bg-red-400 text-red-600 font-semibold hover:text-white px-4 h-6 border border-red-500 hover:border-transparent rounded"
+                                (click)="pendenciarPeca(peca?.codRATDetalhePeca)">
+                                F
+                            </button>
+
+                            <button class="mt-0.5 bg-transparent hover:bg-green-400 text-green-600 font-semibold hover:text-white px-4 h-6 border border-green-500 hover:border-transparent rounded"
+                                (click)="liberarPeca(peca?.codRATDetalhePeca)">
+                                L
+                            </button>
+
+                            <button class="mt-0.5 bg-transparent hover:bg-yellow-400 text-yellow-600 font-semibold hover:text-white px-4 h-6 border border-yellow-500 hover:border-transparent rounded"
+                                (click)="transitarPeca(peca?.codRATDetalhePeca)">
+                                T
+                            </button>
+
+                            <button class="mt-0.5 bg-transparent hover:bg-gray-400 text-gray-600 font-semibold hover:text-white px-4 h-6 border border-gray-500 hover:border-transparent rounded"
+                                (click)="adicionarStatus(peca?.codRATDetalhePeca)">
+                                ST
+                            </button>
                         </div>
                     </div>
-                </ng-container> -->
+                </ng-container>
             </ng-container>
         </div>
     </ng-container>

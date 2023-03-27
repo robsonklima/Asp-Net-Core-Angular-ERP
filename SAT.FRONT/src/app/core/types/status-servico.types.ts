@@ -30,7 +30,15 @@ export const statusServicoConst = {
 	ABERTO: 1,
 	FECHADO: 3,
 	CANCELADO: 2,
+	PECAS_LIBERADAS: 6,
 	PECAS_PENDENTES: 7,
 	TRANSFERIDO: 8,
+	PECA_EM_TRANSITO: 9,
+    PECA_FALTANTE: 10,
+    PECA_SEPARADA: 11,
 	ORCAMENTO: 4
 }
+
+
+        
+        

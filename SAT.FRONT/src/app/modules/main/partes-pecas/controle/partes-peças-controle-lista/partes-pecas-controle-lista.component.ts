@@ -18,7 +18,7 @@ import _ from 'lodash';
     styles: [
         /* language=SCSS */
         `.list-grid-partes {
-            grid-template-columns: 120px 120px 100px 200px 80px 200px 200px 400px auto;
+            grid-template-columns: 120px 120px 100px 200px 80px 200px 200px 400px auto 50px;
         }`
     ],
     encapsulation: ViewEncapsulation.None,
@@ -31,6 +31,7 @@ export class PartesPecasControleListaComponent extends Filterable implements OnI
     @ViewChild(MatSort) sort: MatSort;
     dataSourceData: OrdemServicoData;
     rat: RelatorioAtendimento;
+    ratSelecionada: RelatorioAtendimento;
     isLoading: boolean = false;
     @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
@@ -83,8 +84,6 @@ export class PartesPecasControleListaComponent extends Filterable implements OnI
             },
            ...this.filter?.parametros
         }
-        console.log(parametros);
-        
 
         const data = await this._osService.obterPorParametros(parametros).toPromise();
         this.dataSourceData = data;
@@ -96,8 +95,23 @@ export class PartesPecasControleListaComponent extends Filterable implements OnI
     isUltimaRAT(os: OrdemServico) {
         var count = os?.relatoriosAtendimento.length - 1;
         this.rat = os?.relatoriosAtendimento[count];
-        return this.rat?.codRAT;
+        return this.rat;
     }
+
+    abrirDetalhe(t: RelatorioAtendimento): void {
+        if (this.ratSelecionada && this.ratSelecionada.codRAT === t.codRAT)
+        {
+          this.fecharDetalhe();
+          return;
+        }
+    
+        this.ratSelecionada = t;
+      }
+    
+      fecharDetalhe(): void {
+        this.ratSelecionada = null;
+      }
+    
 
     paginar() {
         this.obterOS();

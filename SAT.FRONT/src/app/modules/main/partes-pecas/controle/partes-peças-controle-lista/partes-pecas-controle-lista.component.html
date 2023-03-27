@@ -58,16 +58,15 @@
                             </div>
                         </div>
 
-                        <mat-accordion *ngFor="let os of dataSourceData?.items">
-                            <mat-expansion-panel hideToggle>
-                                <mat-expansion-panel-header>
+                        <ng-container  *ngFor="let os of dataSourceData?.items">
+
                                     <div
                                         class="list-grid-partes grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
                                             {{ os.codOS }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ isUltimaRAT(os) }}
+                                            {{ isUltimaRAT(os).codRAT }}
                                         </div>
                                         <div class="flex items-center">
                                             {{ os.dataHoraCad | date:'dd/MM/yyyy' }}
@@ -90,11 +89,26 @@
                                         <div class="flex items-center">
                                             {{ os?.statusServico?.nomeStatusServico }}
                                         </div>
+                                        <div class="relative">
+                                            <button class="absolute min-w-10 min-h-6 h-6 px-2 -mt-3.5" mat-stroked-button
+                                                (click)="abrirDetalhe(isUltimaRAT(os))">
+                                                <mat-icon class="icon-size-5"
+                                                    [svgIcon]="ratSelecionada?.codRAT === isUltimaRAT(os).codRAT ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
                                     </div>
-                                </mat-expansion-panel-header>
-                                <app-partes-pecas-controle-detalhes [codRat]="isUltimaRAT(os)"></app-partes-pecas-controle-detalhes>
-                            </mat-expansion-panel>
-                        </mat-accordion>
+
+                            <div class="grid">
+                                <ng-container *ngIf="ratSelecionada?.codRAT == isUltimaRAT(os).codRAT">
+                                    <ng-container
+                                        *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: ratSelecionada}">
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+
+                        
 
                     </div>
 
@@ -105,8 +119,14 @@
                         [pageSize]="25" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true"
                         (page)="paginar()">
                     </mat-paginator>
+
+                    
                 </ng-container>
             </ng-container>
+
+            <ng-template #rowDetailsTemplate let-rat>
+                <app-partes-pecas-controle-detalhes [codRat]="ratSelecionada?.codRAT"></app-partes-pecas-controle-detalhes>
+            </ng-template>
         </div>
     </div>
 </div>

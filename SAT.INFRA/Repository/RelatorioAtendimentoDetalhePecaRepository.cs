@@ -16,6 +16,26 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
+        public void Atualizar(RelatorioAtendimentoDetalhePeca detalhePeca)
+        {
+            _context.ChangeTracker.Clear();
+            RelatorioAtendimentoDetalhePeca rdp = _context.RelatorioAtendimentoDetalhePeca
+                .FirstOrDefault(rdp => rdp.CodRATDetalhePeca == detalhePeca.CodRATDetalhePeca);
+            try
+            {
+                if (rdp != null)
+                {
+                    _context.Entry(rdp).CurrentValues.SetValues(detalhePeca);
+                    _context.SaveChanges();
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+
         public void Criar(RelatorioAtendimentoDetalhePeca detalhePeca)
         {
             try

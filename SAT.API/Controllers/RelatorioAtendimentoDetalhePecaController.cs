@@ -29,6 +29,12 @@ namespace SAT.API.Controllers
             return detalhePeca;
         }
 
+        [HttpPut]
+        public void Put([FromBody] RelatorioAtendimentoDetalhePeca detalhePeca)
+        {
+            _rdpService.Atualizar(detalhePeca);
+        }
+
         [HttpDelete("{codRATDetalhePeca}")]
         public void Delete(int codRATDetalhePeca)
         {

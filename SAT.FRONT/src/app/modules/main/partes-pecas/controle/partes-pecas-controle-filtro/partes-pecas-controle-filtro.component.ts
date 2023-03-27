@@ -93,6 +93,8 @@ export class PartesPecasControleFiltroComponent extends FilterBase implements On
 			codOSs: [undefined],
 			dataAberturaInicio: [undefined],
 			dataAberturaFim: [undefined],
+			dataHoraSolucaoInicio: [undefined],
+			dataHoraSolucaoFim: [undefined],
 			codPostos: [undefined],
 			codEquipamentos: [undefined],
 		});

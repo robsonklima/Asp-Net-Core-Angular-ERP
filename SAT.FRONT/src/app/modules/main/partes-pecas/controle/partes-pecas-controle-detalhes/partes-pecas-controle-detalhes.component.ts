@@ -1,19 +1,22 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RelatorioAtendimentoDetalhePecaService } from 'app/core/services/relatorio-atendimento-detalhe-peca.service';
-import { RelatorioAtendimentoDetalheService } from 'app/core/services/relatorio-atendimento-detalhe.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
-import { OSBancadaPecas } from 'app/core/types/os-bancada-pecas.types';
+import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca.type';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { statusServicoConst } from 'app/core/types/status-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import _ from 'lodash';
+import moment from 'moment';
+import { PartesPecasControleDetalhesHistoricoFormComponent } from './partes-pecas-controle-detalhes-historico-form/partes-pecas-controle-detalhes-historico-form.component';
 import { PartesPecasControleDetalhesHistoricoComponent } from './partes-pecas-controle-detalhes-historico/partes-pecas-controle-detalhes-historico.component';
 
 @Component({
@@ -31,8 +34,8 @@ import { PartesPecasControleDetalhesHistoricoComponent } from './partes-pecas-co
 export class PartesPecasControleDetalhesComponent implements AfterViewInit {
     @Input() codRat: number;
     rat: RelatorioAtendimento;
-    ratDetalhes: RelatorioAtendimentoDetalhe [] = [];
-    ratDetalhesPeca: RelatorioAtendimentoDetalhePeca [] = [];
+    ratDetalhes: RelatorioAtendimentoDetalhe[] = [];
+    ratDetalhesPeca: RelatorioAtendimentoDetalhePeca[] = [];
     userSession: UsuarioSessao;
     isLoading: boolean = false;
 
@@ -40,38 +43,47 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
         private _userService: UserService,
         private _cdr: ChangeDetectorRef,
         private _ratService: RelatorioAtendimentoService,
-        private _ratDetalheService: RelatorioAtendimentoDetalheService,
         private _ratDetalhePecaService: RelatorioAtendimentoDetalhePecaService,
+        private _osService: OrdemServicoService,
         private _dialog: MatDialog,
         private _router: Router,
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    async ngAfterViewInit(){
+    async ngAfterViewInit() {
         this.rat = await this._ratService.obterPorCodigo(this.codRat).toPromise();
-        
+
         this.ratDetalhes = Enumerable.from(this.rat.relatorioAtendimentoDetalhes)
-        .where(i => i.codAcao == 19)
-        .toArray();  
+            .where(i => i.codAcao == 19)
+            .toArray();
 
         this.ratDetalhesPeca = Enumerable.from(this.ratDetalhes)
-        .selectMany(i => i.relatorioAtendimentoDetalhePecas)
-        .toArray();  
+            .selectMany(i => i.relatorioAtendimentoDetalhePecas)
+            .toArray();
 
         this._cdr.detectChanges();
     }
 
-    async obterRatDetalhes(codRATDetalhe: number){
+    async obterRatDetalhes(codRATDetalhe: number) {
         var detalhe = Enumerable.from(this.rat.relatorioAtendimentoDetalhes)
-        .where(i => i.codRATDetalhe == codRATDetalhe)
-        .toArray()
-        .shift();
+            .where(i => i.codRATDetalhe == codRATDetalhe)
+            .toArray()
+            .shift();
 
         return detalhe;
     }
 
-    async obterOS(codRATDetalhe: number){
+    async obterRatDetalhePeca(codRATDetalhePeca: number) {
+        var detalhePeca = Enumerable.from(this.ratDetalhesPeca)
+            .where(i => i.codRATDetalhePeca == codRATDetalhePeca)
+            .toArray()
+            .shift();
+
+        return detalhePeca;
+    }
+
+    async obterOS(codRATDetalhe: number) {
         var codos = (await this.obterRatDetalhes(codRATDetalhe)).codOS;
 
         this._router.navigate(['/ordem-servico/detalhe/' + codos]);
@@ -84,32 +96,138 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                    this.ngAfterViewInit();
             }
         });
     }
 
-    validarStatus(oSBancadaPecas: OSBancadaPecas) {
-        // var osBancadaPecas = oSBancadaPecas;
-
-        // if (osBancadaPecas.indPecaDevolvida == 1)
-        //     return "Devolvida";
-
-        // else if (osBancadaPecas.indPecaLiberada == 1)
-        //     return "Liberada";
-
-        // return "Transferido";
+    async atualizarDados(ratDetalhesPeca: RelatorioAtendimentoDetalhePeca, os: OrdemServico, rat: RelatorioAtendimento) {
+        this._ratDetalhePecaService.atualizar(ratDetalhesPeca).subscribe();
+        this._osService.atualizar(os).subscribe();
+        this._ratService.atualizar(rat).subscribe();
     }
 
-    async onChange($event: MatSlideToggleChange, osBancadaPecas: OSBancadaPecas) {
-        // if ($event.checked && osBancadaPecas.indPecaLiberada == 1)
-        //     osBancadaPecas.indPecaDevolvida = 1;
+    adicionarStatus(codRatDetalhesPecas: number) {
+        const dialogRef = this._dialog.open(PartesPecasControleDetalhesHistoricoFormComponent, {
+            data: { codRatDetalhesPecas: codRatDetalhesPecas }
+        });
 
-        // else {
-        //     osBancadaPecas.indPecaDevolvida = 0;
-        //     osBancadaPecas.indImpressao = 0;
-        // }
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                this.ngAfterViewInit();
+            }
+        });
+    }
 
-        // this._osBancadaPecasService.atualizar(osBancadaPecas).subscribe();
+
+    liberarPeca(codRATDetalhePeca: number) {
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data:
+            {
+                titulo: 'Confirmação',
+                mensagem: 'Deseja confirmar a liberação das peças?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
+                ratDetalhesPeca.qtdeLib = ratDetalhesPeca.qtdePecas;
+                ratDetalhesPeca.indOK = 1;
+                ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                ratDetalhesPeca.descStatus = 'PEÇA LIBERADA';
+
+                var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
+                var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
+                os.codStatusServico = statusServicoConst.PECAS_LIBERADAS;
+                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                os.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                var rat: RelatorioAtendimento = this.rat;
+                rat.codStatusServico = statusServicoConst.PECAS_LIBERADAS;
+                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                rat.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                this.atualizarDados(ratDetalhesPeca, os, rat);
+            }
+        });
+    }
+
+    pendenciarPeca(codRATDetalhePeca: number) {
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data:
+            {
+                titulo: 'Confirmação',
+                mensagem: 'Deseja confirmar as peças faltantes?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
+                ratDetalhesPeca.indCentral = 1;
+                ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                ratDetalhesPeca.descStatus = 'PEÇA FALTANTE';
+
+                var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
+                var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
+                os.codStatusServico = statusServicoConst.PECA_FALTANTE;
+                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                os.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                var rat: RelatorioAtendimento = this.rat;
+                rat.codStatusServico = statusServicoConst.PECA_FALTANTE;
+                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                rat.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                this.atualizarDados(ratDetalhesPeca, os, rat);
+            }
+        });
+    }
+
+    transitarPeca(codRATDetalhePeca: number) {
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+            data:
+            {
+                titulo: 'Confirmação',
+                mensagem: 'Deseja confirmar a liberação das peças?',
+                buttonText: {
+                    ok: 'Sim',
+                    cancel: 'Não'
+                }
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
+                ratDetalhesPeca.qtdeLib = ratDetalhesPeca.qtdePecas;
+                ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                ratDetalhesPeca.descStatus = 'PEÇA EM TRÂNSITO';
+
+                var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
+                var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
+                os.codStatusServico = statusServicoConst.PECA_EM_TRANSITO;
+                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                os.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                var rat: RelatorioAtendimento = this.rat;
+                rat.codStatusServico = statusServicoConst.PECA_EM_TRANSITO;
+                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                rat.dataHoraManut = this.userSession.usuario.codUsuario;
+
+                this.atualizarDados(ratDetalhesPeca, os, rat);
+            }
+        });
     }
 }

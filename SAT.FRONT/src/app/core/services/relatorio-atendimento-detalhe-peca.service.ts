@@ -24,4 +24,12 @@ export class RelatorioAtendimentoDetalhePecaService {
       map((obj) => obj)
     );
   }
+
+  atualizar(relatorioAtendimentoDetalhePeca: RelatorioAtendimentoDetalhePeca): Observable<RelatorioAtendimentoDetalhePeca> {
+    const url = `${c.api}/RelatorioAtendimentoDetalhePeca`;
+
+    return this.http.put<RelatorioAtendimentoDetalhePeca>(url, relatorioAtendimentoDetalhePeca).pipe(
+      map((obj) => obj)
+    );
+  }
 }

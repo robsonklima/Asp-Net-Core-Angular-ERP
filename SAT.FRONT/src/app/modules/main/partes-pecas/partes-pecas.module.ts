@@ -25,6 +25,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { FiltroModule } from '../filtros/filtro.module';
+import { PartesPecasControleDetalhesHistoricoFormComponent } from './controle/partes-pecas-controle-detalhes/partes-pecas-controle-detalhes-historico-form/partes-pecas-controle-detalhes-historico-form.component';
 import { PartesPecasControleDetalhesHistoricoComponent } from './controle/partes-pecas-controle-detalhes/partes-pecas-controle-detalhes-historico/partes-pecas-controle-detalhes-historico.component';
 import { PartesPecasControleDetalhesComponent } from './controle/partes-pecas-controle-detalhes/partes-pecas-controle-detalhes.component';
 import { PartesPecasControleFiltroComponent } from './controle/partes-pecas-controle-filtro/partes-pecas-controle-filtro.component';
@@ -45,7 +46,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     PartesPecasControleListaComponent,
     PartesPecasControleFiltroComponent,
     PartesPecasControleDetalhesComponent,
-    PartesPecasControleDetalhesHistoricoComponent
+    PartesPecasControleDetalhesHistoricoComponent,
+    PartesPecasControleDetalhesHistoricoFormComponent
   ],
   imports: [
     CommonModule,

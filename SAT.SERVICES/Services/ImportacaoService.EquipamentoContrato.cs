@@ -68,7 +68,7 @@ namespace SAT.SERVICES.Services
                     if (equipamento.CodEquipContrato > 0)
                     {
                         equipamento.CodUsuarioManut = usuario.CodUsuario;
-                        equipamento.DataHoraManut = DateTime.Now;
+                    equipamento.DataHoraManut = DateTime.Now;
                         equipamento = _equipamentoContratoRepo.Atualizar(equipamento);
                         linha.Mensagem = $"Registro atualizado com sucesso: {equipamento.CodEquipContrato}";
                         Mensagem.Add(linha.Mensagem);

@@ -12,5 +12,6 @@ namespace SAT.MODELS.Entities.Params
         public int? CodGrupoEquip { get; set; }
         public int? CodEquip { get; set; }
         public string CodEquips { get; set; }
+        public int? CodEquipContrato { get; set; }
     }
 }

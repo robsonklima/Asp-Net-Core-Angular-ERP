@@ -42,24 +42,25 @@ namespace SAT.SERVICES.Services
                         }
                         else
                         {
-                            dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                            dynamic value;
+
+                            if (col.Campo.Equals("CodInstalPagto"))
+                                value = int.Parse(col.Valor);
+                            else if (col.Campo.Equals("VlrParcela"))
+                                value = decimal.Parse(col.Valor);                                   
+                            else if (col.Campo.Equals("VlrMulta"))
+                                value = decimal.Parse(col.Valor);       
+                            else if (col.Campo.Equals("IndEndossarMulta"))
+                                value = byte.Parse(col.Valor);                                                           
+                            else
+                                value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+
                             prop.SetValue(inst, value);
-
-
-                            if (col.Campo.Equals("VlrMulta"))
-                            {
-                                int codInstalacao = Int32.Parse(linha.ImportacaoColuna[0].Valor);
-                                int codInstalPagto = Int32.Parse(linha.ImportacaoColuna[0].Valor);
-                                int codInstalTipoParcela = Int32.Parse(linha.ImportacaoColuna[0].Valor);
-
-                                inst = _instalacaoPagtoInstalRepo.ObterPorCodigo(codInstalacao, codInstalPagto, codInstalTipoParcela);
-                            }
-
                         }
                     }
                     catch (System.Exception ex)
                     {
-                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
+                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {inst.CodInstalPagto} Campo: {col.Campo} Mensagem: {ex.Message}";
                         linha.Erro = true;
                         Mensagem.Add(linha.Mensagem);
                     }
@@ -99,16 +100,33 @@ namespace SAT.SERVICES.Services
         {
             switch (coluna.Campo)
             {
-                case "NumSerie":
-                    return _equipamentoContratoRepo
-                        .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{inst.Instalacao.CodCliente}" })
-                        ?.FirstOrDefault()
-                        ?.CodEquipContrato;          
-                case "NroContrato":
-                    return _contratoRepo
-                        .ObterPorParametros(new ContratoParameters { NroContrato = coluna.Valor, CodClientes = $"{inst.Instalacao.CodCliente}" })
-                        ?.FirstOrDefault()
-                        ?.CodContrato;                                       
+                case "NumSeriePagto":
+                    {
+                        var codContrato = _instalacaoPagtoRepo
+                            .ObterPorParametros(new InstalacaoPagtoParameters { CodInstalPagto = inst.CodInstalPagto })
+                            ?.FirstOrDefault()
+                            ?.CodContrato;            
+
+                        var codCliente = _contratoRepo
+                            .ObterPorParametros(new ContratoParameters { CodContrato = codContrato })
+                            ?.FirstOrDefault()
+                            ?.CodCliente;                                                  
+
+                        var codEquipContrato = _equipamentoContratoRepo
+                            .ObterPorParametros(new EquipamentoContratoParameters { NumSerie = coluna.Valor, CodClientes = $"{ codCliente }" })
+                            ?.FirstOrDefault()
+                            ?.CodEquipContrato;    
+
+                        return  _instalacaoRepo.ObterPorParametros(new InstalacaoParameters { CodEquipContrato = codEquipContrato })
+                            ?.FirstOrDefault()
+                            ?.CodInstalacao;                                          
+                    }
+                case "NomeTipoParcela":
+                    {
+                        return  _instalTipoParcelaRepo.ObterPorParametros(new InstalacaoTipoParcelaParameters { NomeTipoParcela = coluna.Valor})
+                            ?.FirstOrDefault()
+                            ?.CodInstalTipoParcela;                                        
+                    }                    
                 default:
                     return ConverterCamposEmComum(coluna);
             }

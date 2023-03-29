@@ -129,6 +129,11 @@ namespace SAT.INFRA.Repository
                 instalacoes = instalacoes.Where(i => i.CodInstalLote == parameters.CodInstalLote);
             }
 
+            if (parameters.CodEquipContrato != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodEquipContrato == parameters.CodEquipContrato);
+            }            
+
             if (!string.IsNullOrWhiteSpace(parameters.CodInstalacoes))
             {
                 int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

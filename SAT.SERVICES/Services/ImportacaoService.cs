@@ -31,6 +31,8 @@ namespace SAT.SERVICES.Services
         private readonly IInstalacaoStatusRepository _instalStatusRepo;
         private readonly IFilialRepository _filialRepo;
         private readonly IInstalacaoLoteRepository _instalLoteRepo;
+        private readonly IInstalacaoTipoParcelaRepository _instalTipoParcelaRepo;
+        private readonly IInstalacaoPagtoRepository _instalacaoPagtoRepo;
         private readonly IInstalacaoService _instalacaoService;
         private readonly IInstalacaoPagtoInstalService _instalacaoPagtoInstalService;
         private readonly IEquipamentoContratoService _equipamentoContratoService;
@@ -57,6 +59,8 @@ namespace SAT.SERVICES.Services
             IInstalacaoStatusRepository instalStatusRepo,
             IFilialRepository filialRepo,
             IInstalacaoLoteRepository instalLoteRepo,
+            IInstalacaoTipoParcelaRepository instalTipoParcelaRepo,
+            IInstalacaoPagtoRepository instalacaoPagtoRepo,            
             IInstalacaoService instalacaoService,
             IInstalacaoPagtoInstalService instalacaoPagtoInstalService,
             IEquipamentoContratoService equipamentoContratoService
@@ -83,6 +87,8 @@ namespace SAT.SERVICES.Services
             _instalStatusRepo = instalStatusRepo;
             _filialRepo = filialRepo;
             _instalLoteRepo = instalLoteRepo;
+            _instalTipoParcelaRepo = instalTipoParcelaRepo;
+            _instalacaoPagtoRepo = instalacaoPagtoRepo;            
             _instalacaoService = instalacaoService;
             _instalacaoPagtoInstalService = instalacaoPagtoInstalService;
             _equipamentoContratoService = equipamentoContratoService;

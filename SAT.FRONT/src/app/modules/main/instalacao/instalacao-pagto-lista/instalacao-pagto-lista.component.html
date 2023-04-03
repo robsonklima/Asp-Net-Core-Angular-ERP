@@ -1,7 +1,7 @@
 <mat-drawer-container class="flex-auto h-full">
-    <!-- <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
         <app-instalacao-pagto-filtro [sidenav]="sidenav"></app-instalacao-pagto-filtro>
-    </mat-drawer> -->
+    </mat-drawer>
 
     <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card" *transloco="let t">
         <div
@@ -25,9 +25,9 @@
                     <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
                 </button>
 
-                <!-- <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                     <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-                </button> -->
+                </button>
             </div>
         </div>
 

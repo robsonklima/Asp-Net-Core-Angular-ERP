@@ -822,5 +822,6 @@
     "vlr multa": "Fine value",
     "motivo multa": "Reason Fine",
     "endossado": "Endorsed",
-    "nf venda": "Sales Invoice"
+    "nf venda": "Sales Invoice",
+    "exportar excel": "Export Excel"
 }

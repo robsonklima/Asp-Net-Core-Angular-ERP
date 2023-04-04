@@ -67,6 +67,27 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
     this.isLoading = false;
   }
 
+  public async exportarExcel() {
+		this.isLoading = true;
+
+    const codEquips = await this.obterEquipamentosContrato();
+    const codInstalacoes = await this.obterInstalacoesPleito();
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
+			tipoArquivo: ExportacaoTipoEnum.INSTALACAO_PLEITO,
+			entityParameters: {
+				codinstalPleito: this.codInstalPleito,
+        codEquips: codEquips,
+        codInstalacoes: codInstalacoes
+			}
+		}
+
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
+		this.isLoading = false;
+	}
+
+
   async obterEquipamentosContrato(): Promise<string> {
     return new Promise((resolve, reject) => {
       this._contratoEquipamentoSvc

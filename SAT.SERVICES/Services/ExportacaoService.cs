@@ -392,6 +392,10 @@ namespace SAT.SERVICES.Services
                     GerarPlanilhaInstalacao(((JObject)parameters).ToObject<InstalacaoParameters>());
                     break;
 
+                case ExportacaoTipoEnum.INSTALACAO_PLEITO:
+                    GerarPlanilhaInstalacaoPleito(((JObject)parameters).ToObject<InstalacaoPleitoParameters>());
+                    break;                    
+
                 default:
                     break;
             }

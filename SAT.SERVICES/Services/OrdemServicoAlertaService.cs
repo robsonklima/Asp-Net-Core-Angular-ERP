@@ -54,8 +54,26 @@ namespace SAT.SERVICES.Services
                 alertas = ObterAvisoChamadosCidadePinpad(os, alertas);
                 alertas = ObterAvisoBaterias(os, alertas);
                 alertas = ObterAvisoTrancaReciclador(os, alertas);
+                alertas = ObterAvisosPreventivaContratual(os, alertas);
             }
 
+            return alertas;
+        }
+
+        private List<Alerta> ObterAvisosPreventivaContratual(OrdemServico os, List<Alerta> alertas)
+        {
+            if (os.CodCliente != (int)ClienteEnum.BANCO_DA_AMAZONIA)
+                return alertas;
+
+            var alerta = new Alerta
+            {
+                Titulo = "Preventivas Contratuais",
+                Descricao = new List<string>(){"Verificar necessidade de aplicação de preventiva contratual."},
+                Tipo = Constants.PRIMARY
+            };
+
+            alertas.Add(alerta);
+            
             return alertas;
         }
 

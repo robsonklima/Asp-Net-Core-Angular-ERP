@@ -78,6 +78,11 @@ namespace SAT.INFRA.Repository
                 ufs = ufs.Where(uf => uf.CodPais == parameters.CodPais);
             }
 
+            if (parameters.SiglaUF != null)
+            {
+                ufs = ufs.Where(uf => uf.SiglaUF == parameters.SiglaUF);
+            }            
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 ufs = ufs.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

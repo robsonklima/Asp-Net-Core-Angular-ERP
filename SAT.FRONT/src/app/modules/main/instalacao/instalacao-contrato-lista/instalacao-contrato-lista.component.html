@@ -70,7 +70,14 @@
                                             </span>
                                         </div>
                                         <div class="truncate">
-                                            {{ data.cliente.nomeFantasia | titlecase }}
+                                            <a *ngIf="data.lotes.length" class="whitespace-nowrap text-primary-500"
+                                                [routerLink]="[ '/instalacao/lista/cliente/' + data.codCliente ]">
+                                                {{ data.cliente.nomeFantasia | titlecase }}
+                                            </a>
+
+                                            <span *ngIf="!data.lotes.length">
+                                                {{ data.cliente.nomeFantasia | titlecase }}
+                                            </span>
                                         </div>
                                         <div class="truncate">
                                             {{ data.tipoContrato.nomeTipoContrato | titlecase }}

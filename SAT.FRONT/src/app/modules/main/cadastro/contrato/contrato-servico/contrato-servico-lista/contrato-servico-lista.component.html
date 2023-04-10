@@ -50,11 +50,11 @@
 								<div class="list-grid-contrato-servico grid items-center h-11 pt-3 gap-4 py-3 px-6 border-b text-sm md:px-8 hover:bg-gray-100"
 									*transloco="let t">
 									<div class="flex truncate">
-										{{ servico.tipoServico.nomeServico }}
+										{{ servico?.tipoServico?.nomeServico }}
 									</div>
 
 									<div class="flex truncate">
-										{{ servico.acordoNivelServico.nomeSLA }}
+										{{ servico?.acordoNivelServico?.nomeSLA }}
 									</div>
 
 									<div class="text-center truncate md:block">

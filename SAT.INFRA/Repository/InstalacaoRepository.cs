@@ -115,7 +115,8 @@ namespace SAT.INFRA.Repository
             if (parameters.Filter != null)
             {
                 instalacoes = instalacoes.Where(p =>
-                    p.CodInstalacao.ToString().Contains(parameters.Filter)
+                    p.CodInstalacao.ToString().Contains(parameters.Filter) ||
+                    p.EquipamentoContrato.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

@@ -82,7 +82,7 @@ namespace SAT.INFRA.Repository
                     .DefaultIfEmpty()
                 .Include(i => i.Equipamento!)
                     .DefaultIfEmpty()
-                .Include(i => i.EquipamentoContrato!)
+                .Include(i => i.EquipamentoContrato.LocalAtendimento.Cidade.UnidadeFederativa!)
                     .DefaultIfEmpty()                    
                 .Include(c => c.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacaoLote!)

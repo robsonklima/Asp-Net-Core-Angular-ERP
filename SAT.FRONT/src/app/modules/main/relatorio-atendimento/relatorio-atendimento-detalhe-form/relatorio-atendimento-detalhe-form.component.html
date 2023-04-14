@@ -1,7 +1,7 @@
 <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-5 px-4 border-b" *transloco="let t">
     <div class="flex justify-between">
         <div class="text-3xl font-extrabold tracking-tight leading-none mt-0">
-            {{ t('adicionar detalhe') }}
+            {{ detalhe ? t('editar detalhe') : t('adicionar detalhe') }}
         </div>
     </div>
 </div>

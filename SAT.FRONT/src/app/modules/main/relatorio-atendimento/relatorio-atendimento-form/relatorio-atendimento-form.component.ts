@@ -284,8 +284,12 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 		  });
 
 		dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
-			if (detalhe)
+			if (detalhe) {
+				this.relatorioAtendimento.relatorioAtendimentoDetalhes = this.relatorioAtendimento.relatorioAtendimentoDetalhes
+					.filter(d => d.codRATDetalhe != detalhe.codRATDetalhe);
+
 				this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
+			}
 		});
 	}
 

@@ -82,7 +82,7 @@ namespace SAT.INFRA.Repository
                     .DefaultIfEmpty()
                 .Include(i => i.Equipamento!)
                     .DefaultIfEmpty()
-                .Include(i => i.EquipamentoContrato!)
+                .Include(i => i.EquipamentoContrato.LocalAtendimento.Cidade.UnidadeFederativa!)
                     .DefaultIfEmpty()                    
                 .Include(c => c.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacaoLote!)
@@ -115,7 +115,8 @@ namespace SAT.INFRA.Repository
             if (parameters.Filter != null)
             {
                 instalacoes = instalacoes.Where(p =>
-                    p.CodInstalacao.ToString().Contains(parameters.Filter)
+                    p.CodInstalacao.ToString().Contains(parameters.Filter) ||
+                    p.EquipamentoContrato.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 
@@ -128,6 +129,11 @@ namespace SAT.INFRA.Repository
             {
                 instalacoes = instalacoes.Where(i => i.CodInstalLote == parameters.CodInstalLote);
             }
+
+            if (parameters.CodCliente != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodCliente == parameters.CodCliente);
+            }            
 
             if (parameters.CodEquipContrato != null)
             {

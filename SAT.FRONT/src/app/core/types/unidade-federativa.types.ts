@@ -24,4 +24,5 @@ export interface UnidadeFederativaParameters extends QueryStringParameters
 {
     codUF?: number;
     codPais?: number;
+    siglaUF?: string;
 };

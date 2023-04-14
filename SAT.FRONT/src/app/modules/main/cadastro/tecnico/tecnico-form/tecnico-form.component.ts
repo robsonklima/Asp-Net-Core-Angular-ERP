@@ -64,6 +64,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
     private _paisService: PaisService,
     private _ufService: UnidadeFederativaService,
     private _cidadeService: CidadeService,
+    private _unidadeFederativaService: UnidadeFederativaService,
     private _location: Location,
     private _userService: UserService,
     private _despesaCartaoCombustivelService: DespesaCartaoCombustivelService,
@@ -284,15 +285,19 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterLatLngPorEndereco(end: string) {
-    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).subscribe((data: Geolocalizacao) => {
+    this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+      .subscribe(async (data: Geolocalizacao) => {
       if (data) {
         const res = data;
+
+        const codUF = await (await this._unidadeFederativaService.obterPorParametros({ siglaUF: res.estado }).toPromise()).items?.shift()?.codUF;
+
         this.form.controls['endereco'].setValue(res.endereco);
         this.form.controls['latitude'].setValue(res.latitude);
         this.form.controls['longitude'].setValue(res.longitude);
         this.form.controls['bairro'].setValue(res.bairro);
 
-        this._cidadeService.obterCidades(null, res.cidade).then(c => {
+        this._cidadeService.obterCidades(codUF, res.cidade).then(c => {
           const data = c[0];
           if (data) {
             this.form.controls['codUF'].setValue(data.codUF);

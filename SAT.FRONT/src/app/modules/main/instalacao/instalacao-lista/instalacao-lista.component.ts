@@ -58,6 +58,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   codContrato: number;
   contrato: Contrato;
   codInstalLote: number;
+  codCliente: number;
   confirma: boolean;
   instalacaoLote: InstalacaoLote;
   instalacaoSelecionada: Instalacao;
@@ -98,6 +99,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   ngAfterViewInit(): void {
     this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
     this.codInstalLote = +this._route.snapshot.paramMap.get('codInstalLote');
+    this.codCliente = +this._route.snapshot.paramMap.get('codCliente');
 
     this.obterInstalacoes();
     this.obterTransportadoras();
@@ -213,6 +215,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     const parametros: InstalacaoParameters = {
       codContrato: this.codContrato || undefined,
       codInstalLote: this.codInstalLote || undefined,
+      codCliente: this.codCliente || undefined,
       pageSize: this.paginator?.pageSize,
       filter: filtro,
       pageNumber: this.paginator.pageIndex + 1,
@@ -237,7 +240,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
       entityParameters: {
         codContrato: this.codContrato || undefined,
-        codInstalLote: this.codInstalLote || undefined
+        codInstalLote: this.codInstalLote || undefined,
+        codCliente: this.codCliente || undefined
       }
     }
     await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);

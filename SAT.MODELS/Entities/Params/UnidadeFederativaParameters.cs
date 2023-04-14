@@ -5,7 +5,7 @@ namespace SAT.MODELS.Entities.Params
     public class UnidadeFederativaParameters : QueryStringParameters
     {
         public int? CodUF { get; set; }
-
-        public int? CodPais { get; set; }	
+        public int? CodPais { get; set; }
+        public string SiglaUF { get; set; }	
     }
 }

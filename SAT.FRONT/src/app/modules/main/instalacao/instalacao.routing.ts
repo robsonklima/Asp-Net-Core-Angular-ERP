@@ -24,6 +24,10 @@ export const instalacaoRoutes: Route[] = [
         component: InstalacaoListaComponent
     },
     {
+        path: 'lista/cliente/:codCliente',
+        component: InstalacaoListaComponent
+    },
+    {
         path: 'lote/:codContrato',
         component: InstalacaoLoteListaComponent
     },

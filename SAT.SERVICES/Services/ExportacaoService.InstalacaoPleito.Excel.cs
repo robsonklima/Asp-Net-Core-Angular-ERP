@@ -1,5 +1,4 @@
 using System.Linq;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 
 namespace SAT.SERVICES.Services
@@ -13,27 +12,25 @@ namespace SAT.SERVICES.Services
             var sheet = instalacoes.Select(i =>
                             new
                             {
+                                Bordero = instalacoesPleito[0].CodInstalPleito,
                                 Lote = i.InstalacaoLote?.NomeLote,
-                                Contrato = i.EquipamentoContrato?.Contrato?.NomeContrato,
+                                Contrato = i.Contrato?.NomeContrato,
                                 NFVenda = i.InstalacaoNFVenda?.NumNFVenda,
                                 NFRemessa = i.NFRemessa,
-                                Prefixo = i.LocalAtendimentoIns?.NumAgencia,
-                                Posto = i.LocalAtendimentoIns?.DCPosto,
-                                Agencia = i.LocalAtendimentoIns?.NomeLocal,
-                                Endereço = i.LocalAtendimentoIns?.Endereco,
-                                Cidade = i.LocalAtendimentoIns?.Cidade?.NomeCidade,
-                                UF = i.LocalAtendimentoIns?.Cidade?.UnidadeFederativa?.SiglaUF,
+                                Prefixo = i.EquipamentoContrato?.LocalAtendimento?.NumAgencia,
+                                Posto = i.EquipamentoContrato?.LocalAtendimento?.DCPosto,
+                                Agencia = i.EquipamentoContrato?.LocalAtendimento?.NomeLocal,
+                                Endereço = i.EquipamentoContrato?.LocalAtendimento?.Endereco,
+                                Cidade = i.EquipamentoContrato?.LocalAtendimento?.Cidade?.NomeCidade,
+                                UF = i.EquipamentoContrato?.LocalAtendimento?.Cidade?.UnidadeFederativa?.SiglaUF,
                                 Filial = i.Filial?.NomeFilial,
                                 Equipamento = i.Equipamento?.NomeEquip,
                                 NumSerie = i.EquipamentoContrato?.NumSerie,
                                 BemTradeIn = i.BemTradeIn,
                                 PedidoCompra = i.PedidoCompra,  
-                                ValorInstalacao = i.Contrato?.ContratosEquipamento?
+                                ValorInstalacao = string.Format("{0:C}", i.Contrato?.ContratosEquipamento?
                                                     .Where(ce => ce?.CodEquip == i.CodEquip)
-                                                    .Sum(ce => ce.VlrInstalacao),
-                                ValorUnitario = i.Contrato?.ContratosEquipamento?
-                                                    .Where(ce => ce?.CodEquip == i.CodEquip)
-                                                    .Sum(ce => ce.VlrUnitario)
+                                                    .Sum(ce => ce.VlrInstalacao))
                             });
 
             var wsOs = Workbook.Worksheets.Add("instalacoesPleito");

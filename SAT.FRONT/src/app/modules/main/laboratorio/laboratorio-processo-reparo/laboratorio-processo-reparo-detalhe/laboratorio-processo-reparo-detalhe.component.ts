@@ -52,6 +52,8 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
   }
 
   async toggleStatusReparo() {
+    console.log(this.item)
+
     if (!this.item?.temposReparo?.length) {
       this._orItemService.atualizar({ 
         ...this.item, 
@@ -105,7 +107,7 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
         this.item = await this._orItemService.atualizar({ 
           ...this.item, 
           ...{ 
-            codStatus: orStatusConst.TRANSFERIDO_TECNICO,
+            codStatus: orStatusConst.TRANSFERENCIA_CD_ESTOQUE,
             codTecnico: this.userSession.usuario.codUsuario,
           }
         }).toPromise();

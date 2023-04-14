@@ -134,23 +134,23 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
+                const ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
                 ratDetalhesPeca.qtdeLib = ratDetalhesPeca.qtdePecas;
                 ratDetalhesPeca.indOK = 1;
                 ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
                 ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 ratDetalhesPeca.descStatus = 'PEÇA LIBERADA';
 
-                var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
-                var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
+                const codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS;
+                const os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
                 os.codStatusServico = statusServicoConst.PECAS_LIBERADAS;
-                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                os.dataHoraManut = this.userSession.usuario.codUsuario;
+                os.codUsuarioManut = this.userSession.usuario.codUsuario;
+                os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
-                var rat: RelatorioAtendimento = this.rat;
+                const rat: RelatorioAtendimento = this.rat;
                 rat.codStatusServico = statusServicoConst.PECAS_LIBERADAS;
-                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                rat.dataHoraManut = this.userSession.usuario.codUsuario;
+                rat.codUsuarioManut = this.userSession.usuario.codUsuario;
+                rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
                 this.atualizarDados(ratDetalhesPeca, os, rat);
             }
@@ -172,23 +172,23 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
+                const ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
                 ratDetalhesPeca.indCentral = 1;
                 ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
                 ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 ratDetalhesPeca.descStatus = 'PEÇA FALTANTE';
 
-                var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
-                var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
+                const codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
+                const os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
                 os.codStatusServico = statusServicoConst.PECA_FALTANTE;
-                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                os.dataHoraManut = this.userSession.usuario.codUsuario;
+                os.codUsuarioManut = this.userSession.usuario.codUsuario;
+                os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
-                var rat: RelatorioAtendimento = this.rat;
+                const rat: RelatorioAtendimento = this.rat;
                 rat.codStatusServico = statusServicoConst.PECA_FALTANTE;
-                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                rat.dataHoraManut = this.userSession.usuario.codUsuario;
-
+                rat.codUsuarioManut = this.userSession.usuario.codUsuario;
+                rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
+                
                 this.atualizarDados(ratDetalhesPeca, os, rat);
             }
         });
@@ -218,13 +218,13 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 var codos = (await this.obterRatDetalhes(ratDetalhesPeca.codRATDetalhe)).codOS
                 var os: OrdemServico = await this._osService.obterPorCodigo(codos).toPromise();
                 os.codStatusServico = statusServicoConst.PECA_EM_TRANSITO;
-                os.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                os.dataHoraManut = this.userSession.usuario.codUsuario;
+                os.codUsuarioManut = this.userSession.usuario.codUsuario;
+                os.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
                 var rat: RelatorioAtendimento = this.rat;
                 rat.codStatusServico = statusServicoConst.PECA_EM_TRANSITO;
-                rat.codUsuarioManut = moment().format('YYYY-MM-DD HH:mm:ss');
-                rat.dataHoraManut = this.userSession.usuario.codUsuario;
+                rat.codUsuarioManut = this.userSession.usuario.codUsuario;
+                rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
                 this.atualizarDados(ratDetalhesPeca, os, rat);
             }

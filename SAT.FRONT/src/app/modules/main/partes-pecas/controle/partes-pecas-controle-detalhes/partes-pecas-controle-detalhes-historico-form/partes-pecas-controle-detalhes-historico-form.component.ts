@@ -82,11 +82,13 @@ export class PartesPecasControleDetalhesHistoricoFormComponent implements OnInit
         let obj: RelatorioAtendimentoDetalhePecaStatus = {
             ...form,
             ...{
-                codRatDetalhesPecas: this.codRatDetalhesPecas,
+                codRATDetalhesPecas: this.codRatDetalhesPecas,
                 codUsuarioCad: this.userSession.usuario.codUsuario,
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
             }
         };
+        console.log(obj);
+        
 
         this._ratDetalhePecaStatusServico.criar(obj).subscribe(() => {
             this._snack.exibirToast("Status adicionado com sucesso!", "success");

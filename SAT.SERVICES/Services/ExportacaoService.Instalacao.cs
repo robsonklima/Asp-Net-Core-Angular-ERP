@@ -108,7 +108,7 @@ namespace SAT.SERVICES.Services
                                 DtEnvioNFVenda = i.InstalacaoNFVenda?.DataNFVendaEnvioCliente,
                                 DtRecebimentoNFVenda = i.InstalacaoNFVenda?.DataNFVendaRecebimentoCliente,
                                 DtPagtoInstalacao = "",// i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.DataHoraCad,
-                                VlrPagtoInstalacao = "",//i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.VlrParcela,
+                                VlrPagtoInstalacao = "",// i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.VlrParcela,
                                 DTVencimentoBordero100Perc = i.DTVencBord100,
                                 DTEntregaBordero100Perc = i.DTEntBord100,
                                 DTVencimentoBordero90Perc = i.DTVencBord90,

@@ -10,7 +10,6 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { Cliente } from 'app/core/types/cliente.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 import { TipoContrato } from 'app/core/types/tipo-contrato.types';
 import { TipoIndiceReajuste } from 'app/core/types/tipo-indice-reajuste.types';
@@ -24,15 +23,14 @@ import { PosVendaService } from 'app/core/services/pos-venda.service';
 import { OrcFormaPagamentoService } from 'app/core/services/orcamento-forma-pagamento.service';
 import { OrcDadosBancarios } from 'app/core/types/orcamento-dados-bancarios.types';
 import { OrcDadosBancariosService } from 'app/core/services/orcamento-dados-bancarios.service';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-contrato-form',
 	templateUrl: './contrato-form.component.html',
 })
 export class ContratoFormComponent implements OnInit {
-
 	@Output() cod = new EventEmitter();
-	
 	codContrato: number;
 	contrato: Contrato;
 	contratoReajuste: ContratoReajuste;
@@ -73,10 +71,8 @@ export class ContratoFormComponent implements OnInit {
 		this.codContrato = +this._route.snapshot.paramMap.get('codContrato');
 		this.isAddMode = !this.codContrato;
 		this.inicializarForm();
-
 		await this.obterClientes();
 		await this.obterDados();
-
 		this.isLoading= false;
 	}
 

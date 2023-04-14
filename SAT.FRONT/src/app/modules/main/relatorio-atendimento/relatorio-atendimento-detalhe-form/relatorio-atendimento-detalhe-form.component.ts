@@ -62,8 +62,6 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
       this.causas = [(await this.obterCausas(this.detalhe.causa.codECausa)).shift()];
       this.defeitos = [(await this.obterDefeitos(this.detalhe.defeito.nomeDefeito)).shift()];
       this.acoes = [(await this.obterAcoes(this.detalhe.acao.nomeAcao)).shift()];
-
-      this.form.patchValue(this.detalhe);
     }
   }
 
@@ -87,27 +85,27 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
 
   private inicializarForm(): void {
     this.form = this._formBuilder.group({
-      maquina: [null, [Validators.required]],
-      codServico: [null, [Validators.required]],
-      codCausa: [null, [Validators.required]],
-      codAcao: [null, [Validators.required]],
-      codDefeito: [null, [Validators.required]],
-      codTipoCausa: [null],
-      codGrupoCausa: [null]
+      maquina: [this.detalhe?.codOrigemCausa?.toString(), [Validators.required]],
+      codServico: [this.detalhe?.codServico, [Validators.required]],
+      codCausa: [this.detalhe?.codCausa, [Validators.required]],
+      codAcao: [this.detalhe?.codAcao, [Validators.required]],
+      codDefeito: [this.detalhe?.codDefeito, [Validators.required]],
+      codTipoCausa: [this.detalhe?.codTipoCausa],
+      codGrupoCausa: [this.detalhe?.codGrupoCausa]
     });
   }
 
   registrarEmitters() {
     this.form.controls['maquina'].valueChanges.subscribe(async () => {
-      //this.tiposServico =await this.obterTiposServico();
+      this.tiposServico = await this.obterTiposServico();
     });
 
     this.form.controls['codServico'].valueChanges.subscribe(async () => {
-      //this.causas = await this.obterCausas();
+      this.causas = await this.obterCausas();
     });
 
     this.form.controls['codCausa'].valueChanges.subscribe(async () => {
-      //this.defeitos = await this.obterDefeitos();
+      this.defeitos = await this.obterDefeitos();
     });
 
     this.causasFiltro.valueChanges

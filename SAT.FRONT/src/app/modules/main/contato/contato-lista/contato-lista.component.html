@@ -34,7 +34,7 @@
                                             onError="this.src='./assets/images/avatars/profile.jpg';">
                                 </div>
                                 <div class="mt-6 font-medium truncate">{{ usuario.nomeUsuario.trim() | uppercase }}</div>
-                                <div class="text-secondary truncate">{{ usuario.perfil?.nomePerfil }}</div>
+                                <div class="text-secondary truncate">{{ usuario.fone || usuario.email }}</div>
                             </div>
                             
                             <div class="flex items-center w-full border-t divide-x">

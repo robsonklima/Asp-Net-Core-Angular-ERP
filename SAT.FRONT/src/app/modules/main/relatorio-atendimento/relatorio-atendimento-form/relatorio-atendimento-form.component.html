@@ -320,8 +320,7 @@
                                                 *ngFor="let dPeca of detalhe?.relatorioAtendimentoDetalhePecas; let i=index;">
                                                 <div class="grid grid-cols-2 gap-1 text-sm" *ngIf="!dPeca.removido">
                                                     <div>
-                                                        <span
-                                                            [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
+                                                        <span [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
                                                             {{ dPeca.peca?.codMagnus }}
                                                         </span>
                                                     </div>
@@ -368,12 +367,21 @@
                             [matTooltip]="t('adicionar detalhe')" [disabled]="validaEdicao()">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         </button>
+
                         <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
                             detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()"
                             [matTooltip]="t('adicionar peca')"
                             (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
                             <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
                         </button>
+                        
+                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
+                            [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
+                            [matTooltip]="t('editar detalhe')"
+                            (click)="editarDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
+                            <mat-icon [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+                        </button>
+
                         <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
                             [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
                             [matTooltip]="t('remover detalhe')"

@@ -9,11 +9,12 @@ import { UsuarioDispositivo } from 'app/core/types/usuario-dispositivo.types';
 import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { SmsService } from 'app/core/services/sms.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
+import packageInfo from '../../../../../package.json';
+import moment from 'moment';
 
 @Component({
     selector: 'auth-sign-in',
@@ -27,6 +28,8 @@ export class AuthSignInComponent implements OnInit {
     ipData: any = '';
     signInForm: FormGroup;
     showAlert: boolean = false;
+    ano: string = moment().format("YYYY");
+    versao: string = packageInfo.version;
 
     constructor(
         private _activatedRoute: ActivatedRoute,

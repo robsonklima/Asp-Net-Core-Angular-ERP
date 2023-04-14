@@ -6,10 +6,10 @@ import { Peca } from 'app/core/types/peca.types';
 import { RelatorioAtendimentoDetalhePeca } from 'app/core/types/relatorio-atendimento-detalhe-peca.type';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
 import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-relatorio-atendimento-detalhe-peca-form',

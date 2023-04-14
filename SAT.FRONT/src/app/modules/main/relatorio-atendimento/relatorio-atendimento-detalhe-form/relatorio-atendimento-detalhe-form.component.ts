@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaService } from 'app/core/services/causa.service';
@@ -13,16 +13,17 @@ import { Usuario } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
-import moment from 'moment';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { statusConst } from 'app/core/types/status-types';
+import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
+import moment from 'moment';
 
 @Component({
   selector: 'app-relatorio-atendimento-detalhe-form',
   templateUrl: './relatorio-atendimento-detalhe-form.component.html'
 })
-export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy
-{
+export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestroy {
+  detalhe: RelatorioAtendimentoDetalhe;
   form: FormGroup;
   modulos: Causa[] = [];
   causas: Causa[] = [];
@@ -35,147 +36,38 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
   defeitosFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _formBuilder: FormBuilder,
     private _tipoServicoService: TipoServicoService,
     private _causaService: CausaService,
     private _defeitoService: DefeitoService,
     private _acaoService: AcaoService,
     private _userService: UserService,
-    public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>
-  )
-  {
+    public dialogRef: MatDialogRef<RelatorioAtendimentoFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
+    this.detalhe = data?.detalhe;
+
+    console.log(this.detalhe);
+    
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.inicializarForm();
+    this.registrarEmitters();
 
-    this.form.controls['maquina'].valueChanges.subscribe(async maquina =>
-    {
-      const data = await this._tipoServicoService.obterPorParametros({
-        sortActive: 'nomeServico',
-        sortDirection: 'asc',
-        pageSize: 100,
-      }).toPromise();
+    if (this.detalhe) {
+      this.tiposServico = [(await this.obterTiposServico(this.detalhe.tipoServico.nomeServico)).shift()];
+      this.causas = [(await this.obterCausas(this.detalhe.causa.codECausa)).shift()];
+      this.defeitos = [(await this.obterDefeitos(this.detalhe.defeito.nomeDefeito)).shift()];
+      this.acoes = [(await this.obterAcoes(this.detalhe.acao.nomeAcao)).shift()];
 
-      this.tiposServico = data.items.filter(
-        t => t.codETipoServico.substring(0, 1) === String(maquina)
-      );
-    });
-
-    this.form.controls['codServico'].valueChanges.subscribe(async codServico =>
-    {
-      const data = await this._causaService.obterPorParametros({
-        sortActive: 'codECausa',
-        sortDirection: 'asc',
-        pageSize: 100,
-        indAtivo: statusConst.ATIVO
-      }).toPromise();
-
-      this.causas = data.items;
-    });
-
-    this.form.controls['codCausa'].valueChanges.subscribe(async codCausa =>
-    {
-      const data = await this._defeitoService.obterPorParametros({
-        sortActive: 'codEDefeito',
-        sortDirection: 'asc',
-        pageSize: 100,
-        indAtivo: statusConst.ATIVO
-      }).toPromise();
-
-      this.defeitos = data.items;
-    });
-
-    this.causasFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query =>
-        {
-          const data = await this._causaService.obterPorParametros({
-            sortActive: 'codECausa',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
-
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data =>
-      {
-        this.causas = await data;
-      });
-
-    this.form.controls['codDefeito'].valueChanges.subscribe(async maquina =>
-    {
-      const data = await this._acaoService.obterPorParametros({
-        sortActive: 'codEAcao',
-        sortDirection: 'asc',
-        pageSize: 100,
-        indAtivo: statusConst.ATIVO
-      }).toPromise();
-
-      this.acoes = data.items;
-    });
-
-    this.defeitosFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query =>
-        {
-          const data = await this._defeitoService.obterPorParametros({
-            sortActive: 'codEDefeito',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            pageSize: 100
-          }).toPromise();
-
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data =>
-      {
-        this.defeitos = await data;
-      });
-
-    this.acoesFiltro.valueChanges
-      .pipe(
-        filter(query => !!query),
-        takeUntil(this._onDestroy),
-        debounceTime(700),
-        map(async query =>
-        {
-          const data = await this._acaoService.obterPorParametros({
-            sortActive: 'codEAcao',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            filter: query,
-            pageSize: 100,
-          }).toPromise();
-
-          return data.items.slice();
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(async data =>
-      {
-        this.acoes = await data;
-      });
+      this.form.patchValue(this.detalhe);
+    }
   }
 
-  inserir(): void
-  {
+  salvar(): void {
     let form = this.form.getRawValue();
     form.tipoServico = this.tiposServico.filter(ts => ts.codServico === form.codServico).shift();
     form.defeito = this.defeitos.filter(ts => ts.codDefeito === form.codDefeito).shift();
@@ -193,21 +85,135 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
     this.dialogRef.close(form);
   }
 
-  private inicializarForm(): void
-  {
+  private inicializarForm(): void {
     this.form = this._formBuilder.group({
-      maquina: [undefined, [Validators.required]],
-      codServico: [undefined, [Validators.required]],
-      codCausa: [undefined, [Validators.required]],
-      codAcao: [undefined, [Validators.required]],
-      codDefeito: [undefined, [Validators.required]],
-      codTipoCausa: [undefined],
-      codGrupoCausa: [undefined]
+      maquina: [null, [Validators.required]],
+      codServico: [null, [Validators.required]],
+      codCausa: [null, [Validators.required]],
+      codAcao: [null, [Validators.required]],
+      codDefeito: [null, [Validators.required]],
+      codTipoCausa: [null],
+      codGrupoCausa: [null]
     });
   }
 
-  ngOnDestroy()
-  {
+  registrarEmitters() {
+    this.form.controls['maquina'].valueChanges.subscribe(async () => {
+      //this.tiposServico =await this.obterTiposServico();
+    });
+
+    this.form.controls['codServico'].valueChanges.subscribe(async () => {
+      //this.causas = await this.obterCausas();
+    });
+
+    this.form.controls['codCausa'].valueChanges.subscribe(async () => {
+      //this.defeitos = await this.obterDefeitos();
+    });
+
+    this.causasFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          return await this.obterCausas(query);
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.causas = await data;
+      });
+
+    this.form.controls['codDefeito'].valueChanges.subscribe(async maquina => {
+      this.acoes = await this.obterAcoes();
+    });
+
+    this.defeitosFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          return await this.obterDefeitos(query);
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.defeitos = await data;
+      });
+
+    this.acoesFiltro.valueChanges
+      .pipe(
+        filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => {
+          return await this.obterAcoes(query);
+        }),
+        takeUntil(this._onDestroy)
+      )
+      .subscribe(async data => {
+        this.acoes = await data;
+      });
+  }
+
+  private async obterTiposServico(filter: string=''): Promise<TipoServico[]> {
+    return new Promise(async (resolve, reject) => {
+      const data = await this._tipoServicoService.obterPorParametros({
+        sortActive: 'nomeServico',
+        sortDirection: 'asc',
+        pageSize: 100,
+        filter: filter
+      }).toPromise();
+  
+      resolve(data.items);
+    });
+  }
+
+  private async obterCausas(filter: string=''): Promise<Causa[]> {
+    return new Promise(async (resolve, reject) => {
+      const data = await this._causaService.obterPorParametros({
+          sortActive: 'codECausa',
+          sortDirection: 'asc',
+          pageSize: 100,
+          indAtivo: statusConst.ATIVO,
+          filter: filter
+        }).toPromise();
+  
+        resolve(data.items);
+    });
+  }
+
+  private async obterDefeitos(filter: string=''): Promise<Defeito[]> {
+    return new Promise(async (resolve, reject) => {
+      const data = await this._defeitoService.obterPorParametros({
+        sortActive: 'codEDefeito',
+        sortDirection: 'asc',
+        pageSize: 100,
+        filter: filter,
+        indAtivo: statusConst.ATIVO
+      }).toPromise();
+  
+      resolve(data.items);
+    });
+
+  }
+
+  private async obterAcoes(filter: string=''): Promise<Acao[]> {
+    return new Promise(async (resolve, reject) => {
+      const data = await this._acaoService.obterPorParametros({
+        sortActive: 'codEAcao',
+        sortDirection: 'asc',
+        pageSize: 100,
+        indAtivo: statusConst.ATIVO,
+        filter: filter
+      }).toPromise();
+      
+      resolve(data.items);
+    });
+  }
+
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

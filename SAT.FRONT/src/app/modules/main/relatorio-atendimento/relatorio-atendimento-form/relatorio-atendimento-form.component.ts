@@ -29,7 +29,7 @@ import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types
 import { StatusServico, statusServicoConst } from 'app/core/types/status-servico.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
-import { TipoIntervencaoConst, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { RoleEnum } from 'app/core/user/user.types';
@@ -269,6 +269,19 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
 	inserirDetalhe() {
 		const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent);
+
+		dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
+			if (detalhe)
+				this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
+		});
+	}
+
+	editarDetalhe(detalhe: RelatorioAtendimentoDetalhe) {
+		const dialogRef = this._dialog.open(RelatorioAtendimentoDetalheFormComponent, {
+			data: {
+			  detalhe: detalhe
+			}
+		  });
 
 		dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
 			if (detalhe)

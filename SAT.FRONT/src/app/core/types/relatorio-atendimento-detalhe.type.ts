@@ -6,8 +6,7 @@ import { RelatorioAtendimentoDetalhePeca } from "./relatorio-atendimento-detalhe
 import { TipoCausa } from "./tipo-causa.types";
 import { TipoServico } from "./tipo-servico.types";
 
-export class RelatorioAtendimentoDetalhe
-{
+export class RelatorioAtendimentoDetalhe {
     codRATDetalhe?: number;
     codRAT?: number;
     codOS?: number;
@@ -30,4 +29,5 @@ export class RelatorioAtendimentoDetalhe
     codSubModulo?: number;
     relatorioAtendimentoDetalhePecas?: RelatorioAtendimentoDetalhePeca[];
     removido: boolean;
+    codOrigemCausa: number;
 }

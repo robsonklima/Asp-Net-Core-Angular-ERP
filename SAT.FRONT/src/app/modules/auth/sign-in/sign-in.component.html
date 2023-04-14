@@ -1,6 +1,5 @@
 <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
-    <div
-        class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+    <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/3 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <div class="w-12">
                 <img src="assets/images/logo/logo.png">
@@ -15,7 +14,6 @@
             </div>
 
             <form autocomplete="off" class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
-
                 <mat-form-field class="w-full">
                     <mat-label>Usuário</mat-label>
                     <input id="codUsuario" matInput [formControlName]="'codUsuario'">
@@ -53,10 +51,7 @@
         </div>
     </div>
 
-    <div
-        class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-fabrica bg-cover dark:border-l">
-        <!-- Background - @formatter:off -->
-        <!-- Rings -->
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-fabrica-2 bg-cover">
         <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
             preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
@@ -64,7 +59,7 @@
                 <circle r="234" cx="790" cy="491"></circle>
             </g>
         </svg>
-        <!-- Dots -->
+
         <svg class="absolute -top-16 -right-16 text-gray-700" viewBox="0 0 220 192" width="220" height="192"
             fill="none">
             <defs>
@@ -75,17 +70,10 @@
             </defs>
             <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
         </svg>
-        <!-- @formatter:on -->
-        <!-- Content -->
+
         <div class="z-10 relative w-full max-w-2xl">
-            <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Bem-vindo</div>
-                <div>ao SAT 2.0</div>
-            </div>
             <div class="mt-6 text-lg tracking-tight leading-6 text-gray-200">
-                O novo Sistema SAT, é uma grande plataforma que permite gerenciar as atividades
-                das filiais, técnicos, líderes, gestores, coordenadores pós vendas, entre outros, de forma
-                simples, objetiva e integrada.
+                Versão: {{ versao }} de {{ ano }}
             </div>
         </div>
     </div>

@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { fuseAnimations } from '@fuse/animations';
 import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
+import { LaboratorioOSBancadaPecaRE5114DialogComponent } from '../laboratorio-os-bancada-pecare5114-dialog/laboratorio-os-bancada-pecare5114-dialog.component';
 import { OSBancadaPecas, OSBancadaPecasData, OSBancadaPecasParameters } from 'app/core/types/os-bancada-pecas.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
-import { LaboratorioOSBancadaPecaRE5114DialogComponent } from '../laboratorio-os-bancada-pecare5114-dialog/laboratorio-os-bancada-pecare5114-dialog.component';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-pecare5114-lista',
@@ -65,7 +66,7 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                    this.obterDados();
+                this.obterDados();
             }
         });
     }
@@ -80,6 +81,27 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
             return "Liberada";
 
         return "Transferido";
+    }
+
+    async removerPeca(osBancadaPecas: OSBancadaPecas) {
+        const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+			data: {
+				titulo: 'Confirmação',
+				message: `Deseja remover o atendimento?`,
+				buttonText: {
+					ok: 'Sim',
+					cancel: 'Não'
+				}
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+            if (confirmacao) {
+                await this._osBancadaPecasService.deletar(osBancadaPecas.codOsbancada, osBancadaPecas.codPecaRe5114).toPromise();
+                
+                this.ngAfterViewInit();
+            }
+        });
     }
 
     async onChange($event: MatSlideToggleChange, osBancadaPecas: OSBancadaPecas) {

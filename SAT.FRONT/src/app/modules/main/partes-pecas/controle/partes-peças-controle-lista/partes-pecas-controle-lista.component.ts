@@ -93,8 +93,10 @@ export class PartesPecasControleListaComponent extends Filterable implements OnI
     }
 
     isUltimaRAT(os: OrdemServico) {
-        var count = os?.relatoriosAtendimento.length - 1;
-        this.rat = os?.relatoriosAtendimento[count];
+        if(os?.relatoriosAtendimento){
+            var count = os?.relatoriosAtendimento.length - 1;
+            this.rat = os?.relatoriosAtendimento[count];
+        }
         return this.rat;
     }
 

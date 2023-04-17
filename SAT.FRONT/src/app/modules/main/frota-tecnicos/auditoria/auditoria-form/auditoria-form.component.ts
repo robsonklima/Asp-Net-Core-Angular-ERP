@@ -11,7 +11,6 @@ import { UsuarioService } from 'app/core/services/usuario.service';
 import { AuditoriaService } from 'app/core/services/auditoria.service';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import moment from 'moment';
-import { StatusServicoEnum } from 'app/core/types/ordem-servico.types';
 
 @Component({
   selector: 'app-auditoria-form',

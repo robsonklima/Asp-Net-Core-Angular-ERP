@@ -55,7 +55,6 @@ export class AuthSignInComponent implements OnInit {
 
         this.signInForm.get("senha").valueChanges.subscribe(txt => {
             const senhaForte = this._userSvc.verificarSenhaForte(txt);
-            //if (!senhaForte) this.signInForm.controls['senha'].setErrors({ 'senha-fraca': true });
         });
     }
 
@@ -82,7 +81,7 @@ export class AuthSignInComponent implements OnInit {
                 this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
             } else if (!dispositivo) {
                 dispositivo = await this.cadastrarDispositivo();
-                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
+                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(usuario, dispositivo) : this.enviarEmail(usuario, dispositivo);
                 this._router.navigate(['confirmation-required']);
             } else if (dispositivo?.indAtivo) {
                 this._authService
@@ -98,7 +97,7 @@ export class AuthSignInComponent implements OnInit {
     
                 this.signInForm.enable();
             } else {
-                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(codUsuario, usuario, dispositivo) : this.enviarEmail(codUsuario, usuario, dispositivo);
+                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(usuario, dispositivo) : this.enviarEmail(usuario, dispositivo);
                 this._router.navigate(['confirmation-required']);
             }
         }, err => {
@@ -107,7 +106,7 @@ export class AuthSignInComponent implements OnInit {
         });
     }
 
-    private enviarSMS(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
+    private enviarSMS(usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._smsService.enviarSms({
             from: "SAT",
             to: usuario.tecnico?.fonePerto,
@@ -121,7 +120,7 @@ export class AuthSignInComponent implements OnInit {
         });
     }
 
-    private enviarEmail(codUsuario: string, usuario: Usuario, dispositivo: UsuarioDispositivo) {
+    private enviarEmail(usuario: Usuario, dispositivo: UsuarioDispositivo) {
         this._emailSvc.enviarEmail({
             emailDestinatarios: [usuario.email],
             assunto: "Ativação de Acesso ao Sistema SAT",

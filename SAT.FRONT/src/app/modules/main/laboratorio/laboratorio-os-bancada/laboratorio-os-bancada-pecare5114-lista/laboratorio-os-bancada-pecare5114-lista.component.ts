@@ -16,7 +16,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
     styles: [
         /* language=SCSS */
         `.list-grid-u {
-            grid-template-columns: 10% 10% 40% 8% 10% 10%;
+            grid-template-columns: 10% 10% 40% 8% 15% 10%;
         }`
     ],
     animations: fuseAnimations,

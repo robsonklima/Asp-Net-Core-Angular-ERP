@@ -132,7 +132,6 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
     this.mediaAdiantamentos.maximoParaSolicitarQuinzenal = this.mediaAdiantamentos.maximoParaSolicitarQuinzenal < 0 ? 0 : this.mediaAdiantamentos.maximoParaSolicitarQuinzenal;
     this.mediaAdiantamentos.maximoParaSolicitarSemanal = this.mediaAdiantamentos.maximoParaSolicitarSemanal < 0 ? 0 : this.mediaAdiantamentos.maximoParaSolicitarSemanal;
 
-    this.form.controls['valorAdiantamentoSolicitado'].setValue(this.mediaAdiantamentos.maximoParaSolicitarMensal);
     this.form.controls['emails'].setValue(this.mediaAdiantamentos.emailDefault);
   }
 
@@ -194,7 +193,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
         banco: conta.numBanco,
         agencia: conta.numAgencia,
         contaCorrente: conta.numConta,
-      },
+      }
     }
 
     this._despesaAdiantamentoService.criarSolicitacao(solicitacao).subscribe(() => {

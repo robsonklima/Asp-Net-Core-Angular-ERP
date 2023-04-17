@@ -148,6 +148,9 @@
                 <div class="flex items-center justify-between">
                     <div class="text-secondary">{{ t('observacoes') }}</div>
                     <textarea matInput formControlName="observacoes" [rows]="4" maxlength="1000"></textarea>
+                    <button class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button [matTooltip]="t('Salvar Observação')" matTooltipPosition="above" (click)="salvarObs()">
+                        <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                    </button>
                 </div>
             </div>
     </fuse-card>

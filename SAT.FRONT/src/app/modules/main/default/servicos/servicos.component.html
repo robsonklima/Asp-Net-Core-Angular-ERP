@@ -15,7 +15,7 @@
 
         <div class="flex flex-col mt-2 divide-y">
             <ng-container *ngFor="let monitoramento of monitoramentoChamados">
-                <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                <div class="flex flex-row items-center justify-between py-2 px-0.5" *ngIf="monitoramento.item != 'BRB'">
                     <div class="flex flex-col">
                         <div class="font-medium">
                             <span class="cursor-help" [matTooltip]="monitoramento.mensagem"
@@ -235,7 +235,7 @@
 
         <div class="flex flex-col mt-2 divide-y">
             <ng-container *ngFor="let monitoramento of monitoramentoIntegracoes">
-                <div class="flex flex-row items-center justify-between py-2 px-0.5">
+                <div class="flex flex-row items-center justify-between py-2 px-0.5" *ngIf="monitoramento.item != 'Analisa Inconsistencia Ponto'">
                     <div class="flex flex-col">
                         <div class="font-medium">
                             <span class="cursor-help" [matTooltip]="monitoramento.mensagem"

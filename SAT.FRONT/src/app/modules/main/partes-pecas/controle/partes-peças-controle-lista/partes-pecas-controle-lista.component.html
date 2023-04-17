@@ -63,13 +63,13 @@
                                     <div
                                         class="list-grid-partes grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
-                                            {{ os.codOS }}
+                                            {{ os?.codOS }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ isUltimaRAT(os).codRAT }}
+                                            {{ isUltimaRAT(os)?.codRAT }}
                                         </div>
                                         <div class="flex items-center">
-                                            {{ os.dataHoraCad | date:'dd/MM/yyyy' }}
+                                            {{ os?.dataHoraCad | date:'dd/MM/yyyy' }}
                                         </div>
                                         <div class="flex items-center truncate" [matTooltip]="os?.equipamento?.nomeEquip">
                                             {{ os?.equipamento?.nomeEquip }}
@@ -93,14 +93,14 @@
                                             <button class="absolute min-w-10 min-h-6 h-6 px-2 -mt-3.5" mat-stroked-button
                                                 (click)="abrirDetalhe(isUltimaRAT(os))">
                                                 <mat-icon class="icon-size-5"
-                                                    [svgIcon]="ratSelecionada?.codRAT === isUltimaRAT(os).codRAT ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                                                    [svgIcon]="ratSelecionada?.codRAT === isUltimaRAT(os)?.codRAT ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
                                                 </mat-icon>
                                             </button>
                                         </div>
                                     </div>
 
-                            <div class="grid">
-                                <ng-container *ngIf="ratSelecionada?.codRAT == isUltimaRAT(os).codRAT">
+                            <div *ngIf="isUltimaRAT(os)?.codRAT" class="grid">
+                                <ng-container *ngIf="ratSelecionada?.codRAT == isUltimaRAT(os)?.codRAT">
                                     <ng-container
                                         *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: ratSelecionada}">
                                     </ng-container>

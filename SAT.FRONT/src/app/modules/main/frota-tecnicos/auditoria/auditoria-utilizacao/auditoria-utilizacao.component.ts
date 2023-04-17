@@ -83,19 +83,7 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     });
   }
 
-  private registrarEmitters() { 
-    this.form.controls['observacoes'].valueChanges
-			.pipe(
-        debounceTime(700),
-				distinctUntilChanged(),
-				takeUntil(this._onDestroy)
-			)
-			.subscribe((obs) => {
-        if (!this.auditoria) return;
-				this._auditoriaService.atualizar({ ...this.auditoria, ...{ observacoes: obs } }).subscribe();
-        this._snack.exibirToast('Observação atualizada', 'success');
-			});
-   }
+  private registrarEmitters() { }
 
   validarCorKMParticular(auditoria) {
     if (auditoria?.usuario?.Tecnico?.codFrotaFinalidadeUso == 1) {
@@ -122,6 +110,10 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
     }
   }
 
+  salvarObs(){
+    this.auditoria.observacoes = this.form.controls["observacoes"].value;
+    this._auditoriaService.atualizar(this.auditoria).subscribe();   
+  }
 
   ngOnDestroy() {
     this._onDestroy.next();

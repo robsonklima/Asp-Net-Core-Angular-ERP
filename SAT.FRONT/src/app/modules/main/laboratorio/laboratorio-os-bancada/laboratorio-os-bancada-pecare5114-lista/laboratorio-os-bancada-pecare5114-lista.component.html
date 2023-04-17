@@ -44,6 +44,11 @@
                                 <mat-icon class="icon-size-5 text-blue-600"
                                     [svgIcon]="'heroicons_outline:pencil-alt'"></mat-icon>
                             </button>
+
+                            <button mat-button matTooltip="Excluir" (click)="removerPeca(os)">
+                                <mat-icon class="icon-size-5 text-orange-600"
+                                    [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                            </button>
                         </div>
                         <div class="flex items-center">
                             <mat-slide-toggle [color]="'primary'" [checked]="os.indImpressao == 1"

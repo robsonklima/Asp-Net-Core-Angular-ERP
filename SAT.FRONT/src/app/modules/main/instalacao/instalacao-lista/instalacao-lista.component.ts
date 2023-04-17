@@ -37,7 +37,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { InstalacaoAnexoDialogComponent } from '../instalacao-anexo-dialog/instalacao-anexo-dialog.component';
 import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog/instalacao-ressalva-dialog.component';
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
-
+import { InstalacaoStatus } from 'app/core/types/instalacao-status.types';
+import { InstalacaoStatusService } from 'app/core/services/instalacao-status.service';
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
@@ -65,6 +66,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   instalacao: Instalacao;
   importacaoLinhas: ImportacaoLinha[] = [];
   transportadoras: Transportadora[] = [];
+  instalacoesStatus: InstalacaoStatus[] = [];
   filiais: Filial[] = [];
   ordemServico: OrdemServico;
   dataSourceData: InstalacaoData;
@@ -72,6 +74,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   userSession: UserSession;
   form: FormGroup;
   transportadorasFiltro: FormControl = new FormControl();
+  instalStatusFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -80,6 +83,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     private _formBuilder: FormBuilder,
     private _instalacaoSvc: InstalacaoService,
     private _transportadoraSvc: TransportadoraService,
+    private _instalStatusSvc: InstalacaoStatusService,
     private _filialSvc: FilialService,
     private _contratoSvc: ContratoService,
     private _instalacaoLoteSvc: InstalacaoLoteService,
@@ -103,6 +107,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
 
     this.obterInstalacoes();
     this.obterTransportadoras();
+    this.obterStatusInstalacao();
     this.obterFiliais();
     this.obterContrato();
     this.obterLote();
@@ -180,7 +185,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       dataConfInstalacao: [''],
       os: [{ value: '', disabled: true }],
       dataHoraOS: [''],
-      instalStatus: [{ value: '', disabled: true }],
+      codInstalStatus: [''],
+      nomeInstalStatus: [{ value: '', disabled: true }],
       numRAT: [''],
       agenciaIns: [''],
       nomeLocalIns: [{ value: '', disabled: true }],
@@ -257,6 +263,16 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     }).toPromise();
 
     this.transportadoras = data.items;
+  }
+
+  private async obterStatusInstalacao(filter: string = '') {
+    const data = await this._instalStatusSvc.obterPorParametros({
+      sortActive: 'NomeInstalStatus',
+      sortDirection: 'asc',
+      filter: filter
+    }).toPromise();
+
+    this.instalacoesStatus = data.items;
   }
 
   private async obterFiliais(filter: string = '') {
@@ -491,6 +507,11 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     this._instalacaoSvc.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Instalação atualizada com sucesso!", "success");
     });
+
+    // if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null))
+    // {
+    //   console.log(this.instalacaoSelecionada); 
+    // }
 
     this.obterInstalacoes();
   }

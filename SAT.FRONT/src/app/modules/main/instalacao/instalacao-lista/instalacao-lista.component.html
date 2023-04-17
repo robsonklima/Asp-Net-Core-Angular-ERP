@@ -573,7 +573,21 @@
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                     <mat-label>{{ t('status') }}</mat-label>
-                                                    <input matInput formControlName="instalStatus">
+
+                                                    <mat-select formControlName="codInstalStatus"
+                                                        #instalStatusSelect>
+                                                        <mat-option>
+                                                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                                                noEntriesFoundLabel="'nenhum registro encontrado'"
+                                                                [formControl]="instalStatusFiltro">
+                                                            </ngx-mat-select-search>
+                                                        </mat-option>
+
+                                                        <mat-option *ngFor="let instalStatus of instalacoesStatus"
+                                                            [value]="instalStatus.codInstalStatus">
+                                                            <span>{{ instalStatus.nomeInstalStatus }}</span>
+                                                        </mat-option>
+                                                    </mat-select>
                                                 </mat-form-field>
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">

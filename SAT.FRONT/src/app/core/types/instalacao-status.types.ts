@@ -6,10 +6,11 @@ export class InstalacaoStatus {
     indAtivo: number;
 }
 
-export interface InstalStatusData extends Meta {
+export interface InstalacaoStatusData extends Meta {
     items: InstalacaoStatus[];
 };
 
-export interface InstalStatusParameters extends QueryStringParameters {
+export interface InstalacaoStatusParameters extends QueryStringParameters {
+    codInstalStatus?: number;
     nomeInstalStatus?: string;
 };

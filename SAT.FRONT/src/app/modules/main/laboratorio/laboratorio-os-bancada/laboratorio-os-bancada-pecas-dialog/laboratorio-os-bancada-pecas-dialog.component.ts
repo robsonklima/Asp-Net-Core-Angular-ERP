@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
@@ -12,7 +12,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { Peca, PecaParameters } from 'app/core/types/peca.types';
 import { PecaService } from 'app/core/services/peca.service';
 import { Subject } from 'rxjs';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged, tap, map, delay, filter } from 'rxjs/operators';
 import { PecaRE5114Service } from 'app/core/services/pecaRE5114.service';
 import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
@@ -23,7 +23,7 @@ import _ from 'lodash';
     selector: 'app-laboratorio-os-bancada-pecas-dialog',
     templateUrl: './laboratorio-os-bancada-pecas-dialog.component.html'
 })
-export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
+export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
     osBancada: OSBancada;
     osBancadaPeca: OSBancadaPecas;
     pecaRe5114: PecaRE5114;
@@ -51,7 +51,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    async ngOnInit() {
+    async ngAfterViewInit() {
         this.inicializarForm();
         this.obterFilial();
         this.obterPecas();
@@ -59,19 +59,21 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
         this.loading = false;
     }
 
-    private async obterPecas(filtro: string = '') {
-        let params: PecaParameters = {
-            filter: filtro,
-            sortActive: 'nomePeca',
-            sortDirection: 'asc',
-            pageSize: 1000
-        };
-
-        const data = await this._pecaService
-            .obterPorParametros(params)
-            .toPromise();
-
-        this.pecas = data.items;
+    private async obterPecas(filtro: string = ''): Promise<Peca[]> {
+        return new Promise(async (resolve, reject) => {
+            let params: PecaParameters = {
+                filter: filtro,
+                sortActive: 'nomePeca',
+                sortDirection: 'asc',
+                pageSize: 10
+            };
+    
+            const data = await this._pecaService
+                .obterPorParametros(params)
+                .toPromise();
+    
+            resolve(data.items);
+        });
     }
 
     private async obterFilial() {
@@ -114,14 +116,25 @@ export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
 
     private registrarEmitters() {
         this.pecaFilterCtrl.valueChanges
-            .pipe(
-                takeUntil(this._onDestroy),
-                debounceTime(700),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                this.obterPecas(this.pecaFilterCtrl.value);
-            });
+			.pipe(
+                filter(text => text != ''),
+				tap(() => {}),
+				debounceTime(700),
+                distinctUntilChanged(),
+				map(async query => {
+					return (await this.obterPecas());
+				}),
+				delay(500),
+				takeUntil(this._onDestroy)
+			)
+			.subscribe(async data => {
+                console.log('Eli DOIDAo');
+                
+
+				this.pecas = await data;
+			});
+
+            
     }
 
     cancelar() {

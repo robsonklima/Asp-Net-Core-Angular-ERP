@@ -102,12 +102,11 @@ export class PontoColaboradorListaComponent extends Filterable implements AfterV
       ...this.filter?.parametros
     }
     
-    this._userSvc.obterPorParametros(params).subscribe((data) => 
-        {
-          this.dataSourceData = data;
-          this.isLoading = false;
-          this._cdr.detectChanges(); 
-        });
+    this._userSvc.obterPorParametros(params).subscribe((data) => {
+      this.dataSourceData = data;
+      this.isLoading = false;
+      this._cdr.detectChanges(); 
+    });
   }
 
   registerEmitters(): void {

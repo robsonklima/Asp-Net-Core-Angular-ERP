@@ -174,15 +174,6 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => usuarios.Any(p => p == u.CodUsuario));
             }
 
-            if (parameters.CodPontoPeriodo != null)
-            {
-                query = query
-                    .Where(u => u.PontosPeriodoUsuario
-                        .Any(pp => pp.PontoPeriodo.CodPontoPeriodo == parameters.CodPontoPeriodo))
-                    .Include(u => u.PontosPeriodoUsuario
-                    .Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo));                        
-            }
-
             if (parameters.CodPontoPeriodoUsuarioStatus.HasValue && parameters.CodPontoPeriodo.HasValue)
             {
                 query = query
@@ -190,6 +181,12 @@ namespace SAT.INFRA.Repository
                         .Any(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo))
                     .Include(u => u.PontosPeriodoUsuario
                     .Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo));
+            } 
+            else if (parameters.CodPontoPeriodo != null)
+            {
+                query = query
+                    .Include(u => u.PontosPeriodoUsuario
+                    .Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo));                        
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))
@@ -263,9 +260,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 

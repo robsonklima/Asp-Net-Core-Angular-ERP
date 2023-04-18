@@ -118,7 +118,6 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
         });
     }
 
-
     liberarPeca(codRATDetalhePeca: number) {
         const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
             data:
@@ -138,6 +137,7 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 ratDetalhesPeca.qtdeLib = ratDetalhesPeca.qtdePecas;
                 ratDetalhesPeca.indOK = 1;
                 ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.codUsuarioManutencao = this.userSession.usuario.codUsuario;
                 ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 ratDetalhesPeca.descStatus = 'PEÇA LIBERADA';
 
@@ -175,6 +175,7 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 const ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
                 ratDetalhesPeca.indCentral = 1;
                 ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.codUsuarioManutencao = this.userSession.usuario.codUsuario;
                 ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 ratDetalhesPeca.descStatus = 'PEÇA FALTANTE';
 
@@ -212,6 +213,7 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 var ratDetalhesPeca: RelatorioAtendimentoDetalhePeca = (await this.obterRatDetalhePeca(codRATDetalhePeca));
                 ratDetalhesPeca.qtdeLib = ratDetalhesPeca.qtdePecas;
                 ratDetalhesPeca.codUsuarioManut = this.userSession.usuario.codUsuario;
+                ratDetalhesPeca.codUsuarioManutencao = this.userSession.usuario.codUsuario;
                 ratDetalhesPeca.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 ratDetalhesPeca.descStatus = 'PEÇA EM TRÂNSITO';
 

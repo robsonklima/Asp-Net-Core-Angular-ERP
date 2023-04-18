@@ -508,10 +508,25 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       this._snack.exibirToast("Instalação atualizada com sucesso!", "success");
     });
 
-    // if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null))
-    // {
-    //   console.log(this.instalacaoSelecionada); 
-    // }
+    if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null))
+    {
+      if(this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
+
+        let objEqp = {
+          ...this.instalacaoSelecionada.equipamentoContrato,
+          ...{
+            dataAtivacao: this.instalacaoSelecionada.ordemServico.dataHoraFechamento,
+            indAtivo: statusConst.ATIVO,
+            codUsuarioManut: this.userSession.usuario?.codUsuario
+          }
+        };
+        
+        this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
+          this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
+        });
+
+      }
+    }
 
     this.obterInstalacoes();
   }

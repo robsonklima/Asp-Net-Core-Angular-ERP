@@ -132,6 +132,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
 
     dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
       if (confirmacao) {
+        
         this._instalacaoPagtoSvc.deletar(codInstalPagto).subscribe(() => {
           this._snack.exibirToast('Pagamento Excluído', 'sucess');
         })

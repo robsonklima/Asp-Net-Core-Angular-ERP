@@ -8,7 +8,7 @@ import { UserService } from 'app/core/user/user.service';
 import { fromEvent, Subject } from 'rxjs';
 import { OrcamentoFaturamentoService } from 'app/core/services/orcamento-faturamento.service';
 import { OrcamentoFaturamento, OrcamentoFaturamentoData, OrcamentoFaturamentoParameters, OrcamentoFaturamentoViewModel } from 'app/core/types/orcamento-faturamento.types';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import moment from 'moment';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
@@ -60,6 +60,7 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 
 	registerEmitters(): void {
 		fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
+			filter(text => text != ''),
 			map((event: any) => {
 				return event.target.value;
 			})

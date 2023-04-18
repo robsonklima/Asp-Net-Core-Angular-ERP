@@ -17,8 +17,7 @@ import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
   selector: 'app-peca-form',
   templateUrl: './peca-form.component.html'
 })
-export class PecaFormComponent implements OnInit 
-{
+export class PecaFormComponent implements OnInit {
 
   public codPeca: number;
   public isAddMode: boolean;
@@ -38,40 +37,37 @@ export class PecaFormComponent implements OnInit
     private _userService: UserService,
     private _location: Location,
     private _dialog: MatDialog,
-    private _snack: CustomSnackbarService) 
-      { this.userSession = JSON.parse(this._userService.userSession) }
+    private _snack: CustomSnackbarService) { this.userSession = JSON.parse(this._userService.userSession) }
 
-  async ngOnInit() 
-  {
-    
+  async ngOnInit() {
+
     this.codPeca = +this._route.snapshot.paramMap.get('codPeca');
     this.isAddMode = !this.codPeca;
 
     this.inicializarForm();
     this.obterPecaSubstituicao();
     this.obterStatus();
-    
+
     if (this.isAddMode) return;
-    
+
     const data = await this._pecaService
-        .obterPorCodigo(this.codPeca)
-        .toPromise();
+      .obterPorCodigo(this.codPeca)
+      .toPromise();
 
     this.form.patchValue(data);
-    
+
     this.peca = data;
-    
-    
+
+
   }
 
-  private inicializarForm(): void 
-  {
+  private inicializarForm(): void {
     this.form = this._formBuilder.group({
       codPeca: [
         {
           value: undefined,
           disabled: true
-        }, Validators.required
+        },
       ],
       codMagnus: [undefined, Validators.required],
       nomePeca: [undefined, Validators.required],
@@ -90,16 +86,14 @@ export class PecaFormComponent implements OnInit
     });
   }
 
-  private async obterStatus(): Promise<void>
-  {
+  private async obterStatus(): Promise<void> {
     Object.keys(PecaStatus)
-    .filter((e) => isNaN(Number(e)))
-    .forEach((tr, i) => 
-      this.pecaStatus.push({ codPecaStatus: i+1, label: tr }));
+      .filter((e) => isNaN(Number(e)))
+      .forEach((tr, i) =>
+        this.pecaStatus.push({ codPecaStatus: i + 1, label: tr }));
   }
 
-  private async obterPecaSubstituicao() 
-  {
+  private async obterPecaSubstituicao() {
     this.pecasSubstituicao = (await this._pecaService.obterPorParametros({
       sortActive: 'nomePeca',
       sortDirection: 'asc',
@@ -107,27 +101,26 @@ export class PecaFormComponent implements OnInit
     }).toPromise()).items;
 
     this.pecasSubstituicaoFiltro
-        .valueChanges
-        .pipe(filter(query => !!query),
-          takeUntil(this._onDestroy),
-          debounceTime(700),
-          map(async query => (await this._pecaService.obterPorParametros({
-            sortActive: 'nomePeca',
-            sortDirection: 'asc',
-            filter: query,
-            pageSize: 100
-          }).toPromise()).items.slice()),
-          delay(500),
-          takeUntil(this._onDestroy))
-        .subscribe(async data => 
-          this.pecasSubstituicao = await data);
+      .valueChanges
+      .pipe(filter(query => !!query),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        map(async query => (await this._pecaService.obterPorParametros({
+          sortActive: 'nomePeca',
+          sortDirection: 'asc',
+          filter: query,
+          pageSize: 100
+        }).toPromise()).items.slice()),
+        delay(500),
+        takeUntil(this._onDestroy))
+      .subscribe(async data =>
+        this.pecasSubstituicao = await data);
   }
 
   public salvar(): void { this.isAddMode ? this.criar() : this.atualizar(); }
 
-  public atualizar(): void 
-  {
-    var peca = 
+  public atualizar(): void {
+    var peca =
     {
       ...this.peca,
       ...this.form.getRawValue(),
@@ -138,64 +131,57 @@ export class PecaFormComponent implements OnInit
       }
     };
 
-    this._pecaService.atualizar(peca).subscribe(() => 
-    {
+    this._pecaService.atualizar(peca).subscribe(() => {
       this._snack.exibirToast(`Peça ${peca.nomePeca} atualizada com sucesso!`, "success");
       this._location.back();
     });
   }
 
-  public criar(): void 
-  {
-    var peca: Peca = 
+  public criar(): void {
+    var peca: Peca =
     {
-      ...this.peca,
       ...this.form.getRawValue(),
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
         indObrigRastreabilidade: 0,
-        indValorFixo: 0
+        indValorFixo: 0,
+        isValorAtualizado: 0
       }
     };
 
-    this._pecaService.criar(peca).subscribe(() => 
-    {
+    this._pecaService.criar(peca).subscribe(() => {
       this._snack.exibirToast(`Peça ${peca.nomePeca} criada com sucesso!`, "success");
       this._location.back();
     });
   }
 
-  public remover(): void
-  {
+  public remover(): void {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent,
-    {
-      data: 
       {
-        titulo: 'Confirmação',
-        message: `Deseja remover a peça ${this.peca.nomePeca}?`,
-        buttonText: 
+        data:
         {
-          ok: 'Sim',
-          cancel: 'Não'
+          titulo: 'Confirmação',
+          message: `Deseja remover a peça ${this.peca.nomePeca}?`,
+          buttonText:
+          {
+            ok: 'Sim',
+            cancel: 'Não'
+          }
         }
-      }
-    });
+      });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) => 
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (!confirmacao) return;
-      
-      this._pecaService.deletar(this.codPeca).subscribe(() => 
-      {
+
+      this._pecaService.deletar(this.codPeca).subscribe(() => {
         this._snack.exibirToast(`${this.peca.nomePeca} removida com sucesso!`, 'success');
         this._router.navigate(['/peca']);
       }, _ => this._snack.exibirToast('Erro ao remover peça', 'error'))
     });
   }
 
-  public ngOnDestroy(): void 
-  {
+  public ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

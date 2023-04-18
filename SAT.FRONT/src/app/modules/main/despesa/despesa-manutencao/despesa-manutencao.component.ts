@@ -237,7 +237,7 @@ export class DespesaManutencaoComponent implements OnInit {
     if (conf)
       this.despesaConfiguracaoCombustivel = conf;
     else
-      this._snack.exibirToast('Não foi possível obter os valores de combustível para esta região. Favor entrar em contato com a sua filial.', 'error');
+      this._snack.exibirToast('Não foi possível obter os valores de combustível para esta região. Favor entrar em contato com a gestão de frotas.', 'error');
   }
 
   async obterDespesaConfiguracao() {

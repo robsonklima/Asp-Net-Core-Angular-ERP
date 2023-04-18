@@ -45,7 +45,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.loading = false;
         this._cdr.detectChanges();
 
-        this._sharedService.listenEvent(ConfiguracoesComponent).subscribe(async (params) => {
+        this._sharedService.listenEvent(ConfiguracoesComponent)?.subscribe(async (params) => {
             this.dadosFotoUsuario = (await this._fotoService.buscarFotoUsuario(this.usuario.codUsuario).toPromise());
             this._cdr.detectChanges();
         });

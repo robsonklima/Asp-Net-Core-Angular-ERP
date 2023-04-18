@@ -577,7 +577,7 @@ export class DespesaItemDialogComponent implements OnInit {
   mostrarOpcaoResidenciaHotelOrigem() {
     const despesaItensKM = this.obterDespesaItensKM();
 
-    if (this.isPrimeiraRATDoDia() && despesaItensKM.length == 0)
+    if (this.isPrimeiraRATDoDia() && despesaItensKM?.length == 0)
       return true;
 
     return false;
@@ -586,7 +586,7 @@ export class DespesaItemDialogComponent implements OnInit {
   mostrarOpcaoResidenciaHotelDestino() {
     const despesaItensKM = this.obterDespesaItensKM();
 
-    if (this.isUltimaRATDoDia() && despesaItensKM.length > 0)
+    if (this.isUltimaRATDoDia() && despesaItensKM?.length > 0)
       return true;
 
     return false;

@@ -128,13 +128,8 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
 				takeUntil(this._onDestroy)
 			)
 			.subscribe(async data => {
-                console.log('Eli DOIDAo');
-                
-
 				this.pecas = await data;
 			});
-
-            
     }
 
     cancelar() {
@@ -182,6 +177,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
                     codPecaRe5114: pecaRE5114.codPecaRe5114,
                     codOsbancada: this.osBancada.codOsbancada,
                     indPecaLiberada: 0,
+                    indImpressao: 0,
                 }
             };
 

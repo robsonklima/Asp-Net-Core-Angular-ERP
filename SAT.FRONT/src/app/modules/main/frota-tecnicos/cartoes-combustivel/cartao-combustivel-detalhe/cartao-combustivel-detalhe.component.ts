@@ -8,6 +8,7 @@ import { DespesaCartaoCombustivelTecnicoService } from 'app/core/services/despes
 import { MatDialog } from '@angular/material/dialog';
 import Enumerable from 'linq';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { CartaoCombustivelDialogComponent } from './cartao-combustivel-dialog/cartao-combustivel-dialog.component';
 
 @Component({
   selector: 'app-cartao-combustivel-detalhe',
@@ -74,7 +75,7 @@ export class CartaoCombustivelDetalheComponent implements AfterViewInit
 
   vincularNovoTecnico(): void
   {
-    const dialogRef = this._dialog.open(CartaoCombustivelDetalheComponent, {
+    const dialogRef = this._dialog.open(CartaoCombustivelDialogComponent, {
       data: { codDespesaCartaoCombustivel: this.codDespesaCartaoCombustivel }
     });
 

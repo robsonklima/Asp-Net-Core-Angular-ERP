@@ -128,13 +128,8 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
 				takeUntil(this._onDestroy)
 			)
 			.subscribe(async data => {
-                console.log('Eli DOIDAo');
-                
-
 				this.pecas = await data;
 			});
-
-            
     }
 
     cancelar() {

@@ -6,10 +6,18 @@
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('tecnico') }}</mat-label>
                 <mat-select formControlName="codTecnico">
+                    <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tecnicoFilterCtrl">
+                        </ngx-mat-select-search>
+                    </mat-option>
                     <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
                         {{ tecnico.nome }}
                     </mat-option>
                 </mat-select>
+                <mat-error>
+                    {{ t('preencher campo') }}
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-4">

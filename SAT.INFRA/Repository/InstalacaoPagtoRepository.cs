@@ -38,7 +38,9 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            InstalacaoPagto inst = _context.InstalacaoPagto.FirstOrDefault(i => i.CodInstalPagto == codigo);
+            InstalacaoPagto inst = _context.InstalacaoPagto
+                .Include(i => i.InstalacoesPagtoInstal)
+                .FirstOrDefault(i => i.CodInstalPagto == codigo);
 
             if (inst != null)
             {
@@ -51,33 +53,33 @@ namespace SAT.INFRA.Repository
         {
             return _context.InstalacaoPagto
                 .Include(i => i.Contrato)
-                .Include(i => i.InstalacoesPagtoInstal) 
+                .Include(i => i.InstalacoesPagtoInstal)
                      .ThenInclude(c => c.Instalacao)
-                .Include(i => i.InstalacoesPagtoInstal)                               
-                     .ThenInclude(c => c.InstalacaoTipoParcela)   
-                .Include(i => i.InstalacoesPagtoInstal)                            
-                     .ThenInclude(c => c.InstalacaoMotivoMulta)                                                  
+                .Include(i => i.InstalacoesPagtoInstal)
+                     .ThenInclude(c => c.InstalacaoTipoParcela)
+                .Include(i => i.InstalacoesPagtoInstal)
+                     .ThenInclude(c => c.InstalacaoMotivoMulta)
                 .FirstOrDefault(i => i.CodInstalPagto == codigo);
         }
 
         public PagedList<InstalacaoPagto> ObterPorParametros(InstalacaoPagtoParameters parameters)
         {
-            var query = _context.InstalacaoPagto   
+            var query = _context.InstalacaoPagto
                 .Include(i => i.Contrato)
                 .Include(i => i.InstalacoesPagtoInstal)
-                     .ThenInclude(c => c.Instalacao)     
-                .Include(i => i.InstalacoesPagtoInstal)                               
-                     .ThenInclude(c => c.InstalacaoTipoParcela)   
-                .Include(i => i.InstalacoesPagtoInstal)                            
-                     .ThenInclude(c => c.InstalacaoMotivoMulta)   
-                .AsNoTracking() 
+                     .ThenInclude(c => c.Instalacao)
+                .Include(i => i.InstalacoesPagtoInstal)
+                     .ThenInclude(c => c.InstalacaoTipoParcela)
+                .Include(i => i.InstalacoesPagtoInstal)
+                     .ThenInclude(c => c.InstalacaoMotivoMulta)
+                .AsNoTracking()
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
                 query = query.Where(i =>
                     i.CodInstalPagto.ToString().Contains(parameters.Filter) ||
-                    i.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)                 
+                    i.CodContrato.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
 

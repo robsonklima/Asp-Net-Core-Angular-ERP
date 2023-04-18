@@ -1,3 +1,7 @@
+import {
+  Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum,
+  DespesaTipo, DespesaTipoEnum, DespesaTipoParameters
+} from 'app/core/types/despesa.types';
 import { Inject, Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -6,10 +10,6 @@ import { DespesaItemService } from 'app/core/services/despesa-item.service';
 import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
-import {
-  Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum,
-  DespesaTipo, DespesaTipoEnum, DespesaTipoParameters
-} from 'app/core/types/despesa.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
 import { UserService } from 'app/core/user/user.service';
@@ -24,9 +24,6 @@ import { Subject } from 'rxjs';
 import Enumerable from 'linq';
 import moment from 'moment';
 import _ from 'lodash';
-import 'leaflet-routing-machine';
-import 'leaflet';
-declare var L: any;
 
 @Component({
   selector: 'app-despesa-item-dialog',
@@ -92,7 +89,7 @@ export class DespesaItemDialogComponent implements OnInit {
     const tipos = await this._despesaTipoSvc.obterPorParametros(params).toPromise();
     this.tiposDespesa = tipos.items;
 
-    if (this.obterDespesaItensKM().length == 2 || (this.obterDespesaItensKM().length == 1 && !this.isUltimaRATDoDia()))
+    if (this.obterDespesaItensKM()?.length == 2 || (this.obterDespesaItensKM()?.length == 1 && !this.isUltimaRATDoDia()))
     { // Adicionar regra de plantao
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
@@ -434,7 +431,7 @@ export class DespesaItemDialogComponent implements OnInit {
   }
 
   private obterDespesaItensKM() {
-    return this.despesa.despesaItens.filter(i => i.codDespesaTipo === DespesaTipoEnum.KM && i.indAtivo == statusConst.ATIVO);
+    return this.despesa.despesaItens?.filter(i => i.codDespesaTipo === DespesaTipoEnum.KM && i.indAtivo == statusConst.ATIVO);
   }
 
   private configuraCamposHabilitados() {

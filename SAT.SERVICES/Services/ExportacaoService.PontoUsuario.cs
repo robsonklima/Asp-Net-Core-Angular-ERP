@@ -25,7 +25,7 @@ namespace SAT.SERVICES.Services {
             foreach (var usuario in usuarios)
             {
                 string coletor = usuario?.Filial?.NumColetorPonto.ToString().PadLeft(4, '0');
-                string cracha = usuario.NumCracha.PadLeft(4, '0');
+                string cracha = usuario.NumCracha != null ? usuario.NumCracha.PadLeft(4, '0') : null;
 
                 foreach (var ponto in usuario.PontosUsuario)
                 {

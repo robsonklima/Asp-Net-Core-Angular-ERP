@@ -32,27 +32,22 @@ registerLocaleData(localePt);
   providers: [{ provide: LOCALE_ID, useValue: "pt-BR" }]
 })
 
-export class DespesaProtocoloListaComponent extends Filterable implements AfterViewInit, IFilterable
-{
+export class DespesaProtocoloListaComponent extends Filterable implements AfterViewInit, IFilterable {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild('searchInputControl') searchInputControl: ElementRef;
-
-
   isLoading: boolean = false;
   protocolos: DespesaProtocoloData;
 
-  constructor (
+  constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _despesaProtocoloSvc: DespesaProtocoloService)
-  {
+    private _despesaProtocoloSvc: DespesaProtocoloService) {
     super(_userService, "despesa-protocolo");
   }
 
-  ngAfterViewInit()
-  {
+  ngAfterViewInit() {
     this.obterDados();
 
     if (this.sort && this.paginator)
@@ -60,8 +55,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
-      this.sort.sortChange.subscribe(() =>
-      {
+      this.sort.sortChange.subscribe(() => {
         this.onSortChanged()
         this.obterDados();
       });
@@ -71,8 +65,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     this._cdr.detectChanges();
   }
 
-  private async obterProtocolos(filter: string)
-  {
+  private async obterProtocolos(filter: string) {
     this.protocolos = await this._despesaProtocoloSvc.obterPorParametros(
       {
         pageNumber: this.paginator?.pageIndex + 1,
@@ -83,8 +76,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       }).toPromise();
   }
 
-  public async obterDados(filter: string = null)
-  {
+  public async obterDados(filter: string = null) {
     this.isLoading = true;
 
     await this.obterProtocolos(filter);
@@ -92,30 +84,25 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     this.isLoading = false;
   }
 
-  registerEmitters(): void
-  {
+  registerEmitters(): void {
     fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
-      map((event: any) =>
-      {
+      map((event: any) => {
         return event.target.value;
       })
       , debounceTime(1000)
       , distinctUntilChanged()
-    ).subscribe((text: string) =>
-    {
+    ).subscribe((text: string) => {
       this.paginator.pageIndex = 0;
       this.obterDados(text);
     });
 
-    this.sidenav.closedStart.subscribe(() =>
-    {
+    this.sidenav.closedStart.subscribe(() => {
       this.onSidenavClosed();
       this.obterDados();
     })
   }
 
-  obterDataInicial(dp: DespesaProtocolo)
-  {
+  obterDataInicial(dp: DespesaProtocolo) {
     var dataInicial = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
       .select(e => e.despesaPeriodoTecnico.despesaPeriodo)
       .orderBy(e => e.dataInicio)
@@ -124,8 +111,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     return dataInicial != null ? dataInicial : "";
   }
 
-  obterDataFinal(dp: DespesaProtocolo)
-  {
+  obterDataFinal(dp: DespesaProtocolo) {
     var dataFinal = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
       .select(e => e.despesaPeriodoTecnico.despesaPeriodo)
       .orderByDescending(e => e.dataFim)
@@ -134,8 +120,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     return dataFinal != null ? dataFinal : "";
   }
 
-  obterTecnicos(dp: DespesaProtocolo)
-  {
+  obterTecnicos(dp: DespesaProtocolo) {
     var tecnicos = Enumerable.from(dp.despesaProtocoloPeriodoTecnico)
       .select(e => e.despesaPeriodoTecnico.tecnico.nome)
       .orderBy(e => e)
@@ -144,8 +129,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
     return tecnicos != null ? tecnicos.join(", ") : "---";
   }
 
-  public paginar()
-  {
+  public paginar() {
     this.onPaginationChanged();
     this.obterDados();
   }

@@ -13,7 +13,7 @@ import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
 import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
-import { Cliente } from 'app/core/types/cliente.types';
+import { Cliente, ClienteEnum } from 'app/core/types/cliente.types';
 import { Filial } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
@@ -185,6 +185,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			sortDirection: 'asc',
 			codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA}, ${TipoIntervencaoEnum.PREVENTIVA}` : null,
 		}).toPromise()).items;
+
+		if (this.userSession.usuario.codCliente == ClienteEnum.RIOCARD)
+			this.tiposIntervencao = this.tiposIntervencao.filter(ti => ti.codTipoIntervencao == TipoIntervencaoEnum.HELP_DESK);
 	}
 
 	public obterTiposIntervencaoPorPerfil(): TipoIntervencao[] {
@@ -209,7 +212,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			sortActive: 'nomeFilial',
 			sortDirection: 'asc'
 		}).toPromise()).items;
-	}
+	}es
 
 	private async obterContratos(filter: string = '') {
 		var codCliente = this.form.controls['codEquipContrato'].value ?? null;

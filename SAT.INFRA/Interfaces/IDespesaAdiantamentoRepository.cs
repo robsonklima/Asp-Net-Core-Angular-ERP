@@ -9,6 +9,7 @@ namespace SAT.INFRA.Interfaces
     public interface IDespesaAdiantamentoRepository
     {
         PagedList<DespesaAdiantamento> ObterPorParametros(DespesaAdiantamentoParameters parameters);
+        PagedList<AdiantamentoRDsPendentesView> ObterPorView(DespesaAdiantamentoParameters parameters);
         void Criar(DespesaAdiantamento despesa);
         void Deletar(int codigo);
         void Atualizar(DespesaAdiantamento despesa);

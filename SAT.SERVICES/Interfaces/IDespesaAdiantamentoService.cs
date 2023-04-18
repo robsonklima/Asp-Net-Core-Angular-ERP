@@ -9,6 +9,7 @@ namespace SAT.SERVICES.Interfaces
     public interface IDespesaAdiantamentoService
     {
         ListViewModel ObterPorParametros(DespesaAdiantamentoParameters parameters);
+        ListViewModel ObterPorView(DespesaAdiantamentoParameters parameters);
         DespesaAdiantamento Criar(DespesaAdiantamento despesa);
         void Deletar(int codigo);
         void Atualizar(DespesaAdiantamento despesa);

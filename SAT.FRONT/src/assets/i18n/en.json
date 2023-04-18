@@ -823,5 +823,6 @@
     "motivo multa": "Reason Fine",
     "endossado": "Endorsed",
     "nf venda": "Sales Invoice",
-    "exportar excel": "Export Excel"
+    "exportar excel": "Export Excel",
+    "pendentes": "Pending"
 }

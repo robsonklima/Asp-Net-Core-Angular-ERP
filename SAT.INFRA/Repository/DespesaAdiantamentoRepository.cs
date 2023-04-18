@@ -98,5 +98,21 @@ namespace SAT.INFRA.Repository
 
             return PagedList<DespesaAdiantamento>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
         }
+
+        public PagedList<AdiantamentoRDsPendentesView> ObterPorView(DespesaAdiantamentoParameters parameters)
+        {
+            var despesaAdiantamento = _context.AdiantamentoRDsPendentesView.AsQueryable();
+
+            if (!string.IsNullOrEmpty(parameters.CodTecnicos))
+            {
+                var codigos = parameters.CodTecnicos.Split(",").Select(a => a.Trim());
+                despesaAdiantamento = despesaAdiantamento.Where(e => codigos.Any(p => p == e.CodTecnico.ToString()));
+            }
+
+            if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
+                despesaAdiantamento = despesaAdiantamento.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
+            return PagedList<AdiantamentoRDsPendentesView>.ToPagedList(despesaAdiantamento, parameters.PageNumber, parameters.PageSize);
+        }
     }
 }

@@ -26,9 +26,36 @@ export interface DespesaAdiantamentoPeriodoParameters extends QueryStringParamet
     codAutorizadas?: string;
 };
 
+export interface AdiantamentoRDsPendentesView {
+    codTecnico: number;
+    tecnico: string;
+    nroRD: number;
+    dataInicio: string;
+    dataFim: string;
+    totalRD: number | null;
+    despesas: number | null;
+    adiantamento: number | null;
+    reembolso: number;
+    saldoAdiantamentoSAT: number;
+    protocolo: string;
+    dtEnvioProtocolo: string;
+    situacao: string;
+    controladoria: string;
+    cor: string;
+    nomeDespesaPeriodoTecnicoStatus: string;
+    dataHoraManut: string | null;
+    dataHoraCad: string | null;
+    dataInicio2: string | null;
+}
+
 export interface DespesaAdiantamentoPeriodoData extends Meta
 {
     items: DespesaAdiantamentoPeriodo[]
+};
+
+export interface AdiantamentoRDsPendentesViewData extends Meta
+{
+    items: AdiantamentoRDsPendentesView[]
 };
 
 export interface DespesaAdiantamentoPeriodoConsultaTecnicoData extends Meta

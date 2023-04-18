@@ -52,5 +52,9 @@ namespace SAT.API.Controllers
         public DespesaAdiantamentoSolicitacao Post([FromBody] DespesaAdiantamentoSolicitacao solicitacao) {
             return _despesaAdiantamentoService.CriarSolicitacao(solicitacao);
         }
+
+        [HttpGet("Pendentes")]
+        public ListViewModel GetByView([FromQuery] DespesaAdiantamentoParameters parameters) =>
+            _despesaAdiantamentoService.ObterPorView(parameters);
     }
 }

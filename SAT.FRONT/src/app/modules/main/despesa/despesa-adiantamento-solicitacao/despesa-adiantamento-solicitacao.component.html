@@ -165,6 +165,49 @@
                 </div>
 
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('pendentes') }}</p>
+                </div>
+
+                <div class="w-full p-8 overflow-auto">
+                    <div *ngIf="rdsPendentes.length && !loading">
+                        <table class="w-full table-auto text-md font-medium tracking-tight bg-card">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Data Início</th>
+                                    <th class="text-center">Data Fim</th>
+                                    <th class="text-center">Total RD</th>
+                                    <th class="text-center">Despesas</th>
+                                    <th class="text-center">Protocolo</th>
+                                    <th class="text-center">Envio Prot.</th>
+                                    <th class="text-center">Controladoria</th>
+                                    <th class="text-center">Situação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let rd of rdsPendentes">
+                                    <td class="text-center">{{ rd.dataInicio }}</td>
+                                    <td class="text-center">{{ rd.dataFim }}</td>
+                                    <td class="text-center">{{ rd.totalRD }}</td>
+                                    <td class="text-center">{{ rd.despesas }}</td>
+                                    <td class="text-center">{{ rd.protocolo }}</td>
+                                    <td class="text-center">{{ rd.dtEnvioProtocolo }}</td>
+                                    <td class="text-center">{{ rd.controladoria }}</td>
+                                    <td class="text-center">{{ rd.situacao }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-secondary" *ngIf="loading">
+                        Carregando...
+                    </div>
+
+                    <div class="text-secondary" *ngIf="!mediaAdiantamentos && !loading">
+                        Selecione o técnico
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">Solicitação</p>
                 </div>
 

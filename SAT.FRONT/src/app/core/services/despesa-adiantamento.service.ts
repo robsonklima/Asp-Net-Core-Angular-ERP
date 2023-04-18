@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoParameters, DespesaAdiantamentoSolicitacao, ViewMediaDespesasAdiantamento } from '../types/despesa-adiantamento.types';
+import { AdiantamentoRDsPendentesViewData, DespesaAdiantamento, DespesaAdiantamentoData, DespesaAdiantamentoParameters, DespesaAdiantamentoSolicitacao, ViewMediaDespesasAdiantamento } from '../types/despesa-adiantamento.types';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,20 @@ export class DespesaAdiantamentoService
         return this.http.get(
             `${c.api}/DespesaAdiantamento`, { params: params })
             .pipe(map((data: DespesaAdiantamentoData) => data));
+    }
+
+    obterPorView(parameters: DespesaAdiantamentoParameters): Observable<AdiantamentoRDsPendentesViewData>
+    {
+        let params = new HttpParams();
+
+        Object.keys(parameters).forEach(key =>
+        {
+            if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+        });
+
+        return this.http.get(
+            `${c.api}/DespesaAdiantamento/Pendentes`, { params: params })
+            .pipe(map((data: AdiantamentoRDsPendentesViewData) => data));
     }
 
     obterPorCodigo(codDespesaAdiantamento: number): Observable<DespesaAdiantamento>

@@ -66,5 +66,23 @@ namespace SAT.SERVICES.Services
 
             return lista;
         }
+
+        public ListViewModel ObterPorView(DespesaAdiantamentoParameters parameters)
+        {
+            var despesaAdiantamento = _despesaAdiantamentoRepo.ObterPorView(parameters);
+
+            var lista = new ListViewModel
+            {
+                Items = despesaAdiantamento,
+                TotalCount = despesaAdiantamento.TotalCount,
+                CurrentPage = despesaAdiantamento.CurrentPage,
+                PageSize = despesaAdiantamento.PageSize,
+                TotalPages = despesaAdiantamento.TotalPages,
+                HasNext = despesaAdiantamento.HasNext,
+                HasPrevious = despesaAdiantamento.HasPrevious
+            };
+
+            return lista;
+        }
     }
 }

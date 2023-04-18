@@ -13,7 +13,7 @@ namespace SAT.SERVICES.Services {
             FileStream fs;
             StreamWriter sw;
 
-            string nomeArquivo = "ponto_" + DateTime.Now.ToString("ddMMyyyyhhmmss") + ".txt";
+            string nomeArquivo = "ponto_" + DateTime.Now.ToString("ddMMyyHHmmss") + ".txt";
             string caminhoArquivo = Path.GetTempPath() + nomeArquivo;
 
             if (File.Exists(caminhoArquivo))
@@ -29,7 +29,7 @@ namespace SAT.SERVICES.Services {
 
                 foreach (var ponto in usuario.PontosUsuario)
                 {
-                    string data = ponto.DataHoraRegistro.ToString("ddMMyyhhmmss");
+                    string data = ponto.DataHoraRegistro.ToString("ddMMyyHHmmss");
                     
                     sw.WriteLine(coletor + data + cracha);
                 }

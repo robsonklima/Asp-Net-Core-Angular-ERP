@@ -85,12 +85,12 @@ export class ContratoFormComponent implements OnInit {
 		this.contratoReajuste = (await this._contratoReajusteService
 			.obterPorParametros({ codContrato: this.codContrato, indAtivo: 1 })
 			.toPromise()).items.pop();
+
 		if (!this.isAddMode) {
 			let data = await this._contratoService.obterPorCodigo(this.codContrato).toPromise();
 			this.contrato = data;
 			this.cod.emit(data.nroContrato);
-			this.form.patchValue(this.contrato);
-			this.form.patchValue(this.contratoReajuste);
+			this.form.patchValue({ ...this.contratoReajuste, ...this.contrato });
 		}
 	}
 

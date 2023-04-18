@@ -10,6 +10,7 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("Contrato");
             builder.HasKey(prop => prop.CodContrato);
+            builder.Property(prop => prop.PercReajuste).HasPrecision(12, 10);
 
             builder
                 .HasOne(prop => prop.Cliente)

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
@@ -25,14 +25,14 @@ import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
+import { debounceTime, distinctUntilChanged, filter, first, takeUntil } from 'rxjs/operators';
 import { Regiao } from 'app/core/types/regiao.types';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoServicoEnum } from 'app/core/types/tipo-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { Subject } from 'rxjs';
 import moment from 'moment';
-import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-equipamento-contrato-form',
@@ -119,6 +119,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 
 		this.locaisFiltro.valueChanges
 			.pipe(
+				filter(t => t != ''),
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()
@@ -127,14 +128,14 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 				this.obterLocais(this.locaisFiltro.value);
 			});
 
-
-	
-		if (!this.isAddMode) {
+		if (!this.isAddMode)
+		{
 			this._equipamentoContratoService.obterPorCodigo(this.codEquipContrato)
 				.pipe(first())
 				.subscribe(data => {
 					this.form.patchValue(data);
 					this.equipamentoContrato = data;
+					this.obterLocais(this.equipamentoContrato.localAtendimento.nomeLocal);
 				});
 		}
 	}
@@ -227,7 +228,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 		}
 
 		const data = await this._contratoEquipamentoService.obterPorParametros(params).toPromise();
-		this.modelos = data.items.map(ce => ce.equipamento);		
+		this.modelos = data.items.map(ce => ce.equipamento);
 	}
 
 	private async obterSLAs() {
@@ -289,12 +290,10 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 			indAtivo: statusConst.ATIVO,
 			filter: filtro,
 			codCliente: this.form.controls['codCliente'].value,
-			pageSize: 10
+			pageSize: 100
 		}
 
-		const data = await this._localAtendimentoService.obterPorParametros(params).toPromise();
-		
-		this.locais = data.items.slice();
+		this.locais = (await this._localAtendimentoService.obterPorParametros(params).toPromise()).items;
 	}
 
 	private obterPontosEstrategicos(): void {

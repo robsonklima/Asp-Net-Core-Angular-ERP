@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -30,7 +30,6 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
     protected _onDestroy = new Subject<void>();
     public osBancada: OSBancada;
     public osBancadaPeca: OSBancadaPecas;
-    public clienteBancada: ClienteBancada;
     public clientes: ClienteBancada[] = [];
     public loading: boolean = true;
     public codOsbancada: number;
@@ -67,11 +66,13 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
                 .subscribe(data => {
                     this.form.patchValue(data);
                     this.osBancada = data;
-                    this._clienteBancadaService.obterPorCodigo(data.codClienteBancada)
+                    this._clienteBancadaService.obterPorParametros({ 
+                        codClienteBancadas: data.codClienteBancada.toString() 
+                        })
                         .pipe(first())
                         .subscribe(data => {
                             this.form.patchValue(data);
-                            this.clienteBancada = data;
+                            this.clientes = data.items;
                         });
                 });
         }
@@ -94,6 +95,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
     private registrarEmitters() {
         this.clienteBancadaFilterCtrl.valueChanges
             .pipe(
+                filter(text => text != ''),
                 takeUntil(this._onDestroy),
                 debounceTime(700),
                 distinctUntilChanged()

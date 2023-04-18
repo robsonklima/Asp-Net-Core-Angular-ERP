@@ -119,7 +119,7 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-2">
                         <mat-label>{{ t('indice reajuste') }}</mat-label>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
-                        <input matInput formControlName="percReajuste" mask="00.00" suffix="%" placeholder="%" [showTemplate]="true">
+                        <input matInput formControlName="percReajuste" mask="separator.2" thousandSeparator="" [showTemplate]="false">
                         <mat-error>{{t('preencher campo')}}</mat-error>
                     </mat-form-field>
 

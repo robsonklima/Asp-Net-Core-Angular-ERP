@@ -102,7 +102,7 @@
                         <mat-select formControlName="codPosto">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'">
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="locaisFiltro">
                                 </ngx-mat-select-search>
                             </mat-option>
 

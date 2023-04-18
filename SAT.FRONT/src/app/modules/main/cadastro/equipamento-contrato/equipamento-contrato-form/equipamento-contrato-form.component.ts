@@ -25,7 +25,7 @@ import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial, FilialParameters } from 'app/core/types/filial.types';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
-import { debounceTime, distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, takeUntil } from 'rxjs/operators';
 import { Regiao } from 'app/core/types/regiao.types';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoServicoEnum } from 'app/core/types/tipo-servico.types';
@@ -119,6 +119,7 @@ export class EquipamentoContratoFormComponent implements OnInit, OnDestroy {
 
 		this.locaisFiltro.valueChanges
 			.pipe(
+				filter(t => t != ''),
 				takeUntil(this._onDestroy),
 				debounceTime(700),
 				distinctUntilChanged()

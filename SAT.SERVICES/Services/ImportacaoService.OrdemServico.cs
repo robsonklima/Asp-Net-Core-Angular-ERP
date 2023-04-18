@@ -13,9 +13,7 @@ namespace SAT.SERVICES.Services
         private Importacao ImportacaoOrdemServico(Importacao importacao)
         {
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
-
             var reservaContador = _sequenciaRepo.AtualizaContadorOS(importacao.ImportacaoLinhas.Count()) + 1;
-            
             List<string> Mensagem = new List<string>();
 
             importacao.ImportacaoLinhas

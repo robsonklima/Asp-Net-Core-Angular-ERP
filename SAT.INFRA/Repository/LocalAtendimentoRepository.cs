@@ -3,7 +3,6 @@ using SAT.INFRA.Context;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Helpers;
 using System;
 using System.Linq.Dynamic.Core;
@@ -117,7 +116,8 @@ namespace SAT.INFRA.Repository
                         l.CodPosto.ToString().Contains(parameters.Filter) ||
                         l.NomeLocal.Contains(parameters.Filter) ||
                         l.DCPosto.Contains(parameters.Filter) ||
-                        l.NumAgencia.Contains(parameters.Filter)
+                        l.NumAgencia.Contains(parameters.Filter) ||
+                        l.Cnpj.Contains(parameters.Filter)
                     );
                 }
             }

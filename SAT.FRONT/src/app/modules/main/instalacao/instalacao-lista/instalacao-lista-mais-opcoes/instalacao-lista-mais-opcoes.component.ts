@@ -19,6 +19,7 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { InstalacaoListaComponent } from '../instalacao-lista.component';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instalacao-lista-mais-opcoes',
@@ -60,6 +61,16 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     this.obterTransportadoras();
     this.obterEquipamentosContrato();
     this.obterLocaisAtendimento();
+    
+		this.locaisFiltro.valueChanges
+			.pipe(
+				takeUntil(this._onDestroy),
+				debounceTime(700),
+				distinctUntilChanged()
+			)
+			.subscribe(() => {
+				this.obterLocaisAtendimento(this.locaisFiltro.value);
+			});
   }
 
   private criarForms() {
@@ -238,7 +249,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
       sortActive: 'NomeLocal',
       sortDirection: 'asc',
       codClientes: this.codCliente?.toString(),
-      pageSize: 50,
+      pageSize: 100,
       filter: filter
     }).toPromise();
 

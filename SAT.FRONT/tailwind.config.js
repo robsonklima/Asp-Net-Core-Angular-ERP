@@ -126,7 +126,7 @@ const config = {
         },
         extend  : {
             backgroundImage: theme => ({
-                'fabrica': "url('assets/images/backgrounds/fabrica-2.jpg')",
+                'fabrica': "url('assets/images/backgrounds/fabrica.png')",
             }),
             animation : {
                 'spin-slow': 'spin 3s linear infinite'

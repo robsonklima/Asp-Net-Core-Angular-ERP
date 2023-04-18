@@ -29,7 +29,7 @@ namespace SAT.SERVICES.Services {
 
                 foreach (var ponto in usuario.PontosUsuario)
                 {
-                    string data = ponto.DataHoraRegistro.ToString("ddMMyyyyhhmmss");
+                    string data = ponto.DataHoraRegistro.ToString("ddMMyyhhmmss");
                     
                     sw.WriteLine(coletor + data + cracha);
                 }

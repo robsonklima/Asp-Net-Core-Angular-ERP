@@ -71,3 +71,8 @@ export interface ClienteParameters extends QueryStringParameters {
     codCliente?: number;
     indAtivo?: number;
 };
+
+export enum ClienteEnum
+{
+    RIOCARD = 256
+}

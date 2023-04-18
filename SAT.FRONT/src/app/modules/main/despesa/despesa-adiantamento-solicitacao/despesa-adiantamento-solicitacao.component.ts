@@ -5,7 +5,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { DespesaAdiantamentoService } from 'app/core/services/despesa-adiantamento.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
-import { ViewMediaDespesasAdiantamento } from 'app/core/types/despesa-adiantamento.types';
+import { AdiantamentoRDsPendentesView, ViewMediaDespesasAdiantamento } from 'app/core/types/despesa-adiantamento.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
@@ -29,6 +29,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
   public userSession: UserSession;
   public loading: boolean;
   public mediaAdiantamentos: ViewMediaDespesasAdiantamento;
+  public rdsPendentes: AdiantamentoRDsPendentesView[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -110,6 +111,7 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
         this.loading = true;
         this.tecnico = await this._tecnicoService.obterPorCodigo(codTecnico).toPromise();
         this.mediaAdiantamentos = await (await this._despesaAdiantamentoService.obterMedia(this.form.controls['codTecnico'].value).toPromise()).shift();
+        this.consAdiantRDsPendentes(codTecnico);
         this.loading = false;
       });
   }
@@ -163,6 +165,15 @@ export class DespesaAdiantamentoSolicitacaoComponent implements OnInit {
 
   public verificarJustificativaObrigatoria(): boolean {
     return +this.form.controls['valorAdiantamentoSolicitado'].value > this.mediaAdiantamentos?.maximoParaSolicitarMensal;
+  }
+
+  private async consAdiantRDsPendentes(codTecnico: number=null) {
+    const data = await this._despesaAdiantamentoService
+      .obterPorView({ codTecnicos: codTecnico.toString() })
+      .toPromise();
+
+    this.rdsPendentes = data.items;
+    
   }
 
   public salvar() {

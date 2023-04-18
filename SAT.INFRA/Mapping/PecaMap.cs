@@ -41,6 +41,8 @@ namespace SAT.INFRA.Mapping
                .WithOne()
                .HasForeignKey<ClientePecaGenerica>(i => i.CodPeca)
                .HasPrincipalKey<Peca>(i => i.CodPeca);
+
+            builder.Ignore(i => i.IsValorAtualizado);
         }
     }
 }

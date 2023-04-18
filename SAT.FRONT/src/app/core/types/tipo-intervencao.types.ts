@@ -32,7 +32,8 @@ export enum TipoIntervencaoEnum {
 	COFRE = 32,
 	PREVENTIVA_GERENCIAL = 28,
 	PREVENTIVA = 6,
-	MANUTENÇÃO_GERENCIAL = 31
+	MANUTENÇÃO_GERENCIAL = 31,
+	HELP_DESK = 23
 };
 
 export const TipoIntervencaoConst =[

@@ -16,14 +16,18 @@
                         {{ t('protocolos') }}
                     </div>
                 </div>
-                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *transloco="let t">
                     <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
                         <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
                         <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
                     </mat-form-field>
 
-                    <button class="ml-2" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/despesa/protocolos/form']">
+                    <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}" [routerLink]="['/despesa/protocolos/form']">
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                    </button>
+
+                    <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>
                 </div>
             </div>

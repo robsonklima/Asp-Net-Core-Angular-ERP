@@ -9,6 +9,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
+import { PecaRE5114Service } from 'app/core/services/pecaRE5114.service';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-pecare5114-lista',
@@ -32,6 +33,7 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
         private _userService: UserService,
         private _cdr: ChangeDetectorRef,
         private _osBancadaPecasService: OSBancadaPecasService,
+        private _pecaRE5114Service: PecaRE5114Service,
         private _dialog: MatDialog,
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
@@ -98,6 +100,7 @@ export class LaboratorioOSBancadaPecaRE5114ListaComponent implements AfterViewIn
 		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
                 await this._osBancadaPecasService.deletar(osBancadaPecas.codOsbancada, osBancadaPecas.codPecaRe5114).toPromise();
+                await this._pecaRE5114Service.deletar(osBancadaPecas.codPecaRe5114).toPromise();
                 
                 this.ngAfterViewInit();
             }

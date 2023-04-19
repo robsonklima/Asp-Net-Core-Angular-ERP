@@ -65,7 +65,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
                 filter: filtro,
                 sortActive: 'nomePeca',
                 sortDirection: 'asc',
-                pageSize: 10
+                pageSize: 1000000000000000
             };
     
             const data = await this._pecaService
@@ -122,7 +122,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
 				debounceTime(700),
                 distinctUntilChanged(),
 				map(async query => {
-					return (await this.obterPecas());
+					return (await this.obterPecas(query));
 				}),
 				delay(500),
 				takeUntil(this._onDestroy)

@@ -72,12 +72,18 @@ namespace SAT.INFRA.Repository
 
             if (parameters.CodInstalTipoParcela != null)
             {
-                query = query.Where(l => l.CodInstalTipoParcela == parameters.CodInstalTipoParcela);
+                query = query.Where(i => i.CodInstalTipoParcela == parameters.CodInstalTipoParcela);
+            }
+
+            
+            if(!string.IsNullOrWhiteSpace(parameters.NomeTipoParcela))
+            {
+                query = query.Where(i => i.NomeTipoParcela.Contains(parameters.NomeTipoParcela));
             }
 
             if (parameters.IndAtivo != null)
             {
-                query = query.Where(a => a.IndAtivo == parameters.IndAtivo);
+                query = query.Where(i => i.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

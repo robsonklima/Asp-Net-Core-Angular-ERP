@@ -78,10 +78,11 @@ export class TecnicoPlantaoFormComponent implements OnInit {
   private async obterTecnicos(filtro: string='') {
     const data = await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
-      codFiliais: this.userSession.usuario.codFilial.toString(),
+      codFiliais: this.userSession.usuario.codFilial?.toString(),
       sortActive: 'Nome',
       sortDirection: 'asc',
-      filter: filtro
+      filter: filtro,
+      pageSize: 50
     }).toPromise();
     
     this.tecnicos = data.items;
@@ -92,7 +93,8 @@ export class TecnicoPlantaoFormComponent implements OnInit {
       indAtivo: 1,
       sortActive: 'NomeFantasia',
       sortDirection: 'asc',
-      filter: filtro
+      filter: filtro,
+      pageSize: 50
     }).toPromise();
     this.clientes = data.items;
   }
@@ -102,7 +104,8 @@ export class TecnicoPlantaoFormComponent implements OnInit {
       indAtivo: 1,
       sortActive: 'NomeRegiao',
       sortDirection: 'asc',
-      filter: filtro
+      filter: filtro,
+      pageSize: 50
     }).toPromise();
     this.regioes = data.items;
   }
@@ -110,6 +113,7 @@ export class TecnicoPlantaoFormComponent implements OnInit {
   registrarEmitters() {
     this.tecnicosFiltro.valueChanges
       .pipe(
+        filter(q => q != ''),
         takeUntil(this._onDestroy),
         debounceTime(500),
         distinctUntilChanged()
@@ -121,6 +125,7 @@ export class TecnicoPlantaoFormComponent implements OnInit {
 
     this.clientesFiltro.valueChanges
       .pipe(
+        filter(q => q != ''),
         takeUntil(this._onDestroy),
         debounceTime(500),
         distinctUntilChanged()
@@ -132,6 +137,7 @@ export class TecnicoPlantaoFormComponent implements OnInit {
 
     this.regioesFiltro.valueChanges
       .pipe(
+        filter(q => q != ''),
         takeUntil(this._onDestroy),
         debounceTime(500),
         distinctUntilChanged()

@@ -43,7 +43,8 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
   constructor(
     protected _userService: UserService,
     private _cdr: ChangeDetectorRef,
-    private _despesaProtocoloSvc: DespesaProtocoloService) {
+    private _despesaProtocoloSvc: DespesaProtocoloService
+  ) {
     super(_userService, "despesa-protocolo");
   }
 
@@ -66,14 +67,18 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
   }
 
   private async obterProtocolos(filter: string) {
-    this.protocolos = await this._despesaProtocoloSvc.obterPorParametros(
-      {
+    const params = {
+      ...{
         pageNumber: this.paginator?.pageIndex + 1,
         pageSize: this.paginator?.pageSize,
         sortActive: 'codDespesaProtocolo',
         sortDirection: 'desc',
-        filter: filter
-      }).toPromise();
+        filter: filter,
+      },
+      ...this.filter?.parametros
+    }
+
+    this.protocolos = await this._despesaProtocoloSvc.obterPorParametros(params).toPromise();
   }
 
   public async obterDados(filter: string = null) {

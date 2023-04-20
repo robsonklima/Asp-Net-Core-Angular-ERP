@@ -26,7 +26,7 @@ import { TecnicoFormComponent } from './tecnico-form/tecnico-form.component';
 import { TecnicoListaComponent } from './tecnico-lista/tecnico-lista.component';
 import { tecnicoRoutes } from './tecnico.routing';
 import { TecnicoContaListaComponent } from './tecnico-conta-lista/tecnico-conta-lista.component';
-import { TecnicoContaFormComponent } from './tecnico-conta-form/tecnico-conta-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -40,7 +40,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     TecnicoFormComponent,
     TecnicoFiltroComponent,
     TecnicoContaListaComponent,
-    TecnicoContaFormComponent
+    TecnicoFormComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +64,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatDatepickerModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
 })
 export class TecnicoModule { }

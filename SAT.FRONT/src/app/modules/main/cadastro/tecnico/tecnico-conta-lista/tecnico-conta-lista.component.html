@@ -1,1 +1,55 @@
-<p>tecnico-conta-lista works!</p>
+<div class="w-full p-8 overflow-auto">
+    <div *ngIf="contas.length && !loading">
+        <table class="w-full table-auto text-md font-medium tracking-tight bg-card">
+            <thead>
+                <tr>
+                    <th class="text-center">Banco</th>
+                    <th class="text-center">Agência</th>
+                    <th class="text-center">Conta</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let conta of contas">
+                    <td class="text-center">{{ conta.numBanco }}</td>
+                    <td class="text-center">{{ conta.numAgencia }}</td>
+                    <td class="text-center">{{ conta.numConta }}</td>
+                    <td class="text-center">
+                        <button
+                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                            mat-stroked-button
+                            color="primary"
+                            [matTooltip]="'Editar Conta'"
+                            matTooltipPosition="above"
+                            (click)="onEditar(conta)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
+                        </button>
+
+                        <button
+                            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+                            mat-stroked-button
+                            color="warn"
+                            [matTooltip]="'Remover Conta'"
+                            matTooltipPosition="above"
+                            (click)="onRemover(conta)">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-secondary" *ngIf="loading">
+        Carregando...
+    </div>
+
+    <div class="text-secondary" *ngIf="!contas.length && !loading">
+        Nenhuma informação bancária disponível
+    </div>
+</div>

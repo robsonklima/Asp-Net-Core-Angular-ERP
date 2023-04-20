@@ -1,0 +1,46 @@
+<div class="flex flex-col max-w-240 md:min-w-160 min-h-90 -m-6 overflow-hidden" *transloco="let t">
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">{{ t('conta bancaria') }}</div>
+        <button mat-icon-button mat-dialog-close [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'">
+            </mat-icon>
+        </button>
+    </div>
+
+    <div class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
+        <form autocomplete="off" class="flex flex-col overflow-hidden" [formGroup]="form">
+            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-label>{{ t('numero banco') }}</mat-label>
+                <input matInput formControlName="numBanco">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-label>{{ t('numero agencia') }}</mat-label>
+                <input matInput formControlName="numAgencia">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-label>{{ t('numero conta') }}</mat-label>
+                <input matInput formControlName="numConta">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                </mat-icon>
+            </mat-form-field>
+        </form>
+
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close>
+                {{ t('cancelar') }}
+            </button>
+            
+            <button color="primary" mat-button cdkFocusInitial (click)="salvar()" [disabled]="form.invalid">
+                {{ t('salvar') }}
+            </button>
+        </mat-dialog-actions>
+    </div>
+</div>

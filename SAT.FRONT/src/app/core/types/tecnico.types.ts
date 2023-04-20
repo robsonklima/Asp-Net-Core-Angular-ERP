@@ -180,6 +180,14 @@ export interface TecnicoConta {
     dataHoraManut: string;
 }
 
+export interface TecnicoContaData extends Meta {
+    items: TecnicoConta[];
+};
+
+export interface TecnicoContaParameters extends QueryStringParameters {
+    codTecnico?: number;
+}
+
 export enum TecnicoCategoriaCreditoEnum {
     "A",
     "B",

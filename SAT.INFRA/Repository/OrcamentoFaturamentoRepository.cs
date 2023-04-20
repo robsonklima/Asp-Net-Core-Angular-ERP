@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -91,7 +92,7 @@ namespace SAT.INFRA.Repository
             if (parameters.IndFaturado != null)
             {
                 query = query.Where(p => p.IndFaturado == parameters.IndFaturado);
-            }              
+            }         
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

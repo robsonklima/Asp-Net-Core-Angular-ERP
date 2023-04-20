@@ -25,6 +25,8 @@ import { TecnicoFiltroComponent } from './tecnico-filtro/tecnico-filtro.componen
 import { TecnicoFormComponent } from './tecnico-form/tecnico-form.component';
 import { TecnicoListaComponent } from './tecnico-lista/tecnico-lista.component';
 import { tecnicoRoutes } from './tecnico.routing';
+import { TecnicoContaListaComponent } from './tecnico-conta-lista/tecnico-conta-lista.component';
+import { TecnicoContaFormComponent } from './tecnico-conta-form/tecnico-conta-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -36,7 +38,9 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
   declarations: [
     TecnicoListaComponent,
     TecnicoFormComponent,
-    TecnicoFiltroComponent
+    TecnicoFiltroComponent,
+    TecnicoContaListaComponent,
+    TecnicoContaFormComponent
   ],
   imports: [
     CommonModule,

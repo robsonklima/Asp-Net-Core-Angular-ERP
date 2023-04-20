@@ -213,6 +213,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoStatusRepository>().As<IInstalacaoStatusRepository>();
         builder.RegisterType<RelatorioAtendimentoDetalhePecaStatusRepository>().As<IRelatorioAtendimentoDetalhePecaStatusRepository>();
         builder.RegisterType<RelatorioAtendimentoPecaStatusRepository>().As<IRelatorioAtendimentoPecaStatusRepository>();
+        builder.RegisterType<TecnicoContaRepository>().As<ITecnicoContaRepository>();
         
         #endregion
 
@@ -416,6 +417,7 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoStatusService>().As<IInstalacaoStatusService>();
         builder.RegisterType<RelatorioAtendimentoDetalhePecaStatusService>().As<IRelatorioAtendimentoDetalhePecaStatusService>();
         builder.RegisterType<RelatorioAtendimentoPecaStatusService>().As<IRelatorioAtendimentoPecaStatusService>();
+        builder.RegisterType<TecnicoContaService>().As<ITecnicoContaService>();
 
         #endregion
 

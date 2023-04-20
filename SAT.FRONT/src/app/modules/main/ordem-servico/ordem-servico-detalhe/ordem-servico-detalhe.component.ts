@@ -379,7 +379,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	public reprocessarIntegracaoBRB() {
 		this.isLoading = true;
 
-		this._ordemServicoService.atualizar({
+		let obj: OrdemServico = {
 			...this.os,
 			...{
 				dataHoraIntegracaoRevisao: null,
@@ -390,7 +390,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 				dataHoraManutencao: moment().format('yyyy-MM-DD HH:mm:ss'),
 				codUsuarioManutencao: this.userSession.usuario.codUsuario
 			}
-		}).subscribe(() => {
+		};
+
+		this._ordemServicoService.atualizar(obj).subscribe(() => {
 			this._snack.exibirToast("Sua solicitação foi realizada com sucesso! O chamado será reprocessado dentro de alguns minutos", 'success');
 			this.isLoading = false;
 		}, e => {

@@ -8,10 +8,9 @@ import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { PontoEstrategicoEnum } from 'app/core/types/equipamento-contrato.types';
-import { Filial, FilialParameters } from 'app/core/types/filial.types';
+import { Filial } from 'app/core/types/filial.types';
 import { RegiaoAutorizadaParameters } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { Autorizada, AutorizadaParameters } from 'app/core/types/Autorizada.types';
 import { StatusServico, StatusServicoParameters } from 'app/core/types/status-servico.types';
 import { TipoIntervencao } from 'app/core/types/tipo-intervencao.types';
 import { UserService } from 'app/core/user/user.service';
@@ -26,7 +25,7 @@ import { Equipamento, EquipamentoFilterEnum } from 'app/core/types/equipamento.t
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilterBase } from 'app/core/filters/filter-base';
 import { IFilterBase } from 'app/core/types/filtro.types';
-import Enumerable from 'linq';
+import { Autorizada, AutorizadaParameters } from 'app/core/types/autorizada.types';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { statusConst } from 'app/core/types/status-types';
@@ -35,6 +34,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import { UsuarioService } from 'app/core/services/usuario.service';
+import Enumerable from 'linq';
 
 @Component({
 	selector: 'app-ordem-servico-filtro',
@@ -42,7 +42,6 @@ import { UsuarioService } from 'app/core/services/usuario.service';
 })
 export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, IFilterBase {
 	@Input() sidenav: MatSidenav;
-
 	filiais: Filial[] = [];
 	clientes: Cliente[] = [];
 	regioes: Regiao[] = [];

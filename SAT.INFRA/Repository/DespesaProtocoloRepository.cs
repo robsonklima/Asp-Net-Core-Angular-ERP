@@ -100,6 +100,10 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(d => d.DespesaItens)
                 .AsQueryable();
 
+            if (parameters.CodFilial != null) {
+                protocolos = protocolos.Where(p => p.CodFilial == parameters.CodFilial);
+            }
+
             if (!string.IsNullOrEmpty(parameters.Filter))
                 protocolos =
                     protocolos.Where(t => t.CodDespesaProtocolo.ToString().Contains(parameters.Filter) ||

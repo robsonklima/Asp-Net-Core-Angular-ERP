@@ -869,5 +869,8 @@
     "nf venda": "NF Venda",
     "exportar excel": "Exportar Excel",
     "pendentes": "Pendentes",
-    "contas bancarias": "Contas Bancárias"
+    "contas bancarias": "Contas Bancárias",
+    "conta bancaria": "Conta Bancária",
+    "numero banco": "Número do Banco",
+    "numero conta": "Número da Conta"
 }

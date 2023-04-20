@@ -825,5 +825,8 @@
     "nf venda": "Sales Invoice",
     "exportar excel": "Export Excel",
     "pendentes": "Pending",
-    "contas bancarias": "Bank Accounts"
+    "contas bancarias": "Bank Accounts",
+    "conta bancaria": "Bank Account",
+    "numero banco": "Bank Number",
+    "numero conta": "Account Number"
 }

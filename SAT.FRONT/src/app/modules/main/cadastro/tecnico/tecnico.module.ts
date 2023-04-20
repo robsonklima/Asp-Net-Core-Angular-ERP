@@ -27,6 +27,7 @@ import { TecnicoListaComponent } from './tecnico-lista/tecnico-lista.component';
 import { tecnicoRoutes } from './tecnico.routing';
 import { TecnicoContaListaComponent } from './tecnico-conta-lista/tecnico-conta-lista.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TecnicoContaFormDialogComponent } from './tecnico-conta-form-dialog/tecnico-conta-form-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -40,6 +41,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     TecnicoFormComponent,
     TecnicoFiltroComponent,
     TecnicoContaListaComponent,
+    TecnicoContaFormDialogComponent,
     TecnicoFormComponent
   ],
   imports: [
@@ -47,7 +49,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     RouterModule.forChild(tecnicoRoutes),
     NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
-    MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
     MatSidenavModule,
@@ -65,7 +66,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatDatepickerModule,
     MatTooltipModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule,
   ],
 })
 export class TecnicoModule { }

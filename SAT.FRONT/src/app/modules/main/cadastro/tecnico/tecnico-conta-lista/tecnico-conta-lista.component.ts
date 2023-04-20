@@ -38,34 +38,54 @@ export class TecnicoContaListaComponent implements OnInit {
     this.contas = data.items;
   }
 
-  public onRemover(conta: TecnicoConta) {
-    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: 'Deseja excluir esta conta?',
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
+  public onNovo() {
+    const dialogRef = this._dialog.open(TecnicoContaFormDialogComponent, { data: { tecnico: this.tecnico } });
 
-		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-			if (confirmacao) {
-				this._tecnicoContaService.deletar(conta.codTecnicoConta).subscribe(() => {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        this.ngOnInit();
+      }
+    });
+  }
+
+  public onRemover(conta: TecnicoConta) {
+    console.log(conta);
+    
+
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+        titulo: 'Confirmação',
+        message: 'Deseja excluir esta conta?',
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      if (confirmacao) {
+        this._tecnicoContaService.deletar(conta.codTecnicoConta).subscribe(() => {
           this._snack.exibirToast('Conta removida com sucesso', 'success');
         }, () => {
           this._snack.exibirToast('Erro ao remover a conta', 'error');
         });
-			}
-		});
+
+        this.ngOnInit();
+      }
+    });
   }
 
-  public onEditar(conta: TecnicoConta) { 
-    this._dialog.open(TecnicoContaFormDialogComponent, {
-			data: {
-        conta: conta
+  public onEditar(conta: TecnicoConta) {
+    const dialogRef = this._dialog.open(TecnicoContaFormDialogComponent, {
+      data: {
+        conta: conta,
+        ecnico: this.tecnico
       }
-		});
+    });
+
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+      this.ngOnInit();
+    });
   }
 }

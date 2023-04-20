@@ -38,7 +38,7 @@ namespace SAT.INFRA.Repository
 
         public void Deletar(int codigo)
         {
-            TecnicoConta c = _context.TecnicoConta.FirstOrDefault(t => t.CodTecnico == codigo);
+            TecnicoConta c = _context.TecnicoConta.FirstOrDefault(t => t.CodTecnicoConta == codigo);
 
             if (c != null)
             {

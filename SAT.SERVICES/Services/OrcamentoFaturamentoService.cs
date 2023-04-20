@@ -19,8 +19,7 @@ namespace SAT.SERVICES.Services
         public OrcamentoFaturamentoService(
             IOrcamentoFaturamentoRepository orcamentoFaturamentoRepo,
             IOrcamentoRepository orcamentoRepo
-            )
-        {
+        ) {
             _orcamentoFaturamentoRepo = orcamentoFaturamentoRepo;
             _orcamentoRepo = orcamentoRepo;
         }

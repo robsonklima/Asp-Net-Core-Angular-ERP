@@ -1,3 +1,21 @@
+<div class="bg-gray-50 dark:bg-gray-700 p-8 border-b" *transloco="let t">
+    <p class="text-lg font-medium">{{ t('contas bancarias') }}</p>
+
+    <div class="flex place-content-end">
+        <button
+            class="min-w-10 min-h-7 h-7 px-2 ml-2"
+            mat-stroked-button
+            color="primary"
+            [matTooltip]="'Criar Conta'"
+            matTooltipPosition="above"
+            (click)="onNovo()">
+            <mat-icon
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+        </button>
+    </div>
+</div>
+
 <div class="w-full p-8 overflow-auto">
     <div *ngIf="contas.length && !loading">
         <table class="w-full table-auto text-md font-medium tracking-tight bg-card">

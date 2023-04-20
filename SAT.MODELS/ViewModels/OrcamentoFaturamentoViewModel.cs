@@ -1,4 +1,3 @@
-using System;
 using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.ViewModels{

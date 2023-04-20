@@ -89,8 +89,7 @@ export class DespesaItemDialogComponent implements OnInit {
     const tipos = await this._despesaTipoSvc.obterPorParametros(params).toPromise();
     this.tiposDespesa = tipos.items;
 
-    if (this.obterDespesaItensKM()?.length == 2 || (this.obterDespesaItensKM()?.length == 1 && !this.isUltimaRATDoDia()))
-    { // Adicionar regra de plantao
+    if (this.obterDespesaItensKM()?.length == 2 || (this.obterDespesaItensKM()?.length == 1 && !this.isUltimaRATDoDia())) { 
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();

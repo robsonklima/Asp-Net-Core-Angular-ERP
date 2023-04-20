@@ -179,13 +179,20 @@ namespace SAT.SERVICES.Services
             }
 
             var navegacoes = usuario.Perfil?.NavegacoesConfiguracao
-               .Select(n => n.Navegacao).Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1).OrderBy(n => n.Ordem).ThenBy(t => t.Title).ToList();
+               .Select(n => n.Navegacao)
+               .Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1)
+               .OrderBy(n => n.Ordem)
+               .ThenBy(t => t.Title)
+               .ToList();
 
             for (int i = 0; i < navegacoes?.Count; i++)
             {
                 if (navegacoes[i].Children == null) continue;
 
-                navegacoes[i].Children = navegacoes[i].Children.OrderBy(ord => ord.Ordem).ThenBy(t => t.Title).ToArray();
+                navegacoes[i].Children = navegacoes[i].Children
+                    .OrderBy(ord => ord.Ordem)
+                    .ThenBy(t => t.Title)
+                    .ToArray();
             }
 
             if (navegacoes?.Count == 0)

@@ -30,10 +30,10 @@
         </div>
     </div>
 
-    <div class="relative flex flex-col flex-auto px-8 py-2 min-h-80">
-        <apx-chart [series]="chartLine.series" [chart]="chartLine.chart" [xaxis]="chartLine.xaxis"
-            [stroke]="chartLine.stroke" [colors]="chartLine.colors" [dataLabels]="chartLine.dataLabels"
-            [legend]="chartLine.legend" [markers]="chartLine.markers" [grid]="chartLine.grid" [yaxis]="chartLine.yaxis">
+    <div class="relative flex flex-col flex-auto px-8 py-2 min-h-80" *ngIf="historico">
+        <apx-chart [series]="chartLine?.series" [chart]="chartLine?.chart" [xaxis]="chartLine?.xaxis"
+            [stroke]="chartLine?.stroke" [colors]="chartLine?.colors" [dataLabels]="chartLine?.dataLabels"
+            [legend]="chartLine?.legend" [markers]="chartLine?.markers" [grid]="chartLine?.grid" [yaxis]="chartLine?.yaxis">
         </apx-chart>
 
         <div class="absolute z-9999 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" *ngIf="loading">

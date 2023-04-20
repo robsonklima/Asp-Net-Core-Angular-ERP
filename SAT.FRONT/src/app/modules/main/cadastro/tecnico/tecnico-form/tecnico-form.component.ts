@@ -199,7 +199,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
       fonePerto: [undefined],
       indTecnicoBancada: [undefined],
       indFerias: [undefined],
-      indAtivo: [undefined],
+      indAtivo: [undefined]
     });
   }
 

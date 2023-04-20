@@ -18,18 +18,6 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 	styles: [`
     .list-grid-financeiro-faturamentos {
       grid-template-columns: 200px 70px 70px 100px 100px auto 130px 100px 70px 100px;
-      
-      /* @screen sm {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      }
-
-      @screen md {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      }
-
-      @screen lg {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      } */
     }  
   `],
 	encapsulation: ViewEncapsulation.None,
@@ -93,11 +81,11 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 	salvar(faturamentoVM: OrcamentoFaturamentoViewModel) {
 		if (!faturamentoVM.numNF) {
 			this._snack.exibirToast('Favor informar o número da NF', 'error');
-			return;			
+			return;
 		}
-		
+
 		if (!faturamentoVM.dataEmissao) {
-			this._snack.exibirToast('Favor informar a data de emissão da NF', 'error');			
+			this._snack.exibirToast('Favor informar a data de emissão da NF', 'error');
 			return;
 		}
 
@@ -121,7 +109,7 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			valorServico: faturamentoVM.valorServico
 		};
 
-		if(!faturamentoVM.descNF)
+		if (!faturamentoVM.descNF)
 			faturamento.descricaoNotaFiscal = "SERVIÇOS";
 
 		if (faturamentoVM.indFaturado)

@@ -25,6 +25,8 @@ namespace SAT.MODELS.Views
         public string NumOSCliente {get; set;}
         public decimal? ValorTotal { get; set; }
         public decimal? ValorTotalDesconto { get; set; }
+        public string CnpjFaturamento { get; set; }
+        public string EmailFaturamento { get; set; }
     }
 }
 

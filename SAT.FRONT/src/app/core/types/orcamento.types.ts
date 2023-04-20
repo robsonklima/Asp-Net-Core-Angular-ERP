@@ -28,6 +28,8 @@ export interface ViewOrcamentoLista {
     numSerie: string;
     valorTotal: number;
     valorTotalDesconto: number;
+    cnpjFaturamento?: string;
+    emailFaturamento?: string;
 }
 export interface ViewOrcamentoListaData extends Meta {
    items: ViewOrcamentoLista[];
@@ -222,6 +224,7 @@ export interface OrcamentoParameters extends QueryStringParameters
     numSerie?: string;
     numero?: string;
     isFaturamento?: boolean;
+    cnpjFaturamento?: string;
 };
 
 export enum OrcamentoDadosLocalEnum

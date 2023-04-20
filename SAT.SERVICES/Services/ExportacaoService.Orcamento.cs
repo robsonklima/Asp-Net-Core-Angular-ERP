@@ -35,6 +35,8 @@ namespace SAT.SERVICES.Services
                 NumOSCliente = orcamento.NumOSCliente,
                 Descontos = orcamento.ValorTotalDesconto,
                 ValorTotal = orcamento.ValorTotal,
+                CnpjFaturamento = orcamento.CnpjFaturamento,
+                EmailFaturamento = orcamento.EmailFaturamento
             });
 
             var wsOs = Workbook.Worksheets.Add("orcamentos");

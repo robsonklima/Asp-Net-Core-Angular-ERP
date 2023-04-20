@@ -100,7 +100,7 @@ export class OrcamentoListaComponent extends Filterable implements AfterViewInit
 		const data: ViewOrcamentoListaData = await this._orcamentoSvc
 			.obterPorView({
 				...params,
-				...this.filter?.parametros
+				...this.filter?.parametros	
 			})
 			.toPromise();
 

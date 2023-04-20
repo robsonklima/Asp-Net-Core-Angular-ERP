@@ -160,6 +160,8 @@ namespace SAT.INFRA.Repository
                     .ThenInclude(s => s.RelatoriosAtendimento)
                         .ThenInclude(s => s.Laudos)
                             .ThenInclude(s => s.LaudoStatus)
+                .Include(p => p.LocalEnvioNFFaturamentoVinculado)
+                    .ThenInclude(s => s.LocalEnvioNFFaturamento)
                 .Include(o => o.Materiais!)
                     .ThenInclude(p => p.Peca!)
                 .Include(o => o.MaoDeObra!)
@@ -194,8 +196,9 @@ namespace SAT.INFRA.Repository
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => filiais.Any(f => f == orc.OrdemServico.CodFilial.ToString()));
+            
             }
-
+            
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))
             {
                 int[] tiposIntervencao = parameters.CodTiposIntervencao.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
@@ -265,6 +268,12 @@ namespace SAT.INFRA.Repository
             {
                 var filiais = parameters.CodFiliais.Split(',').Select(a => a.Trim()).ToArray();
                 query = query.Where(orc => filiais.Any(f => f == orc.CodFilial.ToString()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CnpjFaturamento))
+            {
+                string[] cods = parameters.CnpjFaturamento.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                query = query.Where(dc => cods.Contains(dc.CnpjFaturamento));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodTiposIntervencao))

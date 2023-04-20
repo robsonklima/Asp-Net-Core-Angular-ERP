@@ -11,25 +11,19 @@
 
     <div class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto">
         <form autocomplete="off" class="flex flex-col overflow-hidden" [formGroup]="form">
-            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+            <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero banco') }}</mat-label>
                 <input matInput formControlName="numBanco">
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
-                </mat-icon>
             </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+            <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero agencia') }}</mat-label>
                 <input matInput formControlName="numAgencia">
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
-                </mat-icon>
             </mat-form-field>
 
-            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+        <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero conta') }}</mat-label>
                 <input matInput formControlName="numConta">
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
-                </mat-icon>
             </mat-form-field>
         </form>
 

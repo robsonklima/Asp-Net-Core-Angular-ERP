@@ -78,8 +78,13 @@ export class AuthSignInComponent implements OnInit {
             let dispositivo = dispositivoData.items.shift();
     
             if (!usuario || !usuario?.email) {
-                this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error')
-            } else if (!dispositivo) {
+                this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error');
+                this.signInForm.enable();
+            } else if (usuario.indAtivo != 1) {
+                this._snack.exibirToast('O usuário informado não está ativo.', 'error');
+                this.signInForm.enable();
+            }
+             else if (!dispositivo) {
                 dispositivo = await this.cadastrarDispositivo();
                 usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(usuario, dispositivo) : this.enviarEmail(usuario, dispositivo);
                 this._router.navigate(['confirmation-required']);
@@ -101,7 +106,7 @@ export class AuthSignInComponent implements OnInit {
                 this._router.navigate(['confirmation-required']);
             }
         }, err => {
-            this._snack.exibirToast(`Ocorreu um erro ${ err?.message }`, "error");
+            this._snack.exibirToast(`Usuário ou Senha incorreta! ${ err?.message }`, "error");
             this.signInForm.enable();
         });
     }

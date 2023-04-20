@@ -78,6 +78,7 @@ export class TecnicoPlantaoFormComponent implements OnInit {
   private async obterTecnicos(filtro: string='') {
     const data = await this._tecnicoService.obterPorParametros({
       indAtivo: 1,
+      codFiliais: this.userSession.usuario.codFilial.toString(),
       sortActive: 'Nome',
       sortDirection: 'asc',
       filter: filtro

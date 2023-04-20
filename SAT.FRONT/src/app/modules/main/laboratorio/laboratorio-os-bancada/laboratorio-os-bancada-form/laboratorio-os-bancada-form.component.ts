@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { statusConst } from 'app/core/types/status-types';
 import { Subject } from 'rxjs';
@@ -48,7 +48,8 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
         public _location: Location,
         private _dialog: MatDialog,
         private _exportacaoService: ExportacaoService,
-        private _userService: UserService
+        private _userService: UserService,
+        private _router: Router,
     ) {
         this.userSession = JSON.parse(this._userService.userSession);
     }
@@ -136,11 +137,10 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
 
         this._osBancadaService.atualizar(obj).subscribe(() => {
             this._snack.exibirToast(`OS de Bancada atualizado com sucesso!`, "success");
-            this._location.back();
         });
     }
 
-    criar(): void {
+    async criar() {
         const form = this.form.getRawValue();
 
         let obj = {
@@ -152,10 +152,8 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
             }
         };
 
-        this._osBancadaService.criar(obj).subscribe(() => {
-            this._snack.exibirToast(`OS de Bancada criada com sucesso!`, "success");
-            this._location.back();
-        });
+        var osbancada = await this._osBancadaService.criar(obj).toPromise();
+        this._router.navigate(['/laboratorio/os-bancada/form/'+ osbancada.codOsbancada]);
     }
 
     criarPeca() {
@@ -165,7 +163,7 @@ export class LaboratorioOSBancadaFormComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
             if (confirmacao) {
-                this.ngOnInit();
+                this._router.navigate(['/laboratorio/os-bancada/form/'+ this.osBancada.codOsbancada]);
             }
         });
 

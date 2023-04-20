@@ -18,12 +18,13 @@ import { OSBancadaPecasService } from 'app/core/services/os-bancada-pecas.servic
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import moment from 'moment';
 import _ from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-laboratorio-os-bancada-pecas-dialog',
     templateUrl: './laboratorio-os-bancada-pecas-dialog.component.html'
 })
-export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
+export class LaboratorioOSBancadaPecasDialogComponent implements OnInit {
     osBancada: OSBancada;
     osBancadaPeca: OSBancadaPecas;
     pecaRe5114: PecaRE5114;
@@ -45,13 +46,14 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
         private _pecaRE5114Service: PecaRE5114Service,
         private _userService: UserService,
         private _snack: CustomSnackbarService,
+        private _router: Router,
         private dialogRef: MatDialogRef<LaboratorioOSBancadaFormComponent>
     ) {
         this.osBancada = data?.osBancada;
         this.userSession = JSON.parse(this._userService.userSession);
     }
 
-    async ngAfterViewInit() {
+    async ngOnInit() {
         this.inicializarForm();
         this.obterFilial();
         this.obterPecas();
@@ -65,7 +67,7 @@ export class LaboratorioOSBancadaPecasDialogComponent implements AfterViewInit {
                 filter: filtro,
                 sortActive: 'nomePeca',
                 sortDirection: 'asc',
-                pageSize: 1000000000000000
+                pageSize: 100
             };
     
             const data = await this._pecaService

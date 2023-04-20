@@ -14,17 +14,17 @@
         <form autocomplete="off" class="flex flex-col overflow-hidden" [formGroup]="form">
             <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero banco') }}</mat-label>
-                <input matInput formControlName="numBanco">
+                <input matInput type="number" formControlName="numBanco">
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero agencia') }}</mat-label>
-                <input matInput formControlName="numAgencia">
+                <input matInput type="number" formControlName="numAgencia">
             </mat-form-field>
 
         <mat-form-field class="fuse-mat-dense">
                 <mat-label>{{ t('numero conta') }}</mat-label>
-                <input matInput formControlName="numConta">
+                <input matInput type="number" formControlName="numConta">
             </mat-form-field>
         </form>
 

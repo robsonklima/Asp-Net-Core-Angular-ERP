@@ -23,6 +23,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import Enumerable from 'linq';
 import moment from 'moment';
 import { DespesaItemDialogComponent } from './despesa-item-dialog/despesa-item-dialog.component';
+import { AutorizadaEnum } from 'app/core/types/autorizada.types';
 
 @Component({
   selector: 'app-despesa-manutencao',
@@ -227,8 +228,8 @@ export class DespesaManutencaoComponent implements OnInit {
 
   public async obterConfiguracaoCombustivel() {
     const params: DespesaConfiguracaoCombustivelParameters = {
-      codFilial: this.ordemServico.codFilial,
-      codUf: this.ordemServico.localAtendimento.cidade?.codUF
+      codFilial: this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS ? this.userSession.usuario.codFilial :  this.ordemServico.codFilial,
+      codUf: this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS ? this.userSession.usuario.cidade.codUF : this.ordemServico.localAtendimento.cidade?.codUF
     };
 
     const data = await this._despesaConfCombustivelSvc.obterPorParametros(params).toPromise();

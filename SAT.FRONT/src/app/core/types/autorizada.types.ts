@@ -44,3 +44,7 @@ export interface AutorizadaParameters extends QueryStringParameters {
     codAutorizadas?: string;
     indAtivo?: number;
 };
+
+export enum AutorizadaEnum {
+    PERTO_HD_RS = 238
+}

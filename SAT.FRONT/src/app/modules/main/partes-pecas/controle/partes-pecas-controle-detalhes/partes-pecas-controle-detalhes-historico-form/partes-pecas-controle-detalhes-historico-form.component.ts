@@ -87,8 +87,6 @@ export class PartesPecasControleDetalhesHistoricoFormComponent implements OnInit
                 dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
             }
         };
-        console.log(obj);
-        
 
         this._ratDetalhePecaStatusServico.criar(obj).subscribe(() => {
             this._snack.exibirToast("Status adicionado com sucesso!", "success");

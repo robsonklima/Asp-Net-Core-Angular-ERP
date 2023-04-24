@@ -38,4 +38,6 @@ export interface CidadeParameters extends QueryStringParameters
     codCidade?: number;
     indAtivo?: number;
     codUF?: number;
+    nomeCidade?: string;
+    siglaUF?: string;
 };

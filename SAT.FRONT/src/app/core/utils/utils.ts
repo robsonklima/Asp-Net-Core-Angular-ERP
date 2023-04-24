@@ -28,6 +28,14 @@ export class Utils {
     return _.startCase(text);
   }
 
+  hasNumbers = (str) => {
+    if (str.match(/\d+/g) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   obterExtensionBase64(base64: string) {
     switch (base64?.substring(0, 5)?.toUpperCase()) {
       case "IVBOR":

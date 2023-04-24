@@ -54,8 +54,6 @@ export class TecnicoContaFormDialogComponent implements OnInit {
   }
 
   salvar() {
-    console.log(this.isAddMode);
-    
     this.isAddMode ? this.criar() : this.atualizar();
   }
 

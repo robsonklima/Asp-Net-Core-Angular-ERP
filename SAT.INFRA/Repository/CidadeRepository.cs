@@ -95,6 +95,16 @@ namespace SAT.INFRA.Repository
                     s.UnidadeFederativa.NomeUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
                     s.Filial.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
+
+            if (!string.IsNullOrWhiteSpace(parameters.NomeCidade))
+            {
+                cidades.Where(c => c.NomeCidade.Contains(parameters.NomeCidade));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
+            {
+                cidades.Where(c => c.UnidadeFederativa.SiglaUF == parameters.SiglaUF);
+            }
             
             if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
             {

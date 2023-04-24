@@ -54,15 +54,15 @@ export class CidadeService {
     }
 
     async obterCidades(codUF?: number, filtro: string = ''): Promise<Cidade[]> {
-
         const params: CidadeParameters = {
             sortActive: 'nomeCidade',
             sortDirection: 'asc',
             indAtivo: statusConst.ATIVO,
             codUF: codUF,
-            pageSize: 1000,
+            pageSize: 100,
             filter: filtro
         }
+
         return (await this.obterPorParametros(params).toPromise()).items;
     }
 }

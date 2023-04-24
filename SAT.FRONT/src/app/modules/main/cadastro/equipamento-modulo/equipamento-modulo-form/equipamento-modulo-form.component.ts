@@ -87,8 +87,6 @@ export class EquipamentoModuloFormComponent implements OnInit, OnDestroy {
         codECausa: codigo
       }).toPromise()).items.shift();
 
-      console.log(equipModulo.codConfigEquipModulos);
-      
       this._equipamentoModuloService.deletar(equipModulo.codConfigEquipModulos).toPromise();
     }
   }

@@ -9,6 +9,7 @@ namespace SAT.MODELS.Entities.Params
         public int? CodUF { get; set; }
         public string CodFiliais { get; set; }
         public string CodUFs { get; set; }
-
+        public string NomeCidade { get; set; }
+        public string SiglaUF { get; set; }
     }
 }

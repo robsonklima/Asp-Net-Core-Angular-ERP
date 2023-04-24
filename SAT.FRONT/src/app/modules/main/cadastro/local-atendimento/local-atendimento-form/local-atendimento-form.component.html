@@ -82,38 +82,6 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('autorizada') }}</mat-label>
-
-                        <mat-select class="min-h-10" formControlName="codAutorizada" [disabled]="!autorizadas?.length">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="autorizadasFiltro" placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
-                                {{ autorizada.nomeFantasia }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('regiao') }}</mat-label>
-
-                        <mat-select class="min-h-10" formControlName="codRegiao" [disabled]="!regioes?.length">
-                            <mat-option>
-                                <ngx-mat-select-search [formControl]="regioesFiltro" placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option *ngFor="let regiao of regioes" [value]="regiao.codRegiao">
-                                {{ regiao.nomeRegiao }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('tipo de rota') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codTipoRota" [disabled]="!tiposRota?.length">
@@ -137,7 +105,7 @@
                 </div>
 
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('pais') }}</mat-label>
@@ -232,7 +200,7 @@
                     <p class="text-lg font-medium">{{ t('informacoes complementares') }}</p>
                 </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('cnpj') }}</mat-label>

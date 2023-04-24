@@ -48,9 +48,6 @@ export class RelatorioAtendimentoDetalheFormComponent implements OnInit, OnDestr
   ) {
     this.usuario = JSON.parse(this._userService.userSession).usuario;
     this.detalhe = data?.detalhe;
-
-    console.log(this.detalhe);
-    
   }
 
   async ngOnInit() {

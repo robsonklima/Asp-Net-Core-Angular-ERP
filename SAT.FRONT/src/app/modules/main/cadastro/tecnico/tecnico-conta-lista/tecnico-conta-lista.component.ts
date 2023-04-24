@@ -49,9 +49,6 @@ export class TecnicoContaListaComponent implements OnInit {
   }
 
   public onRemover(conta: TecnicoConta) {
-    console.log(conta);
-    
-
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',

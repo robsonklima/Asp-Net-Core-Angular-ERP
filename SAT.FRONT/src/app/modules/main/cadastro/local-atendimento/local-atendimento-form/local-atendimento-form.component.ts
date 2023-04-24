@@ -27,6 +27,7 @@ import { TipoRota, TipoRotaEnum } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { Utils } from 'app/core/utils/utils';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -36,8 +37,7 @@ import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators
   selector: 'app-local-atendimento-form',
   templateUrl: './local-atendimento-form.component.html'
 })
-export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
-{
+export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   codPosto: number;
   local: LocalAtendimento;
   form: FormGroup;
@@ -57,7 +57,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
   userSession: UsuarioSessao;
   protected _onDestroy = new Subject<void>();
 
-  constructor (
+  constructor(
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _snack: CustomSnackbarService,
@@ -73,17 +73,17 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
     private _geolocationService: GeolocalizacaoService,
     private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _equipamentoContratoService: EquipamentoContratoService,
+    private _utils: Utils,
     private _dialog: MatDialog
-  )
-  {
+  ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.codPosto = +this._route.snapshot.paramMap.get('codPosto');
     this.isAddMode = !this.codPosto;
     this.inicializarForm();
+    this.registrarEmitters();
 
     this.obterPaises();
     this.obterClientes();
@@ -91,60 +91,38 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
     this.obterTiposRota();
     this.obterEquipamentosContrato();
 
-    this.form.controls['codPais'].valueChanges.subscribe(async () =>
+    if (!this.isAddMode)
     {
+      this.obterLocal();
+    }
+  }
+
+  private registrarEmitters() {
+    this.form.controls['codPais'].valueChanges.subscribe(async () => {
       this.obterUFs();
     });
 
-    this.form.controls['codUF'].valueChanges.subscribe(async () =>
-    {
+    this.form.controls['codUF'].valueChanges.subscribe(async () => {
       this.obterCidades();
     });
 
-    this.form.controls['codCidade'].valueChanges.subscribe(async () =>
-    {
+    this.form.controls['codCidade'].valueChanges.subscribe(async () => {
       this.form.controls['cep'].enable();
     });
 
-    this.form.controls['codFilial'].valueChanges.subscribe(async () =>
-    {
-      this.obterAutorizadas();
-    });
-
-    this.form.controls['codAutorizada'].valueChanges.subscribe(async () =>
-    {
-      this.obterRegioes();
+    this.form.controls['codFilial'].valueChanges.subscribe(async () => {
+      
     });
 
     this.form.controls['cep'].valueChanges.pipe(
       filter(text => !!text),
       tap(() => { }),
       debounceTime(700),
-      map(async text =>
-      {
-        if (text.length === 9)
-        {
+      map(async text => {
+        if (text.length === 9) {
           const cep = this.form.controls['cep']?.value || '';
-
           this.obterLatLngPorEndereco(cep);
         }
-      }),
-      delay(500),
-      takeUntil(this._onDestroy)
-    ).subscribe(() => { });
-
-    this.form.controls['numeroEnd'].valueChanges.pipe(
-      filter(text => !!text),
-      tap(() => { }),
-      debounceTime(700),
-      map(async text =>
-      {
-        const endereco = this.form.controls['endereco']?.value || '';
-        const numero = this.form.controls['numeroEnd']?.value || '';
-        const codCidade = this.form.controls['codCidade'].value;
-        const cidade = (await this._cidadeService.obterPorCodigo(codCidade).toPromise());
-        const query = `${endereco}, ${numero}, ${cidade.nomeCidade}`;
-        this.obterLatLngPorEndereco(query);
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -157,16 +135,10 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       map(async filtro => { this.obterCidades(filtro) }),
       delay(500),
       takeUntil(this._onDestroy)
-    ).subscribe(() => { });
-
-    if (!this.isAddMode)
-    {
-      this.obterLocal();
-    }
+    ).subscribe(async (filtro) => {});
   }
 
-  private inicializarForm(): void
-  {
+  private inicializarForm(): void {
     this.form = this._formBuilder.group({
       codPosto: [
         {
@@ -201,12 +173,6 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       numeroEnd: [undefined, Validators.required],
       cnpjFaturamento: [undefined],
       codRegiao: [undefined, Validators.required],
-      codAutorizada: [
-        {
-          value: undefined,
-          disabled: true,
-        }, Validators.required
-      ],
       codFilial: [undefined, Validators.required],
       codTipoRota: [undefined],
       latitude: [
@@ -225,43 +191,37 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
     });
   }
 
-  private async obterLocal()
-  {
+  private async obterLocal() {
     this.local = await this._localService.obterPorCodigo(this.codPosto).toPromise();
     this.form.patchValue(this.local);
     this.form.controls['codPais'].setValue(this.local.cidade?.unidadeFederativa?.codPais);
     this.form.controls['codUF'].setValue(this.local.cidade?.unidadeFederativa?.codUF);
   }
 
-  private async obterPaises()
-  {
+  private async obterPaises() {
     const params: PaisParameters = {
       sortActive: 'nomePais',
-      sortDirection: 'asc',
-      pageSize: 200
+      sortDirection: 'asc'
     }
 
     const data = await this._paisService.obterPorParametros(params).toPromise();
     this.paises = data.items;
   }
 
-  private async obterUFs()
-  {
+  private async obterUFs() {
     const codPais = this.form.controls['codPais'].value;
 
     const params: UnidadeFederativaParameters = {
       sortActive: 'nomeUF',
       sortDirection: 'asc',
-      codPais: codPais,
-      pageSize: 50
+      codPais: codPais
     }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
     this.ufs = data.items;
   }
 
-  private async obterCidades(filtro: string = '')
-  {
+  private async obterCidades(filtro: string = '') {
     const codUF = this.form.controls['codUF'].value;
 
     const params: CidadeParameters = {
@@ -277,98 +237,65 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
     this.cidades = data.items;
   }
 
-  private async obterClientes()
-  {
+  private async obterClientes() {
     const params: ClienteParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
-      
     }
 
     const data = await this._clienteService.obterPorParametros(params).toPromise();
     this.clientes = data.items;
   }
 
-  private async obterFiliais()
-  {
+  private async obterFiliais() {
     const params: FilialParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
-      
+
     }
 
     const data = await this._filialService.obterPorParametros(params).toPromise();
     this.filiais = data.items;
   }
 
-  private async obterAutorizadas()
-  {
-    const params: AutorizadaParameters = {
-      sortActive: 'nomeFantasia',
-      sortDirection: 'asc',
-      indAtivo: statusConst.ATIVO,
-      codFilial: this.form.controls['codFilial'].value,
-     
-    }
-
-    const data = await this._autorizadaService.obterPorParametros(params).toPromise();
-    this.autorizadas = data.items;
-  }
-
-  private async obterRegioes()
-  {
-    const codAutorizada = this.form.controls['codAutorizada'].value;
-
-    const data = await this._regiaoAutorizadaService.obterPorParametros({
-      codAutorizada: codAutorizada,
-         }).toPromise();
-
-    this.regioes = data.items
-      .filter(ra => ra.codAutorizada === codAutorizada)
-      .map(ra => ra.regiao);
-  }
-
-  private async obterEquipamentosContrato()
-  {
+  private async obterEquipamentosContrato() {
     const data = await this._equipamentoContratoService.obterPorParametros({ codPosto: this.codPosto }).toPromise();
     this.equipamentosContrato = data.items;
   }
 
-  private async obterLatLngPorEndereco(end: string)
-  {
-    this._geolocationService.obterPorParametros({ enderecoCep: end.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE }).subscribe((data: Geolocalizacao) =>
-    {
-      if (data)
-      {
-        const res = data;
+  private async obterLatLngPorEndereco(end: string) {
+    this._geolocationService.obterPorParametros({ 
+      enderecoCep: end.trim(), 
+      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE 
+    }).subscribe((geo: Geolocalizacao) => {
+      if (geo)  {
+        this.form.controls['latitude'].setValue(geo.latitude);
+        this.form.controls['longitude'].setValue(geo.longitude);
 
-        this.form.controls['latitude'].setValue(res.latitude);
-        this.form.controls['longitude'].setValue(res.longitude);
+        this._cidadeService.obterPorParametros({
+          indAtivo: 1,
+          nomeCidade:geo.cidade,
+          siglaUF: geo.estado
+        }).subscribe(data => {
+          const cidade = data.items.shift();
 
-        this._cidadeService.obterCidades(null, res.cidade).then(c =>
-        {
-          const data = c[0];
-          if (data)
-          {
-            this.form.controls['codUF'].setValue(data.codUF);
-            this.form.controls['codCidade'].setValue(data.codCidade);
+          if (data) {
+            this.form.controls['codUF'].setValue(cidade.codUF);
+            this.form.controls['codCidade'].setValue(cidade.codCidade);
           }
         });
       }
     });
   }
 
-  private obterTiposRota(): void
-  {
-    const tiposRota = Object.keys(TipoRotaEnum).filter((element) =>
-    {
+  private obterTiposRota(): void {
+    const tiposRota = Object.keys(TipoRotaEnum).filter((element) => {
       return isNaN(Number(element));
     });
 
-    tiposRota.forEach((tr, i) =>
-    {
+    tiposRota.forEach((tr, i) => {
       this.tiposRota.push({
         codTipoRota: i + 1,
         nomeTipoRota: tr
@@ -376,13 +303,11 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
     });
   }
 
-  salvar(): void
-  {
+  salvar(): void {
     this.isAddMode ? this.criar() : this.atualizar();
   }
 
-  async deletar()
-  {
+  async deletar() {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
         titulo: 'Confirmação',
@@ -394,8 +319,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmacao: boolean) =>
-    {
+    dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
       if (confirmacao)
       {
         if (this.equipamentosContrato.length)
@@ -404,20 +328,17 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
           return;
         }
 
-        this._localService.deletar(this.codPosto).subscribe(() =>
-        {
+        this._localService.deletar(this.codPosto).subscribe(() => {
           this._snack.exibirToast('Local removido com sucesso!', 'success');
           this._router.navigate(['/local-atendimento']);
-        }, e =>
-        {
+        }, e => {
           this._snack.exibirToast('Erro ao remover local', 'error');
         })
       }
     });
   }
 
-  private atualizar(): void
-  {
+  private atualizar(): void {
     this.form.disable();
 
     const form: any = this.form.getRawValue();
@@ -432,15 +353,13 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       }
     };
 
-    this._localService.atualizar(obj).subscribe(() =>
-    {
+    this._localService.atualizar(obj).subscribe(() => {
       this._snack.exibirToast("Registro atualizado com sucesso!", "success");
       this._router.navigate(['local-atendimento']);
     });
   }
 
-  private criar(): void
-  {
+  private criar(): void {
     const form: any = this.form.getRawValue();
     let obj = {
       ...this.local,
@@ -453,15 +372,13 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy
       }
     };
 
-    this._localService.criar(obj).subscribe((os) =>
-    {
+    this._localService.criar(obj).subscribe((os) => {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._router.navigate(['local-atendimento']);
     });
   }
 
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
   }

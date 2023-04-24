@@ -52,8 +52,6 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
   }
 
   async toggleStatusReparo() {
-    console.log(this.item)
-
     if (!this.item?.temposReparo?.length) {
       this._orItemService.atualizar({ 
         ...this.item, 

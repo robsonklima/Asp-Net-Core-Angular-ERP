@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using SAT.MODELS.ViewModels;
@@ -13,24 +15,32 @@ namespace SAT.SERVICES.Services
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
         private readonly IEquipamentoRepository _equipamentoRepo;
         private readonly IOrdemServicoRepository _ordemServicoRepo;
+        private readonly IContratoServicoRepository _contratoServicoRepo;
         private readonly ISequenciaRepository _seqRepo;
 
         public EquipamentoContratoService(
             IEquipamentoContratoRepository equipamentoContratoRepo,
             IEquipamentoRepository equipamentoRepo,
             IOrdemServicoRepository ordemServicoRepo,
+            IContratoServicoRepository contratoServicoRepo,
             ISequenciaRepository seqRepo
         )
         {
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _equipamentoRepo = equipamentoRepo;
             _ordemServicoRepo = ordemServicoRepo;
+            _contratoServicoRepo = contratoServicoRepo;
             _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(EquipamentoContratoParameters parameters)
         {
             var equipamentoContratos = _equipamentoContratoRepo.ObterPorParametros(parameters);
+
+            equipamentoContratos.ForEach(e => {
+                e.ValorSoftwareEmbarcado = CalcularTotalServico(e, Constants.TIPO_SERVICO_SOFTWARE_EMBARCADO);
+                e.ValorMonitoramentoRemoto = CalcularTotalServico(e, Constants.TIPO_SERVICO_MONITORAMENTO_REMOTO);
+            });
 
             var lista = new ListViewModel
             {
@@ -72,7 +82,10 @@ namespace SAT.SERVICES.Services
 
         public EquipamentoContrato ObterPorCodigo(int codigo)
         {
-            return _equipamentoContratoRepo.ObterPorCodigo(codigo);
+            EquipamentoContrato equip = _equipamentoContratoRepo.ObterPorCodigo(codigo);
+            equip.ValorSoftwareEmbarcado = CalcularTotalServico(equip, Constants.TIPO_SERVICO_SOFTWARE_EMBARCADO);
+            equip.ValorMonitoramentoRemoto = CalcularTotalServico(equip, Constants.TIPO_SERVICO_MONITORAMENTO_REMOTO);
+            return equip;
         }
 
         public MtbfEquipamento CalcularMTBF(int codEquipContrato, DateTime? dataInicio, DateTime dataFim)
@@ -101,6 +114,17 @@ namespace SAT.SERVICES.Services
             };
 
             return mtbf;
+        }
+
+        private decimal CalcularTotalServico(EquipamentoContrato equip, int codServico) {
+            var servicos = _contratoServicoRepo.ObterPorParametros(new ContratoServicoParameters {
+                CodEquip = equip.CodEquip,
+                CodContrato = equip.CodContrato,
+                CodSLA = equip.CodSLA,
+                CodServico = codServico
+            });
+
+            return servicos.Sum(s => s.Valor);
         }
     }
 }

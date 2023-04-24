@@ -52,6 +52,8 @@ namespace SAT.SERVICES.Services
 												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento ?? Constants.NENHUM_REGISTRO,
 												RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
 												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0,
+												SoftwareEmbarcado = string.Format("{0:C}", eq.ValorSoftwareEmbarcado),
+												MonitoramentoRemoto = string.Format("{0:C}", eq.ValorMonitoramentoRemoto)
 											});
 
             var wsEq = Workbook.Worksheets.Add("Equipamentos");

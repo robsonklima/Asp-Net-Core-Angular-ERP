@@ -62,7 +62,8 @@ export class DespesaItemDialogComponent implements OnInit {
     private _geolocationService: GeolocalizacaoService,
     private _ordemServicoSvc: OrdemServicoService,
     private _snack: CustomSnackbarService,
-    private dialogRef: MatDialogRef<DespesaItemDialogComponent>) {
+    private dialogRef: MatDialogRef<DespesaItemDialogComponent>
+  ) {
     if (data)
     {
       this.codDespesa = data.codDespesa;
@@ -86,10 +87,10 @@ export class DespesaItemDialogComponent implements OnInit {
 
   private async obterTiposDespesa() {
     const params: DespesaTipoParameters = { indAtivo: statusConst.ATIVO, sortActive: "NomeTipo", sortDirection: "asc" };
-    const tipos = await this._despesaTipoSvc.obterPorParametros(params).toPromise();
-    this.tiposDespesa = tipos.items;
+    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros(params).toPromise()).items;
+    const despesasQuilometragem = this.obterDespesaItensKM();
 
-    if (this.obterDespesaItensKM()?.length == 2 || (this.obterDespesaItensKM()?.length == 1 && !this.isUltimaRATDoDia())) { 
+    if (despesasQuilometragem?.length == 2 || (despesasQuilometragem?.length == 1 && !this.isUltimaRATDoDia())) { 
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();
@@ -249,8 +250,10 @@ export class DespesaItemDialogComponent implements OnInit {
   private async setOrigemRATAnterior() {
     const index = _.findIndex(this.rats, (r) => { return r.codRAT == this.rat.codRAT });
     const tipoDespesaSelecionado = this.form.value.step1.codDespesaTipo;
-    if (!index || tipoDespesaSelecionado !== DespesaTipoEnum.KM)
+
+    if (!index || tipoDespesaSelecionado !== DespesaTipoEnum.KM) {
       return;
+    }
 
     const ratAnterior = this.rats[index - 1];
     const os: OrdemServico = await this._ordemServicoSvc.obterPorCodigo(ratAnterior.codOS).toPromise();

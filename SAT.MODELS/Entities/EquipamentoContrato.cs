@@ -89,5 +89,7 @@ namespace SAT.MODELS.Entities
         [ForeignKey("CodContrato, CodEquip")]
         public ContratoEquipamento ContratoEquipamento { get; set; }
         public MtbfEquipamento Mtbf { get; set; }
+        public decimal? ValorSoftwareEmbarcado { get; set; }
+        public decimal? ValorMonitoramentoRemoto { get; set; }
     }
 }

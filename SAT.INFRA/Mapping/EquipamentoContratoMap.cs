@@ -10,6 +10,8 @@ namespace SAT.INFRA.Mapping
         {
             builder.ToTable("EquipamentoContrato");
             builder.Ignore(p => p.Mtbf);
+            builder.Ignore(p => p.ValorMonitoramentoRemoto);
+            builder.Ignore(p => p.ValorSoftwareEmbarcado);
 
             builder
                 .HasKey(prop => prop.CodEquipContrato);

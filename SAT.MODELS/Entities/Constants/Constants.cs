@@ -77,6 +77,10 @@ namespace SAT.MODELS.Entities.Constants
         };
         public static int CONTRATO_BB_TECNOLOGIA = 3145;
 
+        // Tipos de Serviço
+        public static int TIPO_SERVICO_SOFTWARE_EMBARCADO = 59;
+        public static int TIPO_SERVICO_MONITORAMENTO_REMOTO = 60;
+
         // Tipos de Intervenção
         public static int ALTERACAO_ENGENHARIA = 1;
         public static int CORRETIVA = 2;

@@ -17,6 +17,9 @@ namespace SAT.INFRA.Repository
                          .Include(t => t.Filial)
                          .Include(t => t.Usuario)
                          .Include(t => t.Autorizada)
+                         .Include(t => t.Cidade)
+                         .Include(t => t.Cidade.UnidadeFederativa)
+                         .Include(t => t.Veiculos.OrderByDescending(v => v.CodVeiculoCombustivel))
                          .Include(t => t.Regiao);
                     break;
                 default:
@@ -28,6 +31,9 @@ namespace SAT.INFRA.Repository
                             .Include(t => t.Usuario)
                             .Include(t => t.Usuario.Perfil)
                             .Include(t => t.RegiaoAutorizada)
+                            .Include(t => t.Cidade)
+                            .Include(t => t.Cidade.UnidadeFederativa)
+                            .Include(t => t.Veiculos.OrderByDescending(v => v.CodVeiculoCombustivel))
                             .Include(t => t.TecnicoCliente)
                                 .ThenInclude(tc => tc.Cliente);
                     break;

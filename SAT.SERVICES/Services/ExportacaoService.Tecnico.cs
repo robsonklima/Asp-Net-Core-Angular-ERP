@@ -21,7 +21,17 @@ namespace SAT.SERVICES.Services {
                                 DataAdmissao = tecnico?.DataAdmissao,
                                 Ativo = tecnico?.IndAtivo == 1 ? "SIM" : "NÃO",
                                 Cidade = tecnico?.Cidade?.NomeCidade ?? Constants.NENHUM_REGISTRO,
-                                Regiao = tecnico?.Regiao?.NomeRegiao ?? Constants.NENHUM_REGISTRO
+                                Regiao = tecnico?.Regiao?.NomeRegiao ?? Constants.NENHUM_REGISTRO,
+                                CEP = tecnico?.Cep,
+                                Endereco = tecnico?.Endereco,
+                                Complemento = tecnico?.EnderecoComplemento,
+                                UF = tecnico?.Cidade?.UnidadeFederativa?.NomeUF,
+                                Bairro = tecnico?.Bairro,
+                                Fone = tecnico?.FonePerto,
+                                Email = tecnico?.Email,
+                                ModeloVeiculo = tecnico?.Veiculos?.OrderByDescending(v => v.CodTecnicoVeiculo)?.FirstOrDefault()?.Modelo,
+                                PlacaVeiculo = tecnico?.Veiculos?.OrderByDescending(v => v.CodTecnicoVeiculo)?.FirstOrDefault()?.Placa,
+                                AnoVeiculo = tecnico?.Veiculos?.OrderByDescending(v => v.CodTecnicoVeiculo)?.FirstOrDefault()?.Ano
                             });
 
             var wsOs = Workbook.Worksheets.Add("Tecnicos");

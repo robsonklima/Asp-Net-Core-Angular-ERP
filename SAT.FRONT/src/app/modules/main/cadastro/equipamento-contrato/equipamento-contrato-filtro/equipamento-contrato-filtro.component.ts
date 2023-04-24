@@ -322,7 +322,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 		let params: ContratoParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			codClientes: this.form.controls['codClientes'].value.join(','),
+			codClientes: this.form.controls['codClientes'].value?.join(','),
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -337,7 +337,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	async obterContratosEquipamento(filtro: string = '') {
 		let params: ContratoEquipamentoParameters = {
 			filter: filtro,
-			codContratos: this.form.controls['codContratos'].value.join(','),
+			codContratos: this.form.controls['codContratos'].value?.join(','),
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			pageSize: 1000
@@ -394,7 +394,7 @@ export class EquipamentoContratoFiltroComponent extends FilterBase implements On
 	async obterCidades(filtro: string = '') {
 		let params: CidadeParameters = {
 			indAtivo: statusConst.ATIVO,
-			codUF: this.form.controls['codUfs'].value.join(','),
+			codUF: this.form.controls['codUfs'].value?.join(','),
 			filter: filtro,
 			pageSize: 500
 		};

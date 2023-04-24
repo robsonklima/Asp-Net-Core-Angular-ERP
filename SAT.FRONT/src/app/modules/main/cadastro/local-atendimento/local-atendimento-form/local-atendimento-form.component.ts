@@ -70,6 +70,8 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     private _clienteService: ClienteService,
     private _filialService: FilialService,
     private _geolocationService: GeolocalizacaoService,
+    private _autorizadaService: AutorizadaService,
+    private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _equipamentoContratoService: EquipamentoContratoService,
     private _dialog: MatDialog
   ) {
@@ -108,7 +110,8 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
-      
+      this.obterRegioes();
+      this.obterAutorizadas();
     });
 
     this.form.controls['cep'].valueChanges.pipe(
@@ -170,6 +173,9 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       numeroEnd: [undefined, Validators.required],
       cnpjFaturamento: [undefined],
       codTipoRota: [undefined],
+      codFilial: [undefined, Validators.required],
+      codAutorizada: [undefined, Validators.required],
+      codRegiao: [undefined, Validators.required],
       latitude: [
         {
           value: undefined,
@@ -296,6 +302,32 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         nomeTipoRota: tr
       })
     });
+  }
+
+  private async obterAutorizadas()
+  {
+    const params: AutorizadaParameters = {
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      codFilial: this.form.controls['codFilial'].value,
+    }
+
+    const data = await this._autorizadaService.obterPorParametros(params).toPromise();
+    this.autorizadas = data.items;
+  }
+
+  private async obterRegioes()
+  {
+    const codAutorizada = this.form.controls['codAutorizada'].value;
+
+    const data = await this._regiaoAutorizadaService.obterPorParametros({
+      codAutorizada: codAutorizada,
+         }).toPromise();
+
+    this.regioes = data.items
+      .filter(ra => ra.codAutorizada === codAutorizada)
+      .map(ra => ra.regiao);
   }
 
   salvar(): void {

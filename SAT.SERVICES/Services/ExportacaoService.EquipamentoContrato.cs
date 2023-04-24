@@ -38,6 +38,8 @@ namespace SAT.SERVICES.Services
 												EquipamentoEmGarantia= eq.IndGarantia == 1 ? "SIM" : "NÃO",	
 												Ativo = eq.IndAtivo == 1 ? "SIM" : "NÃO",
 												ReceitaValor = eq.ValorReceita,
+												SoftwareEmbarcado = string.Format("{0:C}", eq.ValorSoftwareEmbarcado),
+												MonitoramentoRemoto = string.Format("{0:C}", eq.ValorMonitoramentoRemoto),
 												Receita = eq.IndReceita == 1 ? "SIM" : "NÃO",
 												RepasseValor = eq.ValorRepasse ?? 0,
 												Repasse = eq.IndRepasse == 1 ? "SIM" : "NÃO",
@@ -51,9 +53,7 @@ namespace SAT.SERVICES.Services
 												Semat = eq.IndSemat == 1 ? "SIM" : "NÃO",
 												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento ?? Constants.NENHUM_REGISTRO,
 												RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
-												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0,
-												SoftwareEmbarcado = string.Format("{0:C}", eq.ValorSoftwareEmbarcado),
-												MonitoramentoRemoto = string.Format("{0:C}", eq.ValorMonitoramentoRemoto)
+												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0
 											});
 
             var wsEq = Workbook.Worksheets.Add("Equipamentos");

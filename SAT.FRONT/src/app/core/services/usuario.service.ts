@@ -20,7 +20,6 @@ export class UsuarioService {
         });
 
         return this.http.get(`${c.api}/Usuario`, { params: params }).pipe(
-
             map((data: UsuarioData) => data)
         )
     }

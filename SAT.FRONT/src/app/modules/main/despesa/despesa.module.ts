@@ -140,7 +140,7 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     MatProgressSpinnerModule,
     TranslocoModule,
     MatRadioModule,
-    FiltroModule
+    FiltroModule,
   ]
 })
 export class DespesaModule { }

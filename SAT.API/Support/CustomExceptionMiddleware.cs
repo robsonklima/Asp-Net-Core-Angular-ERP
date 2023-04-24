@@ -5,7 +5,6 @@ using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
-using SAT.SERVICES.Services;
 using System;
 using System.Net;
 using System.Threading.Tasks;

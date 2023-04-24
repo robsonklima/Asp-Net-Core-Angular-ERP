@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntl } from '@angular/material/paginator';
@@ -23,6 +23,9 @@ import { PhonePipe } from 'app/core/pipes/fone.pipe';
 import { CEPPipe } from 'app/core/pipes/cep.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormularioErrosComponent } from './formulario-erros/formulario-erros.component';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { environment } from 'environments/environment';
+import { GlobalErrorHandlerService } from 'app/core/interceptors/custom-error-handler';
 
 export const FORMATO_DATA = {
     parse: {
@@ -59,7 +62,13 @@ export const FORMATO_DATA = {
         MatIconModule,
         MatTooltipModule,
         MatChipsModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        LoggerModule.forRoot({
+            serverLoggingUrl: `${environment.apiUrl}/LogFrontEnd`,
+            level: NgxLoggerLevel.TRACE,
+            serverLogLevel: NgxLoggerLevel.ERROR,
+            disableConsoleLogging: false
+        })
     ],
     exports: [
         CommonModule,
@@ -80,7 +89,9 @@ export const FORMATO_DATA = {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
             multi: true
-        }
+        },
+        GlobalErrorHandlerService,
+        { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
     ]
 })
 export class SharedModule

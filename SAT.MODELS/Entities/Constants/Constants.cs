@@ -5,6 +5,8 @@ namespace SAT.MODELS.Entities.Constants
     public class Constants
     {
         public static string SISTEMA_NOME = "SAT 2.0";
+        public static string SISTEMA_CAMADA_API = "Backend";
+        public static string SISTEMA_CAMADA_FE = "Frontend";
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
         public static string BANRISUL_EMAIL = "tecnologia_suporte_service_desk@banrisul.com.br";        

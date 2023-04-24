@@ -14,6 +14,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+
         let newReq = req.clone();
 
         if (this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken)) {

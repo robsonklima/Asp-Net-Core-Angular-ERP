@@ -44,7 +44,7 @@ namespace SAT.API.Support
             
             _logger.Error()
                 .Message($"{statusCode} {ex.Message} {ex.InnerException}")
-                .Property("application", Constants.SISTEMA_NOME)
+                .Property("application", Constants.SISTEMA_CAMADA_API)
                 .Write();
             
             string[] destinatarios = { Constants.EQUIPE_SAT_EMAIL };

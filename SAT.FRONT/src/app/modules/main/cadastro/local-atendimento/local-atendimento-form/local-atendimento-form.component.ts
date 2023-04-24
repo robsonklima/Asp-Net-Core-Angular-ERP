@@ -67,13 +67,10 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     private _ufService: UnidadeFederativaService,
     private _cidadeService: CidadeService,
     private _localService: LocalAtendimentoService,
-    private _autorizadaService: AutorizadaService,
     private _clienteService: ClienteService,
     private _filialService: FilialService,
     private _geolocationService: GeolocalizacaoService,
-    private _regiaoAutorizadaService: RegiaoAutorizadaService,
     private _equipamentoContratoService: EquipamentoContratoService,
-    private _utils: Utils,
     private _dialog: MatDialog
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
@@ -172,8 +169,6 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       observacao: [undefined],
       numeroEnd: [undefined, Validators.required],
       cnpjFaturamento: [undefined],
-      codRegiao: [undefined, Validators.required],
-      codFilial: [undefined, Validators.required],
       codTipoRota: [undefined],
       latitude: [
         {

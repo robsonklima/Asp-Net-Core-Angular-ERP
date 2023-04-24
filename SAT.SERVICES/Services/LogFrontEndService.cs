@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Http;
 using NLog;
 using NLog.Fluent;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace SAT.SERVICES.Services
 {
@@ -24,15 +24,11 @@ namespace SAT.SERVICES.Services
     
         public void Criar(LogFrontEnd log)
         {
-            var msg = $"MESSAGE: {log.Message} - " +
-              $"FILE: {log?.FileName} - " +
-              $"LEVEL: {log?.Level} - " +
-              $"LINENUMBER: {log?.LineNumber} - " +
-              $"TIMESTAMP: {log?.Timestamp:F}";
+            var msg = $"{log.Message}, {log?.FileName}, Level: {log?.Level}, Line: {log?.LineNumber}";
 
             _logger.Error()
-                .Message($"{ msg }")
-                .Property("application", Constants.SISTEMA_NOME)
+                .Message($"{msg}")
+                .Property("application", Constants.SISTEMA_CAMADA_FE)
                 .Property("layer", Constants.SISTEMA_CAMADA_FE)
                 .Property("user", _contextAcecssor.HttpContext.User.Identity.Name)
                 .Write();

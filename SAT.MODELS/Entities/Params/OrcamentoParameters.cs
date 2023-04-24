@@ -22,5 +22,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? DataFim { get; set; }
         public DateTime? DataAberturaInicio { get; set; }
         public DateTime? DataAberturaFim { get; set; }   
+        public string CnpjFaturamento { get; set; }
     }
 }

@@ -93,7 +93,14 @@
                     <input matInput formControlName="codigoOrdemServico">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
                     </mat-icon>
-                </mat-form-field>     
+                </mat-form-field>
+                
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('cnpj faturamento') }}</mat-label>
+                    <input matInput formControlName="cnpjFaturamento">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:desktop-computer'">
+                    </mat-icon>
+                </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('os cliente') }}</mat-label>

@@ -238,7 +238,7 @@
                         <mat-select class="min-h-10" formControlName="codPerfil"
                             [disabled]="!perfis.length || form.disabled">
                             <mat-option *ngFor="let p of perfis" [value]="p.codPerfil">
-                                {{ p.nomePerfil }}
+                                {{ p.nomePerfil | uppercase }}
                             </mat-option>
                         </mat-select>
                         <mat-error>{{ t('preencher campo') }}</mat-error>

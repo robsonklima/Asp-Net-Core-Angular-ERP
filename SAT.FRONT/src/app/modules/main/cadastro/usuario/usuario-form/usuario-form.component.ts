@@ -24,7 +24,7 @@ import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais, PaisEnum, PaisParameters } from 'app/core/types/pais.types';
-import { Perfil, PerfilParameters } from 'app/core/types/perfil.types';
+import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
@@ -348,7 +348,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       filter: filtro
     }
 
-    return (await this._perfilService.obterPorParametros(params).toPromise()).items;
+    this.perfis = (await this._perfilService.obterPorParametros(params).toPromise()).items; 
+    this.validaPerfis();
+    
+    return this.perfis;
   }
 
   private async obterTranspotadoras(filtro: string=''): Promise<Transportadora[]> {
@@ -387,7 +390,40 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   }
 
   private async validaPerfis() {
+    const codPerfilUsuarioLogado = this.userSession.usuario.codPerfil;
 
+    switch (codPerfilUsuarioLogado) {
+      case PerfilEnum.FILIAIS_SUPERVISOR:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+        break;
+
+      case PerfilEnum.FILIAL_COORDENADOR:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+        break
+
+      case PerfilEnum.ADM_DO_SISTEMA:
+        break
+
+      default:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPORTE_DE_EXPORTAÇÃO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_DE_SETOR)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.LOGÍSTICA_COORDENADOR)
+        break;
+    }
   }
 
   private async obterCidades(filtro: string = ''): Promise<Cidade[]> {

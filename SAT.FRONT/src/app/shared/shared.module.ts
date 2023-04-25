@@ -23,8 +23,6 @@ import { PhonePipe } from 'app/core/pipes/fone.pipe';
 import { CEPPipe } from 'app/core/pipes/cep.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormularioErrosComponent } from './formulario-erros/formulario-erros.component';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { environment } from 'environments/environment';
 import { GlobalErrorHandlerService } from 'app/core/interceptors/custom-error-handler';
 
 export const FORMATO_DATA = {

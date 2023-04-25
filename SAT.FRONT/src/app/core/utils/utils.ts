@@ -15,6 +15,10 @@ export class Utils {
     return moment().format('YYYY-MM-DD HH:mm:ss');
   }
 
+  removerAcentos(str: string='') {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  }
+
   obterDuracao(dataHora: string): string {
     if (!dataHora)
       return '';

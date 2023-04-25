@@ -11,6 +11,7 @@ import { PontoPeriodoUsuario } from "./ponto-periodo-usuario.types";
 import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
 import { UsuarioSeguranca } from "./usuario-seguranca.types";
+import { Transportadora } from "./transportadora.types";
 
 export class Usuario {
     codUsuario: string;
@@ -69,6 +70,7 @@ export class Usuario {
     ultimoAcesso: string;
     foto: ImagemPerfilModel;
     pontosPeriodoUsuario?: PontoPeriodoUsuario[];
+    transportadora: Transportadora;
 }
 
 export interface UsuarioData extends Meta {

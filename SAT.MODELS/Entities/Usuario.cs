@@ -45,6 +45,7 @@ namespace SAT.MODELS.Entities
         public string Numero { get; set; }
         public string Complemento { get; set; }
         public int? CodTransportadora { get; set; }
+        public Transportadora Transportadora { get; set; }
         public bool? IndPermiteRegistrarEquipPOS { get; set; }
         public DateTime? UltimoAcesso { get; set; }
         [JsonIgnore]

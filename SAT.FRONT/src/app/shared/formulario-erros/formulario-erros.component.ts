@@ -11,7 +11,6 @@ export class FormularioErrosComponent {
     constructor() {}
 
     showFormErrors(): any {
-
 		const errors: any = [];
 
         if (!this.form)

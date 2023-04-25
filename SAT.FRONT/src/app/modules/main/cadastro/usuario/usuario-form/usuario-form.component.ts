@@ -17,21 +17,22 @@ import { TransportadoraService } from 'app/core/services/transportadora.service'
 import { TurnoService } from 'app/core/services/turno.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
-import { Cargo } from 'app/core/types/cargo.types';
-import { Cidade } from 'app/core/types/cidade.types';
+import { Cargo, CargoParameters } from 'app/core/types/cargo.types';
+import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
-import { Pais } from 'app/core/types/pais.types';
-import { Perfil } from 'app/core/types/perfil.types';
+import { Pais, PaisEnum, PaisParameters } from 'app/core/types/pais.types';
+import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { Turno } from 'app/core/types/turno.types';
-import { UnidadeFederativa } from 'app/core/types/unidade-federativa.types';
+import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { Utils } from 'app/core/utils/utils';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -73,6 +74,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
   clienteFilterCtrl: FormControl = new FormControl();
   contratosFilterCtrl: FormControl = new FormControl();
+  cidadesFilterCtrl: FormControl = new FormControl();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -87,98 +89,40 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _clienteService: ClienteService,
     private _userService: UserService,
     private _tecnicoService: TecnicoService,
-    private _unidadeFederativaService: UnidadeFederativaService,
     private _usuarioService: UserService,
     private _cdr: ChangeDetectorRef,
     private _googleGeolocationService: GeolocalizacaoService,
     private _cargoService: CargoService,
     private _perfilService: PerfilService,
     private _location: Location,
-    private _turnoService: TurnoService
+    private _turnoService: TurnoService,
+    private _ufService: UnidadeFederativaService,
+    private _utils: Utils,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    this.senhaNaoConfere = false;
     this.codUsuario = this._route.snapshot.paramMap.get('codUsuario');
+    this.senhaNaoConfere = false;
     this.isAddMode = !this.codUsuario;
     this.buscandoCEP = false;
     this.inicializarForm();
     this.registrarEmitters();
-
-    this.paises = await this._paisService.obterPaises();
-    this.cargos = await this._cargoService.obterCargos();
-    this.perfis = await this._perfilService.obterPerfis();
-    this.filiais = (await this._filialService.obterPorParametros({
-      sortActive: 'nomeFilial',
-      sortDirection: 'asc',
-      indAtivo: 1,
-      pageSize: 1000,
-    }).toPromise()).items;
-    this.tecnicos = (await this._tecnicoService.obterPorParametros({ indAtivo: 1, naoVinculados: 1 }).toPromise()).items;
-    this.transportadoras = (await ((this._transportadoraService.obterPorParametros({ indAtivo: 1 })).toPromise())).items;
-    this.turnos = (await ((this._turnoService.obterPorParametros({})).toPromise())).items;
-    this.obterClientes();
-
-    this.form.controls['indAtivo'].setValue(true);
-    this.form.controls['senha'].setValue(null);
-
+        
     if (!this.isAddMode) {
       this.carregarDadosUsuario();
+    } else {
+      this.clientes = await this.obterClientes();
+      this.cargos = await this.obterCargos();
+      this.filiais = await this.obterFiliais();
+      this.perfis = await this.obterPerfis();
+      this.transportadoras = await this.obterTranspotadoras();
+      this.tecnicos = await this.obterTecnicos();
+      this.paises = await this.obterPaises();
     }
 
     this.loading = false;
-  }
-
-  private carregarDadosUsuario() {
-    this._userService.obterPorCodigo(this.codUsuario)
-      .pipe(first())
-      .subscribe(data => {
-        if (data.codTecnico) {
-          this._tecnicoService.obterPorParametros({ indAtivo: 1 }).subscribe(tecData => {
-            if (tecData) {
-              this.tecnicos = tecData.items;
-            }
-          });
-        }
-        this.form.patchValue(data);
-        this.form.controls['codPais'].setValue(data.cidade?.unidadeFederativa?.codPais);
-        this.form.controls['codUF'].setValue(data.cidade?.codUF);
-        this.form.controls['codCidade'].setValue(data.codCidade);
-
-        if (data.codContrato) {
-          let codContratos = data.codContrato.split(',').map(i => Number(i));
-          this.form.controls['codContrato'].setValue(codContratos);
-        }
-
-        // Unico jeito válido até o momento para preencher certo a data no form
-        this.form.get('dataAdmissao').setValue(new Date(data.dataAdmissao).toISOString().split('T')[0]);
-
-        this.form.controls['confirmarSenha'].clearValidators();
-        this.form.controls['confirmarSenha'].updateValueAndValidity();
-        this.form.controls['senha'].clearValidators();
-        this.form.controls['senha'].updateValueAndValidity();
-
-        this.usuarioBloqueado = data.usuarioSeguranca?.senhaBloqueada == true;
-        this.usuario = data;
-      });
-  }
-
-  async obterClientes(filtro: string = '') {
-    let params: ClienteParameters = {
-      filter: filtro,
-      indAtivo: statusConst.ATIVO,
-      sortActive: 'nomeFantasia',
-      sortDirection: 'asc',
-      pageSize: 1000
-    };
-
-    const data = await this._clienteService
-      .obterPorParametros(params)
-      .toPromise();
-
-    this.clientes = data.items;
   }
 
   private inicializarForm() {
@@ -194,7 +138,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       codCidade: [undefined],
       senha: [undefined, Validators.required],
       confirmarSenha: [undefined, Validators.required],
-      indAtivo: [undefined],
+      indAtivo: [true],
       codAutorizada: [undefined],
       codPerfil: [undefined],
       email: [undefined],
@@ -225,15 +169,17 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       debounceTime(700),
       map(async text => {
         if (!this.isAddMode) return;
-        
+
         const splitNome = text.split(' ');
 
         if (splitNome.length > 1) {
+          let codUsuario = this._utils.removerAcentos(splitNome[0]?.toLowerCase() + "." + splitNome[splitNome.length - 1]?.toLowerCase());
           this.form.controls['codUsuario'].disable();
-          this.form.controls['codUsuario'].setValue(splitNome[0]?.toLowerCase() + "." +
-            splitNome[splitNome.length - 1]?.toLowerCase())
+          this.form.controls['codUsuario'].setValue(codUsuario)
           this.form.controls['codUsuario'].enable();
         }
+
+        this.validaCodUsuario();
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -243,27 +189,18 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       tap(() => { }),
       debounceTime(700),
       map(async text => {
-        if (!text) {
-          this.codUsuarioValidado = false;
-          return;
-        }
-        let validaCodigo = await this._usuarioService.obterPorCodigo(text).toPromise();
-        this.codUsuarioExiste = validaCodigo != null;
-        this.codUsuarioValidado = true;
+        this.validaCodUsuario();
       }),
       delay(500),
       takeUntil(this._onDestroy)
     ).subscribe(() => { });
 
     this.form.controls['codPais'].valueChanges.subscribe(async () => {
-      this.unidadesFederativas = [];
-      this.unidadesFederativas = await this._unidadeFederativaService.obterUnidadesFederativas(this.form.controls['codPais'].value);
       this._cdr.detectChanges();
     });
 
     this.form.controls['codUF'].valueChanges.subscribe(async () => {
-      this.cidades = [];
-      this.cidades = await this._cidadeService.obterCidades(this.form.controls['codUF'].value);
+      this.obterCidades();
       this._cdr.detectChanges();
     });
 
@@ -313,32 +250,230 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         .toPromise()).items;
       this._cdr.detectChanges();
     });
+
+    this.cidadesFilterCtrl.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      tap(() => { }),
+      debounceTime(700),
+      map(async filtro => { this.cidades = await this.obterCidades(filtro) }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(async (filtro) => { });
+  }
+
+  private async carregarDadosUsuario() {
+    this._userService.obterPorCodigo(this.codUsuario)
+      .pipe(first())
+      .subscribe(async usuario => {
+        if (usuario.codTecnico) {
+          this._tecnicoService.obterPorParametros({ indAtivo: 1 }).subscribe(tecData => {
+            if (tecData) { 
+              this.tecnicos = tecData.items;
+            }
+          });
+        }
+        
+        this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
+        this.unidadesFederativas = await this.obterUFs(usuario.cidade.unidadeFederativa.nomeUF);
+        this.form.controls['codUF'].setValue(usuario.cidade?.codUF);
+        this.cidades = await this.obterCidades(usuario.cidade.nomeCidade);
+        this.form.controls['codCidade'].setValue(usuario.codCidade);
+
+        if (usuario.codContrato) {
+          let codContratos = usuario.codContrato.split(',').map(i => Number(i));
+          this.form.controls['codContrato'].setValue(codContratos);
+        }
+
+        this.form.get('dataAdmissao').setValue(new Date(usuario.dataAdmissao).toISOString().split('T')[0]);
+        this.form.controls['confirmarSenha'].clearValidators();
+        this.form.controls['confirmarSenha'].updateValueAndValidity();
+        this.form.controls['senha'].clearValidators();
+        this.form.controls['senha'].updateValueAndValidity();
+
+        this.usuarioBloqueado = usuario.usuarioSeguranca?.senhaBloqueada == true;
+        this.usuario = usuario;
+        this.form.patchValue(usuario);
+
+        this.clientes = await this.obterClientes(usuario.cliente.nomeFantasia);
+        this.cargos = await this.obterCargos(usuario.cargo.nomeCargo);
+        this.filiais = await this.obterFiliais(usuario.filial.nomeFilial);
+        this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
+        this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
+        this.tecnicos = await this.obterTecnicos(usuario.tecnico.nome);
+      });
+  }
+
+  private async obterClientes(filtro: string = ''): Promise<Cliente[]> {
+    let params: ClienteParameters = {
+      filter: filtro,
+      indAtivo: statusConst.ATIVO,
+      sortActive: 'nomeFantasia',
+      sortDirection: 'asc',
+      pageSize: 1000
+    };
+
+    return (await this._clienteService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async validaCodUsuario() {
+    const codUsuario = this.form.controls['codUsuario'].value;
+
+    if (!codUsuario) {
+        this.codUsuarioValidado = false;
+        return;
+      }
+
+      let validaCodigo = await this._usuarioService.obterPorCodigo(codUsuario).toPromise();
+      this.codUsuarioExiste = validaCodigo != null;
+      this.codUsuarioValidado = true;
+  }
+
+  private async obterCargos(filtro: string=''): Promise<Cargo[]> {
+    const params: CargoParameters = {
+      sortActive: 'nomeCargo',
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      pageSize: 1000,
+      filter: filtro
+    }
+
+    return (await this._cargoService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async obterPerfis(filtro: string=''): Promise<Perfil[]> {
+    const params: PerfilParameters = {
+      sortActive: 'nomePerfil',
+      sortDirection: 'asc',
+      pageSize: 100,
+      filter: filtro
+    }
+
+    this.perfis = (await this._perfilService.obterPorParametros(params).toPromise()).items; 
+    this.validaPerfis();
+    
+    return this.perfis;
+  }
+
+  private async obterTranspotadoras(filtro: string=''): Promise<Transportadora[]> {
+    const params: any  = {
+      sortActive: 'nomeTransportadora',
+      sortDirection: 'asc',
+      filter: filtro
+    }
+    
+    return (await this._transportadoraService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async obterFiliais(filtro: string=''): Promise<Filial[]> {
+    const params: PerfilParameters = {
+      sortActive: 'nomeFilial',
+      sortDirection: 'asc',
+      pageSize: 100,
+      filter: filtro
+    }
+    return (await this._filialService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async obterTecnicos(filtro: string=''): Promise<Tecnico[]> {
+    return (await this._tecnicoService.obterPorParametros({ 
+      indAtivo: 1, 
+      naoVinculados: 1, 
+      filter: filtro
+    }).toPromise()).items;
+  }
+
+  private async obterPaises(): Promise<Pais[]> {
+    return (await this._paisService.obterPorParametros({
+      sortActive: 'nomePais',
+      sortDirection: 'asc'
+    }).toPromise()).items;
+  }
+
+  private async validaPerfis() {
+    const codPerfilUsuarioLogado = this.userSession.usuario.codPerfil;
+
+    switch (codPerfilUsuarioLogado) {
+      case PerfilEnum.FILIAIS_SUPERVISOR:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+        break;
+
+      case PerfilEnum.FILIAL_COORDENADOR:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+        break
+
+      case PerfilEnum.ADM_DO_SISTEMA:
+        break
+
+      default:
+        this.perfis = this.perfis
+          .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPORTE_DE_EXPORTAÇÃO)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_DE_SETOR)
+          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.LOGÍSTICA_COORDENADOR)
+        break;
+    }
+  }
+
+  private async obterCidades(filtro: string = ''): Promise<Cidade[]> {
+    const codUF = this.form.controls['codUF'].value;
+
+    const params: CidadeParameters = {
+      sortActive: 'nomeCidade',
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      codUF: codUF,
+      filter: filtro
+    }
+
+    return (await this._cidadeService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async obterUFs(filtro: string = ''): Promise<UnidadeFederativa[]> {
+    const params: UnidadeFederativaParameters = {
+      sortActive: 'siglaUF',
+      sortDirection: 'asc',
+      codPais: PaisEnum.BRASIL,
+      filter: filtro,
+      pageSize: 50,
+    }
+
+    return (await this._ufService.obterPorParametros(params).toPromise()).items;
   }
 
   async buscaCEP(cepCmp: any) {
-    const cep: string = cepCmp.target.value;
+    const cep: string = cepCmp.target.value.replace(/\D+/g, '');
 
-    if (cep) {
+    if (cep)
+    {
       this.form.disable();
-      // Google
-      // Tenta pelo cep (nem sempre os endereços são corretos)
+
       this._googleGeolocationService
-        .obterPorParametros({ enderecoCep: cep.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
-        .subscribe((mapService: Geolocalizacao) => {
+        .obterPorParametros({ enderecoCep: cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .subscribe(async (mapService: Geolocalizacao) => {
           if (mapService) {
             this.form.controls['endereco'].setValue(mapService.endereco);
             this.form.controls['bairro'].setValue(mapService.bairro);
 
-            this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
-              const data = c[0];
-              if (data) {
-                this.form.controls['codPais'].setValue(data.unidadeFederativa?.codPais);
-                this.form.controls['codUF'].setValue(data.codUF);
-                this.form.controls['codCidade'].setValue(data.codCidade);
-              }
-            });
+            this.unidadesFederativas = await this.obterUFs(mapService.estado);
+            this.cidades = await this.obterCidades(mapService.cidade);
+
+            this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
+            this.form.controls['codUF'].setValue(this.unidadesFederativas[0]?.codUF);
+            this.form.controls['codCidade'].setValue(this.cidades[0]?.codCidade);
           }
-          
+
           this.form.enable();
           this._cdr.detectChanges();
         });
@@ -372,12 +507,14 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    if (this.isAddMode) {
+    if (this.isAddMode)
+    {
       this._userService.criar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
         this._location.back();
       });
-    } else {
+    } else
+    {
       this._userService.atualizar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
         this._location.back();

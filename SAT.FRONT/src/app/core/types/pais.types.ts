@@ -18,3 +18,7 @@ export interface PaisData extends Meta {
 export interface PaisParameters extends QueryStringParameters {
     codPais?: number;
 };
+
+export enum PaisEnum {
+    BRASIL = 1
+}

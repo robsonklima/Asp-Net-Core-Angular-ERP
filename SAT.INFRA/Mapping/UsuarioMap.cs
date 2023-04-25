@@ -110,6 +110,12 @@ namespace SAT.INFRA.Mapping
                 .HasForeignKey(i => i.CodUsuario)
                 .HasPrincipalKey(i => i.CodUsuario);
 
+            builder
+                .HasOne(p => p.Transportadora)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodTransportadora)
+                .HasPrincipalKey(prop => prop.CodTransportadora);
+
             builder.Ignore(p => p.Foto);
         }
     }

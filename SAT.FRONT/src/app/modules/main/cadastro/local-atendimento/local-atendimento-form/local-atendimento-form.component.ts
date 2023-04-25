@@ -110,8 +110,11 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
-      this.obterRegioes();
       this.obterAutorizadas();
+    });
+
+    this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
+      this.obterRegioes();
     });
 
     this.form.controls['cep'].valueChanges.pipe(

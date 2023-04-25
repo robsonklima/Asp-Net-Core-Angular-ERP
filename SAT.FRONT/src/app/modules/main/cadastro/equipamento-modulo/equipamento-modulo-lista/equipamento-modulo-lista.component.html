@@ -49,6 +49,9 @@
               <div>
                 {{ t('ativo') }}
               </div>
+              <div>
+                {{ t('Data Cadastro') }}
+              </div>
             </div>
 
             <ng-container>
@@ -70,6 +73,9 @@
                         [class.bg-red-600]="!eq.indAtivo">
                         {{ eq.indAtivo ? 'Ativo' : 'Inativo' }}
                       </span>
+                    </div>
+                    <div class="truncate">
+                      {{ eq.dataHoraCad | date:'dd/MM/yy HH:mm' }}
                     </div>
                   </div>
                 </a>

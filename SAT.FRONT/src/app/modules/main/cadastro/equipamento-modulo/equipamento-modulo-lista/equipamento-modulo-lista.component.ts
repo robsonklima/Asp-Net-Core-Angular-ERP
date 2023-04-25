@@ -22,19 +22,7 @@ import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/
 		/* language=SCSS */
 		`
     .list-grid-u {
-      grid-template-columns: 142px auto 40% 20%;
-      
-      /* @screen sm {
-          grid-template-columns: 142px 20% 40% 20%;
-      }
-  
-      @screen md {
-          grid-template-columns: 142px 20% 40% 20%;
-      }
-  
-      @screen lg {
-          grid-template-columns: 142px 20% 40% 20%;
-      } */
+      grid-template-columns: 142px auto 40% 150px 150px;
   }
     `
 	],

@@ -80,13 +80,12 @@ export class AuthSignInComponent implements OnInit {
             if (!usuario || !usuario?.email) {
                 this._snack.exibirToast('O usuário informado não possui e-mail cadastrado.', 'error');
                 this.signInForm.enable();
-            } else if (usuario.indAtivo != 1) {
+            } else if (usuario.indAtivo != statusConst.ATIVO) {
                 this._snack.exibirToast('O usuário informado não está ativo.', 'error');
                 this.signInForm.enable();
             }
              else if (!dispositivo) {
                 dispositivo = await this.cadastrarDispositivo();
-                usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(usuario, dispositivo) : this.enviarEmail(usuario, dispositivo);
                 this._router.navigate(['confirmation-required']);
             } else if (dispositivo?.indAtivo) {
                 this._authService

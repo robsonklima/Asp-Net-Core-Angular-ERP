@@ -18,20 +18,21 @@ import { TurnoService } from 'app/core/services/turno.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cargo } from 'app/core/types/cargo.types';
-import { Cidade } from 'app/core/types/cidade.types';
+import { Cidade, CidadeParameters } from 'app/core/types/cidade.types';
 import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
-import { Pais } from 'app/core/types/pais.types';
+import { Pais, PaisEnum, PaisParameters } from 'app/core/types/pais.types';
 import { Perfil } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { Turno } from 'app/core/types/turno.types';
-import { UnidadeFederativa } from 'app/core/types/unidade-federativa.types';
+import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { Utils } from 'app/core/utils/utils';
 import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
@@ -73,6 +74,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
   clienteFilterCtrl: FormControl = new FormControl();
   contratosFilterCtrl: FormControl = new FormControl();
+  cidadesFilterCtrl: FormControl = new FormControl();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -94,7 +96,9 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _cargoService: CargoService,
     private _perfilService: PerfilService,
     private _location: Location,
-    private _turnoService: TurnoService
+    private _turnoService: TurnoService,
+    private _ufService: UnidadeFederativaService,
+    private _utils: Utils,
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -124,7 +128,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.form.controls['indAtivo'].setValue(true);
     this.form.controls['senha'].setValue(null);
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode)
+    {
       this.carregarDadosUsuario();
     }
 
@@ -135,9 +140,11 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this._userService.obterPorCodigo(this.codUsuario)
       .pipe(first())
       .subscribe(data => {
-        if (data.codTecnico) {
+        if (data.codTecnico)
+        {
           this._tecnicoService.obterPorParametros({ indAtivo: 1 }).subscribe(tecData => {
-            if (tecData) {
+            if (tecData)
+            {
               this.tecnicos = tecData.items;
             }
           });
@@ -147,7 +154,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this.form.controls['codUF'].setValue(data.cidade?.codUF);
         this.form.controls['codCidade'].setValue(data.codCidade);
 
-        if (data.codContrato) {
+        if (data.codContrato)
+        {
           let codContratos = data.codContrato.split(',').map(i => Number(i));
           this.form.controls['codContrato'].setValue(codContratos);
         }
@@ -225,10 +233,11 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       debounceTime(700),
       map(async text => {
         if (!this.isAddMode) return;
-        
+
         const splitNome = text.split(' ');
 
-        if (splitNome.length > 1) {
+        if (splitNome.length > 1)
+        {
           this.form.controls['codUsuario'].disable();
           this.form.controls['codUsuario'].setValue(splitNome[0]?.toLowerCase() + "." +
             splitNome[splitNome.length - 1]?.toLowerCase())
@@ -243,7 +252,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       tap(() => { }),
       debounceTime(700),
       map(async text => {
-        if (!text) {
+        if (!text)
+        {
           this.codUsuarioValidado = false;
           return;
         }
@@ -256,14 +266,11 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     ).subscribe(() => { });
 
     this.form.controls['codPais'].valueChanges.subscribe(async () => {
-      this.unidadesFederativas = [];
-      this.unidadesFederativas = await this._unidadeFederativaService.obterUnidadesFederativas(this.form.controls['codPais'].value);
       this._cdr.detectChanges();
     });
 
     this.form.controls['codUF'].valueChanges.subscribe(async () => {
-      this.cidades = [];
-      this.cidades = await this._cidadeService.obterCidades(this.form.controls['codUF'].value);
+      this.obterCidades();
       this._cdr.detectChanges();
     });
 
@@ -313,32 +320,65 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         .toPromise()).items;
       this._cdr.detectChanges();
     });
+
+    this.cidadesFilterCtrl.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      tap(() => { }),
+      debounceTime(700),
+      map(async filtro => { this.cidades = await this.obterCidades(filtro) }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(async (filtro) => { });
+  }
+
+  private async obterCidades(filtro: string = ''): Promise<Cidade[]> {
+    const codUF = this.form.controls['codUF'].value;
+
+    const params: CidadeParameters = {
+      sortActive: 'nomeCidade',
+      sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      codUF: codUF,
+      filter: filtro
+    }
+
+    return (await this._cidadeService.obterPorParametros(params).toPromise()).items;
+  }
+
+  private async obterUFs(filtro: string = ''): Promise<UnidadeFederativa[]> {
+    const params: UnidadeFederativaParameters = {
+      sortActive: 'siglaUF',
+      sortDirection: 'asc',
+      codPais: PaisEnum.BRASIL,
+      filter: filtro,
+      pageSize: 50,
+    }
+
+    return (await this._ufService.obterPorParametros(params).toPromise()).items;
   }
 
   async buscaCEP(cepCmp: any) {
-    const cep: string = cepCmp.target.value;
+    const cep: string = cepCmp.target.value.replace(/\D+/g, '');
 
-    if (cep) {
+    if (cep)
+    {
       this.form.disable();
-      // Google
-      // Tenta pelo cep (nem sempre os endereços são corretos)
+
       this._googleGeolocationService
-        .obterPorParametros({ enderecoCep: cep.replace(/\D+/g, ''), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
-        .subscribe((mapService: Geolocalizacao) => {
+        .obterPorParametros({ enderecoCep: cep, geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
+        .subscribe(async (mapService: Geolocalizacao) => {
           if (mapService) {
             this.form.controls['endereco'].setValue(mapService.endereco);
             this.form.controls['bairro'].setValue(mapService.bairro);
 
-            this._cidadeService.obterCidades(null, mapService.cidade).then(c => {
-              const data = c[0];
-              if (data) {
-                this.form.controls['codPais'].setValue(data.unidadeFederativa?.codPais);
-                this.form.controls['codUF'].setValue(data.codUF);
-                this.form.controls['codCidade'].setValue(data.codCidade);
-              }
-            });
+            this.unidadesFederativas = await this.obterUFs(mapService.estado);
+            this.cidades = await this.obterCidades(mapService.cidade);
+
+            this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
+            this.form.controls['codUF'].setValue(this.unidadesFederativas[0]?.codUF);
+            this.form.controls['codCidade'].setValue(this.cidades[0]?.codCidade);
           }
-          
+
           this.form.enable();
           this._cdr.detectChanges();
         });
@@ -372,12 +412,14 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    if (this.isAddMode) {
+    if (this.isAddMode)
+    {
       this._userService.criar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
         this._location.back();
       });
-    } else {
+    } else
+    {
       this._userService.atualizar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
         this._location.back();

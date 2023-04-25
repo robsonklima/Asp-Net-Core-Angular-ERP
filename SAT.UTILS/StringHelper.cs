@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace SAT.UTILS
 {
     public class StringHelper
@@ -15,6 +17,10 @@ namespace SAT.UTILS
             }
 
             return string.Empty;
+        }
+
+        public static string RemoverAcentos(string str) {
+            return Regex.Replace(str, "[^0-9a-zA-Z]+", "");
         }
     }
 }

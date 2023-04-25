@@ -8,8 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System;
-
-
+using SAT.UTILS;
 
 namespace SAT.INFRA.Repository
 {
@@ -98,6 +97,8 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrWhiteSpace(parameters.NomeCidade))
             {
+
+
                 cidades.Where(c => c.NomeCidade.Contains(parameters.NomeCidade));
             }
 

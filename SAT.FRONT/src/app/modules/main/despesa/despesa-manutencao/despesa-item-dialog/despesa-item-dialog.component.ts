@@ -24,7 +24,6 @@ import { Subject } from 'rxjs';
 import Enumerable from 'linq';
 import moment from 'moment';
 import _ from 'lodash';
-import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-despesa-item-dialog',
@@ -64,7 +63,6 @@ export class DespesaItemDialogComponent implements OnInit {
     private _ordemServicoSvc: OrdemServicoService,
     private _snack: CustomSnackbarService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>,
-    private _logger: NGXLogger
   ) {
     if (data)
     {
@@ -90,18 +88,14 @@ export class DespesaItemDialogComponent implements OnInit {
   }
 
   private async obterTiposDespesa() {
-    try {
-      const params: DespesaTipoParameters = { indAtivo: statusConst.ATIVO, sortActive: "NomeTipo", sortDirection: "asc" };
-      this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros(params).toPromise()).items;
-      const despesasQuilometragem = this.obterDespesaItensKM();
-  
-      if (despesasQuilometragem?.length == 2 || (despesasQuilometragem?.length == 1 && !this.isUltimaRATDoDia())) { 
-        this.tiposDespesa = Enumerable.from(this.tiposDespesa)
-          .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
-          .toArray();
-      }
-    } catch (e) {
-      this._logger.error(e)
+    const params: DespesaTipoParameters = { indAtivo: statusConst.ATIVO, sortActive: "NomeTipo", sortDirection: "asc" };
+    this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros(params).toPromise()).items;
+    const despesasQuilometragem = this.obterDespesaItensKM();
+
+    if (despesasQuilometragem?.length == 2 || (despesasQuilometragem?.length == 1 && !this.isUltimaRATDoDia())) { 
+      this.tiposDespesa = Enumerable.from(this.tiposDespesa)
+        .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
+        .toArray();
     }
   }
 

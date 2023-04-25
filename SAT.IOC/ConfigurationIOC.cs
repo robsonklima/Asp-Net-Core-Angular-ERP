@@ -418,7 +418,6 @@ public class ConfigurationIOC
         builder.RegisterType<RelatorioAtendimentoDetalhePecaStatusService>().As<IRelatorioAtendimentoDetalhePecaStatusService>();
         builder.RegisterType<RelatorioAtendimentoPecaStatusService>().As<IRelatorioAtendimentoPecaStatusService>();
         builder.RegisterType<TecnicoContaService>().As<ITecnicoContaService>();
-        builder.RegisterType<LogFrontEndService>().As<ILogFrontEndService>();
 
         #endregion
 

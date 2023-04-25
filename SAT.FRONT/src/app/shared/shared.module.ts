@@ -62,13 +62,7 @@ export const FORMATO_DATA = {
         MatIconModule,
         MatTooltipModule,
         MatChipsModule,
-        MatProgressSpinnerModule,
-        LoggerModule.forRoot({
-            serverLoggingUrl: `${environment.apiUrl}/LogFrontEnd`,
-            level: NgxLoggerLevel.TRACE,
-            serverLogLevel: NgxLoggerLevel.ERROR,
-            disableConsoleLogging: false
-        })
+        MatProgressSpinnerModule
     ],
     exports: [
         CommonModule,

@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { UsuarioFiltroComponent } from './usuario-filtro/usuario-filtro.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FiltroModule } from '../../filtros/filtro.module';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -60,7 +61,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatSelectModule,
     MatDatepickerModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FuseAlertModule
   ]
 })
 export class UsuarioModule { }

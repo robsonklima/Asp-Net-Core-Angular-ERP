@@ -51,15 +51,4 @@ export class PerfilService {
       map((obj) => obj)
     );
   }
-
-  async obterPerfis(filtro: string = ''): Promise<Perfil[]> {
-
-    const params: PerfilParameters = {
-      sortActive: 'nomePerfil',
-      sortDirection: 'asc',
-      pageSize: 1000,
-      filter: filtro
-    }
-    return (await this.obterPorParametros(params).toPromise()).items;
-  }
 }

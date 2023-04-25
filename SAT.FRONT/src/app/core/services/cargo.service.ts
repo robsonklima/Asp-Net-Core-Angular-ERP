@@ -52,16 +52,4 @@ export class CargoService {
             map((obj) => obj)
         );
     }
-
-    async obterCargos(filtro: string = ''): Promise<Cargo[]> {
-
-        const params: CargoParameters = {
-            sortActive: 'nomeCargo',
-            sortDirection: 'asc',
-            indAtivo: statusConst.ATIVO,
-            pageSize: 1000,
-            filter: filtro
-        }
-        return (await this.obterPorParametros(params).toPromise()).items;
-    }
 }

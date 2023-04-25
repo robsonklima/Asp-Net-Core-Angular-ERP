@@ -6,12 +6,12 @@
         </div>
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
-
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/usuario">
                         {{ t('usuarios') }}
                     </a>
                 </div>
+
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
@@ -19,6 +19,7 @@
                         {{ isAddMode ? t('novo') : t('atualizando') }}
                     </span>
                 </div>
+
                 <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
@@ -27,6 +28,7 @@
                     </span>
                 </div>
             </div>
+            
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     {{ t('usuario') }}
@@ -37,13 +39,22 @@
 
     <div class="flex-auto p-6 sm:p-10">
         <div class="max-w-3xl">
+            <div class="flex flex-col flex-auto pt-px w-full" *ngIf="codUsuarioExiste && isAddMode">
+                <fuse-alert class="mb-6" type="error" appearance="border">
+                    <span fuseAlertTitle>Atenção</span>
+                    
+                    <div class="rounded mt-2 text-justify">
+                        O usuário informado já existe!
+                    </div>
+                </fuse-alert>
+            </div>
+            
             <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                     <p class="text-lg font-medium">{{ t('identificacao') }}</p>
                 </div>
 
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
                     <mat-form-field class="fuse-mat-dense sm:col-span-12">
                         <mat-label>
                             {{ t('nome') }}
@@ -181,10 +192,9 @@
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
 
-                    <div class="sm:col-span-4">
+                    <div class="fuse-mat-dense sm:col-span-4">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label> Data de admissão</mat-label>
-                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:calendar'" matPrefix></mat-icon>
+                            <mat-label>Data de admissão</mat-label>
                             <input type="date" [formControlName]="'dataAdmissao'" matInput>
                         </mat-form-field>
                     </div>

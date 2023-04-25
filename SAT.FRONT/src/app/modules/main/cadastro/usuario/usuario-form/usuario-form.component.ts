@@ -363,7 +363,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         codUsuarioCad: this.userSession.usuario.codUsuario,
         indAtivo: +form.indAtivo,
         codContrato: Enumerable.from(this.form.controls['codContrato'].value).count() > 0 ?
-          Enumerable.from(this.form.controls['codContrato'].value).select(t => t).distinct().toArray().join(',')
+          Enumerable.from(this.form.controls['codContrato'].value).select(t => t).distinct().toArray()?.join(',')
           : null,
         indPermiteRegistrarEquipPOS: +form.indPermiteRegistrarEquipPOS,
         indPonto: +form.indPonto,

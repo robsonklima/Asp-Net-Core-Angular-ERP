@@ -156,7 +156,7 @@ export class OrdemServicoSTNFiltroComponent extends FilterBase implements OnInit
 		let params: EquipamentoParameters = {
 			filter: filtro,
 			filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
-			codClientes: this.form.controls['codClientes'].value.join(','),
+			codClientes: this.form.controls['codClientes'].value?.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 100

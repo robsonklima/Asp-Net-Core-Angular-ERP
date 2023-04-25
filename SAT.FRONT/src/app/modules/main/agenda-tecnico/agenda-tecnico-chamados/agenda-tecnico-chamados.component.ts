@@ -61,7 +61,7 @@ export class AgendaTecnicoChamadosComponent extends Filterable implements AfterV
 			StatusServicoEnum.PECA_SEPARADA,
 			StatusServicoEnum.CANCELADO_COM_ATENDIMENTO,
 			StatusServicoEnum.CANCELADO
-		].join(',');
+		]?.join(',');
 
 		this.dataSourceData = await this._ordemServicoService
 			.obterPorParametros({

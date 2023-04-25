@@ -85,7 +85,7 @@ export class ClientePecaFiltroComponent extends FilterBase implements OnInit, IF
 		let params: ContratoParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			codClientes: this.form.controls['CodClientes'].value.join(','),
+			codClientes: this.form.controls['CodClientes'].value?.join(','),
 			sortActive: 'nomeContrato',
 			sortDirection: 'asc',
 			pageSize: 1000

@@ -60,7 +60,7 @@ export class PontoExportacaoDialogComponent implements OnInit {
 				distinctUntilChanged()
 			)
 			.subscribe((value) => {
-        this.obterUsuarios(value.join(','));
+        this.obterUsuarios(value?.join(','));
 			});
   }
 
@@ -89,7 +89,7 @@ export class PontoExportacaoDialogComponent implements OnInit {
 
   async exportar() {
     this.loading = true;
-    const usuarios = this.form.controls['codUsuarios'].value.join(',');
+    const usuarios = this.form.controls['codUsuarios'].value?.join(',');
     
 		let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.TXT,

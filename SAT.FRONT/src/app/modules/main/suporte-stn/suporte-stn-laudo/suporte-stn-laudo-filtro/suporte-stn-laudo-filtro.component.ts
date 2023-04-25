@@ -119,7 +119,7 @@ export class SuporteStnLaudoFiltroComponent extends FilterBase implements OnInit
 		let params: EquipamentoParameters = {
 			filter: filtro,
 			filterType: EquipamentoFilterEnum.FILTER_CHAMADOS,
-			codClientes: this.form.controls['CodClientes'].value.join(','),
+			codClientes: this.form.controls['CodClientes'].value?.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 100

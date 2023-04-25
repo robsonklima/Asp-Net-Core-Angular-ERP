@@ -61,7 +61,7 @@ export class EquipamentoModuloFiltroComponent extends FilterBase implements OnIn
 	async obterEquipamentos(filtro: string = '') {
 		let params: EquipamentoParameters = {
 			filter: filtro,
-			CodTipoEquips: this.form.controls['codTipoEquips'].value.join(','),
+			CodTipoEquips: this.form.controls['codTipoEquips'].value?.join(','),
 			sortActive: 'nomeEquip',
 			sortDirection: 'asc',
 			pageSize: 1000

@@ -74,7 +74,7 @@ export class AuthUtils
         return decodeURIComponent(
             Array.prototype.map
                  .call(this._b64decode(str), (c: any) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                 .join('')
+                 ?.join('')
         );
     }
 

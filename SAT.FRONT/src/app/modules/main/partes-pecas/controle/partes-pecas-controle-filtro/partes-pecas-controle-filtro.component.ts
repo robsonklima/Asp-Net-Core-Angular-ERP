@@ -109,7 +109,7 @@ export class PartesPecasControleFiltroComponent extends FilterBase implements On
 		}
 		event.chipInput!.clear();
 
-		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
+		this.form.controls['codOSs'].setValue(this.chamadosPerto?.join(','));
 	}
 
 	paste(event: ClipboardEvent): void {	
@@ -122,7 +122,7 @@ export class PartesPecasControleFiltroComponent extends FilterBase implements On
 					this.chamadosPerto.push(value.trim());
 				}
 			})
-		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
+		this.form.controls['codOSs'].setValue(this.chamadosPerto?.join(','));
 	}
 
 	remove(os: any): void {
@@ -132,7 +132,7 @@ export class PartesPecasControleFiltroComponent extends FilterBase implements On
 			this.chamadosPerto.splice(index, 1);
 		}
 
-		this.form.controls['codOSs'].setValue(this.chamadosPerto.join(','));
+		this.form.controls['codOSs'].setValue(this.chamadosPerto?.join(','));
 	}
 
 	async obterFiliais(nomeFilial: string = '') {

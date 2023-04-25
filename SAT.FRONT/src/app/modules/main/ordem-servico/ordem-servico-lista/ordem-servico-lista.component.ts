@@ -213,7 +213,8 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 					.selectMany(d => Enumerable.from(d.relatorioAtendimentoDetalhePecas)
 						.select(dp => dp.peca?.codMagnus))).toArray();
 
-			if (pecas?.length > 0) description = description + "\nPEÇAS: " + pecas.join(", ");
+			if (pecas?.length > 0)
+				description = description + "\nPEÇAS: " + pecas?.join(", ");
 
 			description = description + "\nUsuário Manutenção: " + usuarioManutencao + "\nData Manutenção: " + dataManutencao;
 		}

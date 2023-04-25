@@ -87,7 +87,7 @@ export class EmailDialogComponent {
     }
 
     CopiarEmails() {
-        navigator.clipboard.writeText(this.emails.join(';'));
+        navigator.clipboard.writeText(this.emails?.join(';'));
 		this._snack.exibirToast('Informação Copiada', 'info');
     }
 

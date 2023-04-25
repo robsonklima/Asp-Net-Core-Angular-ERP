@@ -92,7 +92,7 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this._contratoEquipamentoSvc
         .obterPorParametros({ codContrato: this.instalPleito?.codContrato }).subscribe((data) => {
-          resolve(data.items.map(c => c.codEquip).join(','));
+          resolve(data.items.map(c => c.codEquip)?.join(','));
         }, () => {
           reject(null);
         });
@@ -103,7 +103,7 @@ export class InstalacaoPleitoDetalheComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this._instalPleitoInstalSvc
         .obterPorParametros({ codInstalPleito: this.instalPleito?.codInstalPleito }).subscribe((data) => {
-          resolve(data.items.map(c => c.codInstalacao).join(','));
+          resolve(data.items.map(c => c.codInstalacao)?.join(','));
         }, () => {
           reject(null);
         });

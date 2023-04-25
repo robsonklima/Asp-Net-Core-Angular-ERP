@@ -49,7 +49,7 @@ export class InstalacaoFiltroComponent extends FilterBase implements OnInit, IFi
 		}
 		event.chipInput!.clear();
 
-		this.form.controls['codInstalacoes'].setValue(this.instalacoes.join(','));
+		this.form.controls['codInstalacoes'].setValue(this.instalacoes?.join(','));
 	}
 
 	paste(event: ClipboardEvent): void {
@@ -62,7 +62,7 @@ export class InstalacaoFiltroComponent extends FilterBase implements OnInit, IFi
 					this.instalacoes.push(value.trim());
 				}
 			})
-		this.form.controls['codInstalacoes'].setValue(this.instalacoes.join(','));
+		this.form.controls['codInstalacoes'].setValue(this.instalacoes?.join(','));
 	}
 
 	remove(instalacao: any): void {
@@ -72,7 +72,7 @@ export class InstalacaoFiltroComponent extends FilterBase implements OnInit, IFi
 			this.instalacoes.splice(index, 1);
 		}
 
-		this.form.controls['codInstalacoes'].setValue(this.instalacoes.join(','));
+		this.form.controls['codInstalacoes'].setValue(this.instalacoes?.join(','));
 	}
 
 	async registrarEmitters() {

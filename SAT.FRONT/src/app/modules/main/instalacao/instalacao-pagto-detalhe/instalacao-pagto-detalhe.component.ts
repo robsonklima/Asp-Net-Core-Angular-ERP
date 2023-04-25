@@ -71,7 +71,7 @@ export class InstalacaoPagtoDetalheComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this._contratoEquipamentoSvc
         .obterPorParametros({ codContrato: this.instalPagto?.codContrato }).subscribe((data) => {
-          resolve(data.items.map(c => c.codEquip).join(','));
+          resolve(data.items.map(c => c.codEquip)?.join(','));
         }, () => {
           reject(null);
         });
@@ -82,7 +82,7 @@ export class InstalacaoPagtoDetalheComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this._instalPagtoInstalSvc
         .obterPorParametros({ codInstalPagto: this.instalPagto?.codInstalPagto }).subscribe((data) => {
-          resolve(data.items.map(c => c.codInstalacao).join(','));
+          resolve(data.items.map(c => c.codInstalacao)?.join(','));
         }, () => {
           reject(null);
         });

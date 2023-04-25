@@ -131,7 +131,7 @@ export class DespesaProtocoloListaComponent extends Filterable implements AfterV
       .orderBy(e => e)
       .toArray();
 
-    return tecnicos != null ? tecnicos.join(", ") : "---";
+    return tecnicos != null ? tecnicos?.join(", ") : "---";
   }
 
   public paginar() {

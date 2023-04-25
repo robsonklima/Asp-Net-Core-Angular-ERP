@@ -43,7 +43,7 @@ export class Filterable implements IFilterableCore {
 
         Object.keys(this.filter.parametros).forEach((key) => {
             if (this.filter.parametros[key] instanceof Array)
-                this.filter.parametros[key] = this.filter.parametros[key].join();
+                this.filter.parametros[key] = this.filter.parametros[key]?.join();
         });
     }
 

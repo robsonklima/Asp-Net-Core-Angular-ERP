@@ -170,7 +170,7 @@ export class PontoHorariosListaComponent implements AfterViewInit {
   obterDivergenciasTooltip(pontoData:PontoUsuarioData): string {
     return pontoData.divergencias.map(d => {
         return `${d?.pontoUsuarioDataModoDivergencia?.descricao}: ${d?.pontoUsuarioDataMotivoDivergencia?.descricao}`;
-    }).join("\n");
+    })?.join("\n");
   }
 
   conferir(pontoData: PontoUsuarioData) {

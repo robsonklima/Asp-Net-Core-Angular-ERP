@@ -83,7 +83,7 @@ export class InstalacaoPleitoInstalacaoListaComponent implements AfterViewInit {
     return new Promise((resolve, reject) => {
       this._contratoEquipamentoSvc
         .obterPorParametros({ codContrato: this.instalPleito?.codContrato }).subscribe((data) => {
-          resolve(data.items.map(c => c.codEquip).join(','));
+          resolve(data.items.map(c => c.codEquip)?.join(','));
         }, () => {
           reject(null);
         });

@@ -128,7 +128,7 @@ export class ConferenciaListaComponent extends Filterable implements AfterViewIn
 	}
 
 	mostrarNomeParticipantes(conferencia: Conferencia): string {
-		return conferencia.participantes.map(p => p.usuarioParticipante.nomeUsuario).join(', ').toUpperCase();
+		return conferencia.participantes.map(p => p.usuarioParticipante.nomeUsuario)?.join(', ').toUpperCase();
 	}
 
 	paginar() {

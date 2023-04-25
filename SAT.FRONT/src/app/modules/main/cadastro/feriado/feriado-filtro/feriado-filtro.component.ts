@@ -84,7 +84,7 @@ export class FeriadoFiltroComponent extends FilterBase implements OnInit, IFilte
 	async obterCidades(filtro: string = '') {
 		let params: CidadeParameters = {
 			indAtivo: statusConst.ATIVO,
-			codUF: this.form.controls['codUfs'].value.join(','),
+			codUF: this.form.controls['codUfs'].value?.join(','),
 			filter: filtro,
 			pageSize: 500
 		};

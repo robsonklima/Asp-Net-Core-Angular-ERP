@@ -16,6 +16,6 @@ export class Version
         this.full = version;
         this.major = version.split('.')[0];
         this.minor = version.split('.')[1];
-        this.patch = version.split('.').slice(2).join('.');
+        this.patch = version.split('.').slice(2)?.join('.');
     }
 }

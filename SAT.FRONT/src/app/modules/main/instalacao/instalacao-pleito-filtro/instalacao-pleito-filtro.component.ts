@@ -96,7 +96,7 @@ export class InstalacaoPleitoFiltroComponent extends FilterBase implements OnIni
 		let params: ContratoParameters = {
 			filter: filtro,
 			indAtivo: statusConst.ATIVO,
-			codClientes: this.form.controls['codClientes'].value.join(','),
+			codClientes: this.form.controls['codClientes'].value?.join(','),
 			sortActive: 'nroContrato',
 			sortDirection: 'asc',
 			pageSize: 1000

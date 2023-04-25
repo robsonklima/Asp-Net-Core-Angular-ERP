@@ -139,6 +139,24 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       delay(500),
       takeUntil(this._onDestroy)
     ).subscribe(async (filtro) => {});
+
+    this.regioesFiltro.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      tap(() => { }),
+      debounceTime(700),
+      map(async filtro => { this.obterRegioes(filtro) }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(async (filtro) => {});
+
+    this.autorizadasFiltro.valueChanges.pipe(
+      filter(filtro => !!filtro),
+      tap(() => { }),
+      debounceTime(700),
+      map(async filtro => { this.obterAutorizadas(filtro) }),
+      delay(500),
+      takeUntil(this._onDestroy)
+    ).subscribe(async (filtro) => {});
   }
 
   private inicializarForm(): void {
@@ -307,26 +325,28 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterAutorizadas()
+  private async obterAutorizadas(filtro: string=null)
   {
     const params: AutorizadaParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
       codFilial: this.form.controls['codFilial'].value,
+      filter: filtro
     }
 
     const data = await this._autorizadaService.obterPorParametros(params).toPromise();
     this.autorizadas = data.items;
   }
 
-  private async obterRegioes()
+  private async obterRegioes(filtro: string=null)
   {
     const codAutorizada = this.form.controls['codAutorizada'].value;
 
     const data = await this._regiaoAutorizadaService.obterPorParametros({
       codAutorizada: codAutorizada,
-         }).toPromise();
+      filter: filtro
+    }).toPromise();
 
     this.regioes = data.items
       .filter(ra => ra.codAutorizada === codAutorizada)

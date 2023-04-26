@@ -10,8 +10,6 @@ using Microsoft.EntityFrameworkCore;
 namespace SAT.INFRA.Repository
 {
     public partial class InstalacaoRepository : IInstalacaoRepository
-
-
     {
         private readonly AppDbContext _context;
 
@@ -163,7 +161,15 @@ namespace SAT.INFRA.Repository
             {
                 instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
+
+            var a = instalacoes.ToQueryString();
+
             return PagedList<Instalacao>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
+        }
+
+        public PagedList<Instalacao> ObterPorView(InstalacaoParameters parameters)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

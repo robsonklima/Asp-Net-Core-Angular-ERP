@@ -8,6 +8,7 @@ namespace SAT.INFRA.Interfaces
     {
         Instalacao Criar(Instalacao instalacao);
         PagedList<Instalacao> ObterPorParametros(InstalacaoParameters parameters);
+        PagedList<Instalacao> ObterPorView(InstalacaoParameters parameters);
         void Deletar(int codigo);
         Instalacao Atualizar(Instalacao instalacao);
         Instalacao ObterPorCodigo(int codigo);

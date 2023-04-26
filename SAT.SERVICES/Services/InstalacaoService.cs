@@ -22,8 +22,6 @@ namespace SAT.SERVICES.Services
             IContratoEquipamentoRepository ContratoEquipRepo,
             IInstalacaoPagtoInstalRepository instalPagtoIntalRepo,
             IInstalacaoPleitoInstalRepository instalacaoPleitoInstalRepo
-
-
         )
         {
             _instalacaoRepo = instalacaoRepo;
@@ -41,7 +39,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(InstalacaoParameters parameters)
         {
             var instalacoes = _instalacaoRepo.ObterPorParametros(parameters);
-            
+
             return new ListViewModel
             {
                 Items = instalacoes,

@@ -9,9 +9,12 @@ namespace SAT.SERVICES.Services
         protected void GerarPlanilhaInstalacao(InstalacaoParameters parameters)
         {
             var instalacoes = _instalacaoRepo.ObterPorParametros(parameters);
-            var sheet = instalacoes.Select(i =>
+            var sheet = instalacoes.Select(i => 
                             new
                             {
+                                DtPagtoInstalacao = i.DtPagtoInstalacao,
+                                VlrPagtoInstalacao = i.VlrPagtoInstalacao,
+                                Bordero = i.Bordero,
                                 Codigo = i.CodInstalacao,
                                 Filial = i.Filial?.NomeFilial,
                                 Autorizada = i.Autorizada?.NomeFantasia,
@@ -107,8 +110,11 @@ namespace SAT.SERVICES.Services
                                 NFVendaDataEmissao = i.InstalacaoNFVenda?.DataNFVenda,
                                 DtEnvioNFVenda = i.InstalacaoNFVenda?.DataNFVendaEnvioCliente,
                                 DtRecebimentoNFVenda = i.InstalacaoNFVenda?.DataNFVendaRecebimentoCliente,
-                                DtPagtoInstalacao = "",// i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.DataHoraCad,
-                                VlrPagtoInstalacao = "",// i.InstalacaoPagtoInstal?.OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.VlrParcela,
+                                //DtPagtoInstalacao = _instalPagtoIntalRepo.ObterPorParametros(new InstalacaoPagtoInstalParameters { CodInstalacao = i.CodInstalacao }).OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.DataHoraCad,
+                                //VlrPagtoInstalacao = _instalPagtoIntalRepo.ObterPorParametros(new InstalacaoPagtoInstalParameters { CodInstalacao = i.CodInstalacao }).OrderByDescending(i => i.CodInstalPagto)?.FirstOrDefault()?.VlrParcela,
+                                //DtPagtoInstalacao = i.DtPagtoInstalacao,
+                                //VlrPagtoInstalacao = i.VlrPagtoInstalacao,
+                                //Bordero = i.Bordero,
                                 DTVencimentoBordero100Perc = i.DTVencBord100,
                                 DTEntregaBordero100Perc = i.DTEntBord100,
                                 DTVencimentoBordero90Perc = i.DTVencBord90,
@@ -136,6 +142,20 @@ namespace SAT.SERVICES.Services
                                 AntigoProtocoloCDO = i.AntigoProtocoloCdo,
                                 NovoProtocoloCDO = i.NovoProtocoloCdo,
                             });
+
+
+            // InstalacaoPleitoInstal bordero = _instalacaoPleitoInstalRepo.ObterPorParametros(new InstalacaoPleitoInstalParameters { CodInstalacao = i.CodInstalacao })?.FirstOrDefault();
+
+            // if(bordero?.CodInstalacao != null)
+            //     i.Bordero = bordero.CodInstalPleito;
+
+            // InstalacaoPagtoInstal pagamento = _instalPagtoIntalRepo
+            //     .ObterPorParametros(new InstalacaoPagtoInstalParameters { CodInstalacao = i.CodInstalacao })
+            //         .OrderByDescending(p => p.CodInstalPagto)?.FirstOrDefault();
+
+            // if(pagamento?.CodInstalacao  != null){
+            //     i.DtPagtoInstalacao = pagamento.DataHoraCad;
+            //     i.VlrPagtoInstalacao = pagamento.VlrParcela;
 
             var wsOs = Workbook.Worksheets.Add("Instalacoes");
             wsOs.Cell(2, 1).Value = sheet;

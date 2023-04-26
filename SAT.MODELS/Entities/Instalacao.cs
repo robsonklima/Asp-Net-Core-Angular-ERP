@@ -129,7 +129,6 @@ namespace SAT.MODELS.Entities
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
-
         public Cliente Cliente { get; set; }
         public Filial Filial { get; set; }
         public Equipamento Equipamento { get; set; }
@@ -148,9 +147,5 @@ namespace SAT.MODELS.Entities
         public InstalacaoNFVenda InstalacaoNFVenda { get; set; }
         public List<InstalacaoRessalva> InstalacoesRessalva { get; set; }
         public List<InstalacaoInfoBordero> InstalacaoInfoBorderos { get; set; }
-        public int? Bordero { get; set; }
-        public decimal? VlrPagtoInstalacao { get; set; }
-        public DateTime DtPagtoInstalacao { get; set; }
-        
     }
 }

@@ -120,23 +120,6 @@ namespace SAT.INFRA.Repository
                     p.CodInstalacao.ToString().Contains(parameters.Filter) ||
                     p.EquipamentoContrato.NumSerie.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
-
-                // instalacoes.ForEach(i => {
-                // InstalacaoPleitoInstal bordero = _instalacaoPleitoInstalRepo.ObterPorParametros(new InstalacaoPleitoInstalParameters { CodInstalacao = i.CodInstalacao })?.FirstOrDefault();
-
-                // if(bordero?.CodInstalacao != null)
-                //     i.Bordero = bordero.CodInstalPleito;
-
-                // InstalacaoPagtoInstal pagamento = _instalPagtoIntalRepo
-                //     .ObterPorParametros(new InstalacaoPagtoInstalParameters { CodInstalacao = i.CodInstalacao })
-                //         .OrderByDescending(p => p.CodInstalPagto)?.FirstOrDefault();
-
-                // if(pagamento?.CodInstalacao  != null){
-                //     i.DtPagtoInstalacao = pagamento.DataHoraCad;
-                //     i.VlrPagtoInstalacao = pagamento.VlrParcela;
-                // }
-            //});
-
             }
 
             if (parameters.CodContrato != null)

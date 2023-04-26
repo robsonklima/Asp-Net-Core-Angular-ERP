@@ -32,6 +32,7 @@ namespace SAT.INFRA.Repository
 
         public void Criar(OrcamentoFaturamento OrcamentoFaturamento)
         {
+            _context.ChangeTracker.Clear();
             _context.Add(OrcamentoFaturamento);
             _context.SaveChanges();
         }

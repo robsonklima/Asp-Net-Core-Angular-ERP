@@ -283,12 +283,14 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 			}
 		  });
 
-		dialogRef.afterClosed().subscribe((detalhe: RelatorioAtendimentoDetalhe) => {
-			if (detalhe) {
-				debugger
-
+		dialogRef.afterClosed().subscribe(async (ajuste: RelatorioAtendimentoDetalhe) => { 
+			if (ajuste) {
+				ajuste.codRATDetalhe = detalhe.codRATDetalhe
+				ajuste.codRAT = detalhe.codRAT
+				ajuste.codOS = detalhe.codOS
 				this.relatorioAtendimento.relatorioAtendimentoDetalhes = _.remove(this.relatorioAtendimento.relatorioAtendimentoDetalhes, d => d.codRATDetalhe === detalhe.codRATDetalhe);
 				this.relatorioAtendimento.relatorioAtendimentoDetalhes.push(detalhe);
+				this._raDetalheService.atualizar(ajuste).subscribe();
 			}
 		});
 	}

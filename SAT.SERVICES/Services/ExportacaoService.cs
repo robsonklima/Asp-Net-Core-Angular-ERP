@@ -63,13 +63,16 @@ namespace SAT.SERVICES.Services
         private readonly ITicketRepository _ticketRepo;
         private readonly ILaudoRepository _laudoRepo;
         private readonly IInstalacaoRepository _instalacaoRepo;
+        private readonly IInstalacaoService _instalacaoSrv;
         private readonly IPontoUsuarioRepository _pontoUsuarioRepo;
         private readonly IInstalacaoPleitoRepository _instalacaoPleitoRepo;
+        private readonly IInstalacaoPleitoInstalRepository _instalacaoPleitoInstalRepo;
         private readonly IOsBancadaPecasOrcamentoRepository _osBancadaPecasOrcamentoRepo;
         private readonly IOSBancadaPecasRepository _osBancadaPecasRepo;
         private readonly IOrcamentoPecasEspecRepository _orcamentoPecasEspecRepo;
         private readonly IUsuarioService _usuarioService;
         private readonly IHttpContextAccessor _contextAcecssor;
+        private readonly IInstalacaoPagtoInstalRepository _instalPagtoIntalRepo;
         
 
         public ExportacaoService(
@@ -120,12 +123,15 @@ namespace SAT.SERVICES.Services
             ILaudoRepository laudoRepo,
             IPontoUsuarioRepository pontoUsuarioRepo,
             IInstalacaoRepository instalacaoRepo,
+            IInstalacaoService instalacaoSrv,
             IInstalacaoPleitoRepository instalacaoPleitoRepo,
+            IInstalacaoPleitoInstalRepository instalacaoPleitoInstalRepo,
             IOsBancadaPecasOrcamentoRepository osBancadaPecasOrcamentoRepo,
             IOSBancadaPecasRepository osBancadaPecasRepo,
             IOrcamentoPecasEspecRepository orcamentoPecasEspecRepo,
             IHttpContextAccessor httpContextAccessor,
-            IUsuarioService usuarioService
+            IUsuarioService usuarioService,
+            IInstalacaoPagtoInstalRepository instalPagtoIntalRepo
         )
         {
             _emaiLService = emaiLService;
@@ -174,13 +180,16 @@ namespace SAT.SERVICES.Services
             _ticketRepo = ticketRepo;
             _laudoRepo = laudoRepo;
             _instalacaoRepo = instalacaoRepo;
+            _instalacaoSrv = instalacaoSrv;
             _pontoUsuarioRepo = pontoUsuarioRepo;
             _instalacaoPleitoRepo = instalacaoPleitoRepo;
+            _instalacaoPleitoInstalRepo = instalacaoPleitoInstalRepo;
             _osBancadaPecasOrcamentoRepo = osBancadaPecasOrcamentoRepo;
             _osBancadaPecasRepo = osBancadaPecasRepo;
             _orcamentoPecasEspecRepo = orcamentoPecasEspecRepo;
             _usuarioService = usuarioService;
             _contextAcecssor = httpContextAccessor;
+            _instalPagtoIntalRepo = instalPagtoIntalRepo;
             FilePath = GenerateFilePath(".xlsx");
         }
 
@@ -475,3 +484,4 @@ namespace SAT.SERVICES.Services
         }
     }
 }
+

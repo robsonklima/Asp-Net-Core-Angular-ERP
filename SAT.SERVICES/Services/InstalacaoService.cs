@@ -3,6 +3,8 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using System.Linq;
+using System;
 
 namespace SAT.SERVICES.Services
 {
@@ -11,16 +13,24 @@ namespace SAT.SERVICES.Services
         private readonly IInstalacaoRepository _instalacaoRepo;
         private readonly ISequenciaRepository _sequenciaRepo;
         private readonly IContratoEquipamentoRepository _contratoEquipRepo;
+        private readonly IInstalacaoPagtoInstalRepository _instalPagtoIntalRepo;
+        private readonly IInstalacaoPleitoInstalRepository _instalacaoPleitoInstalRepo;
 
         public InstalacaoService(
             IInstalacaoRepository instalacaoRepo,
             ISequenciaRepository sequenciaRepo,
-            IContratoEquipamentoRepository ContratoEquipRepo
+            IContratoEquipamentoRepository ContratoEquipRepo,
+            IInstalacaoPagtoInstalRepository instalPagtoIntalRepo,
+            IInstalacaoPleitoInstalRepository instalacaoPleitoInstalRepo
+
+
         )
         {
             _instalacaoRepo = instalacaoRepo;
             _sequenciaRepo = sequenciaRepo;
             _contratoEquipRepo = ContratoEquipRepo;
+            _instalPagtoIntalRepo = instalPagtoIntalRepo;
+            _instalacaoPleitoInstalRepo = instalacaoPleitoInstalRepo;
         }
 
         public Instalacao ObterPorCodigo(int codigo)
@@ -31,7 +41,7 @@ namespace SAT.SERVICES.Services
         public ListViewModel ObterPorParametros(InstalacaoParameters parameters)
         {
             var instalacoes = _instalacaoRepo.ObterPorParametros(parameters);
-
+            
             return new ListViewModel
             {
                 Items = instalacoes,

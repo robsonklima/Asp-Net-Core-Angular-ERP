@@ -57,6 +57,11 @@
                     <mat-datepicker-toggle matSuffix [for]="pickerAbertura"></mat-datepicker-toggle>
                     <mat-date-range-picker #pickerAbertura></mat-date-range-picker>
                 </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('protocolo') }}</mat-label>
+                    <input matInput formControlName="codDespesaProtocolo" maxlength="20">
+                </mat-form-field>
             </div>
 
             <div class="mt-6 border-t"></div>

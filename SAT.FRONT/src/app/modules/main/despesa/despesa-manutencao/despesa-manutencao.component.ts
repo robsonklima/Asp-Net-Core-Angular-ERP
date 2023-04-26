@@ -230,7 +230,7 @@ export class DespesaManutencaoComponent implements OnInit {
     let codUF: number;
 
     if (this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS)
-      codUF = this.userSession.usuario.cidade.codUF;
+      codUF = this.userSession?.usuario?.cidade?.codUF;
     else 
       if (!this.ordemServico?.localAtendimento?.cidade?.codUF)
         this._snack.exibirToast(`O local de atendimento não possui cidade informada. Entre em contato com sua filial.`, 'error');

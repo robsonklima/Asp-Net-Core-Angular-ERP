@@ -99,6 +99,8 @@ namespace SAT.MODELS.Views
         public DateTime? NFVendaDataEmissao { get; set; }
         public DateTime? DtEnvioNFVenda { get; set; }
         public DateTime? DtRecebimentoNFVenda { get; set; }
+        public DateTime? DtPagtoEntrega { get; set; }
+        public decimal? VlrPagtoEntrega { get; set; }
         public DateTime? DtPagtoInstalacao { get; set; }
         public decimal? VlrPagtoInstalacao { get; set; }
         public int? Bordero { get; set; }

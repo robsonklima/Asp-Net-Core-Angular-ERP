@@ -109,6 +109,8 @@ namespace SAT.SERVICES.Services
                                 NFVendaDataEmissao = v.NFVendaDataEmissao.HasValue ? v.NFVendaDataEmissao.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                 DtEnvioNFVenda = v.DtEnvioNFVenda.HasValue ? v.DtEnvioNFVenda.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                 DtRecebimentoNFVenda = v.DtRecebimentoNFVenda.HasValue ? v.DtRecebimentoNFVenda.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
+                                DtPagtoEntrega = v.DtPagtoEntrega.HasValue ? v.DtPagtoEntrega.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
+                                VlrPagtoEntrega = string.Format("{0:C}", v.VlrPagtoEntrega),                              
                                 DtPagtoInstalacao = v.DtPagtoInstalacao.HasValue ? v.DtPagtoInstalacao.Value.ToString("dd/MM/yy HH:mm") : Constants.NENHUM_REGISTRO,
                                 VlrPagtoInstalacao = string.Format("{0:C}", v.VlrPagtoInstalacao),
                                 Bordero = v.Bordero.HasValue ? v.Bordero.Value.ToString() : Constants.NENHUM_REGISTRO,

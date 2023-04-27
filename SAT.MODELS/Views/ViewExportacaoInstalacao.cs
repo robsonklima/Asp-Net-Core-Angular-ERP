@@ -59,7 +59,7 @@ namespace SAT.MODELS.Views
         public string ResponsavelInstalacaoBanco { get; set; }
         public string MatResponsavelInstalacaoBanco { get; set; }
         public string TermoAceite { get; set; }
-        public string TermoDescaracterizacao { get; set; }
+        public byte? TermoDescaracterizacao { get; set; }
         public string Laudo { get; set; }
         public string RE5330 { get; set; }
         public string RATEntregue { get; set; }

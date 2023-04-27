@@ -69,7 +69,7 @@ namespace SAT.SERVICES.Services
                                 ResponsavelInstalacaoBanco = v.ResponsavelInstalacaoBanco ?? Constants.NENHUM_REGISTRO,
                                 MatResponsavelInstalacaoBanco = v.MatResponsavelInstalacaoBanco ?? Constants.NENHUM_REGISTRO,
                                 TermoAceite = v.TermoAceite ?? Constants.NENHUM_REGISTRO,
-                                TermoDescaracterizacao = v.TermoDescaracterizacao ?? Constants.NENHUM_REGISTRO,
+                                TermoDescaracterizacao = v.TermoDescaracterizacao.HasValue ? v.TermoDescaracterizacao.Value.ToString() : Constants.NENHUM_REGISTRO,
                                 Laudo = v.Laudo ?? Constants.NENHUM_REGISTRO,
                                 RE5330 = v.RE5330 ?? Constants.NENHUM_REGISTRO,
                                 RATEntregue = v.RATEntregue ?? Constants.NENHUM_REGISTRO,

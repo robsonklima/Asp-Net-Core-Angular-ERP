@@ -235,8 +235,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     }).toPromise();
     this.dataSourceData = data;
 
-    console.log(this.dataSourceData);
-    
     this.isLoading = false;
     this._cdr.detectChanges();
   }
@@ -511,9 +509,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       this._snack.exibirToast("Instalação atualizada com sucesso!", "success");
     });
 
-    if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null))
-    {
-      if(this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
+    if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null)) {
+      if (this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
 
         let objEqp = {
           ...this.instalacaoSelecionada.equipamentoContrato,
@@ -523,7 +520,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
             codUsuarioManut: this.userSession.usuario?.codUsuario
           }
         };
-        
+
         this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
           this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
         });
@@ -555,7 +552,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   async confirmarAberturaChamados() {
-    const itens = this.dataSourceData.items.filter(i => i.selecionado);  
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);
 
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {

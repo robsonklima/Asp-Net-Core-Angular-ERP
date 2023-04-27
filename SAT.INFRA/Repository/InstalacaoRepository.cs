@@ -6,6 +6,8 @@ using System.Linq.Dynamic.Core;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using SAT.MODELS.Views;
+using System.Collections.Generic;
 
 namespace SAT.INFRA.Repository
 {
@@ -38,6 +40,14 @@ namespace SAT.INFRA.Repository
             _context.SaveChanges();
             return instalacao;
         }
+        public List<ViewExportacaoInstalacao> ObterViewPorInstalacao(int[] instalacaoList)
+        {
+            IQueryable<ViewExportacaoInstalacao> query = _context.ViewExportacaoInstalacao.AsQueryable();
+
+            query = query.Where(q => instalacaoList.Contains(q.CodInstalacao.Value) );
+
+            return PagedList<ViewExportacaoInstalacao>.ToPagedList(query, 1 , 100000);
+        }        
 
         public void Deletar(int codigo)
         {

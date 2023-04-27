@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
+using SAT.MODELS.Views;
 
 namespace SAT.INFRA.Interfaces
 {
@@ -12,5 +14,6 @@ namespace SAT.INFRA.Interfaces
         void Deletar(int codigo);
         Instalacao Atualizar(Instalacao instalacao);
         Instalacao ObterPorCodigo(int codigo);
+        List<ViewExportacaoInstalacao> ObterViewPorInstalacao(int[] instalacaoList);        
     }
 }

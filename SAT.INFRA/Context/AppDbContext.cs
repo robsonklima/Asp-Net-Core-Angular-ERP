@@ -264,6 +264,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
         public DbSet<ViewExportacaoChamadosUnificado> ViewExportacaoChamadosUnificado { get; set; }
+        public DbSet<ViewExportacaoInstalacao> ViewExportacaoInstalacao { get; set; }        
         public DbSet<ViewIntegracaoFinanceiroOrcamento> ViewIntegracaoFinanceiroOrcamento { get; set; }
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
@@ -409,6 +410,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPATecnico>(new ViewDashboardIndicadoresDetalhadosSPATecnicoMap().Configure);    
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosProdutividade>(new ViewDashboardIndicadoresDetalhadosProdutividadeMap().Configure);                            
             modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
+            modelBuilder.Entity<ViewExportacaoInstalacao>(new ViewExportacaoInstalacaoMap().Configure);
             modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamento>(new ViewIntegracaoFinanceiroOrcamentoMap().Configure);
             modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamentoItem>(new ViewIntegracaoFinanceiroOrcamentoItemMap().Configure);
             modelBuilder.Entity<ViewOrcamentoLista>(new ViewOrcamentoListaMap().Configure);

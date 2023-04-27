@@ -5,7 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -32,9 +32,17 @@ namespace SAT.INFRA.Repository
 
         public void Criar(OrcamentoFaturamento OrcamentoFaturamento)
         {
-            _context.ChangeTracker.Clear();
-            _context.Add(OrcamentoFaturamento);
-            _context.SaveChanges();
+            try
+            {
+                _context.ChangeTracker.Clear();
+                _context.Add(OrcamentoFaturamento);
+                _context.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Deletar(int codigo)

@@ -4,7 +4,6 @@ namespace SAT.MODELS.Entities
 {
     public class OrcamentoFaturamento
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int? CodOrcamentoFaturamento { get; set; }
         public int? CodOrcamento { get; set; }
         public string CodClienteBancada { get; set; }

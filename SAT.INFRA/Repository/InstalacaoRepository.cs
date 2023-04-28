@@ -162,14 +162,57 @@ namespace SAT.INFRA.Repository
                 instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
-            var a = instalacoes.ToQueryString();
-
             return PagedList<Instalacao>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
         }
 
-        public PagedList<Instalacao> ObterPorView(InstalacaoParameters parameters)
+        public PagedList<InstalacaoView> ObterPorView(InstalacaoParameters parameters)
         {
-            throw new System.NotImplementedException();
+            var instalacoes = _context.InstalacaoView.AsQueryable();
+
+            if (parameters.Filter != null)
+            {
+                instalacoes = instalacoes.Where(p =>
+                    p.CodInstalacao.ToString().Contains(parameters.Filter)
+                );
+            }
+
+            if (parameters.CodContrato != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodContrato == parameters.CodContrato);
+            }
+
+            if (parameters.CodInstalacao != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodInstalacao == parameters.CodInstalacao);
+            }
+
+            if (parameters.CodInstalLote != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodInstalLote == parameters.CodInstalLote);
+            }
+
+            if (parameters.CodCliente != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodCliente == parameters.CodCliente);
+            }            
+
+            if (parameters.CodEquipContrato != null)
+            {
+                instalacoes = instalacoes.Where(i => i.CodEquipContrato == parameters.CodEquipContrato);
+            }            
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodInstalacoes))
+            {
+                int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                instalacoes = instalacoes.Where(i => cods.Contains(i.CodInstalacao));
+            }            
+
+            if (parameters.SortActive != null && parameters.SortDirection != null)
+            {
+                instalacoes = instalacoes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+            }
+
+            return PagedList<InstalacaoView>.ToPagedList(instalacoes, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

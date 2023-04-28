@@ -23,14 +23,14 @@ namespace SAT.INFRA.Repository
         public void Atualizar(Equipamento equipamento)
         {
             _context.ChangeTracker.Clear();
-            Equipamento linha = _context.Equipamento.SingleOrDefault(a => a.CodEquip == equipamento.CodEquip);
+            Equipamento e = _context.Equipamento.SingleOrDefault(a => a.CodEquip == equipamento.CodEquip);
 
-            if (linha != null)
+            if (e != null)
             {
                 try
                 {
-                    _context.Entry(linha).CurrentValues.SetValues(equipamento);
-                    _context.Entry(linha).State = EntityState.Modified;
+                    _context.Entry(e).CurrentValues.SetValues(equipamento);
+                    _context.Entry(e).State = EntityState.Modified;
                     _context.SaveChanges();
                 }
                 catch (Exception ex)

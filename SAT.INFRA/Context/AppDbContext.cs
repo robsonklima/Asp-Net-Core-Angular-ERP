@@ -303,6 +303,7 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoStatus> InstalacaoStatus { get; set; }
         public DbSet<RelatorioAtendimentoDetalhePecaStatus> RelatorioAtendimentoDetalhePecaStatus { get; set; }
         public DbSet<RelatorioAtendimentoPecaStatus> RelatorioAtendimentoPecaStatus { get; set; }
+        public DbSet<InstalacaoView> InstalacaoView { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -525,6 +526,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<RelatorioAtendimentoDetalhePecaStatus>(new RelatorioAtendimentoDetalhePecaStatusMap().Configure);
             modelBuilder.Entity<RelatorioAtendimentoPecaStatus>(new RelatorioAtendimentoPecaStatusMap().Configure);
             modelBuilder.Entity<AdiantamentoRDsPendentesView>(new AdiantamentoRDsPendentesViewMap().Configure);
+            modelBuilder.Entity<InstalacaoView>(new InstalacaoViewMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

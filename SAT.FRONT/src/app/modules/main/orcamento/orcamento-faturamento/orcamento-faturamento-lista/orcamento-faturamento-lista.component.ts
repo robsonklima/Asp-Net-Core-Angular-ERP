@@ -14,18 +14,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	styles: [`
     .list-grid-faturamentos {
       grid-template-columns: 60px 155px auto 200px 150px 150px 160px 150px;
-      
-      /* @screen sm {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      }
-
-      @screen md {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      }
-
-      @screen lg {
-          grid-template-columns: 72px 155px auto 155px 155px 72px 155px 72px;
-      } */
     }  
   `],
 	encapsulation: ViewEncapsulation.None,

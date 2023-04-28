@@ -1,7 +1,7 @@
 import { Meta, QueryStringParameters } from "./generic.types";
 
 export interface OrcamentoFaturamento {
-    codOrcamentoFaturamento: number | null;
+    codOrcamentoFaturamento?: number;
     codOrcamento: number | null;
     codClienteBancada: string;
     codFilial: number | null;
@@ -21,7 +21,7 @@ export interface OrcamentoFaturamento {
 }
 
 export interface OrcamentoFaturamentoViewModel {
-    codigo: number | null;
+    codigo?: number;
     cliente: string;
     filial: string;
     codOS: number | null;

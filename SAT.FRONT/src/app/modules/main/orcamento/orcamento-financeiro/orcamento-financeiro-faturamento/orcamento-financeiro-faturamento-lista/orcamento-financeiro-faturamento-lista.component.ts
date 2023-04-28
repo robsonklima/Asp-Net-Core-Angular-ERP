@@ -90,7 +90,6 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		}
 
 		const faturamento: OrcamentoFaturamento = {
-			codOrcamentoFaturamento: faturamentoVM.codigo,
 			caminhoDanfe: faturamentoVM.caminhoDanfe,
 			codClienteBancada: faturamentoVM.codClienteBancada,
 			codFilial: faturamentoVM.codFilial,
@@ -113,7 +112,7 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 			faturamento.descricaoNotaFiscal = "SERVIÇOS";
 
 		if (faturamentoVM.indFaturado)
-			this.atualizar(faturamento);
+			this.atualizar(faturamento,faturamentoVM.codigo);
 		else
 			this.criar(faturamento)
 	}
@@ -124,10 +123,11 @@ export class OrcamentoFinanceiroFaturamentoListaComponent extends Filterable imp
 		});
 	}
 
-	atualizar(faturamento: OrcamentoFaturamento) {
+	atualizar(faturamento: OrcamentoFaturamento, codigo: number) {
 		let obj = {
 			...faturamento,
 			...{
+				codOrcamentoFaturamento: codigo,
 				indFaturado: 1,
 				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
 				codUsuarioManut: this.userSession.usuario.codUsuario

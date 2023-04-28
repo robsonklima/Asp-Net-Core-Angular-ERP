@@ -54,7 +54,7 @@ namespace SAT.SERVICES.Services
                         {
                             faturamentos.Add(new OrcamentoFaturamentoViewModel
                             {
-                                Codigo = faturamentoMaterial.CodOrcamentoFaturamento,
+                                //Codigo = faturamentoMaterial.CodOrcamentoFaturamento,
                                 Cliente = orc?.Cliente?.NomeFantasia,
                                 Filial = orc.OrdemServico?.Filial?.NomeFilial,
                                 CodOS = orc.CodigoOrdemServico,
@@ -103,7 +103,7 @@ namespace SAT.SERVICES.Services
                     {
                         faturamentos.Add(new OrcamentoFaturamentoViewModel
                         {
-                            Codigo = faturamentoServico.CodOrcamentoFaturamento,
+                            //Codigo = faturamentoServico.CodOrcamentoFaturamento,
                             Cliente = orc?.Cliente?.NomeFantasia,
                             Filial = orc.OrdemServico?.Filial?.NomeFilial,
                             CodOS = orc.CodigoOrdemServico,

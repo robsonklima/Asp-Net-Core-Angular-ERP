@@ -24,4 +24,12 @@ export class RelatorioAtendimentoDetalheService {
       map((obj) => obj)
     );
   }
+
+  atualizar(relatorioAtendimentoDetalhe: RelatorioAtendimentoDetalhe): Observable<RelatorioAtendimentoDetalhe> {
+    const url = `${c.api}/RelatorioAtendimentoDetalhe`;
+
+    return this.http.put<RelatorioAtendimentoDetalhe>(url, relatorioAtendimentoDetalhe).pipe(
+      map((obj) => obj)
+    );
+  }
 }

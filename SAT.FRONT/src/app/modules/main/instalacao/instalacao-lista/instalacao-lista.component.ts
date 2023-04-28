@@ -39,6 +39,7 @@ import { InstalacaoRessalvaDialogComponent } from '../instalacao-ressalva-dialog
 import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opcoes/instalacao-lista-mais-opcoes.component';
 import { InstalacaoStatus } from 'app/core/types/instalacao-status.types';
 import { InstalacaoStatusService } from 'app/core/services/instalacao-status.service';
+import _ from 'lodash';
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
@@ -235,8 +236,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     }).toPromise();
     this.dataSourceData = data;
 
-    console.log(this.dataSourceData);
-    
     this.isLoading = false;
     this._cdr.detectChanges();
   }
@@ -511,19 +510,24 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       this._snack.exibirToast("Instalação atualizada com sucesso!", "success");
     });
 
-    if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null))
-    {
-      if(this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
+    if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null)) {
+      if (this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
 
         let objEqp = {
           ...this.instalacaoSelecionada.equipamentoContrato,
           ...{
             dataAtivacao: this.instalacaoSelecionada.ordemServico.dataHoraFechamento,
             indAtivo: statusConst.ATIVO,
+            indReceita: statusConst.ATIVO,
+            indInstalacao: statusConst.ATIVO,
+            codPosto: this.instalacaoSelecionada.ordemServico.codPosto,
+            CodFilial: this.instalacaoSelecionada.ordemServico.codFilial,
+            CodAutorizada: this.instalacaoSelecionada.ordemServico.codAutorizada,
+            CodRegiao: this.instalacaoSelecionada.ordemServico.codRegiao,
             codUsuarioManut: this.userSession.usuario?.codUsuario
           }
         };
-        
+
         this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
           this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
         });
@@ -555,7 +559,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   async confirmarAberturaChamados() {
-    const itens = this.dataSourceData.items.filter(i => i.selecionado);  
+    const itens = this.dataSourceData.items.filter(i => i.selecionado);
 
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
       data: {
@@ -576,6 +580,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   async abrirChamados(instalacoes) {
+    console.log(instalacoes);
+
     for (const instalacao of instalacoes) {
       const equip = await this._equipamentoContratoService.obterPorCodigo(+instalacao.codEquipContrato).toPromise();
 
@@ -591,9 +597,9 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
           dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
           codCliente: equip.codCliente,
-          codFilial: equip.codFilial,
-          codAutorizada: equip.codAutorizada,
-          codRegiao: equip.codRegiao,
+          codFilial: instalacao.localAtendimentoIns.filial.codFilial,
+          codAutorizada: instalacao.localAtendimentoIns.autorizada.codAutorizada,
+          codRegiao: instalacao.localAtendimentoIns.regiao.codRegiao,
           codPosto: instalacao.codPosto,
           codEquip: equip.codEquip,
           codTipoEquip: equip.codTipoEquip,
@@ -603,19 +609,23 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
         }
       };
 
-      Object.keys(obj).forEach((key) => {
-        typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-      });
+      if((!obj.codAutorizada)|| (!obj.codFilial)|| (!obj.codRegiao)){
+        console.log(obj);
+        
+          this._snack.exibirToast("Cadastro de Local está incompleto!!!", 'error');
+          
+      }else{
+        Object.keys(obj).forEach((key) => {
+          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        });
+  
+        this._ordemServicoService.criar(obj).subscribe((os) => {
+          this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
+        });
 
-      this._ordemServicoService.criar(obj).subscribe((os) => {
-        this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
-      });
+        this._snack.exibirToast("Chamados abertos com sucesso!", 'success');
+      }
     }
-
-    setTimeout(() => {
-      this._snack.exibirToast("Chamados abertos com sucesso!", 'success');
-      this.obterInstalacoes();
-    }, 3 * 1000);
   }
 
   async atualizarInstalacao(codInstalacao, codOS) {

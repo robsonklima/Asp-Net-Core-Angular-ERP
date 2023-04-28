@@ -9,13 +9,11 @@ namespace SAT.MODELS.Entities
         [Key]
         public int? CodPosto { get; set; }
         public int CodCliente { get; set; }
-        [ForeignKey("CodCliente")]
         public Cliente Cliente { get; set; }
         public string NomeLocal { get; set; }
         public string NumAgencia { get; set; }
         public string DCPosto { get; set; }
         public int CodTipoRota { get; set; }
-        [ForeignKey("CodTipoRota")]
         public TipoRota TipoRota { get; set; }
         public string Cnpj { get; set; }
         public string InscricaoEstadual { get; set; }
@@ -24,7 +22,6 @@ namespace SAT.MODELS.Entities
         public string EnderecoComplemento { get; set; }
         public string Bairro { get; set; }
         public int CodCidade { get; set; }
-        [ForeignKey("CodCidade")]
         public Cidade Cidade { get; set; }
         public string Email { get; set; }
         public string Site { get; set; }
@@ -49,8 +46,11 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraManut { get; set; }
         public string NumeroEnd { get; set; }
         public int? CodFilial { get; set; }
-        [ForeignKey("CodFilial")]
         public Filial Filial { get; set; }
+        public Autorizada Autorizada { get; set; }
+        public int? CodAutorizada { get; set; }
+        public Regiao Regiao { get; set; }
+        public int? CodRegiao { get; set; }
         public string SiglaUf { get; set; }
         public int? CodRegional { get; set; }
         public string CnpjFaturamento { get; set; }

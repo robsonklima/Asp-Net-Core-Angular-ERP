@@ -597,9 +597,9 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
           dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
           codCliente: equip.codCliente,
-          codFilial: instalacao.localAtendimentoIns.filial.codFilial,
-          codAutorizada: instalacao.localAtendimentoIns.autorizada.codAutorizada,
-          codRegiao: instalacao.localAtendimentoIns.regiao.codRegiao,
+          codFilial: instalacao?.localAtendimentoIns?.codFilial,
+          codAutorizada: instalacao?.localAtendimentoIns?.codAutorizada,
+          codRegiao: instalacao?.localAtendimentoIns?.codRegiao,
           codPosto: instalacao.codPosto,
           codEquip: equip.codEquip,
           codTipoEquip: equip.codTipoEquip,
@@ -615,13 +615,13 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           this._snack.exibirToast("Cadastro de Local está incompleto!!!", 'error');
           
       }else{
-        Object.keys(obj).forEach((key) => {
-          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        });
+        // Object.keys(obj).forEach((key) => {
+        //   typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        // });
   
-        this._ordemServicoService.criar(obj).subscribe((os) => {
-          this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
-        });
+        // this._ordemServicoService.criar(obj).subscribe((os) => {
+        //   this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
+        // });
 
         this._snack.exibirToast("Chamados abertos com sucesso!", 'success');
       }

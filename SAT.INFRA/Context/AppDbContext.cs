@@ -529,6 +529,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<RelatorioAtendimentoPecaStatus>(new RelatorioAtendimentoPecaStatusMap().Configure);
             modelBuilder.Entity<AdiantamentoRDsPendentesView>(new AdiantamentoRDsPendentesViewMap().Configure);
             modelBuilder.Entity<InstalacaoView>(new InstalacaoViewMap().Configure);
+            modelBuilder.Entity<LocalAtendimento>(new LocalAtendimentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

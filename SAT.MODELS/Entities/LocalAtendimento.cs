@@ -6,14 +6,13 @@ namespace SAT.MODELS.Entities
 {
     public class LocalAtendimento
     {
-        [Key]
         public int? CodPosto { get; set; }
         public int CodCliente { get; set; }
         public Cliente Cliente { get; set; }
         public string NomeLocal { get; set; }
         public string NumAgencia { get; set; }
         public string DCPosto { get; set; }
-        public int CodTipoRota { get; set; }
+        public int? CodTipoRota { get; set; }
         public TipoRota TipoRota { get; set; }
         public string Cnpj { get; set; }
         public string InscricaoEstadual { get; set; }

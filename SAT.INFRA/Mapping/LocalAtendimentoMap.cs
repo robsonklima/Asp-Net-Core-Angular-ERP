@@ -19,7 +19,7 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodCliente)
                 .HasPrincipalKey(prop => prop.CodCliente);
-
+            
             builder
                 .HasOne(prop => prop.TipoRota)
                 .WithMany()

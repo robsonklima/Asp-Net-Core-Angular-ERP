@@ -79,6 +79,8 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Cliente)
                 .Include(l => l.TipoRota)
                 .Include(l => l.Filial)
+                .Include(l => l.Autorizada)
+                .Include(l => l.Regiao)
                 .FirstOrDefault(f => f.CodPosto == codigo);
         }
 
@@ -89,6 +91,8 @@ namespace SAT.INFRA.Repository
                 .Include(l => l.Cliente)
                 .Include(l => l.Cidade)
                 .Include(l => l.TipoRota)
+                .Include(l => l.Autorizada)
+                .Include(l => l.Regiao)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter)) 

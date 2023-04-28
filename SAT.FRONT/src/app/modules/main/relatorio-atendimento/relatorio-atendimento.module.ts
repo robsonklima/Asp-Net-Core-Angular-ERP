@@ -28,6 +28,7 @@ import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendim
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RelatorioAtendimentoPosFormComponent } from './relatorio-atendimento-pos-form/relatorio-atendimento-pos-form.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -41,6 +42,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     RelatorioAtendimentoDetalheFormComponent,
     RelatorioAtendimentoDetalhePecaFormComponent,
     RelatorioAtendimentoLaudoImpressaoComponent,
+    RelatorioAtendimentoPosFormComponent,
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),

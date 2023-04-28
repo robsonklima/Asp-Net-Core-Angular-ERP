@@ -580,7 +580,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
   }
 
   async abrirChamados(instalacoes) {
-    console.log(instalacoes);
 
     for (const instalacao of instalacoes) {
       const equip = await this._equipamentoContratoService.obterPorCodigo(+instalacao.codEquipContrato).toPromise();
@@ -610,18 +609,17 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       };
 
       if((!obj.codAutorizada)|| (!obj.codFilial)|| (!obj.codRegiao)){
-        console.log(obj);
-        
+
           this._snack.exibirToast("Cadastro de Local está incompleto!!!", 'error');
           
       }else{
-        // Object.keys(obj).forEach((key) => {
-        //   typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
-        // });
+        Object.keys(obj).forEach((key) => {
+          typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key];
+        });
   
-        // this._ordemServicoService.criar(obj).subscribe((os) => {
-        //   this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
-        // });
+        this._ordemServicoService.criar(obj).subscribe((os) => {
+          this.atualizarInstalacao(+instalacao.codInstalacao, os.codOS);
+        });
 
         this._snack.exibirToast("Chamados abertos com sucesso!", 'success');
       }

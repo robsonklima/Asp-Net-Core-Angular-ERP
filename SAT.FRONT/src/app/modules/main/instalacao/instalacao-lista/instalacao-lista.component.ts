@@ -40,6 +40,7 @@ import { InstalacaoListaMaisOpcoesComponent } from './instalacao-lista-mais-opco
 import { InstalacaoStatus } from 'app/core/types/instalacao-status.types';
 import { InstalacaoStatusService } from 'app/core/services/instalacao-status.service';
 import _ from 'lodash';
+import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 @Component({
   selector: 'app-instalacao-lista',
   templateUrl: './instalacao-lista.component.html',
@@ -513,10 +514,11 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
     if ((this.instalacaoSelecionada.codInstalStatus = 3) && (this.instalacaoSelecionada.codEquipContrato != null) && (this.instalacaoSelecionada.codOS != null)) {
       if (this.instalacaoSelecionada.equipamentoContrato.indAtivo != statusConst.ATIVO) {
 
-        let objEqp = {
+        let objEqp : EquipamentoContrato = {
           ...this.instalacaoSelecionada.equipamentoContrato,
           ...{
             dataAtivacao: this.instalacaoSelecionada.ordemServico.dataHoraFechamento,
+            dataInicGarantia: this.instalacaoSelecionada.ordemServico.dataHoraFechamento,
             indAtivo: statusConst.ATIVO,
             indReceita: statusConst.ATIVO,
             indInstalacao: statusConst.ATIVO,
@@ -524,7 +526,11 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
             CodFilial: this.instalacaoSelecionada.ordemServico.codFilial,
             CodAutorizada: this.instalacaoSelecionada.ordemServico.codAutorizada,
             CodRegiao: this.instalacaoSelecionada.ordemServico.codRegiao,
-            codUsuarioManut: this.userSession.usuario?.codUsuario
+            codUsuarioManut: this.userSession.usuario?.codUsuario,
+            codUsuarioManutencao: this.userSession.usuario?.codUsuario,
+            dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+            dataManutencao: moment().format('YYYY-MM-DD HH:mm:ss')
+
           }
         };
 
@@ -596,9 +602,9 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
           dataHoraAberturaOS: moment().format('YYYY-MM-DD HH:mm:ss'),
           codCliente: equip.codCliente,
-          codFilial: instalacao?.localAtendimentoIns?.codFilial,
-          codAutorizada: instalacao?.localAtendimentoIns?.codAutorizada,
-          codRegiao: instalacao?.localAtendimentoIns?.codRegiao,
+          codFilial: instalacao?.localAtendimentoSol?.codFilial,
+          codAutorizada: instalacao?.localAtendimentoSol?.codAutorizada,
+          codRegiao: instalacao?.localAtendimentoSol?.codRegiao,
           codPosto: instalacao.codPosto,
           codEquip: equip.codEquip,
           codTipoEquip: equip.codTipoEquip,
@@ -609,7 +615,6 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       };
 
       if((!obj.codAutorizada)|| (!obj.codFilial)|| (!obj.codRegiao)){
-
           this._snack.exibirToast("Cadastro de Local está incompleto!!!", 'error');
           
       }else{

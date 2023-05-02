@@ -240,22 +240,22 @@
                         <mat-datepicker #dataConfInstalacao></mat-datepicker>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('ag instalacao') }}</mat-label>
 
-                        <mat-select formControlName="codPostoIns">
+                        <mat-select class="min-h-10" formControlName="codPostoIns">
                             <mat-option>
                                 <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'">
+                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="locaisFiltro">
                                 </ngx-mat-select-search>
                             </mat-option>
 
-                            <mat-option *ngFor="let localAtendimento of locaisAtendimento"
-                                [matTooltip]="localAtendimento?.endereco + ', ' + localAtendimento?.bairro + ' - ' + localAtendimento?.cidade?.nomeCidade"
-                                [value]="localAtendimento.codPosto">
-                                <span>{{ localAtendimento.numAgencia }} / {{
-                                    localAtendimento.dcPosto }} - {{ localAtendimento.nomeLocal
-                                    }} </span>
+                            <mat-option *ngFor="let localAtendimento of locaisAtendimento" [value]="localAtendimento.codPosto" [matTooltip]="localAtendimento.nomeLocal">
+                                <span class="opacity-60 text-md">
+                                    {{ localAtendimento.numAgencia }}/{{ localAtendimento.dcPosto }}
+                                </span>
+
+                                {{ localAtendimento.nomeLocal }}
                             </mat-option>
                         </mat-select>
 

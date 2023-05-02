@@ -230,13 +230,14 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.paises = data.items;
   }
 
-  private async obterUFs() {
+  private async obterUFs(filtro: string='') {
     const codPais = this.form.controls['codPais'].value;
 
     const params: UnidadeFederativaParameters = {
       sortActive: 'nomeUF',
       sortDirection: 'asc',
-      codPais: codPais
+      codPais: codPais,
+      filter: filtro
     }
 
     const data = await this._ufService.obterPorParametros(params).toPromise();
@@ -303,14 +304,20 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         }
 
         this._cidadeService.obterPorParametros(p).subscribe(data => {
-          const cidade = data.items.shift();
+          if (!data) return;
 
-          if (data) {
-            this.form.controls['codUF'].setValue(cidade.codUF);
-            this.form.controls['codCidade'].setValue(cidade.codCidade);
-            this.form.controls['endereco'].setValue(geo.endereco);
-          }
+          const cidade = data.items
+            .filter(c => c.nomeCidade == geo.cidade)
+            .filter(c => c.unidadeFederativa.siglaUF == geo.estado)
+            .shift();
+
+          this.form.controls['codUF'].setValue(cidade.codUF);
+          this.form.controls['codCidade'].setValue(cidade.codCidade);
+          this.form.controls['endereco'].setValue(geo.endereco);
         });
+
+        this.obterCidades(geo.cidade);
+        this.obterUFs(geo.estado);
       }
     });
   }

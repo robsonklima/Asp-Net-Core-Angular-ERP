@@ -178,11 +178,11 @@
                             </mat-option>
                             <mat-option *ngFor="let cidade of cidades" [value]="cidade.codCidade">
                                 <span>
-                                    {{ (cidade.nomeCidade || t('nao informado')) | titlecase }}
+                                    {{ (cidade.nomeCidade || t('nao informado')) }} -
                                 </span>
 
                                 <span class="opacity-50">
-                                    {{ cidade.unidadeFederativa.nomeUF | titlecase }}
+                                    {{ cidade.unidadeFederativa.siglaUF | uppercase }}
                                 </span>
                             </mat-option>
                         </mat-select>

@@ -136,8 +136,13 @@
                     <p class="text-lg font-medium">{{ t('localizacao') }}</p>
                 </div>
 
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('cep') }}</mat-label>
+                        <input matInput formControlName="cep" [dropSpecialCharacters]="false" mask="00000-000">
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('pais') }}</mat-label>
@@ -182,12 +187,6 @@
                             </mat-option>
                         </mat-select>
 
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('cep') }}</mat-label>
-                        <input matInput formControlName="cep" [dropSpecialCharacters]="false" mask="00000-000">
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 

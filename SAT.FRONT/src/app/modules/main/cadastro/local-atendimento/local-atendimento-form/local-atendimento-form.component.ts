@@ -106,7 +106,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this.form.controls['codCidade'].valueChanges.subscribe(async () => {
-      this.form.controls['cep'].enable();
+      
     });
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
@@ -118,7 +118,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this.form.controls['cep'].valueChanges.pipe(
-      filter(text => !!text),
+      filter(t => !!t || t != ''),
       tap(() => { }),
       debounceTime(700),
       map(async text => {
@@ -168,7 +168,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         }, [Validators.required]
       ],
       nomeLocal: [undefined, [Validators.required]],
-      codPais: [undefined, Validators.required],
+      codPais: [1, Validators.required],
       codUF: [undefined, Validators.required],
       codCidade: [undefined, Validators.required],
       codCliente: [undefined, Validators.required],
@@ -179,7 +179,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       cep: [
         {
           value: undefined,
-          disabled: true,
+          disabled: false,
         }, [Validators.required]
       ],
       endereco: [undefined, Validators.required],
@@ -296,16 +296,19 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
         this.form.controls['latitude'].setValue(geo.latitude);
         this.form.controls['longitude'].setValue(geo.longitude);
 
-        this._cidadeService.obterPorParametros({
-          indAtivo: 1,
+        const p: CidadeParameters = {
+          indAtivo: statusConst.ATIVO,
           nomeCidade:geo.cidade,
-          siglaUF: geo.estado
-        }).subscribe(data => {
+          siglaUF: geo.estado,
+        }
+
+        this._cidadeService.obterPorParametros(p).subscribe(data => {
           const cidade = data.items.shift();
 
           if (data) {
             this.form.controls['codUF'].setValue(cidade.codUF);
             this.form.controls['codCidade'].setValue(cidade.codCidade);
+            this.form.controls['endereco'].setValue(geo.endereco);
           }
         });
       }

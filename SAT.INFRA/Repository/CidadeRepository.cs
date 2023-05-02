@@ -87,24 +87,22 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrEmpty(parameters.Filter))
                 cidades = cidades.Where(
-                    s =>
-                    s.CodCidade.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.UnidadeFederativa.SiglaUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.UnidadeFederativa.NomeUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    s.Filial.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
+                    c =>
+                    c.CodCidade.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.NomeCidade.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.UnidadeFederativa.SiglaUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.UnidadeFederativa.NomeUF.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
+                    c.Filial.NomeFilial.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
 
             if (!string.IsNullOrWhiteSpace(parameters.NomeCidade))
             {
-
-
                 cidades.Where(c => c.NomeCidade.Contains(parameters.NomeCidade));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.SiglaUF))
             {
-                cidades.Where(c => c.UnidadeFederativa.SiglaUF == parameters.SiglaUF);
+                cidades.Where(c => c.UnidadeFederativa.SiglaUF.Contains(parameters.SiglaUF));
             }
             
             if (!string.IsNullOrWhiteSpace(parameters.CodFiliais))
@@ -130,8 +128,6 @@ namespace SAT.INFRA.Repository
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
                  cidades = cidades.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
-
-
 
             return PagedList<Cidade>.ToPagedList(cidades, parameters.PageNumber, parameters.PageSize);
         }

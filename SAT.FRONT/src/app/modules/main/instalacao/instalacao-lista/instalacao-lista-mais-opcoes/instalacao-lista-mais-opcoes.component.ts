@@ -10,7 +10,7 @@ import { TransportadoraService } from 'app/core/services/transportadora.service'
 import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
 import { Filial, FilialData, FilialParameters } from 'app/core/types/filial.types';
 import { Instalacao } from 'app/core/types/instalacao.types';
-import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
+import { LocalAtendimento, LocalAtendimentoParameters } from 'app/core/types/local-atendimento.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Transportadora } from 'app/core/types/transportadora.types';
 import { UserService } from 'app/core/user/user.service';
@@ -19,7 +19,7 @@ import Enumerable from 'linq';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 import { InstalacaoListaComponent } from '../instalacao-lista.component';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instalacao-lista-mais-opcoes',
@@ -50,9 +50,9 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     private _userSvc: UserService,
     private _snack: CustomSnackbarService,
   ) {
-      this.itens = data?.itens;
-      this.codCliente = data?.itens[0]?.codCliente;
-      this.userSession = JSON.parse(this._userSvc.userSession);
+    this.itens = data?.itens;
+    this.codCliente = data?.itens[0]?.codCliente;
+    this.userSession = JSON.parse(this._userSvc.userSession);
   }
 
   async ngOnInit() {
@@ -61,16 +61,17 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     this.obterTransportadoras();
     this.obterEquipamentosContrato();
     this.obterLocaisAtendimento();
-    
-		this.locaisFiltro.valueChanges
-			.pipe(
-				takeUntil(this._onDestroy),
-				debounceTime(700),
-				distinctUntilChanged()
-			)
-			.subscribe(() => {
-				this.obterLocaisAtendimento(this.locaisFiltro.value);
-			});
+
+    this.locaisFiltro.valueChanges
+      .pipe(
+        filter(t => t != ''),
+        takeUntil(this._onDestroy),
+        debounceTime(700),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.obterLocaisAtendimento(this.locaisFiltro.value);
+      });
   }
 
   private criarForms() {
@@ -243,29 +244,25 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
       .toArray();
   }
 
-  async obterLocaisAtendimento(filter: string = '') {
-    const data = await this._localAtendimentoService.obterPorParametros({
-      indAtivo: statusConst.ATIVO,
-      sortActive: 'NomeLocal',
+  async obterLocaisAtendimento(filtro: string = '') {
+    const params: LocalAtendimentoParameters = {
+      sortActive: 'nomeLocal',
       sortDirection: 'asc',
+      indAtivo: statusConst.ATIVO,
+      filter: filtro,
       codClientes: this.codCliente?.toString(),
-      pageSize: 100,
-      filter: filter
-    }).toPromise();
+      pageSize: 10
+    }
 
-    this.locaisAtendimento = [];
-
-    this.locaisAtendimento = Enumerable.from(data.items)
-      .orderByDescending(i => i.indAtivo)
-      .thenBy(i => i.numAgencia)
-      .toArray();
+    this.locaisAtendimento = (await this._localAtendimentoService.obterPorParametros(params).toPromise()).items;
   }
 
   async salvar() {
     const formInst = this.formInstalacao.getRawValue();
     formInst.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     formInst.codUsuarioManut = this.userSession.usuario?.codUsuario;
-     
+    formInst.codPosto = formInst.codPostoIns;
+
     let erro: boolean = false;
 
     for (const item of this.itens) {
@@ -277,10 +274,10 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 
       this._instalacaoService
         .atualizar({ ...item, ...inst })
-        .subscribe(() => {}, () => { erro = true});
+        .subscribe(() => { }, () => { erro = true });
     }
 
-    if (erro) 
+    if (erro)
       this._snack.exibirToast('Erro ao atualizar os registros', 'error');
     else
       this._snack.exibirToast('Registros atualizados com sucesso', 'success');

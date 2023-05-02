@@ -307,8 +307,8 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
           if (!data) return;
 
           const cidade = data.items
-            .filter(c => c.nomeCidade == geo.cidade)
-            .filter(c => c.unidadeFederativa.siglaUF == geo.estado)
+            .filter(c => c.nomeCidade.toLowerCase() == geo.cidade.toLowerCase())
+            .filter(c => c.unidadeFederativa.siglaUF.toLowerCase() == geo.estado.toLowerCase())
             .shift();
 
           this.form.controls['codUF'].setValue(cidade.codUF);

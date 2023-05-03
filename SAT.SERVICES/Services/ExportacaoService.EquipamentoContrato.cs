@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 
@@ -8,9 +10,9 @@ namespace SAT.SERVICES.Services
     {
         protected void GerarPlanilhaEquipamentoContrato(EquipamentoContratoParameters parameters)
         {
-            var equipContrato = _ecRepo.ObterPorParametros(parameters);
+            IEnumerable<EquipamentoContrato> equips = (IEnumerable<EquipamentoContrato>)_ecSvc.ObterPorParametros(parameters).Items;
 
-            var equipamentos = equipContrato.Select(eq => 
+            var equipamentos = equips.Select(eq => 
 											new
 											{
 												ID_Equipamento = eq.CodEquipContrato,

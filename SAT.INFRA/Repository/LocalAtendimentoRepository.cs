@@ -89,7 +89,7 @@ namespace SAT.INFRA.Repository
             var locais = _context.LocalAtendimento
                 .Include(l => l.Filial)
                 .Include(l => l.Cliente)
-                .Include(l => l.Cidade)
+                .Include(l => l.Cidade.UnidadeFederativa.Pais)
                 .Include(l => l.TipoRota)
                 .Include(l => l.Autorizada)
                 .Include(l => l.Regiao)

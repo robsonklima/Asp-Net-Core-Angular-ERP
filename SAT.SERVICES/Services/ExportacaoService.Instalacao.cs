@@ -45,7 +45,7 @@ namespace SAT.SERVICES.Services
                                 TransportadoraEntrega = v.TransportadoraEntrega,
                                 AgEntrega = v.AgEntrega,
                                 NomeLocalEntrega = v.NomeLocalEntrega,
-                                RecebimentoDocumentacaoInstalacao = v.RecebimentoDocumentacaoInstalacao.HasValue ? v.RecebimentoDocumentacaoInstalacao.Value.ToString("dd/MM/yy") : " ",
+                                RecebimentoDocumentacaoInstalacao = v.RecebimentoDocumentacaoInstalacao,
                                 FaturaTranspReEntrega = v.FaturaTranspReEntrega,
                                 DtReEntrega = v.DtReEntrega.HasValue ? v.DtReEntrega.Value.ToString("dd/MM/yy") : " ",
                                 ResponsavelRecebReEntrega = v.ResponsavelRecebReEntrega,

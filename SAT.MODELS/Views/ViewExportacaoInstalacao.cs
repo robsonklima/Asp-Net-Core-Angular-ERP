@@ -35,7 +35,7 @@ namespace SAT.MODELS.Views
         public string TransportadoraEntrega { get; set; }
         public string AgEntrega { get; set; }
         public string NomeLocalEntrega { get; set; }
-        public DateTime? RecebimentoDocumentacaoInstalacao { get; set; }
+        public string RecebimentoDocumentacaoInstalacao { get; set; }
         public string FaturaTranspReEntrega { get; set; }
         public DateTime? DtReEntrega { get; set; }
         public string ResponsavelRecebReEntrega { get; set; }

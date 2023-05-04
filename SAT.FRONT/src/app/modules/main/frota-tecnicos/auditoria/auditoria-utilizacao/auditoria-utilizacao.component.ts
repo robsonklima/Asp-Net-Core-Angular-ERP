@@ -112,7 +112,12 @@ export class AuditoriaUtilizacaoComponent implements OnInit {
 
   salvarObs(){
     this.auditoria.observacoes = this.form.controls["observacoes"].value;
-    this._auditoriaService.atualizar(this.auditoria).subscribe();   
+    this._auditoriaService.atualizar(this.auditoria).subscribe((r) => {
+			this._snack.exibirToast('Observação Salva!', 'success');
+		}, (error) => {
+			this._snack.exibirToast('Erro ao salvar!', 'error');
+		}
+		);
   }
 
   ngOnDestroy() {

@@ -22,7 +22,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        public ListViewModel Get([FromQuery] OrdemServicoSTNParameters parameters)
+        public ListViewModel ObterPorParametros([FromQuery] OrdemServicoSTNParameters parameters)
         {
             return _ordemServicoSTNService.ObterPorParametros(parameters);
         }

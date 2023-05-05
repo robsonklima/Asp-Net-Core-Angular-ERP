@@ -8,6 +8,7 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { OrdemServicoSTNService } from 'app/core/services/ordem-servico-stn.service';
 import { IFilterable } from 'app/core/types/filtro.types';
 import { OrdemServicoSTNData, OrdemServicoSTNParameters } from 'app/core/types/ordem-servico-stn.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
@@ -76,7 +77,8 @@ export class OrdemServicoSTNListaComponent  extends Filterable implements AfterV
         sortActive: this.sort?.active || 'codAtendimento',
         sortDirection: this.sort?.direction || 'desc',
         pageSize: this.paginator?.pageSize,
-        filter: filtro
+        filter: filtro,
+        indAtivoCausa: statusConst.ATIVO
       },
       ...this.filter?.parametros
     }

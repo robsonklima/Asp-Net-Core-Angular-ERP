@@ -15,12 +15,6 @@ namespace SAT.INFRA.Mapping
                 .HasKey(prop => prop.CodCausaImprodutividade);
 
             builder
-                .HasOne(prop => prop.ProtocoloChamadoSTN)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodProtocolo)
-                .HasPrincipalKey(prop => prop.CodProtocoloChamadoSTN);
-
-            builder
                 .HasOne(prop => prop.Improdutividade)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodImprodutividade)

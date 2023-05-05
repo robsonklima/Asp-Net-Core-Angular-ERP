@@ -68,7 +68,9 @@ namespace SAT.INFRA.Repository
             try
             {
                 return _context.ProtocoloChamadoSTN
-                    .Include(c => c.TipoChamadoSTN)
+                    .Include(p => p.TipoChamadoSTN)
+                    .Include(p => p.Usuario)
+                    .Include(p => p.CausaImprodutividades)
                     .SingleOrDefault(p => p.CodProtocoloChamadoSTN == codProtocoloChamadoSTN);
             }
             catch (Exception ex)
@@ -80,8 +82,9 @@ namespace SAT.INFRA.Repository
         public PagedList<ProtocoloChamadoSTN> ObterPorParametros(ProtocoloChamadoSTNParameters parameters)
         {
             var protocoloChamadoSTNs = _context.ProtocoloChamadoSTN
-                .Include(c => c.TipoChamadoSTN)
-                .Include(p => p.OrdemServicoSTN)
+                .Include(p => p.TipoChamadoSTN)
+                .Include(p => p.Usuario)
+                .Include(p => p.CausaImprodutividades)                
                 .AsQueryable();
 
             if (parameters.CodAtendimento.HasValue)

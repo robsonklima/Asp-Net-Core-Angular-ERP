@@ -69,7 +69,6 @@ namespace SAT.INFRA.Repository
             {
                 return _context.CausaImprodutividade
                     .Include(c => c.Improdutividade)
-                    .Include(c => c.ProtocoloChamadoSTN)
                     .SingleOrDefault(p => p.CodCausaImprodutividade == codCausaImprodutividade);
             }
             catch (Exception ex)
@@ -82,7 +81,6 @@ namespace SAT.INFRA.Repository
         {
             var causaImprodutividades = _context.CausaImprodutividade
                     .Include(c => c.Improdutividade)
-                    .Include(c => c.ProtocoloChamadoSTN)
                 .AsQueryable();
 
             if (parameters.CodProtocolo.HasValue)

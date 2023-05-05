@@ -1,6 +1,10 @@
+import { Causa } from "./causa.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServicoSTNOrigem } from "./ordem-servico-stn-origem.types";
 import { OrdemServico } from "./ordem-servico.types";
+import { ProtocoloChamadoSTN } from "./protocolo-chamado-stn.types";
+import { StatusServicoSTN } from "./status-servico-stn.types";
+import { TipoServico } from "./tipo-servico.types";
 import { Usuario } from "./usuario.types";
 
 export interface OrdemServicoSTN {
@@ -29,6 +33,10 @@ export interface OrdemServicoSTN {
     ordemServico?: OrdemServico;
     ordemServicoSTNOrigem?: OrdemServicoSTNOrigem;
     usuario: Usuario;
+    causa?: Causa;
+    tipoServico?: TipoServico;
+    statusSTN?: StatusServicoSTN;
+    protocolos?: ProtocoloChamadoSTN[];
 }
 
 export interface OrdemServicoSTNData extends Meta
@@ -41,4 +49,5 @@ export interface OrdemServicoSTNParameters extends QueryStringParameters
     codClientes?: string;
     codOS?: number;
     codAtendimento?: number;
+    indAtivoCausa?: number;
 };

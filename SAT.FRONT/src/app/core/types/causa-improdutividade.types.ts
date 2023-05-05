@@ -8,8 +8,6 @@ export class CausaImprodutividade {
     codProtocolo ?: number;
     indAtivo ?: number;
     improdutividade ?: Improdutividade;
-    protocoloChamadoSTN ?: ProtocoloChamadoSTN;
-
 }
 
 export interface CausaImprodutividadeData extends Meta {

@@ -272,6 +272,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             }
           });
         }
+        console.log(usuario);
+        
         
         this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
         this.unidadesFederativas = await this.obterUFs(usuario.cidade.unidadeFederativa.nomeUF);

@@ -38,6 +38,24 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop =>  prop.CodTecnico)
                 .HasPrincipalKey(prop => prop.CodUsuario);
+            
+            builder
+                .HasOne(prop => prop.Causa)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodDefeito)
+                .HasPrincipalKey(prop => prop.CodECausa);
+
+            builder
+                .HasOne(prop => prop.TipoServico)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodTipoCausa)
+                .HasPrincipalKey(prop => prop.CodETipoServico);   
+            
+            builder
+                .HasMany(prop => prop.Protocolos)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodAtendimento)
+                .HasPrincipalKey(prop => prop.CodAtendimento);                             
         }
     }
 }

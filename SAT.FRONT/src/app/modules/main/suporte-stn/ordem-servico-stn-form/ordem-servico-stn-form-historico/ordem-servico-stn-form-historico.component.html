@@ -1,153 +1,159 @@
-<div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="atendimento">
-    <fuse-card class="flex flex-col col-span-3 flex-auto bg-card 2xl overflow-hidden" *transloco="let t">
-        <div class="flex flex-col font-medium">
-            <div class="bg-gray-50 p-4 border-b">
-                <p class="text-lg font-medium">
-                    Protocolo N°:{{ atendimento.codAtendimento }}
-                </p>
+<div class="grid grid-cols-6 sm:grid-cols-6 md:grid-cols-6 gap-6 w-full min-w-0" *ngIf="atendimentos">
+    <ng-container *ngFor="let atendimento of atendimentos.items">
+        <fuse-card class="flex flex-col col-span-3 flex-auto bg-card 2xl overflow-hidden" *transloco="let t">
+            <div class="flex flex-col font-medium">
+                <div class="bg-gray-50 p-4 border-b">
+                    <p class="text-lg font-medium">
+                        Protocolo N°:{{ atendimento.codAtendimento }}
+                    </p>
+                </div>
+                <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Data Hora Abertura
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            {{ atendimento.dataHoraAberturaSTN | date:'dd/MM/yyyy HH:mm' }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Origem Chamado
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            <div>{{ atendimento?.ordemServicoSTNOrigem?.descOrigemChamadoSTN || "Não informado" }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-1">
+                        <div class="text-secondary">
+                            Status Protocolo
+                        </div>
+
+                        <div class="truncate max-w-1/2">
+                            <div>{{ atendimento.statusSTN?.descStatusServicoSTN || "Não informado" }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+        </fuse-card>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Data Hora Abertura
+
+
+        <ng-container *ngFor="let protocolo of atendimento.protocolos">
+            <fuse-card class="flex flex-col col-span-3 flex-auto bg-card 2xl overflow-hidden" *transloco="let t">
+                <div class="flex flex-col font-medium">
+                    <div class="bg-gray-50 p-4 border-b">
+                        <p class="text-lg font-medium">
+                            Tratativa de Suporte
+                        </p>
                     </div>
+                    <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
 
-                    <div class="truncate max-w-1/2">
-                        {{ atendimento.dataHoraAberturaSTN | date:'dd/MM/yyyy HH:mm' }}
-                    </div>
-                </div>
+                        <div class="flex items-center justify-between py-3">
+                            <div class="text-secondary">{{ t('Tipo Chamado') }}</div>
+                            <div>{{ protocolo?.tipoChamadoSTN?.descTipoChamadoSTN || "Não informado" }}</div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Origem Chamado
-                    </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Responsável Suporte STN
+                            </div>
 
-                    <div class="truncate max-w-1/2">
-                        <div>{{ atendimento?.ordemServicoSTNOrigem?.descOrigemChamadoSTN || "Não informado" }}</div>
-                    </div>
-                </div>
+                            <div class="truncate max-w-1/2">
+                                <div>{{ protocolo?.usuario?.nomeUsuario || "Não informado" }}</div>
+                            </div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Status Protocolo
-                    </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Técnico de Campo
+                            </div>
 
-                    <div class="truncate max-w-1/2">
-                        <div>{{ status.descStatusServicoSTN || "Não informado" }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </fuse-card>
+                            <div class="truncate max-w-1/2">
+                                <div>{{ protocolo?.tecnicoCampo || "Não informado" }}</div>
+                            </div>
+                        </div>
 
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Motivos da causa de improdutividade?
+                            </div>
+                        </div>
 
-    <fuse-card class="flex flex-col col-span-3 flex-auto bg-card 2xl overflow-hidden" *transloco="let t">
-        <div class="flex flex-col font-medium">
-            <div class="bg-gray-50 p-4 border-b">
-                <p class="text-lg font-medium">
-                    Tratativa de Suporte
-                </p>
-            </div>
-            <div class="flex flex-col p-8 divide-y font-medium pointer-events-none">
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                            </div>
 
-                <div class="flex items-center justify-between py-3">
-                    <div class="text-secondary">{{ t('Tipo Chamado') }}</div>
-                    <div>{{ protocolo?.tipoChamadoSTN?.descTipoChamadoSTN || "Não informado" }}</div>
-                </div>
+                            <div *ngFor="let improdutividade of improdutividades">
+                                <mat-slide-toggle [color]="'primary'"
+                                    [checked]="verificarSolucaoSelecionado(improdutividade.codImprodutividade,protocolo)">
+                                    {{ improdutividade.descImprodutividade }}
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Responsável Suporte STN
-                    </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Evitou Pendência?
+                            </div>
 
-                    <div class="truncate max-w-1/2">
-                        <div>{{ usuario?.nomeUsuario || "Não informado" }}</div>
-                    </div>
-                </div>
+                            <div class="truncate max-w-1/2">
+                                <mat-slide-toggle [color]="'primary'" [checked]="atendimento.indEvitaPendencia == 1">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Técnico de Campo
-                    </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Tipo Causa
+                            </div>
 
-                    <div class="truncate max-w-1/2">
-                        <div>{{ protocolo?.tecnicoCampo || "Não informado" }}</div>
-                    </div>
-                </div>
+                            <div class="truncate max-w-1/2">
+                                <div>{{ atendimento.tipoServico?.nomeServico || "Não informado" }}</div>
+                            </div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Motivos da causa de improdutividade?
-                    </div>
-                </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Tipo de Servico
+                            </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                    </div>
+                            <div class="truncate max-w-1/2">
+                                <div>{{ atendimento.codTipoCausa >= 200 ? 'MÁQUINA' : 'EXTRA-MÁQUINA' }}</div>
+                            </div>
+                        </div>
 
-                    <div *ngFor="let improdutividade of improdutividades">
-                        <mat-slide-toggle [color]="'primary'"
-                            [checked]="verificarSolucaoSelecionado(improdutividade.codImprodutividade)">
-                            {{ improdutividade.descImprodutividade }}
-                        </mat-slide-toggle>
-                    </div>
-                </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Componente
+                            </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Evitou Pendência?
-                    </div>
+                            <div class="truncate max-w-1/2">
+                                <div>{{ atendimento.causa?.nomeCausa || "Não informado" }}</div>
+                            </div>
+                        </div>
 
-                    <div class="truncate max-w-1/2">
-                        <mat-slide-toggle [color]="'primary'" [checked]="atendimento.indEvitaPendencia == 1">
-                        </mat-slide-toggle>
-                    </div>
-                </div>
+                        <div class="flex items-center justify-between py-1">
+                            <div class="text-secondary">
+                                Ação Suporte
+                            </div>
+                        </div>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Tipo Causa
-                    </div>
+                        <div class="flex items-right justify-between py-1">
+                            <div class="text-right">
+                                {{ protocolo?.acaoSTN }}
+                            </div>
+                        </div>
 
-                    <div class="truncate max-w-1/2">
-                        <div>{{ tipoCausa?.nomeServico || "Não informado" }}</div>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Tipo de Servico
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        <div>{{ tipoServico || "Não informado" }}</div>
                     </div>
                 </div>
+            </fuse-card>
+        </ng-container>
+    </ng-container>
 
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Componente
-                    </div>
-
-                    <div class="truncate max-w-1/2">
-                        <div>{{ componente?.nomeCausa || "Não informado" }}</div>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between py-1">
-                    <div class="text-secondary">
-                        Ação Suporte
-                    </div>
-                </div>
-
-                <div class="flex items-right justify-between py-1">
-                    <div class="text-right">
-                        {{ protocolo?.acaoSTN }}
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </fuse-card>
 </div>

@@ -522,6 +522,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
             indAtivo: statusConst.ATIVO,
             indReceita: statusConst.ATIVO,
             indInstalacao: statusConst.ATIVO,
+            indRepasse: statusConst.INATIVO,
             codPosto: this.instalacaoSelecionada.ordemServico.codPosto,
             CodFilial: this.instalacaoSelecionada.ordemServico.codFilial,
             CodAutorizada: this.instalacaoSelecionada.ordemServico.codAutorizada,

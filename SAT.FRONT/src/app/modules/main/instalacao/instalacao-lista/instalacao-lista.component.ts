@@ -236,6 +236,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       ...this.filter?.parametros
     }).toPromise();
     this.dataSourceData = data;
+    console.log(this.dataSourceData);
+    
 
     this.isLoading = false;
     this._cdr.detectChanges();
@@ -376,8 +378,8 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
 
         this.form.controls['responsavelRecebReEntrega'].setValue(instalacao.responsavelRecebReEntrega);
 
-        if (instalacao.dataHoraChegTranspBt) {
-          this.form.controls['dataHoraChegTranspBT'].setValue(moment(instalacao.dataHoraChegTranspBt).format('DD/MM/yyyy'));
+        if (instalacao.dataHoraChegTranspBT) {
+          this.form.controls['dataHoraChegTranspBT'].setValue(moment(instalacao.dataHoraChegTranspBT).format('DD/MM/yyyy'));
         }
 
         const instalRessalva = instalacao.instalacoesRessalva.sort((a, b) => a.codInstalRessalva - b.codInstalRessalva).shift();
@@ -444,7 +446,7 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
           case 1:
             this.form.controls['dataLimiteIns'].setValue(moment(instalacao.instalacaoLote?.dataRecLote).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           case 2:
-            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBt).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
+            this.form.controls['dataLimiteIns'].setValue(moment(instalacao.dataHoraChegTranspBT).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
           default:
             this.form.controls['dataLimiteIns'].setValue(moment(instalacao.contrato?.dataAssinatura).add(qtdLimDiaIns, 'days').format('DD/MM/yyyy'));
         }

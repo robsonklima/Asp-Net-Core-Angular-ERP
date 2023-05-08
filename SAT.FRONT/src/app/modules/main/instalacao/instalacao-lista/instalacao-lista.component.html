@@ -182,7 +182,7 @@
                                         </div>    
 
                                         <div class="flex">
-                                            {{ data.dataHoraChegTranspBt | date:'dd/MM/YYYY' }}
+                                            {{ data.dataHoraChegTranspBT | date:'dd/MM/YYYY' }}
                                         </div> 
                                         
                                         <div class="flex">
@@ -494,12 +494,7 @@
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">
                                                     <mat-label>{{ t('data da entrega confirmacao') }}</mat-label>
-                                                    <input matInput (click)="dataHoraChegTranspBT.open()"
-                                                        (keydown)="false" [matDatepicker]="dataHoraChegTranspBT"
-                                                        formControlName="dataHoraChegTranspBT">
-                                                    <mat-datepicker-toggle matSuffix [for]="dataHoraChegTranspBT">
-                                                    </mat-datepicker-toggle>
-                                                    <mat-datepicker #dataHoraChegTranspBT></mat-datepicker>
+                                                    <input matInput formControlName="dataHoraChegTranspBT">
                                                 </mat-form-field>
 
                                                 <mat-form-field class="fuse-mat-dense w-1/3 pr-2">

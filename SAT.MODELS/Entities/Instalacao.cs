@@ -27,7 +27,7 @@ namespace SAT.MODELS.Entities
         public int? CodTransportadora { get; set; }
         public int? CodClienteEnt { get; set; }
         public int? CodPostoEnt { get; set; }
-        public DateTime? DataHoraChegTranspBt { get; set; }
+        public DateTime? DataHoraChegTranspBT { get; set; }
         public byte? IndEquipPosicOkbt { get; set; }
         public string NomeRespBancoBT { get; set; }
         public string NumMatriculaBT { get; set; }

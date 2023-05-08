@@ -38,7 +38,7 @@ export interface Instalacao {
     codTransportadora: number;
     codClienteEnt?: number;
     codPostoEnt?: number;
-    dataHoraChegTranspBt?: string;
+    dataHoraChegTranspBT?: string;
     indEquipPosicOkbt?: number;
     nomeRespBancoBT?: string;   
     numMatriculaBT?: string;

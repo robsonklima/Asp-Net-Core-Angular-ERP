@@ -122,7 +122,7 @@ namespace SAT.SERVICES.Services
                                 DTVencimentoBordero10Perc = v.DTVencimentoBordero10Perc.HasValue ? v.DTVencimentoBordero10Perc.Value.ToString("dd/MM/yy") : " ",
                                 DTEntregaBordero10Perc = v.DTEntregaBordero10Perc.HasValue ? v.DTEntregaBordero10Perc.Value.ToString("dd/MM/yy") : " ",
                                 ValorFrete1 = string.Format("{0:C}", v.ValorFrete1),
-                                FaturaFrete1 = v.FaturaFrete1,
+                                FaturaFrete1 = v.FaturaFrete1,  
                                 CteFrete1 = v.CteFrete1,
                                 DataFaturaFrete1 = v.DataFaturaFrete1.HasValue ? v.DataFaturaFrete1.Value.ToString("dd/MM/yy") : " ",
                                 ValorFrete2 = string.Format("{0:C}", v.ValorFrete2),

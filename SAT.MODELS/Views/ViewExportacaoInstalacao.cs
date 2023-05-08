@@ -104,6 +104,7 @@ namespace SAT.MODELS.Views
         public DateTime? DtPagtoInstalacao { get; set; }
         public decimal? VlrPagtoInstalacao { get; set; }
         public int? Bordero { get; set; }
+        public string BorderoDesc { get; set; }
         public DateTime? DTVencimentoBordero100Perc { get; set; }
         public DateTime? DTEntregaBordero100Perc { get; set; }
         public DateTime? DTVencimentoBordero90Perc { get; set; }

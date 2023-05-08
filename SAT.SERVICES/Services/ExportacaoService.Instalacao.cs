@@ -114,6 +114,7 @@ namespace SAT.SERVICES.Services
                                 DtPagtoInstalacao = v.DtPagtoInstalacao.HasValue ? v.DtPagtoInstalacao.Value.ToString("dd/MM/yy") : " ",
                                 VlrPagtoInstalacao = string.Format("{0:C}", v.VlrPagtoInstalacao),
                                 Bordero = v.Bordero.HasValue ? v.Bordero.Value.ToString() : " ",
+                                BorderoDesc = v.BorderoDesc,
                                 DTVencimentoBordero100Perc = v.DTVencimentoBordero100Perc.HasValue ? v.DTVencimentoBordero100Perc.Value.ToString("dd/MM/yy") : " ",
                                 DTEntregaBordero100Perc = v.DTEntregaBordero100Perc.HasValue ? v.DTEntregaBordero100Perc.Value.ToString("dd/MM/yy") : " ",
                                 DTVencimentoBordero90Perc = v.DTVencimentoBordero90Perc.HasValue ? v.DTVencimentoBordero90Perc.Value.ToString("dd/MM/yy") : " ",

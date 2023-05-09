@@ -23,6 +23,18 @@ export class InstalacaoService {
     )
   }
 
+  obterPorView(parameters: InstalacaoParameters): Observable<InstalacaoData> {
+    let params = new HttpParams();
+
+    Object.keys(parameters).forEach(key => {
+      if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
+    });
+
+    return this.http.get(`${c.api}/Instalacao`, { params: params }).pipe(
+      map((data: InstalacaoData) => data)
+    )
+  }
+
   obterPorCodigo(codInstalacao: number): Observable<Instalacao> {
     const url = `${c.api}/Instalacao/${codInstalacao}`;
     return this.http.get<Instalacao>(url).pipe(

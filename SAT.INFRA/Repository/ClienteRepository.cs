@@ -7,6 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -42,9 +43,15 @@ namespace SAT.INFRA.Repository
 
         public void Criar(Cliente cliente)
         {
-            cliente.CodCliente = this._sequenciaRepository.ObterContador("Cliente");
-            _context.Add(cliente);
-            _context.SaveChanges();
+            try
+            {
+                _context.Add(cliente);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"", ex);
+            }
         }
 
         public void Deletar(int codCliente)

@@ -9,10 +9,12 @@ namespace SAT.SERVICES.Services
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _clienteRepo;
+        private readonly ISequenciaRepository _seqRepo;
 
-        public ClienteService(IClienteRepository clienteRepo)
+        public ClienteService(IClienteRepository clienteRepo, ISequenciaRepository seqRepo)
         {
             _clienteRepo = clienteRepo;
+            _seqRepo = seqRepo;
         }
 
         public ListViewModel ObterPorParametros(ClienteParameters parameters)
@@ -35,6 +37,7 @@ namespace SAT.SERVICES.Services
 
         public Cliente Criar(Cliente cliente)
         {
+            cliente.CodCliente = _seqRepo.ObterContador("Cliente");
             _clienteRepo.Criar(cliente);
             return cliente;
         }

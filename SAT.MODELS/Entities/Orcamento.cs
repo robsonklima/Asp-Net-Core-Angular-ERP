@@ -38,6 +38,7 @@ namespace SAT.MODELS.Entities
         public byte? IndEnvioCliente { get; set; }
         public DateTime? DataHoraEnvioCliente { get; set; }
         public string CodUsuarioEnvioCliente { get; set; }
+        public int? CodLocalEnvioNFFaturamento { get; set; }
         public LocalEnvioNFFaturamentoVinculado LocalEnvioNFFaturamentoVinculado { get; set; }
         public virtual OrdemServico OrdemServico { get; set; }
         [ForeignKey("CodigoFilial")]

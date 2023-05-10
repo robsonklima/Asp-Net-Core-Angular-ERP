@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 	templateUrl: './orcamento-faturamento-lista.component.html',
 	styles: [`
     .list-grid-faturamentos {
-      grid-template-columns: 60px 155px auto 200px 150px 150px 160px 150px;
+      grid-template-columns: 60px 155px 300px auto 150px 160px 200px;
     }  
   `],
 	encapsulation: ViewEncapsulation.None,

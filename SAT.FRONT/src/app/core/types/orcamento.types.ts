@@ -62,6 +62,7 @@ export interface Orcamento
     usuarioCadastro?: string;
     dataEnvioAprovacao?: string;
     dataAprovacaoCliente?: string;
+    codLocalEnvioNFFaturamento?: number;
     localEnvioNFFaturamentoVinculado?: LocalEnvioNFFaturamentoVinculado;
     orcamentoMotivo?: OrcamentoMotivo;
     materiais?: OrcamentoMaterial[];

@@ -47,15 +47,11 @@
                             </div>
         
                             <div>
-                                {{ t('unidade federativa faturamento') }}
-                            </div>
-        
-                            <div>
                                 {{ t('razao social envio') }}
                             </div>
         
                             <div>
-                                {{ t('unidade federativa envio') }}
+                                {{ t('Última Modificação') }}
                             </div>                            
                         </div>
 
@@ -75,7 +71,7 @@
                                             {{ localEnvioNFFaturamento.contrato?.nomeContrato || 'Não Informado' }}
                                         </div>                                   
             
-                                        <div class="truncate">                                       
+                                        <div class="truncate" [matTooltip]="localEnvioNFFaturamento.razaoSocialFaturamento">                                       
                                             {{ localEnvioNFFaturamento.razaoSocialFaturamento }}
                                         </div>
             
@@ -84,15 +80,13 @@
                                         </div>
             
                                         <div class="truncate">                                       
-                                            {{ localEnvioNFFaturamento?.cidadeFaturamento?.unidadeFederativa?.siglaUF }}
-                                        </div>    
-            
-                                        <div class="truncate">                                       
                                             {{ localEnvioNFFaturamento.razaoSocialEnvioNF }}
                                         </div>
             
                                         <div class="truncate">                                       
-                                            {{ localEnvioNFFaturamento?.cidadeEnvioNF?.unidadeFederativa?.siglaUF }}
+                                            {{ (localEnvioNFFaturamento?.dataHoraManut | date:'dd/MM/yy HH:mm') || 
+                                                (localEnvioNFFaturamento?.dataHoraCad | date:'dd/MM/yy HH:mm')
+                                            }}
                                         </div>                                   
                                     </div>
                                 </a>

@@ -102,6 +102,7 @@ export interface RelatorioAtendimentoParameters extends QueryStringParameters
     codOS?: number;
     dataInicio?: string;
     dataSolucao?: string;
+    numRAT?: string;
 };
 
 export interface CheckinCheckout

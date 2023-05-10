@@ -872,5 +872,8 @@
     "contas bancarias": "Contas Bancárias",
     "conta bancaria": "Conta Bancária",
     "numero banco": "Número do Banco",
-    "numero conta": "Número da Conta"
+    "numero conta": "Número da Conta",
+    "responsavel pela instalacao": "Responsável pela Instalação",
+    "mat responsavel pela instalacao": "Mat Responsável pela Instalação"
+
 }

@@ -35,6 +35,12 @@ namespace SAT.INFRA.Repository
                 relatorios = relatorios.Where(r => tecnicos.Any(p => p == r.CodTecnico.ToString()));
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.NumRAT))
+            {
+                string[] cods = parameters.NumRAT.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                relatorios = relatorios.Where(dc => cods.Contains(dc.NumRAT));
+            };
+
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 relatorios = relatorios.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

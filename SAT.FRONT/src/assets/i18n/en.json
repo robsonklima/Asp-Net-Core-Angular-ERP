@@ -828,5 +828,7 @@
     "contas bancarias": "Bank Accounts",
     "conta bancaria": "Bank Account",
     "numero banco": "Bank Number",
-    "numero conta": "Account Number"
+    "numero conta": "Account Number",
+    "responsavel pela instalacao": "Responsible for Installation",
+    "mat responsavel pela instalacao": "Registration Responsible for the Installation"
 }

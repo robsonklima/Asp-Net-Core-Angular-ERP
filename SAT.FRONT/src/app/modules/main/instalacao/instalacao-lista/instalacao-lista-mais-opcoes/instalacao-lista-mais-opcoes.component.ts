@@ -149,15 +149,15 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     let erro: boolean = false;
 
     for (const item of this.itens) {
-      let inst = {}
+      let inst: any = {}
 
       Object.keys(item).forEach(key => {
         inst[key] = formInst[key] || item[key];
       });
 
       this._instalacaoService
-        .atualizar({ ...item, ...inst })
-        .subscribe(() => { }, () => { erro = true });
+        .atualizar(inst)
+        .subscribe((err) => console.log(err));
 
         if ((formInst.codInstalStatus == 3) && (item.codEquipContrato != null) && (item.codOS != null)) {
           if (item.equipamentoContrato.indAtivo != statusConst.ATIVO) {

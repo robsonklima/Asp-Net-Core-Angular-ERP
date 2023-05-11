@@ -82,8 +82,8 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(prop => prop.LocalEnvioNFFaturamentoVinculado)
                 .WithMany()
-                .HasForeignKey(prop => new { prop.CodigoPosto, prop.CodigoContrato })
-                .HasPrincipalKey(prop => new { prop.CodPosto, prop.CodContrato });
+                .HasForeignKey(prop => new { prop.CodigoPosto, prop.CodigoContrato, prop.CodLocalEnvioNFFaturamento })
+                .HasPrincipalKey(prop => new { prop.CodPosto, prop.CodContrato, prop.CodLocalEnvioNFFaturamento });
 
         }
     }

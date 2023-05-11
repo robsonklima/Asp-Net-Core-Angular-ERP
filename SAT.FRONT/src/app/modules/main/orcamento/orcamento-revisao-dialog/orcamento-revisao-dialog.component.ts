@@ -228,7 +228,8 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
         .toPromise();
 
     this.locais = data.items.shift();
-    this.orcamento.localEnvioNFFaturamentoVinculado = this.locais;     
+    this.orcamento.localEnvioNFFaturamentoVinculado = this.locais;
+    this.orcamento.codLocalEnvioNFFaturamento = this.locais.codLocalEnvioNFFaturamento;     
   }
 
   private obterValorMaterial(peca: Peca) {

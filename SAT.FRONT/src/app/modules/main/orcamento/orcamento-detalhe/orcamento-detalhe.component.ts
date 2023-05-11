@@ -531,6 +531,7 @@ export class OrcamentoDetalheComponent implements OnInit {
 	async salvar() {
 		const form = this.form.getRawValue();
 		this.orcamento.detalhe = form.detalhe;
+		this.orcamento.codLocalEnvioNFFaturamento = form.codLocalEnvioNFFaturamento;
 		this.orcamento.codigoStatus = form.codOrcStatus;
 		this.orcamento.codigoMotivo = form.codOrcMotivo;
 		this.orcamento = await this._orcService.atualizar(this.orcamento).toPromise();

@@ -73,7 +73,7 @@ namespace SAT.SERVICES.Services
         private readonly IUsuarioService _usuarioService;
         private readonly IHttpContextAccessor _contextAcecssor;
         private readonly IInstalacaoPagtoInstalRepository _instalPagtoIntalRepo;
-        
+        private readonly IEquipamentoContratoService _ecSvc;
 
         public ExportacaoService(
             IEmailService emaiLService,
@@ -131,7 +131,8 @@ namespace SAT.SERVICES.Services
             IOrcamentoPecasEspecRepository orcamentoPecasEspecRepo,
             IHttpContextAccessor httpContextAccessor,
             IUsuarioService usuarioService,
-            IInstalacaoPagtoInstalRepository instalPagtoIntalRepo
+            IInstalacaoPagtoInstalRepository instalPagtoIntalRepo,
+            IEquipamentoContratoService equipamentoContratoSvc
         )
         {
             _emaiLService = emaiLService;
@@ -190,6 +191,7 @@ namespace SAT.SERVICES.Services
             _usuarioService = usuarioService;
             _contextAcecssor = httpContextAccessor;
             _instalPagtoIntalRepo = instalPagtoIntalRepo;
+            _ecSvc = equipamentoContratoSvc;
             FilePath = GenerateFilePath(".xlsx");
         }
 

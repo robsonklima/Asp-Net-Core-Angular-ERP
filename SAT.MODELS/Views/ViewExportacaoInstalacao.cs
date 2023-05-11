@@ -35,7 +35,7 @@ namespace SAT.MODELS.Views
         public string TransportadoraEntrega { get; set; }
         public string AgEntrega { get; set; }
         public string NomeLocalEntrega { get; set; }
-        public DateTime? RecebimentoDocumentacaoInstalacao { get; set; }
+        public string RecebimentoDocumentacaoInstalacao { get; set; }
         public string FaturaTranspReEntrega { get; set; }
         public DateTime? DtReEntrega { get; set; }
         public string ResponsavelRecebReEntrega { get; set; }
@@ -104,6 +104,7 @@ namespace SAT.MODELS.Views
         public DateTime? DtPagtoInstalacao { get; set; }
         public decimal? VlrPagtoInstalacao { get; set; }
         public int? Bordero { get; set; }
+        public string BorderoDesc { get; set; }
         public DateTime? DTVencimentoBordero100Perc { get; set; }
         public DateTime? DTEntregaBordero100Perc { get; set; }
         public DateTime? DTVencimentoBordero90Perc { get; set; }

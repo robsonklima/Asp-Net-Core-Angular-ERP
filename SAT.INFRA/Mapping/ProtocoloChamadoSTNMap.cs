@@ -15,16 +15,22 @@ namespace SAT.INFRA.Mapping
                 .HasKey(prop => prop.CodProtocoloChamadoSTN);
 
             builder
-                .HasOne(prop => prop.OrdemServicoSTN)
-                .WithMany()
-                .HasForeignKey(prop => prop.CodAtendimento)
-                .HasPrincipalKey(prop => prop.CodAtendimento);
-
-            builder
                 .HasOne(prop => prop.TipoChamadoSTN)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodTipoChamadoSTN)
                 .HasPrincipalKey(prop => prop.CodTipoChamadoSTN);
+            
+            builder
+                .HasOne(prop => prop.Usuario)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodUsuarioCad)
+                .HasPrincipalKey(prop => prop.CodUsuario);
+            
+            builder
+                .HasMany(prop => prop.CausaImprodutividades)
+                .WithOne()
+                .HasForeignKey(prop => prop.CodProtocolo)
+                .HasPrincipalKey(prop => prop.CodProtocoloChamadoSTN);                                         
         }
     }
 }

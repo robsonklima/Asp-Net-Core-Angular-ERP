@@ -26,7 +26,7 @@ export class OrdemServicoStnFormInformacaoComponent implements AfterViewInit {
 
     async ngAfterViewInit() {
         this.os = await this._ordemServicoService.obterPorCodigo(this.codOS).toPromise();
-        this.rat = (await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS }).toPromise()).items.shift();
+        this.rat = (await this._relatorioAtendimentoService.obterPorParametros({ codOS: this.os.codOS, sortDirection: 'desc', sortActive:'codRAT' }).toPromise()).items.shift();
         this.equipamento = await this._equipamentoContratoService.obterPorCodigo(this.os.codEquipContrato).toPromise();
         this._cdr.detectChanges();
     }

@@ -12,5 +12,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? DataInicio { get; set; }
         public DateTime? DataSolucao { get; set; }
         public RelatorioAtendimentoIncludeEnum Include { get; set; }
+        public string NumRAT { get; set; }
     }
 }

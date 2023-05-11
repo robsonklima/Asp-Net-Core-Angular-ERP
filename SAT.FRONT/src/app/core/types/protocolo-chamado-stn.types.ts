@@ -1,6 +1,8 @@
+import { CausaImprodutividade } from "./causa-improdutividade.types";
 import { Meta, QueryStringParameters } from "./generic.types";
 import { OrdemServicoSTN } from "./ordem-servico-stn.types";
 import { TipoChamadoSTN } from "./tipo-chamado-stn.types";
+import { Usuario } from "./usuario.types";
 
 export class ProtocoloChamadoSTN {
     codProtocoloChamadoSTN ?: number;
@@ -13,8 +15,8 @@ export class ProtocoloChamadoSTN {
     tecnicoCampo ?: string;
     indAtivo ?: number;
     tipoChamadoSTN ?: TipoChamadoSTN;
-    ordemServicoSTN ?: OrdemServicoSTN;
-
+    usuario ?: Usuario;
+    causasImprodutividades?: CausaImprodutividade[];
 }
 
 export interface ProtocoloChamadoSTNData extends Meta {

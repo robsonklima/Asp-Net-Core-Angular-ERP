@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAT.MODELS.Entities
 {
@@ -16,7 +15,8 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioCad { get; set; }
         public int? IndAtivo { get; set; }
         public TipoChamadoSTN TipoChamadoSTN { get; set; }
-        public OrdemServicoSTN OrdemServicoSTN { get; set; }
+        public Usuario Usuario { get; set; }
+        public List<CausaImprodutividade> CausaImprodutividades { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SAT.MODELS.Entities
 {
@@ -30,5 +31,8 @@ namespace SAT.MODELS.Entities
         public string ObsSistema { get; set; }
         public OrdemServico OrdemServico { get; set; }
         public StatusServicoSTN StatusSTN { get; set; }
+        public Causa Causa { get; set; }
+        public TipoServico TipoServico { get; set; }
+        public List<ProtocoloChamadoSTN> Protocolos { get; set; }
     }
 }

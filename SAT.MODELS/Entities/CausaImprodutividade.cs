@@ -7,7 +7,5 @@
         public int CodProtocolo { get; set; }
         public int? IndAtivo { get; set; }
         public Improdutividade Improdutividade { get; set; }
-        public ProtocoloChamadoSTN ProtocoloChamadoSTN { get; set; }
-
     }
 }

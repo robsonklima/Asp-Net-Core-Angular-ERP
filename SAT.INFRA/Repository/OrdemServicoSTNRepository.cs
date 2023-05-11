@@ -55,17 +55,20 @@ namespace SAT.INFRA.Repository
             return _context.OrdemServicoSTN
                 .Include(o => o.StatusSTN)
                 .Include(o => o.Usuario)
+                .Include(o => o.Causa)
+                .Include(o => o.TipoServico)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.TipoChamadoSTN)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.Usuario)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.CausaImprodutividades)                    
                 .Include(o => o.OrdemServicoSTNOrigem)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Filial)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Cliente)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Tecnico)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.EquipamentoContrato)
-                        .ThenInclude(o => o.Equipamento)
-                .FirstOrDefault(p => p.CodAtendimento == codAtendimento);
+                .Include(o => o.OrdemServico.Filial)
+                .Include(o => o.OrdemServico.Cliente)
+                .Include(o => o.OrdemServico.Tecnico)
+                .Include(o => o.OrdemServico.EquipamentoContrato.Equipamento)
+                .FirstOrDefault(o => o.CodAtendimento == codAtendimento);
         }
 
         public PagedList<OrdemServicoSTN> ObterPorParametros(OrdemServicoSTNParameters parameters)
@@ -73,16 +76,19 @@ namespace SAT.INFRA.Repository
             var query = _context.OrdemServicoSTN
                 .Include(o => o.StatusSTN)
                 .Include(o => o.Usuario)
+                .Include(o => o.Causa)
+                .Include(o => o.TipoServico)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.TipoChamadoSTN)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.Usuario)
+                .Include(o => o.Protocolos)
+                    .ThenInclude(o => o.CausaImprodutividades)                    
                 .Include(o => o.OrdemServicoSTNOrigem)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Filial)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Cliente)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.Tecnico)
-                .Include(o => o.OrdemServico)
-                    .ThenInclude(o => o.EquipamentoContrato)
-                        .ThenInclude(o => o.Equipamento)
+                .Include(o => o.OrdemServico.Filial)
+                .Include(o => o.OrdemServico.Cliente)
+                .Include(o => o.OrdemServico.Tecnico)
+                .Include(o => o.OrdemServico.EquipamentoContrato.Equipamento)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -96,6 +102,11 @@ namespace SAT.INFRA.Repository
             if (parameters.CodOS.HasValue)
             {
                 query = query.Where(p => p.CodOS == parameters.CodOS);
+            }
+
+            if (parameters.IndAtivoCausa != null)
+            {
+                query = query.Where(p => p.Causa.IndAtivo == parameters.IndAtivoCausa);
             }
 
             if (parameters.CodAtendimento.HasValue)

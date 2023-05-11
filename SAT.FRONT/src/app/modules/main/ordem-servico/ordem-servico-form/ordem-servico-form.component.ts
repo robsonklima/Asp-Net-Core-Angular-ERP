@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { AutorizadaService } from 'app/core/services/autorizada.service';
 import { ClienteService } from 'app/core/services/cliente.service';
+import { ContratoService } from 'app/core/services/contrato.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
+import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { FilialService } from 'app/core/services/filial.service';
 import { LocalAtendimentoService } from 'app/core/services/local-atendimento.service';
 import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
@@ -14,24 +15,23 @@ import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.ser
 import { TipoIntervencaoService } from 'app/core/services/tipo-intervencao.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cliente, ClienteEnum } from 'app/core/types/cliente.types';
+import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
+import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
+import { Equipamento } from 'app/core/types/equipamento.types';
 import { Filial } from 'app/core/types/filial.types';
 import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
-import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
-import { UserService } from 'app/core/user/user.service';
-import moment from 'moment';
-import { EquipamentoContrato } from 'app/core/types/equipamento-contrato.types';
-import { EquipamentoContratoService } from 'app/core/services/equipamento-contrato.service';
-import { UsuarioSessao } from 'app/core/types/usuario.types';
-import Enumerable from 'linq';
-import { RoleEnum } from 'app/core/user/user.types';
 import { statusConst } from 'app/core/types/status-types';
-import { Equipamento } from 'app/core/types/equipamento.types';
-import { Contrato, ContratoParameters } from 'app/core/types/contrato.types';
-import { ContratoService } from 'app/core/services/contrato.service';
-import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
+import { UsuarioSessao } from 'app/core/types/usuario.types';
+import { UserService } from 'app/core/user/user.service';
+import { RoleEnum } from 'app/core/user/user.types';
+import Enumerable from 'linq';
+import moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-ordem-servico-form',
@@ -187,10 +187,6 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			sortDirection: 'asc',
 			codTiposIntervencao: tiposIntervencao,
 		}).toPromise()).items;
-	}
-
-	private obterTiposIntervencaoClienteRioCard() {
-
 	}
 
 	public obterTiposIntervencaoPorPerfil(): TipoIntervencao[] {
@@ -387,11 +383,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			delay(500),
 			takeUntil(this._onDestroy)
 		)
-		.subscribe(async promisse => {
-			promisse.then(query => {
-				this.obterAtmsIds(query);
+			.subscribe(async promisse => {
+				promisse.then(query => {
+					this.obterAtmsIds(query);
+				});
 			});
-		});
 
 		this.equipamentosContratoFilterCtrl.valueChanges.pipe(
 			filter(q => q != ''),
@@ -402,11 +398,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			delay(500),
 			takeUntil(this._onDestroy)
 		)
-		.subscribe(async promisse => {
-			promisse.then(query => {
-				this.obterEquipamentosContrato(query);
+			.subscribe(async promisse => {
+				promisse.then(query => {
+					this.obterEquipamentosContrato(query);
+				});
 			});
-		});
 
 		this.locaisFiltro.valueChanges.pipe(
 			filter(q => q != ''),
@@ -418,11 +414,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			delay(500),
 			takeUntil(this._onDestroy)
 		)
-		.subscribe(async promisse => {
-			promisse.then(query => {
-				this.obterLocais(query);
+			.subscribe(async promisse => {
+				promisse.then(query => {
+					this.obterLocais(query);
+				});
 			});
-		});
 
 		this.contratoFilterCtrl.valueChanges.pipe(
 			filter(q => q != ''),

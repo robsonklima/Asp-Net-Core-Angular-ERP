@@ -272,6 +272,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         }
         
         this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
+        this.paises = [await this._paisService.obterPorCodigo(1).toPromise()];
         this.unidadesFederativas = await this.obterUFs(usuario?.cidade?.unidadeFederativa?.nomeUF);
         this.form.controls['codUF'].setValue(usuario.cidade?.codUF);
         this.cidades = await this.obterCidades(usuario.cidade.nomeCidade);

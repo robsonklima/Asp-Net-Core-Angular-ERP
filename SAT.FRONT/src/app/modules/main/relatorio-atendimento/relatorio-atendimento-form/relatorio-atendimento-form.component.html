@@ -103,6 +103,36 @@
                     </mat-form-field>
                 </div>
 
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">POS</p>
+                    <p class="text-secondary">Campos especiais para tratativas POS</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('status de servico') }}</mat-label>
+                        <mat-select formControlName="codStatusServico">
+                            <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
+                                {{ status.nomeStatusServico }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error *ngIf="form.get('codStatusServico').dirty">
+                            <div *ngIf="form.get('codStatusServico').hasError('required')">
+                                {{ t('preencher campo') }}
+                            </div>
+
+                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
+                                {{ t('bloqueio reincidencia') }}
+                            </div>
+
+                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioOrcamento')">
+                                {{ t('bloqueio orcamento') }}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
                 <div class="py-2" *ngIf="validarChecklistPOS()">
                     <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
                         <p class="text-lg font-medium">{{ t('checklist pos') }}</p>

@@ -874,6 +874,8 @@
     "numero banco": "Número do Banco",
     "numero conta": "Número da Conta",
     "responsavel pela instalacao": "Responsável pela Instalação",
-    "mat responsavel pela instalacao": "Mat Responsável pela Instalação"
+    "mat responsavel pela instalacao": "Mat Responsável pela Instalação",
+    "checklist pos": "Checklist POS",
+    "status orientado a utilizar": "Status Orientado a Utilizar"
 
 }

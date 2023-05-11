@@ -27,4 +27,5 @@ export interface RelatorioAtendimentoPOSData extends Meta {
 };
 
 export interface RelatorioAtendimentoPOSParameters extends QueryStringParameters {
+    codRAT?: number;
 };

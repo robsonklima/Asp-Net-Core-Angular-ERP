@@ -455,9 +455,9 @@ namespace SAT.UTILS
                                 Orcamento.OutrosServicos.ForEach(serv =>
                                 {
                                     t2.Cell().Element(CellStyle).AlignLeft().Text(serv.Descricao).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignCenter().Text(serv.ValorUnitario).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", serv.ValorUnitario)).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).AlignCenter().Text(serv.Quantidade).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignRight().Text(serv.ValorTotal).Style(FontStyle().Bold());
+                                    t2.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", serv.ValorTotal)).Style(FontStyle().Bold());
                                 });
                             });
                         }
@@ -584,20 +584,26 @@ namespace SAT.UTILS
                             {
                                 t2.ColumnsDefinition(columns =>
                                 {
-                                    columns.RelativeColumn();
+                                    columns.ConstantColumn(60);
                                     columns.ConstantColumn(130);
                                     columns.RelativeColumn();
-                                    columns.RelativeColumn();
-                                    columns.ConstantColumn(160);
-                                    columns.RelativeColumn();
+                                    columns.ConstantColumn(20);
+                                    columns.ConstantColumn(70);
+                                    columns.ConstantColumn(20);
+                                    columns.ConstantColumn(110);
+                                    columns.ConstantColumn(20);
+                                    columns.ConstantColumn(70);
                                 });
                                 t2.Header(h2 =>
                                 {
                                     h2.Cell().Element(CellStyle).Text("Código").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).Text("Descrição").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).AlignCenter().Text("Qtd").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).AlignCenter().Text("Valor Unitário").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).AlignCenter().Text("Desconto a base de troca(*)").Style(FontStyle()).Bold();
+                                    h2.Cell().Element(CellStyle).AlignCenter().Text("").Style(FontStyle()).Bold();
                                     h2.Cell().Element(CellStyle).AlignRight().Text("Valor Total Peças").Style(FontStyle()).Bold();
                                 });
 
@@ -606,9 +612,17 @@ namespace SAT.UTILS
                                     t2.Cell().Element(CellStyle).Text(mat.CodigoMagnus).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).Text(mat.Descricao).Style(FontStyle());
                                     t2.Cell().Element(CellStyle).AlignCenter().Text(mat.Quantidade).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", mat.ValorUnitario)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignCenter().Text(string.Format("{0:C}", mat.ValorDesconto)).Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", mat.ValorTotal)).Style(FontStyle().Bold());
+                                    t2.Cell().Element(CellStyle).AlignRight().Text("    R$").Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignRight().Text(mat.ValorUnitario.ToString()).Style(FontStyle());
+                                    
+                                    if(mat.ValorDesconto.HasValue)
+                                        t2.Cell().Element(CellStyle).AlignRight().Text("    R$").Style(FontStyle());
+                                    else
+                                        t2.Cell().Element(CellStyle).AlignRight().Text(" ").Style(FontStyle());
+                                        
+                                    t2.Cell().Element(CellStyle).AlignRight().Text(mat.ValorDesconto.ToString()).Style(FontStyle());
+                                    t2.Cell().Element(CellStyle).AlignRight().Text("    R$").Style(FontStyle().Bold());
+                                    t2.Cell().Element(CellStyle).AlignRight().Text(mat.ValorTotal.ToString()).Style(FontStyle().Bold());
                                 });
                             });
                         }
@@ -675,20 +689,26 @@ namespace SAT.UTILS
                         // step 1
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(150);
+                           
                             columns.RelativeColumn();
+                            columns.ConstantColumn(20);
+                            columns.ConstantColumn(60);
+
                         });
 
                         table.Header(header =>
                         {
                             header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("TOTAL DO ORÇAMENTO").FontSize(10).Bold();
                             header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle);
+                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle);
                         });
 
                         table.Cell().Element(CellStyle).Text("Valor Total de Descontos").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", Orcamento.ValorTotalDesconto)).Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).AlignRight().Text("R$   ").Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.ValorTotalDesconto).Style(FontStyle().Bold());
                         table.Cell().Element(CellStyle).Text("Valor Total").Style(FontStyle());
-                        table.Cell().Element(CellStyle).AlignRight().Text(string.Format("{0:C}", Orcamento.ValorTotal)).Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).AlignRight().Text("R$   ").Style(FontStyle().Bold());
+                        table.Cell().Element(CellStyle).AlignRight().Text(Orcamento.ValorTotal).Style(FontStyle().Bold());
                     });
         }
 

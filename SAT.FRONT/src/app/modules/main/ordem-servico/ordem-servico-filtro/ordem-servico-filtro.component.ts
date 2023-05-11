@@ -176,7 +176,12 @@ export class OrdemServicoFiltroComponent extends FilterBase implements OnInit, I
 
 	async obterFiliais(nomeFilial: string = '') {
 		const data = await this._filialService
-			.obterPorParametros({})
+			.obterPorParametros({
+				sortActive: 'nomeFilial', 
+				sortDirection: 'asc',
+				indAtivo: statusConst.ATIVO,
+				filter: nomeFilial
+			})
 			.toPromise();
 
 		this.filiais = data.items;

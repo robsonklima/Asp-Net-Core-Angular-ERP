@@ -52,7 +52,6 @@ import { InstalacaoPagtoFormComponent } from './instalacao-pagto-detalhe/instala
 import { InstalacaoPagtoInstalacaoListaComponent } from './instalacao-pagto-detalhe/instalacao-pagto-instalacao-lista/instalacao-pagto-instalacao-lista.component';
 import { InstalacaoPagtoFiltroComponent } from './instalacao-pagto-filtro/instalacao-pagto-filtro.component';
 import { InstalacaoPagtoInstalacaoFormComponent } from './instalacao-pagto-detalhe/instalacao-pagto-instalacao-form/instalacao-pagto-instalacao-form.component';
-import { InstalacaoPleitoDetalheFiltroComponent } from './instalacao-pleito-detalhe/instalacao-pleito-detalhe-filtro/instalacao-pleito-detalhe-filtro.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: false } };
 
@@ -81,7 +80,6 @@ const maskConfigFunction: () => Partial<IConfig> = () => { return { validation: 
     InstalacaoPagtoInstalacaoListaComponent,
     InstalacaoPagtoFiltroComponent,
     InstalacaoPagtoInstalacaoFormComponent,
-    InstalacaoPleitoDetalheFiltroComponent
   ],
   imports: [
     CommonModule,

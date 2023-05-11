@@ -27,11 +27,10 @@ import { TipoRota, TipoRotaEnum } from 'app/core/types/tipo-rota.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { Utils } from 'app/core/utils/utils';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
-import moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, takeUntil, tap } from 'rxjs/operators';
+import moment from 'moment';
 
 @Component({
   selector: 'app-local-atendimento-form',

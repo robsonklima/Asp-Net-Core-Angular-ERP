@@ -22,7 +22,7 @@ export interface ORItemInsumo {
     codSolucao?: number;
     indConfLog?: number;
     indConfLab?: number;
-    indAtivo: number;
+    indAtivo?: number;
     codUsuarioCad?: string;
     dataHoraCad?: string;
     codStatusPendente?: number;

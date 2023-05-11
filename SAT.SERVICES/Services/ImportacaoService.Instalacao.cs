@@ -42,7 +42,13 @@ namespace SAT.SERVICES.Services
                         }
                         else
                         {
-                            dynamic value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                            dynamic value;
+
+                            if (col.Campo.Equals("CodInstalLote"))
+                                value = int.Parse(col.Valor);                                                         
+                            else
+                                value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+
                             prop.SetValue(inst, value);
 
                             if (col.Campo.Equals("CodInstalacao"))

@@ -14,7 +14,6 @@ import { PaisService } from 'app/core/services/pais.service';
 import { PerfilService } from 'app/core/services/perfil.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
-import { TurnoService } from 'app/core/services/turno.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
 import { Autorizada } from 'app/core/types/autorizada.types';
 import { Cargo, CargoParameters } from 'app/core/types/cargo.types';
@@ -23,7 +22,7 @@ import { Cliente, ClienteParameters } from 'app/core/types/cliente.types';
 import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
-import { Pais, PaisEnum, PaisParameters } from 'app/core/types/pais.types';
+import { Pais, PaisEnum } from 'app/core/types/pais.types';
 import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
@@ -95,7 +94,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _cargoService: CargoService,
     private _perfilService: PerfilService,
     private _location: Location,
-    private _turnoService: TurnoService,
     private _ufService: UnidadeFederativaService,
     private _utils: Utils,
   ) {
@@ -272,11 +270,9 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             }
           });
         }
-        console.log(usuario);
-        
         
         this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
-        this.unidadesFederativas = await this.obterUFs(usuario.cidade.unidadeFederativa.nomeUF);
+        this.unidadesFederativas = await this.obterUFs(usuario?.cidade?.unidadeFederativa?.nomeUF);
         this.form.controls['codUF'].setValue(usuario.cidade?.codUF);
         this.cidades = await this.obterCidades(usuario.cidade.nomeCidade);
         this.form.controls['codCidade'].setValue(usuario.codCidade);
@@ -302,6 +298,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
         this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
         this.tecnicos = await this.obterTecnicos(usuario.tecnico.nome);
+
       });
   }
 

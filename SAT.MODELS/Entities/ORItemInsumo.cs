@@ -29,6 +29,5 @@ namespace SAT.MODELS.Entities {
         public int? IndLiberacao { get; set; }
         public Peca Peca { get; set; }
         public ORStatus ORStatus { get; set; }
-
     }
 }

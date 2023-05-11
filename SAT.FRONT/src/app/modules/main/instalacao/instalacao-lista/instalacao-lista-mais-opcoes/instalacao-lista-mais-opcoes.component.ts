@@ -150,7 +150,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
 
     for (const item of this.itens) {
       let inst: any = {}
-
+debugger
       Object.keys(item).forEach(key => {
         inst[key] = formInst[key] || item[key];
       });

@@ -22,14 +22,14 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodOperadoraTelefonia)
                 .HasPrincipalKey(prop => prop.CodOperadoraTelefonia);
-            
-           
-            builder
-                .HasOne(prop => prop.DefeitoPOS)
+
+           builder
+                .HasOne(e => e.DefeitoPOS)
                 .WithMany()
                 .HasForeignKey(prop => prop.CodDefeitoPOS)
-                .HasPrincipalKey(prop => prop.CodDefeitoPOS);
-            
+                .HasPrincipalKey(prop => prop.CodDefeitoPOS)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

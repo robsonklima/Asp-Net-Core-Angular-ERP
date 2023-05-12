@@ -5,6 +5,8 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace SAT.INFRA.Repository
 {
@@ -19,6 +21,7 @@ namespace SAT.INFRA.Repository
 
         public RelatorioAtendimentoPOS Atualizar(RelatorioAtendimentoPOS relatorio)
         {
+            _context.ChangeTracker.Clear();
             RelatorioAtendimentoPOS rat = _context.RelatorioAtendimentoPOS.FirstOrDefault(rat => rat.CodRATbanrisul == relatorio.CodRATbanrisul);
 
             if (rat != null)
@@ -32,8 +35,14 @@ namespace SAT.INFRA.Repository
 
         public RelatorioAtendimentoPOS Criar(RelatorioAtendimentoPOS relatorio)
         {
-            _context.Add(relatorio);
-            _context.SaveChanges();
+            using (var transaction = _context.Database.BeginTransaction())
+	        {
+                _context.RelatorioAtendimentoPOS.Add(relatorio);
+                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.RATBanrisul ON;");
+                _context.SaveChanges();
+                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.RATBanrisul OFF;");
+                transaction.Commit();
+            }
             return relatorio;
         }
 

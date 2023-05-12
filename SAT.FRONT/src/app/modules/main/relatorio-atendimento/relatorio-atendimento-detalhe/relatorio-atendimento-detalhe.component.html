@@ -44,7 +44,7 @@
                     </ng-template>
                 </mat-tab>
 
-                <mat-tab>
+                <mat-tab *ngIf="isPOS" [disabled]="!codRAT">
                     <ng-template mat-tab-label>
                         <span class="text-slate-900">POS</span>								
                     </ng-template>

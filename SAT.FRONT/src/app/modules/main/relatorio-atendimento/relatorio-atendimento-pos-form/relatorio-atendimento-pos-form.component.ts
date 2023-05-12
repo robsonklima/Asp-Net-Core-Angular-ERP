@@ -1,18 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DefeitoPOSService } from 'app/core/services/defeito-pos.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { MotivoCancelamentoService } from 'app/core/services/motivo-cancelamento.service';
 import { MotivoComunicacaoService } from 'app/core/services/motivo-comunicacao.service';
 import { OperadoraTelefoniaService } from 'app/core/services/operadora-telefonia.service';
 import { RedeBanrisulService } from 'app/core/services/rede-banrisul.service';
 import { RelatorioAtendimentoPOSService } from 'app/core/services/relatorio-atendimento-pos.service';
-import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoComunicacaoService } from 'app/core/services/tipo-comunicacao.service';
 import { DefeitoPOS, OperadoraTelefonia } from 'app/core/types/chamado.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
+import { MotivoCancelamento } from 'app/core/types/motivo-cancelamento.types';
 import { MotivoComunicacao } from 'app/core/types/motivo-comunicacao.types';
 import { RedeBanrisul } from 'app/core/types/rede-banrisul.types';
 import { RelatorioAtendimentoPOS } from 'app/core/types/relatorio-atendimento-pos.types';
-import { StatusServico } from 'app/core/types/status-servico.types';
 import { TipoComunicacao } from 'app/core/types/tipo-comunicacao.types';
 import { Subject } from 'rxjs';
 
@@ -24,25 +26,27 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
   @Input() codRAT: number;
   rat: RelatorioAtendimentoPOS;
   redes: RedeBanrisul[] = [];
+  motivosCancelamento: MotivoCancelamento[] = [];
   tiposComunicacao: TipoComunicacao[] = [];
   motivosComunicacao: MotivoComunicacao[] = [];
   operadoras: OperadoraTelefonia[] = [];
   defeitos: DefeitoPOS[] = [];
-  loading: boolean;
+  loading: boolean = true;
+  isAddMode: boolean;
   form: FormGroup;
-  statusServicos: StatusServico[] = [];
   equipamentos: Equipamento[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor(
-    private _statusServicoService: StatusServicoService,
     private _equipamentoService: EquipamentoService,
     private _redeBanrisulService: RedeBanrisulService,
     private _tipoComunicacaoService: TipoComunicacaoService,
     private _operadoraTelefoniaService: OperadoraTelefoniaService,
     private _motivoComunicacaoService: MotivoComunicacaoService,
-    //private _defeitoPOSService: DefeitoPOSSer
+    private _defeitoPOSService: DefeitoPOSService,
+    private _motivoCancelamentoService: MotivoCancelamentoService,
     private _relatorioAtendimentoPOSService: RelatorioAtendimentoPOSService,
+    private _snack: CustomSnackbarService,
     private _formBuilder: FormBuilder,
   ) { }
 
@@ -50,32 +54,42 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     this.inicializarForm();
     this.registrarEmitters();
 
-    await this.obterRATPOS();
-    this.obterStatusServicos();
-    this.obterEquipamentos();
-    this.obterRedes();
-    this.obterTiposDeComunicacao();
-    this.obterOperadoras();
-    this.obterMotivosComunicacao();
+    if (this.codRAT) {
+      await this.obterRATPOS();
+      this.form.patchValue(this.rat);
+    }
+
+    this.isAddMode = !this.rat?.codRATbanrisul;
+    await this.obterEquipamentos();
+    await this.obterRedes();
+    await this.obterTiposDeComunicacao();
+    await this.obterOperadoras();
+    await this.obterMotivosComunicacao();
+    await this.obterDefeitos();
+    await this.obterMotivosCancelamento();
+
+    this.loading = false;
   }
 
   private inicializarForm() {
     this.form = this._formBuilder.group({
       codStatusServico: [undefined],
+      codDefeitoPOS: [undefined],
       numSerieRet: [undefined],
-      codEquipRet: [undefined],
       numSerieInst: [undefined],
+      codEquipRet: [undefined],
       codEquipInst: [undefined],
-      codRedeBanrisul: [undefined],
+      rede: [undefined],
       codTipoComunicacao: [undefined],
       codMotivoComunicacao: [undefined],
+      codMotivoCancelamento: [undefined],
       numeroChipInstalado: [undefined],
       numeroChipRetirado: [undefined],
       codOperadoraTelefoniaChipRetirado: [undefined],
       codOperadoraTelefoniaChipInstalado: [undefined],
       indSmartphone: [0],
-      ObsMotivoCancelamento: [undefined],
-      ObsMotivoComunicacao: [undefined]
+      obsMotivoCancelamento: [undefined],
+      obsMotivoComunicacao: [undefined]
     })
   }
 
@@ -87,23 +101,12 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     this.rat = (await this._relatorioAtendimentoPOSService
         .obterPorParametros({ 
           sortActive: 'CodRAT',
-          sortDirection: 'desc'
+          sortDirection: 'desc',
+          codRAT: this.codRAT
         })
-        .toPromise()).items?.shift();
-
-    console.log(this.rat, this.form.controls);
-    
-
-    this.form.patchValue(this.rat);
-  }
-
-  private async obterStatusServicos() {
-    this.statusServicos = (await this._statusServicoService
-        .obterPorParametros({ 
-          sortActive: 'NomeStatusServico',
-          sortDirection: 'asc'
-        })
-        .toPromise()).items;
+        .toPromise()).items
+        .filter(r => r.codRat == this.codRAT)
+        .shift();
   }
 
   private async obterEquipamentos() {
@@ -136,22 +139,31 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
       .toPromise()).items;
   }
 
+  private async obterMotivosCancelamento() {
+    this.motivosCancelamento = (await this._motivoCancelamentoService
+      .obterPorParametros({ sortActive: 'Motivo',sortDirection: 'asc' })
+      .toPromise()).items;
+  }
+
   private async obterDefeitos() {
-    // this.motivosComunicacao = (await this._motivoComunicacaoService
-    //   .obterPorParametros({ sortActive: 'Motivo',sortDirection: 'asc' })
-    //   .toPromise()).items;
+    this.defeitos = (await this._defeitoPOSService
+      .obterPorParametros({ sortActive: 'NomeDefeitoPOS',sortDirection: 'asc' })
+      .toPromise()).items;
   }
 
   salvar() {
-    this.rat != null ? this.atualizar() : this.inserir();
-  }
+    const form: any = this.form.getRawValue();
+    let obj = { ...this.rat, ...form, ...{ codRat: this.codRAT } };
 
-  private async inserir() {
-    console.log('inserir');
-  } 
-
-  private async atualizar() {
-    console.log('atualizar');
+    if (this.isAddMode) {
+      this._relatorioAtendimentoPOSService.criar(obj).subscribe(() => {
+        this._snack.exibirToast("Registro criado com sucesso!", "success");
+      }, () => this._snack.exibirToast("Erro ao criar o registro", "error"))
+    } else {
+      this._relatorioAtendimentoPOSService.atualizar(obj).subscribe(() => {
+        this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+      }, () => this._snack.exibirToast("Erro ao atualizar o registro", "error"))
+    }
   }
 
   ngOnDestroy() {

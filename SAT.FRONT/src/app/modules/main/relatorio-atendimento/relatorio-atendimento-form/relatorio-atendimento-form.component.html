@@ -436,7 +436,7 @@
             </button>
 
             <button class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
-                *ngIf="verificarPermissaoExclusao()">
+                *ngIf="verificarPermissaoExclusao() && !isAddMode">
                 {{ t('excluir') }}
             </button>
         </div>

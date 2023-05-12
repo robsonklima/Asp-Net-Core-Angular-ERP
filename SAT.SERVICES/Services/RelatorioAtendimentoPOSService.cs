@@ -37,6 +37,14 @@ namespace SAT.SERVICES.Services
 
         public RelatorioAtendimentoPOS Criar(RelatorioAtendimentoPOS relatorio)
         {
+            var id = _relatorioAtendimentoPOSRepo
+                .ObterPorParametros(new RelatorioAtendimentoPOSParameters { 
+                    SortActive = "CodRATBanrisul",
+                    SortDirection = "DESC"
+                })
+                .FirstOrDefault();
+
+            relatorio.CodRATbanrisul = id.CodRATbanrisul + 10;
             _relatorioAtendimentoPOSRepo.Criar(relatorio);
             return relatorio;
         }

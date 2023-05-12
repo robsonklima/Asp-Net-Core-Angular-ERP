@@ -6,17 +6,6 @@
 
         <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('status de servico') }}</mat-label>
-                <mat-select formControlName="codStatusServico">
-                    <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
-                        {{ status.nomeStatusServico }}
-                    </mat-option>
-                </mat-select>
-
-                <mat-error>{{ t('preencher campo') }}</mat-error>
-            </mat-form-field>
-        
-            <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('equipamento retirado') }}</mat-label>
                 <mat-select formControlName="codEquipRet">
                     <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
@@ -48,7 +37,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('rede') }}</mat-label>
-                <mat-select formControlName="codEquipInst">
+                <mat-select formControlName="rede">
                     <mat-option *ngFor="let rede of redes" [value]="rede.codRedeBanrisul">
                         {{ rede.rede }}
                     </mat-option>
@@ -57,7 +46,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('tipo de comunicacao') }}</mat-label>
-                <mat-select formControlName="codEquipInst">
+                <mat-select formControlName="codTipoComunicacao">
                     <mat-option *ngFor="let tipo of tiposComunicacao" [value]="tipo.codTipoComunicacao">
                         {{ tipo.tipo }}
                     </mat-option>
@@ -90,7 +79,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('operadora chip instalado') }}</mat-label>
-                <mat-select formControlName="CodOperadoraTelefoniaChipInstalado">
+                <mat-select formControlName="codOperadoraTelefoniaChipInstalado">
                     <mat-option *ngFor="let op of operadoras" [value]="op.codOperadoraTelefonia">
                         {{ op.nomeOperadoraTelefonia }}
                     </mat-option>

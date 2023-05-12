@@ -7,14 +7,12 @@ import { MotivoComunicacaoService } from 'app/core/services/motivo-comunicacao.s
 import { OperadoraTelefoniaService } from 'app/core/services/operadora-telefonia.service';
 import { RedeBanrisulService } from 'app/core/services/rede-banrisul.service';
 import { RelatorioAtendimentoPOSService } from 'app/core/services/relatorio-atendimento-pos.service';
-import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoComunicacaoService } from 'app/core/services/tipo-comunicacao.service';
 import { DefeitoPOS, OperadoraTelefonia } from 'app/core/types/chamado.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
 import { MotivoComunicacao } from 'app/core/types/motivo-comunicacao.types';
 import { RedeBanrisul } from 'app/core/types/rede-banrisul.types';
 import { RelatorioAtendimentoPOS } from 'app/core/types/relatorio-atendimento-pos.types';
-import { StatusServico } from 'app/core/types/status-servico.types';
 import { TipoComunicacao } from 'app/core/types/tipo-comunicacao.types';
 import { Subject } from 'rxjs';
 
@@ -33,12 +31,10 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
   loading: boolean = true;
   isAddMode: boolean;
   form: FormGroup;
-  statusServicos: StatusServico[] = [];
   equipamentos: Equipamento[] = [];
   protected _onDestroy = new Subject<void>();
 
   constructor(
-    private _statusServicoService: StatusServicoService,
     private _equipamentoService: EquipamentoService,
     private _redeBanrisulService: RedeBanrisulService,
     private _tipoComunicacaoService: TipoComunicacaoService,
@@ -57,10 +53,9 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     if (this.codRAT) {
       await this.obterRATPOS();
       this.form.patchValue(this.rat);
-      this.isAddMode = !this.rat?.codRATbanrisul;
     }
-    
-    await this.obterStatusServicos();
+
+    this.isAddMode = !this.rat?.codRATbanrisul;
     await this.obterEquipamentos();
     await this.obterRedes();
     await this.obterTiposDeComunicacao();
@@ -74,9 +69,10 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
   private inicializarForm() {
     this.form = this._formBuilder.group({
       codStatusServico: [undefined],
+      codDefeitoPOS: [undefined],
       numSerieRet: [undefined],
-      codEquipRet: [undefined],
       numSerieInst: [undefined],
+      codEquipRet: [undefined],
       codEquipInst: [undefined],
       codRedeBanrisul: [undefined],
       codTipoComunicacao: [undefined],
@@ -102,16 +98,9 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
           sortDirection: 'desc',
           codRAT: this.codRAT
         })
-        .toPromise()).items?.filter(r => r.codRat == this.codRAT).shift();
-  }
-
-  private async obterStatusServicos() {
-    this.statusServicos = (await this._statusServicoService
-        .obterPorParametros({ 
-          sortActive: 'NomeStatusServico',
-          sortDirection: 'asc'
-        })
-        .toPromise()).items;
+        .toPromise()).items
+        .filter(r => r.codRat == this.codRAT)
+        .shift();
   }
 
   private async obterEquipamentos() {
@@ -152,9 +141,9 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
 
   salvar() {
     const form: any = this.form.getRawValue();
-    let obj = { ...this.rat, ...form };
+    let obj = { ...this.rat, ...form, ...{ codRat: this.codRAT, codRATbanrisul: undefined } };
 
-    if (!this.isAddMode) {
+    if (this.isAddMode) {
       this._relatorioAtendimentoPOSService.criar(obj).subscribe(() => {
         this._snack.exibirToast("Registro criado com sucesso!", "success");
       })

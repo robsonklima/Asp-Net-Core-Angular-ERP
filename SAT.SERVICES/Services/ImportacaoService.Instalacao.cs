@@ -28,7 +28,7 @@ namespace SAT.SERVICES.Services
                         if (string.IsNullOrEmpty(col.Valor)) 
                             continue;
 
-                        col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper());
+                        col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper().Trim());
                         var prop = inst?.GetType()?.GetProperty(col.Campo);
 
                         if (prop == null)
@@ -49,12 +49,12 @@ namespace SAT.SERVICES.Services
                             else if (col.Campo.Equals("QtdParaboldBI"))
                                 value = int.Parse(col.Valor);  
                             else if (col.Campo.Equals("IndEquipRebaixadoBI"))
-                                value = int.Parse(col.Valor);                                                                    
-                            else if (col.Campo.Equals("vlrDesFixacao1"))
+                                value = byte.Parse(col.Valor);                                                                    
+                            else if (col.Campo.Equals("VlrDesFixacao1"))
                                 value = decimal.Parse(col.Valor);   
-                            else if (col.Campo.Equals("vlrDesFixacao2"))
+                            else if (col.Campo.Equals("VlrDesFixacao2"))
                                 value = decimal.Parse(col.Valor);  
-                            else if (col.Campo.Equals("vlrRecolhimentoTradeIn"))
+                            else if (col.Campo.Equals("VlrRecolhimentoTradeIn"))
                                 value = decimal.Parse(col.Valor);     
                             else if (col.Campo.Equals("ValorUnitarioVenda"))
                                 value = decimal.Parse(col.Valor);     

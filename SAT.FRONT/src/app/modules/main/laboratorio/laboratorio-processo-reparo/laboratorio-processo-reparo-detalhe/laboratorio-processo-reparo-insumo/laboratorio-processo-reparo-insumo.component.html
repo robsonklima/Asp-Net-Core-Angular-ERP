@@ -1,6 +1,6 @@
 <div class="grid grid-cols-2 justfy-between bg-gray-50 px-8 py-4 border-b" *transloco="let t">
     <div class="flex items-center">
-        <span class="text-lg font-medium">{{ t('pecasLab') }}</span>
+        <span class="text-lg font-medium">{{ t('pecas laboratorio') }}</span>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
                         </td>
                     </tr>
 
-                    <tr class="border-t-2" *ngFor="let p of pecasLab; let i=index;">
+                    <tr class="border-t-2" *ngFor="let p of listaPecas; let i=index;">
                         <td class="font-medium text-left">
                             {{ p?.peca?.nomePeca }}
                         </td>
@@ -42,7 +42,7 @@
 
                         <td class="font-medium text-center pt-2.5" [formGroup]="form">
                             <mat-form-field class="fuse-mat-dense w-12" appearance="fill">
-                                <input matInput formControlName="qtdUtilizada" (input)="inputHandlerQtdUtilizada($event, p)">
+                                <input matInput [value]="p.qtd || 0" (input)="inputHandlerQtdUtilizada($event, p)">
                             </mat-form-field>
                         </td>
                     </tr>

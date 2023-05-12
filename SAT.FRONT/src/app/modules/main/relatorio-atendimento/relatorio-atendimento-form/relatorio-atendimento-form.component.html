@@ -441,4 +441,10 @@
             </button>
         </div>
     </form>
+
+    <div class="flex justify-center items-center min-h-60" *ngIf="loading">
+        <div class="text-center">
+            <mat-progress-spinner [diameter]="42" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
+    </div>
 </div>

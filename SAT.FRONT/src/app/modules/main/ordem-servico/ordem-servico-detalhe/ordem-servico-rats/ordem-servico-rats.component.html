@@ -3,7 +3,7 @@
         <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
 
         <div>
-            <button mat-icon-button [routerLink]="['/relatorio-atendimento/form/'+ codOS + '/' + r.codRAT]"
+            <button mat-icon-button [routerLink]="['/relatorio-atendimento/detalhe/'+ codOS + '/' + r.codRAT]"
             *ngIf="!this.perfilCliente" matTooltip="Editar RAT">
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
                 </mat-icon>

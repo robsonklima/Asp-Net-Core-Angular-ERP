@@ -7,7 +7,7 @@ import { RedeBanrisulService } from 'app/core/services/rede-banrisul.service';
 import { RelatorioAtendimentoPOSService } from 'app/core/services/relatorio-atendimento-pos.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoComunicacaoService } from 'app/core/services/tipo-comunicacao.service';
-import { OperadoraTelefonia } from 'app/core/types/chamado.types';
+import { DefeitoPOS, OperadoraTelefonia } from 'app/core/types/chamado.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
 import { MotivoComunicacao } from 'app/core/types/motivo-comunicacao.types';
 import { RedeBanrisul } from 'app/core/types/rede-banrisul.types';
@@ -27,6 +27,7 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
   tiposComunicacao: TipoComunicacao[] = [];
   motivosComunicacao: MotivoComunicacao[] = [];
   operadoras: OperadoraTelefonia[] = [];
+  defeitos: DefeitoPOS[] = [];
   loading: boolean;
   form: FormGroup;
   statusServicos: StatusServico[] = [];
@@ -40,15 +41,16 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     private _tipoComunicacaoService: TipoComunicacaoService,
     private _operadoraTelefoniaService: OperadoraTelefoniaService,
     private _motivoComunicacaoService: MotivoComunicacaoService,
+    //private _defeitoPOSService: DefeitoPOSSer
     private _relatorioAtendimentoPOSService: RelatorioAtendimentoPOSService,
     private _formBuilder: FormBuilder,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.inicializarForm();
     this.registrarEmitters();
 
-    this.obterRATPOS();
+    await this.obterRATPOS();
     this.obterStatusServicos();
     this.obterEquipamentos();
     this.obterRedes();
@@ -88,6 +90,11 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
           sortDirection: 'desc'
         })
         .toPromise()).items?.shift();
+
+    console.log(this.rat, this.form.controls);
+    
+
+    this.form.patchValue(this.rat);
   }
 
   private async obterStatusServicos() {
@@ -102,7 +109,7 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
   private async obterEquipamentos() {
     this.equipamentos = (await this._equipamentoService
         .obterPorParametros({ sortActive: 'NomeEquip',sortDirection: 'asc' })
-        .toPromise()).items.filter(e => e.nomeEquip.includes('POS'));
+        .toPromise()).items.filter(e => e.nomeEquip.includes('POS') || e.nomeEquip.includes('PIN'));
   }
 
   private async obterRedes() {
@@ -129,16 +136,22 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
       .toPromise()).items;
   }
 
-  salvar() {
+  private async obterDefeitos() {
+    // this.motivosComunicacao = (await this._motivoComunicacaoService
+    //   .obterPorParametros({ sortActive: 'Motivo',sortDirection: 'asc' })
+    //   .toPromise()).items;
+  }
 
+  salvar() {
+    this.rat != null ? this.atualizar() : this.inserir();
   }
 
   private async inserir() {
-
-  }
+    console.log('inserir');
+  } 
 
   private async atualizar() {
-
+    console.log('atualizar');
   }
 
   ngOnDestroy() {

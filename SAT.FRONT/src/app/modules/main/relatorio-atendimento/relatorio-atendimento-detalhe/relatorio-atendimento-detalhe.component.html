@@ -31,10 +31,6 @@
         </div>
     </div>
 
-    <div *ngIf="loading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-
     <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
         <div class="max-w-4xl">
             <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>

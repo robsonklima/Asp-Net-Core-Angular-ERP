@@ -219,6 +219,7 @@ public class ConfigurationIOC
         builder.RegisterType<TipoComunicacaoRepository>().As<ITipoComunicacaoRepository>();
         builder.RegisterType<OperadoraTelefoniaRepository>().As<IOperadoraTelefoniaRepository>();
         builder.RegisterType<MotivoComunicacaoRepository>().As<IMotivoComunicacaoRepository>();
+        builder.RegisterType<DefeitoPOSRepository>().As<IDefeitoPOSRepository>();
         
         #endregion
 
@@ -428,6 +429,7 @@ public class ConfigurationIOC
         builder.RegisterType<TipoComunicacaoService>().As<ITipoComunicacaoService>();
         builder.RegisterType<OperadoraTelefoniaService>().As<IOperadoraTelefoniaService>();
         builder.RegisterType<MotivoComunicacaoService>().As<IMotivoComunicacaoService>();
+        builder.RegisterType<DefeitoPOSService>().As<IDefeitoPOSService>();
 
         #endregion
 

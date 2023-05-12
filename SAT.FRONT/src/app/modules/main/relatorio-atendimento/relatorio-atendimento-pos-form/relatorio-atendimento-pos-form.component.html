@@ -103,6 +103,15 @@
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('defeito') }}</mat-label>
+                <mat-select formControlName="codDefeitoPOS">
+                    <mat-option *ngFor="let d of defeitos" [value]="d.codDefeitoPOS">
+                        {{ d.nomeDefeitoPOS }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <mat-form-field class="fuse-mat-dense sm:col-span-12">
                 <mat-label>{{ t('obs motivo comunicacao') }}</mat-label>
                 <input matInput formControlName="obsMotivoComunicacao" maxlength="25">

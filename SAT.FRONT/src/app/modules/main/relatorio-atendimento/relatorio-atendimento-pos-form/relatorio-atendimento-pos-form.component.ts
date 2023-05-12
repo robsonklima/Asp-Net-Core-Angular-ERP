@@ -1,13 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
+import { MotivoComunicacaoService } from 'app/core/services/motivo-comunicacao.service';
 import { OperadoraTelefoniaService } from 'app/core/services/operadora-telefonia.service';
 import { RedeBanrisulService } from 'app/core/services/rede-banrisul.service';
+import { RelatorioAtendimentoPOSService } from 'app/core/services/relatorio-atendimento-pos.service';
 import { StatusServicoService } from 'app/core/services/status-servico.service';
 import { TipoComunicacaoService } from 'app/core/services/tipo-comunicacao.service';
 import { OperadoraTelefonia } from 'app/core/types/chamado.types';
 import { Equipamento } from 'app/core/types/equipamento.types';
+import { MotivoComunicacao } from 'app/core/types/motivo-comunicacao.types';
 import { RedeBanrisul } from 'app/core/types/rede-banrisul.types';
+import { RelatorioAtendimentoPOS } from 'app/core/types/relatorio-atendimento-pos.types';
 import { StatusServico } from 'app/core/types/status-servico.types';
 import { TipoComunicacao } from 'app/core/types/tipo-comunicacao.types';
 import { Subject } from 'rxjs';
@@ -18,8 +22,10 @@ import { Subject } from 'rxjs';
 })
 export class RelatorioAtendimentoPosFormComponent implements OnInit {
   @Input() codRAT: number;
+  rat: RelatorioAtendimentoPOS;
   redes: RedeBanrisul[] = [];
   tiposComunicacao: TipoComunicacao[] = [];
+  motivosComunicacao: MotivoComunicacao[] = [];
   operadoras: OperadoraTelefonia[] = [];
   loading: boolean;
   form: FormGroup;
@@ -33,17 +39,22 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     private _redeBanrisulService: RedeBanrisulService,
     private _tipoComunicacaoService: TipoComunicacaoService,
     private _operadoraTelefoniaService: OperadoraTelefoniaService,
+    private _motivoComunicacaoService: MotivoComunicacaoService,
+    private _relatorioAtendimentoPOSService: RelatorioAtendimentoPOSService,
     private _formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     this.inicializarForm();
     this.registrarEmitters();
+
+    this.obterRATPOS();
     this.obterStatusServicos();
     this.obterEquipamentos();
     this.obterRedes();
     this.obterTiposDeComunicacao();
     this.obterOperadoras();
+    this.obterMotivosComunicacao();
   }
 
   private inicializarForm() {
@@ -59,7 +70,10 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
       numeroChipInstalado: [undefined],
       numeroChipRetirado: [undefined],
       codOperadoraTelefoniaChipRetirado: [undefined],
-      codOperadoraTelefoniaChipInstalado: [undefined]
+      codOperadoraTelefoniaChipInstalado: [undefined],
+      indSmartphone: [0],
+      ObsMotivoCancelamento: [undefined],
+      ObsMotivoComunicacao: [undefined]
     })
   }
 
@@ -67,12 +81,20 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     
   }
 
-  private async obterStatusServicos(filter: string='') {
+  private async obterRATPOS() {
+    this.rat = (await this._relatorioAtendimentoPOSService
+        .obterPorParametros({ 
+          sortActive: 'CodRAT',
+          sortDirection: 'desc'
+        })
+        .toPromise()).items?.shift();
+  }
+
+  private async obterStatusServicos() {
     this.statusServicos = (await this._statusServicoService
         .obterPorParametros({ 
           sortActive: 'NomeStatusServico',
-          sortDirection: 'asc',
-          filter: filter
+          sortDirection: 'asc'
         })
         .toPromise()).items;
   }
@@ -101,7 +123,21 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
         .toPromise()).items;
   }
 
+  private async obterMotivosComunicacao() {
+    this.motivosComunicacao = (await this._motivoComunicacaoService
+      .obterPorParametros({ sortActive: 'Motivo',sortDirection: 'asc' })
+      .toPromise()).items;
+  }
+
   salvar() {
+
+  }
+
+  private async inserir() {
+
+  }
+
+  private async atualizar() {
 
   }
 

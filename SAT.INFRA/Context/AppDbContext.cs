@@ -538,7 +538,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<RelatorioAtendimentoPOS>(new RelatorioAtendimentoPOSMap().Configure);
             modelBuilder.Entity<MotivoComunicacao>(new MotivoComunicacaoMap().Configure);
             modelBuilder.Entity<MotivoCancelamento>(new MotivoCancelamentoMap().Configure);
-            modelBuilder.Entity<DefeitoPOS>(new DefeitoPOSMap().Configure);
             modelBuilder.Entity<RedeBanrisul>(new RedeBanrisulMap().Configure);
             modelBuilder.Entity<TipoComunicacao>(new TipoComunicacaoMap().Configure);
 

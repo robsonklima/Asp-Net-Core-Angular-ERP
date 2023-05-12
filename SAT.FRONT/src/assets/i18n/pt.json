@@ -881,5 +881,12 @@
     "equipamento retirado": "Equipamento Retirado",
     "numero serie instalada": "Número de Série Instalada",
     "numero serie retirada": "Número de Série Retirada",
-    "operadora de telefonia": "Operadora de Telefonia"
+    "operadora de telefonia": "Operadora de Telefonia",
+    "motivo de comunicacao": "Motivo de Comunicação",
+    "numero chip retirado": "Número do Chip Retidado",
+    "numero chip instalado": "Número do Chip Instalado",
+    "operadora chip retirado": "Operadora do Chip Retidado",
+    "operadora chip instalado": "Operadora do Chip Instalado",
+    "obs motivo comunicacao": "Obs Motivo Comunicação",
+    "obs motivo cancelamento": "Obs Motivo Cancelamento"
 }

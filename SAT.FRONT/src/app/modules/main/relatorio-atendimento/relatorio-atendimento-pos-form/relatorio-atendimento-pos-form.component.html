@@ -65,6 +65,15 @@
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('motivo de comunicacao') }}</mat-label>
+                <mat-select formControlName="codMotivoComunicacao">
+                    <mat-option *ngFor="let m of motivosComunicacao" [value]="m.codMotivoComunicacao">
+                        {{ m.motivo }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('operadora chip retirado') }}</mat-label>
                 <mat-select formControlName="codOperadoraTelefoniaChipRetirado">
                     <mat-option *ngFor="let op of operadoras" [value]="op.codOperadoraTelefonia">
@@ -80,7 +89,7 @@
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('operadora chip instaladado') }}</mat-label>
+                <mat-label>{{ t('operadora chip instalado') }}</mat-label>
                 <mat-select formControlName="CodOperadoraTelefoniaChipInstalado">
                     <mat-option *ngFor="let op of operadoras" [value]="op.codOperadoraTelefonia">
                         {{ op.nomeOperadoraTelefonia }}
@@ -89,8 +98,20 @@
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('operadora chip instalado') }}</mat-label>
+                <mat-label>{{ t('numero chip instalado') }}</mat-label>
                 <input matInput formControlName="numeroChipInstalado" maxlength="25">
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('obs motivo comunicacao') }}</mat-label>
+                <input matInput formControlName="obsMotivoComunicacao" maxlength="25">
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('obs motivo cancelamento') }}</mat-label>
+                <input matInput formControlName="obsMotivoCancelamento" maxlength="25">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
         </div>

@@ -2,7 +2,7 @@ import { Meta, QueryStringParameters } from "./generic.types";
 
 export interface MotivoComunicacao {
     codMotivoComunicacao: number;
-    motivoComunicacao1: string;
+    motivo: string;
     ativo: boolean;
     dataAlteracao: string;
 }

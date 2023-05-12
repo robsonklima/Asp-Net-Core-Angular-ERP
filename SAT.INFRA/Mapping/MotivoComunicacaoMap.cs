@@ -8,8 +8,10 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<MotivoComunicacao> builder)
         {
-            builder.ToTable("CodMotivoComunicacao");
+            builder.ToTable("MotivoComunicacao");
             builder.HasKey(i => i.CodMotivoComunicacao);
+            builder.Property(p => p.Motivo).HasColumnName("MotivoComunicacao");
+
         }
     }
 }

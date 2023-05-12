@@ -45,7 +45,21 @@ namespace SAT.SERVICES.Services
                             dynamic value;
 
                             if (col.Campo.Equals("CodInstalLote"))
-                                value = int.Parse(col.Valor);                                                         
+                                value = int.Parse(col.Valor);  
+                            else if (col.Campo.Equals("QtdParaboldBI"))
+                                value = int.Parse(col.Valor);  
+                            else if (col.Campo.Equals("IndEquipRebaixadoBI"))
+                                value = int.Parse(col.Valor);                                                                    
+                            else if (col.Campo.Equals("vlrDesFixacao1"))
+                                value = decimal.Parse(col.Valor);   
+                            else if (col.Campo.Equals("vlrDesFixacao2"))
+                                value = decimal.Parse(col.Valor);  
+                            else if (col.Campo.Equals("vlrRecolhimentoTradeIn"))
+                                value = decimal.Parse(col.Valor);     
+                            else if (col.Campo.Equals("ValorUnitarioVenda"))
+                                value = decimal.Parse(col.Valor);     
+                            else if (col.Campo.Equals("ValorFrete1"))
+                                value = decimal.Parse(col.Valor);                                                                                                                                                                                       
                             else
                                 value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
 

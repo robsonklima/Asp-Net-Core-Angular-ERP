@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
-import { RelatorioAtendimentoFormComponent } from './relatorio-atendimento-form/relatorio-atendimento-form.component';
-import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
+import { RelatorioAtendimentoDetalheComponent } from './relatorio-atendimento-detalhe/relatorio-atendimento-detalhe.component';
 
 export const relatorioAtendimentoRoutes: Route[] = [
     {
@@ -8,15 +7,15 @@ export const relatorioAtendimentoRoutes: Route[] = [
         pathMatch: 'full',
     },
     {
-        path: 'form/:codOS',
-        component: RelatorioAtendimentoFormComponent
+        path: 'detalhe/:codOS',
+        component: RelatorioAtendimentoDetalheComponent
     },
     {
-        path: 'form/:codOS/:codRAT',
-        component: RelatorioAtendimentoFormComponent
+        path: 'detalhe/:codOS/:codRAT',
+        component: RelatorioAtendimentoDetalheComponent
     },
     {
-        path: 'form/:codOS/:codRAT/impressao-laudo/:codLaudo',
-        component: RelatorioAtendimentoLaudoImpressaoComponent
+        path: 'detalhe/:codOS/:codRAT/impressao-laudo/:codLaudo',
+        component: RelatorioAtendimentoDetalheComponent
     }
 ];

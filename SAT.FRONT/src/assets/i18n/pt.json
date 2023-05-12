@@ -876,6 +876,10 @@
     "responsavel pela instalacao": "Responsável pela Instalação",
     "mat responsavel pela instalacao": "Mat Responsável pela Instalação",
     "checklist pos": "Checklist POS",
-    "status orientado a utilizar": "Status Orientado a Utilizar"
-
+    "status orientado a utilizar": "Status Orientado a Utilizar",
+    "equipamento instalado": "Equipamento Instalado",
+    "equipamento retirado": "Equipamento Retirado",
+    "numero serie instalada": "Número de Série Instalada",
+    "numero serie retirada": "Número de Série Retirada",
+    "operadora de telefonia": "Operadora de Telefonia"
 }

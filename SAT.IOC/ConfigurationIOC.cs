@@ -215,6 +215,10 @@ public class ConfigurationIOC
         builder.RegisterType<RelatorioAtendimentoPecaStatusRepository>().As<IRelatorioAtendimentoPecaStatusRepository>();
         builder.RegisterType<TecnicoContaRepository>().As<ITecnicoContaRepository>();
         builder.RegisterType<RelatorioAtendimentoPOSRepository>().As<IRelatorioAtendimentoPOSRepository>();
+        builder.RegisterType<RedeBanrisulRepository>().As<IRedeBanrisulRepository>();
+        builder.RegisterType<TipoComunicacaoRepository>().As<ITipoComunicacaoRepository>();
+        builder.RegisterType<OperadoraTelefoniaRepository>().As<IOperadoraTelefoniaRepository>();
+        builder.RegisterType<MotivoComunicacaoRepository>().As<IMotivoComunicacaoRepository>();
         
         #endregion
 
@@ -420,6 +424,10 @@ public class ConfigurationIOC
         builder.RegisterType<RelatorioAtendimentoPecaStatusService>().As<IRelatorioAtendimentoPecaStatusService>();
         builder.RegisterType<TecnicoContaService>().As<ITecnicoContaService>();
         builder.RegisterType<RelatorioAtendimentoPOSService>().As<IRelatorioAtendimentoPOSService>();
+        builder.RegisterType<RedeBanrisulService>().As<IRedeBanrisulService>();
+        builder.RegisterType<TipoComunicacaoService>().As<ITipoComunicacaoService>();
+        builder.RegisterType<OperadoraTelefoniaService>().As<IOperadoraTelefoniaService>();
+        builder.RegisterType<MotivoComunicacaoService>().As<IMotivoComunicacaoService>();
 
         #endregion
 

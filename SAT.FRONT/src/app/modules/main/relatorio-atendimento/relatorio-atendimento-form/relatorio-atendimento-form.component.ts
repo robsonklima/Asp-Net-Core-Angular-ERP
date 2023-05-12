@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { CheckListPOSItensService } from 'app/core/services/checkListPOS-itens.service';
 import { CheckListPOSService } from 'app/core/services/checkListPOS.service';
@@ -52,15 +52,14 @@ import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atend
 export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	snackConfigError: MatSnackBarConfig = { duration: 2000, panelClass: 'error', verticalPosition: 'bottom', horizontalPosition: 'center' };
 	snackConfigSuccess: MatSnackBarConfig = { duration: 2000, panelClass: 'success', verticalPosition: 'top', horizontalPosition: 'right' };
-
+	@Input() codOS: number;
+	@Input() codRAT: number;
 	sidenav: MatSidenav;
 	itensPadroes: CheckListPOSItens[] = [];
 	itensCliente: CheckListPOSItens[] = [];
 	checkListPOS: CheckListPOS[] = [];
 	sessionData: UsuarioSessao;
-	codOS: number;
 	ordemServico: OrdemServico;
-	codRAT: number;
 	relatorioAtendimento: RelatorioAtendimento;
 	agendamentos: Agendamento;
 	form: FormGroup;
@@ -83,7 +82,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private _formBuilder: FormBuilder,
-		private _route: ActivatedRoute,
 		private _raService: RelatorioAtendimentoService,
 		private _ordemServicoService: OrdemServicoService,
 		private _fotoSvc: FotoService,
@@ -104,15 +102,10 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	}
 
 	validaEdicao() {
-		if (this.ordemServico?.codStatusServico === 3 ||
-			this.ordemServico?.codStatusServico === 2) {
+		if (this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2) {
 
-			if (this.ordemServico?.codCliente == 1 &&
-				(this.sessionData?.usuario?.codPerfil == 29 ||
-					this.sessionData?.usuario?.codPerfil == 3)) {
-
+			if (this.ordemServico?.codCliente == 1 && (this.sessionData?.usuario?.codPerfil == 29 || this.sessionData?.usuario?.codPerfil == 3))
 				return false;
-			}
 
 			return true;
 		}
@@ -134,9 +127,6 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		this.loading = true;
-
-		this.codOS = +this._route.snapshot.paramMap.get('codOS');
-		this.codRAT = +this._route.snapshot.paramMap.get('codRAT');
 		this.isAddMode = !this.codRAT;
 
 		this.inicializarForm();

@@ -1,492 +1,444 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
-                        {{ t('chamados') }}
-                    </a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codOS">
-                        {{ codOS }}
-                    </a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
-                    </span>
+<div *transloco="let t">
+    <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm" class="flex flex-col bg-card overflow-hidden" *ngIf="!loading">
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
+        </div>
+
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('tecnico') }}</mat-label>
+
+                <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length  ||
+                            this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
+                    <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tecnicosFiltro">
+                        </ngx-mat-select-search>
+                    </mat-option>
+
+                    <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
+                        <span>{{ tecnico.nome }}</span>
+                        <span class="opacity-50">{{ tecnico.filial?.nomeFilial }}</span>
+                    </mat-option>
+                </mat-select>
+
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('status de servico') }}</mat-label>
+                <mat-select formControlName="codStatusServico">
+                    <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
+                        {{ status.nomeStatusServico }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="form.get('codStatusServico').dirty">
+                    <div *ngIf="form.get('codStatusServico').hasError('required')">
+                        {{ t('preencher campo') }}
+                    </div>
+
+                    <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
+                        {{ t('bloqueio reincidencia') }}
+                    </div>
+
+                    <div *ngIf="form.get('codStatusServico').hasError('bloqueioOrcamento')">
+                        {{ t('bloqueio orcamento') }}
+                    </div>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6" *ngIf="this.ordemServico?.indNumRATObrigatorio">
+                <mat-label>{{ t('numero do RAT') }}</mat-label>
+                <input matInput formControlName="numRAT" mask="0000000000" [showMaskTyped]="false">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('nome do acompanhante') }}</mat-label>
+                <input matInput formControlName="nomeAcompanhante" maxlength="25">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
+                </mat-icon>
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">POS</p>
+            <p class="text-secondary">Campos especiais para tratativas POS</p>
+        </div>
+
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('status de servico') }}</mat-label>
+                <mat-select formControlName="codStatusServico">
+                    <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
+                        {{ status.nomeStatusServico }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="form.get('codStatusServico').dirty">
+                    <div *ngIf="form.get('codStatusServico').hasError('required')">
+                        {{ t('preencher campo') }}
+                    </div>
+
+                    <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
+                        {{ t('bloqueio reincidencia') }}
+                    </div>
+
+                    <div *ngIf="form.get('codStatusServico').hasError('bloqueioOrcamento')">
+                        {{ t('bloqueio orcamento') }}
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="py-2" *ngIf="validarChecklistPOS()">
+            <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                <p class="text-lg font-medium">{{ t('checklist pos') }}</p>
+            </div>
+
+            <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
+                <p class="text-lg font-semibold text-secondary py-2">
+                    {{ t('status orientado a utilizar') }}
+                </p>
+
+                <div *ngFor="let item of itensPadroes">
+                    <mat-slide-toggle [color]="'primary'" [checked]="verificarSelecionado(item.codCheckListPOSItens)"
+                        (change)="onChange($event, item.codCheckListPOSItens)">
+                        {{ item.descricao }}
+                    </mat-slide-toggle>
                 </div>
             </div>
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    {{ t('relatorio de atendimento') }}
-                </h2>
+
+            <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
+                <p class="text-lg font-semibold text-secondary py-2">
+                    {{ t('checklist cliente') }}
+                </p>
+
+                <div *ngFor="let item of itensCliente">
+                    <mat-slide-toggle [color]="'primary'" [checked]="verificarSelecionado(item.codCheckListPOSItens)"
+                        (change)="onChange($event, item.codCheckListPOSItens)">
+                        <span [matTooltip]="item.descricao">
+                            {{ item.descricao }}
+                        </span>
+                    </mat-slide-toggle>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div *ngIf="loading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">{{ t('periodo de atendimento') }}</p>
+        </div>
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('data') }}</mat-label>
+                <input matInput [matDatepicker]="pickerData" formControlName="data" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
+                <mat-datepicker #pickerData disabled="false"></mat-datepicker>
+            </mat-form-field>
 
-    <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
-        <div class="max-w-4xl">
-            <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm" class="flex flex-col bg-card overflow-hidden">
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
-                </div>
+            <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                <mat-label>{{ t('hora do inicio') }}</mat-label>
+                <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false" required>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
 
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('tecnico') }}</mat-label>
+            <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                <mat-label>{{ t('hora da solucao') }}</mat-label>
+                <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false" required>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
 
-                        <mat-select formControlName="codTecnico" #tecnicoSelect [disabled]="!tecnicos.length  ||
-                            this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico === 2">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="tecnicosFiltro">
-                                </ngx-mat-select-search>
-                            </mat-option>
+            <span class="fuse-mat-dense sm:col-span-6">
+            </span>
 
-                            <mat-option *ngFor="let tecnico of tecnicos" [value]="tecnico.codTecnico">
-                                <span>{{ tecnico.nome }}</span>
-                                <span class="opacity-50">{{ tecnico.filial?.nomeFilial }}</span>
-                            </mat-option>
-                        </mat-select>
+            <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
+                <mat-label>Check-in</mat-label>
+                <input matInput formControlName="checkin" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false" readonly='true'>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
 
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
+            <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
+                <mat-label>Check-out</mat-label>
+                <input matInput formControlName="checkout" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false" readonly='true'>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('status de servico') }}</mat-label>
-                        <mat-select formControlName="codStatusServico">
-                            <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
-                                {{ status.nomeStatusServico }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error *ngIf="form.get('codStatusServico').dirty">
-                            <div *ngIf="form.get('codStatusServico').hasError('required')">
-                                {{ t('preencher campo') }}
-                            </div>
-
-                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
-                                {{ t('bloqueio reincidencia') }}
-                            </div>
-
-                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioOrcamento')">
-                                {{ t('bloqueio orcamento') }}
-                            </div>
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6"
-                        *ngIf="this.ordemServico?.indNumRATObrigatorio">
-                        <mat-label>{{ t('numero do RAT') }}</mat-label>
-                        <input matInput formControlName="numRAT" mask="0000000000" [showMaskTyped]="false">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:collection'"></mat-icon>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('nome do acompanhante') }}</mat-label>
-                        <input matInput formControlName="nomeAcompanhante" maxlength="25">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user'">
-                        </mat-icon>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">POS</p>
-                    <p class="text-secondary">Campos especiais para tratativas POS</p>
-                </div>
-
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('status de servico') }}</mat-label>
-                        <mat-select formControlName="codStatusServico">
-                            <mat-option *ngFor="let status of statusServicos" [value]="status.codStatusServico">
-                                {{ status.nomeStatusServico }}
-                            </mat-option>
-                        </mat-select>
-
-                        <mat-error *ngIf="form.get('codStatusServico').dirty">
-                            <div *ngIf="form.get('codStatusServico').hasError('required')">
-                                {{ t('preencher campo') }}
-                            </div>
-
-                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioReincidencia')">
-                                {{ t('bloqueio reincidencia') }}
-                            </div>
-
-                            <div *ngIf="form.get('codStatusServico').hasError('bloqueioOrcamento')">
-                                {{ t('bloqueio orcamento') }}
-                            </div>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="py-2" *ngIf="validarChecklistPOS()">
-                    <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                        <p class="text-lg font-medium">{{ t('checklist pos') }}</p>
-                    </div>
-
-                    <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
-                        <p class="text-lg font-semibold text-secondary py-2">
-                            {{ t('status orientado a utilizar') }}
-                        </p>
-
-                        <div *ngFor="let item of itensPadroes">
-                            <mat-slide-toggle [color]="'primary'"
-                                [checked]="verificarSelecionado(item.codCheckListPOSItens)"
-                                (change)="onChange($event, item.codCheckListPOSItens)">
-                                {{ item.descricao }}
-                            </mat-slide-toggle>
-                        </div>
-                    </div>
-
-                    <div class="mt-2 grid sm:grid-cols-1 gap-x-1 flex-col flex-auto px-8 pb-1 bg-card overflow-hidden">
-                        <p class="text-lg font-semibold text-secondary py-2">
-                            {{ t('checklist cliente') }}
-                        </p>
-
-                        <div *ngFor="let item of itensCliente">
-                            <mat-slide-toggle [color]="'primary'"
-                                [checked]="verificarSelecionado(item.codCheckListPOSItens)"
-                                (change)="onChange($event, item.codCheckListPOSItens)">
-                                <span [matTooltip]="item.descricao">
-                                    {{ item.descricao }}
-                                </span>
-                            </mat-slide-toggle>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('periodo de atendimento') }}</p>
-                </div>
+            <mat-error class="fuse-mat-dense sm:col-span-12"
+                *ngIf="form.get('data').dirty || form.get('horaInicio').dirty || form.get('horaFim').dirty">
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('data') }}</mat-label>
-                        <input matInput [matDatepicker]="pickerData" formControlName="data" required>
-                        <mat-datepicker-toggle matSuffix [for]="pickerData"></mat-datepicker-toggle>
-                        <mat-datepicker #pickerData disabled="false"></mat-datepicker>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('hora do inicio') }}</mat-label>
-                        <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false" required>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('hora da solucao') }}</mat-label>
-                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false" required>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-                    <span class="fuse-mat-dense sm:col-span-6">
-                    </span>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-label>Check-in</mat-label>
-                        <input matInput formControlName="checkin" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false" readonly='true'>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3" *ngIf="!isAddMode">
-                        <mat-label>Check-out</mat-label>
-                        <input matInput formControlName="checkout" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false" readonly='true'>
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-                    <mat-error class="fuse-mat-dense sm:col-span-12"
-                        *ngIf="form.get('data').dirty || form.get('horaInicio').dirty || form.get('horaFim').dirty">
-                        <div
-                            *ngIf="form.get('data').hasError('invalidFormat') || form.get('horaInicio').hasError('invalidFormat') || form.get('horaFim').hasError('invalidFormat')">
-                            {{ t('formato invalido') }}
-                        </div>
-
-                        <div
-                            *ngIf="form.get('data').hasError('required') || form.get('horaInicio').hasError('required') || form.get('horaFim').hasError('required')">
-                            {{ t('preencher campo') }}
-                        </div>
-
-                        <div
-                            *ngIf="form.get('horaInicio').hasError('periodoInvalido') || form.get('horaFim').hasError('periodoInvalido')">
-                            {{ t('periodo invalido') }}
-                        </div>
-
-                        <div
-                            *ngIf="form.get('data').hasError('dataRATInvalida') || form.get('horaInicio').hasError('dataRATInvalida') || form.get('horaFim').hasError('dataRATInvalida')">
-                            {{ t('data RAT Invalida') }}
-                        </div>
-                    </mat-error>
-
+                    *ngIf="form.get('data').hasError('invalidFormat') || form.get('horaInicio').hasError('invalidFormat') || form.get('horaFim').hasError('invalidFormat')">
+                    {{ t('formato invalido') }}
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
-                </div>
                 <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('inicio intervalo') }}</mat-label>
-                        <input matInput formControlName="horarioInicioIntervalo" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
-                        <mat-label>{{ t('termino intervalo') }}</mat-label>
-                        <input matInput formControlName="horarioTerminoIntervalo" mask="00:00" [showMaskTyped]="true"
-                            [dropSpecialCharacters]="false">
-                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
-                        </mat-icon>
-                    </mat-form-field>
-
-
-                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
-                        <mat-label>{{ t('observacao') }}</mat-label>
-                        <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')" [rows]="3"
-                            maxlength="1000"></textarea>
-                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
-                        <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
+                    *ngIf="form.get('data').hasError('required') || form.get('horaInicio').hasError('required') || form.get('horaFim').hasError('required')">
+                    {{ t('preencher campo') }}
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
-                    <p class="text-lg font-medium">{{ t('detalhes') }}</p>
+                <div
+                    *ngIf="form.get('horaInicio').hasError('periodoInvalido') || form.get('horaFim').hasError('periodoInvalido')">
+                    {{ t('periodo invalido') }}
                 </div>
-                <div class="flex flex-col">
-                    <mat-selection-list #detalhesList [multiple]="false" class="-mt-2">
-                        <div *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;">
-                            <mat-list-option [value]="detalhe" class="border-b h-auto" *ngIf="!detalhe.removido">
-                                <div class="grid grid-cols-10 gap-2 text-md p-4">
-                                    <div class="col-span-2 bg-grey-500">
-                                        <div class="opacity-50 text-semibold mb-1">
-                                            {{ t('servico') }}
-                                        </div>
-                                        <div>
-                                            <span class="font-semibold">
-                                                {{ detalhe.tipoServico?.codETipoServico }}
-                                            </span>
-                                        </div>
-                                        <div class="hidden md:block">
-                                            <span class="text-sm">
-                                                {{ detalhe.tipoServico?.nomeServico }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <div class="opacity-50 text-semibold mb-1">
-                                            {{ t('causa') }}
-                                        </div>
-                                        <div>
-                                            <span class="font-semibold">
-                                                {{ detalhe.causa?.codECausa }}
-                                            </span>
-                                        </div>
-                                        <div class="hidden md:block">
-                                            <span class="text-sm">
-                                                {{ detalhe.causa?.nomeCausa | titlecase }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <div class="opacity-50 text-semibold mb-1">
-                                            {{ t('defeito') }}
-                                        </div>
-                                        <div>
-                                            <span class="font-semibold">
-                                                {{ detalhe.defeito?.codEDefeito }}
-                                            </span>
-                                        </div>
-                                        <div class="hidden md:block">
-                                            <span class="text-sm">
-                                                {{ detalhe.defeito?.nomeDefeito | titlecase }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <div class="opacity-50 text-semibold mb-1">
-                                            {{ t('acao') }}
-                                        </div>
-                                        <div>
-                                            <span class="font-semibold">
-                                                {{ detalhe.acao?.codEAcao }}
-                                            </span>
-                                        </div>
-                                        <div class="hidden md:block">
-                                            <span class="text-sm">
-                                                {{ detalhe.acao?.nomeAcao | titlecase }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <div class="opacity-50 text-semibold mb-1">
-                                            {{ t('pecas') }}
-                                        </div>
-                                        <div>
-                                            <div class="text-sm"
-                                                *ngFor="let dPeca of detalhe?.relatorioAtendimentoDetalhePecas; let i=index;">
-                                                <div class="grid grid-cols-2 gap-1 text-sm" *ngIf="!dPeca.removido">
-                                                    <div>
-                                                        <span [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
-                                                            {{ dPeca.peca?.codMagnus }}
-                                                        </span>
-                                                    </div>
 
-                                                    <div *ngIf="ordemServico.tipoIntervencao.codTipoIntervencao !== 18">
-                                                        <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
-                                                            (click)="removerPeca(detalhe, i)"
-                                                            [disabled]="validaEdicao()">
-                                                            <mat-icon class="icon-size-5"
-                                                                [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                <div
+                    *ngIf="form.get('data').hasError('dataRATInvalida') || form.get('horaInicio').hasError('dataRATInvalida') || form.get('horaFim').hasError('dataRATInvalida')">
+                    {{ t('data RAT Invalida') }}
+                </div>
+            </mat-error>
+
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">{{ t('informacoes adicionais') }}</p>
+        </div>
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                <mat-label>{{ t('inicio intervalo') }}</mat-label>
+                <input matInput formControlName="horarioInicioIntervalo" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                <mat-label>{{ t('termino intervalo') }}</mat-label>
+                <input matInput formControlName="horarioTerminoIntervalo" mask="00:00" [showMaskTyped]="true"
+                    [dropSpecialCharacters]="false">
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                </mat-icon>
+            </mat-form-field>
+
+
+            <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                <mat-label>{{ t('observacao') }}</mat-label>
+                <textarea matInput formControlName="obsRAT" [placeholder]="t('observacao')" [rows]="3"
+                    maxlength="1000"></textarea>
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+            <p class="text-lg font-medium">{{ t('detalhes') }}</p>
+        </div>
+        <div class="flex flex-col">
+            <mat-selection-list #detalhesList [multiple]="false" class="-mt-2">
+                <div *ngFor="let detalhe of relatorioAtendimento?.relatorioAtendimentoDetalhes; let i=index;">
+                    <mat-list-option [value]="detalhe" class="border-b h-auto" *ngIf="!detalhe.removido">
+                        <div class="grid grid-cols-10 gap-2 text-md p-4">
+                            <div class="col-span-2 bg-grey-500">
+                                <div class="opacity-50 text-semibold mb-1">
+                                    {{ t('servico') }}
+                                </div>
+                                <div>
+                                    <span class="font-semibold">
+                                        {{ detalhe.tipoServico?.codETipoServico }}
+                                    </span>
+                                </div>
+                                <div class="hidden md:block">
+                                    <span class="text-sm">
+                                        {{ detalhe.tipoServico?.nomeServico }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="opacity-50 text-semibold mb-1">
+                                    {{ t('causa') }}
+                                </div>
+                                <div>
+                                    <span class="font-semibold">
+                                        {{ detalhe.causa?.codECausa }}
+                                    </span>
+                                </div>
+                                <div class="hidden md:block">
+                                    <span class="text-sm">
+                                        {{ detalhe.causa?.nomeCausa | titlecase }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="opacity-50 text-semibold mb-1">
+                                    {{ t('defeito') }}
+                                </div>
+                                <div>
+                                    <span class="font-semibold">
+                                        {{ detalhe.defeito?.codEDefeito }}
+                                    </span>
+                                </div>
+                                <div class="hidden md:block">
+                                    <span class="text-sm">
+                                        {{ detalhe.defeito?.nomeDefeito | titlecase }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="opacity-50 text-semibold mb-1">
+                                    {{ t('acao') }}
+                                </div>
+                                <div>
+                                    <span class="font-semibold">
+                                        {{ detalhe.acao?.codEAcao }}
+                                    </span>
+                                </div>
+                                <div class="hidden md:block">
+                                    <span class="text-sm">
+                                        {{ detalhe.acao?.nomeAcao | titlecase }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="opacity-50 text-semibold mb-1">
+                                    {{ t('pecas') }}
+                                </div>
+                                <div>
+                                    <div class="text-sm"
+                                        *ngFor="let dPeca of detalhe?.relatorioAtendimentoDetalhePecas; let i=index;">
+                                        <div class="grid grid-cols-2 gap-1 text-sm" *ngIf="!dPeca.removido">
+                                            <div>
+                                                <span
+                                                    [matTooltip]="dPeca.peca?.nomePeca + ': ' + dPeca.qtdePecas + ' ' + (dPeca.qtdePecas == 1 ? 'unidade' : 'unidades')">
+                                                    {{ dPeca.peca?.codMagnus }}
+                                                </span>
+                                            </div>
+
+                                            <div *ngIf="ordemServico.tipoIntervencao.codTipoIntervencao !== 18">
+                                                <button class="min-w-4 min-h-6 h-6 px-2 -mt-1" mat-button
+                                                    (click)="removerPeca(detalhe, i)" [disabled]="validaEdicao()">
+                                                    <mat-icon class="icon-size-5"
+                                                        [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                                </button>
                                             </div>
                                         </div>
-
-                                        <div>
-                                            <span class="text-sm"
-                                                *ngIf="detalhe.codAcao !== 19 && detalhe.codAcao !== 26">
-                                                {{ t('nao se aplica') }}
-                                            </span>
-
-                                            <span class="text-sm"
-                                                *ngIf="detalhe.codAcao === 19 || detalhe.codAcao === 26 && !detalhe?.relatorioAtendimentoDetalhePecas?.length">
-                                                {{ t('adicionar pecas') }}
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
-                            </mat-list-option>
-                        </div>
-                    </mat-selection-list>
 
-                    <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="!obterTotalDetalhesNaoRemovidos()">
-                        <p> {{ t('adicione os detalhes do atendimento') }} </p>
-                    </div>
-                    <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="existeDetalheSemPeca()">
-                        <p> {{ 'Adicione as peças dos detalhes.' }} </p>
-                    </div>
+                                <div>
+                                    <span class="text-sm" *ngIf="detalhe.codAcao !== 19 && detalhe.codAcao !== 26">
+                                        {{ t('nao se aplica') }}
+                                    </span>
 
-                    <div class="flex justify-end p-8"
-                        *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
-                        <button class="px-4 mr-2" type="button" mat-button (click)="inserirDetalhe()"
-                            [matTooltip]="t('adicionar detalhe')" [disabled]="validaEdicao()">
-                            <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                        </button>
-
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
-                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()"
-                            [matTooltip]="t('adicionar peca')"
-                            (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
-                            <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
-                        </button>
-                        
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
-                            [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
-                            [matTooltip]="t('editar detalhe')"
-                            (click)="editarDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
-                            <mat-icon [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
-                        </button>
-
-                        <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
-                            [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
-                            [matTooltip]="t('remover detalhe')"
-                            (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
-                            <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('fotos') }}</p>
-                </div>
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                    <div class="col-span-12 bg-grey-500 mb-4"
-                        *ngIf="!(this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico===2)">
-                        <span>Selecione a Foto</span>
-                        <input type="file" accept="image/*" (change)="selecionarImagem($event)">
-                    </div>
-
-                    <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
-                        <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
-                            <img class="object-cover h-48 w-full"
-                                [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
-                                onError="this.src='assets/images/avatars/gallery.png';" alt="">
-                            <div class="m-1 p-1 text-center">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-semibold leading-tight">{{
-                                        formatarModalidadeFoto(foto.modalidade) }}</div>
-                                    <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)"
-                                        mat-icon-button [disabled]="this.ordemServico?.codStatusServico === 3
-                                        || this.ordemServico?.codStatusServico === 2">
-                                        <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
-                                        </mat-icon>
-                                    </button>
+                                    <span class="text-sm"
+                                        *ngIf="detalhe.codAcao === 19 || detalhe.codAcao === 26 && !detalhe?.relatorioAtendimentoDetalhePecas?.length">
+                                        {{ t('adicionar pecas') }}
+                                    </span>
                                 </div>
                             </div>
-                        </fuse-card>
-                    </div>
-
-                    <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2"
-                        *ngIf="!relatorioAtendimento?.fotos?.length">
-                        <p>
-                            {{ t('nenhuma foto encontrada') }}
-                        </p>
-                    </div>
+                        </div>
+                    </mat-list-option>
                 </div>
+            </mat-selection-list>
 
-                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
-                        [routerLink]="['/ordem-servico/detalhe/' + codOS]">
-                        {{ t('voltar') }}
-                    </button>
+            <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="!obterTotalDetalhesNaoRemovidos()">
+                <p> {{ t('adicione os detalhes do atendimento') }} </p>
+            </div>
+            <div class="prose prose-sm max-w-3xl text-gray-500 p-8" *ngIf="existeDetalheSemPeca()">
+                <p> {{ 'Adicione as peças dos detalhes.' }} </p>
+            </div>
 
-                    <button class="px-6 mr-4" mat-button [color]="'primary'"
-                        [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid"
-                        *ngIf="relatorioAtendimento.codStatusServico !== 3 && relatorioAtendimento.codStatusServico !== 2 && ordemServico.codStatusServico !== 3 && ordemServico.codStatusServico !== 2"
-                        (click)="salvar()">
-                        <span>
-                            {{ t('salvar') }}
-                        </span>
-                    </button>
+            <div class="flex justify-end p-8" *ngIf="this.ordemServico?.tipoIntervencao?.codTipoIntervencao !== 18">
+                <button class="px-4 mr-2" type="button" mat-button (click)="inserirDetalhe()"
+                    [matTooltip]="t('adicionar detalhe')" [disabled]="validaEdicao()">
+                    <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                </button>
 
-                    <button class="px-6 mr-2 bg-orange-500 text-white" mat-button type="button" (click)="reabrir()"
-                        *ngIf="verificarPermissaoReabertura()">
-                        {{ t('reabrir') }}
-                    </button>
+                <button class="px-4 mr-2" type="button" mat-button [color]="'primary'" [disabled]="(detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 19 &&
+                            detalhesList.selectedOptions?.selected[0]?.value?.codAcao !== 26) || validaEdicao()"
+                    [matTooltip]="t('adicionar peca')"
+                    (click)="inserirPeca(detalhesList?.selectedOptions?.selected[0]?.value)">
+                    <mat-icon class="text-green-400" [svgIcon]="'heroicons_outline:puzzle'"></mat-icon>
+                </button>
 
-                    <button class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
-                        *ngIf="verificarPermissaoExclusao()">
-                        {{ t('excluir') }}
-                    </button>
-                </div>
-            </form>
+                <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
+                    [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
+                    [matTooltip]="t('editar detalhe')"
+                    (click)="editarDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
+                    <mat-icon [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+                </button>
+
+                <button class="px-4 mr-2" type="button" mat-button [color]="'warn'"
+                    [disabled]="!detalhesList.selectedOptions.selected.length || validaEdicao()"
+                    [matTooltip]="t('remover detalhe')"
+                    (click)="removerDetalhe(detalhesList?.selectedOptions?.selected[0]?.value)">
+                    <mat-icon [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                </button>
+            </div>
         </div>
-    </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+            <p class="text-lg font-medium">{{ t('fotos') }}</p>
+        </div>
+        <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+
+            <div class="col-span-12 bg-grey-500 mb-4"
+                *ngIf="!(this.ordemServico?.codStatusServico === 3 || this.ordemServico?.codStatusServico===2)">
+                <span>Selecione a Foto</span>
+                <input type="file" accept="image/*" (change)="selecionarImagem($event)">
+            </div>
+
+            <div class="col-span-3 bg-grey-500 m-1" *ngFor="let foto of relatorioAtendimento?.fotos">
+                <fuse-card class="flex flex-col max-w-80 mb-2 w-full filter-article">
+                    <img class="object-cover h-48 w-full"
+                        [src]="'https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/'+foto.nomeFoto"
+                        onError="this.src='assets/images/avatars/gallery.png';" alt="">
+                    <div class="m-1 p-1 text-center">
+                        <div class="flex items-center">
+                            <div class="text-sm font-semibold leading-tight">{{
+                                formatarModalidadeFoto(foto.modalidade) }}</div>
+                            <button class="ml-auto" (click)="removerFoto(foto.codRATFotoSmartphone)" mat-icon-button
+                                [disabled]="this.ordemServico?.codStatusServico === 3
+                                        || this.ordemServico?.codStatusServico === 2">
+                                <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </fuse-card>
+            </div>
+
+            <div class="col-span-12 prose prose-sm max-w-3xl text-gray-500 mb-2"
+                *ngIf="!relatorioAtendimento?.fotos?.length">
+                <p>
+                    {{ t('nenhuma foto encontrada') }}
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+            <button class="px-6 mr-2" mat-button [color]="'accent'" type="button"
+                [routerLink]="['/ordem-servico/detalhe/' + codOS]">
+                {{ t('voltar') }}
+            </button>
+
+            <button class="px-6 mr-4" mat-button [color]="'primary'"
+                [disabled]="!obterTotalDetalhesNaoRemovidos() || existeDetalheSemPeca() || form.invalid"
+                *ngIf="relatorioAtendimento.codStatusServico !== 3 && relatorioAtendimento.codStatusServico !== 2 && ordemServico.codStatusServico !== 3 && ordemServico.codStatusServico !== 2"
+                (click)="salvar()">
+                <span>
+                    {{ t('salvar') }}
+                </span>
+            </button>
+
+            <button class="px-6 mr-2 bg-orange-500 text-white" mat-button type="button" (click)="reabrir()"
+                *ngIf="verificarPermissaoReabertura()">
+                {{ t('reabrir') }}
+            </button>
+
+            <button class="px-6 mr-2 bg-red-500 text-white" mat-button type="button" (click)="excluirRat()"
+                *ngIf="verificarPermissaoExclusao()">
+                {{ t('excluir') }}
+            </button>
+        </div>
+    </form>
 </div>

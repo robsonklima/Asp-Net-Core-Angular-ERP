@@ -1,0 +1,62 @@
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/ordem-servico">
+                        {{ t('chamados') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="'/ordem-servico/detalhe/'+codOS">
+                        {{ codOS }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('criando registro') : t('atualizando registro') }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('relatorio de atendimento') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="loading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <div *ngIf="!loading" class="flex-auto p-6 sm:p-10">
+        <div class="max-w-4xl">
+            <mat-tab-group class="sm:px-2" [animationDuration]="'0'" #tabGroup>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="text-slate-900">ATM</span>								
+                    </ng-template>
+
+                    <ng-template matTabContent>
+                        <app-relatorio-atendimento-form [codOS]="codOS" [codRAT]="codRAT"></app-relatorio-atendimento-form>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="text-slate-900">POS</span>								
+                    </ng-template>
+
+                    <ng-template matTabContent>
+                        <app-relatorio-atendimento-pos-form [codRAT]="codRAT"></app-relatorio-atendimento-pos-form>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>

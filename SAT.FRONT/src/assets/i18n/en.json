@@ -831,5 +831,9 @@
     "numero conta": "Account Number",
     "responsavel pela instalacao": "Responsible for Installation",
     "mat responsavel pela instalacao": "Registration Responsible for the Installation",
-    "checklist pos": "Checklist POS"
+    "checklist pos": "Checklist POS",
+    "equipamento instalado": "Pending",
+    "equipamento retirado": "Pending",
+    "numero serie instalada": "Pending",
+    "numero serie retirada": "Pending"
 }

@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { TipoServicoService } from 'app/core/services/tipo-servico.service';
 import { CausaService } from 'app/core/services/causa.service';
 import { TipoServico } from 'app/core/types/tipo-servico.types';
-import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
 import { Causa } from 'app/core/types/causa.types';
 import { DefeitoService } from 'app/core/services/defeito.service';
 import { AcaoService } from 'app/core/services/acao.service';
@@ -17,6 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { statusConst } from 'app/core/types/status-types';
 import { RelatorioAtendimentoDetalhe } from 'app/core/types/relatorio-atendimento-detalhe.type';
 import moment from 'moment';
+import { RelatorioAtendimentoFormComponent } from '../relatorio-atendimento-form/relatorio-atendimento-form.component';
 
 @Component({
   selector: 'app-relatorio-atendimento-detalhe-form',

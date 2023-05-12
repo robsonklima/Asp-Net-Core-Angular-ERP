@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { relatorioAtendimentoRoutes } from './relatorio-atendimento.routing';
 import { RelatorioAtendimentoFormComponent } from './relatorio-atendimento-form/relatorio-atendimento-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -23,12 +23,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RelatorioAtendimentoDetalheFormComponent } from './relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { FuseCardModule } from '@fuse/components/card';
-import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
-import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RelatorioAtendimentoDetalhePecaFormComponent } from './relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
+import { RelatorioAtendimentoLaudoImpressaoComponent } from './relatorio-atendimento-laudo-impressao/relatorio-atendimento-laudo-impressao.component';
 import { RelatorioAtendimentoPosFormComponent } from './relatorio-atendimento-pos-form/relatorio-atendimento-pos-form.component';
+import { RelatorioAtendimentoDetalheComponent } from './relatorio-atendimento-detalhe/relatorio-atendimento-detalhe.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -43,12 +45,14 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     RelatorioAtendimentoDetalhePecaFormComponent,
     RelatorioAtendimentoLaudoImpressaoComponent,
     RelatorioAtendimentoPosFormComponent,
+    RelatorioAtendimentoDetalheComponent,
   ],
   imports: [
     RouterModule.forChild(relatorioAtendimentoRoutes),
     NgxMaskModule.forRoot(maskConfigFunction),
     MatIconModule,
     TranslocoModule,
+    MatTabsModule,
     MatDatepickerModule,
     NgxMatSelectSearchModule,
     MatSelectModule,
@@ -69,6 +73,7 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     FuseCardModule
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class RelatorioAtendimentoModule { }

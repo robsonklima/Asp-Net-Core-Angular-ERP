@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<Chamado> builder)
         {
-            builder
-                .ToTable("Chamado");
-
-            builder
-                .HasKey(prop => prop.CodOS);
+            builder.ToTable("Chamado");
+            builder.HasKey(prop => prop.CodOS);
            
             builder
                 .HasOne(prop => prop.ChamadoDadosAdicionais)

@@ -27,7 +27,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('numero serie retirada') }}</mat-label>
-                <input matInput formControlName="numSerieRet" maxlength="25">
+                <input matInput formControlName="numSerieRet" maxlength="50">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
@@ -42,7 +42,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('numero serie instalada') }}</mat-label>
-                <input matInput formControlName="numSerieInst" maxlength="25">
+                <input matInput formControlName="numSerieInst" maxlength="50">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
@@ -84,7 +84,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('numero chip retirado') }}</mat-label>
-                <input matInput formControlName="numeroChipRetirado" maxlength="25">
+                <input matInput formControlName="numeroChipRetirado" maxlength="50">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
@@ -99,7 +99,7 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('numero chip instalado') }}</mat-label>
-                <input matInput formControlName="numeroChipInstalado" maxlength="25">
+                <input matInput formControlName="numeroChipInstalado" maxlength="50">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
@@ -114,21 +114,27 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-12">
                 <mat-label>{{ t('obs motivo comunicacao') }}</mat-label>
-                <input matInput formControlName="obsMotivoComunicacao" maxlength="25">
+                <input matInput formControlName="obsMotivoComunicacao" maxlength="80">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-12">
                 <mat-label>{{ t('obs motivo cancelamento') }}</mat-label>
-                <input matInput formControlName="obsMotivoCancelamento" maxlength="25">
+                <input matInput formControlName="obsMotivoCancelamento" maxlength="80">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
         </div>
 
         <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
             <button class="px-6 mr-4" mat-button [color]="'primary'" (click)="salvar()">
-                {{ t('salvar') }}
+                {{ isAddMode ? t('criar') : t('atualizar') }}
             </button>
         </div>
     </form>
+
+    <div class="flex justify-center items-center min-h-60" *ngIf="loading">
+        <div class="text-center">
+            <mat-progress-spinner [diameter]="42" [mode]="'indeterminate'"></mat-progress-spinner>
+        </div>
+    </div>
 </div>

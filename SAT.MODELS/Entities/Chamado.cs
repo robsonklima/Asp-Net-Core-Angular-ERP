@@ -38,7 +38,7 @@ namespace SAT.MODELS.Entities
         public DateTime HorarioFimAtendimento { get; set; }
         public int CodStatus { get; set; }
         public int CodMotivoCancelamento { get; set; }
-        public int CodDefeitoPOS { get; set; }
+        public int? CodDefeitoPOS { get; set; }
         public int CodPosto { get; set; }
         public int CodCliente { get; set; }
         public int CodEquip { get; set; }

@@ -19,6 +19,7 @@ namespace SAT.INFRA.Repository
 
         public RelatorioAtendimentoPOS Atualizar(RelatorioAtendimentoPOS relatorio)
         {
+            _context.ChangeTracker.Clear();
             RelatorioAtendimentoPOS rat = _context.RelatorioAtendimentoPOS.FirstOrDefault(rat => rat.CodRATbanrisul == relatorio.CodRATbanrisul);
 
             if (rat != null)

@@ -458,7 +458,7 @@
                             <div [formGroup]="form" class="flex items-center justify-between">
                                 <div class="text-secondary px-6">{{ t('Termo Descaracterização:') }}</div>
                                 <div class="px-2 py-4 fuse-mat-dense sm:col-span-8">
-                                    {{ instalacaoSelecionada?.termoDescaracterizacao }}
+                                    {{ instalacaoSelecionada?.termoDescaracterizacao == 1 ? 'Sim' : 'Não' }}
                                 </div>
                             </div>
 

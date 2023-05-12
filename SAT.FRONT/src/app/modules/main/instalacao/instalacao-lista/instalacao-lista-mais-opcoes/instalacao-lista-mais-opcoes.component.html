@@ -93,8 +93,15 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                        <mat-label>{{ t('equipamento rebaixado') }}</mat-label>
-                        <input matInput formControlName="indEquipRebaixadoBI">
+                        <mat-label>{{ t('Equipamento Rebaixado') }}</mat-label>
+                        <mat-select formControlName="indEquipRebaixadoBI">
+                            <mat-option [value]="0">
+                                Não
+                            </mat-option>
+                            <mat-option [value]="1">
+                                Sim
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2" [matTooltip]="t('responsavel pela instalacao')">

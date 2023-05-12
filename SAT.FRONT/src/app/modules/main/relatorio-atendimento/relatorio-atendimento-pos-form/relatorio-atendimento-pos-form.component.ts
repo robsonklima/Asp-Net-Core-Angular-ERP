@@ -74,7 +74,7 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
       numSerieInst: [undefined],
       codEquipRet: [undefined],
       codEquipInst: [undefined],
-      codRedeBanrisul: [undefined],
+      rede: [undefined],
       codTipoComunicacao: [undefined],
       codMotivoComunicacao: [undefined],
       numeroChipInstalado: [undefined],
@@ -143,15 +143,18 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     const form: any = this.form.getRawValue();
     let obj = { ...this.rat, ...form, ...{ codRat: this.codRAT, codRATbanrisul: undefined } };
 
-    if (this.isAddMode) {
-      this._relatorioAtendimentoPOSService.criar(obj).subscribe(() => {
-        this._snack.exibirToast("Registro criado com sucesso!", "success");
-      })
-    } else {
-      this._relatorioAtendimentoPOSService.atualizar(obj).subscribe(() => {
-        this._snack.exibirToast("Registro atualizado com sucesso!", "success");
-      })
-    }
+    console.log(obj);
+    
+
+    // if (this.isAddMode) {
+    //   this._relatorioAtendimentoPOSService.criar(obj).subscribe(() => {
+    //     this._snack.exibirToast("Registro criado com sucesso!", "success");
+    //   })
+    // } else {
+    //   this._relatorioAtendimentoPOSService.atualizar(obj).subscribe(() => {
+    //     this._snack.exibirToast("Registro atualizado com sucesso!", "success");
+    //   })
+    // }
   }
 
   ngOnDestroy() {

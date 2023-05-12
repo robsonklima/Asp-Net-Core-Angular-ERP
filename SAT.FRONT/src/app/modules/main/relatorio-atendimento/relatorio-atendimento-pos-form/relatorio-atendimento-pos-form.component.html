@@ -37,11 +37,8 @@
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('rede') }}</mat-label>
-                <mat-select formControlName="rede">
-                    <mat-option *ngFor="let rede of redes" [value]="rede.codRedeBanrisul">
-                        {{ rede.rede }}
-                    </mat-option>
-                </mat-select>
+                <input matInput formControlName="rede" maxlength="50">
+                <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="fuse-mat-dense sm:col-span-6">

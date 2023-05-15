@@ -24,10 +24,9 @@ namespace SAT.MODELS.Entities {
         public byte? IndConfLab { get; set; }
         public byte IndAtivo { get; set; }
         public string CodUsuarioCad { get; set; }
-        public DateTime DataHoraCad { get; set; }
         public int? CodStatusPendente { get; set; }
         public int? IndLiberacao { get; set; }
         public Peca Peca { get; set; }
-        public ORStatus ORStatus { get; set; }
+        public DateTime DataHoraCad { get; set; }
     }
 }

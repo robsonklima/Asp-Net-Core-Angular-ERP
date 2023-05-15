@@ -4,6 +4,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -51,15 +52,15 @@ namespace SAT.SERVICES.Services
                             else if (col.Campo.Equals("IndEquipRebaixadoBI"))
                                 value = byte.Parse(col.Valor);                                                                    
                             else if (col.Campo.Equals("VlrDesFixacao1"))
-                                value = decimal.Parse(col.Valor);   
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));  
                             else if (col.Campo.Equals("VlrDesFixacao2"))
-                                value = decimal.Parse(col.Valor);  
-                            else if (col.Campo.Equals("VlrRecolhimentoTradeIn"))
-                                value = decimal.Parse(col.Valor);     
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));  
+                            else if (col.Campo.Equals("VlrRecolhimentoTradeIn"))    
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));
                             else if (col.Campo.Equals("ValorUnitarioVenda"))
-                                value = decimal.Parse(col.Valor);     
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));    
                             else if (col.Campo.Equals("ValorFrete1"))
-                                value = decimal.Parse(col.Valor);                                                                                                                                                                                       
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));                                                                                                                                                                                     
                             else
                                 value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
 

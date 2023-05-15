@@ -25,11 +25,11 @@
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                        <mat-label>{{ t('dt confirmada da entrega') }}</mat-label>
-                        <input matInput (click)="dataConfEntrega.open()" (keydown)="false"
-                            [matDatepicker]="dataConfEntrega" formControlName="dataConfEntrega">
-                        <mat-datepicker-toggle matSuffix [for]="dataConfEntrega"></mat-datepicker-toggle>
-                        <mat-datepicker #dataConfEntrega></mat-datepicker>
+                        <mat-label>{{ t('Data Entrega Confirmacao') }}</mat-label>
+                        <input matInput (click)="dataHoraChegTranspBT.open()" (keydown)="false"
+                            [matDatepicker]="dataHoraChegTranspBT" formControlName="dataHoraChegTranspBT">
+                        <mat-datepicker-toggle matSuffix [for]="dataHoraChegTranspBT"></mat-datepicker-toggle>
+                        <mat-datepicker #dataHoraChegTranspBT></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">

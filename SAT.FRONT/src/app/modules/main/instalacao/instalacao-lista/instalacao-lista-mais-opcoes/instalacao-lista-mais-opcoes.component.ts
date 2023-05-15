@@ -89,7 +89,6 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
       codInstalacao: [''],
       codPosto: [''],
       codRAT: [''],
-      dataConfEntrega: [undefined],
       nfRemessa: [undefined],
       dataNFRemessa: [undefined],
       nomeRespBancoBT: [undefined],
@@ -119,6 +118,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
       numRAT: [undefined],
       codInstalStatus: [undefined],
       dataNFVendaTradeIn: [undefined],
+      dataHoraChegTranspBT: [undefined],
     });
   }
 

@@ -432,6 +432,10 @@ public class ConfigurationIOC
         builder.RegisterType<MotivoComunicacaoService>().As<IMotivoComunicacaoService>();
         builder.RegisterType<DefeitoPOSService>().As<IDefeitoPOSService>();
         builder.RegisterType<MotivoCancelamentoService>().As<IMotivoCancelamentoService>();
+        builder.RegisterType<IntegracaoCorreiosService>().As<IIntegracaoCorreiosService>();
+        builder.RegisterType<IntegracaoSemPararService>().As<IIntegracaoSemPararService>();
+        builder.RegisterType<IntegracaoZaffariService>().As<IIntegracaoZaffariService>();
+        builder.RegisterType<IntegracaoSeniorService>().As<IIntegracaoSeniorService>();
 
         #endregion
 

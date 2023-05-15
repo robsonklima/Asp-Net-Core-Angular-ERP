@@ -14,6 +14,11 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
     private readonly ISatTaskService _satTaskService;
     private readonly IEmailService _emailService;
+    private readonly IIntegracaoZaffariService _integracaoZaffariService;
+    private readonly IIntegracaoCorreiosService _integracaoCorreiosService;
+    private readonly IIntegracaoSemPararService _integracaoSemPararService;
+    private readonly IIntegracaoProtegeService _integracaoProtegeService;
+    private readonly IIntegracaoSeniorService _integracaoSeniorService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
@@ -21,6 +26,11 @@ public partial class Worker : BackgroundService
         IIntegracaoFinanceiroService integracaoFinanceiroService,
         IIntegracaoBanrisulService integracaoBanrisulService,
         IEmailService emailService,
+        IIntegracaoCorreiosService integracaoCorreiosService,
+        IIntegracaoSeniorService integracaoSeniorService,
+        IIntegracaoZaffariService integracaoZaffariService,
+        IIntegracaoSemPararService integracaoSemPararService,
+        IIntegracaoProtegeService integracaoProtegeService,
         ISatTaskService satTaskService
     )
     {
@@ -29,6 +39,11 @@ public partial class Worker : BackgroundService
         _integracaoFinanceiroService = integracaoFinanceiroService;
         _integracaoBanrisulService = integracaoBanrisulService;
         _satTaskService = satTaskService;
+        _integracaoCorreiosService = integracaoCorreiosService;
+        _integracaoSeniorService = integracaoSeniorService;
+        _integracaoSemPararService = integracaoSemPararService;
+        _integracaoZaffariService = integracaoZaffariService;
+        _integracaoProtegeService = integracaoProtegeService;
         _emailService = emailService;
     }
 
@@ -38,16 +53,20 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                await _integracaoBanrisulService.ProcessarEmailsAsync();
-                _integracaoBanrisulService.ProcessarRetornos();
+                // await _integracaoBanrisulService.ProcessarEmailsAsync();
+                // _integracaoBanrisulService.ProcessarRetornos();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                    _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
-                    
-                // _integracaoFinanceiroService.ExecutarAsync();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
+                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
+
+                _integracaoCorreiosService.ExecutarAsync();
+                _integracaoZaffariService.ExecutarAsync();
+                _integracaoSemPararService.ExecutarAsync();
+                _integracaoProtegeService.ExecutarAsync();
+                _integracaoSeniorService.ExecutarAsync();
             }
             catch (Exception)
             {

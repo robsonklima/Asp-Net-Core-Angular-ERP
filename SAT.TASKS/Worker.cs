@@ -62,11 +62,7 @@ public partial class Worker : BackgroundService
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
 
-                _integracaoCorreiosService.ExecutarAsync();
-                _integracaoZaffariService.ExecutarAsync();
-                _integracaoSemPararService.ExecutarAsync();
-                _integracaoProtegeService.ExecutarAsync();
-                _integracaoSeniorService.ExecutarAsync();
+                _integracaoCorreiosService.Executar();
             }
             catch (Exception)
             {

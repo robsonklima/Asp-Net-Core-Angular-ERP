@@ -436,6 +436,7 @@ public class ConfigurationIOC
         builder.RegisterType<IntegracaoSemPararService>().As<IIntegracaoSemPararService>();
         builder.RegisterType<IntegracaoZaffariService>().As<IIntegracaoZaffariService>();
         builder.RegisterType<IntegracaoSeniorService>().As<IIntegracaoSeniorService>();
+        builder.RegisterType<IntegracaoProtegeService>().As<IIntegracaoProtegeService>();
 
         #endregion
 

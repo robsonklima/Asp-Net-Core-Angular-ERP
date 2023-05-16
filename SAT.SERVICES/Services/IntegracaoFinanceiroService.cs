@@ -35,7 +35,6 @@ namespace SAT.SERVICES.Services
         public async void ExecutarAsync()
         {
             _token = await ObterTokenAsync();
-            //var orcamentoFinanceiro = ObterDadosAsync("FRS76611");
             await EnviarOrcamentosAsync();
         }
 

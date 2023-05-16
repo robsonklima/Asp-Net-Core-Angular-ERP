@@ -1,12 +1,21 @@
+using System;
+using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
     public class IntegracaoCorreiosService : IIntegracaoCorreiosService
     {
-        public void ExecutarAsync()
+        private IInstalacaoService _instService;
+
+        public IntegracaoCorreiosService(IInstalacaoService instService)
         {
-            throw new System.NotImplementedException();
+            _instService = instService;
+        }
+
+        public void Executar()
+        {
+         
         }
     }
 }

@@ -14,7 +14,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
-import _ from 'lodash';
+import _, { forEach } from 'lodash';
 import moment from 'moment';
 import { PartesPecasControleDetalhesHistoricoFormComponent } from './partes-pecas-controle-detalhes-historico-form/partes-pecas-controle-detalhes-historico-form.component';
 import { PartesPecasControleDetalhesHistoricoComponent } from './partes-pecas-controle-detalhes-historico/partes-pecas-controle-detalhes-historico.component';
@@ -100,12 +100,6 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
         });
     }
 
-    async atualizarDados(ratDetalhesPeca: RelatorioAtendimentoDetalhePeca, os: OrdemServico, rat: RelatorioAtendimento) {
-        this._ratDetalhePecaService.atualizar(ratDetalhesPeca).subscribe();
-        this._osService.atualizar(os).subscribe();
-        this._ratService.atualizar(rat).subscribe();
-    }
-
     adicionarStatus(codRatDetalhesPecas: number) {
         const dialogRef = this._dialog.open(PartesPecasControleDetalhesHistoricoFormComponent, {
             data: { codRatDetalhesPecas: codRatDetalhesPecas }
@@ -116,6 +110,17 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 this.ngAfterViewInit();
             }
         });
+    }
+
+    validarRegraIntervenção(status: string){
+        var isAlterarStatusIntervenção = true;
+
+        this.ratDetalhesPeca.forEach(i => {
+            if(i.descStatus != status)
+                return isAlterarStatusIntervenção = false;
+        });
+
+        return isAlterarStatusIntervenção;
     }
 
     liberarPeca(codRATDetalhePeca: number) {
@@ -152,7 +157,12 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 rat.codUsuarioManut = this.userSession.usuario.codUsuario;
                 rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
-                this.atualizarDados(ratDetalhesPeca, os, rat);
+                this._ratDetalhePecaService.atualizar(ratDetalhesPeca).subscribe();
+
+                if(this.validarRegraIntervenção(ratDetalhesPeca.descStatus)){
+                    this._osService.atualizar(os).subscribe();
+                    this._ratService.atualizar(rat).subscribe();
+                }
             }
         });
     }
@@ -190,7 +200,9 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 rat.codUsuarioManut = this.userSession.usuario.codUsuario;
                 rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
                 
-                this.atualizarDados(ratDetalhesPeca, os, rat);
+                this._ratDetalhePecaService.atualizar(ratDetalhesPeca).subscribe();
+                this._osService.atualizar(os).subscribe();
+                this._ratService.atualizar(rat).subscribe();
             }
         });
     }
@@ -228,7 +240,12 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
                 rat.codUsuarioManut = this.userSession.usuario.codUsuario;
                 rat.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
 
-                this.atualizarDados(ratDetalhesPeca, os, rat);
+                this._ratDetalhePecaService.atualizar(ratDetalhesPeca).subscribe();
+
+                if(this.validarRegraIntervenção(ratDetalhesPeca.descStatus)){
+                    this._osService.atualizar(os).subscribe();
+                    this._ratService.atualizar(rat).subscribe();
+                }
             }
         });
     }

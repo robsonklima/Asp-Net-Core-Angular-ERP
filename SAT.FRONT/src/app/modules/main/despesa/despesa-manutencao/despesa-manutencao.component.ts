@@ -78,8 +78,7 @@ export class DespesaManutencaoComponent implements OnInit {
 
     await this.obterDados();
 
-    if (this.sort && this.paginator)
-    {
+    if (this.sort && this.paginator) {
       this.sort.disableClear = true;
       this._cdr.markForCheck();
 
@@ -103,8 +102,8 @@ export class DespesaManutencaoComponent implements OnInit {
     await this.obterDespesaItemAlertas();
     await this.obterRATs();
 
-    if (this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO) && 
-        this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])) {
+    if (this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum.APROVADO) &&
+      this.despesaPeriodoTecnico?.codDespesaPeriodoTecnicoStatus != parseInt(DespesaPeriodoTecnicoStatusEnum['LIBERADO PARA ANÁLISE'])) {
       this.permiteAlterarDespesa = true;
     } else {
       this.permiteAlterarDespesa = false;
@@ -146,6 +145,7 @@ export class DespesaManutencaoComponent implements OnInit {
     this.despesa = (await this._despesaSvc.obterPorParametros({ codRATs: this.codRAT.toString() }).toPromise()).items.shift();
     this.despesaItens = Enumerable.from(this.despesa?.despesaItens).orderByDescending(i => i.codDespesaItem).toArray();
     this.despesaItens = Enumerable.from(this.despesaItens).where(i => i.indAtivo === 1).toArray();
+
     this.isDespesaLoading = false;
   }
 
@@ -166,12 +166,10 @@ export class DespesaManutencaoComponent implements OnInit {
   }
 
   async lancarDespesaItem() {
-    if (!this.despesa)
-    {
+    if (!this.despesa) {
       await this.criaDespesa();
       this.abrirDialogoDespesaItem();
-    } else
-    {
+    } else {
       this.abrirDialogoDespesaItem();
     }
   }
@@ -210,12 +208,11 @@ export class DespesaManutencaoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao)
-      {
+      if (confirmacao) {
         di.indAtivo = statusConst.INATIVO;
         di.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
         di.codUsuarioManut = this.userSession.usuario?.codUsuario;
-        
+
         this._despesaItemSvc.atualizar(di).subscribe(() => {
           this._snack.exibirToast('Despesa removida com sucesso!', 'success');
           this.obterDespesa();
@@ -231,7 +228,7 @@ export class DespesaManutencaoComponent implements OnInit {
 
     if (this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS)
       codUF = this.userSession?.usuario?.cidade?.codUF;
-    else 
+    else
       if (!this.ordemServico?.localAtendimento?.cidade?.codUF)
         this._snack.exibirToast(`O local de atendimento não possui cidade informada. Entre em contato com sua filial.`, 'error');
       else

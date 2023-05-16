@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -72,9 +74,24 @@ namespace SAT.SERVICES.Services
                     }
                     catch (System.Exception ex)
                     {
-                        linha.Mensagem = $"Erro ao mapear o registro. Registro: {inst.CodInstalacao} Campo: {col.Campo} Mensagem: {ex.Message}";
-                        linha.Erro = true;
-                        Mensagem.Add(linha.Mensagem);
+                        switch(ex.Message)
+                        {
+                            case var s when ex.Message.Contains("Input string was not in a correct format."):
+                                linha.Mensagem = $"Foi informada um dado inválido para o campo {col.Campo}";
+                                linha.Erro = true;
+                                Mensagem.Add(linha.Mensagem);
+                                break;
+                            case var s when ex.Message.Contains("was not recognized as a valid DateTime."):
+                                linha.Mensagem = $"Formato de data inválido no campo {col.Campo}";
+                                linha.Erro = true;
+                                Mensagem.Add(linha.Mensagem);
+                                break;
+                            default:
+                                linha.Mensagem = $"Erro ao importar registro! Mensagem: {ex.Message}";
+                                linha.Erro = true;
+                                Mensagem.Add(linha.Mensagem);
+                                break;                            
+                        }     
                     }
                 }
                    
@@ -97,11 +114,22 @@ namespace SAT.SERVICES.Services
                         Mensagem.Add(linha.Mensagem);
                     }
                 }
+                    
                 catch (System.Exception ex)
-                {
-                    linha.Mensagem = $"Erro ao montar registro! Mensagem: {ex.Message}";
-                    linha.Erro = true;
-                    Mensagem.Add(linha.Mensagem);
+                {                    
+                    switch(ex.Message)
+                    {
+                        case var s when ex.Message.Contains("is part of a key and so cannot be modified or marked as modified"):
+                            linha.Mensagem = $"Campos obrigatórios da linha não podem ser modificados: {ex.Message}";
+                            linha.Erro = true;
+                            Mensagem.Add(linha.Mensagem);
+                            break;
+                        default:
+                            linha.Mensagem = $"Erro ao importar linhas! {ex.Message}";
+                            linha.Erro = true;
+                            Mensagem.Add(linha.Mensagem);
+                            break;                            
+                    }                    
                 }
             }
 

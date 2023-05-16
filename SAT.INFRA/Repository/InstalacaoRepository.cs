@@ -8,6 +8,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SAT.MODELS.Views;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using System;
 
 namespace SAT.INFRA.Repository
 {
@@ -25,10 +27,25 @@ namespace SAT.INFRA.Repository
             _context.ChangeTracker.Clear();
             Instalacao inst = _context.Instalacao.FirstOrDefault(i => i.CodInstalacao == instalacao.CodInstalacao);
 
-            if (inst != null)
+            try
             {
-                _context.Entry(inst).CurrentValues.SetValues(instalacao);
-                _context.SaveChanges();
+                if (inst != null)
+                {
+                    _context.Entry(inst).CurrentValues.SetValues(instalacao);
+                    _context.SaveChanges();
+                }
+            }
+            catch (DbUpdateException exception)
+            {
+                var a = exception;
+            }
+            catch (SqlException exception)
+            {
+                var a = exception;
+            }
+            catch (Exception exception)
+            {
+                var a = exception;
             }
 
             return inst;
@@ -44,10 +61,10 @@ namespace SAT.INFRA.Repository
         {
             IQueryable<ViewExportacaoInstalacao> query = _context.ViewExportacaoInstalacao.AsQueryable();
 
-            query = query.Where(q => instalacaoList.Contains(q.CodInstalacao.Value) );
+            query = query.Where(q => instalacaoList.Contains(q.CodInstalacao.Value));
 
-            return PagedList<ViewExportacaoInstalacao>.ToPagedList(query, 1 , 100000);
-        }        
+            return PagedList<ViewExportacaoInstalacao>.ToPagedList(query, 1, 100000);
+        }
 
         public void Deletar(int codigo)
         {
@@ -68,7 +85,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Filial)
                 .Include(i => i.Equipamento)
                 .Include(i => i.EquipamentoContrato!)
-                    .DefaultIfEmpty()                    
+                    .DefaultIfEmpty()
                 .Include(c => c.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacaoLote)
                 .Include(i => i.LocalAtendimentoEnt)
@@ -97,7 +114,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Equipamento!)
                     .DefaultIfEmpty()
                 .Include(i => i.EquipamentoContrato.LocalAtendimento.Cidade.UnidadeFederativa!)
-                    .DefaultIfEmpty()                    
+                    .DefaultIfEmpty()
                 .Include(c => c.Contrato.ContratosEquipamento)
                 .Include(i => i.InstalacaoLote!)
                     .DefaultIfEmpty()
@@ -114,7 +131,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.OrdemServico!.StatusServico)
                 .Include(i => i.OrdemServico!)
                     .ThenInclude(r => r.RelatoriosAtendimento)
-                    .DefaultIfEmpty()                    
+                    .DefaultIfEmpty()
                 .Include(i => i.InstalacaoStatus!)
                     .DefaultIfEmpty()
                 .Include(i => i.Autorizada!)
@@ -126,7 +143,7 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.InstalacaoNFAut!)
                     .DefaultIfEmpty()
                 .Include(i => i.InstalacaoNFVenda!)
-                    .DefaultIfEmpty()                
+                    .DefaultIfEmpty()
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -156,24 +173,24 @@ namespace SAT.INFRA.Repository
             if (parameters.CodCliente != null)
             {
                 instalacoes = instalacoes.Where(i => i.CodCliente == parameters.CodCliente);
-            }            
+            }
 
             if (parameters.CodEquipContrato != null)
             {
                 instalacoes = instalacoes.Where(i => i.CodEquipContrato == parameters.CodEquipContrato);
-            }            
+            }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodInstalacoes))
             {
                 int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 instalacoes = instalacoes.Where(i => cods.Contains(i.CodInstalacao));
-            }            
+            }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodEquips))
             {
                 int[] cods = parameters.CodEquips.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 instalacoes = instalacoes.Where(i => cods.Contains(i.Equipamento.CodEquip));
-            }   
+            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
@@ -212,18 +229,18 @@ namespace SAT.INFRA.Repository
             if (parameters.CodCliente != null)
             {
                 instalacoes = instalacoes.Where(i => i.CodCliente == parameters.CodCliente);
-            }            
+            }
 
             if (parameters.CodEquipContrato != null)
             {
                 instalacoes = instalacoes.Where(i => i.CodEquipContrato == parameters.CodEquipContrato);
-            }            
+            }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodInstalacoes))
             {
                 int[] cods = parameters.CodInstalacoes.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 instalacoes = instalacoes.Where(i => cods.Contains(i.CodInstalacao));
-            }            
+            }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

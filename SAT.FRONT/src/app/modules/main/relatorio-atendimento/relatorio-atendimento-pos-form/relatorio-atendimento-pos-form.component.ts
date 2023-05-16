@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { DefeitoPOSService } from 'app/core/services/defeito-pos.service';
+import { EquipamentoPOSService } from 'app/core/services/equipamento-pos.service';
 import { EquipamentoService } from 'app/core/services/equipamento.service';
 import { MotivoCancelamentoService } from 'app/core/services/motivo-cancelamento.service';
 import { MotivoComunicacaoService } from 'app/core/services/motivo-comunicacao.service';
@@ -43,9 +44,10 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     private _tipoComunicacaoService: TipoComunicacaoService,
     private _operadoraTelefoniaService: OperadoraTelefoniaService,
     private _motivoComunicacaoService: MotivoComunicacaoService,
-    private _defeitoPOSService: DefeitoPOSService,
     private _motivoCancelamentoService: MotivoCancelamentoService,
     private _relatorioAtendimentoPOSService: RelatorioAtendimentoPOSService,
+    private _equipamentoPOSService: EquipamentoPOSService,
+    private _defeitoPOSService: DefeitoPOSService,
     private _snack: CustomSnackbarService,
     private _formBuilder: FormBuilder,
   ) { }
@@ -149,6 +151,10 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     this.defeitos = (await this._defeitoPOSService
       .obterPorParametros({ sortActive: 'NomeDefeitoPOS',sortDirection: 'asc' })
       .toPromise()).items;
+  }
+
+  private validarDados() {
+    
   }
 
   salvar() {

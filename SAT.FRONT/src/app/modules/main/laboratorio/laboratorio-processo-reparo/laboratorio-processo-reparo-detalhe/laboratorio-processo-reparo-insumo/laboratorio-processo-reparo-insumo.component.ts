@@ -47,6 +47,7 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   }
 
   async ngOnInit() {
+    
     this.criarForm();
     this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
     this.checklists = await this.obterCheckList();
@@ -76,7 +77,7 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   }
 
   private async obterPecasLab(): Promise<PecasLaboratorio[]> {
-    const params = { codChecklist: this.checklists.codORCheckList };
+    const params = { codChecklist: this.checklists.codORCheckList, codPecas: this.orItem.codPeca };
 
     return (await this._pecasLaboratorioService.obterPorParametros(params).toPromise()).items;
   }

@@ -37,6 +37,5 @@ namespace SAT.MODELS.Entities
         public PecaFamilia PecaFamilia { get; set; }
         public PecaStatus PecaStatus { get; set; }
         public ORCheckList ORCheckList { get; set; }
-        public ORItemInsumo OrItemInsumo { get; set; }
     }
 }

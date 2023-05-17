@@ -12,7 +12,7 @@ export interface ORStatusData extends Meta {
 };
 
 export interface ORStatusParameters extends QueryStringParameters {
-
+    abrev?: string;
 }
 
 export const orStatusConst = {

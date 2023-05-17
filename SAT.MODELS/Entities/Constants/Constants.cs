@@ -225,7 +225,10 @@ namespace SAT.MODELS.Entities.Constants
                 { "NomeLote", "CodInstalLote" },
                 { "NumAgenciaDC", "CodPosto" },
                 { "NomeTipoParcela", "CodInstalTipoParcela" },
-                { "NumSeriePagto", "CodInstalacao" }
+                { "NumSeriePagto", "CodInstalacao" },
+                { "MagnusPeca", "CodPeca" },
+                { "ORStatus", "CodStatus" },
+                { "NomeUsuario", "CodUsuario" }
             };
 
         // Tecnicos

@@ -8,7 +8,7 @@ namespace SAT.INFRA.Interfaces
     {
         PagedList<ORItem> ObterPorParametros(ORItemParameters parameters);
         void Criar(ORItem item);
-        void Atualizar(ORItem item);
+        ORItem Atualizar(ORItem item);
         void Deletar(int codigo);
         ORItem ObterPorCodigo(int codigo);
     }

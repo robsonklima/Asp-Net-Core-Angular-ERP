@@ -18,7 +18,7 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(ORItem item)
+        public ORItem Atualizar(ORItem item)
         {
             _context.ChangeTracker.Clear();
             ORItem p = _context.ORItem.FirstOrDefault(p => p.CodORItem == item.CodORItem);
@@ -28,6 +28,8 @@ namespace SAT.INFRA.Repository
                 _context.Entry(p).CurrentValues.SetValues(item);
                 _context.SaveChanges();
             }
+
+            return item;
         }
 
         public void Criar(ORItem item)

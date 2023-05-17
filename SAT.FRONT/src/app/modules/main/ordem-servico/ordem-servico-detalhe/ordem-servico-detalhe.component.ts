@@ -30,6 +30,7 @@ import { RoleEnum } from 'app/core/user/user.types';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { mensagensConst, toastTypesConst } from 'app/core/types/generic.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -97,7 +98,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		this._cdr.detectChanges();
 	}
 
-	public exportar(){
+	public exportar() {
 		let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.PDF,
 			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
@@ -144,9 +145,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
 					});
 				},
-				() => {
-					this._snack.exibirToast('Erro ao agendar chamado.', 'error');
-				});
+					() => {
+						this._snack.exibirToast('Erro ao agendar chamado.', 'error');
+					});
 			}
 		});
 	}
@@ -181,16 +182,16 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			return false;
 
 		if (
-				(
-					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR ||
-					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_DE_SETOR ||
-					this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_COORDENADOR ||
-					this.userSession.usuario.codPerfil === PerfilEnum.FILIAIS_SUPERVISOR
-				) && 
-				this.os?.codTipoIntervencao === TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO && 
-				this.os?.codStatusServico !== StatusServicoEnum.FECHADO && 
-				this.os?.codStatusServico !== StatusServicoEnum.CANCELADO
-			)
+			(
+				this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR ||
+				this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_LIDER_DE_SETOR ||
+				this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_COORDENADOR ||
+				this.userSession.usuario.codPerfil === PerfilEnum.FILIAIS_SUPERVISOR
+			) &&
+			this.os?.codTipoIntervencao === TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO &&
+			this.os?.codStatusServico !== StatusServicoEnum.FECHADO &&
+			this.os?.codStatusServico !== StatusServicoEnum.CANCELADO
+		)
 			return false;
 
 		return true;
@@ -231,7 +232,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			if (confirmacao) {
 				var ultimoStatus = statusServicoConst.ABERTO;
 
-				this._osHistoricoService.obterPorParametros({codOS: this.codOS}).subscribe(async (historico) => {
+				this._osHistoricoService.obterPorParametros({ codOS: this.codOS }).subscribe(async (historico) => {
 					const historicoOS = historico.items.filter(h => h.codStatusServico != StatusServicoEnum.TRANSFERIDO);
 
 					if (historicoOS.length)
@@ -419,6 +420,12 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			TipoIntervencaoEnum.ORC_REPROVADO]
 
 		return orcamentos.includes(this.os?.codTipoIntervencao);
+	}
+
+	async reprocessarSLA() {
+		this._ordemServicoService.atualizar(this.os).toPromise();
+
+		this._snack.exibirToast(mensagensConst.REPROCESSADO_COM_SUCESSO, toastTypesConst.SUCCESS);
 	}
 
 	trocarTab(tab: any) {

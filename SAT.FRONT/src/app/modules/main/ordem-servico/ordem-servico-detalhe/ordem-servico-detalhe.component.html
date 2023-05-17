@@ -7,7 +7,8 @@
         <div class="flex flex-col flex-auto min-w-0">
             <div class="bg-card">
                 <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
-                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4" *transloco="let t">
+                    <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-4"
+                        *transloco="let t">
                         <div class="flex flex-auto items-center min-w-0">
                             <div class="flex-1 min-w-0">
                                 <div class="flex flex-wrap items-center font-medium">
@@ -32,23 +33,24 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-green-500 bg-white" mat-flat-button
+                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-green-500 bg-white"
+                                mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
                                 [routerLink]="['/relatorio-atendimento/detalhe/' + codOS]">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-yellow-500 bg-white" mat-flat-button
-                                [color]="'primary'"
+                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-yellow-500 bg-white"
+                                mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
                                 [routerLink]="['/ordem-servico/form/' + codOS]">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-blue-500 bg-white" mat-flat-button
-                                [color]="'primary'"
+                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-blue-500 bg-white"
+                                mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
@@ -61,14 +63,16 @@
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
 
-                            <button  class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
-                                *ngIf="os?.codStatusServico == 8 && !this.perfilCliente" [matTooltip]="t('cancelar transferencia')"
-                                [disabled]="isLoading" matTooltipPosition="above" (click)="cancelarTransferencia()">
-                                <mat-icon class="icon-size-6"[svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            <button class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
+                                *ngIf="os?.codStatusServico == 8 && !this.perfilCliente"
+                                [matTooltip]="t('cancelar transferencia')" [disabled]="isLoading"
+                                matTooltipPosition="above" (click)="cancelarTransferencia()">
+                                <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
                             </button>
                         </div>
 
-                        <button *ngIf="!this.perfilCliente" class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
+                        <button *ngIf="!this.perfilCliente"
+                            class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
                             [matMenuTriggerFor]="menu" [disabled]="isLoading">
                             <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
@@ -84,17 +88,17 @@
                                     {{ t('cancelar') }}
                                 </button>
 
-                                <button *ngIf="!this.perfilCliente" mat-menu-item (click)="bloquearDesbloquearChamado()">
-                                    <mat-icon class="icon-size-5"
-                                    [class.text-red-600]="!os?.indBloqueioReincidencia"
-                                    [class.text-green-600]="os?.indBloqueioReincidencia"
-                                    [svgIcon]="os?.indBloqueioReincidencia ? 'heroicons_solid:lock-openned' : 'heroicons_solid:lock-closed'"></mat-icon>
+                                <button *ngIf="!this.perfilCliente" mat-menu-item
+                                    (click)="bloquearDesbloquearChamado()">
+                                    <mat-icon class="icon-size-5" [class.text-red-600]="!os?.indBloqueioReincidencia"
+                                        [class.text-green-600]="os?.indBloqueioReincidencia"
+                                        [svgIcon]="os?.indBloqueioReincidencia ? 'heroicons_solid:lock-openned' : 'heroicons_solid:lock-closed'"></mat-icon>
                                     {{ os?.indBloqueioReincidencia ? 'Desbloquear' : 'Bloquear' }}
                                 </button>
 
-                                <button mat-menu-item (click)="reabrir()"
-                                    *ngIf="verificarPermissaoReabertura()">
-                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
+                                <button mat-menu-item (click)="reabrir()" *ngIf="verificarPermissaoReabertura()">
+                                    <mat-icon class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:arrow-circle-up'"></mat-icon>
                                     {{ t('reabrir') }}
                                 </button>
 
@@ -103,7 +107,15 @@
                                     Enviar por e-mail
                                 </button>
 
-                                <button *ngIf="(os?.codCliente === 197 || os?.codCliente === 220) && os?.codStatusServico === 3" mat-menu-item (click)="reprocessarIntegracaoBRB()">
+                                <button mat-menu-item (click)="reprocessarSLA()"
+                                    *ngIf="!perfilCliente && (userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 70)">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
+                                    Reprocessar SLA
+                                </button>
+
+                                <button
+                                    *ngIf="(os?.codCliente === 197 || os?.codCliente === 220) && os?.codStatusServico === 3"
+                                    mat-menu-item (click)="reprocessarIntegracaoBRB()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                                     Reprocessar Integração BRB
                                 </button>
@@ -113,7 +125,8 @@
                                     Reprocessar Integração BBTS
                                 </button>
 
-                                <button mat-menu-item *ngIf="verificaPermissaoBB() && dispBBBloqueioOS.length" (click)="desbloqueioRATBBTS()">
+                                <button mat-menu-item *ngIf="verificaPermissaoBB() && dispBBBloqueioOS.length"
+                                    (click)="desbloqueioRATBBTS()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:lock-open'"></mat-icon>
                                     Desbloquear BBTS
                                 </button>
@@ -132,7 +145,7 @@
                     <mat-tab-group class="sm:px-2" [animationDuration]="'0'" (selectedTabChange)="trocarTab($event)">
                         <!-- DETALHES DA OS -->
                         <mat-tab label="{{ t('detalhes') }}">
-                            <ng-template matTabContent >
+                            <ng-template matTabContent>
                                 <app-ordem-servico-info [os]="os"></app-ordem-servico-info>
                             </ng-template>
                         </mat-tab>
@@ -202,7 +215,7 @@
                                 <app-ordem-servico-laudos [codOS]="codOS"></app-ordem-servico-laudos>
                             </ng-template>
                         </mat-tab>
-                        
+
                         <!-- EQUIPAMENTO -->
                         <mat-tab *ngIf="!this.perfilCliente">
                             <ng-template matTabLabel>
@@ -216,7 +229,8 @@
                         </mat-tab>
 
                         <!-- ORCAMENTOS -->
-                        <mat-tab *ngIf="!perfilCliente && (userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 70)">
+                        <mat-tab
+                            *ngIf="!perfilCliente && (userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 70)">
                             <ng-template matTabLabel>
                                 {{ t('orcamentos') }}
                             </ng-template>

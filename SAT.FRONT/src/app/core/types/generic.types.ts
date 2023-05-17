@@ -26,7 +26,8 @@ export const mensagensConst = {
     NUM_SERIE_RET_INST_OBRIGATORIO: "Informe o número de série instalado e retirado",
     EQUIP_RET_DIFERENTE_OS: "Equipamento retirado não pode ser diferente do equipamento do chamado",
     NUMERO_SERIE_INSTALADO_N_ENCONTRADO: "Número de série instalado não encontrado",
-    NUMERO_SERIE_RETIRADO_N_ENCONTRADO: "Número de série retirado não encontrado"
+    NUMERO_SERIE_RETIRADO_N_ENCONTRADO: "Número de série retirado não encontrado",
+    REPROCESSADO_COM_SUCESSO: "Reprocessado com sucesso"
 }
 
 export const toastTypesConst = {

@@ -27,7 +27,7 @@ import { ProcessoReparoListaMaisOpcoesComponent } from './processo-reparo-lista-
 	templateUrl: './laboratorio-processo-reparo-lista.component.html',
 	styles: [
 		`.list-grid-reparo {
-            grid-template-columns: 72px 88px auto 94px 128px 108px 72px 98px 112px 60px 92px;
+            grid-template-columns: 72px 72px 88px auto 94px 128px 108px 72px 98px 112px 60px 92px;
         }`
 	]
 })

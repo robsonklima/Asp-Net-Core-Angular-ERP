@@ -1,5 +1,3 @@
-using System;
-using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services

@@ -310,6 +310,8 @@ namespace SAT.INFRA.Context
         public DbSet<MotivoCancelamento> MotivoCancelamento { get; set; }
         public DbSet<RedeBanrisul> RedeBanrisul { get; set; }
         public DbSet<TipoComunicacao> TipoComunicacao { get; set; }
+        public DbSet<EquipamentoPOS> EquipamentoPOS { get; set; }
+        public DbSet<StatusEquipamentoPOS> StatusEquipamentoPOS { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -540,6 +542,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<MotivoCancelamento>(new MotivoCancelamentoMap().Configure);
             modelBuilder.Entity<RedeBanrisul>(new RedeBanrisulMap().Configure);
             modelBuilder.Entity<TipoComunicacao>(new TipoComunicacaoMap().Configure);
+            modelBuilder.Entity<EquipamentoPOS>(new EquipamentoPOSMap().Configure);
+            modelBuilder.Entity<StatusEquipamentoPOS>(new StatusEquipamentoPOSMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

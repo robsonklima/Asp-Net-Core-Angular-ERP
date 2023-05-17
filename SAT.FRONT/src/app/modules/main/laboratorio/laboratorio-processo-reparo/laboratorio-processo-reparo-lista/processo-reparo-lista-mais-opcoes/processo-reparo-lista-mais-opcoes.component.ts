@@ -80,7 +80,7 @@ export class ProcessoReparoListaMaisOpcoesComponent implements OnInit {
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
-			codPerfis: "63,61,80",
+			codPerfis: "63,61",
       filter: filter
 		};
 

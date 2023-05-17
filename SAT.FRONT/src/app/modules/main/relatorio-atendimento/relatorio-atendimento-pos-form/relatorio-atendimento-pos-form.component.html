@@ -1,28 +1,14 @@
 <div *transloco="let t">
-    <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm" class="flex flex-col bg-card overflow-hidden" *ngIf="!loading">
+    <form autocomplete="off" [formGroup]="form" #formGroupAccessor="ngForm"
+        class="flex flex-col bg-card overflow-hidden" *ngIf="!loading">
         <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
             <p class="text-lg font-medium">{{ t('relatorio de atendimento') }}</p>
         </div>
 
         <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card overflow-hidden">
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('equipamento retirado') }}</mat-label>
-                <mat-select formControlName="codEquipRet">
-                    <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
-                        {{ equip.nomeEquip }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                <mat-label>{{ t('numero serie retirada') }}</mat-label>
-                <input matInput formControlName="numSerieRet" maxlength="50">
-                <mat-error>{{ t('preencher campo') }}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('equipamento instalado') }}</mat-label>
-                <mat-select formControlName="codEquipInst">
+                <mat-select formControlName="codEquipInst" disabled="true">
                     <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
                         {{ equip.nomeEquip }}
                     </mat-option>
@@ -32,6 +18,21 @@
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('numero serie instalada') }}</mat-label>
                 <input matInput formControlName="numSerieInst" maxlength="50">
+                <mat-error>{{ t('preencher campo') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('equipamento retirado') }}</mat-label>
+                <mat-select formControlName="codEquipRet" disabled="true">
+                    <mat-option *ngFor="let equip of equipamentos" [value]="equip.codEquip">
+                        {{ equip.nomeEquip }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                <mat-label>{{ t('numero serie retirada') }}</mat-label>
+                <input matInput formControlName="numSerieRet" maxlength="50">
                 <mat-error>{{ t('preencher campo') }}</mat-error>
             </mat-form-field>
 
@@ -107,7 +108,8 @@
             <mat-form-field class="fuse-mat-dense sm:col-span-6">
                 <mat-label>{{ t('motivo de cancelamento') }}</mat-label>
                 <mat-select formControlName="codMotivoCancelamento">
-                    <mat-option *ngFor="let motivoCancelamento of motivosCancelamento" [value]="motivoCancelamento.codMotivoCancelamento">
+                    <mat-option *ngFor="let motivoCancelamento of motivosCancelamento"
+                        [value]="motivoCancelamento.codMotivoCancelamento">
                         {{ motivoCancelamento.motivo }}
                     </mat-option>
                 </mat-select>

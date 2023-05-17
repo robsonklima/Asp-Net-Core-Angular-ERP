@@ -33,87 +33,89 @@ export enum TipoIntervencaoEnum {
 	PREVENTIVA_GERENCIAL = 28,
 	PREVENTIVA = 6,
 	MANUTENÇÃO_GERENCIAL = 31,
-	HELP_DESK = 23
+	HELP_DESK = 23,
+	DESINSTALACAO = 3,
+	INSTALACAO = 4
 };
 
-export const TipoIntervencaoConst =[
+export const TipoIntervencaoConst = [
 	{
-	  id: 1,
-	  name: "ALTERAÇÃO DE ENGENHARIA"
-	},	{
-	  id: 2,
-	  name: "CORRETIVA"
-	},	{
-	  id: 3,
-	  name: "DESINSTALAÇÃO"
-	},	{
-	  id: 4,
-	  name: "INSTALAÇÃO"
-	},	{
-	  id: 5,
-	  name: "ORÇAMENTO"
-	},	{
-	  id: 6,
-	  name: "PREVENTIVA"
-	},	{
-	  id: 7,
-	  name: "REINSTALAÇÃO"
-	},	{
-	  id: 10,
-	  name: "INSPEÇÃO TÉCNICA"
-	},	{
-	  id: 11,
-	  name: "REMANEJAMENTO"
-	},	{
-	  id: 13,
-	  name: "TREINAMENTO"
-	},	{
-	  id: 14,
-	  name: "AUTORIZAÇÃO DESLOCAMENTO"
-	},	{
-	  id: 17,
-	  name: "ORÇ APROVADO"
-	},	{
-	  id: 18,
-	  name: "ORÇ REPROVADO"
-	},	{
-	  id: 19,
-	  name: "ORÇ PEND APROVAÇÃO CLIENTE"
-	},	{
-	  id: 20,
-	  name: "ORÇ PEND FILIAL DETALHAR MOTIVO"
-	},	{
-	  id: 22,
-	  name: "CORRETIVA-POS REINCIDENTES"
-	},	{
-	  id: 23,
-	  name: "HELPDESK"
-	},	{
-	  id: 24,
-	  name: "TROCA VELOH C"
-	},	{
-	  id: 25,
-	  name: "ATUALIZAÇÃO"
-	},	{
-	  id: 26,
-	  name: "LAUDO TÉCNICO"
-	},	{
-	  id: 27,
-	  name: "HELP DESK DSS"
-	},	{
-	  id: 28,
-	  name: "PREVENTIVA GERENCIAL"
-	},	{
-	  id: 29,
-	  name: "LISTA ATUALIZAÇÃO EQUIPAMENTO"
-	},	{
-	  id: 30,
-	  name: "VANDALISMO"
-	},	{
-	  id: 31,
-	  name: "MANUTENÇÃO GERENCIAL"
-	},	{
-	  id: 32,
-	  name: "COFRE"
+		id: 1,
+		name: "ALTERAÇÃO DE ENGENHARIA"
+	}, {
+		id: 2,
+		name: "CORRETIVA"
+	}, {
+		id: 3,
+		name: "DESINSTALAÇÃO"
+	}, {
+		id: 4,
+		name: "INSTALAÇÃO"
+	}, {
+		id: 5,
+		name: "ORÇAMENTO"
+	}, {
+		id: 6,
+		name: "PREVENTIVA"
+	}, {
+		id: 7,
+		name: "REINSTALAÇÃO"
+	}, {
+		id: 10,
+		name: "INSPEÇÃO TÉCNICA"
+	}, {
+		id: 11,
+		name: "REMANEJAMENTO"
+	}, {
+		id: 13,
+		name: "TREINAMENTO"
+	}, {
+		id: 14,
+		name: "AUTORIZAÇÃO DESLOCAMENTO"
+	}, {
+		id: 17,
+		name: "ORÇ APROVADO"
+	}, {
+		id: 18,
+		name: "ORÇ REPROVADO"
+	}, {
+		id: 19,
+		name: "ORÇ PEND APROVAÇÃO CLIENTE"
+	}, {
+		id: 20,
+		name: "ORÇ PEND FILIAL DETALHAR MOTIVO"
+	}, {
+		id: 22,
+		name: "CORRETIVA-POS REINCIDENTES"
+	}, {
+		id: 23,
+		name: "HELPDESK"
+	}, {
+		id: 24,
+		name: "TROCA VELOH C"
+	}, {
+		id: 25,
+		name: "ATUALIZAÇÃO"
+	}, {
+		id: 26,
+		name: "LAUDO TÉCNICO"
+	}, {
+		id: 27,
+		name: "HELP DESK DSS"
+	}, {
+		id: 28,
+		name: "PREVENTIVA GERENCIAL"
+	}, {
+		id: 29,
+		name: "LISTA ATUALIZAÇÃO EQUIPAMENTO"
+	}, {
+		id: 30,
+		name: "VANDALISMO"
+	}, {
+		id: 31,
+		name: "MANUTENÇÃO GERENCIAL"
+	}, {
+		id: 32,
+		name: "COFRE"
 	}
-   ];
+];

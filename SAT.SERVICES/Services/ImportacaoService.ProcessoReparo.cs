@@ -89,8 +89,7 @@ namespace SAT.SERVICES.Services
                         linha.Mensagem = $"Registro atualizado com sucesso: {ori.CodORItem}";
                         Mensagem.Add(linha.Mensagem);
                     }
-                }
-                    
+                }                    
                 catch (System.Exception ex)
                 {                    
                     switch(ex.Message)

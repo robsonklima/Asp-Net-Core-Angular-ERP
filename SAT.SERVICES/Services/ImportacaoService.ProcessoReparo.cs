@@ -130,6 +130,8 @@ namespace SAT.SERVICES.Services
                     return _pecaRepo.ObterPorParametros(new PecaParameters { CodMagnus = coluna.Valor })?.FirstOrDefault()?.CodPeca;                           
                 case "ORStatus":
                     return _orStatusRepo.ObterPorParametros(new ORStatusParameters { Abrev = coluna.Valor })?.FirstOrDefault()?.CodStatus;                                               
+                case "NomeUsuarioLab":
+                    return _usuarioRepo.ObterPorParametros(new UsuarioParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodUsuario; 
                 default:
                     return ConverterCamposEmComum(coluna);
             }

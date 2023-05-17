@@ -21,5 +21,6 @@ export interface EquipamentoPOSData extends Meta {
 };
 
 export interface EquipamentoPOSParameters extends QueryStringParameters {
-
+    numSerie?: string;
+    codEquip?: number;
 };

@@ -85,7 +85,6 @@ namespace SAT.MODELS.Entities
         public string AtmId { get; set; }
         [ForeignKey("CodFilial, CodRegiao, CodAutorizada")]
         public RegiaoAutorizada RegiaoAutorizada { get; set; }
-        
         [ForeignKey("CodContrato, CodEquip")]
         public ContratoEquipamento ContratoEquipamento { get; set; }
         public MtbfEquipamento Mtbf { get; set; }

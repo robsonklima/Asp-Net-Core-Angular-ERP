@@ -60,6 +60,12 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.EquipamentoPOS.AsQueryable();
 
+            if (parameters.CodEquip.HasValue)
+                query = query.Where(q => q.CodEquip == parameters.CodEquip);
+
+            if (!string.IsNullOrWhiteSpace(parameters.NumSerie))
+                query = query.Where(q => q.NumeroSerie == parameters.NumSerie);
+
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

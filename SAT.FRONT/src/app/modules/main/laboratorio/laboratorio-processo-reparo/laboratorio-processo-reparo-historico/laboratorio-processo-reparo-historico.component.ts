@@ -52,6 +52,7 @@ export class LaboratorioProcessoReparoHistoricoComponent implements AfterViewIni
     this.filial = await this._filialService.obterPorCodigo(this.or.codOrigem).toPromise();
     await this.obterInsumos();
     await this.obterChecklists();
+
    }
   
   private async obterInsumos(){

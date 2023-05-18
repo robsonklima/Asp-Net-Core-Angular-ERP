@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
 {
@@ -52,12 +53,14 @@ namespace SAT.INFRA.Repository
         public ORItemInsumo ObterPorCodigo(int cod)
         {
             return _context.ORItemInsumo
+                .Include(or => or.Peca)
                 .FirstOrDefault(p => p.CodORItemInsumo == cod);
         }
 
         public PagedList<ORItemInsumo> ObterPorParametros(ORItemInsumoParameters parameters)
         {
             var query = _context.ORItemInsumo
+                .Include(or => or.Peca)
                 .AsQueryable();
 
             if (parameters.Filter != null)

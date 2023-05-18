@@ -254,6 +254,12 @@ export class RelatorioAtendimentoPosFormComponent implements OnInit {
     if (!this.equipInst || !this.equipPOSInst)
       this._snack.exibirToast(mensagensConst.NUMERO_SERIE_INSTALADO_N_ENCONTRADO, toastTypesConst.ERROR);
 
+    if (this.os.equipamentoContrato.numSerie != form.numSerieInst && !form.numSerieRet)
+      this._snack.exibirToast(mensagensConst.NUMERO_SERIE_RETIRADO_N_ENCONTRADO, toastTypesConst.ERROR);
+
+    if (!this.equipInst.indAtivo)
+      this._snack.exibirToast(mensagensConst.NAO_E_POSSIVEL_INSTALAR_A_SERIE, toastTypesConst.ERROR);
+
     return undefined;
   }
 

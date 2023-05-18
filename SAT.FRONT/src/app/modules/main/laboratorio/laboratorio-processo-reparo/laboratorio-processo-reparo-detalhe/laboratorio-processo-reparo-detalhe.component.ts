@@ -78,7 +78,8 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
         () => {
           this._snack.exibirToast('Erro ao finalizar reparo', 'error');
         });
-    } else {
+
+      } else {
       const novoStatus = +!this.item?.temposReparo[0].indAtivo;
 
       await this._orTempoReparoService
@@ -117,3 +118,4 @@ export class LaboratorioProcessoReparoDetalheComponent implements OnInit {
     }
   }
 }
+

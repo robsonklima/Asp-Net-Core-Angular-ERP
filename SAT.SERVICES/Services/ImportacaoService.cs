@@ -32,10 +32,15 @@ namespace SAT.SERVICES.Services
         private readonly IFilialRepository _filialRepo;
         private readonly IInstalacaoLoteRepository _instalLoteRepo;
         private readonly IInstalacaoTipoParcelaRepository _instalTipoParcelaRepo;
-        private readonly IInstalacaoPagtoRepository _instalacaoPagtoRepo;
+        private readonly IInstalacaoPagtoRepository _instalacaoPagtoRepo;       
         private readonly IInstalacaoService _instalacaoService;
         private readonly IInstalacaoPagtoInstalService _instalacaoPagtoInstalService;
         private readonly IEquipamentoContratoService _equipamentoContratoService;
+        private readonly IORItemRepository _orItemRepo;        
+        private readonly IORItemService _orItemService;             
+        private readonly IUsuarioRepository _usuarioRepo;      
+        private readonly IPecaRepository _pecaRepo;    
+        private readonly IORStatusRepository _orStatusRepo;    
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -60,10 +65,15 @@ namespace SAT.SERVICES.Services
             IFilialRepository filialRepo,
             IInstalacaoLoteRepository instalLoteRepo,
             IInstalacaoTipoParcelaRepository instalTipoParcelaRepo,
-            IInstalacaoPagtoRepository instalacaoPagtoRepo,            
+            IInstalacaoPagtoRepository instalacaoPagtoRepo,    
             IInstalacaoService instalacaoService,
             IInstalacaoPagtoInstalService instalacaoPagtoInstalService,
-            IEquipamentoContratoService equipamentoContratoService
+            IEquipamentoContratoService equipamentoContratoService,
+            IORItemRepository orItemRepo,       
+            IORItemService orItemService,             
+            IUsuarioRepository usuarioRepo,
+            IPecaRepository pecaRepo,
+            IORStatusRepository orStatusRepo           
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -88,10 +98,15 @@ namespace SAT.SERVICES.Services
             _filialRepo = filialRepo;
             _instalLoteRepo = instalLoteRepo;
             _instalTipoParcelaRepo = instalTipoParcelaRepo;
-            _instalacaoPagtoRepo = instalacaoPagtoRepo;            
+            _instalacaoPagtoRepo = instalacaoPagtoRepo;         
             _instalacaoService = instalacaoService;
             _instalacaoPagtoInstalService = instalacaoPagtoInstalService;
             _equipamentoContratoService = equipamentoContratoService;
+            _orItemRepo = orItemRepo;
+            _orItemService = orItemService;   
+            _usuarioRepo = usuarioRepo; 
+            _pecaRepo = pecaRepo; 
+            _orStatusRepo = orStatusRepo;          
         }
 
         private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)
@@ -122,6 +137,8 @@ namespace SAT.SERVICES.Services
                     return _filialRepo.ObterPorParametros(new FilialParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodFilial;
                 case "NomeLote":
                     return _instalLoteRepo.ObterPorParametros(new InstalacaoLoteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodInstalLote;
+                case "NomeUsuario":
+                    return _usuarioRepo.ObterPorParametros(new UsuarioParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodUsuario;                    
                 default:
                     return coluna;
             }
@@ -139,6 +156,8 @@ namespace SAT.SERVICES.Services
                     return ImportacaoEquipamentoContrato(importacao);
                 case (int)ImportacaoEnum.INSTALACAO_PAGTO_INSTAL:
                     return ImportacaoInstalacaoPagtoInstal(importacao);
+                case (int)ImportacaoEnum.PROCESSO_REPARO:
+                    return ImportacaoProcessoReparo(importacao);                    
                 default:
                     return null;
             }

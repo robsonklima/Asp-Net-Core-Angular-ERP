@@ -6,6 +6,7 @@
         ORDEM_SERVICO = 2,
         EQUIPAMENTO_CONTRATO = 3,
         FERIADO = 4,
-        INSTALACAO_PAGTO_INSTAL = 5
+        INSTALACAO_PAGTO_INSTAL = 5,
+        PROCESSO_REPARO = 6
     }
 }

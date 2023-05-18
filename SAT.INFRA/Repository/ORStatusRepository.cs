@@ -55,6 +55,12 @@ namespace SAT.INFRA.Repository
         {
             var query = _context.ORStatus.AsQueryable();
 
+
+            if (!string.IsNullOrWhiteSpace(parameters.Abrev))
+            {
+                query = query.Where(o => o.Abrev == parameters.Abrev);
+            }
+
             if (parameters.Filter != null)
             {
                 query = query.Where(

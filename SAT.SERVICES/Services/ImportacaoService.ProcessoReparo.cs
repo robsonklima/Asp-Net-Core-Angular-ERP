@@ -129,7 +129,8 @@ namespace SAT.SERVICES.Services
                 case "MagnusPeca":
                     return _pecaRepo.ObterPorParametros(new PecaParameters { CodMagnus = coluna.Valor })?.FirstOrDefault()?.CodPeca;                           
                 case "ORStatus":
-                    return _orStatusRepo.ObterPorParametros(new ORStatusParameters { Abrev = coluna.Valor })?.FirstOrDefault()?.CodStatus;                                               
+                    var ors = _orStatusRepo.ObterPorParametros(new ORStatusParameters { Abrev = coluna.Valor })?.FirstOrDefault()?.CodStatus;   
+                    return ors;                                            
                 case "NomeUsuarioLab":
                     return _usuarioRepo.ObterPorParametros(new UsuarioParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodUsuario; 
                 default:

@@ -73,7 +73,8 @@ namespace SAT.SERVICES.Services
             IORItemService orItemService,             
             IUsuarioRepository usuarioRepo,
             IPecaRepository pecaRepo,
-            IORStatusRepository orStatusRepo           
+            IORStatusRepository orStatusRepo,
+            IORItemInsumoRepository orItemInsumoRepo         
             )
         {
             _ordemServicoRepo = ordemServicoRepo;

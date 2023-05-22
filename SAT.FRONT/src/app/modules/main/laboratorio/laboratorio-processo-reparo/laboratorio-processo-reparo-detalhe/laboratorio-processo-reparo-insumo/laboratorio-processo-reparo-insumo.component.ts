@@ -70,14 +70,12 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
 
   private async obterInsumo(item: PecasLaboratorio): Promise<ORItemInsumo> {
     return (await this._orItemInsumoService.obterPorParametros({
-      codORItem: this.orItem.codORItem,
-      codPeca: item.codPeca,
-      indAtivo: statusConst.ATIVO
+      codORItem: this.orItem.codORItem
     }).toPromise()).items.shift();
   }
 
   private async obterPecasLab(): Promise<PecasLaboratorio[]> {
-    const params = { codChecklist: this.checklists.codORCheckList, codPecas: this.orItem.codPeca };
+    const params = { codChecklist: this.checklists.codORCheckList};
 
     return (await this._pecasLaboratorioService.obterPorParametros(params).toPromise()).items;
   }

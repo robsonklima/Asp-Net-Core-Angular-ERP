@@ -141,6 +141,7 @@ namespace SAT.SERVICES.Services
                                 AntigoPedidoCompraRedestinacao = v.AntigoPedidoCompraRedestinacao,
                                 AntigoProtocoloCdo = v.AntigoProtocoloCdo,
                                 NovoProtocoloCdo = v.NovoProtocoloCdo,
+                                DtLimitedaEntrega = v.DtLimitedaEntrega.HasValue ? v.DtLimitedaEntrega.Value.ToString("dd/MM/yy") : " ",
                             });
 
             var wsOs = Workbook.Worksheets.Add("Instalacoes");

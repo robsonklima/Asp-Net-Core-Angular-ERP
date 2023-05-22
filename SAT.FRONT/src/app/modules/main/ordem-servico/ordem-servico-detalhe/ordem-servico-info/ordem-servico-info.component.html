@@ -348,11 +348,17 @@
                     <div>
                         <span>Logradouro:</span>
                         {{ os?.localAtendimento?.endereco || 'Não Informado' }}
+                        {{ os?.localAtendimento?.numeroEnd || 'Não Informado' }}
                     </div>
 
                     <div>
                         <span>Cidade:</span>
                         {{ os?.localAtendimento?.cidade?.nomeCidade || 'Não Informado' }}
+                    </div>
+
+                    <div>
+                        <span>Bairro:</span>
+                        {{ os?.localAtendimento?.bairro || 'Não Informado' }}
                     </div>
 
                     <div>

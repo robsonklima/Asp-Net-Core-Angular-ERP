@@ -222,6 +222,7 @@ public class ConfigurationIOC
         builder.RegisterType<DefeitoPOSRepository>().As<IDefeitoPOSRepository>();
         builder.RegisterType<MotivoCancelamentoRepository>().As<IMotivoCancelamentoRepository>();
         builder.RegisterType<EquipamentoPOSRepository>().As<IEquipamentoPOSRepository>();
+        builder.RegisterType<MRPLogixRepository>().As<IMRPLogixRepository>();
         
         #endregion
 
@@ -439,6 +440,7 @@ public class ConfigurationIOC
         builder.RegisterType<IntegracaoSeniorService>().As<IIntegracaoSeniorService>();
         builder.RegisterType<IntegracaoProtegeService>().As<IIntegracaoProtegeService>();
         builder.RegisterType<EquipamentoPOSService>().As<IEquipamentoPOSService>();
+        builder.RegisterType<MRPLogixService>().As<IMRPLogixService>();
 
         #endregion
 

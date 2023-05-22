@@ -57,7 +57,7 @@
                         <input matInput formControlName="nfRemessaConferida">
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
                         <mat-label>{{ t('ag instalacao') }}</mat-label>
 
                         <mat-select class="min-h-10" formControlName="codPostoIns">
@@ -77,14 +77,6 @@
                         </mat-select>
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                        <mat-label>{{ t('dt instalacao') }}</mat-label>
-                        <input matInput (click)="dataBI.open()" (keydown)="false" [matDatepicker]="dataBI"
-                            formControlName="dataBI">
-                        <mat-datepicker-toggle matSuffix [for]="dataBI"></mat-datepicker-toggle>
-                        <mat-datepicker #dataBI></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense w-48 pr-2">
@@ -204,12 +196,6 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense w-48 pr-2">
-                        <mat-label>{{ t('nro rat') }}</mat-label>
-                        <input matInput formControlName="numRAT">
-                    </mat-form-field>
-
                 </form>
             </mat-tab>
         </mat-tab-group>

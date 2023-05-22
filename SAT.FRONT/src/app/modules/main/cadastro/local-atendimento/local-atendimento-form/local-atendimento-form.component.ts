@@ -89,8 +89,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.obterTiposRota();
     this.obterEquipamentosContrato();
 
-    if (!this.isAddMode)
-    {
+    if (!this.isAddMode) {
       this.obterLocal();
     }
   }
@@ -105,7 +104,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     this.form.controls['codCidade'].valueChanges.subscribe(async () => {
-      
+
     });
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
@@ -137,7 +136,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       map(async filtro => { this.obterCidades(filtro) }),
       delay(500),
       takeUntil(this._onDestroy)
-    ).subscribe(async (filtro) => {});
+    ).subscribe(async (filtro) => { });
 
     this.regioesFiltro.valueChanges.pipe(
       filter(filtro => !!filtro),
@@ -146,7 +145,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       map(async filtro => { this.obterRegioes(filtro) }),
       delay(500),
       takeUntil(this._onDestroy)
-    ).subscribe(async (filtro) => {});
+    ).subscribe(async (filtro) => { });
 
     this.autorizadasFiltro.valueChanges.pipe(
       filter(filtro => !!filtro),
@@ -155,7 +154,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       map(async filtro => { this.obterAutorizadas(filtro) }),
       delay(500),
       takeUntil(this._onDestroy)
-    ).subscribe(async (filtro) => {});
+    ).subscribe(async (filtro) => { });
   }
 
   private inicializarForm(): void {
@@ -229,7 +228,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.paises = data.items;
   }
 
-  private async obterUFs(filtro: string='') {
+  private async obterUFs(filtro: string = '') {
     const codPais = this.form.controls['codPais'].value;
 
     const params: UnidadeFederativaParameters = {
@@ -288,17 +287,17 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
   }
 
   private async obterLatLngPorEndereco(end: string) {
-    this._geolocationService.obterPorParametros({ 
-      enderecoCep: end.trim(), 
-      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE 
+    this._geolocationService.obterPorParametros({
+      enderecoCep: end.trim(),
+      geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE
     }).subscribe((geo: Geolocalizacao) => {
-      if (geo)  {
+      if (geo) {
         this.form.controls['latitude'].setValue(geo.latitude);
         this.form.controls['longitude'].setValue(geo.longitude);
 
         const p: CidadeParameters = {
           indAtivo: statusConst.ATIVO,
-          nomeCidade:geo.cidade,
+          nomeCidade: geo.cidade,
           siglaUF: geo.estado,
         }
 
@@ -334,8 +333,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async obterAutorizadas(filtro: string=null)
-  {
+  private async obterAutorizadas(filtro: string = null) {
     const params: AutorizadaParameters = {
       sortActive: 'nomeFantasia',
       sortDirection: 'asc',
@@ -348,8 +346,7 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     this.autorizadas = data.items;
   }
 
-  private async obterRegioes(filtro: string=null)
-  {
+  private async obterRegioes(filtro: string = null) {
     const codAutorizada = this.form.controls['codAutorizada'].value;
 
     const data = await this._regiaoAutorizadaService.obterPorParametros({
@@ -379,10 +376,8 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-      if (confirmacao)
-      {
-        if (this.equipamentosContrato.length)
-        {
+      if (confirmacao) {
+        if (this.equipamentosContrato.length) {
           this._snack.exibirToast('Este local possui equipamentos cadastrados', 'error');
           return;
         }
@@ -418,8 +413,14 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private criar(): void {
+  private async criar() {
     const form: any = this.form.getRawValue();
+
+    const jaExiste = await this.verificarSeLocalJaExiste();
+
+    if (jaExiste)
+      return this._snack.exibirToast("Local de atendimento já cadastrado", "error");
+
     let obj = {
       ...this.local,
       ...form,
@@ -435,6 +436,22 @@ export class LocalAtendimentoFormComponent implements OnInit, OnDestroy {
       this._snack.exibirToast("Registro adicionado com sucesso!", "success");
       this._router.navigate(['local-atendimento']);
     });
+  }
+
+  private async verificarSeLocalJaExiste() {
+    const form: any = this.form.getRawValue();
+
+    const data = await this._localService.obterPorParametros({
+      dcPosto: form.dcPosto,
+      numAgencia: form.numAgencia,
+      filter: form.nomeLocal,
+      codCliente: form.codCliente
+    }).toPromise();
+
+    if (data.items?.length)
+      return true;
+
+    return false;
   }
 
   ngOnDestroy() {

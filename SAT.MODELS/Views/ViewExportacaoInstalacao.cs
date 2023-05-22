@@ -131,6 +131,7 @@ namespace SAT.MODELS.Views
         public string AntigoPedidoCompraRedestinacao { get; set; }
         public string AntigoProtocoloCdo { get; set; }
         public string NovoProtocoloCdo { get; set; }
+        public DateTime? DtLimitedaEntrega { get; set; }
 
     }
 }

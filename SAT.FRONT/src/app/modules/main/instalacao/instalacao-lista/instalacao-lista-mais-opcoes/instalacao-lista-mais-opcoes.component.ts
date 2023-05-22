@@ -23,6 +23,8 @@ import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/oper
 import { InstalacaoStatus } from 'app/core/types/instalacao-status.types';
 import { InstalacaoStatusService } from 'app/core/services/instalacao-status.service';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
+import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
+import { ContratoEquipamento } from 'app/core/types/contrato-equipamento.types';
 
 @Component({
   selector: 'app-instalacao-lista-mais-opcoes',
@@ -45,6 +47,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     protected dialogRef: MatDialogRef<InstalacaoListaComponent>,
     private _instalStatusSvc: InstalacaoStatusService,
     private _equipamentoContratoService: EquipamentoContratoService,
+    private _contratoEquipamentoService: ContratoEquipamentoService,
     private _relatorioAtendimentoSvc: RelatorioAtendimentoService,
     private _localAtendimentoService: LocalAtendimentoService,
     private _instalacaoService: InstalacaoService,
@@ -141,54 +144,52 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     formInst.codUsuarioManut = this.userSession.usuario?.codUsuario;
     formInst.codPosto = formInst.codPostoIns;
 
-    if(formInst.numRAT)
-    {
-        formInst.codRAT = (await this._relatorioAtendimentoSvc.obterPorParametros({ numRAT: formInst.numRAT}).toPromise()).items.shift().codRAT;
-    }
-
     let erro: boolean = false;
 
     for (const item of this.itens) {
+      if ((formInst.codInstalStatus == 3) && (item.codEquipContrato != null) && (item.codOS != null)) {
+        if (item.equipamentoContrato.indAtivo != statusConst.ATIVO) {
+          
+          var qtdDiaGarantia = (await this._contratoEquipamentoService.obterPorCodigo( item.codContrato, item.codEquip).toPromise()).qtdDiaGarantia;
+
+          let objEqp: EquipamentoContrato = {
+            ...item.equipamentoContrato,
+            ...{
+              dataAtivacao: item.ordemServico.dataHoraFechamento,
+              dataInicGarantia: item.ordemServico.dataHoraFechamento,
+              dataFimGarantia: moment().add( qtdDiaGarantia, 'days').format('YYYY-MM-DD HH:mm:ss'),
+              indAtivo: statusConst.ATIVO,
+              indReceita: statusConst.ATIVO,
+              indInstalacao: statusConst.ATIVO,
+              indRepasse: statusConst.INATIVO,
+              codPosto: item.ordemServico.codPosto,
+              CodFilial: item.ordemServico.codFilial,
+              CodAutorizada: item.ordemServico.codAutorizada,
+              CodRegiao: item.ordemServico.codRegiao,
+              codUsuarioManut: this.userSession.usuario?.codUsuario,
+              codUsuarioManutencao: this.userSession.usuario?.codUsuario,
+              dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+              dataManutencao: moment().format('YYYY-MM-DD HH:mm:ss')
+
+            }
+          };
+
+          this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
+            this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
+          });
+                  
+        }
+        var rat = (await this._relatorioAtendimentoSvc.obterPorParametros({ codOS: item.codOS, sortDirection: 'desc' }).toPromise()).items.shift();
+        item.codRAT = rat.codRAT;
+        item.dataBI = rat.dataHoraSolucao;        
+      }
+
       let inst: any = {}
-debugger
       Object.keys(item).forEach(key => {
         inst[key] = formInst[key] || item[key];
       });
 
-      this._instalacaoService
-        .atualizar(inst)
-        .subscribe((err) => console.log(err));
-
-        if ((formInst.codInstalStatus == 3) && (item.codEquipContrato != null) && (item.codOS != null)) {
-          if (item.equipamentoContrato.indAtivo != statusConst.ATIVO) {
-    
-            let objEqp : EquipamentoContrato = {
-              ...item.equipamentoContrato,
-              ...{
-                dataAtivacao: item.ordemServico.dataHoraFechamento,
-                dataInicGarantia: item.ordemServico.dataHoraFechamento,
-                indAtivo: statusConst.ATIVO,
-                indReceita: statusConst.ATIVO,
-                indInstalacao: statusConst.ATIVO,
-                indRepasse: statusConst.INATIVO,
-                codPosto: item.ordemServico.codPosto,
-                CodFilial: item.ordemServico.codFilial,
-                CodAutorizada: item.ordemServico.codAutorizada,
-                CodRegiao: item.ordemServico.codRegiao,
-                codUsuarioManut: this.userSession.usuario?.codUsuario,
-                codUsuarioManutencao: this.userSession.usuario?.codUsuario,
-                dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-                dataManutencao: moment().format('YYYY-MM-DD HH:mm:ss')
-    
-              }
-            };
-    
-            this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
-              this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
-            });
-    
-          }
-        }
+      this._instalacaoService.atualizar(inst).subscribe(err => console.log(err));
     }
 
     if (erro)

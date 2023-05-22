@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { CausaImprodutividadeService } from 'app/core/services/causa-improdutividade.service';
@@ -29,6 +30,7 @@ import { TipoChamadoSTN } from 'app/core/types/tipo-chamado-stn.types';
 import { TipoServico } from 'app/core/types/tipo-servico.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
+import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import _ from 'lodash';
 import moment from 'moment';
 import { forkJoin, Subject } from 'rxjs';
@@ -76,7 +78,8 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _userService: UserService,
     private _snack: CustomSnackbarService,
-    private _router: Router
+    private _router: Router,
+    private _dialog: MatDialog
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -313,13 +316,43 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 			}
 		};
 
-    forkJoin([
-      this._ordemServicoSTNService.atualizar(atendimento),
-      this._protocoloChamadoSTNService.atualizar(protocolo),
-    ]).subscribe(([result1, result2]) => {
-        this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
-        this._router.navigate(['suporte-stn/lista']);
+    if(protocolo.codTipoChamadoSTN == 2){
+      
+      const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+        data: {
+          titulo: 'Confirmação',
+          message: 'Deseja confirmar esse Protocolo como Improdutivo?',
+          buttonText: {
+            ok: 'Sim',
+            cancel: 'Não'
+          }
+        }
       });
+  
+      dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+        if (confirmacao)
+        {
+          protocolo.acaoSTN = protocolo.acaoSTN + 'Improdutividade confirmada pelo STN  ' + this.userSession.usuario?.codUsuario;
+
+          forkJoin([
+            this._ordemServicoSTNService.atualizar(atendimento),
+            this._protocoloChamadoSTNService.atualizar(protocolo),
+          ]).subscribe(([result1, result2]) => {
+              this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
+              this._router.navigate(['suporte-stn/lista']);
+            });
+        }
+      });
+    }
+    else{
+      forkJoin([
+        this._ordemServicoSTNService.atualizar(atendimento),
+        this._protocoloChamadoSTNService.atualizar(protocolo),
+      ]).subscribe(([result1, result2]) => {
+          this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
+          this._router.navigate(['suporte-stn/lista']);
+        });
+    }
   }
 
   ngOnDestroy() {

@@ -7,5 +7,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public DateTime? DataRegistro { get; set; }
         public string Level { get; set; }
+        public string Mensagem { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using NLog;
 using NLog.Fluent;
+using System.Reflection;
 
 namespace SAT.SERVICES.Services
 {
@@ -19,28 +20,25 @@ namespace SAT.SERVICES.Services
 
         public List<NLogRegistro> Obter(NLogParameters parameters)
         {
-
             List<NLogRegistro> registros = new();
+            string projectPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string file = projectPath + "\\Logs\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".json";
 
-            foreach (string url in Constants.LOGS_URLS)
+            if (System.IO.File.Exists(file))
             {
-                string file = url + DateTime.Now.ToString("yyyy-MM-dd") + ".json";
-
-                if (System.IO.File.Exists(file))
+                const Int32 BufferSize = 128;
+                using (var fileStream = File.OpenRead(file))
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
                 {
-                    const Int32 BufferSize = 128;
-                    using (var fileStream = File.OpenRead(file))
-                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                    String line;
+                    while ((line = streamReader.ReadLine()) != null)
                     {
-                        String line;
-                        while ((line = streamReader.ReadLine()) != null)
-                        {
-                            NLogRegistro log = JsonConvert.DeserializeObject<NLogRegistro>(line);
-
-                            if (log.Time >= DateTime.Now.AddHours(-2))
-                                registros.Add(log);
-                        }
+                        NLogRegistro log = JsonConvert.DeserializeObject<NLogRegistro>(line);
+                        registros.Add(log);
                     }
+
+                    if (!string.IsNullOrWhiteSpace(parameters.Mensagem))
+                        registros = registros.Where(r => r.Nested.Message.Contains(parameters.Filter)).ToList();
                 }
             }
 

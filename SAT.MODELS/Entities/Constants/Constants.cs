@@ -9,8 +9,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string SISTEMA_CAMADA_FE = "Frontend";
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
-        public static string BANRISUL_EMAIL = "tecnologia_suporte_service_desk@banrisul.com.br";        
-        public static string BANRISUL_EMAIL2 = "tecnologia_SDMOV@banrisul.com.br";        
+        public static string BANRISUL_EMAIL = "tecnologia_suporte_service_desk@banrisul.com.br";
+        public static string BANRISUL_EMAIL2 = "tecnologia_SDMOV@banrisul.com.br";
         public static string MAP_QUEST_KEY = "nCEqh4v9AjSGJreT75AAIaOx5vQZgVQ2";
         public static string GOOGLE_API_KEY = "AIzaSyC4StJs8DtJZZIELzFgJckwrsvluzRo_WM";
         public static string DB_PROD = "Prod";
@@ -25,7 +25,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
 
         // Email
-        public static Office365Config OFFICE_365_CONFIG = new Office365Config { // Apenas para obtencao do Token
+        public static Office365Config OFFICE_365_CONFIG = new Office365Config
+        { // Apenas para obtencao do Token
             Host = "smtp.office365.com",
             Port = 587,
             ClientID = "d1d8e679-7fa3-4461-9b71-56b7a290ea96",
@@ -35,23 +36,26 @@ namespace SAT.MODELS.Entities.Constants
             ApiUri = "https://graph.microsoft.com/",
         };
 
-        public static Office365EmailConfig EMAIL_TESTE_CONFIG = new Office365EmailConfig {
+        public static Office365EmailConfig EMAIL_TESTE_CONFIG = new Office365EmailConfig
+        {
             Username = "sat.teste@perto.com.br",
             Password = "SQ!@g45lic20(v",
             ClientID = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
         };
 
-        public static Office365EmailConfig EMAIL_APLICACAO_CONFIG = new Office365EmailConfig {
+        public static Office365EmailConfig EMAIL_APLICACAO_CONFIG = new Office365EmailConfig
+        {
             Username = "aplicacao.sat@perto.com.br",
             Password = "Aavk@41(&a$bfJo01",
             ClientID = "1b71cdeb-01a7-493e-a4a1-aedacb2488e3"
-        };        
+        };
 
-        public static Office365EmailConfig EMAIL_BANRISUL_CONFIG = new Office365EmailConfig {
+        public static Office365EmailConfig EMAIL_BANRISUL_CONFIG = new Office365EmailConfig
+        {
             Username = "gss.sat.banrisul@perto.com.br",
             Password = "Aolv!@#g8A)g4",
             ClientID = "4a0d5062-6188-4067-af77-e5eb261b2119"
-        };        
+        };
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;
@@ -72,10 +76,10 @@ namespace SAT.MODELS.Entities.Constants
         public static int[] EQUIPAMENTOS_PINPAD = { 153, 856, 1121 };
         public static int[] EQUIPAMENTOS_BATERIAS = { 153, 856, 1121 };
         public static int[] TIPO_INTERVENCAO_GERAL = { 2, 5, 17, 18, 19, 20 };
-        public static int[] EQUIPS_TDS_TCC_TOP_TR1150 = { 
-            91, 101, 112, 114, 151, 263, 264, 298, 320, 329, 407, 410, 415, 
-            447, 448, 459, 460, 603, 604, 628, 779, 865, 958, 959, 960, 961, 
-            962, 970, 1090 
+        public static int[] EQUIPS_TDS_TCC_TOP_TR1150 = {
+            91, 101, 112, 114, 151, 263, 264, 298, 320, 329, 407, 410, 415,
+            447, 448, 459, 460, 603, 604, 628, 779, 865, 958, 959, 960, 961,
+            962, 970, 1090
         };
         public static int CONTRATO_BB_TECNOLOGIA = 3145;
 
@@ -117,7 +121,7 @@ namespace SAT.MODELS.Entities.Constants
         public const int CLIENTE_ITAU = 251;
         public const int CLIENTE_BANESTES = 331;
         public const int CLIENTE_BANPARA = 426;
-        public const int CLIENTE_SAQUE_PAGUE =	434	;
+        public const int CLIENTE_SAQUE_PAGUE = 434;
 
         // Modelos
         public static int POS = 85;
@@ -205,9 +209,9 @@ namespace SAT.MODELS.Entities.Constants
                                                 Perto S.A. – Tecnologia para Bancos e Varejo<br> 
                                                 Ramal (51) 2126-6944<br> 
                                                 Whatsapp: (51) 997144990<br>";
-        
+
         //Dicionários
-        public static Dictionary<string,string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
+        public static Dictionary<string, string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
             {
                 { "NumSerie", "CodEquipContrato" },
                 { "NFVenda", "CodInstalNFVenda" },
@@ -237,7 +241,7 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
-        public static string[] LOGS_URLS = { 
+        public static string[] LOGS_URLS = {
             "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",
             "D:\\SAT\\Branch\\SAT.V2\\SAT.API\\Logs\\"
         };

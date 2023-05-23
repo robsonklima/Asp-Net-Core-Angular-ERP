@@ -8,16 +8,13 @@ import { NLogParameters, NLogRegistro } from '../types/n-log.types';
 @Injectable({
     providedIn: 'root'
 })
-export class NLogService
-{
-    constructor (private http: HttpClient) { }
+export class NLogService {
+    constructor(private http: HttpClient) { }
 
-    obterPorParametros(parameters: NLogParameters): Observable<NLogRegistro[]>
-    {
+    obterPorParametros(parameters: NLogParameters): Observable<NLogRegistro[]> {
         let params = new HttpParams();
 
-        Object.keys(parameters).forEach(key =>
-        {
+        Object.keys(parameters).forEach(key => {
             if (parameters[key] !== undefined && parameters[key] !== null)
                 params = params.append(key, String(parameters[key]));
         });
@@ -25,5 +22,11 @@ export class NLogService
         return this.http.get(
             `${c.api}/NLog`, { params: params })
             .pipe(map((data: NLogRegistro[]) => data));
+    }
+
+    criar(notificacao: NLogRegistro): Observable<NLogRegistro> {
+        return this.http.post<NLogRegistro>(`${c.api}/NLog`, notificacao).pipe(
+            map((obj) => obj)
+        );
     }
 }

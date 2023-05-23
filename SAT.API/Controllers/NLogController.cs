@@ -26,5 +26,11 @@ namespace SAT.API.Controllers
         {
             return _nLogService.Obter(parameters);
         }
+
+        [HttpPost]
+        public NLogRegistro Post([FromBody] NLogRegistro log)
+        {
+            return _nLogService.Criar(log);
+        }
     }
 }

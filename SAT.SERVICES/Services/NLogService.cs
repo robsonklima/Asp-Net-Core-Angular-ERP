@@ -8,11 +8,15 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using NLog;
+using NLog.Fluent;
 
 namespace SAT.SERVICES.Services
 {
     public class NLogService : INLogService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public List<NLogRegistro> Obter(NLogParameters parameters)
         {
 
@@ -41,6 +45,16 @@ namespace SAT.SERVICES.Services
             }
 
             return registros.OrderByDescending(r => r.Time).ToList();
+        }
+
+        public NLogRegistro Criar(NLogRegistro log)
+        {
+            _logger.Error()
+                .Message($"{log.Nested.Message}")
+                .Property("application", log.Nested.Application)
+                .Write();
+
+            return log;
         }
     }
 }

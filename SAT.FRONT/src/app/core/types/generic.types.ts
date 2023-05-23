@@ -35,3 +35,7 @@ export const toastTypesConst = {
     SUCCESS: "success",
     ERROR: "error",
 }
+
+export const formatosConst = {
+    DATA_HORA_DB: 'YYYY-MM-DD HH:mm:ss'
+}

@@ -7,5 +7,6 @@ namespace SAT.SERVICES.Interfaces
     public interface INLogService
     {
         List<NLogRegistro> Obter(NLogParameters parameters);
+        NLogRegistro Criar(NLogRegistro log);
     }
 }

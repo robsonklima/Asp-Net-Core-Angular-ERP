@@ -70,8 +70,8 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('venda brl') }}</mat-label>
                         <mat-label 
-                            [class.text-green-500]="peca?.isValorAtualizado"
-                            [class.text-red-500]="!peca?.isValorAtualizado">
+                            [class.text-green-500]="peca?.isValorAtualizado === 1"
+                            [class.text-red-500]="peca?.isValorAtualizado === 0">
                             {{peca?.isValorAtualizado ? "  Peça Atualizada": "  Peça Desatualizada" }}
                         </mat-label>
                         <input matInput formControlName="valPeca" mask="separator.2" prefix="R$" thousandSeparator="."

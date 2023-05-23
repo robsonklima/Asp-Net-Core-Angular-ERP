@@ -52,7 +52,7 @@
                                     noEntriesFoundLabel="'nenhum registro encontrado'"></ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let peca of pecas" [value]="peca.codPeca">
-                                {{ peca.codMagnus }}
+                                {{ peca.codMagnus + ' - ' + peca.nomePeca }}
                             </mat-option>
                         </mat-select>
 

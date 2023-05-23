@@ -38,18 +38,18 @@ export class OrdemServicoStnFormHistoricoComponent implements OnInit {
       .obterPorParametros
       ({
         codOS: this.codOS,
-        indAtivoCausa: statusConst.ATIVO, 
-        sortDirection: 'desc', 
-        sortActive:'codAtendimento'
+        indAtivoCausa: statusConst.ATIVO,
+        sortDirection: 'desc',
+        sortActive: 'codAtendimento'
       }).toPromise());
 
     this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
     this.causasImprodutividades = (await this._causaImprodSvc.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
-    
+
   }
 
   public verificarSolucaoSelecionado(codImprodutividade: number, protocolo: ProtocoloChamadoSTN): boolean {
-    return _.find(this.causasImprodutividades, { codImprodutividade: codImprodutividade, codProtocolo: protocolo.codProtocoloChamadoSTN }) != null;
+    return _.find(this.causasImprodutividades, { codImprodutividade: codImprodutividade, codProtocolo: protocolo?.codProtocoloChamadoSTN }) != null;
   }
 
 }

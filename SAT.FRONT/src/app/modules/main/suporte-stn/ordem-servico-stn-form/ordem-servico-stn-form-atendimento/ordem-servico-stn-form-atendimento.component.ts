@@ -87,21 +87,21 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   async ngOnInit() {
     this.inicializarForm();
     this.registrarEmitters();
-   
+
     this.atendimento = await this._ordemServicoSTNService.obterPorCodigo(this.codAtendimento).toPromise();
-    this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift(); 
+    this.protocolo = (await this._protocoloChamadoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.improdutividades = (await this._improdutividadeService.obterPorParametros({ indAtivo: 1 }).toPromise()).items;
     this.os = await this._ordemServicoService.obterPorCodigo(this.atendimento.codOS).toPromise();
     this.isAddMode = !this.protocolo;
 
-    if(this.isAddMode)
+    if (this.isAddMode)
       this.criarProtocolo();
 
     this.obterDados();
   }
 
-  async obterDados(){
-    this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo.codProtocoloChamadoSTN }).toPromise()).items;    
+  async obterDados() {
+    this.causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({ codProtocolo: this.protocolo?.codProtocoloChamadoSTN }).toPromise()).items;
 
     this.preencherForm();
     this.obterTecnicos();
@@ -124,14 +124,14 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     this.form.controls['codDefeito'].setValue(this.atendimento?.codDefeito);
     this.form.controls['acaoSTN'].setValue(this.protocolo?.acaoSTN);
   }
-  
+
   inicializarForm() {
     this.form = this._formBuilder.group({
       codAtendimento: [undefined],
       dataHoraAberturaSTN: [undefined],
       codOrigemChamadoSTN: [undefined],
       codStatusSTN: [undefined],
-      codTipoChamadoSTN:[undefined],
+      codTipoChamadoSTN: [undefined],
       nomeUsuario: [undefined],
       codTecnicos: [undefined],
       codTipoCausa: [undefined],
@@ -185,7 +185,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
       });
   }
 
-  criarProtocolo(){
+  criarProtocolo() {
     let obj: ProtocoloChamadoSTN = {
       ...{
         codAtendimento: this.atendimento.codAtendimento,
@@ -200,7 +200,7 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     });
   }
 
-  async obterTecnicos(){
+  async obterTecnicos() {
     this.tecnicos = (await this._tecnicoService.obterPorParametros({
       codFiliais: this.filialTecnicos,
       codPerfil: PerfilEnum.FILIAL_TECNICO_DE_CAMPO,
@@ -212,11 +212,11 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 
   async obterCausas() {
     this.causas = (await this._causaService
-      .obterPorParametros({ 
+      .obterPorParametros({
         sortActive: 'codECausa',
         sortDirection: 'asc',
         indAtivo: statusConst.ATIVO
-       })
+      })
       .toPromise()).items;
   }
 
@@ -228,11 +228,11 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
   }
 
   async obterTipoCausa() {
-    this.tiposCausas = (await this._tipoServicoService.obterPorParametros({ 
-        sortActive: 'nomeServico',
-        sortDirection: 'asc',
-        pageSize: 100,
-     }).toPromise()).items;
+    this.tiposCausas = (await this._tipoServicoService.obterPorParametros({
+      sortActive: 'nomeServico',
+      sortDirection: 'asc',
+      pageSize: 100,
+    }).toPromise()).items;
   }
 
   async obterStatus() {
@@ -252,12 +252,12 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     if ($event.checked) {
       this._causaImprodutividadeService.criar({
         codImprodutividade: codigo,
-        codProtocolo: this.protocolo.codProtocoloChamadoSTN,
+        codProtocolo: this.protocolo?.codProtocoloChamadoSTN,
         indAtivo: statusConst.ATIVO
       }).subscribe();
     } else {
       const causaImprodutividade = (await this._causaImprodutividadeService.obterPorParametros({
-        codProtocolo: this.protocolo.codProtocoloChamadoSTN,
+        codProtocolo: this.protocolo?.codProtocoloChamadoSTN,
         codImprodutividade: codigo
       }).toPromise()).items.shift();
 
@@ -276,12 +276,12 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
 
   async onChangeFilial($event: MatSlideToggleChange) {
     if ($event.checked) {
-      this.filialTecnicos = this.os.codFilial.toString(); 
+      this.filialTecnicos = this.os.codFilial.toString();
       this.checkFilial = true;
     }
     else {
       this.filialTecnicos = null;
-      this.checkFilial = false;     
+      this.checkFilial = false;
     }
 
     this.obterTecnicos();
@@ -291,33 +291,33 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
     return _.find(this.causaImprodutividade, { codImprodutividade: codImprodutividade, codProtocolo: this.protocolo?.codProtocoloChamadoSTN }) != null;
   }
 
-  salvar(){
+  salvar() {
     const form: any = this.form.getRawValue();
-		
+
     let atendimento: OrdemServicoSTN = {
-			...this.atendimento,
-			...form,
-			...{
-				dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioManut: this.userSession.usuario?.codUsuario,
-        dataHoraFechamentoSTN:moment().format('YYYY-MM-DD HH:mm:ss')
-			}
-		};
+      ...this.atendimento,
+      ...form,
+      ...{
+        dataHoraManut: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioManut: this.userSession.usuario?.codUsuario,
+        dataHoraFechamentoSTN: moment().format('YYYY-MM-DD HH:mm:ss')
+      }
+    };
 
     let protocolo: ProtocoloChamadoSTN = {
-			...this.protocolo,
-			...form,
-			...{
-				dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-				codUsuarioCad: this.userSession.usuario?.codUsuario,
+      ...this.protocolo,
+      ...form,
+      ...{
+        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
+        codUsuarioCad: this.userSession.usuario?.codUsuario,
         indAtivo: statusConst.ATIVO,
-        acaoSTN: this.form?.controls['acaoSTN']?.value +  moment().format(' DD/MM HH:mm') + ' * ',
+        acaoSTN: this.form?.controls['acaoSTN']?.value + moment().format(' DD/MM HH:mm') + ' * ',
         tecnicoCampo: this.form.controls['codTecnicos']?.value
-			}
-		};
+      }
+    };
 
-    if(protocolo.codTipoChamadoSTN == 2){
-      
+    if (protocolo.codTipoChamadoSTN == 2) {
+
       const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
         data: {
           titulo: 'Confirmação',
@@ -328,30 +328,29 @@ export class OrdemServicoStnFormAtendimentoComponent implements OnInit {
           }
         }
       });
-  
+
       dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-        if (confirmacao)
-        {
+        if (confirmacao) {
           protocolo.acaoSTN = protocolo.acaoSTN + 'Improdutividade confirmada pelo STN  ' + this.userSession.usuario?.codUsuario;
 
           forkJoin([
             this._ordemServicoSTNService.atualizar(atendimento),
             this._protocoloChamadoSTNService.atualizar(protocolo),
           ]).subscribe(([result1, result2]) => {
-              this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
-              this._router.navigate(['suporte-stn/lista']);
-            });
+            this._snack.exibirToast('Atendimento atualizado com sucesso', 'sucess');
+            this._router.navigate(['suporte-stn/lista']);
+          });
         }
       });
     }
-    else{
+    else {
       forkJoin([
         this._ordemServicoSTNService.atualizar(atendimento),
         this._protocoloChamadoSTNService.atualizar(protocolo),
       ]).subscribe(([result1, result2]) => {
-          this._snack.exibirToast('Atendimento atualizado com sucesso','sucess');
-          this._router.navigate(['suporte-stn/lista']);
-        });
+        this._snack.exibirToast('Atendimento atualizado com sucesso', 'sucess');
+        this._router.navigate(['suporte-stn/lista']);
+      });
     }
   }
 

@@ -28,7 +28,8 @@ export const mensagensConst = {
     NUMERO_SERIE_INSTALADO_N_ENCONTRADO: "Número de série instalado não encontrado",
     NUMERO_SERIE_RETIRADO_N_ENCONTRADO: "Número de série retirado não encontrado",
     REPROCESSADO_COM_SUCESSO: "Reprocessado com sucesso",
-    NAO_E_POSSIVEL_INSTALAR_A_SERIE: "Favor verificar o número de série instalado"
+    NAO_E_POSSIVEL_INSTALAR_A_SERIE: "Favor verificar o número de série instalado",
+    OCORREU_UM_ERRO: "Ocorreu um erro"
 }
 
 export const toastTypesConst = {

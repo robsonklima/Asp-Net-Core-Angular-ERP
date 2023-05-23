@@ -11,14 +11,16 @@ using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.UTILS;
 
-namespace SAT.SERVICES.Services {
+namespace SAT.SERVICES.Services
+{
     public partial class ExportacaoService
     {
         protected void GerarPlanilhaDespesaPeriodoTecnico(DespesaPeriodoTecnicoParameters parameters)
-		{
+        {
             var despesas = _despesaPeriodoTecnicoRepo.ObterPorParametros(parameters);
 
-            var sheet = despesas.Select(d => new {
+            var sheet = despesas.Select(d => new
+            {
                 CodDespesaPeriodoTecnico = d.CodDespesaPeriodoTecnico,
                 Protocolo = d.DespesaProtocoloPeriodoTecnico?.CodDespesaProtocolo,
                 Tecnico = d.Tecnico?.Nome,
@@ -41,8 +43,8 @@ namespace SAT.SERVICES.Services {
             });
 
             var wsOs = Workbook.Worksheets.Add("despesas");
-			wsOs.Cell(2, 1).Value = sheet;
-			WriteHeaders(sheet.FirstOrDefault(), wsOs);
+            wsOs.Cell(2, 1).Value = sheet;
+            WriteHeaders(sheet.FirstOrDefault(), wsOs);
         }
 
         private IActionResult GerarPdfDespesaPeriodoTecnico(Exportacao exportacao)
@@ -50,14 +52,16 @@ namespace SAT.SERVICES.Services {
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<DespesaPeriodoTecnicoParameters>();
 
             var despesa = _despesaPeriodoTecnicoRepo.ObterPorCodigo((int)parameters.CodDespesaPeriodoTecnico);
-            
-            var itens = _despesaService.Impressao(new DespesaParameters {
+
+            var itens = _despesaService.Impressao(new DespesaParameters
+            {
                 CodDespesaPeriodo = despesa.CodDespesaPeriodo,
                 CodTecnico = despesa.CodTecnico.ToString(),
                 indAtivo = 1
             });
 
-            var adiantamentos = _despesaAdiantamentoPeriodoRepo.ObterPorParametros(new DespesaAdiantamentoPeriodoParameters {
+            var adiantamentos = _despesaAdiantamentoPeriodoRepo.ObterPorParametros(new DespesaAdiantamentoPeriodoParameters
+            {
                 CodDespesaPeriodo = despesa.CodDespesaPeriodo,
                 CodTecnico = despesa.CodTecnico,
                 IndAdiantamentoAtivo = 1
@@ -69,7 +73,8 @@ namespace SAT.SERVICES.Services {
             decimal adiantamentoRecebido = adiantamentos.Sum(i => i.DespesaAdiantamento.ValorAdiantamento);
             decimal adiantamentoUtilizado = adiantamentos.Sum(i => i.ValorAdiantamentoUtilizado);
 
-            DespesaPeriodoTecnicoImpressaoModel despesaPeriodoTecnicoModel = new DespesaPeriodoTecnicoImpressaoModel {
+            DespesaPeriodoTecnicoImpressaoModel despesaPeriodoTecnicoModel = new DespesaPeriodoTecnicoImpressaoModel
+            {
                 Despesa = despesa,
                 Adiantamentos = adiantamentos,
                 Itens = itens,

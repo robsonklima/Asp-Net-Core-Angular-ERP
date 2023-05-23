@@ -1,6 +1,6 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { CustomSnackbarService } from '../services/custom-snackbar.service';
-import { formatosConst, toastTypesConst } from '../types/generic.types';
+import { formatosConst, mensagensConst, toastTypesConst } from '../types/generic.types';
 import { isDevMode } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { UserSession } from '../user/user.types';
@@ -23,7 +23,7 @@ export class GlobalErrorHandlerInterceptor implements ErrorHandler {
         console.log(error, this.userSession.usuario.codUsuario);
 
         if (isDevMode) {
-            this._snack.exibirToast(error.stack || error.message, toastTypesConst.ERROR);
+            this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
         }
 
         this._nLogService.criar({

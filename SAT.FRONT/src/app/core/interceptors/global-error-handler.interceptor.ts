@@ -21,10 +21,7 @@ export class GlobalErrorHandlerInterceptor implements ErrorHandler {
 
     handleError(error: Error) {
         console.log(error, this.userSession.usuario.codUsuario);
-
-        if (isDevMode) {
-            this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
-        }
+        this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
 
         this._nLogService.criar({
             time: moment().format(formatosConst.DATA_HORA_DB),

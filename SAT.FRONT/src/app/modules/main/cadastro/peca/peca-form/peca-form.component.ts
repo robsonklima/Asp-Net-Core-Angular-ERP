@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { PecaService } from 'app/core/services/peca.service';
-import { Peca, PecaParameters, PecaStatus } from 'app/core/types/peca.types';
+import { Peca, PecaStatus } from 'app/core/types/peca.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
@@ -57,7 +57,7 @@ export class PecaFormComponent implements OnInit {
     this.form.patchValue(data);
 
     this.peca = data;
-
+    this.validarValorAtualizado(this.peca);
 
   }
 
@@ -84,6 +84,14 @@ export class PecaFormComponent implements OnInit {
       dataHoraAtualizacaoValor: [undefined],
       isValorAtualizado: [undefined]
     });
+  }
+
+  private validarValorAtualizado(peca: Peca){
+    var dataAtual = moment();
+
+    if(moment(peca.dataHoraAtualizacaoValor).diff(dataAtual, 'days') > 0){
+      this.peca.isValorAtualizado = 1;
+    }
   }
 
   private async obterStatus(): Promise<void> {

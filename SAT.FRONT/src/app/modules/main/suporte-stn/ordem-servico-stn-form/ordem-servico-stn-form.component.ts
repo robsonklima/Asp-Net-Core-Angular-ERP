@@ -52,7 +52,9 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
     this.isAddMode = !this.codAtendimento;
     this.atendimento = (await this._ordemServicoSTNService.obterPorParametros({ codAtendimento: this.codAtendimento }).toPromise()).items.shift();
     this.registrarEmitters();
-    this.obterDados(this.atendimento.codOS);
+
+    if (this.atendimento?.codOS)
+      this.obterDados(this.atendimento?.codOS);
   }
 
   private registrarEmitters() {
@@ -70,9 +72,9 @@ export class OrdemServicoStnFormComponent implements AfterViewInit {
   private async obterDados(codOS: number) {
     this.isLoading = true;
     this.os = await this._ordemServicoService.obterPorCodigo(codOS).toPromise();
-    if(this.isAddMode)
+    if (this.isAddMode)
       this.atendimento = (await this._ordemServicoSTNService.obterPorParametros({ codOS: codOS }).toPromise()).items.shift();
-    
+
     this.obterLaudo();
     this.isLoading = false;
     this._cdr.detectChanges();

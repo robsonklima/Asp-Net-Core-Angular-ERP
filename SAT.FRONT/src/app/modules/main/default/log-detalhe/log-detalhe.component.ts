@@ -43,19 +43,7 @@ export class LogDetalheComponent implements OnInit, AfterViewInit {
   }
 
   private registrarEmitters() {
-    this.searchInputControl.valueChanges
-      .pipe(
-        debounceTime(700),
-        distinctUntilChanged(),
-        delay(500),
-        map(async query => {
-          this.obterLogs(query);
-        }),
-        takeUntil(this._onDestroy)
-      )
-      .subscribe(() => {
 
-      });
   }
 
   ngOnDestroy() {

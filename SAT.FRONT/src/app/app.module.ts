@@ -40,4 +40,4 @@ const routerConfig: ExtraOptions = {
     ],
     providers: []
 })
-export class AppModule {}
+export class AppModule { }

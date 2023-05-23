@@ -32,14 +32,11 @@ export class DefaultComponent implements OnInit, OnDestroy {
         const horaCorrente = hoje.getHours();
         const primeiroNome = this.sessionData?.usuario?.nomeUsuario?.split(" ").shift();
 
-        if (horaCorrente < 12)
-        {
+        if (horaCorrente < 12) {
             return `Bom dia ${primeiroNome}`;
-        } else if (horaCorrente < 18)
-        {
+        } else if (horaCorrente < 18) {
             return `Boa tarde ${primeiroNome}`;
-        } else
-        {
+        } else {
             return `Boa noite ${primeiroNome}`;
         }
     }
@@ -47,8 +44,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
     verificarPermissaoAcessoSlide(slide: string): boolean {
         const perfil = this.sessionData.usuario.codPerfil;
 
-        switch (slide)
-        {
+        switch (slide) {
             case 'SERVICOS':
                 return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
             case 'SERVIDORES':

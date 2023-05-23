@@ -1,29 +1,29 @@
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { appConfig } from 'app/core/config/app.config';
+import { CidadeService } from 'app/core/services/cidade.service';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
+import { DespesaItemService } from 'app/core/services/despesa-item.service';
+import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
+import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
+import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
+import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
 import {
   Despesa, DespesaConfiguracao, DespesaItem, DespesaItemAlertaData, DespesaItemAlertaEnum,
   DespesaTipo, DespesaTipoEnum, DespesaTipoParameters
 } from 'app/core/types/despesa.types';
-import { Inject, Component, LOCALE_ID, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { appConfig } from 'app/core/config/app.config';
-import { DespesaItemService } from 'app/core/services/despesa-item.service';
-import { DespesaTipoService } from 'app/core/services/despesa-tipo.service';
-import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
-import { DespesaConfiguracaoCombustivel } from 'app/core/types/despesa-configuracao-combustivel.types';
+import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RelatorioAtendimento } from 'app/core/types/relatorio-atendimento.types';
+import { statusConst } from 'app/core/types/status-types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
-import { CidadeService } from 'app/core/services/cidade.service';
-import { statusConst } from 'app/core/types/status-types';
-import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { OrdemServicoService } from 'app/core/services/ordem-servico.service';
-import { Subject } from 'rxjs';
 import Enumerable from 'linq';
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime, filter, map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-despesa-item-dialog',
@@ -64,8 +64,7 @@ export class DespesaItemDialogComponent implements OnInit {
     private _snack: CustomSnackbarService,
     private dialogRef: MatDialogRef<DespesaItemDialogComponent>,
   ) {
-    if (data)
-    {
+    if (data) {
       this.codDespesa = data.codDespesa;
       this.ordemServico = data.ordemServico;
       this.rat = data.rat;
@@ -83,8 +82,6 @@ export class DespesaItemDialogComponent implements OnInit {
     this.obterTiposDespesa();
     this.criarForm();
     this.registrarEmitters();
-
-    throw new Error('Err');
   }
 
   private async obterTiposDespesa() {
@@ -92,7 +89,7 @@ export class DespesaItemDialogComponent implements OnInit {
     this.tiposDespesa = (await this._despesaTipoSvc.obterPorParametros(params).toPromise()).items;
     const despesasQuilometragem = this.obterDespesaItensKM();
 
-    if (despesasQuilometragem?.length == 2 || (despesasQuilometragem?.length == 1 && !this.isUltimaRATDoDia())) { 
+    if (despesasQuilometragem?.length == 2 || (despesasQuilometragem?.length == 1 && !this.isUltimaRATDoDia())) {
       this.tiposDespesa = Enumerable.from(this.tiposDespesa)
         .where(i => i.codDespesaTipo != DespesaTipoEnum.KM)
         .toArray();
@@ -161,18 +158,15 @@ export class DespesaItemDialogComponent implements OnInit {
     this.kmPrevisto = await this.calculaQuilometragem();
     const trajeto = Math.abs(this.kmPrevisto - form.step2.quilometragem);
 
-    if (form.step2.quilometragem > this.kmPrevisto && trajeto > 2)
-    {
+    if (form.step2.quilometragem > this.kmPrevisto && trajeto > 2) {
       const centroOrigem = form.step2.bairroOrigem.toString()?.toLowerCase()?.includes("centro");
       const centroDestino = form.step2.bairroDestino.toString()?.toLowerCase()?.includes("centro");
 
-      if (centroOrigem && centroDestino)
-      {
+      if (centroOrigem && centroDestino) {
         (this.form.get('step2') as FormGroup).controls['codDespesaItemAlerta']
           .setValue(DespesaItemAlertaEnum.TecnicoTeveQuilometragemPercorridaMaiorQuePrevistaCalculadaDoCentroAoCentro);
       }
-      else 
-      {
+      else {
         (this.form.get('step2') as FormGroup).controls['codDespesaItemAlerta']
           .setValue(DespesaItemAlertaEnum.TecnicoTeveUmaQuilometragemPercorridaMaiorQuePrevista);
       }
@@ -185,8 +179,7 @@ export class DespesaItemDialogComponent implements OnInit {
   private validaDespesaRefeicao() {
     if (!this.isRefeicao()) return;
 
-    if (this.form.value.step2.valor > this.despesaConfiguracao.valorRefeicaoLimiteTecnico)
-    {
+    if (this.form.value.step2.valor > this.despesaConfiguracao.valorRefeicaoLimiteTecnico) {
       (this.form.get('step2') as FormGroup).controls['codDespesaItemAlerta']
         .setValue(DespesaItemAlertaEnum.TecnicoTeveAlgumaRefeicaoMaiorQueLimiteEspecificado);
       this.despesaInvalida();
@@ -277,7 +270,7 @@ export class DespesaItemDialogComponent implements OnInit {
     if (tipoDespesaSelecionado !== DespesaTipoEnum.KM)
       return;
 
-    const qtdDespesasKM = this.obterDespesaItensKM().length;
+    const qtdDespesasKM = this.obterDespesaItensKM()?.length || 0;
     if (this.isUltimaRATDoDia() && qtdDespesasKM)
       return;
 
@@ -355,14 +348,12 @@ export class DespesaItemDialogComponent implements OnInit {
       this.limpaFormOrigem();
       const local = (this.form.get('step2') as FormGroup).controls['localInicioDeslocamento'].value;
 
-      if (local === "residencial")
-      {
+      if (local === "residencial") {
         this.desabilitaFormOrigem();
         this.setOrigemResidencial();
         this.isResidenciaOrigem = true;
         this.isHotelOrigem = false;
-      } else if (local == "hotel")
-      {
+      } else if (local == "hotel") {
         this.habilitaFormOrigem();
         this.isResidenciaOrigem = false;
         this.isHotelOrigem = true;
@@ -376,8 +367,7 @@ export class DespesaItemDialogComponent implements OnInit {
       debounceTime(700),
       takeUntil(this._onDestroy),
       map(async endereco => {
-        if (endereco && this.obterLocalInicioDeslocamento() == 'hotel')
-        {
+        if (endereco && this.obterLocalInicioDeslocamento() == 'hotel') {
           const localizacao: Geolocalizacao = await this.obterCoordenadasEndereco(endereco);
 
           (this.form.get('step2') as FormGroup).controls['bairroOrigem'].setValue(localizacao.bairro);
@@ -396,8 +386,7 @@ export class DespesaItemDialogComponent implements OnInit {
       debounceTime(700),
       takeUntil(this._onDestroy),
       map(async endereco => {
-        if (endereco && this.obterLocalDestinoDeslocamento() == 'hotel')
-        {
+        if (endereco && this.obterLocalDestinoDeslocamento() == 'hotel') {
           const localizacao: Geolocalizacao = await this.obterCoordenadasEndereco(endereco);
 
           (this.form.get('step2') as FormGroup).controls['bairroDestino'].setValue(localizacao.bairro);
@@ -418,15 +407,13 @@ export class DespesaItemDialogComponent implements OnInit {
       this.limpaFormDestino();
       const local = (this.form.get('step2') as FormGroup).controls['localDestinoDeslocamento'].value;
 
-      if (local === "residencial")
-      {
+      if (local === "residencial") {
         this.desabilitaFormDestino();
         this.setDestinoResidencial();
         this.isResidenciaDestino = true;
         this.isHotelDestino = false;
       }
-      else if (local === "hotel")
-      {
+      else if (local === "hotel") {
         this.habilitaFormDestino();
         this.isResidenciaDestino = false;
         this.isHotelDestino = true;
@@ -439,14 +426,12 @@ export class DespesaItemDialogComponent implements OnInit {
   }
 
   private configuraCamposHabilitados() {
-    if (!this.isQuilometragem())
-    {
+    if (!this.isQuilometragem()) {
       (this.form.get('step2') as FormGroup).controls['quilometragem'].disable();
       (this.form.get('step3') as FormGroup).controls['obs'].disable();
       (this.form.get('step2') as FormGroup).controls['valor'].enable();
     }
-    else
-    {
+    else {
       (this.form.get('step2') as FormGroup).controls['quilometragem'].enable();
       (this.form.get('step3') as FormGroup).controls['obs'].enable();
       (this.form.get('step2') as FormGroup).controls['valor'].disable();
@@ -513,14 +498,12 @@ export class DespesaItemDialogComponent implements OnInit {
     let latitudeHotel: string;
     let longitudeHotel: string;
 
-    if (this.isHotelOrigem)
-    {
+    if (this.isHotelOrigem) {
       latitudeHotel = form.step2.latitudeOrigem;
       longitudeHotel = form.step2.longitudeOrigem;
     }
 
-    if (this.isHotelDestino)
-    {
+    if (this.isHotelDestino) {
       latitudeHotel = form.step2.latitudeDestino;
       longitudeHotel = form.step2.longitudeDestino;
     }

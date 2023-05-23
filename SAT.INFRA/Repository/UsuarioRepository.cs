@@ -85,7 +85,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.UsuarioSeguranca)
                 .Include(u => u.PontosPeriodoUsuario)
                     .ThenInclude(u => u.PontoPeriodo)
-                        .ThenInclude(u => u.PontoPeriodoStatus)                    
+                        .ThenInclude(u => u.PontoPeriodoStatus)
                 .Include(u => u.PontosPeriodoUsuario)
                     .ThenInclude(u => u.PontoPeriodoUsuarioStatus)
                 .AsQueryable();
@@ -109,7 +109,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(dc => cods.Contains(dc.CodCargo.Value));
             }
 
-             if (!string.IsNullOrWhiteSpace(parameters.CodPerfis))
+            if (!string.IsNullOrWhiteSpace(parameters.CodPerfis))
             {
                 int[] cods = parameters.CodPerfis.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
                 query = query.Where(dc => cods.Contains(dc.CodPerfil.Value));
@@ -181,12 +181,12 @@ namespace SAT.INFRA.Repository
                         .Any(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo))
                     .Include(u => u.PontosPeriodoUsuario
                     .Where(p => p.CodPontoPeriodoUsuarioStatus == parameters.CodPontoPeriodoUsuarioStatus && p.CodPontoPeriodo == parameters.CodPontoPeriodo));
-            } 
+            }
             else if (parameters.CodPontoPeriodo != null)
             {
                 query = query
                     .Include(u => u.PontosPeriodoUsuario
-                    .Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo));                        
+                    .Where(p => p.CodPontoPeriodo == parameters.CodPontoPeriodo));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.CodPerfisNotIn))
@@ -203,7 +203,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.PontoInicio.HasValue && parameters.PontoFim.HasValue)
             {
-                query = query.Include(u => u.PontosUsuario.Where(r => r.DataHoraRegistro.Date >= parameters.PontoInicio.Value.Date && 
+                query = query.Include(u => u.PontosUsuario.Where(r => r.DataHoraRegistro.Date >= parameters.PontoInicio.Value.Date &&
                     r.DataHoraRegistro.Date <= parameters.PontoFim.Value.Date));
             }
 
@@ -292,9 +292,9 @@ namespace SAT.INFRA.Repository
                     }
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -362,9 +362,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
     }

@@ -23,7 +23,7 @@ import { PhonePipe } from 'app/core/pipes/fone.pipe';
 import { CEPPipe } from 'app/core/pipes/cep.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormularioErrosComponent } from './formulario-erros/formulario-erros.component';
-import { GlobalErrorHandlerService } from 'app/core/interceptors/custom-error-handler';
+import { GlobalErrorHandlerInterceptor } from 'app/core/interceptors/global-error-handler.interceptor';
 
 export const FORMATO_DATA = {
     parse: {
@@ -82,10 +82,8 @@ export const FORMATO_DATA = {
             useClass: HttpErrorInterceptor,
             multi: true
         },
-        GlobalErrorHandlerService,
-        { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
+        { provide: ErrorHandler, useClass: GlobalErrorHandlerInterceptor }
     ]
 })
-export class SharedModule
-{
+export class SharedModule {
 }

@@ -75,7 +75,7 @@ export class IndicadoresFiliaisComponent implements OnInit {
             if (!component.usuarioSessao.usuario.codFilial) {
               const filial = component.filiais.filter(f => f.nomeFilial === "F" + uf).shift();
               const url = '/dashboard/indicadores-filiais-detalhados/' + filial?.codFilial;
-              component._router.navigate([ url ]);
+              component._router.navigate([url]);
             }
           });
 
@@ -100,17 +100,17 @@ export class IndicadoresFiliaisComponent implements OnInit {
   }
 
   private async montaDashboard(): Promise<void> {
-       this.indicadoresFiliais = (await this._dashboardService
-       .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
-       .viewDashboardIndicadoresFiliais;
+    this.indicadoresFiliais = (await this._dashboardService
+      .obterViewPorParametros({ dashboardViewEnum: DashboardViewEnum.INDICADORES_FILIAL }).toPromise())
+      .viewDashboardIndicadoresFiliais;
 
     this.indicadoresFiliaisTotal = Enumerable.from(this.indicadoresFiliais).firstOrDefault(q => q.filial == "TOTAL");
     this.indicadoresFiliais = Enumerable.from(this.indicadoresFiliais).where(f => f.filial != "TOTAL").distinct().toArray();
     this.indicadoresFiliais.sort((a, b) => (a.sla > b.sla ? -1 : 1));
-   
+
 
     let filiaisData = await this._filialService.obterPorParametros({ indAtivo: 1 }).toPromise();
-    this.filiais = filiaisData.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);  
+    this.filiais = filiaisData.items.filter((f) => f.codFilial != 7 && f.codFilial != 21 && f.codFilial != 33);
 
     this.filiais.forEach(async (filial) => {
       const valorIndicador = this.indicadoresFiliais?.find(f => f.filial == filial.nomeFilial)?.sla || 0;
@@ -127,7 +127,6 @@ export class IndicadoresFiliaisComponent implements OnInit {
       this.map.invalidateSize();
     });
 
-
     this.loading = false;
   }
 
@@ -139,19 +138,19 @@ export class IndicadoresFiliaisComponent implements OnInit {
         const dialogRef = this._dialog.open(IndicadoresFiliaisOpcoesComponent, {
           width: '450px'
         });
-        
+
         dialogRef.afterClosed().subscribe(async (data: any) => {
-          if (data) {   
+          if (data) {
             const filial = this.filiais.filter(f => f.nomeFilial === data).shift();
-            
-            
+
+
           }
         });
-  
+
         return;
       }
 
-      
+
     }
     else {
       this._snack.exibirToast("Não encontramos a filial selecionada", "warning");

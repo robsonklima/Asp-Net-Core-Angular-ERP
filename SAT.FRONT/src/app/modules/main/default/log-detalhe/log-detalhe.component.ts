@@ -32,6 +32,8 @@ export class LogDetalheComponent implements OnInit, AfterViewInit {
   }
 
   private async obterLogs(query: string = undefined) {
+    this.loading = true;
+
     this._nLogService.obterPorParametros({ filter: query }).subscribe((logs) => {
       this.logs = logs;
       this.logsFiltrados = logs;

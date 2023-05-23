@@ -12,7 +12,7 @@
     </div>
 
     <div class="max-h-120 overflow-scroll">
-        <table class="table-auto text-md font-medium tracking-tight mb-8 max-w-full">
+        <table class="table-auto text-md font-medium tracking-tight mb-8 max-w-full" *ngIf="!loading">
             <thead *ngIf="logs.length" class="text-left">
                 <tr>
                     <th class="py-1 px-2">Hora</th>
@@ -53,5 +53,11 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="flex justify-center items-center min-h-60" *ngIf="loading">
+            <div class="text-center">
+                <mat-progress-spinner [diameter]="42" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+        </div>
     </div>
 </div>

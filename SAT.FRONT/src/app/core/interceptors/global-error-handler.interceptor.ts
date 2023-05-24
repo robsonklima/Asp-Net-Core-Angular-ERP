@@ -20,18 +20,18 @@ export class GlobalErrorHandlerInterceptor implements ErrorHandler {
     }
 
     handleError(error: Error) {
-        console.log(error, this.userSession.usuario.codUsuario);
-        this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
+        // console.log(error, this.userSession.usuario.codUsuario);
+        // this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
 
-        this._nLogService.criar({
-            time: moment().format(formatosConst.DATA_HORA_DB),
-            level: toastTypesConst.ERROR,
-            nested: {
-                message: error.message,
-                application: 'Frontend'
-            }
-        }).subscribe(() => {
+        // this._nLogService.criar({
+        //     time: moment().format(formatosConst.DATA_HORA_DB),
+        //     level: toastTypesConst.ERROR,
+        //     nested: {
+        //         message: error.message,
+        //         application: 'Frontend'
+        //     }
+        // }).subscribe(() => {
 
-        });
+        // });
     }
 }

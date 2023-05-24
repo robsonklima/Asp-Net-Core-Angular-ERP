@@ -24,9 +24,9 @@ export class NLogService {
             .pipe(map((data: NLogRegistro[]) => data));
     }
 
-    criar(notificacao: NLogRegistro): Observable<NLogRegistro> {
-        return this.http.post<NLogRegistro>(`${c.api}/NLog`, notificacao).pipe(
-            map((obj) => obj)
-        );
-    }
+    // criar(notificacao: NLogRegistro): Observable<NLogRegistro> {
+    //     return this.http.post<NLogRegistro>(`${c.api}/NLog`, notificacao).pipe(
+    //         map((obj) => obj)
+    //     );
+    // }
 }

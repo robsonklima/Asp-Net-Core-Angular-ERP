@@ -16,17 +16,14 @@ namespace SAT.API.Support
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly RequestDelegate _next;
         private static IEmailService _emailService;
-        private IHttpContextAccessor _contextAcecssor;
 
         public CustomExceptionMiddleware(
             RequestDelegate next,
-            IEmailService emailService,
-            IHttpContextAccessor contextAcecssor
+            IEmailService emailService
         )
         {
             _next = next;
             _emailService = emailService;
-            _contextAcecssor = contextAcecssor;
         }
         public async Task InvokeAsync(HttpContext httpContext)
         {
@@ -39,22 +36,19 @@ namespace SAT.API.Support
                 await HandleExceptionAsync(httpContext, ex).ConfigureAwait(false);
             }
         }
-        private Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
             int statusCode = (int)HttpStatusCode.InternalServerError;
             var result = JsonConvert.SerializeObject(new { statusCode = statusCode, errorMessage = Constants.ERROR });
-
-            string codUsuario = _contextAcecssor.HttpContext.User.Identity.Name;
-
+            
             _logger.Error()
-                .Message($"{codUsuario} {statusCode} {ex.Message} {ex.InnerException}")
+                .Message($"{statusCode} {ex.Message} {ex.InnerException}")
                 .Property("application", Constants.SISTEMA_CAMADA_API)
                 .Write();
-
+            
             string[] destinatarios = { Constants.EQUIPE_SAT_EMAIL };
-            _emailService.Enviar(new Email()
-            {
+            _emailService.Enviar(new Email() {
                 Assunto = "Erro durante o uso do SAT.V2",
                 Corpo = $"{statusCode} {ex.Message} {ex.InnerException}",
                 EmailDestinatarios = destinatarios,

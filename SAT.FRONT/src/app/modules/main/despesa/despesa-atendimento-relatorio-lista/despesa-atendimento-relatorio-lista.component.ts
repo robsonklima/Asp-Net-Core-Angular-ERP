@@ -180,7 +180,7 @@ export class DespesaAtendimentoRelatorioListaComponent extends Filterable implem
 		return Enumerable.from(this.despesas.items)
 			.where(d => d.codRAT == codRAT)
 			.sum(d => Enumerable.from(d.despesaItens)
-				.where(di => di.codDespesaTipo == DespesaTipoEnum.KM)
+				.where(di => di.codDespesaTipo == DespesaTipoEnum.KM && di.indAtivo == statusConst.ATIVO )
 				.sum(di => di.kmPercorrido));
 	}
 }

@@ -18,7 +18,7 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoCorreiosService _integracaoCorreiosService;
     private readonly IIntegracaoSemPararService _integracaoSemPararService;
     private readonly IIntegracaoProtegeService _integracaoProtegeService;
-    private readonly IIntegracaoSeniorService _integracaoSeniorService;    
+    private readonly IIntegracaoSeniorService _integracaoSeniorService;
     private readonly IIntegracaoLogixService _integracaoLogixService;
 
     public Worker(
@@ -61,20 +61,27 @@ public partial class Worker : BackgroundService
 
                 if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
                     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
-
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
-                //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
-
-                //_integracaoCorreiosService.Executar();
-
-                //_integracaoLogixService.ImportarArquivoLogix();
             }
             catch (Exception)
             {
-                    
+
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+        }
+
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            try
+            {
+                _integracaoLogixService.ImportarArquivoLogix();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            await Task.Delay(TimeSpan.FromMinutes(120), stoppingToken);
         }
     }
 }

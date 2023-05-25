@@ -22,7 +22,7 @@ namespace SAT.SERVICES.Services
         }
         public void ImportarArquivoLogix()
         {
-            string caminhoArquivo = "/Arquivos/pedidos_pendentes.unl";
+            string caminhoArquivo = "C:/Arquivos/pedidos_pendentes.unl";
 
             FileStream fs;
             StreamReader sr;

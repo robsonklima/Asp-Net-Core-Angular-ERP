@@ -80,7 +80,11 @@ import { LaboratorioOrcamentoPecaListaComponent } from './laboratorio-orcamento/
 import { LaboratorioOrcamentoPecaDialogComponent } from './laboratorio-orcamento/laboratorio-orcamento-peca-dialog/laboratorio-orcamento-peca-dialog.component';
 import { LaboratorioOrcamentoFiltroComponent } from './laboratorio-orcamento/laboratorio-orcamento-filtro/laboratorio-orcamento-filtro.component';
 import { LaboratorioOSBancadaFiltroComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-filtro/laboratorio-os-bancada-filtro.component';
+<<<<<<< HEAD
 import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-processo-reparo-insumo-dialog/laboratorio-processo-reparo-insumo-dialog.component';
+=======
+import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-insumo-dialog/laboratorio-insumo-dialog.component';
+>>>>>>> f9ac25bc22df48dee3388b691da552bbd470e89f
 
 
 

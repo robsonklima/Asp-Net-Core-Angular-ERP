@@ -8,7 +8,7 @@ import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
 import { Peca } from 'app/core/types/peca.types';
-import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-processo-reparo-insumo-dialog/laboratorio-processo-reparo-insumo-dialog.component';
+import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-insumo-dialog/laboratorio-insumo-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

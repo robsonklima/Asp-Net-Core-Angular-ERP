@@ -18,8 +18,8 @@ import { ORItemInsumo } from 'app/core/types/or-item-insumo.types';
 import { statusConst } from 'app/core/types/status-types';
 
 @Component({
-    selector: 'app-laboratorio-processo-reparo-insumo-dialog',
-    templateUrl: './laboratorio-processo-reparo-insumo-dialog.component.html'
+    selector: 'app-laboratorio-insumo-dialog',
+    templateUrl: './laboratorio-insumo-dialog.component.html'
 })
 export class LaboratorioProcessoReparoInsumoDialogComponent implements OnInit {
     orItem: ORItem;

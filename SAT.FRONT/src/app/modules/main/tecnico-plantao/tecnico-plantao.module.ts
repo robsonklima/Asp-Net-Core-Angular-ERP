@@ -27,6 +27,9 @@ import { TecnicoPlantaoRegioesComponent } from './tecnico-plantao-regioes/tecnic
 import { TecnicoPlantaoClientesComponent } from './tecnico-plantao-clientes/tecnico-plantao-clientes.component';
 import { TecnicoPlantaoFormComponent } from './tecnico-plantao-form/tecnico-plantao-form.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { TecnicoPlantaoFiltroComponent } from './tecnico-plantao-filtro/tecnico-plantao-filtro.component';
+import { FiltroModule } from '../filtros/filtro.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     TecnicoPlantaoInformacoesComponent,
     TecnicoPlantaoRegioesComponent,
     TecnicoPlantaoClientesComponent,
-    TecnicoPlantaoFormComponent
+    TecnicoPlantaoFormComponent,
+    TecnicoPlantaoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +51,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
+    FiltroModule,
     TranslocoModule,
     MatButtonModule,
     MatTooltipModule,
@@ -57,6 +62,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     NgxMatSelectSearchModule,
     MatTableModule,
     MatCheckboxModule,
+    MatSidenavModule,
     FuseAlertModule,
     ReactiveFormsModule
   ],

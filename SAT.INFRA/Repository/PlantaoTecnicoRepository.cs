@@ -33,9 +33,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -115,8 +115,7 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo != null)
             {
-                query = query.Where(p => p.Tecnico.IndAtivo == parameters.IndAtivo);
-                query = query.Where(p => p.Tecnico.Usuario.IndAtivo == parameters.IndAtivo);
+                query = query.Where(p => p.IndAtivo == parameters.IndAtivo);
             }
 
             if (parameters.Nome != null)

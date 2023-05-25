@@ -116,7 +116,9 @@ export class PartesPecasControleDetalhesComponent implements AfterViewInit {
         var isAlterarStatusIntervenção = true;
 
         this.ratDetalhesPeca.forEach(i => {
-            if(i.descStatus != status)
+            if(i.descStatus == 'PEÇA FALTANTE')
+                return isAlterarStatusIntervenção = false;
+            if((i.descStatus != status) && (status == 'PEÇA LIBERADA')) 
                 return isAlterarStatusIntervenção = false;
         });
 

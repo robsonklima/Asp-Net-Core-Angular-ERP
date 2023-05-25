@@ -28,7 +28,7 @@ export interface MRPLogix {
     saldo: number;
 }
 
-export interface FotoData extends Meta
+export interface MRPLogixData extends Meta
 {
     items: MRPLogix[];
 };

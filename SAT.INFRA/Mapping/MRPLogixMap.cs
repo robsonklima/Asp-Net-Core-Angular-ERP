@@ -8,7 +8,7 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<MRPLogix> builder)
         {
-            builder.ToTable("CodMRPLogix");
+            builder.ToTable("MRPLogix");
             builder.HasKey(i => i.CodMRPLogix);
         }
     }

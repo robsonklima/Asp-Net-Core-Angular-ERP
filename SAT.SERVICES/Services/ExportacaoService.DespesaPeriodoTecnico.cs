@@ -103,8 +103,8 @@ namespace SAT.SERVICES.Services
                 AdiantamentoUtilizado = adiantamentoUtilizado,
                 AReceberViaDeposito = despesaOutros - adiantamentoUtilizado < 0 ? 0 : despesaOutros - adiantamentoUtilizado,
                 SaldoAdiantamento = adiantamentoRecebido - adiantamentoUtilizado,
-                PercentualOutros = Math.Round((despesaOutros / totalDespesa * 100), 2),
-                PercentualDespesaCB = Math.Round((despesaKM / totalDespesa * 100), 2)
+                PercentualOutros = Math.Round((despesaOutros / (totalDespesa == 0 ? 1 : totalDespesa) * 100), 2),
+                PercentualDespesaCB = Math.Round((despesaKM / (totalDespesa == 0 ? 1 : totalDespesa) * 100), 2)
             };
 
             var despesaImpressao = new DespesaPeriodoTecnicoPdfHelper(despesaPeriodoTecnicoModel);

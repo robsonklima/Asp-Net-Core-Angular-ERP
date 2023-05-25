@@ -18,7 +18,8 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoCorreiosService _integracaoCorreiosService;
     private readonly IIntegracaoSemPararService _integracaoSemPararService;
     private readonly IIntegracaoProtegeService _integracaoProtegeService;
-    private readonly IIntegracaoSeniorService _integracaoSeniorService;
+    private readonly IIntegracaoSeniorService _integracaoSeniorService;    
+    private readonly IIntegracaoLogixService _integracaoLogixService;
 
     public Worker(
         IPlantaoTecnicoService plantaoTecnicoService,
@@ -31,7 +32,8 @@ public partial class Worker : BackgroundService
         IIntegracaoZaffariService integracaoZaffariService,
         IIntegracaoSemPararService integracaoSemPararService,
         IIntegracaoProtegeService integracaoProtegeService,
-        ISatTaskService satTaskService
+        ISatTaskService satTaskService,
+        IIntegracaoLogixService integracaoLogixService
     )
     {
         _plantaoTecnicoService = plantaoTecnicoService;
@@ -45,6 +47,7 @@ public partial class Worker : BackgroundService
         _integracaoZaffariService = integracaoZaffariService;
         _integracaoProtegeService = integracaoProtegeService;
         _emailService = emailService;
+        _integracaoLogixService = integracaoLogixService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -53,16 +56,18 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                // await _integracaoBanrisulService.ProcessarEmailsAsync();
-                // _integracaoBanrisulService.ProcessarRetornos();
+                await _integracaoBanrisulService.ProcessarEmailsAsync();
+                _integracaoBanrisulService.ProcessarRetornos();
 
-                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
+                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
 
-                _integracaoCorreiosService.Executar();
+                //_integracaoCorreiosService.Executar();
+
+                //_integracaoLogixService.ImportarArquivoLogix();
             }
             catch (Exception)
             {

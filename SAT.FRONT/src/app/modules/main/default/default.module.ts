@@ -23,7 +23,7 @@ import { LogDetalheComponent } from './log-detalhe/log-detalhe.component';
 import { FuseCardModule } from '@fuse/components/card';
 import { UtilizacaoUsuariosDialogComponent } from './utilizacao/utilizacao-usuarios-dialog/utilizacao-usuarios-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     declarations: [
@@ -52,8 +52,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatTooltipModule,
         MatProgressBarModule,
         FuseCardModule,
-        MatDialogModule,
-        MatFormFieldModule
+        MatDialogModule
+        // MatFormFieldModule
     ]
 })
 export class DefaultModule {

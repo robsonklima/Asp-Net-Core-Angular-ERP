@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Inclusão de Peça</h2>
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 ">
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('peca') }}</mat-label>
+            <mat-select formControlName="codPeca">
+                <mat-option>
+                    <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                        noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="pecaFilterCtrl">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let peca of pecas" [value]="peca.codPeca" [matTooltip]="peca.nomePeca">
+                    {{ peca.codMagnus + ' - ' + peca.nomePeca }}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-6">
+            <mat-label>{{ t('Quantidade Utilizada') }}</mat-label>
+            <input matInput formControlName="qtdUtilizada" maxlength="10">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+
+<div class="flex justify-center items-center min-h-36" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button>
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+        Salvar
+    </button>
+</mat-dialog-actions>

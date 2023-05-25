@@ -80,6 +80,7 @@ import { LaboratorioOrcamentoPecaListaComponent } from './laboratorio-orcamento/
 import { LaboratorioOrcamentoPecaDialogComponent } from './laboratorio-orcamento/laboratorio-orcamento-peca-dialog/laboratorio-orcamento-peca-dialog.component';
 import { LaboratorioOrcamentoFiltroComponent } from './laboratorio-orcamento/laboratorio-orcamento-filtro/laboratorio-orcamento-filtro.component';
 import { LaboratorioOSBancadaFiltroComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-filtro/laboratorio-os-bancada-filtro.component';
+import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-insumo-dialog/laboratorio-insumo-dialog.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
@@ -130,7 +131,8 @@ const maskConfigFunction: () => Partial<IConfig> = () =>
     LaboratorioOrcamentoPecaListaComponent,
     LaboratorioOrcamentoPecaDialogComponent,
     LaboratorioOrcamentoFiltroComponent,
-    LaboratorioOSBancadaFiltroComponent
+    LaboratorioOSBancadaFiltroComponent,
+    LaboratorioProcessoReparoInsumoDialogComponent
 
   ],
   imports: [

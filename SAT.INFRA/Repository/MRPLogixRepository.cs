@@ -46,6 +46,16 @@ namespace SAT.INFRA.Repository
                 _context.SaveChanges();
             }
         }
+        public void LimparTabela()
+        {
+            var all = from c in _context.MRPLogix select c;
+
+            if (all != null)
+            {
+                _context.MRPLogix.RemoveRange(all);
+                _context.SaveChanges();
+            }
+        }        
 
         public MRPLogix ObterPorCodigo(int codigo)
         {

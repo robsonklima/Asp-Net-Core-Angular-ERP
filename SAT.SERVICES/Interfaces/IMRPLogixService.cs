@@ -11,5 +11,6 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(MRPLogix mrpLogix);
         MRPLogix ObterPorCodigo(int codigo);
+        void LimparTabela();        
     }
 }

@@ -11,22 +11,22 @@ namespace SAT.MODELS.Entities
         public string CodItem { get; set; }
         public string NomeItem { get; set; }
         public string CodCliente { get; set; }
-        public decimal? QtdPedido { get; set; }
-        public decimal? QtdSolicitada { get; set; }
+        public double? QtdPedido { get; set; }
+        public double? QtdSolicitada { get; set; }
         public string LocalProd { get; set; }        
-        public decimal? QtdCancelada { get; set; }
-        public decimal? Preco { get; set; }
-        public decimal? QtdAtendida { get; set; }
+        public double? QtdCancelada { get; set; }
+        public double? Preco { get; set; }
+        public double? QtdAtendida { get; set; }
         public DateTime? PrazoEntrega { get; set; }            
         public int? DiasPedido { get; set; }
         public int? CodEmpresa { get; set; }
         public string LocalEstoque { get; set; }
-        public decimal? NumSequencia { get; set; }
-        public decimal? IPI { get; set; }
+        public double? NumSequencia { get; set; }
+        public double? IPI { get; set; }
         public string CodUsuario { get; set; }
         public string Tipo { get; set; }
-        public decimal? SaldoTotal { get; set; }
-        public decimal? NumSequenciaPed { get; set; }
-        public decimal? Saldo { get; set; }                
+        public double? SaldoTotal { get; set; }
+        public double? NumSequenciaPed { get; set; }
+        public double? Saldo { get; set; }                
     }
 }

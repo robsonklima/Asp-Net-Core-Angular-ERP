@@ -1,21 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
-import { ORCheckListService } from 'app/core/services/or-checklist.service';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ORItemInsumoService } from 'app/core/services/or-item-insumo.service';
 import { ORItemService } from 'app/core/services/or-item.service';
-import { PecasLaboratorioService } from 'app/core/services/pecas-laboratorio.service';
-import { ORCheckList } from 'app/core/types/or-checklist.types';
-import { ORItemInsumo, ORItemInsumoParameters } from 'app/core/types/or-item-insumo.types';
+import { ORItemInsumo } from 'app/core/types/or-item-insumo.types';
 import { ORItem } from 'app/core/types/or-item.types';
-import { PecasLaboratorio } from 'app/core/types/pecas-laboratorio.types';
-import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
-import { mensagensConst, toastTypesConst } from 'app/core/types/generic.types'
-import moment from 'moment';
 import { Subject } from 'rxjs';
-import { Utils } from 'app/core/utils/utils';
+import { Peca } from 'app/core/types/peca.types';
+import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-insumo-dialog/laboratorio-insumo-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-laboratorio-processo-reparo-insumo',
@@ -25,119 +19,47 @@ export class LaboratorioProcessoReparoInsumoComponent implements OnInit {
   @Input() codORItem: number;
   usuarioSessao: UsuarioSessao;
   orItem: ORItem;
-  checklists: ORCheckList;
-  orItemInsumo: ORItemInsumo;
-  pecasLab: PecasLaboratorio[] = [];
-  listaPecas: any[] = [];
+  orItemInsumos: ORItemInsumo[] = [];
+  pecas: Peca[] = [];
   protected _onDestroy = new Subject<void>();
   loading: boolean = true;
   form: FormGroup;
+  public pecasFiltro: FormControl = new FormControl();
 
   constructor(
     private _userService: UserService,
     private _orItemService: ORItemService,
-    private _orChecklistService: ORCheckListService,
     private _orItemInsumoService: ORItemInsumoService,
-    private _pecasLaboratorioService: PecasLaboratorioService,
-    private _snack: CustomSnackbarService,
-    private _utils: Utils,
-    private _formBuilder: FormBuilder
+    private _dialog: MatDialog,
   ) {
     this.usuarioSessao = JSON.parse(this._userService.userSession);
   }
 
   async ngOnInit() {
-    
-    this.criarForm();
     this.orItem = await this._orItemService.obterPorCodigo(this.codORItem).toPromise();
-    this.checklists = await this.obterCheckList();
-    this.pecasLab = await this.obterPecasLab();
-    await this.obterPecasInsumos();
+    await this.obterInsumos();
+
     this.loading = false;
   }
 
-  private async obterCheckList(): Promise<ORCheckList> {
-    return (await this._orChecklistService.obterPorParametros({
-      codPeca: this.orItem.codPeca,
-    }).toPromise()).items.shift();
+  private async obterInsumos() {
+    this.orItemInsumos = (await this._orItemInsumoService.obterPorParametros({
+      sortDirection: 'asc',
+      pageSize: 100,
+      codORItem: this.codORItem
+    }).toPromise()).items;
   }
 
-  private criarForm() {
-    this.form = this._formBuilder.group({
-      qtdUtilizada: [undefined]
-    });
-  }
-
-  private async obterInsumo(item: PecasLaboratorio): Promise<ORItemInsumo> {
-    return (await this._orItemInsumoService.obterPorParametros({
-      codORItem: this.orItem.codORItem
-    }).toPromise()).items.shift();
-  }
-
-  private async obterPecasLab(): Promise<PecasLaboratorio[]> {
-    const params = { codChecklist: this.checklists.codORCheckList};
-
-    return (await this._pecasLaboratorioService.obterPorParametros(params).toPromise()).items;
-  }
-
-  private async obterPecasInsumos() {
-    const params: ORItemInsumoParameters = { codORItem: this.codORItem }
-    const insumos = (await this._orItemInsumoService.obterPorParametros(params).toPromise()).items;
-
-    this.listaPecas = this.pecasLab.map((peca) => {
-      return {
-        ...peca,
-        ...{ qtd: insumos.filter(i => i.codPeca == peca.codPeca)?.shift()?.quantidade }
-      };
-    }).sort(this._utils.dynamicSort("nomePeca"));;
-
-    console.log(this.listaPecas);
-    
-  }
-
-  public async inputHandlerQtdUtilizada(ev: any, pecasLab: PecasLaboratorio) {
-    const qtd = ev.data;
-    if(!qtd) return;
-
-    const insumo: any = await this.obterInsumo(pecasLab);
-    const obj: any = {
-      dataHoraOritem: this.orItem.dataHoraCad,
-      codORItem: this.orItem.codORItem,
-      codOR: this.orItem.codOR,
-      codStatus: this.orItem.codStatus,
-      codPeca: pecasLab.codPeca,
-      quantidade: qtd,
-      indConfLog: 0,
-      indConfLab: 0,
-      indAtivo: statusConst.ATIVO,
-      codStatusPendente: 0
-    }
-
-    debugger
-
-    if (!insumo) {
-      this._orItemInsumoService.criar({...insumo, ...obj, ...{
-        dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-        codUsuarioCad: this.usuarioSessao.usuario.codUsuario,
-      }}).subscribe(() => {
-        this._snack.exibirToast(mensagensConst.SUCESSO_AO_CRIAR, toastTypesConst.SUCCESS);
-      }, () => {
-        this._snack.exibirToast(mensagensConst.ERRO_AO_CRIAR, toastTypesConst.ERROR);
+  adicionarInsumo(){
+      const dialogRef = this._dialog.open(LaboratorioProcessoReparoInsumoDialogComponent, {
+          data: { orItem: this.orItem }
       });
-    } else {
-      this._orItemInsumoService.atualizar({...insumo, ...obj}).subscribe(() => {
-        this._snack.exibirToast(mensagensConst.SUCESSO_AO_ATUALIZAR, toastTypesConst.SUCCESS);
-      }, () => {
-        this._snack.exibirToast(mensagensConst.ERRO_AO_ATUALIZAR, toastTypesConst.ERROR);
+
+      dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+          if (confirmacao) {
+              this.obterInsumos();
+          }
       });
-    }
   }
 
-  public obterQuantidade() {
-    return 10;
-  }
-
-  public teste() {
-    return 20;
-  }
 }

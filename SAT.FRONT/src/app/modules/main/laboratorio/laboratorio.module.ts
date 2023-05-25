@@ -82,8 +82,6 @@ import { LaboratorioOrcamentoFiltroComponent } from './laboratorio-orcamento/lab
 import { LaboratorioOSBancadaFiltroComponent } from './laboratorio-os-bancada/laboratorio-os-bancada-filtro/laboratorio-os-bancada-filtro.component';
 import { LaboratorioProcessoReparoInsumoDialogComponent } from './laboratorio-processo-reparo/laboratorio-processo-reparo-detalhe/laboratorio-processo-reparo-insumo/laboratorio-insumo-dialog/laboratorio-insumo-dialog.component';
 
-
-
 const maskConfigFunction: () => Partial<IConfig> = () =>
 {
     return {

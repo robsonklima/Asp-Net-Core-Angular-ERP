@@ -27,7 +27,8 @@ using IHost host = Host.CreateDefaultBuilder(args)
             o.ForwardClientCertificate = false;
         });
 
-        services.AddHostedService<Worker>();
+        services.AddHostedService<IntegracaoBanrisulWorker>();
+        services.AddHostedService<IntegracaoLogixWorker>();
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))

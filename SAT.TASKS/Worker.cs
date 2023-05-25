@@ -67,7 +67,7 @@ public partial class Worker : BackgroundService
 
                 //_integracaoCorreiosService.Executar();
 
-                //_integracaoLogixService.ImportarArquivoLogix();
+                _integracaoLogixService.ImportarArquivoLogix();
             }
             catch (Exception)
             {

@@ -51,5 +51,9 @@ namespace SAT.SERVICES.Services
         {
             return _mrpLogixRepo.ObterPorCodigo(codigo);
         }
+        public void LimparTabela()
+        {
+            _mrpLogixRepo.LimparTabela();
+        }
     }
 }

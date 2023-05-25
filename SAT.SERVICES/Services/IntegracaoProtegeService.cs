@@ -1,12 +1,15 @@
+using System.Threading;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
     public class IntegracaoProtegeService : IIntegracaoProtegeService
     {
-        public void ExecutarAsync()
+        public string Executar()
         {
-            throw new System.NotImplementedException();
+            Thread.Sleep(5000);
+
+            return "";
         }
     }
 }

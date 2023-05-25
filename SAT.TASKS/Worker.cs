@@ -56,16 +56,17 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                await _integracaoBanrisulService.ProcessarEmailsAsync();
-                _integracaoBanrisulService.ProcessarRetornos();
+                // await _integracaoBanrisulService.ProcessarEmailsAsync();
+                // _integracaoBanrisulService.ProcessarRetornos();
 
-                if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
-                    _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
+                // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.PLANTAO_TECNICO_EMAIL))
+                //     _plantaoTecnicoService.ProcessarTaskEmailsSobreavisoAsync();
 
                 // if (_satTaskService.PermitirExecucao(SatTaskTipoEnum.CORRECAO_INTERVALOS_RAT))
                 //     _pontoUsuarioService.ProcessarTaskAtualizacaoIntervalosPontoAsync();
 
-                //_integracaoCorreiosService.Executar();
+                _integracaoCorreiosService.Executar();
+                _integracaoProtegeService.Executar();
 
                 //_integracaoLogixService.ImportarArquivoLogix();
             }
@@ -73,8 +74,6 @@ public partial class Worker : BackgroundService
             {
 
             }
-
-            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 }

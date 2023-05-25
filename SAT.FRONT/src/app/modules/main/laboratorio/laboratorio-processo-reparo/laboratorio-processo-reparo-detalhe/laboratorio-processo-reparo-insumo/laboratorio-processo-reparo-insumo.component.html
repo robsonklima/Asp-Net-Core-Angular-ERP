@@ -2,12 +2,19 @@
     <div class="flex items-center">
         <span class="text-lg font-medium">{{ t('pecas laboratorio') }}</span>
     </div>
+
+    <div class="flex place-content-end">
+        <button class="ml-4 col-span-2" mat-icon-button matTooltip="{{ t('Adicionar Insumo') }}"
+            (click)="adicionarInsumo()">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+        </button>
+    </div>
 </div>
 
 <div class="grid sm:grid-cols-1 gap-x-6 flex-col flex-auto p-2 bg-card shadow rounded overflow-hidden">
     <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
         <div class="flex-auto px-6 pt-1 bg-card overflow-hidden">
-            <table *ngIf="pecasLab.length" class="w-full text-sm text-left text-gray-500">
+            <table *ngIf="orItemInsumos.length" class="w-full text-sm text-left text-gray-500">
                 <tbody>
                     <tr class="font-semibold">
                         <td class="py-1 text-left">
@@ -19,31 +26,29 @@
                         </td>
 
                         <td class="py-1 text-center">
-                            Sugerido
+                            Qtd Utilizada
                         </td>
 
                         <td class="py-1 text-center">
-                            Qtd
+                            Data de Inserção
                         </td>
                     </tr>
 
-                    <tr class="border-t-2" *ngFor="let p of listaPecas; let i=index;">
+                    <tr class="border-t-2" *ngFor="let p of orItemInsumos; let i=index;">
                         <td class="font-medium text-left">
                             {{ p?.peca?.nomePeca }}
                         </td>
 
                         <td class="font-medium text-left">
-                            {{ p?.codMagnus }}
+                            {{ p?.peca?.codMagnus }}
                         </td>
 
                         <td class="font-medium text-center">
                             {{ p?.quantidade }}
                         </td>
 
-                        <td class="font-medium text-center pt-2.5" [formGroup]="form">
-                            <mat-form-field class="fuse-mat-dense w-12" appearance="fill">
-                                <input matInput [value]="p.qtd || 0" (input)="inputHandlerQtdUtilizada($event, p)">
-                            </mat-form-field>
+                        <td class="font-medium text-center">
+                            {{ p?.dataHoraOritem | date:'dd/MM/yyyy' }}
                         </td>
                     </tr>
                 </tbody>
@@ -55,7 +60,7 @@
                 </div>
             </div>
 
-            <div *ngIf="!pecasLab.length && !loading"
+            <div *ngIf="!orItemInsumos.length && !loading"
                 class="pt-6 pb-5 text-lg font-semibold tracking-tight text-center bg-card">
                 Nenhum insumo encontrado!
             </div>            

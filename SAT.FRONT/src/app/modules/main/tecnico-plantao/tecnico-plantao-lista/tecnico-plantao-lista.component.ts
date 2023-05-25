@@ -15,6 +15,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { TecnicoPlantaoClientesComponent } from '../tecnico-plantao-clientes/tecnico-plantao-clientes.component';
 import { TecnicoPlantaoInformacoesComponent } from '../tecnico-plantao-informacoes/tecnico-plantao-informacoes.component';
 import { TecnicoPlantaoRegioesComponent } from '../tecnico-plantao-regioes/tecnico-plantao-regioes.component';
+import { MatSidenav } from '@angular/material/sidenav';
+import { IFilterable } from 'app/core/types/filtro.types';
+import { UserService } from 'app/core/user/user.service';
+import { Filterable } from 'app/core/filters/filterable';
 
 @Component({
   selector: 'app-tecnico-plantao-lista',
@@ -41,33 +45,35 @@ import { TecnicoPlantaoRegioesComponent } from '../tecnico-plantao-regioes/tecni
   encapsulation: ViewEncapsulation.None,
   animations: fuseAnimations
 })
-export class TecnicoPlantaoListaComponent implements AfterViewInit {
+export class TecnicoPlantaoListaComponent extends Filterable implements AfterViewInit, IFilterable {
+  @ViewChild('sidenav') public sidenav: MatSidenav;
   public plantoesTecnico: PlantaoTecnico[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) private sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
   dataSourceData: PlantaoTecnicoData;
   isLoading: boolean = false;
   @ViewChild('searchInputControl', { static: true }) searchInputControl: ElementRef;
   userSession: UserSession;
-  
+
   constructor(
     private _cdr: ChangeDetectorRef,
     private _dialog: MatDialog,
     private _plantaoTecnicoService: PlantaoTecnicoService,
     private _plantaoTecnicoRegiaoService: PlantaoTecnicoRegiaoService,
     private _plantaoTecnicoClienteService: PlantaoTecnicoClienteService,
-    private _snack: CustomSnackbarService
-  ) { }
- 
-  async ngAfterViewInit()
-  {
+    private _snack: CustomSnackbarService,
+    protected _userService: UserService
+  ) {
+    super(_userService, 'tecnico')
+  }
+
+  async ngAfterViewInit() {
     this.obterPlantoesTecnico();
-    this.registrarEmitters();
+    this.registerEmitters();
     this._cdr.detectChanges();
   }
 
-  registrarEmitters()
-  {
+  async registerEmitters() {
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
         map((event: any) => {
@@ -89,17 +95,23 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
         this.obterPlantoesTecnico();
       });
     }
+
+    this.sidenav.closedStart.subscribe(() => {
+      this.obterPlantoesTecnico();
+    })
   }
 
-  private async obterPlantoesTecnico()
-  {
+  private async obterPlantoesTecnico() {
     this.isLoading = true;
     this._plantaoTecnicoService.obterPorParametros({
-      pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: this.sort.active || 'DataPlantao',
-      sortDirection: this.sort.direction || 'desc',
-      pageSize: this.paginator?.pageSize,
-      filter: this.searchInputControl.nativeElement.val
+      ...{
+        pageNumber: this.paginator?.pageIndex + 1,
+        sortActive: this.sort.active || 'DataPlantao',
+        sortDirection: this.sort.direction || 'desc',
+        pageSize: this.paginator?.pageSize,
+        filter: this.searchInputControl.nativeElement.val
+      },
+      ...this.filter?.parametros
     }).subscribe((data: PlantaoTecnicoData) => {
       this.dataSourceData = data;
       this.isLoading = false;
@@ -136,25 +148,24 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
 
   async onRemoverPlantao(plantaoTecnico: PlantaoTecnico) {
     const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
-			data: {
-				titulo: 'Confirmação',
-				message: `Deseja remover o plantão do técnico ${plantaoTecnico.tecnico?.nome}?`,
-				buttonText: {
-					ok: 'Sim',
-					cancel: 'Não'
-				}
-			}
-		});
+      data: {
+        titulo: 'Confirmação',
+        message: `Deseja remover o plantão do técnico ${plantaoTecnico.tecnico?.nome}?`,
+        buttonText: {
+          ok: 'Sim',
+          cancel: 'Não'
+        }
+      }
+    });
 
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>
-		{
-			if (confirmacao){
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
         this.isLoading = true;
-        
+
         for (const plantaoRegiao of plantaoTecnico.plantaoRegioes) {
           await this._plantaoTecnicoRegiaoService.deletar(plantaoRegiao.codPlantaoTecnicoRegiao).toPromise();
         }
-        
+
         for (const plantaoCliente of plantaoTecnico.plantaoClientes) {
           await this._plantaoTecnicoClienteService.deletar(plantaoCliente.codPlantaoTecnicoCliente).toPromise();
         }
@@ -167,8 +178,7 @@ export class TecnicoPlantaoListaComponent implements AfterViewInit {
     });
   }
 
-  paginar()
-  {
+  paginar() {
     this.obterPlantoesTecnico();
   }
 }

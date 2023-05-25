@@ -1,19 +1,19 @@
-import { ExportacaoService } from './../../../../../core/services/exportacao.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
+import { Filterable } from 'app/core/filters/filterable';
 import { TecnicoService } from 'app/core/services/tecnico.service';
+import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { FileMime } from 'app/core/types/file.types';
+import { IFilterable } from 'app/core/types/filtro.types';
 import { Tecnico, TecnicoData, TecnicoParameters } from 'app/core/types/tecnico.types';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { FileMime } from 'app/core/types/file.types';
-import { Filterable } from 'app/core/filters/filterable';
-import { IFilterable } from 'app/core/types/filtro.types';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
+import { ExportacaoService } from './../../../../../core/services/exportacao.service';
 
 @Component({
 	selector: 'app-tecnico-lista',
@@ -60,11 +60,18 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 		super(_userService, 'tecnico')
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
+
 	registerEmitters(): void {
 		this.sidenav.closedStart.subscribe(() => {
 			this.onSidenavClosed();
 			this.obterDados();
-		  })
+		})
+	}
+
+	onSidenavClosed(): void {
+		if (this.paginator) this.paginator.pageIndex = 0;
+
+		this.loadFilter();
 	}
 
 	async ngAfterViewInit() {
@@ -101,14 +108,14 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 
 		const params: TecnicoParameters = {
 			...{
-			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort?.active || 'nome',
-			sortDirection: this.sort?.direction || 'asc',
-			pageSize: this.paginator?.pageSize,
-			filter: filtro
-		},
-		...this.filter?.parametros
-	  }
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: this.sort?.active || 'nome',
+				sortDirection: this.sort?.direction || 'asc',
+				pageSize: this.paginator?.pageSize,
+				filter: filtro
+			},
+			...this.filter?.parametros
+		}
 
 		const data = await this._tecnicoService
 			.obterPorParametros(params)
@@ -128,7 +135,7 @@ export class TecnicoListaComponent extends Filterable implements AfterViewInit, 
 			entityParameters: this.filter?.parametros
 		}
 
-		await this._exportacaoService.exportar(FileMime.Excel,exportacaoParam );
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
 
 		this.isLoading = false;
 	}

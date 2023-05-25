@@ -142,7 +142,14 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     const formInst = this.formInstalacao.getRawValue();
     formInst.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     formInst.codUsuarioManut = this.userSession.usuario?.codUsuario;
-    formInst.codPosto = formInst.codPostoIns;
+
+    if(formInst.codPostoIns){
+      var posto = await this._localAtendimentoService.obterPorCodigo(formInst.codPostoIns).toPromise();
+      formInst.codPosto = formInst.codPostoIns;
+      formInst.codFilial = posto.codFilial;
+      formInst.codRegiao = posto.codRegiao;
+      formInst.codAutorizada = posto.codAutorizada; 
+    }
 
     let erro: boolean = false;
 

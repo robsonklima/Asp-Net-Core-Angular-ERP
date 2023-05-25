@@ -28,7 +28,7 @@ namespace SAT.MODELS.Views
         public string UF { get; set; }
         public string CEP { get; set; }
         public DateTime? PrevisaoEntrega { get; set; }
-        public DateTime? DtConfirmadaEntrega { get; set; }
+        public DateTime? DataEntregaConfirmacao { get; set; }
         public string NFRemessa { get; set; }
         public DateTime? NFRemessaDataExpedicao { get; set; }
         public DateTime? DtExpedicao { get; set; }
@@ -39,7 +39,6 @@ namespace SAT.MODELS.Views
         public string FaturaTranspReEntrega { get; set; }
         public DateTime? DtReEntrega { get; set; }
         public string ResponsavelRecebReEntrega { get; set; }
-        public DateTime? DataEntregaConfirmacao { get; set; }
         public string ResponsavelRecebimento { get; set; }
         public string MatResponsavelRecebimento { get; set; }
         public string BorderoTranspRecebido { get; set; }

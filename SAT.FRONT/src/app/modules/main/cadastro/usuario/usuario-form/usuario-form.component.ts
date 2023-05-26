@@ -293,12 +293,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this.usuario = usuario;
         this.form.patchValue(usuario);
 
-        this.clientes = await this.obterClientes(usuario.cliente.nomeFantasia);
+        this.clientes = await this.obterClientes(usuario?.cliente?.nomeFantasia);
         this.cargos = await this.obterCargos(usuario.cargo.nomeCargo);
         this.filiais = await this.obterFiliais(usuario.filial.nomeFilial);
         this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
         this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
-        this.tecnicos = await this.obterTecnicos(usuario.tecnico.nome);
+        this.tecnicos = await this.obterTecnicos(usuario?.tecnico?.nome);
 
       });
   }
@@ -377,7 +377,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   private async obterTecnicos(filtro: string=''): Promise<Tecnico[]> {
     return (await this._tecnicoService.obterPorParametros({ 
       indAtivo: 1, 
-      naoVinculados: 1, 
+      naoVinculados: 1,
+      codFiliais: this.userSession.usuario.codFilial, 
       filter: filtro
     }).toPromise()).items;
   }

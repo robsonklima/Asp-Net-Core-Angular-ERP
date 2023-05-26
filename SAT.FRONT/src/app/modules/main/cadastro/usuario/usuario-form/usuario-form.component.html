@@ -203,8 +203,8 @@
                         <mat-label>{{ t('filial') }}</mat-label>
                         <mat-select class="min-h-10" formControlName="codFilial"
                             [disabled]="!filiais.length || form.disabled">
-                            <mat-option *ngFor="let p of filiais" [value]="p.codFilial">
-                                {{ p.nomeFilial }}
+                            <mat-option *ngFor="let filial of filiais" [value]="filial.codFilial">
+                                {{ filial.nomeFilial }}
                             </mat-option>
                         </mat-select>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
@@ -214,8 +214,8 @@
                         <mat-label>{{ t('autorizada') }}</mat-label>
                         <mat-select class="min-h-10" formControlName="codAutorizada"
                             [disabled]="!autorizadas.length || form.disabled">
-                            <mat-option *ngFor="let p of autorizadas" [value]="p.codAutorizada">
-                                {{ p.razaoSocial }}
+                            <mat-option *ngFor="let autorizada of autorizadas" [value]="autorizada.codAutorizada">
+                                {{ autorizada.razaoSocial }}
                             </mat-option>
                         </mat-select>
                         <mat-error>{{ t('preencher campo') }}</mat-error>

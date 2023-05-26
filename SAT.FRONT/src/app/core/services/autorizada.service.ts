@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
 import { Autorizada, AutorizadaData, AutorizadaParameters } from '../types/autorizada.types';
+import { statusConst } from '../types/status-types';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,7 @@ export class AutorizadaService {
       sortDirection: 'asc',
       codFilial: codFilial,
       pageSize: 1000,
+      indAtivo: statusConst.ATIVO,
       filter: filtro
     }
     return (await this.obterPorParametros(params).toPromise()).items;

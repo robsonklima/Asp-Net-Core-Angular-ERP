@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -11,9 +14,11 @@ namespace SAT.SERVICES.Services
             _instService = instService;
         }
 
-        public void Executar()
+        public string Executar()
         {
-         
+            Thread.Sleep(1000);
+
+            return "";
         }
     }
 }

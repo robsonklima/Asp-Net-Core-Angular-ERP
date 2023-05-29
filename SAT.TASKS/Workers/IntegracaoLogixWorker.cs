@@ -4,7 +4,6 @@ namespace SAT.TASKS;
 public partial class IntegracaoLogixWorker : BackgroundService
 {
     private readonly IIntegracaoLogixService _integracaoLogixService;
-
     public IntegracaoLogixWorker(
         IIntegracaoLogixService integracaoLogixService
     )
@@ -18,7 +17,8 @@ public partial class IntegracaoLogixWorker : BackgroundService
         {
             try
             {
-                _integracaoLogixService.ImportarArquivoLogix();
+                _integracaoLogixService.ImportarArquivoMRPLogix();
+                _integracaoLogixService.ImportarArquivoMRPEstoqueLogix();
             }
             catch (Exception)
             {

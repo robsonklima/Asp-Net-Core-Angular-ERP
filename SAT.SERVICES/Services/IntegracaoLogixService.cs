@@ -13,14 +13,17 @@ namespace SAT.SERVICES.Services
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IMRPLogixService _mrpLogixService;
+        private readonly IMRPLogixEstoqueService _mrpLogixEstoqueService; 
 
         public IntegracaoLogixService(
-           IMRPLogixService mrpLogixService
+           IMRPLogixService mrpLogixService,
+           IMRPLogixEstoqueService mrpLogixEstoqueService
        )
         {
             _mrpLogixService = mrpLogixService;
+            _mrpLogixEstoqueService = mrpLogixEstoqueService;
         }
-        public void ImportarArquivoLogix()
+        public void ImportarArquivoMRPLogix()
         {
             string caminhoArquivo = Constants.INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO;
 
@@ -88,5 +91,58 @@ namespace SAT.SERVICES.Services
                 Console.WriteLine("Ocorreu um erro ao ler o arquivo: " + ex.Message);
             }
         }
+
+        public void ImportarArquivoMRPEstoqueLogix()
+        {
+            string caminhoArquivo = Constants.INTEGRACAO_LOGIX_MRP_ESTOQUE_CAMINHO_ARQUIVO;
+
+            FileStream fs;
+            StreamReader sr;
+
+            try
+            {
+                fs = new FileStream(caminhoArquivo, FileMode.Open);
+                sr = new StreamReader(fs);
+
+                if (sr.ReadLine() != null)
+                {
+                    _mrpLogixService.LimparTabela();
+
+                    string linha;
+                    while ((linha = sr.ReadLine()) != null)
+                    {
+                        MRPLogixEstoque mrpLogixEstoque = new();
+
+                        string[] dados = linha.Split('|');
+
+                        if (dados.Length != 24)
+                        {
+                            _logger.Error()
+                                .Message("A quantidade de campos encontrados é diferente do permitido")
+                                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
+                                .Write();
+                        }
+
+                        mrpLogixEstoque.CodEmpresa = dados[0].ToString();
+                        mrpLogixEstoque.CodItem = dados[1].ToString();
+                        mrpLogixEstoque.LocalEstoque = dados[2].ToString();
+                        mrpLogixEstoque.NumLote = dados[3].ToString();
+                        mrpLogixEstoque.Situacao = dados[4].ToString();
+                        mrpLogixEstoque.QtdSaldo = Double.Parse(dados[5].ToString(), new CultureInfo("en-US"));
+                        mrpLogixEstoque.NumTransacao = Int32.Parse(dados[6].ToString());
+
+                        _mrpLogixEstoqueService.Criar(mrpLogixEstoque);
+                    }
+
+                    sr.Close();
+                    fs.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocorreu um erro ao ler o arquivo: " + ex.Message);
+            }
+        }        
     }
 }

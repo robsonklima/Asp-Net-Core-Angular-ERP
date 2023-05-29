@@ -7,6 +7,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -22,14 +23,15 @@ namespace SAT.SERVICES.Services
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
 
         public OrdemServicoService(
-            IOrdemServicoRepository ordemServicoRepo, 
-            ISequenciaRepository sequenciaRepo, 
+            IOrdemServicoRepository ordemServicoRepo,
+            ISequenciaRepository sequenciaRepo,
             IOrdemServicoAlertaService ordemServicoAlertaService,
             IRelatorioAtendimentoRepository ratRepo,
             IRelatorioAtendimentoDetalheRepository ratDetalheRepo,
             IRelatorioAtendimentoDetalhePecaRepository ratDetalhePecaRepo,
             IEquipamentoContratoRepository equipamentoContratoRepo
-        ) {
+        )
+        {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
             _ordemServicoAlertaService = ordemServicoAlertaService;
@@ -43,19 +45,29 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                if (ordemServico.CodEquip == 0 || ordemServico.CodEquip == null && GenericHelper.IsPOS(ordemServico))
+                {
+                    throw new Exception($"Equipamento POS não permite a atualização de chamados sem modelo informado");
+                }
+
                 _ordemServicoRepo.Atualizar(ordemServico);
 
-                return ordemServico;                
+                return ordemServico;
             }
             catch (Exception ex)
             {
-                
-                throw new Exception($"Erro ao atualizar chamado no SAT 2.0 { ex.Message }");
+
+                throw new Exception($"Erro ao atualizar chamado no SAT 2.0 {ex.Message}");
             }
         }
 
         public OrdemServico Criar(OrdemServico ordemServico)
         {
+            if (ordemServico.CodEquip == 0 || ordemServico.CodEquip == null && GenericHelper.IsPOS(ordemServico))
+            {
+                throw new Exception($"Equipamento POS não permite a criação de chamados sem modelo informado");
+            }
+
             ordemServico.CodOS = _sequenciaRepo.ObterContador("OS");
 
             _ordemServicoRepo.Criar(ordemServico);
@@ -70,7 +82,8 @@ namespace SAT.SERVICES.Services
                 var os = _ordemServicoRepo.ObterPorCodigo(ordemServico.CodOS);
                 var codOS = _sequenciaRepo.ObterContador("OS");
 
-                var novaOS = new OrdemServico {
+                var novaOS = new OrdemServico
+                {
                     CodOS = codOS,
                     CodCliente = os.CodCliente,
                     CodPosto = os.CodPosto,
@@ -107,7 +120,8 @@ namespace SAT.SERVICES.Services
                 {
                     var codRAT = _sequenciaRepo.ObterContador("RAT");
 
-                    var rat = new RelatorioAtendimento {
+                    var rat = new RelatorioAtendimento
+                    {
                         CodRAT = codRAT,
                         CodOS = novaOS.CodOS,
                         CodTecnico = Constants.TECNICO_SISTEMA,
@@ -132,7 +146,8 @@ namespace SAT.SERVICES.Services
                     {
                         var codRATDetalhe = _sequenciaRepo.ObterContador("RATDetalhes");
 
-                        var detalhe = new RelatorioAtendimentoDetalhe {
+                        var detalhe = new RelatorioAtendimentoDetalhe
+                        {
                             CodRATDetalhe = codRATDetalhe,
                             CodRAT = rat.CodRAT,
                             CodServico = d.CodServico,
@@ -153,7 +168,8 @@ namespace SAT.SERVICES.Services
                         {
                             var codRATDetalhePeca = _sequenciaRepo.ObterContador("RATDetalhesPecas");
 
-                            var peca = new RelatorioAtendimentoDetalhePeca {
+                            var peca = new RelatorioAtendimentoDetalhePeca
+                            {
                                 CodRATDetalhePeca = codRATDetalhePeca,
                                 CodMagnusInconsistente = p.CodMagnusInconsistente,
                                 CodUsuarioManutencao = p.CodUsuarioManutencao,
@@ -286,6 +302,6 @@ namespace SAT.SERVICES.Services
             }
 
             return false;
-        }        
+        }
     }
 }

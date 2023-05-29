@@ -112,6 +112,9 @@
                     <mat-form-field class="fuse-mat-dense sm:col-span-3">
                         <mat-label>{{ t('cpf') }}</mat-label>
                         <input matInput formControlName="cpf" mask="000.000.000-00">
+                        <mat-label class= "text-red-500" *ngIf="!isValidaCPF">
+                            {{ t('Invalido!!') }}
+                        </mat-label>
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
@@ -363,7 +366,7 @@
                         {{ t('cancelar') }}
                     </button>
 
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                    <button *ngIf="isValidaCPF" class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
                         <span *ngIf="!form.disabled">
                             {{ t('salvar') }}
                         </span>

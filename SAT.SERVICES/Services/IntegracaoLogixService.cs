@@ -106,7 +106,7 @@ namespace SAT.SERVICES.Services
 
                 if (sr.ReadLine() != null)
                 {
-                    _mrpLogixService.LimparTabela();
+                    _mrpLogixEstoqueService.LimparTabela();
 
                     string linha;
                     while ((linha = sr.ReadLine()) != null)
@@ -115,7 +115,7 @@ namespace SAT.SERVICES.Services
 
                         string[] dados = linha.Split('|');
 
-                        if (dados.Length != 24)
+                        if (dados.Length != 7)
                         {
                             _logger.Error()
                                 .Message("A quantidade de campos encontrados é diferente do permitido")

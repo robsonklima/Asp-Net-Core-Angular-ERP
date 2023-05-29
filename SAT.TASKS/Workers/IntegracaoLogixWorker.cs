@@ -25,7 +25,7 @@ public partial class IntegracaoLogixWorker : BackgroundService
                     
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(120), stoppingToken);
+            await Task.Delay(TimeSpan.FromHours(23), stoppingToken);
         }
     }
 }

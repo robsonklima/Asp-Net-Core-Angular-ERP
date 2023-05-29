@@ -38,6 +38,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   codTecnico: number;
   tecnico: Tecnico;
   isAddMode: boolean;
+  isValidaCPF: boolean;
   form: FormGroup;
   filiais: Filial[] = [];
   autorizadas: Autorizada[] = [];
@@ -85,6 +86,10 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     this.form.controls['codFilial'].valueChanges.subscribe(async () => {
       this.obterAutorizadas();
+    });
+
+    this.form.controls['cpf'].valueChanges.subscribe(async () => {
+      this.validaCPF(this.form.controls['cpf'].value);
     });
 
     this.form.controls['codAutorizada'].valueChanges.subscribe(async () => {
@@ -147,6 +152,7 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
           this.form.controls['codPais'].setValue(data?.cidade?.unidadeFederativa?.codPais)
           this.form.controls['codUF'].setValue(data?.cidade?.unidadeFederativa?.codUF)
           this.tecnico = data;
+          this.validaCPF(this.tecnico.cpf);
           this.form.patchValue(data);
         });
     }
@@ -287,25 +293,25 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
   private async obterLatLngPorEndereco(end: string) {
     this._googleGeolocationService.obterPorParametros({ enderecoCep: end.trim(), geolocalizacaoServiceEnum: GeolocalizacaoServiceEnum.GOOGLE })
       .subscribe(async (data: Geolocalizacao) => {
-      if (data) {
-        const res = data;
+        if (data) {
+          const res = data;
 
-        const codUF = await (await this._unidadeFederativaService.obterPorParametros({ siglaUF: res.estado }).toPromise()).items?.shift()?.codUF;
+          const codUF = await (await this._unidadeFederativaService.obterPorParametros({ siglaUF: res.estado }).toPromise()).items?.shift()?.codUF;
 
-        this.form.controls['endereco'].setValue(res.endereco);
-        this.form.controls['latitude'].setValue(res.latitude);
-        this.form.controls['longitude'].setValue(res.longitude);
-        this.form.controls['bairro'].setValue(res.bairro);
+          this.form.controls['endereco'].setValue(res.endereco);
+          this.form.controls['latitude'].setValue(res.latitude);
+          this.form.controls['longitude'].setValue(res.longitude);
+          this.form.controls['bairro'].setValue(res.bairro);
 
-        this._cidadeService.obterCidades(codUF, res.cidade).then(c => {
-          const data = c[0];
-          if (data) {
-            this.form.controls['codUF'].setValue(data.codUF);
-            this.form.controls['codCidade'].setValue(data.codCidade);
-          }
-        });
-      }
-    });
+          this._cidadeService.obterCidades(codUF, res.cidade).then(c => {
+            const data = c[0];
+            if (data) {
+              this.form.controls['codUF'].setValue(data.codUF);
+              this.form.controls['codCidade'].setValue(data.codCidade);
+            }
+          });
+        }
+      });
   }
 
   private obterFrotaFinalidadesUso(): void {
@@ -345,6 +351,53 @@ export class TecnicoFormComponent implements OnInit, OnDestroy {
 
     const data = await this._despesaCartaoCombustivelService.obterPorParametros(params).toPromise();
     this.despesaCartoesCombustivel = data.items;
+  }
+
+  public validaCPF(cpf: string): boolean {
+    cpf = cpf.replace(/\D/g, '');
+
+    if (cpf.length !== 11) {
+      return this.isValidaCPF = false;
+    }
+
+    if (/^(\d)\1+$/.test(cpf)) {
+      return this.isValidaCPF = false;
+    }
+
+    let soma = 0;
+    let resto: number;
+
+    for (let i = 1; i <= 9; i++) {
+      soma += parseInt(cpf.charAt(i - 1)) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+
+    if (resto !== parseInt(cpf.charAt(9))) {
+      return this.isValidaCPF = false;
+    }
+
+    soma = 0;
+
+    for (let i = 1; i <= 10; i++) {
+      soma += parseInt(cpf.charAt(i - 1)) * (12 - i);
+    }
+
+    resto = (soma * 10) % 11;
+
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+
+    if (resto !== parseInt(cpf.charAt(10))) {
+      return this.isValidaCPF = false;
+    }
+
+    return this.isValidaCPF = true;
   }
 
   salvar(): void {

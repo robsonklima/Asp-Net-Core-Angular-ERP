@@ -313,6 +313,7 @@ namespace SAT.INFRA.Context
         public DbSet<EquipamentoPOS> EquipamentoPOS { get; set; }
         public DbSet<StatusEquipamentoPOS> StatusEquipamentoPOS { get; set; }
         public DbSet<MRPLogix> MRPLogix { get; set; }        
+        public DbSet<MRPLogixEstoque> MRPLogixEstoque { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -546,6 +547,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<EquipamentoPOS>(new EquipamentoPOSMap().Configure);
             modelBuilder.Entity<StatusEquipamentoPOS>(new StatusEquipamentoPOSMap().Configure);
             modelBuilder.Entity<MRPLogix>(new MRPLogixMap().Configure);
+            modelBuilder.Entity<MRPLogixEstoque>(new MRPLogixEstoqueMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

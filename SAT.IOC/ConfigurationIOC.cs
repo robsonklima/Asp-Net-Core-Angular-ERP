@@ -223,6 +223,7 @@ public class ConfigurationIOC
         builder.RegisterType<MotivoCancelamentoRepository>().As<IMotivoCancelamentoRepository>();
         builder.RegisterType<EquipamentoPOSRepository>().As<IEquipamentoPOSRepository>();
         builder.RegisterType<MRPLogixRepository>().As<IMRPLogixRepository>();
+        builder.RegisterType<MRPLogixEstoqueRepository>().As<IMRPLogixEstoqueRepository>();
         
         #endregion
 
@@ -346,9 +347,6 @@ public class ConfigurationIOC
         builder.RegisterType<OrcamentoDescontoService>().As<IOrcamentoDescontoService>();
         builder.RegisterType<VersaoService>().As<IVersaoService>();
         builder.RegisterType<CargoService>().As<ICargoService>();
-        builder.RegisterType<PlantaoTecnicoService>().As<IPlantaoTecnicoService>();
-        builder.RegisterType<PlantaoTecnicoRegiaoService>().As<IPlantaoTecnicoRegiaoService>();
-        builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>();
         builder.RegisterType<FormaPagamentoService>().As<IFormaPagamentoService>();
         builder.RegisterType<MoedaService>().As<IMoedaService>();
         builder.RegisterType<PecaListaService>().As<IPecaListaService>();
@@ -363,11 +361,8 @@ public class ConfigurationIOC
         builder.RegisterType<ClientePecaService>().As<IClientePecaService>();
         builder.RegisterType<ClientePecaGenericaService>().As<IClientePecaGenericaService>();
         builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();            
-        builder.RegisterType<SatTaskService>().As<ISatTaskService>();
         builder.RegisterType<SmsService>().As<ISmsService>();
         builder.RegisterType<TicketService>().As<ITicketService>();
-        builder.RegisterType<TicketModuloService>().As<ITicketModuloService>();
-        builder.RegisterType<TicketStatusService>().As<ITicketStatusService>();
         builder.RegisterType<TicketAtendimentoService>().As<ITicketAtendimentoService>();
         builder.RegisterType<TicketPrioridadeService>().As<ITicketPrioridadeService>();
         builder.RegisterType<TicketClassificacaoService>().As<ITicketClassificacaoService>();
@@ -442,6 +437,7 @@ public class ConfigurationIOC
         builder.RegisterType<EquipamentoPOSService>().As<IEquipamentoPOSService>();
         builder.RegisterType<MRPLogixService>().As<IMRPLogixService>();
         builder.RegisterType<IntegracaoLogixService>().As<IIntegracaoLogixService>();
+        builder.RegisterType<MRPLogixEstoqueService>().As<IMRPLogixEstoqueService>();        
 
         #endregion
 

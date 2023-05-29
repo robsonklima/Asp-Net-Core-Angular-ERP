@@ -295,7 +295,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
         this.clientes = await this.obterClientes(usuario?.cliente?.nomeFantasia);
         this.cargos = await this.obterCargos(usuario.cargo.nomeCargo);
-        this.filiais = await this.obterFiliais(usuario.filial.nomeFilial);
+        this.filiais = await this.obterFiliais();
         this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
         this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
         this.tecnicos = await this.obterTecnicos(usuario?.tecnico?.nome);

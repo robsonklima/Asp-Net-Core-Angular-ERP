@@ -16,32 +16,32 @@ namespace SAT.INFRA.Mapping
             builder
                 .HasOne(i => i.Cliente)
                 .WithOne()
-                .HasForeignKey<Cliente>(i => i.CodCliente)
-                .HasPrincipalKey<Instalacao>(i => i.CodCliente);
+                .HasForeignKey<Instalacao>(i => i.CodCliente)
+                .HasPrincipalKey<Cliente>(i => i.CodCliente);
 
             builder
                 .HasOne(i => i.Filial)
                 .WithOne()
-                .HasForeignKey<Filial>(i => i.CodFilial)
-                .HasPrincipalKey<Instalacao>(i => i.CodFilial);
+                .HasForeignKey<Instalacao>(i => i.CodFilial)
+                .HasPrincipalKey<Filial>(i => i.CodFilial);
 
             builder
                 .HasOne(i => i.Regiao)
                 .WithOne()
-                .HasForeignKey<Regiao>(i => i.CodRegiao)
-                .HasPrincipalKey<Instalacao>(i => i.CodRegiao);
+                .HasForeignKey<Instalacao>(i => i.CodRegiao)
+                .HasPrincipalKey<Regiao>(i => i.CodRegiao);
 
             builder
                 .HasOne(i => i.Autorizada)
                 .WithOne()
-                .HasForeignKey<Autorizada>(i => i.CodAutorizada)
-                .HasPrincipalKey<Instalacao>(i => i.CodAutorizada);
+                .HasForeignKey<Instalacao>(i => i.CodAutorizada)
+                .HasPrincipalKey<Autorizada>(i => i.CodAutorizada);
 
             builder
                 .HasOne(i => i.Equipamento)
                 .WithOne()
-                .HasForeignKey<Equipamento>(i => i.CodEquip)
-                .HasPrincipalKey<Instalacao>(i => i.CodEquip);
+                .HasForeignKey<Instalacao>(i => i.CodEquip)
+                .HasPrincipalKey<Equipamento>(i => i.CodEquip);
 
             builder
                .HasOne(prop => prop.EquipamentoContrato)

@@ -1,0 +1,103 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500">Documentação</a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">Desenvolvedor</span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Build
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto max-w-full px-6 prose prose-sm">
+        <div>
+            <h2>Front End</h2>
+
+            <p>
+                Texto
+            </p>
+
+            <hr>
+        </div>
+
+        <div>
+            <h2>Back End</h2>
+
+            <p>
+                Texto
+            </p>
+
+            <hr>
+        </div>
+
+        <div>
+            <h2>Integrações</h2>
+
+            <p>
+                Texto
+            </p>
+
+            <hr>
+        </div>
+
+        <div>
+            <h2>App Técnicos</h2>
+
+            <div class="prose">
+                <p>
+                    ionic cordova build --release android
+                </p>
+
+                <h3>
+                    Executar no CMD
+                </h3>
+
+                <p class="text-xs">
+                    "C:\Program Files\Java\jdk1.8.0_202\bin\jarsigner" -verbose -sigalg SHA1withRSA -digestalg SHA1
+                    -keystore
+                    "C:\Users\rklima\Documents\Workspace\SAT.MOBILE\SAT.APP.TECNICOS\_utils\app-tecnicos-key.keystore"
+                    "C:\Users\rklima\Documents\Workspace\SAT.MOBILE\SAT.APP.TECNICOS\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk"
+                    sat_mobile
+                </p>
+
+                <p class="text-xs">
+                    "C:\Users\rklima\Documents\Workspace\SAT.MOBILE\SAT.APP.TECNICOS\_utils\zipalign" -v 4
+                    "C:\Users\rklima\Documents\Workspace\SAT.MOBILE\SAT.APP.TECNICOS\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk"
+                    "C:\Users\rklima\Documents\Workspace\SAT.MOBILE\SAT.APP.TECNICOS\_utils\apks\app-tecnicos-release-0.0.117.apk"
+                </p>
+
+                <h3>
+                    NATIVE
+                </h3>
+                <p>
+                    ionic cordova run android --no-native-run --livereload --external <br>
+                    ionic cordova run android -l
+                </p>
+
+                <h3>
+                    KEYTOOL
+                </h3>
+
+                <p class="text-xs">
+                    "C:\Program Files\Java\jdk1.8.0_101\bin\keytool" -genkey -v -keystore
+                    "I:\ionic-projects\app-tecnicos\_utils\app-tecnicos-key.keystore" -alias app-tecnicos -keyalg RSA
+                    -keysize 2048 -validity 10000
+                </p>
+            </div>
+
+            <hr>
+        </div>
+    </div>
+</div>

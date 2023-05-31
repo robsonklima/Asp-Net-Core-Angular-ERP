@@ -26,6 +26,7 @@ import { VersoesComponent } from './inicio/introducao/versoes/versoes.component'
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
+import { BuildComponent } from './build/build.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
     VersoesComponent,
     OrdemServicoComponent,
     AutenticacaoComponent,
-    AppTecnicosComponent
+    AppTecnicosComponent,
+    BuildComponent
   ],
   imports: [
     CommonModule,

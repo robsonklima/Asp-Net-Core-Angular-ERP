@@ -5,6 +5,7 @@ import { IntroducaoComponent } from './inicio/introducao/introducao.component';
 import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
+import { BuildComponent } from './build/build.component';
 
 export const docsRoutes: Route[] = [
     {
@@ -60,6 +61,16 @@ export const docsRoutes: Route[] = [
                         path      : '',
                         pathMatch : 'full',
                         component: OrdemServicoComponent
+                    }
+                ]
+            },
+            {
+                path    : 'build',
+                children: [
+                    {
+                        path      : '',
+                        pathMatch : 'full',
+                        component: BuildComponent
                     }
                 ]
             }

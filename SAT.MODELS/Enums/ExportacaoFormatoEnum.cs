@@ -4,6 +4,7 @@ namespace SAT.MODELS.Enums
     {
         EXCEL,
         PDF,
-        TXT
+        TXT,
+        ZIP
     }
 }

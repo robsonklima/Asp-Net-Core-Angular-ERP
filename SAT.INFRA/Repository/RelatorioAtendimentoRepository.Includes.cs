@@ -15,11 +15,13 @@ namespace SAT.INFRA.Repository
                 case RelatorioAtendimentoIncludeEnum.RAT_OS:
                     query = query
                          .Include(r => r.Tecnico)
+                         .Include(r => r.Fotos)
                          .Include(r => r.ProtocolosSTN);
                     break;
                 default:
                     query = query
                         .Include(r => r.Tecnico)
+                        .Include(r => r.Fotos)
                         .Include(r => r.StatusServico)
                         .Include(r => r.CheckinsCheckouts)
                         .Include(r => r.ProtocolosSTN)

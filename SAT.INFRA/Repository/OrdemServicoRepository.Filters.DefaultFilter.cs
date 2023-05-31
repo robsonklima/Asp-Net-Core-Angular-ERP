@@ -44,6 +44,9 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.NumOSCliente))
                 query = query.Where(os => os.NumOSCliente == parameters.NumOSCliente);
 
+            if (!string.IsNullOrWhiteSpace(parameters.NumRAT))
+                query = query.Where(os => os.RelatoriosAtendimento.Any(r => r.NumRAT == parameters.NumRAT));
+
             if (!string.IsNullOrWhiteSpace(parameters.CodOSs))
             {
                 int[] cods = parameters.CodOSs.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

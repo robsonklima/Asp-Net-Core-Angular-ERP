@@ -53,5 +53,6 @@ namespace SAT.MODELS.Entities.Params
         public string Solucao { get; set; }
         public string CodTipoIntervencaoNotIn { get; set; }
         public string CodUsuariosSTN { get; set; }
+        public string NumRAT { get; set; }
     }
 }

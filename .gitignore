@@ -2,6 +2,7 @@ node_modules/
 bin
 obj
 .vs
+https://vscode.dev/github/robsonklima/SAT.V2/blob/development/SAT.FRONT/src/environments
 dist
 sqltools*.log
 .suo

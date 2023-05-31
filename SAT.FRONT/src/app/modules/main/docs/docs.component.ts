@@ -9,7 +9,6 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Subject } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
 import { UserSession } from 'app/core/user/user.types';
-import { PerfilEnum } from 'app/core/types/perfil.types';
 
 @Component({
     selector       : 'app-docs',
@@ -39,7 +38,6 @@ export class DocsComponent implements OnInit, OnDestroy
     {
         this.obterMenus();
 
-        // Subscribe to media query change
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({matchingAliases}) => {
@@ -56,7 +54,6 @@ export class DocsComponent implements OnInit, OnDestroy
                     this.drawerOpened = false;
                 }
 
-                // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
     }
@@ -106,35 +103,23 @@ export class DocsComponent implements OnInit, OnDestroy
                         link : '/docs/app-tecnicos'
                     }
                 ]
+            },
+            {
+                id      : 'desenvolvedor',
+                title   : 'Desenvolvedor',
+                type    : 'group',
+                children: [
+                    {
+                        id   : 'build',
+                        title: 'Build',
+                        type : 'basic',
+                        link : '/docs/build'
+                    }
+                ]
             }
         ];
-
-        // if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA) {
-        //     this.menuData.push({
-        //         id      : 'desenvolvimento',
-        //         title   : 'Desenvolvimento',
-        //         type    : 'group',
-        //         children: [
-        //             {
-        //                 id   : 'arquitetura',
-        //                 title: 'Arquitetura',
-        //                 type : 'basic',
-        //                 link : '/docs/arquitetura'
-        //             },
-        //             {
-        //                 id   : 'publicacao',
-        //                 title: 'Publicação',
-        //                 type : 'basic',
-        //                 link : '/docs/publicacao'
-        //             }
-        //         ]
-        //     });
-        // }
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void
     {
         // Unsubscribe from all subscriptions

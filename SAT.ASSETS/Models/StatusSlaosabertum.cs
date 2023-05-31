@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
+
+namespace SAT.MVC.Model
+{
+    [Table("StatusSLAOSAberta")]
+    public partial class StatusSlaosabertum
+    {
+        [Key]
+        [Column("CodStatusSLAOSAberta")]
+        public int CodStatusSlaosaberta { get; set; }
+        [Column("CodOS")]
+        public int CodOs { get; set; }
+        public int CodCliente { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime DataHoraLimiteAtendimento { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime DataHoraProcessamento { get; set; }
+        [Column("KMDistancia")]
+        public int Kmdistancia { get; set; }
+    }
+}

@@ -113,6 +113,7 @@ namespace SAT.MODELS.Entities.Constants
 
         // Clientes
         public const int CLIENTE_BB = 1;
+        public const int CLIENTE_ZAFFARI = 16;
         public const int CLIENTE_BANRISUL = 2;
         public const int CLIENTE_SAFRA = 8;
         public const int CLIENTE_CEF = 58;
@@ -204,6 +205,9 @@ namespace SAT.MODELS.Entities.Constants
         public static string COR_ROXO = "#381354";
         public static string COR_PRETO = "#212121";
 
+        //Integracoes
+        public static string INT_ZAF_KEY = "f4eb70cb197b81aae231a3ddb1203169ef2a4b300372633078303c5a09dbacb9";
+
         //Email
         public static string ASSINATURA_EMAIL = @"
                                                 <br><br>
@@ -243,6 +247,7 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
+        public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";
         public static string INTEGRACAO_LOGIX_MRP = "Integracao Logix MRP";
         public static string[] LOGS_URLS = {
             "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",

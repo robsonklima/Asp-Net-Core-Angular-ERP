@@ -104,8 +104,8 @@ export class AuthSignInComponent implements OnInit {
                 usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO ? this.enviarSMS(usuario, dispositivo) : this.enviarEmail(usuario, dispositivo);
                 this._router.navigate(['confirmation-required']);
             }
-        }, err => {
-            this._snack.exibirToast(`Usuário ou Senha incorreta! ${ err?.message }`, "error");
+        }, () => {
+            this._snack.exibirToast(`Usuário ou Senha incorreta!`, "error");
             this.signInForm.enable();
         });
     }

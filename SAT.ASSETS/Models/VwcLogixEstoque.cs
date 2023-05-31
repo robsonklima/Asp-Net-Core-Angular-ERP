@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
+
+namespace SAT.MVC.Model
+{
+    [Keyless]
+    public partial class VwcLogixEstoque
+    {
+        public int CodTecnico { get; set; }
+        public int CodPeca { get; set; }
+        [Column(TypeName = "decimal(38, 2)")]
+        public decimal? Estoque { get; set; }
+        public int? CodFilial { get; set; }
+        [StringLength(50)]
+        public string Nome { get; set; }
+        [Column("dat_emis_nf")]
+        [StringLength(50)]
+        public string DatEmisNf { get; set; }
+    }
+}

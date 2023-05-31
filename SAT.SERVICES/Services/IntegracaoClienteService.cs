@@ -10,9 +10,6 @@ namespace SAT.SERVICES.Services
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
 
-            if (codCliente == 0)
-                throw new Exception("Chave não encontrada");
-
             OrdemServico os = new OrdemServico {
                 DefeitoRelatado = data.RelatoCliente,
                 NumOSQuarteirizada = data.Chave,

@@ -17,7 +17,7 @@ namespace SAT.UTILS
             if (chave == Constants.INT_ZAF_KEY)
                 return (int)Constants.CLIENTE_ZAFFARI;
 
-            return 0;
+            throw new Exception("Chave não encontrada");
         }
     }
 }

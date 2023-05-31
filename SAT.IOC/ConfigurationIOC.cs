@@ -437,7 +437,8 @@ public class ConfigurationIOC
         builder.RegisterType<EquipamentoPOSService>().As<IEquipamentoPOSService>();
         builder.RegisterType<MRPLogixService>().As<IMRPLogixService>();
         builder.RegisterType<IntegracaoLogixService>().As<IIntegracaoLogixService>();
-        builder.RegisterType<MRPLogixEstoqueService>().As<IMRPLogixEstoqueService>();        
+        builder.RegisterType<MRPLogixEstoqueService>().As<IMRPLogixEstoqueService>(); 
+        builder.RegisterType<IntegracaoClienteService>().As<IIntegracaoClienteService>();        
 
         #endregion
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -56,5 +57,6 @@ namespace SAT.MODELS.Entities
         public string SenhaAcessoNotaFiscal { get; set; }
         public string Telefone1_DEL { get; set; }
         public string Telefone2_DEL { get; set; }
+        public virtual List<EquipamentoContrato> EquipamentosContrato { get; set; }
     }
 }

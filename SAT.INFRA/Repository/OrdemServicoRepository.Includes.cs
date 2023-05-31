@@ -17,7 +17,8 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.StatusServico)
                         .Include(os => os.TipoIntervencao)
                         .Include(os => os.Tecnico)
-                        .Include(os => os.RelatoriosAtendimento);
+                        .Include(os => os.RelatoriosAtendimento)
+                            .ThenInclude(os => os.Fotos);
                     break;
 
                 case (OrdemServicoIncludeEnum.OS_PECAS):

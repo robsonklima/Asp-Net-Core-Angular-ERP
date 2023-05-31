@@ -15,7 +15,7 @@ namespace SAT.UTILS
         public static int ObterClientePorChave(string chave)
         {
             if (chave == Constants.INT_ZAF_KEY)
-                return Constants.CLIENTE_ZAFFARI;
+                return (int)Constants.CLIENTE_ZAFFARI;
 
             return 0;
         }

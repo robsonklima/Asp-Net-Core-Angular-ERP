@@ -131,9 +131,8 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 	}
 
 	monitorarDigitacaoForm(e) {
-		if (e.keyCode === 13) {
+		if (e.keyCode === 13)
 			this.pesquisar()
-		}
 	}
 
 	private obterChamados() {
@@ -149,23 +148,22 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 				codClientes = form.codClientes?.join(',');
 
 		this._osSvc.obterPorParametros({
-			pageNumber: this.paginator?.pageIndex + 1,
-			sortActive: this.sort.active || 'codOS',
-			sortDirection: this.sort.direction || 'desc',
-			pageSize: this.paginator?.pageSize,
-			codOS: form.codOS,
-			numOSQuarteirizada: form.numOSQuarteirizada,
-			numOSCliente: form.numOSCliente,
-			numSerie: form.numSerie,
-			codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA},
-														${TipoIntervencaoEnum.COFRE},
-														${TipoIntervencaoEnum.PREVENTIVA},
-														${TipoIntervencaoEnum.ORCAMENTO},
-														${TipoIntervencaoEnum.ORC_APROVADO},
-														${TipoIntervencaoEnum.ORC_REPROVADO},
-														${TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE},
-														${TipoIntervencaoEnum.MANUTENÇÃO_GERENCIAL}` : null,
-			codClientes: codClientes
+			...{
+				pageNumber: this.paginator?.pageIndex + 1,
+				sortActive: this.sort.active || 'codOS',
+				sortDirection: this.sort.direction || 'desc',
+				pageSize: this.paginator?.pageSize,
+				codTiposIntervencao: this.validaCliente ? `${TipoIntervencaoEnum.CORRETIVA},
+															${TipoIntervencaoEnum.COFRE},
+															${TipoIntervencaoEnum.PREVENTIVA},
+															${TipoIntervencaoEnum.ORCAMENTO},
+															${TipoIntervencaoEnum.ORC_APROVADO},
+															${TipoIntervencaoEnum.ORC_REPROVADO},
+															${TipoIntervencaoEnum.ORC_PEND_APROVACAO_CLIENTE},
+															${TipoIntervencaoEnum.MANUTENÇÃO_GERENCIAL}` : null,
+				codClientes: codClientes
+			},
+			...form
 		}).subscribe((data: OrdemServicoData) => {
 			if (data.items.length === 1) {
 				this._router.navigate([`ordem-servico/detalhe/${data.items[0].codOS}`]);

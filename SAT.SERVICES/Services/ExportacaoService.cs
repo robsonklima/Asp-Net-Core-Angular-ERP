@@ -205,6 +205,8 @@ namespace SAT.SERVICES.Services
                     return ExportPDF(exportacao);
                 case ExportacaoFormatoEnum.TXT:
                     return ExportTXT(exportacao.EntityParameters, exportacao.TipoArquivo);
+                case ExportacaoFormatoEnum.ZIP:
+                    return ExportZIP(exportacao.EntityParameters, exportacao.TipoArquivo);                    
                 default:
                     return null;
             }
@@ -484,6 +486,10 @@ namespace SAT.SERVICES.Services
                     return null;
             }
         }
+        private dynamic ExportZIP(dynamic parameters, ExportacaoTipoEnum tipo)
+        {
+            return null;
+        }        
     }
 }
 

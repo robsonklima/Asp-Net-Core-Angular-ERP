@@ -12,7 +12,8 @@ export interface Exportacao
 export enum ExportacaoFormatoEnum {
     EXCEL,
     PDF,
-    TXT
+    TXT,
+    ZIP
 }
 
 export enum ExportacaoTipoEnum {

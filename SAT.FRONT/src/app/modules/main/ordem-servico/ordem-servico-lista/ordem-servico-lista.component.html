@@ -39,6 +39,13 @@
                         </button>
                     </div>
 
+                    <!-- <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"
+                        (click)="exportarRATs()">
+                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 10000">
+                            <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                        </button>
+                    </div>                     -->
+
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
                     </button>

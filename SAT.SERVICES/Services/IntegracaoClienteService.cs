@@ -56,7 +56,28 @@ namespace SAT.SERVICES.Services
 
         public List<EquipamentoCliente> ObterMeusEquipamentos(IntegracaoClienteParameters par)
         {
-            throw new System.NotImplementedException();
+            int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
+
+            var equipParams = new EquipamentoContratoParameters { 
+                CodClientes = codCliente.ToString(),
+                IndAtivo = 1
+            };
+
+            var equips = (IEnumerable<EquipamentoContrato>)_equipContratoService.ObterPorParametros(equipParams).Items;
+
+            var equipamentos = equips.Select(e => new EquipamentoCliente { 
+                Codigo = e.CodEquipContrato,
+                NumSerie = e.NumSerie,
+                Local = new LocalAtendimentoCliente() {
+                    Codigo = (int)e.LocalAtendimento.CodPosto,
+                    NomeLocal = e.LocalAtendimento.NomeLocal,
+                    Agencia = e.LocalAtendimento.NumAgencia,
+                    Posto = e.LocalAtendimento.DCPosto,
+                    Endereco = e.LocalAtendimento.Endereco
+                }
+            }).ToList();
+
+            return equipamentos;
         }
 
         public List<IntegracaoCliente> ObterMeusIncidentes(IntegracaoClienteParameters par)

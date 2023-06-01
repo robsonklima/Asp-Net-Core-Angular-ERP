@@ -66,8 +66,8 @@ namespace SAT.SERVICES.Services
             var osParams = new OrdemServicoParameters { 
                 CodCliente = codCliente,
                 IndIntegracao = 1,
-                DataHoraInicioInicio = new DateTime(DateTime.Now.Year, 1, 1),
-                DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
+                //DataHoraInicioInicio = new DateTime(DateTime.Now.Year, 1, 1),
+                //DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
             };
 
             var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;

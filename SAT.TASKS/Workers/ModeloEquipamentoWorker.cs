@@ -34,8 +34,11 @@ public partial class ModeloEquipamentoWorker : BackgroundService
                         IndAtivo = 1
                     };
 
-                    var equipamentos = _equipamentoContratoService.ObterPorParametros(equipParams).Items;
-                    contrato.QtdEquipamentos = equipamentos.Count();
+                    contrato.QtdEquipamentos = _equipamentoContratoService
+                        .ObterPorParametros(equipParams)
+                        .Items
+                        .Count();
+
                     _contratoEquipamentoService.Atualizar(contrato);
                 }
             }

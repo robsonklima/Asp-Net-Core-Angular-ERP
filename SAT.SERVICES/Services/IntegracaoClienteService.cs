@@ -47,7 +47,7 @@ namespace SAT.SERVICES.Services
             };
 
             _logger.Info()
-                .Message("Incidente aberto com sucesso")
+                .Message(@"Incidente do cliente {} aberto com sucesso", Constants.INTEGRACAO_ZAFFARI)
                 .Property("application", Constants.INTEGRACAO_ZAFFARI)
                 .Write();
 
@@ -78,7 +78,7 @@ namespace SAT.SERVICES.Services
             }).ToList();
 
             _logger.Info()
-                .Message("Cliente consultou os seus equipamentos")
+                .Message(@"Cliente {} consultou os seus equipamentos", Constants.INTEGRACAO_ZAFFARI)
                 .Property("application", Constants.INTEGRACAO_ZAFFARI)
                 .Write();
 
@@ -117,7 +117,7 @@ namespace SAT.SERVICES.Services
             }).ToList();
 
             _logger.Info()
-                .Message("Cliente consultou os seus incidentes")
+                .Message(@"Cliente {} consultou os seus incidentes", Constants.INTEGRACAO_ZAFFARI)
                 .Property("application", Constants.INTEGRACAO_ZAFFARI)
                 .Write();
 

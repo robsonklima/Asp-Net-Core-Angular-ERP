@@ -29,6 +29,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddHostedService<IntegracaoBanrisulWorker>();
         services.AddHostedService<IntegracaoLogixWorker>();
+        services.AddHostedService<ModeloEquipamentoWorker>();
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))

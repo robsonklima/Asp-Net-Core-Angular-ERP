@@ -47,16 +47,42 @@ namespace SAT.SERVICES.Services
             };
 
             _logger.Info()
-                    .Message(data.ToString())
-                    .Property("application", Constants.INTEGRACAO_ZAFFARI)
-                    .Write();
+                .Message(@"Incidente do cliente {} aberto com sucesso", Constants.INTEGRACAO_ZAFFARI)
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
 
             return data;
         }
 
         public List<EquipamentoCliente> ObterMeusEquipamentos(IntegracaoClienteParameters par)
         {
-            throw new System.NotImplementedException();
+            int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
+
+            var equipParams = new EquipamentoContratoParameters { 
+                CodClientes = codCliente.ToString(),
+                IndAtivo = 1
+            };
+
+            var equips = (IEnumerable<EquipamentoContrato>)_equipContratoService.ObterPorParametros(equipParams).Items;
+
+            var equipamentos = equips.Select(e => new EquipamentoCliente { 
+                Codigo = e.CodEquipContrato,
+                NumSerie = e.NumSerie,
+                Local = new LocalAtendimentoCliente() {
+                    Codigo = (int)e.LocalAtendimento.CodPosto,
+                    NomeLocal = e.LocalAtendimento.NomeLocal,
+                    Agencia = e.LocalAtendimento.NumAgencia,
+                    Posto = e.LocalAtendimento.DCPosto,
+                    Endereco = e.LocalAtendimento.Endereco
+                }
+            }).ToList();
+
+            _logger.Info()
+                .Message(@"Cliente {} consultou os seus equipamentos", Constants.INTEGRACAO_ZAFFARI)
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
+
+            return equipamentos;
         }
 
         public List<IntegracaoCliente> ObterMeusIncidentes(IntegracaoClienteParameters par)
@@ -66,8 +92,8 @@ namespace SAT.SERVICES.Services
             var osParams = new OrdemServicoParameters { 
                 CodCliente = codCliente,
                 IndIntegracao = 1,
-                //DataHoraInicioInicio = new DateTime(DateTime.Now.Year, 1, 1),
-                //DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
+                DataHoraInicioInicio = new DateTime(DateTime.Now.Year-1, 1, 1),
+                DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
             };
 
             var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;
@@ -89,6 +115,11 @@ namespace SAT.SERVICES.Services
                     }
                 }
             }).ToList();
+
+            _logger.Info()
+                .Message(@"Cliente {} consultou os seus incidentes", Constants.INTEGRACAO_ZAFFARI)
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
 
             return incidentes;
         }

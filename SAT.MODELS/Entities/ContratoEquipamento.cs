@@ -39,5 +39,6 @@ namespace SAT.MODELS.Entities
         public string CodUsuarioManut { get; set; }
         public DateTime? DataHoraManut { get; set; }
         public string CodMagnus { get; set; }
+        public int? QtdEquipamentos { get; set; }
     }
 }

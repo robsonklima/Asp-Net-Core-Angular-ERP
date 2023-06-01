@@ -19,6 +19,8 @@ namespace SAT.SERVICES.Services {
                                 FonePerto = tecnico?.FonePerto ?? Constants.NENHUM_REGISTRO,
                                 FoneParticular = tecnico?.FoneParticular ?? Constants.NENHUM_REGISTRO,
                                 DataAdmissao = tecnico?.DataAdmissao,
+                                RG = tecnico?.Rg ?? Constants.NENHUM_REGISTRO,
+                                CPF = tecnico?.Cpf ?? Constants.NENHUM_REGISTRO,
                                 Ativo = tecnico?.IndAtivo == 1 ? "SIM" : "NÃO",
                                 Cidade = tecnico?.Cidade?.NomeCidade ?? Constants.NENHUM_REGISTRO,
                                 Regiao = tecnico?.Regiao?.NomeRegiao ?? Constants.NENHUM_REGISTRO,

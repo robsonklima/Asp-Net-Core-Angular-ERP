@@ -57,6 +57,5 @@ namespace SAT.MODELS.Entities
         public string SenhaAcessoNotaFiscal { get; set; }
         public string Telefone1_DEL { get; set; }
         public string Telefone2_DEL { get; set; }
-        public virtual List<EquipamentoContrato> EquipamentosContrato { get; set; }
     }
 }

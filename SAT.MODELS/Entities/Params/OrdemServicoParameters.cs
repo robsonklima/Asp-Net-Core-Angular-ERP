@@ -24,6 +24,7 @@ namespace SAT.MODELS.Entities.Params
         public string CodRegioes { get; set; }
         public string CodPostos { get; set; }
         public string NumSerie { get; set; }
+        public byte? IndIntegracao { get; set; }
         public DateTime? DataAberturaInicio { get; set; }
         public DateTime? DataAberturaFim { get; set; }
         public DateTime? DataFechamentoInicio { get; set; }

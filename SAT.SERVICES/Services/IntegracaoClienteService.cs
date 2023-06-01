@@ -7,6 +7,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace SAT.SERVICES.Services
 {
@@ -63,7 +64,12 @@ namespace SAT.SERVICES.Services
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
 
-            var osParams = new OrdemServicoParameters { CodCliente = codCliente };
+            var osParams = new OrdemServicoParameters { 
+                CodCliente = codCliente,
+                IndIntegracao = 1,
+                DataHoraInicioInicio = new DateTime(DateTime.Now.Year, 1, 1),
+                DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
+            };
 
             var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;
 

@@ -21,7 +21,7 @@ namespace SAT.API.Controllers
             _integracaoClienteService = integracaoClienteService;
         }
 
-        [HttpPost]
+        [HttpGet("NovoIncidente")]
         public IntegracaoCliente Integrar([FromBody] IntegracaoCliente IntegracaoCliente)
         {
             return _integracaoClienteService.Integrar(IntegracaoCliente);

@@ -21,7 +21,7 @@ namespace SAT.MODELS.Entities
         public int CodCliente { get; set; }
         public Cliente Cliente { get; set; }
         public int CodPosto { get; set; }
-        public LocalAtendimento LocalAtendimento { get; set; }
+        public virtual LocalAtendimento LocalAtendimento { get; set; }
         public int CodRegiao { get; set; }
         public Regiao Regiao { get; set; }
         public int CodAutorizada { get; set; }

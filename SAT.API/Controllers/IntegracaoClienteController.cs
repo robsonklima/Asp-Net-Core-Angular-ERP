@@ -20,16 +20,10 @@ namespace SAT.API.Controllers
             _integracaoClienteService = integracaoClienteService;
         }
 
-        [HttpPost("Abertura")]
+        [HttpPost]
         public IntegracaoCliente Integrar([FromBody] IntegracaoCliente IntegracaoCliente)
         {
             return _integracaoClienteService.Integrar(IntegracaoCliente);
-        }
-
-        [HttpPost("Locais")]
-        public List<LocalAtendimentoCliente> ObterLocais([FromBody] IntegracaoCliente IntegracaoCliente)
-        {
-            return _integracaoClienteService.ObterLocais(IntegracaoCliente);
         }
     }
 }

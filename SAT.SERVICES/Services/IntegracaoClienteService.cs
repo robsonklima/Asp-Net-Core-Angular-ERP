@@ -76,7 +76,18 @@ namespace SAT.SERVICES.Services
                 NumIncidentePerto = os.CodOS.ToString(),
                 NumIncidenteCliente = os.NumOSCliente,
                 RelatoCliente = os.DefeitoRelatado,
-                NumSerie = os.EquipamentoContrato?.NumSerie
+                NumSerie = os.EquipamentoContrato?.NumSerie,
+                Equipamento = new EquipamentoCliente() {
+                    NumSerie = os.EquipamentoContrato?.NumSerie,
+                    Codigo = os.EquipamentoContrato.CodEquipContrato,
+                    Local = new LocalAtendimentoCliente() {
+                        Codigo = (int)os.LocalAtendimento.CodPosto,
+                        NomeLocal = os.LocalAtendimento.NomeLocal,
+                        Agencia = os.LocalAtendimento.NumAgencia,
+                        Posto = os.LocalAtendimento.DCPosto,
+                        Endereco = os.LocalAtendimento.Endereco
+                    }
+                }
             }).ToList();
 
             return incidentes;

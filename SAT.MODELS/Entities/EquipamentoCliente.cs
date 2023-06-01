@@ -4,5 +4,6 @@ namespace SAT.MODELS.Entities
     {
         public int Codigo { get; set; }
         public string NumSerie { get; set; }
+        public LocalAtendimentoCliente Local { get; set; }
     }
 }

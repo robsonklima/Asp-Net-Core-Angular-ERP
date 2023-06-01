@@ -11,6 +11,6 @@ namespace SAT.MODELS.Entities
         public string NumIncidentePerto { get; set; }
         public string RelatoCliente { get; set; }
         public string NumSerie { get; set; }
-        public EquipamentoCliente EquipamentoCliente { get; set; }
+        public EquipamentoCliente Equipamento { get; set; }
     }
 }

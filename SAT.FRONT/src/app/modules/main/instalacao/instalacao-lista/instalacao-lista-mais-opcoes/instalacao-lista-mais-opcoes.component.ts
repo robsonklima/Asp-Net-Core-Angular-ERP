@@ -186,7 +186,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
           });
                   
         }
-        var rat = (await this._relatorioAtendimentoSvc.obterPorParametros({ codOS: item.codOS, sortDirection: 'desc' }).toPromise()).items.shift();
+        var rat = (await this._relatorioAtendimentoSvc.obterPorParametros({ codOS: item.codOS, sortDirection: 'desc', sortActive:'codRAT' }).toPromise()).items.shift();
         item.codRAT = rat.codRAT;
         item.dataBI = rat.dataHoraSolucao;        
       }

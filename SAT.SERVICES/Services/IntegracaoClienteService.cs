@@ -47,9 +47,9 @@ namespace SAT.SERVICES.Services
             };
 
             _logger.Info()
-                    .Message(data.ToString())
-                    .Property("application", Constants.INTEGRACAO_ZAFFARI)
-                    .Write();
+                .Message("Incidente aberto com sucesso")
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
 
             return data;
         }
@@ -77,6 +77,11 @@ namespace SAT.SERVICES.Services
                 }
             }).ToList();
 
+            _logger.Info()
+                .Message("Cliente consultou os seus equipamentos")
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
+
             return equipamentos;
         }
 
@@ -87,8 +92,8 @@ namespace SAT.SERVICES.Services
             var osParams = new OrdemServicoParameters { 
                 CodCliente = codCliente,
                 IndIntegracao = 1,
-                //DataHoraInicioInicio = new DateTime(DateTime.Now.Year, 1, 1),
-                //DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
+                DataHoraInicioInicio = new DateTime(DateTime.Now.Year-1, 1, 1),
+                DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
             };
 
             var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;
@@ -110,6 +115,11 @@ namespace SAT.SERVICES.Services
                     }
                 }
             }).ToList();
+
+            _logger.Info()
+                .Message("Cliente consultou os seus incidentes")
+                .Property("application", Constants.INTEGRACAO_ZAFFARI)
+                .Write();
 
             return incidentes;
         }

@@ -41,6 +41,7 @@ export class ContratoEquipamento {
     codUsuarioManut?: any;
     dataHoraManut?: any;
     codMagnus: string;
+    qtdEquipamentos: number;
 }
 
 export interface ContratoEquipamentoData extends Meta {
@@ -53,4 +54,5 @@ export interface ContratoEquipamentoParameters extends QueryStringParameters {
     codGrupoEquip?: number;
     codTipoEquip?: number;
     codEquip?: number;
+    qtdEquipamentos?: number;
 };

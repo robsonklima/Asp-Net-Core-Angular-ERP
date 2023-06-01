@@ -166,24 +166,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	}
 
 	public async exportarRATs() {
-		if (this.dataSourceData?.totalCount > 20000) return;
 
-		this.isLoading = true;
-
-		let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.ZIP,
-			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
-			entityParameters: {
-				...this.filter?.parametros,
-				sortDirection: 'desc',
-				pageSize: 100000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
-			}
-		}
-
-		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
-
-		this.isLoading = false;
 	}
 
 	paginar() {

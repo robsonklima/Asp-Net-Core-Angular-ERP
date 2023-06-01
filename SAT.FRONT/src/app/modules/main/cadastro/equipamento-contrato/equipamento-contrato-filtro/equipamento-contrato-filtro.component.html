@@ -15,6 +15,18 @@
         <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('ativo') }}</mat-label>
+                    <mat-select formControlName="indAtivo">                
+                        <mat-option [value]="1">
+                            Sim
+                        </mat-option>
+                        <mat-option [value]="0">
+                            Não
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('cliente') }}</mat-label>
                     <mat-select formControlName="codClientes" multiple="true">
                         <mat-option>
@@ -127,18 +139,6 @@
                         <mat-option *ngFor="let localAtendimento of locaisAtendimento"
                             [value]="localAtendimento.codPosto">
                             {{ localAtendimento.nomeLocal }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('ativo') }}</mat-label>
-                    <mat-select formControlName="indAtivo">                
-                        <mat-option [value]="1">
-                            Sim
-                        </mat-option>
-                        <mat-option [value]="0">
-                            Não
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

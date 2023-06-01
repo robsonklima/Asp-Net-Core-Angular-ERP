@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using SAT.MODELS.Entities;
 
 namespace SAT.MODELS.Entities
 {

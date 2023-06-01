@@ -5,6 +5,8 @@ using SAT.SERVICES.Interfaces;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.INFRA.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SAT.SERVICES.Services
 {
@@ -30,7 +32,7 @@ namespace SAT.SERVICES.Services
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
 
-            var equipamento = _equipContratoRepo.ObterPorParametros(new EquipamentoContratoParameters {
+            var equipamento = _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters {
                 NumSerie = data.NumSerie,
                 CodClientes = codCliente.ToString(),
                 IndAtivo = 1

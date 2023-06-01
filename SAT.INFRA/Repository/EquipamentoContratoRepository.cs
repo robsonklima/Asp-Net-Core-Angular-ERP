@@ -78,9 +78,7 @@ namespace SAT.INFRA.Repository
         public EquipamentoContrato ObterPorCodigo(int codigo)
         {
             return _context.EquipamentoContrato
-                .Include(e => e.LocalAtendimento)
-                    .ThenInclude(e => e.Cidade)
-                        .ThenInclude(e => e.UnidadeFederativa)
+                .Include(e => e.LocalAtendimento.Cidade.UnidadeFederativa)
                 .Include(e => e.Cliente)
                 .Include(e => e.Contrato)
                     .ThenInclude(e => e.ContratosEquipamento!).DefaultIfEmpty()
@@ -99,9 +97,7 @@ namespace SAT.INFRA.Repository
             try
             {
                 var equips = _context.EquipamentoContrato
-                    .Include(e => e.LocalAtendimento)
-                        .ThenInclude(e => e.Cidade)
-                            .ThenInclude(e => e.UnidadeFederativa)
+                    .Include(e => e.LocalAtendimento.Cidade.UnidadeFederativa)
                     .Include(e => e.Cliente)
                     .Include(e => e.Contrato)
                     .ThenInclude(e => e.TipoContrato)

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using System.Collections.Generic;
 
@@ -26,10 +27,10 @@ namespace SAT.API.Controllers
             return _integracaoClienteService.Integrar(IntegracaoCliente);
         }
 
-        [HttpPost("Locais")]
-        public List<LocalAtendimentoCliente> ObterLocais([FromBody] IntegracaoCliente IntegracaoCliente)
+        [HttpGet("MeusIncidentes")]
+        public List<IntegracaoCliente> Get([FromQuery] IntegracaoClienteParameters parameters)
         {
-            return _integracaoClienteService.ObterLocais(IntegracaoCliente);
+            return _integracaoClienteService.ObterMeusIncidentes(parameters);
         }
     }
 }

@@ -14,14 +14,17 @@ namespace SAT.SERVICES.Services
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private ILocalAtendimentoService _localService;
         private IEquipamentoContratoService _equipContratoService;
+        private IOrdemServicoService _osService;
 
         public IntegracaoClienteService(
             ILocalAtendimentoService localService,
-            IEquipamentoContratoService equipContratoService
+            IEquipamentoContratoService equipContratoService,
+            IOrdemServicoService osService
         )
         {
             _localService = localService;
             _equipContratoService = equipContratoService;
+            _osService = osService;
         }
 
         public IntegracaoCliente Integrar(IntegracaoCliente data)
@@ -33,9 +36,7 @@ namespace SAT.SERVICES.Services
                 DefeitoRelatado = data.RelatoCliente,
                 NumOSQuarteirizada = data.Chave,
                 CodCliente = codCliente,
-                IndIntegracao = 1,
-                CodPosto = data.CodigoLocal,
-                CodEquipContrato = data.CodigoEquipamento
+                IndIntegracao = 1
             };
 
             _logger.Info()
@@ -46,48 +47,27 @@ namespace SAT.SERVICES.Services
             return data;
         }
 
-        public List<LocalAtendimentoCliente> ObterLocais(IntegracaoCliente data)
+        public List<EquipamentoCliente> ObterMeusEquipamentos(IntegracaoClienteParameters par)
         {
-            int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
-
-            IEnumerable<LocalAtendimento> locais = (IEnumerable<LocalAtendimento>)_localService.ObterPorParametros(new LocalAtendimentoParameters
-            {
-                CodCliente = codCliente,
-                IndAtivo = 1
-            }).Items;
-
-            var targetList = locais
-                .Select(loc => new LocalAtendimentoCliente()
-                {
-                    Codigo = loc.CodPosto.Value,
-                    NumAgencia = loc.NumAgencia,
-                    DCPosto = loc.DCPosto,
-                    Endereco = loc.Endereco,
-                    Equipamentos = ObterEquipamentosCliente(loc)
-                })
-                .ToList();
-
             throw new System.NotImplementedException();
         }
 
-        private List<EquipamentoCliente> ObterEquipamentosCliente(LocalAtendimento loc)
+        public List<IntegracaoCliente> ObterMeusIncidentes(IntegracaoClienteParameters par)
         {
-            var equipamentos = (IEnumerable<EquipamentoContrato>)_equipContratoService.ObterPorParametros(new EquipamentoContratoParameters
-            {
-                CodPosto = loc.CodPosto,
-                CodClientes = loc.CodCliente.ToString(),
-                IndAtivo = 1
-            }).Items;
+            int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
 
-            var targetList = equipamentos
-                .Select(e => new EquipamentoCliente()
-                {
-                    Codigo = e.CodEquipContrato,
-                    NumSerie = e.NumSerie
-                })
-                .ToList();
+            var osParams = new OrdemServicoParameters { CodCliente = codCliente };
 
-            return null;
+            var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;
+
+            var incidentes = oss.Select(os => new IntegracaoCliente { 
+                NumIncidentePerto = os.CodOS.ToString(),
+                NumIncidenteCliente = os.NumOSCliente,
+                RelatoCliente = os.DefeitoRelatado,
+                NumSerie = os.EquipamentoContrato?.NumSerie
+            }).ToList();
+
+            return incidentes;
         }
     }
 }

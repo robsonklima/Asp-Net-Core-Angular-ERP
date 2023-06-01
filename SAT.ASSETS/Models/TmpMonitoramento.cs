@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
+
+namespace SAT.MVC.Model
+{
+    [Keyless]
+    [Table("tmpMonitoramento")]
+    public partial class TmpMonitoramento
+    {
+        [Column("descricao")]
+        [StringLength(1000)]
+        public string Descricao { get; set; }
+    }
+}

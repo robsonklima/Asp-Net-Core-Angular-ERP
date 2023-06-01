@@ -37,6 +37,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodEquipContrato.HasValue)
                 query = query.Where(os => os.CodEquipContrato == parameters.CodEquipContrato);
 
+            if (parameters.IndIntegracao.HasValue)
+                query = query.Where(os => os.IndIntegracao == parameters.IndIntegracao);
+
             if (parameters.DataHoraInicioInicio.HasValue && parameters.DataHoraInicioFim.HasValue)
                 query = query.Where(os => os.RelatoriosAtendimento.Any(r => r.DataHoraInicio.Date >= parameters.DataHoraInicioInicio.Value.Date &&
                                     r.DataHoraInicio.Date <= parameters.DataHoraInicioFim.Value.Date));

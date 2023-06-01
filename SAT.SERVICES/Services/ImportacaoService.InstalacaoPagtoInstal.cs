@@ -107,7 +107,7 @@ namespace SAT.SERVICES.Services
                             ?.FirstOrDefault()
                             ?.CodContrato;            
 
-                        var codCliente = _contratoRepo
+                        var codCliente = _contratoRepo 
                             .ObterPorParametros(new ContratoParameters { CodContrato = codContrato })
                             ?.FirstOrDefault()
                             ?.CodCliente;                                                  

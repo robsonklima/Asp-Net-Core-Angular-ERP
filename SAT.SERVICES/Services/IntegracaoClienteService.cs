@@ -1,11 +1,10 @@
 using NLog.Fluent;
 using NLog;
-using System.Linq;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 using SAT.MODELS.Entities.Constants;
-using System.Collections.Generic;
 using SAT.MODELS.Entities.Params;
+using SAT.INFRA.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
@@ -30,6 +29,12 @@ namespace SAT.SERVICES.Services
         public IntegracaoCliente Integrar(IntegracaoCliente data)
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
+
+            var equipamento = _equipContratoRepo.ObterPorParametros(new EquipamentoContratoParameters {
+                NumSerie = data.NumSerie,
+                CodClientes = codCliente.ToString(),
+                IndAtivo = 1
+            });
 
             OrdemServico os = new OrdemServico
             {

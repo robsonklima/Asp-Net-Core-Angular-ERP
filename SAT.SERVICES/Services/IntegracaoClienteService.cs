@@ -4,7 +4,6 @@ using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
-using SAT.INFRA.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System;

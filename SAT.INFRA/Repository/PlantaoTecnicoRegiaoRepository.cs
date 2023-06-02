@@ -79,6 +79,7 @@ namespace SAT.INFRA.Repository
         public PagedList<PlantaoTecnicoRegiao> ObterPorParametros(PlantaoTecnicoRegiaoParameters parameters)
         {
             var perfis = _context.PlantaoTecnicoRegiao
+                .Include(i => i.Regiao)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -88,6 +89,9 @@ namespace SAT.INFRA.Repository
                     p.CodPlantaoTecnicoRegiao.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
+
+            if (parameters.CodPlantaoTecnico.HasValue)
+                perfis = perfis.Where(os => os.CodPlantaoTecnico == parameters.CodPlantaoTecnico.Value);
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

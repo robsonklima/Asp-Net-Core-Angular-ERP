@@ -20,9 +20,9 @@
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 </button>
 
-                <button class="ml-4" mat-icon-button matTooltip="Filtro" (click)="sidenav.toggle()">
+                <!-- <button class="ml-4" mat-icon-button matTooltip="Filtro" (click)="sidenav.toggle()">
                     <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
-                </button>
+                </button> -->
             </div>
         </div>
 
@@ -75,12 +75,12 @@
                                         </div>
 
                                         <div class="truncate">
-                                            {{ plantao.tecnico.regiaoAutorizada?.regiao?.nomeRegiao || 'Não Informado'
+                                            {{ plantao.tecnico?.regiaoAutorizada?.regiao?.nomeRegiao || 'Não Informado'
                                             }}
                                         </div>
 
                                         <div class="truncate">
-                                            {{ plantao.tecnico.filial?.nomeFilial || 'Não Informado' }}
+                                            {{ plantao.tecnico?.filial?.nomeFilial || 'Não Informado' }}
                                         </div>
 
                                         <div class="truncate">

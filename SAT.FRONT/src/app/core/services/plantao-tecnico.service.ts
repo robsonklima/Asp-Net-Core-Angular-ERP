@@ -13,7 +13,7 @@ export class PlantaoTecnicoService {
 
   obterPorParametros(parameters: PlantaoTecnicoParameters): Observable<PlantaoTecnicoData> {
     let params = new HttpParams();
-
+    
     Object.keys(parameters).forEach(key => {
       if (parameters[key] !== undefined && parameters[key] !== null) params = params.append(key, String(parameters[key]));
     });
@@ -22,6 +22,7 @@ export class PlantaoTecnicoService {
       map((data: PlantaoTecnicoData) => data)
     )
   }
+
 
   obterPorCodigo(codPlantaoTecnico: number): Observable<PlantaoTecnico> {
     const url = `${c.api}/PlantaoTecnico/${codPlantaoTecnico}`;

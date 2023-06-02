@@ -59,10 +59,10 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodCliente);
 
             builder
-                .HasOne(i => i.LocalAtendimento)
-                .WithOne()
-                .HasForeignKey<EquipamentoContrato>(i => i.CodPosto)
-                .HasPrincipalKey<LocalAtendimento>(i => i.CodPosto);
+                .HasOne(prop => prop.LocalAtendimento)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodPosto)
+                .HasPrincipalKey(prop => prop.CodPosto);
 
             builder
                 .HasOne(prop => prop.Regiao)

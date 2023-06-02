@@ -220,7 +220,7 @@ export class OrcamentoRevisaoDialogComponent implements OnInit {
   async montaLocais(){
     const params: LocalEnvioNFFaturamentoVinculadoParameters = {
       codContrato: this.os?.equipamentoContrato?.codContrato,
-      codPosto: this.os?.equipamentoContrato?.codPosto,
+      codPosto: this.os?.codPosto,
     };
 
     const data = await this._localEnvioNFFaturamentoVinculadoService

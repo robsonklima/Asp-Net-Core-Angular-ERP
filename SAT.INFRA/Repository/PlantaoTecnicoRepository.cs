@@ -87,10 +87,6 @@ namespace SAT.INFRA.Repository
         public PagedList<PlantaoTecnico> ObterPorParametros(PlantaoTecnicoParameters parameters)
         {
             var query = _context.PlantaoTecnico
-                // .Include(p => p.PlantaoRegioes)
-                //     .ThenInclude(t => t.Regiao)
-                // .Include(p => p.PlantaoClientes)
-                //     .ThenInclude(t => t.Cliente)
                 .Include(p => p.Tecnico.Veiculos)
                         .ThenInclude(t => t.Combustivel)
                 .Include(p => p.Tecnico.RegiaoAutorizada.Autorizada)

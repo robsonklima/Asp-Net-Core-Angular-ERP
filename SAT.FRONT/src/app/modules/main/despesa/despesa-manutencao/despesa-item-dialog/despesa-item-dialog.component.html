@@ -213,7 +213,7 @@
                 </button>
 
                 <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
-                    [color]="'primary'" type="button" (click)="salvar()">
+                    [color]="'primary'" [disabled]="loading" type="button" (click)="salvar()">
                     {{ t('salvar') }}
                 </button>
             </div>

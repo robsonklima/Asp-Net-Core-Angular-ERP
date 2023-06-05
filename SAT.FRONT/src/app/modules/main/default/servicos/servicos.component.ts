@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MonitoramentoService } from 'app/core/services/monitoramento.service';
 import { Monitoramento } from 'app/core/types/monitoramento.types';
+import _ from 'lodash';
 import moment from 'moment';
 
 @Component({
@@ -14,6 +15,7 @@ export class ServicosComponent implements OnInit
   monitoramentoServicos: Monitoramento[] = [];
   monitoramentoConexoes: Monitoramento[] = [];
   monitoramentoIntegracoes: Monitoramento[] = [];
+  dataHoraProcessamento: string;
   loading: boolean;
 
   constructor(
@@ -34,10 +36,13 @@ export class ServicosComponent implements OnInit
       this._monitoramentoService.obterPorParametros({
         sortActive: "dataHoraProcessamento",
         sortDirection: "asc",
-      }).subscribe((data) =>
-      {
+      }).subscribe((data) => {
         this.monitoramentos = data.items;
-
+        
+        this.dataHoraProcessamento = _.maxBy(this.monitoramentos, (el) => {
+          return moment(el.dataHoraCad)
+        }).dataHoraCad;
+      
         for (let i = 0; i < data.items.length; i++)
         {
           this.monitoramentos[i].status = this._monitoramentoService.obterStatus(this.monitoramentos[i]);

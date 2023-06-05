@@ -609,12 +609,15 @@ export class DespesaItemDialogComponent implements OnInit {
   onProximo(): void {
     this.configuraCamposHabilitados();
     this.desabilitaFormOrigem();
+    const despesasKM = this.obterDespesaItensKM();
 
-    if (this.isUltimaRATDoDia() && this.obterDespesaItensKM().length)
-      this.setOrigemLocalChamado();
-    else
-      this.setOrigemRATAnterior();
-
+    if (despesasKM) {
+      if (this.isUltimaRATDoDia() && this.obterDespesaItensKM().length)
+        this.setOrigemLocalChamado();
+      else
+        this.setOrigemRATAnterior();
+    }
+    
     this.setDestino();
   }
 

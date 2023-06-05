@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PlantaoTecnico } from 'app/core/types/plantao-tecnico.types';
+import { PlantaoTecnico, PlantaoTecnicoRegiao, PlantaoTecnicoRegiaoData } from 'app/core/types/plantao-tecnico.types';
 import { DialogData } from '../tecnico-plantao-informacoes/tecnico-plantao-informacoes.component';
 import { TecnicoPlantaoListaComponent } from '../tecnico-plantao-lista/tecnico-plantao-lista.component';
+import { PlantaoTecnicoRegiaoService } from 'app/core/services/plantao-tecnico-regiao.service';
 
 @Component({
   selector: 'app-tecnico-plantao-regioes',
@@ -11,14 +12,17 @@ import { TecnicoPlantaoListaComponent } from '../tecnico-plantao-lista/tecnico-p
 })
 export class TecnicoPlantaoRegioesComponent implements OnInit {
   plantaoTecnico: PlantaoTecnico;
+  plantaoRegioes: PlantaoTecnicoRegiaoData;
 
   constructor(
     public dialogRef: MatDialogRef<TecnicoPlantaoListaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private _plantaoTecnicoRegiaoSrv: PlantaoTecnicoRegiaoService
   ) {
     this.plantaoTecnico = data.plantaoTecnico;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    this.plantaoRegioes = await this._plantaoTecnicoRegiaoSrv.obterPorParametros({ codPlantaoTecnico: this.plantaoTecnico.codPlantaoTecnico}).toPromise();
   }
 }

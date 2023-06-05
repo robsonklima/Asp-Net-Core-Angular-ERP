@@ -45,6 +45,7 @@ export interface PlantaoTecnicoRegiaoData extends Meta
 
 export interface PlantaoTecnicoRegiaoParameters extends QueryStringParameters
 {
+    codPlantaoTecnico?: number;
 };
 
 export class PlantaoTecnicoCliente
@@ -65,4 +66,5 @@ export interface PlantaoTecnicoClienteData extends Meta
 
 export interface PlantaoTecnicoClienteParameters extends QueryStringParameters
 {
+     codPlantaoTecnico?: number;
 };

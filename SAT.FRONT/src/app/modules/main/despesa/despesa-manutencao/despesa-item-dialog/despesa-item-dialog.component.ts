@@ -50,6 +50,7 @@ export class DespesaItemDialogComponent implements OnInit {
   isValidating: boolean = false;
   kmPrevisto: number;
   tentativaKm: number = 0;
+  loading: boolean;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -476,16 +477,20 @@ export class DespesaItemDialogComponent implements OnInit {
   }
 
   async salvar() {
+    this.loading = true;
+
     const despesaItem: DespesaItem = this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
 
     this._despesaItemSvc.criar(despesaItem)
       .subscribe(() => {
         this.despesa.despesaItens.push(despesaItem);
         this.dialogRef.close(true);
+        this.loading = false;
       },
         () => {
           this._snack.exibirToast('Erro ao adicionar item da despesa!', 'error');
           this.dialogRef.close(false);
+          this.loading = false;
         }
       );
   }
@@ -604,12 +609,15 @@ export class DespesaItemDialogComponent implements OnInit {
   onProximo(): void {
     this.configuraCamposHabilitados();
     this.desabilitaFormOrigem();
+    const despesasKM = this.obterDespesaItensKM();
 
-    if (this.isUltimaRATDoDia() && this.obterDespesaItensKM().length)
-      this.setOrigemLocalChamado();
-    else
-      this.setOrigemRATAnterior();
-
+    if (despesasKM) {
+      if (this.isUltimaRATDoDia() && despesasKM.length)
+        this.setOrigemLocalChamado();
+      else
+        this.setOrigemRATAnterior();
+    }
+    
     this.setDestino();
   }
 

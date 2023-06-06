@@ -79,6 +79,7 @@ namespace SAT.INFRA.Repository
         public PagedList<PlantaoTecnicoCliente> ObterPorParametros(PlantaoTecnicoClienteParameters parameters)
         {
             var perfis = _context.PlantaoTecnicoCliente
+                .Include(i => i.Cliente)
                 .AsQueryable();
 
             if (parameters.Filter != null)
@@ -88,6 +89,10 @@ namespace SAT.INFRA.Repository
                     p.CodPlantaoTecnicoCliente.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
                 );
             }
+
+            if (parameters.CodPlantaoTecnico.HasValue)
+                perfis = perfis.Where(os => os.CodPlantaoTecnico == parameters.CodPlantaoTecnico.Value);
+
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

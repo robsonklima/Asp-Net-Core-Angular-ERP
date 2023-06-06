@@ -48,7 +48,7 @@ namespace SAT.MODELS.Entities.Constants
         public static Office365EmailConfig EMAIL_APLICACAO_CONFIG = new Office365EmailConfig
         {
             Username = "aplicacao.sat@perto.com.br",
-            Password = "Aavk@41(&a$bfJo01",
+            Password = "6PyhnD=FUius^=&",
             ClientID = "1b71cdeb-01a7-493e-a4a1-aedacb2488e3"
         };
 

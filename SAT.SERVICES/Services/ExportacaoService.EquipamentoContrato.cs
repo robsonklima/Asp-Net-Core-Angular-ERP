@@ -30,7 +30,7 @@ namespace SAT.SERVICES.Services
 												NomeDoLocal = eq.LocalAtendimento?.NomeLocal ?? Constants.NENHUM_REGISTRO,
 												Endereco = eq.LocalAtendimento?.Endereco ?? Constants.NENHUM_REGISTRO,
 												Cidade = eq.LocalAtendimento?.Cidade?.NomeCidade ?? Constants.NENHUM_REGISTRO,
-												UF = eq.LocalAtendimento?.Cidade?.UnidadeFederativa?.NomeUF ?? Constants.NENHUM_REGISTRO,
+												UF = eq.LocalAtendimento?.Cidade?.UnidadeFederativa?.SiglaUF ?? Constants.NENHUM_REGISTRO,
 												Filial = eq.Filial?.NomeFilial ?? Constants.NENHUM_REGISTRO,
 												Autorizada = eq.Autorizada?.NomeFantasia ?? Constants.NENHUM_REGISTRO,
 												Regiao = eq.Regiao?.NomeRegiao ?? Constants.NENHUM_REGISTRO,

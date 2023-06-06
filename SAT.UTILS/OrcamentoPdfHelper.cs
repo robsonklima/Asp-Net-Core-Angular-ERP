@@ -101,7 +101,7 @@ namespace SAT.UTILS
 
                     column.Item().Text(text =>
                     {
-                        text.Span($"OS: ").SemiBold().FontSize(8);
+                        text.Span($"Chamado: ").SemiBold().FontSize(8);
                         text.Span($"{Orcamento.OrdemServico.CodOS}").FontSize(8);
                     });
                 });

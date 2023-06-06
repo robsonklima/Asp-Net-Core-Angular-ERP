@@ -86,7 +86,7 @@ namespace SAT.UTILS
                 {
                     column.Item().AlignCenter().AlignMiddle().Text(tx =>
                      {
-                         tx.Span("OS  ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(20));
+                         tx.Span("Chamado  ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(20));
                          tx.Span($"{OrdemServico.CodOS}").Style(TextStyle.Default.FontSize(24));
                      });
                 });
@@ -222,7 +222,7 @@ namespace SAT.UTILS
 
                 grid.Item(12).Text(t =>
                 {
-                    t.Span($"Obs OS: ").FontSize(8).Bold();
+                    t.Span($"Obs Chamado: ").FontSize(8).Bold();
                     t.Span($"{OrdemServico.ObservacaoCliente}").FontSize(8);
                 });
 

@@ -231,7 +231,7 @@ namespace SAT.SERVICES.Services
                 CodOS = os.CodOS
             });
             var osImpressao = new OrdemServicoPdfHelper(os);
-            var osPdf = GenerateFilePath($"OS-{os.CodOS}.pdf");
+            var osPdf = GenerateFilePath($"CHAMADO-{os.CodOS}.pdf");
             
             osImpressao.GeneratePdf(osPdf);
 

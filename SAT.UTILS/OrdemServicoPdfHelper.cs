@@ -65,12 +65,12 @@ namespace SAT.UTILS
                     {
                         cr.Spacing(20);
 
-                        using (HttpClient webClient = new HttpClient())
-                        {
-                            byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
+                        // using (HttpClient webClient = new HttpClient())
+                        // {
+                        //     // byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
 
-                            cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
-                        }
+                        //     // cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
+                        // }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(8);
@@ -275,7 +275,7 @@ namespace SAT.UTILS
                     grid.Item(6).Text(t =>
                     {
                         t.Span($"Status: ").FontSize(8).Bold();
-                        t.Span($"{rel.StatusServico.NomeStatusServico}").FontSize(8);
+                        t.Span($"{rel.StatusServico?.NomeStatusServico}").FontSize(8);
                     });
 
                     grid.Item(6).Text(t =>
@@ -411,34 +411,34 @@ namespace SAT.UTILS
                                         {
                                             if (f.Modalidade.Contains("RAT_ASSINATURA_CLIENTE") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
-                                                using var client = new HttpClient();
-                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                grid.Item().Row(gr =>
-                                                {
-                                                    gr.RelativeItem().Column(gc =>
-                                                    {
-                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
-                                                    });
-                                                });
+                                                // using var client = new HttpClient();
+                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                // grid.Item().Row(gr =>
+                                                // {
+                                                //     gr.RelativeItem().Column(gc =>
+                                                //     {
+                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                //         gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                //     });
+                                                // });
 
-                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
                                             }
 
                                             if (f.Modalidade.Contains("RAT_ASSINATURA_TECNICO") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
-                                                using var client = new HttpClient();
-                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                grid.Item().Row(gr =>
-                                                {
-                                                    gr.RelativeItem().Column(gc =>
-                                                    {
-                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
-                                                    });
-                                                });
+                                                // using var client = new HttpClient();
+                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                // grid.Item().Row(gr =>
+                                                // {
+                                                //     gr.RelativeItem().Column(gc =>
+                                                //     {
+                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                //         gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
+                                                //     });
+                                                // });
 
-                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
                                             }
                                         });
                                 });

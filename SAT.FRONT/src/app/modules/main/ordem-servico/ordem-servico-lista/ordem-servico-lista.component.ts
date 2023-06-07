@@ -116,15 +116,17 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		if (!this._stringExtensions.isEmptyOrWhiteSpace(filter))
 			params.filterType = OrdemServicoFilterEnum.FILTER_GENERIC_TEXT;
 
-		const data: OrdemServicoData = await this._ordemServicoService
+		await this._ordemServicoService
 			.obterPorParametros({
 				...params,
 				...this.filter?.parametros
 			})
-			.toPromise();
-
-		this.dataSourceData = data;
-		this.isLoading = false;
+			.subscribe((data) => {
+				this.dataSourceData = data;
+				this.isLoading = false;
+			},  () => {
+				this.isLoading = false;
+			});
 	}
 
 	registerEmitters(): void {

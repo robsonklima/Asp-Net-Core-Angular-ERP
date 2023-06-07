@@ -86,7 +86,7 @@ namespace SAT.UTILS
                 {
                     column.Item().AlignCenter().AlignMiddle().Text(tx =>
                      {
-                         tx.Span("OS  ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(20));
+                         tx.Span("Chamado:  ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(15));
                          tx.Span($"{OrdemServico.CodOS}").Style(TextStyle.Default.FontSize(24));
                      });
                 });
@@ -218,21 +218,9 @@ namespace SAT.UTILS
                     t.Span($"{OrdemServico.EquipamentoContrato?.AcordoNivelServico.NomeSLA}").FontSize(8);
                 });
 
-                grid.Item(12).Text(t =>
-                {
-                    t.Span($"Defeito: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.DefeitoRelatado}").FontSize(8);
-                });
-
-                grid.Item(12).Text(t =>
-                {
-                    t.Span($"Obs OS: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.ObservacaoCliente}").FontSize(8);
-                });
-
                 grid.Item(4).Text(t =>
                  {
-                     t.Span($"FILIAL: ").FontSize(8).Bold();
+                     t.Span($"Filial: ").FontSize(8).Bold();
                      t.Span($"{OrdemServico.EquipamentoContrato?.Filial.NomeFilial}").FontSize(8);
                  });
 
@@ -262,11 +250,10 @@ namespace SAT.UTILS
 
                 grid.Item(12).Text(t =>
                 {
-                    t.Span($"Obs Chamado:\n").FontSize(8).Bold();
+                    t.Span($"Obs Chamado: \n").FontSize(8).Bold();
                     t.Span($"{OrdemServico.ObservacaoCliente}").FontSize(8);
                 });
 
-                
             });
         }
 
@@ -281,7 +268,7 @@ namespace SAT.UTILS
                     grid.HorizontalSpacing(10);
                     grid.AlignCenter();
 
-                    grid.Item(12).AlignLeft().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Text($"Atendimento #{rel.NumRAT}").Bold();
+                    grid.Item(12).AlignLeft().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Text($"Atendimento  #{rel.NumRAT}").Bold();
                     index++;
 
                     grid.Item(4).Text(t =>
@@ -308,7 +295,7 @@ namespace SAT.UTILS
                     {
                         grid.Item(12).Text(tx =>
                         {
-                            tx.Span($"Tipo Serviço: {detalhe?.TipoServico?.NomeServico}").FontSize(8).Bold();
+                            tx.Span($"Tipo Serviço: {detalhe?.TipoServico?.NomeServico}").FontSize(8);
                             if (!string.IsNullOrWhiteSpace(detalhe?.TipoServico?.NomeServico))
                             {
                                 var tipoServico = detalhe.TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
@@ -421,36 +408,28 @@ namespace SAT.UTILS
 
                                     rel.Fotos.ForEach(f =>
                                         {
-                                            if (f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
+                                            if (f.Modalidade.Contains("RAT") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
-                                                // using var client = new HttpClient();
-                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                // grid.Item().Row(gr =>
-                                                // {
-                                                //     gr.RelativeItem().Column(gc =>
-                                                //     {
-                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                //         gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
-                                                //     });
-                                                // });
+                                                using var client = new HttpClient();
+                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                grid.Item().Row(gr =>
+                                                {
+                                                    gr.RelativeItem(6).Column(gc =>
+                                                    {
+                                                        switch (f.Modalidade)
+                                                        {
+                                                            case "RAT_ASSINATURA_TECNICO":
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                                gc.Item().AlignCenter().Text("Assinatura Técnico\n" + rel.Tecnico.Nome).FontSize(8).SemiBold();
+                                                                return;
 
-                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
-                                            }
-
-                                            if (f.Modalidade.Contains("RAT_ASSINATURA_TECNICO") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
-                                            {
-                                                // using var client = new HttpClient();
-                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                // grid.Item().Row(gr =>
-                                                // {
-                                                //     gr.RelativeItem().Column(gc =>
-                                                //     {
-                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                //         gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
-                                                //     });
-                                                // });
-
-                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                                            case "RAT_ASSINATURA_CLIENTE":
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                                gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                                return;
+                                                        }
+                                                    });
+                                                });
                                             }
                                         });
                                 });

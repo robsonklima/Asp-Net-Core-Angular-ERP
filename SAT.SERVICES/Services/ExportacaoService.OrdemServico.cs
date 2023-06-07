@@ -250,6 +250,7 @@ namespace SAT.SERVICES.Services
         private IActionResult GerarZipOrdemServico(Exportacao exportacao)
         {
             var user = _contextAcecssor.HttpContext.User.Identity.Name;
+            var prefixo = DateTime.Now.ToString("yyyyMMddHHmmss" + user);
             var path = GenerateFilePath("");
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
             var ordens = _osRepo.ObterPorParametros(parameters);
@@ -262,7 +263,6 @@ namespace SAT.SERVICES.Services
                     CodOS = ordem.CodOS
                 });
                 var osImpressao = new OrdemServicoPdfHelper(os);
-                var prefixo = DateTime.Now.ToString("yyyyMMddHHmmss" + user);
                 var osPdf = $"{path}/CHAMADO-{os.CodOS}-{prefixo}.pdf";
                 osImpressao.GeneratePdf(osPdf);
             }

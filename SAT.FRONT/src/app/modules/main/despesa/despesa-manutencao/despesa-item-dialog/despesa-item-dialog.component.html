@@ -44,7 +44,7 @@
                         <div class="w-full text-center mt-4 text-2xl">Origem</div>
 
                         <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center min-h-10">
-                            <div *ngIf="mostrarOpcaoResidenciaHotelOrigem()">
+                            <div *ngIf="flagOrigens == true">
                                 <label>
                                     <input type="radio" value="residencial" formControlName="localInicioDeslocamento">
                                     <span>{{ t('residencia') }}</span>
@@ -97,7 +97,7 @@
                         <div class="w-full text-center mt-4 text-2xl">Destino</div>
 
                         <div class="flex-auto fuse-mat-dense space-x-4 w-full my-4 p-2 text-center min-h-10">
-                            <div *ngIf="mostrarOpcaoResidenciaHotelDestino()">
+                            <div *ngIf="flagDestinos == true">
                                 <label>
                                     <input type="radio" value="residencial" formControlName="localDestinoDeslocamento">
                                     <span>{{ t('residencia') }}</span>

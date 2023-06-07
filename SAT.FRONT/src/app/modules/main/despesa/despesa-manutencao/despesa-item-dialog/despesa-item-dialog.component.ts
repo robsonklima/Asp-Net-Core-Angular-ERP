@@ -617,6 +617,10 @@ export class DespesaItemDialogComponent implements OnInit {
       else
         this.setOrigemRATAnterior();
     }
+    else if(this.isPrimeiraRATDoDia())
+        this.mostrarOpcaoResidenciaHotelOrigem();
+    else
+        this.setOrigemRATAnterior();
     
     this.setDestino();
   }

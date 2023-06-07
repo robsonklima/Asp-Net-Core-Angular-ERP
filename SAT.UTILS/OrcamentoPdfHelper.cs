@@ -101,7 +101,7 @@ namespace SAT.UTILS
 
                     column.Item().Text(text =>
                     {
-                        text.Span($"OS: ").SemiBold().FontSize(8);
+                        text.Span($"Chamado: ").SemiBold().FontSize(8);
                         text.Span($"{Orcamento.OrdemServico.CodOS}").FontSize(8);
                     });
                 });
@@ -148,37 +148,34 @@ namespace SAT.UTILS
                             grid.HorizontalSpacing(15);
                             grid.AlignCenter();
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(12).Text(t =>
                             {
                                 t.Span($"Razão Social: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.RazaoSocialFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($"        CNPJ: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CnpjFaturamento}").FontSize(8);
-                            });
-
-                            grid.Item(3).Text(t =>
-                            {
-                                t.Span($"  Ins. Estadual: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.InscricaoEstadualFaturamento}").FontSize(8);
+                                t.Span($"CNPJ: ").FontSize(8).Bold();
+                                t.Span($"{(Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CnpjFaturamento)}").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>
                             {
-                                t.Span($"Endereço: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.EnderecoFaturamento}").FontSize(8);
+                                t.Span($"Ins. Estadual: ").FontSize(8).Bold();
+                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.InscricaoEstadualFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(2).Text(t =>
+                            grid.Item(4).Text(t =>{});
+
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($" Número: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.NumeroFaturamento}").FontSize(8);
+                                t.Span($"Endereço: ").FontSize(8).Bold();
+                                t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.EnderecoFaturamento},{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.NumeroFaturamento}")
+                                    .FontSize(8);
                             });
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Complemento: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.ComplementoFaturamento}").FontSize(8);
@@ -190,19 +187,19 @@ namespace SAT.UTILS
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.BairroFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(2).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($"   Cidade: ").FontSize(8).Bold();
+                                t.Span($"Cidade: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.NomeCidade}").FontSize(8);
                             });
 
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($"    UF: ").FontSize(8).Bold();
+                                t.Span($"UF: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CidadeFaturamento?.UnidadeFederativa?.SiglaUF}").FontSize(8);
                             });
                             
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"CEP: ").FontSize(8).Bold();
                                 t.Span($"{ Convert.ToUInt64(Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.CepFaturamento).ToString(@"00000\-000") }").FontSize(8);
@@ -214,15 +211,17 @@ namespace SAT.UTILS
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.ResponsavelFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(2).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Fone: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.FoneFaturamento}").FontSize(8);
                             });
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(4).Text(t =>{});
+
+                            grid.Item(12).Text(t =>
                             {
-                                t.Span($"E-mail: ").FontSize(8).Bold();
+                                t.Span($"E-mail:").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.EmailFaturamento}").FontSize(8);
                             });
 
@@ -257,13 +256,15 @@ namespace SAT.UTILS
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.ResponsavelEnvioNF}").FontSize(8);
                             });
 
-                            grid.Item(2).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Fone: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.FoneEnvioNF}").FontSize(8);
                             });
+                            
+                            grid.Item(4).Text(t =>{});
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(12).Text(t =>
                             {
                                 t.Span($"E-mail: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.LocalEnvioNFFaturamentoVinculado?.LocalEnvioNFFaturamento?.EmailEnvioNF}").FontSize(8);
@@ -292,37 +293,37 @@ namespace SAT.UTILS
                             grid.HorizontalSpacing(15);
                             grid.AlignCenter();
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Nome Local: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento.NomeLocal}").FontSize(8);
                             });
                             
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($"       CNPJ: ").FontSize(8).Bold();
-                                t.Span($"{Orcamento.OrdemServico.LocalAtendimento.Cnpj}").FontSize(8);
+                                t.Span($"CNPJ: ").FontSize(8).Bold();
+                                t.Span($"{Convert.ToUInt64(Orcamento.OrdemServico.LocalAtendimento.Cnpj).ToString(@"000\.000\.000\-00") }").FontSize(8);
                             });
 
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Nro Contrato: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.EquipamentoContrato?.Contrato?.NroContrato}").FontSize(8);
                             });
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Endereço: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento.Endereco}").FontSize(8);
                             });
 
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
-                                t.Span($"       Agência: ").FontSize(8).Bold();
+                                t.Span($"Agência: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento.NumAgencia}/{Orcamento.OrdemServico.LocalAtendimento.DCPosto}").FontSize(8);
                             });
                             
-                            grid.Item(3).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"CEP: ").FontSize(8).Bold();
                                 t.Span($"{ Convert.ToUInt64(Orcamento.OrdemServico.LocalAtendimento?.Cep).ToString(@"00000\-000") }").FontSize(8);
@@ -334,13 +335,13 @@ namespace SAT.UTILS
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento?.Bairro}").FontSize(8);
                             });
 
-                            grid.Item(2).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"Cidade: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento?.Cidade?.NomeCidade}").FontSize(8);
                             });
 
-                            grid.Item(6).Text(t =>
+                            grid.Item(4).Text(t =>
                             {
                                 t.Span($"UF: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.LocalAtendimento?.Cidade?.UnidadeFederativa?.SiglaUF}").FontSize(8);
@@ -371,13 +372,13 @@ namespace SAT.UTILS
 
                             grid.Item(4).Text(t =>
                             {
-                                t.Span($"OS Cliente: ").FontSize(8).Bold();
+                                t.Span($"Chamado Cliente: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.NumOSCliente}").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>
                             {
-                                t.Span($"OS Perto: ").FontSize(8).Bold();
+                                t.Span($"Chamado Perto: ").FontSize(8).Bold();
                                 t.Span($"{Orcamento.OrdemServico.CodOS}").FontSize(8);
                             });
 

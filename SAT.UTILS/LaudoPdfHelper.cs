@@ -109,44 +109,96 @@ namespace SAT.UTILS
 
             });
         }
-        
+
         void ComporDadosEntrada(IContainer container)
         {
             container.Table(table =>
             {
                 table.ColumnsDefinition(columns =>
-                {
-                    columns.ConstantColumn(200);
-                    columns.RelativeColumn();
-                });
+                        {
+                            columns.RelativeColumn();
+                        });
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("DADOS DE ENTRADA");
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("DADOS DE ENTRADA").FontSize(10).Bold();
                 });
 
-                table.Cell().Element(CellStyle).Text("Cliente").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.Cliente?.NomeFantasia).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Contato").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NomeContato ?? "Não Informado").Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Data Atendimento").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_laudo.DataHoraCad).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("OS Perto").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.CodOS).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Defeito").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.DefeitoRelatado).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Emitente").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_laudo.Tecnico.Nome).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("OS Cliente").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.NumOSCliente).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Cód. Pai do Equipamento").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.CodEEquip).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Modelo").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Série").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text(_ordemServico.EquipamentoContrato?.NumSerie).Style(FontStyle());
-                table.Cell().Element(CellStyle).Text("Protocolo STN").Style(FontStyle());
-                table.Cell().Element(CellStyle).AlignRight().Text("---").Style(FontStyle());
+                table.Cell().Element(CellStyle).Grid(grid =>
+                {
+                    grid.VerticalSpacing(1);
+                    grid.HorizontalSpacing(15);
+                    grid.AlignCenter();
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Cliente: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.Cliente?.NomeFantasia}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Contato: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.NomeContato ?? "Não Informado"}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Data Atendimento: ").FontSize(8).Bold();
+                        t.Span($"{_laudo.DataHoraCad}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Chamado Perto: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.CodOS}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Emitente: ").FontSize(8).Bold();
+                        t.Span($"{_laudo.Tecnico.Nome}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Chamado Cliente: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.NumOSCliente}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Defeito: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.DefeitoRelatado}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Cód. Pai do Equipamento: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.EquipamentoContrato?.Equipamento?.CodEEquip}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Modelo: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.EquipamentoContrato?.Equipamento?.NomeEquip}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Série: ").FontSize(8).Bold();
+                        t.Span($"{_ordemServico.EquipamentoContrato?.NumSerie}").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t =>
+                    {
+                        t.Span($"Protocolo STN: ").FontSize(8).Bold();
+                        t.Span($"---").FontSize(8);
+                    });
+
+                    grid.Item(6).Text(t => { });
+
+                });
             });
         }
 
@@ -161,8 +213,7 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("SITUAÇÕES").FontSize(10).Bold();
-
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("SITUAÇÕES").FontSize(10).Bold();
                 });
 
                 if (_laudo is not null)
@@ -225,14 +276,14 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("CHECAGEM VISUAL").FontSize(10).Bold();
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("CHECAGEM VISUAL").FontSize(10).Bold();
 
                 });
                 table.Cell().Row(tr =>
                 {
                     tr.RelativeItem().Column(column =>
                     {
-                        column.Item().Text($"Relato do cliente durante o atendimento.").SemiBold();
+                        column.Item().Text($"Relato do cliente durante o atendimento.").FontSize(10).SemiBold();
                         column.Item().Element(CellStyle).Text(_laudo?.RelatoCliente).Style(FontStyle());
 
                     });
@@ -251,8 +302,7 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
-
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("INFRAESTRUTURA E REDE ELÉTRICA DO SITE").FontSize(10).Bold();
                 }); table.Cell().Table(t2 =>
                 {
                     t2.ColumnsDefinition(col2 =>
@@ -300,14 +350,13 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO").FontSize(10).Bold();
-
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("CONCLUSÃO GERAL DO LAUDO").FontSize(10).Bold();
                 });
                 table.Cell().Row(tr =>
                 {
                     tr.RelativeItem().Column(column =>
                     {
-                        column.Item().Text($"Conclusão").SemiBold();
+                        column.Item().Text($"Conclusão").FontSize(10).SemiBold();
                         column.Item().Element(CellStyle).Text(_laudo?.Conclusao).Style(FontStyle());
 
                     });
@@ -326,7 +375,7 @@ namespace SAT.UTILS
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(TitleStyle).Text("ASSINATURA").FontSize(10).Bold();
+                    header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("ASSINATURA").FontSize(10).Bold();
                 });
                 table.Cell().Row(tr =>
                 {
@@ -334,8 +383,8 @@ namespace SAT.UTILS
                     {
                         column.Item().Grid(grid =>
                         {
-                            grid.Spacing(10);
-                            grid.Columns(4);
+                            grid.Spacing(9);
+                            grid.Columns(2);
 
                             foreach (var item in _laudo.Or.RelatoriosAtendimento)
                             {
@@ -347,10 +396,20 @@ namespace SAT.UTILS
                                         var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
                                         grid.Item().Row(gr =>
                                         {
-                                            gr.RelativeItem().Column(gc =>
+                                            gr.RelativeItem(6).Column(gc =>
                                             {
-                                                gc.Item().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                gc.Item().Text(f.Modalidade).FontSize(6).SemiBold();
+                                                switch (f.Modalidade)
+                                                {
+                                                    case "ASSINATURATECNICOLAUDO":
+                                                        gc.Item().AlignRight().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignRight().Text("Assinatura Técnico\n" + _laudo.Tecnico.Nome).FontSize(8).SemiBold();
+                                                        return;
+
+                                                    case "ASSINATURACLIENTELAUDO":
+                                                        gc.Item().AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignLeft().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                        return;
+                                                }
                                             });
                                         });
                                     }

@@ -120,7 +120,7 @@ export class ContratoFormComponent implements OnInit {
 	}
 
 	private atualizar(): void {
-		this.form.disable();
+		this.form.disable();	
 
 		const form: any = this.form.getRawValue();
 		let obj = {

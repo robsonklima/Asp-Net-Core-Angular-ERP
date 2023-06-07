@@ -612,7 +612,7 @@ export class DespesaItemDialogComponent implements OnInit {
     const despesasKM = this.obterDespesaItensKM();
 
     if (despesasKM) {
-      if (this.isUltimaRATDoDia() && this.obterDespesaItensKM().length)
+      if (this.isUltimaRATDoDia() && despesasKM.length)
         this.setOrigemLocalChamado();
       else
         this.setOrigemRATAnterior();

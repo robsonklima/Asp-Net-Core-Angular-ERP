@@ -219,20 +219,19 @@ namespace SAT.SERVICES.Services
             wsUni.Cell(2, 1).Value = exportUnificado;
             WriteHeaders(exportUnificado.FirstOrDefault(), wsUni);
         }
-        
+
         private IActionResult GerarPdfOrdemServico(Exportacao exportacao)
         {
-
             var arquivos = new List<string>();
-
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
             var os = _osRepo.ObterPorCodigo(Int32.Parse(parameters.CodOS));
-            os.RelatoriosAtendimento = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters {
+            os.RelatoriosAtendimento = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters
+            {
                 CodOS = os.CodOS
             });
             var osImpressao = new OrdemServicoPdfHelper(os);
-            var osPdf = GenerateFilePath($"OS-{os.CodOS}.pdf");
-            
+            var osPdf = GenerateFilePath($"CHAMADO-{os.CodOS}.pdf");
+
             osImpressao.GeneratePdf(osPdf);
 
             if (exportacao.Email != null)
@@ -246,6 +245,36 @@ namespace SAT.SERVICES.Services
 
             byte[] file = File.ReadAllBytes(osPdf);
             return new FileContentResult(file, "application/pdf");
+        }
+
+        private IActionResult GerarZipOrdemServico(Exportacao exportacao)
+        {
+            var user = _contextAcecssor.HttpContext.User.Identity.Name;
+            var prefixo = DateTime.Now.ToString("yyyyMMddHHmmss" + user);
+            var path = GenerateFilePath("");
+            var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
+            var ordens = _osRepo.ObterPorParametros(parameters);
+
+            foreach (var ordem in ordens)
+            {
+                var os = _osRepo.ObterPorCodigo(ordem.CodOS);
+                os.RelatoriosAtendimento = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters
+                {
+                    CodOS = ordem.CodOS
+                });
+                var osImpressao = new OrdemServicoPdfHelper(os);
+                var osPdf = $"{path}/CHAMADO-{os.CodOS}-{prefixo}.pdf";
+                osImpressao.GeneratePdf(osPdf);
+            }
+
+            GenericHelper.CompressDirectory(
+                path,
+                path + $"exportacao-{user}.zip",
+                9
+            );
+
+            byte[] file = File.ReadAllBytes(path + $"exportacao-{user}.zip");
+            return new FileContentResult(file, "application/zip");
         }
     }
 }

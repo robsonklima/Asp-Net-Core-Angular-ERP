@@ -4,9 +4,9 @@ namespace SAT.UTILS {
         private FilesHelper()
         {}
         
-        public static string CheckExtension(string str)
+        public static string CheckExtension(string base64)
         {
-            switch (str.ToUpper())
+            switch (base64.ToUpper())
             {
                 case "IVBOR":
                     return "png";

@@ -33,18 +33,18 @@
                     </button>
 
                     <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"
-                        (click)="exportar()">
+                        (click)="exportar('excel')">
                         <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 10000">
                             <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                         </button>
                     </div>
 
-                    <!-- <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"
-                        (click)="exportarRATs()">
-                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 10000">
-                            <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-duplicate'"></mat-icon>
+                    <div matTooltip="{{ dataSourceData?.totalCount > 100 ? 'Máximo de registros 100' : t('exportar') }}"
+                        (click)="exportar('zip')">
+                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 100">
+                            <mat-icon class="text-orange-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                         </button>
-                    </div>                     -->
+                    </div>
 
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>

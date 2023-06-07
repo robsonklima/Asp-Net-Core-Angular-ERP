@@ -65,12 +65,12 @@ namespace SAT.UTILS
                     {
                         cr.Spacing(20);
 
-                        using (HttpClient webClient = new HttpClient())
-                        {
-                            byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
+                        // using (HttpClient webClient = new HttpClient())
+                        // {
+                        //     // byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
 
-                            cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
-                        }
+                        //     // cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
+                        // }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(8);
@@ -86,7 +86,7 @@ namespace SAT.UTILS
                 {
                     column.Item().AlignCenter().AlignMiddle().Text(tx =>
                      {
-                         tx.Span("Chamado: ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(16));
+                         tx.Span("OS  ").Style(TextStyle.Default.FontColor(Colors.Grey.Medium).FontSize(20));
                          tx.Span($"{OrdemServico.CodOS}").Style(TextStyle.Default.FontSize(24));
                      });
                 });
@@ -218,6 +218,18 @@ namespace SAT.UTILS
                     t.Span($"{OrdemServico.EquipamentoContrato?.AcordoNivelServico.NomeSLA}").FontSize(8);
                 });
 
+                grid.Item(12).Text(t =>
+                {
+                    t.Span($"Defeito: ").FontSize(8).Bold();
+                    t.Span($"{OrdemServico.DefeitoRelatado}").FontSize(8);
+                });
+
+                grid.Item(12).Text(t =>
+                {
+                    t.Span($"Obs OS: ").FontSize(8).Bold();
+                    t.Span($"{OrdemServico.ObservacaoCliente}").FontSize(8);
+                });
+
                 grid.Item(4).Text(t =>
                  {
                      t.Span($"FILIAL: ").FontSize(8).Bold();
@@ -281,7 +293,7 @@ namespace SAT.UTILS
                     grid.Item(4).Text(t =>
                     {
                         t.Span($"Status: ").FontSize(8).Bold();
-                        t.Span($"{rel.StatusServico.NomeStatusServico}").FontSize(8);
+                        t.Span($"{rel.StatusServico?.NomeStatusServico}").FontSize(8);
                     });
 
                     grid.Item(4).Text(t =>
@@ -415,23 +427,30 @@ namespace SAT.UTILS
                                                 var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
                                                 grid.Item().Row(gr =>
                                                 {
-                                                    gr.RelativeItem(6).Column(gc =>
+                                                    gr.RelativeItem().Column(gc =>
                                                     {
-                                                        switch (f.Modalidade)
-                                                        {
-                                                            case "RAT_ASSINATURA_TECNICO":
-                                                                gc.Item().AlignLeft().Image(result.Result.Content.ReadAsStream());
-                                                                gc.Item().AlignLeft().Text("Assinatura Técnico").FontSize(8).SemiBold();
-                                                                gc.Item().AlignLeft().Text($"{rel.Tecnico.Nome}").FontSize(8).SemiBold();
-                                                                return;
-
-                                                            case "RAT_ASSINATURA_CLIENTE":
-                                                                gc.Item().AlignRight().Image(result.Result.Content.ReadAsStream());
-                                                                gc.Item().AlignRight().Text("Assinatura Cliente").FontSize(8).SemiBold();                                                                
-                                                                return;
-                                                        }
+                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
                                                     });
                                                 });
+
+                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                            }
+
+                                            if (f.Modalidade.Contains("RAT_ASSINATURA_TECNICO") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
+                                            {
+                                                using var client = new HttpClient();
+                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                grid.Item().Row(gr =>
+                                                {
+                                                    gr.RelativeItem().Column(gc =>
+                                                    {
+                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
+                                                    });
+                                                });
+
+                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
                                             }
                                         });
                                 });

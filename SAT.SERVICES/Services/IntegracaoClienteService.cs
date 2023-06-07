@@ -54,6 +54,7 @@ namespace SAT.SERVICES.Services
             return data;
         }
 
+        // Indisponibilizar
         public List<EquipamentoCliente> ObterMeusEquipamentos(IntegracaoClienteParameters par)
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);

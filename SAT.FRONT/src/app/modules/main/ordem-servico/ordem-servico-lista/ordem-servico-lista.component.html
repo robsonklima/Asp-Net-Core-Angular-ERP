@@ -32,17 +32,17 @@
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : t('exportar') }}"
+                    <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}"
                         (click)="exportar('excel')">
                         <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 10000">
                             <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
                         </button>
                     </div>
 
-                    <div matTooltip="{{ dataSourceData?.totalCount > 100 ? 'Máximo de registros 100' : t('exportar') }}"
+                    <div matTooltip="{{ dataSourceData?.totalCount > 100 ? 'Máximo de registros 100' : 'Exportar em Zip' }}"
                         (click)="exportar('zip')">
                         <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 100">
-                            <mat-icon class="text-orange-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                            <mat-icon class="text-purple-600" [svgIcon]="'heroicons_outline:download'"></mat-icon>
                         </button>
                     </div>
 

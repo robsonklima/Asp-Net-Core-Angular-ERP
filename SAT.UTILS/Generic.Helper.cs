@@ -25,7 +25,7 @@ namespace SAT.UTILS
         {
             try
             {
-                string[] filenames = Directory.GetFiles(DirectoryPath, pattern);
+                string[] filenames = Directory.GetFiles(DirectoryPath, "*"+pattern);
 
                 using (ZipOutputStream OutputStream = new ZipOutputStream(File.Create(OutputFilePath)))
                 {

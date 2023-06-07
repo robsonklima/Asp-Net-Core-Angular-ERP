@@ -61,7 +61,7 @@ namespace SAT.UTILS
                 row.ConstantItem(280).Column(column =>
                 {
 
-                    column.Item().Row(async cr =>
+                    column.Item().Row(cr =>
                     {
                         cr.Spacing(20);
 
@@ -423,34 +423,34 @@ namespace SAT.UTILS
                                         {
                                             if (f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
-                                                using var client = new HttpClient();
-                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                grid.Item().Row(gr =>
-                                                {
-                                                    gr.RelativeItem().Column(gc =>
-                                                    {
-                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
-                                                    });
-                                                });
+                                                // using var client = new HttpClient();
+                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                // grid.Item().Row(gr =>
+                                                // {
+                                                //     gr.RelativeItem().Column(gc =>
+                                                //     {
+                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                //         gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                //     });
+                                                // });
 
-                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
                                             }
 
                                             if (f.Modalidade.Contains("RAT_ASSINATURA_TECNICO") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
-                                                using var client = new HttpClient();
-                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                grid.Item().Row(gr =>
-                                                {
-                                                    gr.RelativeItem().Column(gc =>
-                                                    {
-                                                        gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
-                                                    });
-                                                });
+                                                // using var client = new HttpClient();
+                                                // var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                // grid.Item().Row(gr =>
+                                                // {
+                                                //     gr.RelativeItem().Column(gc =>
+                                                //     {
+                                                //         gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                //         gc.Item().AlignCenter().Text("Assinatura Técnico").FontSize(8).SemiBold();
+                                                //     });
+                                                // });
 
-                                                grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
+                                                // grid.Item().Row(gr => { gr.RelativeItem().Column(gc => { }); });
                                             }
                                         });
                                 });

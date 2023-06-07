@@ -270,7 +270,8 @@ namespace SAT.SERVICES.Services
             GenericHelper.CompressDirectory(
                 path,
                 path + $"exportacao-{user}.zip",
-                9
+                9,
+                $"{prefixo}.pdf"
             );
 
             byte[] file = File.ReadAllBytes(path + $"exportacao-{user}.zip");

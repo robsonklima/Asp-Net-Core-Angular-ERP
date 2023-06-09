@@ -146,7 +146,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		}
 	}
 
-	public async exportar(tipo: string="excel") {
+	public async exportar(tipo: string="") {
 		if (this.dataSourceData?.totalCount > 100 && tipo == "zip") return;
 		if (this.dataSourceData?.totalCount > 10000 && tipo == "excel") return;
 

@@ -39,25 +39,25 @@
                         <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
 
                         <mat-menu #menu>
-                            <button mat-menu-item (click)="exportar()"
+                            <button mat-menu-item (click)="exportar('excel')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document'"></mat-icon>
                                 {{ t('exportar excel') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('rats')"
+                            <button mat-menu-item (click)="exportar('rats')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar rats') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('implantacoes')"
+                            <button mat-menu-item (click)="exportar('implantacoes')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar implantacoes') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('laudos')"
+                            <button mat-menu-item (click)="exportar('laudos')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar laudos') }}

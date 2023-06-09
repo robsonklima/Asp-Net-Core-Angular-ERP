@@ -167,11 +167,6 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		this.isLoading = false;
 	}
 
-	public async exportarRATs(tipo: string="") {
-		
-
-	}
-
 	paginar() {
 		this.onPaginationChanged();
 		this.obterOrdensServico();

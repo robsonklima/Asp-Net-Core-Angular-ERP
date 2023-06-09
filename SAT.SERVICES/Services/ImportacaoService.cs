@@ -158,7 +158,7 @@ namespace SAT.SERVICES.Services
                 case (int)ImportacaoEnum.INSTALACAO_PAGTO_INSTAL:
                     return ImportacaoInstalacaoPagtoInstal(importacao);
                 case (int)ImportacaoEnum.PROCESSO_REPARO:
-                    return ImportacaoProcessoReparo(importacao);                    
+                    return ImportacaoProcessoReparo(importacao);          
                 default:
                     return null;
             }

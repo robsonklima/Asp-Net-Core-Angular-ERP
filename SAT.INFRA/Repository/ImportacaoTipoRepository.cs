@@ -76,6 +76,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(i => i.IndAtivo ==  parameters.IndAtivo.Value);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+
             return PagedList<ImportacaoTipo>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

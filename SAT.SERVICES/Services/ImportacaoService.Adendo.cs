@@ -1,6 +1,7 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -42,7 +43,7 @@ namespace SAT.SERVICES.Services
                             
                         }
                     }
-                    catch (System.Exception ex)
+                    catch (Exception ex)
                     {
                         throw ex;
                     }

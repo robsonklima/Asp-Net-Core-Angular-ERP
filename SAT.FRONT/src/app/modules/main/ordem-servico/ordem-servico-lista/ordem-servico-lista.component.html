@@ -45,19 +45,19 @@
                                 {{ t('exportar excel') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('rat')"
+                            <button mat-menu-item (click)="exportarRATs('rats')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar rats') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('implantacao')"
+                            <button mat-menu-item (click)="exportarRATs('implantacoes')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar implantacoes') }}
                             </button>
 
-                            <button mat-menu-item (click)="exportarRATs('laudo')"
+                            <button mat-menu-item (click)="exportarRATs('laudos')"
                                 matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar laudos') }}

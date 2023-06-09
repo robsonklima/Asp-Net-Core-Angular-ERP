@@ -5,6 +5,7 @@ import { ImportacaoConfiguracaoService } from 'app/core/services/importacao-conf
 import { ImportacaoTipoService } from 'app/core/services/importacao-tipo.service';
 import { ImportacaoService } from 'app/core/services/importacao.service';
 import { ImportacaoTipo } from 'app/core/types/importacao-configuracao.type';
+import { statusConst } from 'app/core/types/status-types';
 
 @Component({
 	selector: 'app-importacao',
@@ -31,7 +32,16 @@ export class ImportacaoComponent implements AfterViewInit {
 	}
 
 	async obterDados() {
-		this.importacaoTipos = (await this._importacaoTipoService.obterPorParametros({indAtivo: 1}).toPromise()).items
+		const conf = {
+			indAtivo: statusConst.ATIVO,
+			sortActive: "NomeTipo",
+			sortDirection: "ASC"
+		}
+
+		this.importacaoTipos = (await this._importacaoTipoService
+			.obterPorParametros(conf)
+			.toPromise())
+			.items
 	}
 
 	async configura(codImportacaoTipo: number, dados: any = null) {

@@ -168,6 +168,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	}
 
 	public async exportarRATs(tipo: string="") {
+		
 
 	}
 

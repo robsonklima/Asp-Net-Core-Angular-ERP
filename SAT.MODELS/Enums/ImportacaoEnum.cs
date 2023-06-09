@@ -9,6 +9,6 @@
         INSTALACAO_PAGTO_INSTAL = 5,
         PROCESSO_REPARO = 6,
         INSUMOS_REPARO = 7,
-        ADENDO = 9
+        ADENDO = 8
     }
 }

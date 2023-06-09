@@ -51,6 +51,8 @@ export class DespesaItemDialogComponent implements OnInit {
   kmPrevisto: number;
   tentativaKm: number = 0;
   loading: boolean;
+  flagOrigens: boolean;
+  flagDestinos: boolean;
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -83,6 +85,8 @@ export class DespesaItemDialogComponent implements OnInit {
     this.obterTiposDespesa();
     this.criarForm();
     this.registrarEmitters();
+    this.flagOrigens = this.mostrarOpcaoResidenciaHotelOrigem();
+    this.flagDestinos = this.mostrarOpcaoResidenciaHotelDestino();
   }
 
   private async obterTiposDespesa() {
@@ -483,7 +487,6 @@ export class DespesaItemDialogComponent implements OnInit {
 
     this._despesaItemSvc.criar(despesaItem)
       .subscribe(() => {
-        this.despesa.despesaItens.push(despesaItem);
         this.dialogRef.close(true);
         this.loading = false;
       },
@@ -566,19 +569,24 @@ export class DespesaItemDialogComponent implements OnInit {
     return despesaItem;
   }
 
-  mostrarOpcaoResidenciaHotelOrigem() {
+  private mostrarOpcaoResidenciaHotelOrigem(): boolean {
     const despesaItensKM = this.obterDespesaItensKM();
+    const isPrimeiroDia = this.isPrimeiraRATDoDia();
+    
+    if (isPrimeiroDia && !despesaItensKM)
+        return true;
 
-    if (this.isPrimeiraRATDoDia() && despesaItensKM?.length == 0)
-      return true;
+    if (isPrimeiroDia && despesaItensKM.length == 0)
+        return true;
 
     return false;
   }
 
-  mostrarOpcaoResidenciaHotelDestino() {
+  private mostrarOpcaoResidenciaHotelDestino() {
     const despesaItensKM = this.obterDespesaItensKM();
+    const isUltimaRATDoDia = this.isUltimaRATDoDia()
 
-    if (this.isUltimaRATDoDia() && despesaItensKM?.length > 0)
+    if (isUltimaRATDoDia && despesaItensKM?.length > 0)
       return true;
 
     return false;
@@ -617,11 +625,9 @@ export class DespesaItemDialogComponent implements OnInit {
       else
         this.setOrigemRATAnterior();
     }
-    else if(this.isPrimeiraRATDoDia())
-        this.mostrarOpcaoResidenciaHotelOrigem();
     else
         this.setOrigemRATAnterior();
-    
+
     this.setDestino();
   }
 

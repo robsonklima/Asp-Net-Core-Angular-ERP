@@ -20,7 +20,7 @@ namespace SAT.INFRA.Repository
         public void Atualizar(ContratoReajuste contratoReajuste)
         {
             _context.ChangeTracker.Clear();
-            ContratoReajuste tc = _context.ContratoReajuste.FirstOrDefault(tc => tc.CodContrato == contratoReajuste.CodContrato);
+            ContratoReajuste tc = _context.ContratoReajuste.FirstOrDefault(tc => tc.CodContrato == contratoReajuste.CodContrato && tc.IndAtivo == 1);
             
             if (tc != null)
             {

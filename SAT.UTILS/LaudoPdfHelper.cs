@@ -401,13 +401,13 @@ namespace SAT.UTILS
                                                 switch (f.Modalidade)
                                                 {
                                                     case "ASSINATURATECNICOLAUDO":
-                                                        gc.Item().AlignRight().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignRight().Text("Assinatura Técnico\n" + _laudo.Tecnico.Nome).FontSize(8).SemiBold();
+                                                        gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignCenter().Text("Assinatura Técnico\n" + _laudo.Tecnico.Nome).FontSize(8).SemiBold();
                                                         return;
 
                                                     case "ASSINATURACLIENTELAUDO":
-                                                        gc.Item().AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignLeft().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                        gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                        gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
                                                         return;
                                                 }
                                             });

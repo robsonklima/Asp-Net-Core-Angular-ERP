@@ -835,5 +835,8 @@
     "equipamento instalado": "Pending",
     "equipamento retirado": "Pending",
     "numero serie instalada": "Pending",
-    "numero serie retirada": "Pending"
+    "numero serie retirada": "Pending",
+    "exportar rats": "Export RATs",
+    "exportar implantacoes": "Export Deployments",
+    "exportar laudos": "Export Reports"
 }

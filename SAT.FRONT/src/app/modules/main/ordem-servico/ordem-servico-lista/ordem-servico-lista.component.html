@@ -4,8 +4,10 @@
     </mat-drawer>
 
     <mat-drawer-content *transloco="let t">
-        <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
-            <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-6 px-6 md:px-8 border-b">
+        <div
+            class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+            <div
+                class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-6 px-6 md:px-8 border-b">
                 <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
                     <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                 </div>
@@ -32,19 +34,37 @@
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <div matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}"
-                        (click)="exportar('excel')">
-                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 10000">
-                            <mat-icon class="text-blue-600" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
-                        </button>
-                    </div>
+                    <button class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
+                        [matMenuTriggerFor]="menu" [disabled]="isLoading">
+                        <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
 
-                    <div matTooltip="{{ dataSourceData?.totalCount > 100 ? 'Máximo de registros 100' : 'Exportar em Zip' }}"
-                        (click)="exportar('zip')">
-                        <button class="ml-2" mat-icon-button [disabled]="dataSourceData?.totalCount > 100">
-                            <mat-icon class="text-purple-600" [svgIcon]="'heroicons_outline:download'"></mat-icon>
-                        </button>
-                    </div>
+                        <mat-menu #menu>
+                            <button mat-menu-item (click)="exportar()"
+                                matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:document'"></mat-icon>
+                                {{ t('exportar excel') }}
+                            </button>
+
+                            <button mat-menu-item (click)="exportarRATs('rat')"
+                                matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                                {{ t('exportar rats') }}
+                            </button>
+
+                            <button mat-menu-item (click)="exportarRATs('implantacao')"
+                                matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                                {{ t('exportar implantacoes') }}
+                            </button>
+
+                            <button mat-menu-item (click)="exportarRATs('laudo')"
+                                matTooltip="{{ dataSourceData?.totalCount > 10000 ? 'Máximo de registros 10000' : 'Exportar em Excel' }}">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
+                                {{ t('exportar laudos') }}
+                            </button>
+
+                        </mat-menu>
+                    </button>
 
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
                         <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
@@ -128,7 +148,8 @@
                                                             0 ? '#670067' : '',
                                                             'color': os.agendamentos?.length >
                                                             0 ?  '#FFFFFF' : '#000000'}">
-                                                            {{ (os?.agendamentos[0]?.dataAgendamento | date:'dd/MM HH:mm') || "---" }}
+                                                            {{ (os?.agendamentos[0]?.dataAgendamento | date:'dd/MM
+                                                            HH:mm') || "---" }}
                                                         </span>
                                                     </span>
                                                 </div>

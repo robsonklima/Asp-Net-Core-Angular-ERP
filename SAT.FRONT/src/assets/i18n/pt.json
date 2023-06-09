@@ -892,5 +892,8 @@
     "criar": "Criar",
     "motivo de cancelamento": "Motivo de Cancelamento",
     "pecas laboratorio": "Peças Laboratorio",
-    "reprocessar sla": "Reprocessar SLA"
+    "reprocessar sla": "Reprocessar SLA",
+    "exportar rats": "Exportar RATs",
+    "exportar implantacoes": "Exportar Implantação",
+    "exportar laudos": "Exportar Laudos"
 }

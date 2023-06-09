@@ -167,7 +167,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		this.isLoading = false;
 	}
 
-	public async exportarRATs() {
+	public async exportarRATs(tipo: string="") {
 
 	}
 

@@ -23,8 +23,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
-        public static string INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO = "C:/FTPLOGIX/pedidos_pendentes.unl";
-        public static string INTEGRACAO_LOGIX_MRP_ESTOQUE_CAMINHO_ARQUIVO = "C:/FTPLOGIX/estoque_lote.unl";
+        public static string INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO = "D:/FTPLOGIX/pedidos_pendentes.unl";
+        public static string INTEGRACAO_LOGIX_MRP_ESTOQUE_CAMINHO_ARQUIVO = "D:/FTPLOGIX/estoque_lote.unl";
 
         // Email
         public static Office365Config OFFICE_365_CONFIG = new Office365Config

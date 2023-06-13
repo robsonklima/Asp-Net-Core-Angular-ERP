@@ -12,6 +12,8 @@ import { UserService } from 'app/core/user/user.service';
 import moment from 'moment';
 import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confirmacao-dialog.component';
 import { PerfilEnum } from 'app/core/types/perfil.types';
+import { AuditoriaVeiculoService } from 'app/core/services/auditoria-veiculo.service';
+import { AuditoriaVeiculo } from 'app/core/types/auditoria-veiculo.types';
 
 @Component({
 	selector: 'app-auditoria-layout',
@@ -22,6 +24,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 	public codAuditoria: number;
 	public nroAuditoria: string;
 	public Auditoria: Auditoria;
+	auditoriaVeiculo: AuditoriaVeiculo;
 	auditoria: Auditoria;
 	userSession: UserSession;
 	form: FormGroup;
@@ -32,6 +35,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 		private _dialog: MatDialog,
 		private _snack: CustomSnackbarService,
 		private _auditoriaService: AuditoriaService,
+		private _auditoriaVeiculoSrv: AuditoriaVeiculoService,
 		private _userSvc: UserService,
 		private _formBuilder: FormBuilder,
 	) {
@@ -65,6 +69,15 @@ export class AuditoriaLayoutComponent implements OnInit {
 		  .subscribe(data => {
 			this.form.patchValue(data);
 			this.auditoria = data;
+		  });
+	  }
+	
+	  obterAuditoriaVeiculo(){
+		this._auditoriaVeiculoSrv.obterPorCodigo(this.auditoria.codAuditoriaVeiculo)
+		  .pipe(first())
+		  .subscribe(data => {
+			this.form.patchValue(data);
+			this.auditoriaVeiculo = data;
 		  });
 	  }
 
@@ -143,6 +156,12 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 			}
 		});
+	}
+
+	inserirNivelCombustivel(){
+		this.obterAuditoriaVeiculo();	
+		this.auditoriaVeiculo.codAuditoriaVeiculoTanque = 1;
+		this._auditoriaVeiculoSrv.atualizar(this.auditoriaVeiculo).subscribe();
 	}
 
 	validarPermissao(){

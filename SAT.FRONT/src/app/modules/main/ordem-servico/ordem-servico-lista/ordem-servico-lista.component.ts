@@ -145,15 +145,13 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			this.filter.parametros.codContratos = this.userSession?.usuario?.codContrato;
 		}
 	}
+	
 
-	public async exportar(tipo: string="") {
-		if (this.dataSourceData?.totalCount > 100 && tipo == "zip") return;
-		if (this.dataSourceData?.totalCount > 10000 && tipo == "excel") return;
-
+	public async exportarExcel() {
 		this.isLoading = true;
 
 		let exportacaoParam: Exportacao = {
-			formatoArquivo: tipo == "excel" ? ExportacaoFormatoEnum.EXCEL : ExportacaoFormatoEnum.ZIP,
+			formatoArquivo: ExportacaoFormatoEnum.EXCEL,
 			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
 			entityParameters: {
 				...this.filter?.parametros,
@@ -162,8 +160,58 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			}
 		}
 
-		await this._exportacaoService.exportar(tipo == "excel" ? FileMime.Excel : FileMime.ZIP, exportacaoParam);
+		await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
+		this.isLoading = false;
+	}
 
+	public async exportarRAT() {
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.ZIP,
+			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
+			entityParameters: {
+				...this.filter?.parametros,
+				pageSize: 10000,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+			}
+		}
+		
+		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+		this.isLoading = false;
+	}
+
+	public async exportarLaudos() {
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.ZIP,
+			tipoArquivo: ExportacaoTipoEnum.LAUDO,
+			entityParameters: {
+				...this.filter?.parametros,
+				pageSize: 10000,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+			}
+		}
+		
+		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+		this.isLoading = false;
+	}
+
+	public async exportarTermos() {
+		this.isLoading = true;
+
+		let exportacaoParam: Exportacao = {
+			formatoArquivo: ExportacaoFormatoEnum.ZIP,
+			tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
+			entityParameters: {
+				...this.filter?.parametros,
+				pageSize: 10000,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+			}
+		}
+		
+		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
 		this.isLoading = false;
 	}
 

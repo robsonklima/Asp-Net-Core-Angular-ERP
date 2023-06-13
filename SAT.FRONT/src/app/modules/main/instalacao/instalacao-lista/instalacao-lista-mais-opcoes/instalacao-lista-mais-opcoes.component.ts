@@ -92,6 +92,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
       codInstalacao: [''],
       codPosto: [''],
       codRAT: [''],
+      codOS: [undefined],
       nfRemessa: [undefined],
       dataNFRemessa: [undefined],
       nomeRespBancoBT: [undefined],

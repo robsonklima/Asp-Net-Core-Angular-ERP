@@ -493,6 +493,10 @@ namespace SAT.SERVICES.Services
             {
                 case ExportacaoTipoEnum.ORDEM_SERVICO:
                     return GerarZipOrdemServico(exportacao);
+                case ExportacaoTipoEnum.LAUDO:
+                    return GerarZipLaudo(exportacao);
+                case ExportacaoTipoEnum.INSTALACAO:
+                    return GerarZipTermosInstalacao(exportacao);
                 default:
                     return null;
             }

@@ -5,12 +5,12 @@ using QuestPDF.Infrastructure;
 using SAT.MODELS.Entities;
 namespace SAT.UTILS
 {
-    public class OrdemServicoPdfHelper : IDocument
+    public class OrdemServicoTermosPdfHelper : IDocument
     {
 
         public OrdemServico OrdemServico { get; }
 
-        public OrdemServicoPdfHelper(OrdemServico ordemServico)
+        public OrdemServicoTermosPdfHelper(OrdemServico ordemServico)
         {
             OrdemServico = ordemServico;
         }
@@ -65,12 +65,6 @@ namespace SAT.UTILS
                     {
                         cr.Spacing(20);
 
-                        // using (HttpClient webClient = new HttpClient())
-                        // {
-                        //     // byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
-
-                        //     // cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
-                        // }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(8);
@@ -179,7 +173,7 @@ namespace SAT.UTILS
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"CEP: ").FontSize(8).Bold();
-                    t.Span($"{ Convert.ToUInt64(OrdemServico.LocalAtendimento?.Cep).ToString(@"00000\-000") }").FontSize(8);
+                    t.Span($"{Convert.ToUInt64(OrdemServico.LocalAtendimento?.Cep).ToString(@"00000\-000")}").FontSize(8);
                 });
 
                 grid.Item(4).Text(t =>
@@ -203,7 +197,7 @@ namespace SAT.UTILS
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"Equipamento: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.EquipamentoContrato?.Equipamento.NomeEquip}").FontSize(8);
+                    t.Span($"{OrdemServico.EquipamentoContrato?.Equipamento?.NomeEquip}").FontSize(8);
                 });
 
                 grid.Item(4).Text(t =>
@@ -215,25 +209,25 @@ namespace SAT.UTILS
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"SLA: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.EquipamentoContrato?.AcordoNivelServico.NomeSLA}").FontSize(8);
+                    t.Span($"{OrdemServico.EquipamentoContrato?.AcordoNivelServico?.NomeSLA}").FontSize(8);
                 });
 
                 grid.Item(4).Text(t =>
                  {
                      t.Span($"Filial: ").FontSize(8).Bold();
-                     t.Span($"{OrdemServico.EquipamentoContrato?.Filial.NomeFilial}").FontSize(8);
+                     t.Span($"{OrdemServico.EquipamentoContrato?.Filial?.NomeFilial}").FontSize(8);
                  });
 
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"PAT: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.EquipamentoContrato?.Autorizada.NomeFantasia}").FontSize(8);
+                    t.Span($"{OrdemServico.EquipamentoContrato?.Autorizada?.NomeFantasia}").FontSize(8);
                 });
 
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"Região: ").FontSize(8).Bold();
-                    t.Span($"{OrdemServico.EquipamentoContrato?.Regiao.NomeRegiao}").FontSize(8);
+                    t.Span($"{OrdemServico.EquipamentoContrato?.Regiao?.NomeRegiao}").FontSize(8);
                 });
 
                 grid.Item(12).Text(t =>
@@ -271,38 +265,17 @@ namespace SAT.UTILS
                     grid.Item(12).AlignLeft().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Text($"Atendimento  #{rel.NumRAT}").Bold();
                     index++;
 
-                    grid.Item(4).Text(t =>
+                    grid.Item(6).Text(t =>
                     {
                         t.Span($"Técnico: ").FontSize(8).Bold();
                         t.Span($"{rel.Tecnico.Nome}").FontSize(8);
                     });
 
-                    grid.Item(4).Text(t =>
-                    {
-                        t.Span($"Status: ").FontSize(8).Bold();
-                        t.Span($"{rel.StatusServico?.NomeStatusServico}").FontSize(8);
-                    });
-
-                    grid.Item(4).Text(t =>
+                    grid.Item(6).Text(t =>
                     {
                         t.Span($"Acompanhante: ").FontSize(8).Bold();
                         t.Span($"{rel.NomeAcompanhante}").FontSize(8);
                     });
-
-                    var detalhe = rel.RelatorioAtendimentoDetalhes.FirstOrDefault();
-
-                    if (detalhe != null)
-                    {
-                        grid.Item(12).Text(tx =>
-                        {
-                            tx.Span($"Tipo Serviço: {detalhe?.TipoServico?.NomeServico}").FontSize(8);
-                            if (!string.IsNullOrWhiteSpace(detalhe?.TipoServico?.NomeServico))
-                            {
-                                var tipoServico = detalhe.TipoServico.CodETipoServico.StartsWith("1") ? "MÁQUINA" : "EXTRA-MÁQUINA";
-                                tx.Span($"  ({tipoServico})").FontSize(8);
-                            }
-                        });
-                    }
 
                     grid.Item(4).Text(t =>
                     {
@@ -320,70 +293,6 @@ namespace SAT.UTILS
                     {
                         t.Span($"Horas gastas: ").FontSize(8).Bold();
                         t.Span($"{rel.DataHoraSolucao.Subtract(rel.DataHoraInicio).Hours.ToString("00")}:{rel.DataHoraSolucao.Subtract(rel.DataHoraInicio).Minutes.ToString("00")}").FontSize(8);
-                    });
-
-                    grid.Item(12).Text(t =>
-                    {
-                        t.Span($"Desc. Solução: ").FontSize(8).Bold();
-                        t.Span($"{rel.RelatoSolucao}").FontSize(8);
-                    });
-
-                    grid.Item(12).Text(t =>
-                    {
-                        t.Span($"Obs.: ").FontSize(8).Bold();
-                        t.Span($"{rel.ObsRAT}").FontSize(8);
-                    });
-
-                    grid.Item(12).Table(table =>
-                    {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn();
-                        });
-
-                        table.Header(header =>
-                        {
-                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("PEÇAS").FontSize(10).Bold();
-                        });
-
-                        if (rel.RelatorioAtendimentoDetalhes.SelectMany(del => del.RelatorioAtendimentoDetalhePecas).Any())
-                        {
-                            table.Cell().Table(t2 =>
-                            {
-                                t2.ColumnsDefinition(columns =>
-                                {
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
-                                    columns.RelativeColumn();
-                                    columns.ConstantColumn(80);
-                                });
-                                t2.Header(h2 =>
-                                {
-                                    h2.Cell().Element(CellStyle).Text("Causa").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Defeito").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Ação").Style(FontStyle()).Bold();
-                                    h2.Cell().Element(CellStyle).Text("Peças").Style(FontStyle()).Bold();
-                                });
-
-                                rel.RelatorioAtendimentoDetalhes.ForEach(det =>
-                                {
-                                    t2.Cell().Element(CellStyle).Text($"{det.Causa.CodECausa} - {det.Causa.NomeCausa}").Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text($"{det.Defeito.CodEDefeito} - {det.Defeito.NomeDefeito}").Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text($"{det.Acao.CodEAcao} - {det.Acao.NomeAcao}").Style(FontStyle());
-                                    t2.Cell().Element(CellStyle).Text(txt =>
-                                    {
-                                        det.RelatorioAtendimentoDetalhePecas.ForEach(peca =>
-                                        {
-                                            txt.Span($"{peca.Peca?.CodMagnus} P({peca.QtdePecas})").Style(FontStyle());
-                                        });
-                                    });
-                                });
-                            });
-                        }
-                        else
-                        {
-                            table.Cell().Text("Nenhuma peça utilizada");
-                        }
                     });
 
                     grid.Item(12).Table(table =>
@@ -426,6 +335,64 @@ namespace SAT.UTILS
                                                             case "RAT_ASSINATURA_CLIENTE":
                                                                 gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Result.Content.ReadAsStream());
                                                                 gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                                return;
+                                                        }
+                                                    });
+                                                });
+                                            }
+                                        });
+                                });
+                            });
+                        });
+                    });
+
+                    grid.Item(12).Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn();
+                        });
+
+                        table.Header(header =>
+                        {
+                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten1).Element(TitleStyle).Text("Foto").FontSize(10).Bold();
+                        });
+                        table.Cell().Row(tr =>
+                        {
+                            tr.RelativeItem().Column(column =>
+                            {
+                                column.Item().Grid(grid =>
+                                {
+                                    grid.Spacing(7);
+                                    grid.Columns(2);
+
+                                    rel.Fotos.ForEach(f =>
+                                        {
+                                            if ((f.Modalidade.Contains("TERMO") || f.Modalidade.Contains("NOTA")) && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
+                                            {
+                                                using var client = new HttpClient();
+                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                grid.Item().Row(gr =>
+                                                {
+                                                    gr.RelativeItem(6).Column(gc =>
+                                                    {
+                                                        switch (f.Modalidade)
+                                                        {
+                                                            case "NOTA_FISCAL":
+                                                                gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().AlignCenter().Text("Nota Fiscal").FontSize(8).SemiBold();
+                                                                return;
+                                                            case "TERMO_ACEITE":
+                                                                gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().AlignCenter().Text("Termo Aceite").FontSize(8).SemiBold();
+                                                                return;
+                                                            case "TERMO_ENTREGA":
+                                                                gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().AlignCenter().Text("Termo Entrega").FontSize(8).SemiBold();
+                                                                return;
+                                                            case "TERMO_RECOLHIMENTO":
+                                                                gc.Item().AlignCenter().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().AlignCenter().Text("Termo Recolhimento").FontSize(8).SemiBold();
                                                                 return;
                                                         }
                                                     });

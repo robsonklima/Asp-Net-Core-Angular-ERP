@@ -1,6 +1,13 @@
+using System;
+using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using QuestPDF.Fluent;
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -146,6 +153,32 @@ namespace SAT.SERVICES.Services
             var wsOs = Workbook.Worksheets.Add("Instalacoes");
             wsOs.Cell(2, 1).Value = sheet;
             WriteHeaders(sheet.FirstOrDefault(), wsOs);
+        }
+
+        private IActionResult GerarZipTermosInstalacao(Exportacao exportacao)
+        {
+            var user = _contextAcecssor.HttpContext.User.Identity.Name;
+            var prefixo = DateTime.Now.ToString("yyyyMMddHHmmss" + user);
+            var path = GenerateFilePath("");
+            var parameters = ((JObject)exportacao.EntityParameters).ToObject<OrdemServicoParameters>();
+            var ordens = _osRepo.ObterPorParametros(parameters);
+
+            foreach (var ordem in ordens)
+            {
+                var osImpressao = new OrdemServicoTermosPdfHelper(ordem);
+                var osPdf = $"{path}/Termos-{ordem.CodOS}-{prefixo}.pdf";
+                osImpressao.GeneratePdf(osPdf);
+            }
+
+            GenericHelper.CompressDirectory(
+                path,
+                path + $"exportacao-{user}.zip",
+                9,
+                $"{prefixo}.pdf"
+            );
+
+            byte[] file = File.ReadAllBytes(path + $"exportacao-{user}.zip");
+            return new FileContentResult(file, "application/zip");
         }
     }
 }

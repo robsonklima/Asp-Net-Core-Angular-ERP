@@ -257,13 +257,8 @@ namespace SAT.SERVICES.Services
 
             foreach (var ordem in ordens)
             {
-                var os = _osRepo.ObterPorCodigo(ordem.CodOS);
-                os.RelatoriosAtendimento = _relatorioAtendimentoRepo.ObterPorParametros(new RelatorioAtendimentoParameters
-                {
-                    CodOS = ordem.CodOS
-                });
-                var osImpressao = new OrdemServicoPdfHelper(os);
-                var osPdf = $"{path}/CHAMADO-{os.CodOS}-{prefixo}.pdf";
+                var osImpressao = new OrdemServicoFotosPdfHelper(ordem);
+                var osPdf = $"{path}/CHAMADO-{ordem.CodOS}-{prefixo}.pdf";
                 osImpressao.GeneratePdf(osPdf);
             }
 

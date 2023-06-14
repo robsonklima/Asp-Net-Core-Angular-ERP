@@ -132,9 +132,9 @@ namespace SAT.SERVICES.Services
 
                     _equipamentoContratoRepo.Atualizar(equip);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    
                 }
             }
 

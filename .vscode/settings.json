@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    ".vscode": true,
+    "SAT.V2.sln": true,
+    "README.md": true,
+    ".gitignore": true,
+    "SAT.ASSETS": true
+  }
+}

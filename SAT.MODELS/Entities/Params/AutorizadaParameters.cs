@@ -9,5 +9,6 @@ namespace SAT.MODELS.Entities.Params
         public string CodFiliais { get; set; }
         public int? CodFilial { get; set; }
         public int? IndAtivo { get; set; }
+        public byte? IndFilialPerto { get; set; }
     }
 }

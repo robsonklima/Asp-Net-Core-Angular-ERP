@@ -43,6 +43,7 @@ export interface AutorizadaParameters extends QueryStringParameters {
     codFiliais?: string;
     codAutorizadas?: string;
     indAtivo?: number;
+    indFilialPerto?: number;
 };
 
 export enum AutorizadaEnum {

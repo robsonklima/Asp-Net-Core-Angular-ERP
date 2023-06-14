@@ -40,7 +40,8 @@ namespace SAT.SERVICES.Services
         private readonly IORItemService _orItemService;             
         private readonly IUsuarioRepository _usuarioRepo;      
         private readonly IPecaRepository _pecaRepo;    
-        private readonly IORStatusRepository _orStatusRepo;    
+        private readonly IORStatusRepository _orStatusRepo;
+        private readonly ICidadeRepository _cidadeRepo;
 
         public ImportacaoService(
             IOrdemServicoRepository ordemServicoRepo,
@@ -74,7 +75,8 @@ namespace SAT.SERVICES.Services
             IUsuarioRepository usuarioRepo,
             IPecaRepository pecaRepo,
             IORStatusRepository orStatusRepo,
-            IORItemInsumoRepository orItemInsumoRepo         
+            IORItemInsumoRepository orItemInsumoRepo,
+            ICidadeRepository cidadeRepo       
             )
         {
             _ordemServicoRepo = ordemServicoRepo;
@@ -107,7 +109,8 @@ namespace SAT.SERVICES.Services
             _orItemService = orItemService;   
             _usuarioRepo = usuarioRepo; 
             _pecaRepo = pecaRepo; 
-            _orStatusRepo = orStatusRepo;          
+            _orStatusRepo = orStatusRepo;    
+            _cidadeRepo = cidadeRepo;      
         }
 
         private dynamic ConverterCamposEmComum(ImportacaoColuna coluna)

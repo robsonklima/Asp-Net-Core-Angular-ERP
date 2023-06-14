@@ -22,11 +22,12 @@ namespace SAT.SERVICES.Services
             {
                 var equip = new EquipamentoContrato();
 
-                foreach (var col in linha.ImportacaoColuna)
+                try
                 {
-                    try
+                    foreach (var col in linha.ImportacaoColuna)
                     {
-                        if (string.IsNullOrEmpty(col.Valor)) 
+
+                        if (string.IsNullOrEmpty(col.Valor))
                             continue;
 
                         col.Campo = Regex.Replace(col.Campo, "^[a-z]", m => m.Value.ToUpper().Trim());
@@ -45,30 +46,95 @@ namespace SAT.SERVICES.Services
                         {
                             dynamic value;
 
-                            if(col.Campo.Equals("IndSEMAT") || col.Campo.Equals("PontoEstrategico") 
-                                || col.Campo.Equals("indRHorario") || col.Campo.Equals("indPAE") 
-                                || col.Campo.Equals("IndGarantia") || col.Campo.Equals("IndReceita") 
-                                || col.Campo.Equals("IndRepasse") || col.Campo.Equals("IndInstalacao")
-                                )
-                                value = byte.Parse(col.Valor); 
-                            // else if (col.Campo.Equals("Horas_Racesso"))   --INSERIR NA TABELA CIDADE
-                            //     value = int.Parse(col.Valor); 
-                            // else if (col.Campo.Equals("DistanciaKmPAT_Res")) -- INSERIR NA TABELA LOCALATENDIMENTO
-                            //     value = decimal.Parse(col.Valor, new CultureInfo("en-US"));                                                                                                                                                                                    
-                            else
-                                value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
+                            if (col.Campo.Equals("CodEquipContrato")) 
+                            {
+                                value = Int32.Parse(col.Valor);
+                                equip = _equipamentoContratoRepo.ObterPorCodigo(value);
 
+                                if (equip is null)
+                                    throw new Exception("Equipamento não encontrado");
+                            }
+
+                            if (col.Campo.Contains("IndSEMAT"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndSemat = value;
+                            }
+
+                            if (col.Campo.Contains("PontoEstrategico"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.PontoEstrategico = value;
+                            }
+
+                            if (col.Campo.Contains("IndPAE"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndPAE = value;
+                            }
+
+                            if (col.Campo.Contains("IndRHorario"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndRHorario = value;
+                            }
+
+                            if (col.Campo.Contains("IndGarantia"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndGarantia = value;
+                            }
+
+                            if (col.Campo.Contains("IndReceita"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndReceita = value;
+                            }
+
+                            if (col.Campo.Contains("IndRepasse"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndRepasse = value;
+                            }
+
+                            if (col.Campo.Contains("indRHorario"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndRHorario = value;
+                            }
+
+                            if (col.Campo.Contains("IndInstalacao"))
+                            {
+                                value = byte.Parse(col.Valor);
+                                equip.IndInstalacao = value;
+                            }
+
+                            if (col.Campo.Equals("Horas_Racesso"))
+                            {
+                                value = int.Parse(col.Valor);
+                                equip.LocalAtendimento.Cidade.HorasRAcesso = value;
+                                _cidadeRepo.Atualizar(equip.LocalAtendimento.Cidade);
+                                continue;
+                            }
+
+                            if (col.Campo.Equals("DistanciaKmPAT_Res"))
+                            {
+                                value = decimal.Parse(col.Valor, new CultureInfo("en-US"));
+                                equip.LocalAtendimento.DistanciaKmPatRes = value;
+                                _localAtendimentoRepo.Atualizar(equip.LocalAtendimento);
+                                continue;
+                            }
+
+                            value = prop.PropertyType == typeof(DateTime?) ? DateTime.Parse(col.Valor) : Convert.ChangeType(col.Valor, prop.PropertyType);
                             prop.SetValue(equip, value);
-
-                            if (col.Campo.Equals("CodEquipContrato"))
-                                equip = _equipamentoContratoRepo.ObterPorCodigo((int)value);
-                            
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+
+                    _equipamentoContratoRepo.Atualizar(equip);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
 
@@ -88,30 +154,13 @@ namespace SAT.SERVICES.Services
                     string dc = agenciaDc[1];
 
                     return _localAtendimentoRepo
-                        .ObterPorParametros(new LocalAtendimentoParameters { CodClientes = $"{equip.CodCliente}", DCPosto = dc, NumAgencia = agencia  })
+                        .ObterPorParametros(new LocalAtendimentoParameters { CodClientes = $"{equip.CodCliente}", DCPosto = dc, NumAgencia = agencia })
                         ?.FirstOrDefault()
                         ?.CodPosto;
-                        
+
                 default:
                     return ConverterCamposEmComum(coluna);
             }
         }
     }
 }
-
-//Primeira ação EC
-//codSLA,	IndSEMAT, CodContrato = 3145,PontoEstrategico, indRHorario, indrAcesso, indPAE, indAtivo = 1, indReceita = 1, IndInstalacao = 	1	
-//Segunda ação EC
-//codposto
-//Terceira ação CIDADE
-//Horas_Racesso  alterar esta coluna da tabela cidade com base na cidade do LA atendimento do EC
-//Quarta ação LA
-// DistanciaKmPAT_Res
-//Quinta ação EC
-//CodFilial alterar com base na tabela cidade vinculada ao EC
-// Sexta ação EC
-//CodAutorizada com base na cidade e filial iniciada por P
-//Setima ação EC
-//CodRegiao com base no Local Atendimento
-
-//codequipcontrato,codSla,IndSEMAT,PontoEstrategico,indRHorario,indrAcesso,indPAE,codposto,Horas_Racesso,DistanciaKmPAT_Res

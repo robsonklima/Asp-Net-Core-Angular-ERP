@@ -33,6 +33,9 @@
     "SAT.UTILS/bin": true,
     "SAT.UTILS/SAT.UTILS.csproj": true,
     "SAT.INFRA\\SAT.INFRA.csproj": true,
-    "SAT.INFRA/SAT.INFRA.csproj": true
+    "SAT.INFRA/SAT.INFRA.csproj": true,
+    "SAT.API/SAT.API.sln": true,
+    "SAT.API/SAT.API.csproj.user": true,
+    "SAT.API/SAT.API.csproj": true
   }
 }

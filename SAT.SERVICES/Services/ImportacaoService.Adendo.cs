@@ -58,6 +58,7 @@ namespace SAT.SERVICES.Services
                                     linha.Mensagem = $"Equipamento não encontrado";
                                     linha.Erro = true;
                                     Mensagem.Add(linha.Mensagem);
+                                    continue;
                                 }
                             }
 
@@ -65,54 +66,63 @@ namespace SAT.SERVICES.Services
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndSemat = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("PontoEstrategico"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.PontoEstrategico = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndPAE"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndPAE = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndRHorario"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndRHorario = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndGarantia"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndGarantia = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndReceita"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndReceita = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndRepasse"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndRepasse = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("indRHorario"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndRHorario = value;
+                                continue;
                             }
 
                             if (col.Campo.Contains("IndInstalacao"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndInstalacao = value;
+                                continue;
                             }
 
                             if (col.Campo.Equals("Horas_Racesso"))

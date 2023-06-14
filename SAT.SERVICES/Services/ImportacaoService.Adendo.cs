@@ -1,3 +1,5 @@
+using NLog;
+using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -12,8 +14,10 @@ namespace SAT.SERVICES.Services
 {
     public partial class ImportacaoService : IImportacaoService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private Importacao ImportacaoAdendo(Importacao importacao)
-        {
+        {            
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);
 
             List<string> Mensagem = new List<string>();
@@ -26,7 +30,6 @@ namespace SAT.SERVICES.Services
                 {
                     foreach (var col in linha.ImportacaoColuna)
                     {
-
                         if (string.IsNullOrEmpty(col.Valor))
                             continue;
 
@@ -51,8 +54,11 @@ namespace SAT.SERVICES.Services
                                 value = Int32.Parse(col.Valor);
                                 equip = _equipamentoContratoRepo.ObterPorCodigo(value);
 
-                                if (equip is null)
-                                    throw new Exception("Equipamento não encontrado");
+                                if (equip is null) {
+                                    linha.Mensagem = $"Equipamento não encontrado";
+                                    linha.Erro = true;
+                                    Mensagem.Add(linha.Mensagem);
+                                }
                             }
 
                             if (col.Campo.Contains("IndSEMAT"))
@@ -121,6 +127,9 @@ namespace SAT.SERVICES.Services
                             {
                                 value = decimal.Parse(col.Valor, new CultureInfo("en-US"));
                                 equip.LocalAtendimento.DistanciaKmPatRes = value;
+                                equip.CodFilial = equip.LocalAtendimento.Cidade.CodFilial;
+                                equip.CodAutorizada = equip.Autorizada.CodFilial;
+                                equip.CodRegiao = equip.Autorizada.CodFilial;
                                 _localAtendimentoRepo.Atualizar(equip.LocalAtendimento);
                                 continue;
                             }
@@ -130,11 +139,28 @@ namespace SAT.SERVICES.Services
                         }
                     }
 
+                    equip.DataHoraManut = DateTime.Now;
+                    equip.CodUsuarioManut = usuario.CodUsuario;
+                    equip.CodUsuarioManutencao = usuario.CodUsuario;
                     _equipamentoContratoRepo.Atualizar(equip);
-                }
-                catch
-                {
+
+                    _logger.Info()
+                        .Message($"ADENDO: Atualizando parque, equipamento: { equip.CodEquipContrato }")
+                        .Property("application", Constants.SISTEMA_CAMADA_API)
+                        .Write();
                     
+                    DesativarParqueNaoInformado();
+                }
+                catch (Exception ex)
+                {
+                    linha.Mensagem = $"{ex.Message}";
+                    linha.Erro = true;
+                    Mensagem.Add(linha.Mensagem);
+
+                    _logger.Error()
+                        .Message($"ADENDO: Erro ao atualizar parque, equipamento: { equip.CodEquipContrato }")
+                        .Property("application", Constants.SISTEMA_CAMADA_API)
+                        .Write();
                 }
             }
 
@@ -160,6 +186,42 @@ namespace SAT.SERVICES.Services
 
                 default:
                     return ConverterCamposEmComum(coluna);
+            }
+        }
+    
+        private void DesativarParqueNaoInformado() {
+            try
+            {
+                var equipamentos = _equipamentoContratoRepo.ObterPorParametros(new EquipamentoContratoParameters {
+                    CodClientes = Constants.CLIENTE_BB.ToString(),
+                    CodContrato = Constants.CONTRATO_BB_TECNOLOGIA,
+                    DataHoraManutInicio = DateTime.Now.AddYears(-5),
+                    DataHoraManutFim = DateTime.Now.AddHours(-1),
+                    IndAtivo = 1
+                });
+
+                foreach (var equip in equipamentos)
+                {
+                    equip.IndAtivo = 0;
+                    equip.IndReceita = 0;
+                    equip.IndRepasse = 0;
+                    equip.IndGarantia = 0;
+                    equip.IndInstalacao = 0;
+
+                    _equipamentoContratoRepo.Atualizar(equip);
+                }
+
+                _logger.Info()
+                    .Message($"ADENDO: Desativando { equipamentos.Count() } equipamentos")
+                    .Property("application", Constants.SISTEMA_CAMADA_API)
+                    .Write();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error()
+                    .Message("ADENDO: Erro ao desativar parque: ", ex.Message)
+                    .Property("application", Constants.SISTEMA_CAMADA_API)
+                    .Write();
             }
         }
     }

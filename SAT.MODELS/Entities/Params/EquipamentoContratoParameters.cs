@@ -1,4 +1,5 @@
-﻿using SAT.MODELS.Entities.Helpers;
+﻿using System;
+using SAT.MODELS.Entities.Helpers;
 
 namespace SAT.MODELS.Entities.Params
 {
@@ -25,5 +26,7 @@ namespace SAT.MODELS.Entities.Params
         public string AtmId { get; set; }
         public string NomeLocal { get; set; }
         public string CodContratos { get; set; }
+        public DateTime? DataHoraManutInicio { get; set; }
+        public DateTime? DataHoraManutFim { get; set; }
     }
 }

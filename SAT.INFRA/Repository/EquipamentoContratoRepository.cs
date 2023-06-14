@@ -228,6 +228,11 @@ namespace SAT.INFRA.Repository
                     equips = equips.Where(e => e.LocalAtendimento.NomeLocal.Contains(parameters.NomeLocal));
                 }
 
+                if (parameters.DataHoraManutInicio.HasValue && parameters.DataHoraManutFim.HasValue)
+                    equips = equips.Where(e => 
+                        e.DataHoraManut.Value.Date >= parameters.DataHoraManutInicio.Value.Date &&
+                        e.DataHoraManut.Value.Date <= parameters.DataHoraManutFim.Value.Date);
+
                 if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                     equips = equips.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

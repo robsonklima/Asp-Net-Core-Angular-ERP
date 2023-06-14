@@ -182,7 +182,6 @@ namespace SAT.MODELS.Entities.Constants
         public static int TMF_5100_290_02_349 = 1169;
         public static int TMD_5100_290_02_346 = 1183;
 
-
         // Permissoes
         public static string PERFIL_PONTO = "3";
         public static string NENHUM_REGISTRO = "S/N";

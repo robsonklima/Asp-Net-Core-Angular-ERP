@@ -173,7 +173,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			entityParameters: {
 				...this.filter?.parametros,
 				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
 			}
 		}
 		
@@ -190,7 +190,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			entityParameters: {
 				...this.filter?.parametros,
 				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
 			}
 		}
 		
@@ -207,7 +207,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			entityParameters: {
 				...this.filter?.parametros,
 				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR,
+				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
 			}
 		}
 		

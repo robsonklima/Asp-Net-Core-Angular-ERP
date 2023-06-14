@@ -215,7 +215,8 @@ namespace SAT.SERVICES.Services
 
                 var login = new UsuarioLogin {
                     CodUsuario = usuarioLogado?.CodUsuario,
-                    DataHoraCad = DateTime.Now
+                    DataHoraCad = DateTime.Now,
+                    Servidor = System.Environment.MachineName
                 };
 
                 _usuarioLoginRepo.Criar(login);   

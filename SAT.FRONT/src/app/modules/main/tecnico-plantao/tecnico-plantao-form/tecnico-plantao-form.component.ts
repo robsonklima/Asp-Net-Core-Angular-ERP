@@ -16,6 +16,11 @@ import { RegiaoService } from 'app/core/services/regiao.service';
 import { ClienteService } from 'app/core/services/cliente.service';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { debounceTime, delay, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
+import { RegiaoAutorizadaService } from 'app/core/services/regiao-autorizada.service';
+import { statusConst } from 'app/core/types/status-types';
+import Enumerable from 'linq';
+import { AutorizadaService } from 'app/core/services/autorizada.service';
+import { Autorizada } from 'app/core/types/autorizada.types';
 
 @Component({
   selector: 'app-tecnico-plantao-form',
@@ -28,6 +33,7 @@ export class TecnicoPlantaoFormComponent implements OnInit {
   regioes: Regiao[] = [];
   clientes: Cliente[] = [];
   tecnicos: Tecnico[] = [];
+	autorizadas: Autorizada[] = [];  
   tecnicosFiltro: FormControl = new FormControl();
   clientesFiltro: FormControl = new FormControl();
   regioesFiltro: FormControl = new FormControl();
@@ -41,6 +47,8 @@ export class TecnicoPlantaoFormComponent implements OnInit {
     private _tecnicoService: TecnicoService,
     private _regiaoService: RegiaoService,
     private _clienteService: ClienteService,
+		private _autorizadaService: AutorizadaService,    
+		private _regiaoAutorizadaService: RegiaoAutorizadaService,    
     private _formBuilder: FormBuilder,
     private _location: Location,
     private _snack: CustomSnackbarService
@@ -99,16 +107,37 @@ export class TecnicoPlantaoFormComponent implements OnInit {
     this.clientes = data.items;
   }
 
-  private async obterRegioes(filtro: string='') {
-    const data = await this._regiaoService.obterPorParametros({
-      indAtivo: 1,
-      sortActive: 'NomeRegiao',
-      sortDirection: 'asc',
-      filter: filtro,
-      pageSize: 50
-    }).toPromise();
-    this.regioes = data.items;
-  }
+	private async obterAutorizadas() {
+		this.autorizadas = (await this._autorizadaService
+			.obterPorParametros({
+				indAtivo: statusConst.ATIVO,
+        indFilialPerto: 1,
+				pageSize: 500,
+				sortActive: 'codAutorizada',
+				sortDirection: 'asc',
+				codFilial: this.userSession.usuario?.filial?.codFilial
+			}).toPromise()).items;
+	}  
+
+	private async obterRegioes(filtro: string='') {
+    if (this.userSession.usuario?.filial?.codFilial) {
+        await this.obterAutorizadas();
+    		var codAutorizada = this.autorizadas[0].codAutorizada;
+    }
+        
+		const data = await this._regiaoAutorizadaService.obterPorParametros({
+			indAtivo: statusConst.ATIVO,
+			codAutorizada: codAutorizada,
+      codFiliais: this.userSession.usuario?.filial?.codFilial.toString(),
+      filter: filtro,      
+			pageSize: 50
+		}).toPromise();
+
+		this.regioes = Enumerable.from(data.items)
+			.where(ra => ra.codAutorizada === codAutorizada && ra.indAtivo == statusConst.ATIVO && ra.regiao?.indAtivo == statusConst.ATIVO)
+			.select(ra => ra.regiao).orderBy(ra => ra.nomeRegiao).toArray();
+
+	}
 
   registrarEmitters() {
     this.tecnicosFiltro.valueChanges

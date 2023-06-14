@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SAT.INFRA.Context;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -113,6 +113,8 @@ namespace SAT.INFRA.Repository
             if (parameters.IndAtivo.HasValue)
                 autorizadas = autorizadas.Where(a => a.IndAtivo == parameters.IndAtivo);
 
+            if (parameters.IndFilialPerto.HasValue)
+                autorizadas = autorizadas.Where(a => a.IndFilialPerto == parameters.IndFilialPerto);
 
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 autorizadas = autorizadas.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

@@ -31,6 +31,7 @@
     "SAT.TASKS/SAT.TASKS.csproj": true,
     "SAT.UTILS/obj": true,
     "SAT.UTILS/bin": true,
-    "SAT.UTILS/SAT.UTILS.csproj": true
+    "SAT.UTILS/SAT.UTILS.csproj": true,
+    "SAT.INFRA\\SAT.INFRA.csproj": true
   }
 }

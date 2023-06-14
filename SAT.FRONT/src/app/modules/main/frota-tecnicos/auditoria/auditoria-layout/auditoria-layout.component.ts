@@ -24,7 +24,6 @@ export class AuditoriaLayoutComponent implements OnInit {
 	public codAuditoria: number;
 	public nroAuditoria: string;
 	public Auditoria: Auditoria;
-	auditoriaVeiculo: AuditoriaVeiculo;
 	auditoria: Auditoria;
 	userSession: UserSession;
 	form: FormGroup;
@@ -69,15 +68,6 @@ export class AuditoriaLayoutComponent implements OnInit {
 		  .subscribe(data => {
 			this.form.patchValue(data);
 			this.auditoria = data;
-		  });
-	  }
-	
-	  obterAuditoriaVeiculo(){
-		this._auditoriaVeiculoSrv.obterPorCodigo(this.auditoria.codAuditoriaVeiculo)
-		  .pipe(first())
-		  .subscribe(data => {
-			this.form.patchValue(data);
-			this.auditoriaVeiculo = data;
 		  });
 	  }
 
@@ -158,10 +148,19 @@ export class AuditoriaLayoutComponent implements OnInit {
 		});
 	}
 
-	inserirNivelCombustivel(){
-		this.obterAuditoriaVeiculo();	
-		this.auditoriaVeiculo.codAuditoriaVeiculoTanque = 1;
-		this._auditoriaVeiculoSrv.atualizar(this.auditoriaVeiculo).subscribe();
+	async inserirNivelCombustivel(){
+		const audVeiculo = await this._auditoriaVeiculoSrv.obterPorCodigo(this.auditoria.codAuditoriaVeiculo).toPromise();
+		console.log(this.auditoria.codAuditoriaVeiculo);
+		
+		audVeiculo.codAuditoriaVeiculoTanque = 1;
+		
+		console.log(audVeiculo);
+		
+
+		this._auditoriaVeiculoSrv.atualizar(audVeiculo).subscribe(() => {
+			this._snack.exibirToast('Tanque atualizado!','sucess');
+		});
+
 	}
 
 	validarPermissao(){

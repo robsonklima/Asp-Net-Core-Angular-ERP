@@ -9,12 +9,12 @@ using SAT.SERVICES.Interfaces;
 namespace SAT.API.Controllers
 {
     [Authorize]
-    [EnableCors("CorsApi")]
     [Route("api/[controller]")]
+    [EnableCors("CorsApi")]
     [ApiController]
     public class AuditoriaVeiculoController : ControllerBase
     {
-        private readonly IAuditoriaVeiculoService _auditoriaVeiculoService;
+        public IAuditoriaVeiculoService _auditoriaVeiculoService { get; }
 
         public AuditoriaVeiculoController(IAuditoriaVeiculoService auditoriaVeiculoService)
         {
@@ -26,8 +26,8 @@ namespace SAT.API.Controllers
         {
             return _auditoriaVeiculoService.ObterPorParametros(parameters);
         }
-
-        [HttpGet("{codAuditoriaVeiculo}")]
+        
+        [HttpGet("{CodAuditoriaVeiculo}")]
         public AuditoriaVeiculo Get(int codAuditoriaVeiculo)
         {
             return _auditoriaVeiculoService.ObterPorCodigo(codAuditoriaVeiculo);
@@ -39,13 +39,13 @@ namespace SAT.API.Controllers
             _auditoriaVeiculoService.Criar(auditoriaVeiculo);
         }
 
-        [HttpPut("{codAuditoriaVeiculo}")]
+        [HttpPut]
         public void Put([FromBody] AuditoriaVeiculo auditoriaVeiculo)
         {
             _auditoriaVeiculoService.Atualizar(auditoriaVeiculo);
         }
 
-        [HttpDelete("{codAuditoriaVeiculo}")]
+        [HttpDelete("{CodAuditoriaVeiculo}")]
         public void Delete(int codAuditoriaVeiculo)
         {
             _auditoriaVeiculoService.Deletar(codAuditoriaVeiculo);

@@ -217,6 +217,10 @@ namespace SAT.SERVICES.Services
                     equip.IndRepasse = 0;
                     equip.IndGarantia = 0;
                     equip.IndInstalacao = 0;
+                    equip.DataDesativacao = DateTime.Now;
+                    equip.DataHoraManut = DateTime.Now;
+                    equip.CodUsuarioManut = "SAT";
+                    equip.CodUsuarioManutencao = "SAT";
 
                     _equipamentoContratoRepo.Atualizar(equip);
                 }

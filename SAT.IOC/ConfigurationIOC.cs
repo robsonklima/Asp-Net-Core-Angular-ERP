@@ -225,6 +225,7 @@ public class ConfigurationIOC
         builder.RegisterType<MRPLogixRepository>().As<IMRPLogixRepository>();
         builder.RegisterType<MRPLogixEstoqueRepository>().As<IMRPLogixEstoqueRepository>();
         builder.RegisterType<SetorRepository>().As<ISetorRepository>();
+        builder.RegisterType<PerfilSetorRepository>().As<IPerfilSetorRepository>();
         
         #endregion
 
@@ -445,6 +446,7 @@ public class ConfigurationIOC
         builder.RegisterType<PlantaoTecnicoRegiaoService>().As<IPlantaoTecnicoRegiaoService>();
         builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>(); 
         builder.RegisterType<SetorService>().As<ISetorService>(); 
+        builder.RegisterType<PerfilSetorService>().As<IPerfilSetorService>();
 
         #endregion
 

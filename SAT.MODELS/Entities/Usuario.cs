@@ -47,6 +47,7 @@ namespace SAT.MODELS.Entities
         public int? CodTransportadora { get; set; }
         public Transportadora Transportadora { get; set; }
         public bool? IndPermiteRegistrarEquipPOS { get; set; }
+        public int? CodSetor { get; set; }
         public DateTime? UltimoAcesso { get; set; }
         [JsonIgnore]
         public string Senha { get; set; }
@@ -56,6 +57,7 @@ namespace SAT.MODELS.Entities
         public Cliente Cliente { get; set; }
         public Cidade Cidade { get; set; }
         public Perfil Perfil { get; set; }
+        public Setor Setor { get; set; }
         public Cargo Cargo { get; set; }
         public Turno Turno { get; set; }
         public List<Localizacao> Localizacoes { get; set; }

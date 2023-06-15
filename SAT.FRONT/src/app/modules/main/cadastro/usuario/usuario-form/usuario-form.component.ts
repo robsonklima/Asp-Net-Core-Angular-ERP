@@ -12,6 +12,7 @@ import { FilialService } from 'app/core/services/filial.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { PerfilService } from 'app/core/services/perfil.service';
+import { SetorService } from 'app/core/services/setor.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
@@ -24,6 +25,7 @@ import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais, PaisEnum } from 'app/core/types/pais.types';
 import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
+import { Setor, SetorParameters } from 'app/core/types/setor.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
@@ -63,6 +65,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   public cidades: Cidade[] = [];
   public cargos: Cargo[] = [];
   public perfis: Perfil[] = [];
+  public setores: Setor[] = [];
   public filiais: Filial[] = [];
   public autorizadas: Autorizada[] = [];
   public tecnicos: Tecnico[] = [];
@@ -93,6 +96,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _googleGeolocationService: GeolocalizacaoService,
     private _cargoService: CargoService,
     private _perfilService: PerfilService,
+    private _setorService: SetorService,
     private _location: Location,
     private _ufService: UnidadeFederativaService,
     private _utils: Utils,
@@ -115,6 +119,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       this.cargos = await this.obterCargos();
       this.filiais = await this.obterFiliais();
       this.perfis = await this.obterPerfis();
+      this.setores = await this.obterSetores();
       this.transportadoras = await this.obterTranspotadoras();
       this.tecnicos = await this.obterTecnicos();
       this.paises = await this.obterPaises();
@@ -297,6 +302,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this.cargos = await this.obterCargos(usuario.cargo.nomeCargo);
         this.filiais = await this.obterFiliais();
         this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
+        this.setores = await this.obterSetores(usuario.setor.nomeSetor);
         this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
         this.tecnicos = await this.obterTecnicos(usuario?.tecnico?.nome);
 
@@ -352,6 +358,19 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.validaPerfis();
     
     return this.perfis;
+  }
+
+  private async obterSetores(filtro: string=''): Promise<Setor[]> {
+    const params: SetorParameters = {
+      sortActive: 'nomeSetor',
+      sortDirection: 'asc',
+      pageSize: 100,
+      filter: filtro
+    }
+
+    this.setores = (await this._setorService.obterPorParametros(params).toPromise()).items; 
+    
+    return this.setores;
   }
 
   private async obterTranspotadoras(filtro: string=''): Promise<Transportadora[]> {

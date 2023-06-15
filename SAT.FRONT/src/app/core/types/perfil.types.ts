@@ -8,6 +8,7 @@ export class Perfil
     indResumo?: number;
     codSistema?: number;
     indAbreChamado?: number;
+    indAtivo?: number;
 }
 
 export interface PerfilData extends Meta

@@ -222,7 +222,7 @@
                     </mat-form-field>
 
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('cargo') }}</mat-label>
                         <mat-select class="min-h-10" formControlName="codCargo"
                             [disabled]="!cargos.length || form.disabled">
@@ -233,7 +233,18 @@
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('setor') }}</mat-label>
+                        <mat-select class="min-h-10" formControlName="codSetor"
+                            [disabled]="!setores.length || form.disabled">
+                            <mat-option *ngFor="let s of setores" [value]="s.codSetor" [matTooltip]="s.nomeSetor">
+                                {{ s.nomeSetor | uppercase }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
                         <mat-label>{{ t('perfil') }}</mat-label>
                         <mat-select class="min-h-10" formControlName="codPerfil"
                             [disabled]="!perfis.length || form.disabled">

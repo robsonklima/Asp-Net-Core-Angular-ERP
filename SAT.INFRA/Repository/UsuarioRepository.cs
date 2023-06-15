@@ -30,6 +30,7 @@ namespace SAT.INFRA.Repository
                     .Include(u => u.Filial)
                     .Include(u => u.UsuarioSeguranca)
                     .Include(u => u.UsuarioDispositivos)
+                    .Include(u => u.Setor)
                     .Include(u => u.Perfil)
                     .Include(u => u.Perfil.NavegacoesConfiguracao)
                         .ThenInclude(conf => conf.Navegacao)
@@ -79,6 +80,7 @@ namespace SAT.INFRA.Repository
                 .Include(u => u.Cargo)
                 .Include(u => u.Turno)
                 .Include(u => u.Perfil)
+                .Include(u => u.Setor)
                 .Include(u => u.Filial)
                 .Include(u => u.Tecnico)
                 .Include(u => u.FiltroUsuario)
@@ -219,6 +221,7 @@ namespace SAT.INFRA.Repository
         {
             return _context.Usuario
                 .Include(u => u.Perfil)
+                .Include(u => u.Setor)
                 .Include(u => u.Cargo)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Filial)

@@ -47,6 +47,12 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey("CodPerfil")
                 .HasPrincipalKey("CodPerfil");
+            
+            builder
+                .HasOne(p => p.Setor)
+                .WithMany()
+                .HasForeignKey("CodSetor")
+                .HasPrincipalKey("CodSetor");
 
             builder
                 .HasOne(p => p.Cargo)

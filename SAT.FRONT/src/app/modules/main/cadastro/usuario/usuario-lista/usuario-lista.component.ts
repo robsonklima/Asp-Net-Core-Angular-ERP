@@ -21,7 +21,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
         /* language=SCSS */
         `
       .list-grid-u {
-          grid-template-columns: 142px auto 25% 25% 42px;
+          grid-template-columns: 142px auto 15% 15% 15% 42px;
           
           /* @screen sm {
               grid-template-columns: 142px auto 25% 25% 42px;

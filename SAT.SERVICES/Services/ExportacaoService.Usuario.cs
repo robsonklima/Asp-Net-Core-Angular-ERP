@@ -14,8 +14,15 @@ namespace SAT.SERVICES.Services {
                                 CodUsuario = u.CodUsuario ?? Constants.NENHUM_REGISTRO,
                                 Nome = u.NomeUsuario ?? Constants.NENHUM_REGISTRO,
                                 Cargo = u.Cargo?.NomeCargo ?? Constants.NENHUM_REGISTRO,
+                                Setor = u.Setor?.NomeSetor ?? Constants.NENHUM_REGISTRO,
                                 Perfil = u.Perfil?.NomePerfil ?? Constants.NENHUM_REGISTRO,
-                       
+                                Filial = u.Filial.NomeFilial ?? Constants.NENHUM_REGISTRO,
+                                CPF = u.Cpf ?? Constants.NENHUM_REGISTRO,
+                                Endereco = u.Endereco ?? Constants.NENHUM_REGISTRO,
+                                Bairro = u.Bairro ?? Constants.NENHUM_REGISTRO,
+                                Cidade = u.Cidade.NomeCidade ?? Constants.NENHUM_REGISTRO,
+                                UF = u.Cidade.UnidadeFederativa.SiglaUF ?? Constants.NENHUM_REGISTRO,
+                                Pais = u.Cidade.UnidadeFederativa.Pais.SiglaPais ?? Constants.NENHUM_REGISTRO,
                             });
 
             var wsOs = Workbook.Worksheets.Add("Usuario");

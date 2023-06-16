@@ -96,7 +96,7 @@ export class AuthSignInComponent implements OnInit {
                     }, (e) => {
                         this.signInForm.enable();
                         this.signInNgForm.resetForm();
-                        this._snack.exibirToast(e?.error?.errorMessage || 'Ocorreu um erro', 'error')
+                        this._snack.exibirToast(e?.message || 'Ocorreu um erro', 'error')
                     });
     
                 this.signInForm.enable();

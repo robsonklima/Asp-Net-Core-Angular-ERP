@@ -6,10 +6,11 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Enums;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SAT.API.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [EnableCors("CorsApi")]
     [Route("api/[controller]")]
     [ApiController]

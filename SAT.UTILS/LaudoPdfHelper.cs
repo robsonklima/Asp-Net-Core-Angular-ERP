@@ -3,6 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 
 namespace SAT.UTILS
 {
@@ -76,12 +77,12 @@ namespace SAT.UTILS
                         }
                         cr.RelativeItem().Column(t =>
                         {
-                            t.Item().Text($"Perto S.A").SemiBold().FontSize(10);
-                            t.Item().Text($"Tecnologia para Bancos e Varejo").FontSize(10);
-                            t.Item().Text($"Rua Nissin Castiel, 640 Distrito Industrial").FontSize(10);
-                            t.Item().Text($"CEP: 94045-420 | Gravataí | RS | Brasil").FontSize(10);
-                            t.Item().Text($"(51) 3489-8700").FontSize(10);
-                            t.Item().Text($"www.perto.com.br").FontSize(10);
+                            t.Item().Text(Constants.EMP_NOME).SemiBold().FontSize(10);
+                            t.Item().Text(Constants.EMP_SLOGAN).FontSize(10);
+                            t.Item().Text(Constants.EMP_ENDERECO).FontSize(10);
+                            t.Item().Text(Constants.EMP_COMPLEMENTO).FontSize(10);
+                            t.Item().Text(Constants.EMP_TELEFONE).FontSize(10);
+                            t.Item().Text(Constants.EMP_SITE).FontSize(10);
                         });
                     });
                 });

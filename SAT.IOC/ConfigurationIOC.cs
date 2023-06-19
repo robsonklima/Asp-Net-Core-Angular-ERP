@@ -12,7 +12,7 @@ public class ConfigurationIOC
     {
         #region Repositories
 
-        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>().SingleInstance();;        
+        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>().SingleInstance();      
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<StatusServicoRepository>().As<IStatusServicoRepository>();
@@ -109,7 +109,7 @@ public class ConfigurationIOC
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();
         builder.RegisterType<DispBBCalcEquipamentoContratoRepository>().As<IDispBBCalcEquipamentoContratoRepository>();
-        builder.RegisterType<FotoRepository>().As<IFotoRepository>();
+        builder.RegisterType<FotoRepository>().As<IFotoRepository>().SingleInstance();
         builder.RegisterType<UsuarioDispositivoRepository>().As<IUsuarioDispositivoRepository>();
         builder.RegisterType<OrdemServicoHistoricoRepository>().As<IOrdemServicoHistoricoRepository>();
         builder.RegisterType<MediaAtendimentoTecnicoRepository>().As<IMediaAtendimentoTecnicoRepository>();

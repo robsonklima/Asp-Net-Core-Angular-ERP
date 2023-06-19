@@ -69,5 +69,6 @@ namespace SAT.MODELS.Entities
         public UsuarioSeguranca UsuarioSeguranca { get; set; }
         public List<UsuarioLogin> Acessos { get; set; }
         public ImagemPerfilModel Foto { get; set; }
+        public virtual ICollection<NavegacaoConfiguracao> NavegacoesConfiguracao { get; set; }
     }
 }

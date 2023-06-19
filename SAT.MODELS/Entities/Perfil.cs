@@ -12,6 +12,5 @@ namespace SAT.MODELS.Entities
         public byte? IndResumo { get; set; }
         public byte? IndAbreChamado { get; set; }
         public int? IndAtivo { get; set; }
-        public virtual ICollection<NavegacaoConfiguracao> NavegacoesConfiguracao { get; set; }
     }
 }

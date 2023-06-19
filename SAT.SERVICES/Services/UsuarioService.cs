@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
             var navegacoes = CarregarNavegacoes(usuarioLogado);
             RegistrarAcesso(usuarioLogado);
 
-            if (usuarioLogado.Perfil != null) usuarioLogado.Perfil.NavegacoesConfiguracao = null;
+            if (usuarioLogado.NavegacoesConfiguracao != null) usuarioLogado.NavegacoesConfiguracao = null;
             var token = _tokenService.GerarToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), usuarioLogado);
 
             return new UsuarioLoginViewModel()
@@ -172,13 +172,12 @@ namespace SAT.SERVICES.Services
 
         private List<Navegacao> CarregarNavegacoes(Usuario usuario)
         {
-            for (int i = 0; i < usuario.Perfil?.NavegacoesConfiguracao?.Count; i++)
+            for (int i = 0; i < usuario.NavegacoesConfiguracao?.Count; i++)
             {
-                usuario.Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuario
-                    .Perfil.NavegacoesConfiguracao.ToArray()[i].Navegacao.Title.ToLower();
+                usuario.NavegacoesConfiguracao.ToArray()[i].Navegacao.Id = usuario.NavegacoesConfiguracao.ToArray()[i].Navegacao.Title.ToLower();
             }
 
-            var navegacoes = usuario.Perfil?.NavegacoesConfiguracao
+            var navegacoes = usuario.NavegacoesConfiguracao
                .Select(n => n.Navegacao)
                .Where(n => n.CodNavegacaoPai == null && n.IndAtivo == 1)
                .OrderBy(n => n.Ordem)
@@ -196,8 +195,8 @@ namespace SAT.SERVICES.Services
             }
 
             if (navegacoes?.Count == 0)
-                throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
-
+            throw new Exception("Você não possui configurações de navegação, favor entrar em contato com a Equipe SAT");
+            
             return navegacoes;
         }
 

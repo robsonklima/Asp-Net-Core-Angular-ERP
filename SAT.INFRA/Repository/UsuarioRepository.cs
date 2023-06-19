@@ -32,7 +32,7 @@ namespace SAT.INFRA.Repository
                     .Include(u => u.UsuarioDispositivos)
                     .Include(u => u.Setor)
                     .Include(u => u.Perfil)
-                    .Include(u => u.Perfil.NavegacoesConfiguracao)
+                    .Include(u => u.NavegacoesConfiguracao)
                         .ThenInclude(conf => conf.Navegacao)
                     .Include(u => u.FiltroUsuario)
                     .FirstOrDefault(u => u.CodUsuario == usuario.CodUsuario);

@@ -12,7 +12,7 @@ public class ConfigurationIOC
     {
         #region Repositories
 
-        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();        
+        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>().SingleInstance();;        
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<StatusServicoRepository>().As<IStatusServicoRepository>();

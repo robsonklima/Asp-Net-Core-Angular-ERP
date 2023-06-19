@@ -168,7 +168,7 @@ public class ConfigurationIOC
         builder.RegisterType<ConferenciaRepository>().As<IConferenciaRepository>();
         builder.RegisterType<ConferenciaParticipanteRepository>().As<IConferenciaParticipanteRepository>();
         builder.RegisterType<MensagemTecnicoRepository>().As<IMensagemTecnicoRepository>();
-        builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>();
+        builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>().SingleInstance();
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
         builder.RegisterType<OrdemServicoSTNOrigemRepository>().As<IOrdemServicoSTNOrigemRepository>();
         builder.RegisterType<StatusServicoSTNRepository>().As<IStatusServicoSTNRepository>();        

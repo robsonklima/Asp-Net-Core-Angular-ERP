@@ -9,13 +9,13 @@ using System.Globalization;
 
 namespace SAT.SERVICES.Services
 {
-    public class IntegracaoLogixService : IIntegracaoLogixService
+    public class IntegracaoMRPService : IIntegracaoMRPService
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IMRPLogixService _mrpLogixService;
         private readonly IMRPLogixEstoqueService _mrpLogixEstoqueService; 
 
-        public IntegracaoLogixService(
+        public IntegracaoMRPService(
            IMRPLogixService mrpLogixService,
            IMRPLogixEstoqueService mrpLogixEstoqueService
        )

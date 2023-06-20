@@ -1,38 +1,22 @@
-using SAT.INFRA.Context;
-using Microsoft.EntityFrameworkCore;
-using Autofac;
-using SAT.IOC;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 using SAT.TASKS;
-using Microsoft.AspNetCore.Builder;
-using SAT.MODELS.Entities.Constants;
 
-using IHost host = Host.CreateDefaultBuilder(args)
-    .UseWindowsService(options =>
+namespace SAT.API
+{
+    public class Program
     {
-        options.ServiceName = "SAT.TASKS";
-    })
-    .ConfigureServices((context, services) =>
-    {
-        services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(context.Configuration.GetConnectionString(Constants.DB_PROD),
-                sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
-
-        services.AddHttpContextAccessor();
-        services.AddMvc();
-        services.AddSession();
-
-        services.Configure<IISOptions>(o =>
+        public static void Main(string[] args)
         {
-            o.ForwardClientCertificate = false;
-        });
+            var host = Host.CreateDefaultBuilder(args)
+                        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                        .ConfigureWebHostDefaults(webHostBuilder => {
+                            webHostBuilder
+                                .UseStartup<Startup>();
+                        })
+                        .Build();
 
-        services.AddHostedService<IntegracaoBanrisulWorker>();
-        services.AddHostedService<IntegracaoLogixWorker>();
-        services.AddHostedService<ModeloEquipamentoWorker>();
-    })
-    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-    .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))
-    .Build();
-
-await host.RunAsync();
+            host.Run();
+        }
+    }
+}

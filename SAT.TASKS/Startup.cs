@@ -37,6 +37,7 @@ namespace SAT.TASKS
             services.AddScoped<IntegracaoBanrisulJob>();
             services.AddScoped<ModeloEquipamentoJob>();
             services.AddScoped<IntegracaoMRPJob>();
+            services.AddScoped<IntegracaoBBJob>();
 
             // Jogs Schedules
             services.AddSingleton(new JobSchedule(
@@ -50,6 +51,10 @@ namespace SAT.TASKS
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(IntegracaoMRPJob),
                 cronExpression: "00 02 * * * ?")); // At 02:00
+
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(IntegracaoBBJob),
+                cronExpression: "*/5 * * * * ?")); // Every 5 minutes
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

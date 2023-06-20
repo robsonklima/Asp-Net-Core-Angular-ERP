@@ -443,6 +443,7 @@ public class ConfigurationIOC
         builder.RegisterType<PlantaoTecnicoService>().As<IPlantaoTecnicoService>();
         builder.RegisterType<PlantaoTecnicoRegiaoService>().As<IPlantaoTecnicoRegiaoService>();
         builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>(); 
+        builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>(); 
 
         #endregion
 

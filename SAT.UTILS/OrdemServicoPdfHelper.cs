@@ -406,12 +406,12 @@ namespace SAT.UTILS
                                     grid.Spacing(7);
                                     grid.Columns(2);
 
-                                    rel.Fotos.ForEach(f =>
+                                    rel.Fotos.ForEach(async f =>
                                         {
                                             if (f.Modalidade.Contains("RAT") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
                                                 using var client = new HttpClient();
-                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                var result = await client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
                                                 grid.Item().Row(gr =>
                                                 {
                                                     gr.RelativeItem(6).Column(gc =>

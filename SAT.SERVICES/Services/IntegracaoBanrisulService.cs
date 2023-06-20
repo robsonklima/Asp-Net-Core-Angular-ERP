@@ -222,7 +222,7 @@ namespace SAT.SERVICES.Services
             catch (Exception ex)
             {
                 _logger.Error()
-                    .Message("Ocorreu um erro")
+                    .Message($"{ex.Message} {ex.InnerException}")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Exception(ex)
                     .Write();
@@ -261,7 +261,7 @@ namespace SAT.SERVICES.Services
             catch (Exception ex)
             {
                 _logger.Error()
-                    .Message("Ocorreu um erro")
+                    .Message($"{ex.Message} {ex.InnerException}")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Exception(ex)
                     .Write();
@@ -655,7 +655,7 @@ namespace SAT.SERVICES.Services
             catch (Exception ex)
             {
                 _logger.Error()
-                    .Message("Ocorreu um erro")
+                    .Message($"{ex.Message} {ex.InnerException}")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Exception(ex)
                     .Write();

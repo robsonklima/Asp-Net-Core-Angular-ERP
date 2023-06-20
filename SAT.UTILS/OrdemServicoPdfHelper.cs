@@ -419,12 +419,12 @@ namespace SAT.UTILS
                                                         switch (f.Modalidade)
                                                         {
                                                             case "RAT_ASSINATURA_TECNICO":
-                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Content.ReadAsStream());
                                                                 gc.Item().AlignCenter().Text("Assinatura Técnico\n" + rel.Tecnico.Nome).FontSize(8).SemiBold();
                                                                 return;
 
                                                             case "RAT_ASSINATURA_CLIENTE":
-                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Result.Content.ReadAsStream());
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Content.ReadAsStream());
                                                                 gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
                                                                 return;
                                                         }

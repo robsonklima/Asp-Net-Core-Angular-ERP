@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { ExportacaoService } from './../../../../core/services/exportacao.service';
 import Enumerable from 'linq';
 import moment from 'moment';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 
 @Component({
 	selector: 'ordem-servico-lista',
@@ -57,6 +58,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 		private _cdr: ChangeDetectorRef,
 		private _ordemServicoService: OrdemServicoService,
 		protected _userService: UserService,
+		private _snack: CustomSnackbarService,
 		private _stringExtensions: StringExtensions,
 		private _exportacaoService: ExportacaoService,
 	) {
@@ -167,51 +169,72 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	public async exportarRAT() {
 		this.isLoading = true;
 
-		let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.ZIP,
-			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
-			entityParameters: {
-				...this.filter?.parametros,
-				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+		if(this.dataSourceData.totalCount <= 100)
+		{
+			let exportacaoParam: Exportacao = {
+				formatoArquivo: ExportacaoFormatoEnum.ZIP,
+				tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
+				entityParameters: {
+					...this.filter?.parametros,
+					pageSize: 10000,
+					include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+				}
 			}
+
+			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
 		}
-		
-		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+		else
+		{
+			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
+		}
 		this.isLoading = false;
 	}
 
 	public async exportarLaudos() {
 		this.isLoading = true;
 
-		let exportacaoParam: Exportacao = {
+		if(this.dataSourceData.totalCount <= 100)
+		{
+			let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.ZIP,
 			tipoArquivo: ExportacaoTipoEnum.LAUDO,
 			entityParameters: {
 				...this.filter?.parametros,
 				pageSize: 10000,
 				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+				}
 			}
-		}
 		
-		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+		}
+		else
+		{
+			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
+		}
 		this.isLoading = false;
 	}
 
 	public async exportarTermos() {
 		this.isLoading = true;
 
-		let exportacaoParam: Exportacao = {
+		if(this.dataSourceData.totalCount <= 100)
+		{
+			let exportacaoParam: Exportacao = {
 			formatoArquivo: ExportacaoFormatoEnum.ZIP,
 			tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
 			entityParameters: {
 				...this.filter?.parametros,
 				pageSize: 10000,
 				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+				}
 			}
-		}
 		
-		await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
+		}
+		else
+		{
+			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
+		}
 		this.isLoading = false;
 	}
 

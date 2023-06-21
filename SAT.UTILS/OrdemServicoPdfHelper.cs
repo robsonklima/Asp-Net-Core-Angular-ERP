@@ -65,12 +65,6 @@ namespace SAT.UTILS
                     {
                         cr.Spacing(20);
 
-                        // using (HttpClient webClient = new HttpClient())
-                        // {
-                        //     // byte[] dataArr = await webClient.GetAsync("https://sat.perto.com.br/sat.v2.frontend/assets/images/logo/logo.png").Result.Content.ReadAsByteArrayAsync();
-
-                        //     // cr.ConstantItem(60).AlignMiddle().Image(dataArr, ImageScaling.FitArea);
-                        // }
                         cr.RelativeItem().Column(t =>
                         {
                             t.Item().Text($"Perto S.A").SemiBold().FontSize(8);

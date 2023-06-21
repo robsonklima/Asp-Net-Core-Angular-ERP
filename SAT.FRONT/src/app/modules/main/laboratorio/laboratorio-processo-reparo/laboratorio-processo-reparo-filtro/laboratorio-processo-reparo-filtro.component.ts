@@ -96,10 +96,10 @@ export class LaboratorioProcessoReparoFiltroComponent extends FilterBase impleme
 	}
 
   isPerfilTecnico(): boolean {
-    if (this.userSession.usuario.codPerfil == +PerfilEnum.BANCADA_TECNICO)
+    if (this.userSession.usuario.codPerfil == +PerfilEnum.TECNICO)
       return true;
       
-    if (this.userSession.usuario.codPerfil == +PerfilEnum.ASSISTENTE_LABORATORIO)
+    if (this.userSession.usuario.codPerfil == +PerfilEnum.ASSISTENTE)
       return true;
 
     return false

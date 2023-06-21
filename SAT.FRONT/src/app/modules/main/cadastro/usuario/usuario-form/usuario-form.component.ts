@@ -11,7 +11,9 @@ import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service
 import { FilialService } from 'app/core/services/filial.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
+import { PerfilSetorService } from 'app/core/services/perfil-setor.service';
 import { PerfilService } from 'app/core/services/perfil.service';
+import { SetorService } from 'app/core/services/setor.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
 import { UnidadeFederativaService } from 'app/core/services/unidade-federativa.service';
@@ -23,7 +25,9 @@ import { Contrato } from 'app/core/types/contrato.types';
 import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais, PaisEnum } from 'app/core/types/pais.types';
+import { PerfilSetor, PerfilSetorParameters } from 'app/core/types/perfil-setor.types';
 import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
+import { Setor, SetorParameters } from 'app/core/types/setor.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
@@ -62,14 +66,14 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   public unidadesFederativas: UnidadeFederativa[] = [];
   public cidades: Cidade[] = [];
   public cargos: Cargo[] = [];
-  public perfis: Perfil[] = [];
+  public perfis: PerfilSetor[] = [];
+  public setores: Setor[] = [];
   public filiais: Filial[] = [];
   public autorizadas: Autorizada[] = [];
   public tecnicos: Tecnico[] = [];
   public clientes: Cliente[] = [];
   public contratos: Contrato[] = [];
   public transportadoras: Transportadora[] = [];
-  public turnos: Turno[] = [];
 
   clienteFilterCtrl: FormControl = new FormControl();
   contratosFilterCtrl: FormControl = new FormControl();
@@ -92,7 +96,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private _cdr: ChangeDetectorRef,
     private _googleGeolocationService: GeolocalizacaoService,
     private _cargoService: CargoService,
-    private _perfilService: PerfilService,
+    private _perfilSetorService: PerfilSetorService,
+    private _setorService: SetorService,
     private _location: Location,
     private _ufService: UnidadeFederativaService,
     private _utils: Utils,
@@ -107,6 +112,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.buscandoCEP = false;
     this.inicializarForm();
     this.registrarEmitters();
+    this.aoSelecionarSetor();
         
     if (!this.isAddMode) {
       this.carregarDadosUsuario();
@@ -114,7 +120,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       this.clientes = await this.obterClientes();
       this.cargos = await this.obterCargos();
       this.filiais = await this.obterFiliais();
-      this.perfis = await this.obterPerfis();
+      this.setores = await this.obterSetores();
       this.transportadoras = await this.obterTranspotadoras();
       this.tecnicos = await this.obterTecnicos();
       this.paises = await this.obterPaises();
@@ -139,6 +145,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       indAtivo: [true],
       codAutorizada: [undefined],
       codPerfil: [undefined],
+      codSetor: [undefined],
       email: [undefined],
       fone: [undefined],
       ramal: [undefined],
@@ -294,9 +301,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this.form.patchValue(usuario);
 
         this.clientes = await this.obterClientes(usuario?.cliente?.nomeFantasia);
-        this.cargos = await this.obterCargos(usuario.cargo.nomeCargo);
+        this.cargos = await this.obterCargos(usuario?.cargo?.nomeCargo);
         this.filiais = await this.obterFiliais();
-        this.perfis = await this.obterPerfis(usuario.perfil.nomePerfil);
+        this.perfis = await this.obterPerfisSetores();
+        this.setores = await this.obterSetores();
         this.transportadoras = await this.obterTranspotadoras(usuario.transportadora?.nomeTransportadora);
         this.tecnicos = await this.obterTecnicos(usuario?.tecnico?.nome);
 
@@ -340,19 +348,59 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     return (await this._cargoService.obterPorParametros(params).toPromise()).items;
   }
 
-  private async obterPerfis(filtro: string=''): Promise<Perfil[]> {
-    const params: PerfilParameters = {
-      sortActive: 'nomePerfil',
+  private async obterPerfisSetores(filtro: string=''): Promise<PerfilSetor[]> {
+    const params: PerfilSetorParameters = {
+      sortActive: 'codPerfil',
+      sortDirection: 'asc',
+      pageSize: 100,
+      codSetor: this.form.controls['codSetor'].value,
+      filter: filtro
+    }
+
+    this.perfis = (await this._perfilSetorService.obterPorParametros(params).toPromise()).items; 
+    //this.validaPerfis();
+    
+    return this.perfis;
+  }
+
+  private async obterSetores(filtro: string=''): Promise<Setor[]> {
+    const params: SetorParameters = {
+      sortActive: 'nomeSetor',
       sortDirection: 'asc',
       pageSize: 100,
       filter: filtro
     }
 
-    this.perfis = (await this._perfilService.obterPorParametros(params).toPromise()).items; 
-    this.validaPerfis();
+    this.setores = (await this._setorService.obterPorParametros(params).toPromise()).items; 
     
-    return this.perfis;
+    return this.setores;
   }
+
+  aoSelecionarSetor() {
+		if (
+			this.form.controls['codSetor'].value &&
+			this.form.controls['codSetor'].value != ''
+		) {
+			this.obterPerfisSetores();
+			this.form.controls['codPerfil'].enable();
+		}
+		else {
+			this.form.controls['codPerfil'].disable();
+		}
+
+		this.form.controls['codSetor']
+			.valueChanges
+			.subscribe(() => {
+				if (this.form.controls['codSetor'].value && this.form.controls['codSetor'].value != '') {
+					this.obterPerfisSetores();
+					this.form.controls['codPerfil'].enable();
+				}
+				else {
+					this.form.controls['codPerfil'].setValue(null);
+					this.form.controls['codPerfil'].disable();
+				}
+			});
+	}
 
   private async obterTranspotadoras(filtro: string=''): Promise<Transportadora[]> {
     const params: any  = {
@@ -394,19 +442,18 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     const codPerfilUsuarioLogado = this.userSession.usuario.codPerfil;
 
     switch (codPerfilUsuarioLogado) {
-      case PerfilEnum.FILIAIS_SUPERVISOR:
+      case PerfilEnum.SUPERVISOR:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
         break;
 
-      case PerfilEnum.FILIAL_COORDENADOR:
+      case PerfilEnum.COORDENADOR:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR)
           .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
         break
 
       case PerfilEnum.ADM_DO_SISTEMA:
@@ -415,14 +462,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       default:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR)
           .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
-          .filter(p => p.codPerfil != PerfilEnum.SUPORTE_DE_EXPORTAÇÃO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_DE_SETOR)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR)
-          .filter(p => p.codPerfil != PerfilEnum.LOGÍSTICA_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.LIDER)
         break;
     }
   }

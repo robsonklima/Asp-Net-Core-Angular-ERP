@@ -12,6 +12,7 @@ import { PontoUsuario } from "./ponto-usuario.types";
 import { Tecnico } from "./tecnico.types";
 import { UsuarioSeguranca } from "./usuario-seguranca.types";
 import { Transportadora } from "./transportadora.types";
+import { Setor } from "./setor.types";
 
 export class Usuario {
     codUsuario: string;
@@ -31,6 +32,7 @@ export class Usuario {
     codLingua: number;
     codPerfil: number;
     perfil: Perfil;
+    setor: Setor;
     codSmartCard: number;
     codContrato: string;
     dataAdmissao: Date;
@@ -46,6 +48,7 @@ export class Usuario {
     email?: any;
     numCracha?: any;
     codRelatorioNaoMostrado: string;
+    codSetor?: number;
     instalPerfilPagina?: any;
     senha: string;
     indAtivo: number;

@@ -34,12 +34,12 @@ namespace SAT.API.Controllers
              _despesaService.ObterPorCodigo(codDespesaConfiguracao);
 
         [HttpPost]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Post([FromBody] DespesaConfiguracao despesa) =>
             _despesaService.Criar(despesa);
 
         [HttpPut]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Put([FromBody] DespesaConfiguracao despesa) =>
             _despesaService.Atualizar(despesa);
     }

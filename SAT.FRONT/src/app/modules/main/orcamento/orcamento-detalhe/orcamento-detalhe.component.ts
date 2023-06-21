@@ -97,10 +97,8 @@ export class OrcamentoDetalheComponent implements OnInit {
 	}
 
 	private verificarPermissaoExclusao() {
-		this.possuiPermissaoExclusao = this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_CREDITO ||
+		this.possuiPermissaoExclusao = 
 			this.userSession?.usuario?.codPerfil == PerfilEnum.ADM_DO_SISTEMA ||
-			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR_PONTO ||
-			this.userSession?.usuario?.codPerfil == PerfilEnum.FINANCEIRO_COORDENADOR ||
 			this.userSession?.usuario?.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO
 	}
 

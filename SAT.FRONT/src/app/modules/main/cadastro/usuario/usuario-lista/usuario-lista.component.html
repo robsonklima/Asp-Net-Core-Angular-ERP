@@ -52,6 +52,9 @@
                                 {{ t('cargo') }}
                             </div>
                             <div>
+                                {{ t('setor') }}
+                            </div>
+                            <div>
                                 {{ t('perfil') }}
                             </div>
                             <div>
@@ -72,6 +75,9 @@
                                         </div>
                                         <div class="truncate">
                                             {{ (usuario.cargo?.nomeCargo || t('nao informado')) | titlecase }}
+                                        </div>
+                                        <div class="truncate">
+                                            {{ (usuario.setor?.nomeSetor || t('nao informado')) | titlecase }}
                                         </div>
                                         <div class="truncate">
                                             {{ (usuario.perfil?.nomePerfil || t('nao informado')) | titlecase }}

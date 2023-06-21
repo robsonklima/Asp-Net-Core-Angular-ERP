@@ -35,14 +35,9 @@ export class UserService {
   get isCustomer(): boolean {
     var session = JSON.parse(localStorage.getItem('userSession'));
     var user = session.usuario;
-    if (user.codPerfil == PerfilEnum.CLIENTE ||
+    if (user.codPerfil == PerfilEnum.CLIENTE_BASICO ||
         user.codPerfil == PerfilEnum.CLIENTE_INTERMEDIARIO ||
-        user.codPerfil == PerfilEnum.CLIENTE_BASICO_C_RESTRICOES ||
-        user.codPerfil == PerfilEnum.CLIENTE_BASICO ||
-        user.codPerfil == PerfilEnum.CLIENTE_CORREIOS ||
-        user.codPerfil == PerfilEnum.CLIENTE_PEÇAS_EXPORTAÇÃO ||
-        user.codPerfil == PerfilEnum.CLIENTE_S_ABERTURA ||
-        user.codPerfil == PerfilEnum.CLIENTE_AVANCADO
+        user.codPerfil == PerfilEnum.CLIENTE_AVANÇADO
         ) {
       return true;
     }

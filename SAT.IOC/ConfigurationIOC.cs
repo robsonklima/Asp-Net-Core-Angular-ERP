@@ -447,6 +447,7 @@ public class ConfigurationIOC
         builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>(); 
         builder.RegisterType<SetorService>().As<ISetorService>(); 
         builder.RegisterType<PerfilSetorService>().As<IPerfilSetorService>();
+        builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>(); 
 
         #endregion
 

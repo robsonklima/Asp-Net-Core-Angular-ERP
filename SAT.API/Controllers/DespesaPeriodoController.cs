@@ -21,7 +21,7 @@ namespace SAT.API.Controllers
         public DespesaPeriodoController(IDespesaPeriodoService despesaPeriodo) =>
             _despesaPeriodo = despesaPeriodo;
 
-        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_LIDER, RoleEnum.FILIAL_COORDENADOR, RoleEnum.FILIAIS_SUPERVISOR, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FILIAL_LIDER, RoleEnum.FILIAL_COORDENADOR, RoleEnum.FILIAIS_SUPERVISOR, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         [HttpGet]
         public ListViewModel Get([FromQuery] DespesaPeriodoParameters parameters) =>
             _despesaPeriodo.ObterPorParametros(parameters);
@@ -31,17 +31,17 @@ namespace SAT.API.Controllers
              _despesaPeriodo.ObterPorCodigo(codDespesaPeriodo);
 
         [HttpPost]
-        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Post([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Criar(despesa);
 
         [HttpPut]
-        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Put([FromBody] DespesaPeriodo despesa) =>
             _despesaPeriodo.Atualizar(despesa);
 
         [HttpDelete("{codDespesaPeriodo}")]
-        [CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO, RoleEnum.FINANCEIRO_COORDENADOR_CREDITO)]
         public void Delete(int codDespesaPeriodo) =>
             _despesaPeriodo.Deletar(codDespesaPeriodo);
     }

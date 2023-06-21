@@ -25,6 +25,7 @@ export interface User {
     codFusoHorario: number;
     codLingua: number;
     codPerfil: number;
+    codSetor: number;
     perfil: any;
     codSmartCard: number;
     codContrato: string;

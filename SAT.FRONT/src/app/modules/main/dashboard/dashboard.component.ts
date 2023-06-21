@@ -92,7 +92,7 @@ export class DashboardComponent implements AfterViewInit {
           'Densidade'
         ];
 
-      case PerfilEnum.FILIAIS_SUPERVISOR:
+      case PerfilEnum.SUPERVISOR:
         return [
           'Status Filiais',
           'Chamados Antigos',
@@ -115,32 +115,7 @@ export class DashboardComponent implements AfterViewInit {
           'Densidade',
         ];
 
-      case PerfilEnum.PV_CENTRAL_ATENDENTE:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filiais',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-          'Densidade'
-        ];
-
-      case PerfilEnum.FILIAL_COORDENADOR:
+      case PerfilEnum.COORDENADOR:
         return [
           'Status Filiais',
           'Detalhado Filial',
@@ -166,33 +141,7 @@ export class DashboardComponent implements AfterViewInit {
           'Densidade',
         ];
 
-      case PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR:
-        return [
-          'Status Filiais',
-          'Detalhado Filial',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filial',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filial',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-          'Densidade',
-        ];
-
-        case PerfilEnum.FILIAL_LIDER_DE_SETOR:
+        case PerfilEnum.LIDER:
           return [
             'Status Filiais',
             'Detalhado Filial',
@@ -280,47 +229,27 @@ export class DashboardComponent implements AfterViewInit {
           'Pendência Filiais',
           'Pendência Técnicos',
         ];
-
-      case PerfilEnum.FILIAIS_E_LABORATORIO_SUPERVISOR:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-          'Disponibilidade Técnicos',
-        ];
-
-      case PerfilEnum.LOGÍSTICA_COORDENADOR_ESTOQUISTA:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'Disponibilidade Técnicos',
-          'BBTS Multa Disponibilidade',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-        ];
-
-      case PerfilEnum.FILIAL_SUPORTE_TÉCNICO:
-        return [
-          'Status Filiais',
-        ];      
-        
+      
       case PerfilEnum.FILIAL_SUPORTE_TÉCNICO_CAMPO:
         return [
           'Status Filiais',
+          'Chamados Antigos',
+          'BBTS Regiões',
+          'BBTS Filiais',
+          'BBTS Multa Regiões',
+          'BBTS Multa Disponibilidade',
+          'Média Global',
+          'SPA',
+          'Desempenho Técnico',
+          'Disponibilidade Técnicos',
+          'SLA Clientes',
+          'Reincidência Filiais',
+          'Reincidência Técnicos',
+          'Reincidência Clientes',
+          'Equipamentos Reincidentes',
+          'Pendência Filiais',
+          'Pendência Técnicos',
+          'Peças Mais Faltantes',
         ];        
 
       default:

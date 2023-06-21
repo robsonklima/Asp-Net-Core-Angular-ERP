@@ -442,19 +442,18 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     const codPerfilUsuarioLogado = this.userSession.usuario.codPerfil;
 
     switch (codPerfilUsuarioLogado) {
-      case PerfilEnum.FILIAIS_SUPERVISOR:
+      case PerfilEnum.SUPERVISOR:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
         break;
 
-      case PerfilEnum.FILIAL_COORDENADOR:
+      case PerfilEnum.COORDENADOR:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR)
           .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
         break
 
       case PerfilEnum.ADM_DO_SISTEMA:
@@ -463,14 +462,10 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       default:
         this.perfis = this.perfis
           .filter(p => p.codPerfil != PerfilEnum.ADM_DO_SISTEMA)
-          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR_POS)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.COORDENADOR)
           .filter(p => p.codPerfil != PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAIS_SUPERVISOR)
-          .filter(p => p.codPerfil != PerfilEnum.SUPORTE_DE_EXPORTAÇÃO)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_DE_SETOR)
-          .filter(p => p.codPerfil != PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR)
-          .filter(p => p.codPerfil != PerfilEnum.LOGÍSTICA_COORDENADOR)
+          .filter(p => p.codPerfil != PerfilEnum.SUPERVISOR)
+          .filter(p => p.codPerfil != PerfilEnum.LIDER)
         break;
     }
   }

@@ -42,6 +42,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, delay, map, takeUntil, tap } from 'rxjs/operators';
 import { RelatorioAtendimentoDetalheFormComponent } from '../relatorio-atendimento-detalhe-form/relatorio-atendimento-detalhe-form.component';
 import { RelatorioAtendimentoDetalhePecaFormComponent } from '../relatorio-atendimento-detalhe-peca-form/relatorio-atendimento-detalhe-peca-form.component';
+import { SetorEnum } from 'app/core/types/setor.types';
 
 @Component({
 	selector: 'app-relatorio-atendimento-form',
@@ -119,7 +120,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 
 		if (this.sessionData.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA ||
 			this.sessionData.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
-			this.sessionData.usuario.codPerfil === PerfilEnum.PLANTÃO_HELP_DESK) 
+			(this.sessionData.usuario.codPerfil === PerfilEnum.ANALISTA && this.sessionData.usuario.codSetor === SetorEnum.HELPDESK_NOC)) 
 			return true;
 
 		return false;
@@ -738,7 +739,7 @@ export class RelatorioAtendimentoFormComponent implements OnInit, OnDestroy {
 	public verificarPermissaoExclusao(): boolean {
 		if (this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA ||
 			this.sessionData.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO ||
-			this.sessionData.usuario.codPerfil == PerfilEnum.FILIAIS_SUPERVISOR)
+			this.sessionData.usuario.codPerfil == PerfilEnum.SUPERVISOR)
 			return true;
 
 		return false;

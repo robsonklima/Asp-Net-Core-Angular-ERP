@@ -32,12 +32,12 @@ namespace SAT.API.Controllers
              _despesaCartaoCombustivelService.ObterPorCodigo(codDespesaCartaoCombustivel);
 
         [HttpPost]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Post([FromBody] DespesaCartaoCombustivel despesa) =>
            _despesaCartaoCombustivelService.Criar(despesa);
 
         [HttpPut]
-        [CustomAuthorize(RoleGroup.FINANCEIRO)]
+        //[CustomAuthorize(RoleGroup.FINANCEIRO)]
         public void Put([FromBody] DespesaCartaoCombustivel despesa) =>
             _despesaCartaoCombustivelService.Atualizar(despesa);
 

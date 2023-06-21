@@ -61,7 +61,7 @@ export class LiderTecnicoFiltroComponent extends FilterBase implements OnInit, I
 
 	async obterUsuarios(filtro: string = '') {
 		let params: UsuarioParameters = {
-			codPerfis: PerfilEnum.FILIAL_LIDER_C_FUNCOES_COORDENADOR.toString(),
+			codPerfis: PerfilEnum.LIDER.toString(),
 			indAtivo: statusConst.ATIVO,
 			filter: filtro,
 			sortActive: 'nomeUsuario',

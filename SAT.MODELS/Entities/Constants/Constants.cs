@@ -33,7 +33,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string EMP_SITE = "www.perto.com.br";
 
         // CRON
-        public static string CRON_EVERY_30_SEC = "*/30 * * * * ?";
+        public static string CRON_EVERY_1_MIN = "*/1 * * * * ?";
         public static string CRON_EVERY_23_50 = "50 23 * * * ?";
         public static string CRON_EVERY_02_00 = "00 02 * * * ?";
 

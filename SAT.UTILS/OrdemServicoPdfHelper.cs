@@ -179,7 +179,7 @@ namespace SAT.UTILS
                 grid.Item(4).Text(t =>
                 {
                     t.Span($"CEP: ").FontSize(8).Bold();
-                    t.Span($"{ Convert.ToUInt64(OrdemServico.LocalAtendimento?.Cep).ToString(@"00000\-000") }").FontSize(8);
+                    t.Span($"{Convert.ToUInt64(OrdemServico.LocalAtendimento?.Cep).ToString(@"00000\-000")}").FontSize(8);
                 });
 
                 grid.Item(4).Text(t =>
@@ -411,8 +411,14 @@ namespace SAT.UTILS
                                             if (f.Modalidade.Contains("RAT") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
                                                 using var client = new HttpClient();
-                                                var result = await client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                                grid.Item().Row(gr =>
+
+                                                string url = $"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}";
+
+                                                try
+                                                {
+                                                    var result = await client.GetAsync(url);
+
+                                                    grid.Item().Row(gr =>
                                                 {
                                                     gr.RelativeItem(6).Column(gc =>
                                                     {
@@ -430,6 +436,11 @@ namespace SAT.UTILS
                                                         }
                                                     });
                                                 });
+                                                }
+                                                catch (System.Exception)
+                                                {
+                                                    
+                                                }
                                             }
                                         });
                                 });

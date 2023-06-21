@@ -6,8 +6,6 @@ using SAT.INFRA.Context;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-using Autofac;
-using SAT.IOC;
 using SAT.MODELS.Entities.Constants;
 
 namespace SAT.TASKS
@@ -23,10 +21,9 @@ namespace SAT.TASKS
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString(Constants.DB_PROD)));
-
-            services.AddHttpContextAccessor();
+            string connString = Configuration.GetConnectionString(Constants.DB_PROD);
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connString));
+            
 
             services.AddSingleton<IJobFactory, JobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
@@ -42,24 +39,7 @@ namespace SAT.TASKS
             // Jogs Schedules
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(IntegracaoBanrisulJob),
-                cronExpression: "*/5 * * * * ?")); // Every 5 minutes
-
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(ModeloEquipamentoJob),
-                cronExpression: "50 23 * * * ?")); // At 23:50
-
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(IntegracaoMRPJob),
-                cronExpression: "00 02 * * * ?")); // At 02:00
-
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(IntegracaoBBJob),
-                cronExpression: "*/5 * * * * ?")); // Every 5 minutes
-        }
-
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterModule(new ModuleIOC());
+                cronExpression: Constants.CRON_EVERY_1_MIN));
         }
 
         [Obsolete]
@@ -72,7 +52,7 @@ namespace SAT.TASKS
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync("SAT.TASKS");
             });
         }
     }

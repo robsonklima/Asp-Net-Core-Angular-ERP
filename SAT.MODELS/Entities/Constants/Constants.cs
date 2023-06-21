@@ -36,6 +36,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string CRON_EVERY_1_MIN = "*/1 * * * * ?";
         public static string CRON_EVERY_23_50 = "50 23 * * * ?";
         public static string CRON_EVERY_02_00 = "00 02 * * * ?";
+        public static string CRON_EVERY_5_MIN = "*/5 * * * *";
 
         // Email
         public static Office365Config OFFICE_365_CONFIG = new Office365Config

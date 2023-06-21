@@ -37,7 +37,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         // Jogs Schedules
         services.AddSingleton(new JobSchedule(
             jobType: typeof(IntegracaoBanrisulJob),
-            cronExpression: Constants.CRON_EVERY_1_MIN));
+            cronExpression: Constants.CRON_EVERY_5_MIN));
 
         services.AddSingleton(new JobSchedule(
             jobType: typeof(ModeloEquipamentoJob),
@@ -49,7 +49,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton(new JobSchedule(
             jobType: typeof(IntegracaoBBJob),
-            cronExpression: Constants.CRON_EVERY_1_MIN));
+            cronExpression: Constants.CRON_EVERY_5_MIN));
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))

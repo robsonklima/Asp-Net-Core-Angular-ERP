@@ -22,7 +22,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
         services.AddHttpContextAccessor();
-
+        
         services.AddSingleton<IJobFactory, JobFactory>();
         services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
         services.AddSingleton<QuartzJobRunner>();
@@ -37,22 +37,22 @@ using IHost host = Host.CreateDefaultBuilder(args)
         // Jogs Schedules
         services.AddSingleton(new JobSchedule(
             jobType: typeof(IntegracaoBanrisulJob),
-            cronExpression: Constants.CRON_EVERY_5_MIN));
+            cronExpression: Constants.CRON_EVERY_1_MIN));
 
-        services.AddSingleton(new JobSchedule(
-            jobType: typeof(ModeloEquipamentoJob),
-            cronExpression: Constants.CRON_EVERY_23_50 ));
+        // services.AddSingleton(new JobSchedule(
+        //     jobType: typeof(ModeloEquipamentoJob),
+        //     cronExpression: Constants.CRON_EVERY_23_50 ));
 
-        services.AddSingleton(new JobSchedule(
-            jobType: typeof(IntegracaoMRPJob),
-            cronExpression: Constants.CRON_EVERY_02_00 ));
+        // services.AddSingleton(new JobSchedule(
+        //     jobType: typeof(IntegracaoMRPJob),
+        //     cronExpression: Constants.CRON_EVERY_02_00 ));
 
-        services.AddSingleton(new JobSchedule(
-            jobType: typeof(IntegracaoBBJob),
-            cronExpression: Constants.CRON_EVERY_5_MIN));
+        // services.AddSingleton(new JobSchedule(
+        //     jobType: typeof(IntegracaoBBJob),
+        //     cronExpression: Constants.CRON_EVERY_1_MIN));
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))
     .Build();
 
-host.Run();
+await host.RunAsync();

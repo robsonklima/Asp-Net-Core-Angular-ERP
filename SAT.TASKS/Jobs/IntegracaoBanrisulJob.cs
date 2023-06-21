@@ -10,15 +10,18 @@ public class IntegracaoBanrisulJob : IJob
         _provider = provider;
     }
 
-    public Task Execute(IJobExecutionContext context)
+    public async Task Execute(IJobExecutionContext context)
     {
-        using(var scope = _provider.CreateScope())
+        using (var scope = _provider.CreateScope())
         {
+            var jobType = context.JobDetail.JobType;
+            var job = scope.ServiceProvider.GetRequiredService(jobType) as IJob;
+
             var integracao = scope.ServiceProvider.GetService<IIntegracaoBanrisulService>();
             integracao.ProcessarEmailsAsync();
             integracao.ProcessarRetornos();
+
+            await job.Execute(context);
         }
- 
-        return Task.CompletedTask;
     }
 }

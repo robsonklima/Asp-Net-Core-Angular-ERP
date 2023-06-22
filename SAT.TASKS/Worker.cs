@@ -7,19 +7,12 @@ using SAT.SERVICES.Interfaces;
 namespace SAT.TASKS;
 public partial class Worker : BackgroundService
 {
-    private readonly IPlantaoTecnicoService _plantaoTecnicoService;
-    private readonly IPontoUsuarioService _pontoUsuarioService;
-    private readonly IIntegracaoFinanceiroService _integracaoFinanceiroService;
     private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
     private readonly IEmailService _emailService;
     private readonly IIntegracaoZaffariService _integracaoZaffariService;
-    private readonly IIntegracaoCorreiosService _integracaoCorreiosService;
-    private readonly IIntegracaoSemPararService _integracaoSemPararService;
-    private readonly IIntegracaoProtegeService _integracaoProtegeService;
     private readonly ISatTaskService _taskService;
     private readonly ISatTaskTipoService _taskTipoService;
     private readonly IIntegracaoBBService _integracaoBBService;
-    private readonly IIntegracaoSeniorService _integracaoSeniorService;    
 
     public Worker(
         ISatTaskService taskService,
@@ -61,15 +54,10 @@ public partial class Worker : BackgroundService
         foreach (int tipo in tipos)
         {
             var task = ObterTask(tipo);
+            var processar = podeProcessar(task);
 
-            if (podeProcessar(task))
-            {
-                _taskService.Criar(new SatTask {
-                    IndProcessado = (byte)Constants.NAO_PROCESSADO,
-                    DataHoraCad = DateTime.Now,
-                    CodSatTaskTipo = tipo
-                });
-            }
+            if (processar)
+                CriarTask(tipo);
         }
     }
 
@@ -160,5 +148,13 @@ public partial class Worker : BackgroundService
         task.DataHoraProcessamento = DateTime.Now;
         task.IndProcessado = (byte)Constants.PROCESSADO;
         _taskService.Atualizar(task);
+    }
+
+    private SatTask CriarTask(int tipo) {
+        return _taskService.Criar(new SatTask {
+            IndProcessado = (byte)Constants.NAO_PROCESSADO,
+            DataHoraCad = DateTime.Now,
+            CodSatTaskTipo = tipo
+        });
     }
 }

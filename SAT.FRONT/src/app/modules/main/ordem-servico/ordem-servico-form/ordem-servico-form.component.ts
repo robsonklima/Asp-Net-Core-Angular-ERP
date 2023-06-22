@@ -23,6 +23,7 @@ import { LocalAtendimento } from 'app/core/types/local-atendimento.types';
 import { OrdemServico } from 'app/core/types/ordem-servico.types';
 import { RegiaoAutorizada } from 'app/core/types/regiao-autorizada.types';
 import { Regiao } from 'app/core/types/regiao.types';
+import { SetorEnum } from 'app/core/types/setor.types';
 import { statusConst } from 'app/core/types/status-types';
 import { TipoIntervencao, TipoIntervencaoEnum } from 'app/core/types/tipo-intervencao.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
@@ -508,8 +509,9 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 		var perfisClientes =
 			[
-				RoleEnum.CLIENTE_BASICO_BIOMETRIA,
-				RoleEnum.CLIENTE_BASICO_C_RESTRICOES
+				RoleEnum.CLIENTE_AVANÇADO,
+				RoleEnum.CLIENTE_BASICO,
+				RoleEnum.CLIENTE_INTERMEDIARIO
 			];
 
 		if (perfisClientes.includes(perfilUsuarioLogado))
@@ -520,48 +522,44 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 	private validaIntervencao(): void {
 		let perfilUsuarioLogado = this.userSession.usuario?.perfil?.codPerfil;
+		let setorUsuarioLogado = this.userSession.usuario?.setor?.codSetor;
 		let novoTipoIntervencao = this.form.controls['codTipoIntervencao'].value;
 
 		var podemAlterarOrcamento = [
-			RoleEnum.ADMIN,
-			RoleEnum.FINANCEIRO_COORDENADOR,
-			RoleEnum.FINANCEIRO_ADMINISTRATIVO,
-			RoleEnum.PONTO_FINANCEIRO,
-			RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
-			RoleEnum.FILIAIS_SUPERVISOR,
-			RoleEnum.FILIAL_COORDENADOR,
-			RoleEnum.FILIAL_LIDER,
-			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO,
+			RoleEnum.ADM_DO_SISTEMA,
+			RoleEnum.SUPERVISOR,
+			RoleEnum.COORDENADOR,
+			RoleEnum.LIDER,
+			RoleEnum.ANALISTA,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
-			RoleEnum.PLANTAO_HELP_DESK,
-			RoleEnum.PV_CENTRAL_ATENDENTE
 		];
 
 		var podemAlterarOrcamentoFilial = [
-			RoleEnum.ADMIN,
-			RoleEnum.FINANCEIRO_COORDENADOR,
-			RoleEnum.FINANCEIRO_ADMINISTRATIVO,
-			RoleEnum.PONTO_FINANCEIRO,
-			RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
-			RoleEnum.FILIAIS_SUPERVISOR,
-			RoleEnum.FILIAL_COORDENADOR,
-			RoleEnum.FILIAL_LIDER,
-			RoleEnum.FINANCEIRO_COORDENADOR_CREDITO,
+			RoleEnum.ADM_DO_SISTEMA,
+			RoleEnum.SUPERVISOR,
+			RoleEnum.COORDENADOR,
+			RoleEnum.LIDER,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
-			RoleEnum.PLANTAO_HELP_DESK,
-			RoleEnum.PV_CENTRAL_ATENDENTE
+			(RoleEnum.ANALISTA && this.userSession.usuario?.codSetor === SetorEnum.HELPDESK_NOC )
 		];
 
 		var perfisPodemAlterarCorretiva = [
-			RoleEnum.ADMIN,
+			RoleEnum.ADM_DO_SISTEMA,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
-			RoleEnum.FINANCEIRO_COORDENADOR_PONTO,
-			RoleEnum.CLIENTE_AVANCADO
+			RoleEnum.CLIENTE_AVANÇADO,
+			RoleEnum.ANALISTA,
+			RoleEnum.COORDENADOR,
+		];
+
+		var setoresPodemAlterarCorretiva = [
+			SetorEnum.HELPDESK_NOC,
+			SetorEnum.COORDENACAO_DE_CONTRATOS,
+			SetorEnum.CLIENTE
 		];
 
 		var perfisPodemApenasCriarAutorizacaoDeslocamento = [
-			RoleEnum.FILIAL_LIDER,
-			RoleEnum.FILIAL_COORDENADOR
+			RoleEnum.LIDER,
+			RoleEnum.COORDENADOR
 		];
 
 		var intervencoesDeOrcamento = [
@@ -587,7 +585,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		}
 
 		// só RPV pode alterar para corretiva
-		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado))
+		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado) && !setoresPodemAlterarCorretiva.includes(setorUsuarioLogado))
 		{
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarCorretiva': true });
 		}

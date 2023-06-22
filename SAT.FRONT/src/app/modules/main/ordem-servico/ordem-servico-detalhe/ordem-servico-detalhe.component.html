@@ -230,7 +230,7 @@
 
                         <!-- ORCAMENTOS -->
                         <mat-tab
-                            *ngIf="!perfilCliente && (userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 70)">
+                            *ngIf="!perfilCliente && (userSession.usuario.codPerfil == 3 || userSession.usuario.codSetor == 1)">
                             <ng-template matTabLabel>
                                 {{ t('orcamentos') }}
                             </ng-template>

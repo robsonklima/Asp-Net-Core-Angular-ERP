@@ -11,11 +11,12 @@ namespace SAT.MODELS.Enums {
         FILIAL_SUPORTE_TÉCNICO_CAMPO = 79,
         RASTREAMENTO = 83,
         ANALISTA = 100,
-    	ASSISTENTE = 101,
-    	LIDER = 102,
+    	ASSISTENTE = 107,
+    	LIDER = 108,
     	COORDENADOR = 103,
     	SUPERVISOR = 104,
     	TECNICO = 105,
-        TECNICO_OPERACOES = 106
+        TECNICO_OPERACOES = 106,
+        INSPETOR = 109
     }
 }

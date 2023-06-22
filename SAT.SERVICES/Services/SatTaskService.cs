@@ -10,7 +10,7 @@ namespace SAT.SERVICES.Services
     {
         private readonly ISatTaskRepository _SatTaskRepo;
 
-        public SatTaskService(ISatTaskRepository SatTaskRepo, ISequenciaRepository seqRepo)
+        public SatTaskService(ISatTaskRepository SatTaskRepo)
         {
             _SatTaskRepo = SatTaskRepo;
         }
@@ -40,9 +40,9 @@ namespace SAT.SERVICES.Services
             return SatTask;
         }
 
-        public void Deletar(int codigo)
+        public SatTask Deletar(int codigo)
         {
-            _SatTaskRepo.Deletar(codigo);
+            return _SatTaskRepo.Deletar(codigo);
         }
 
         public SatTask Atualizar(SatTask SatTask)

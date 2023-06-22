@@ -8,8 +8,8 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(SatTaskParameters parameters);
         SatTask Criar(SatTask SatTask);
-        void Deletar(int codigo);
-        void Atualizar(SatTask SatTask);
+        SatTask Deletar(int codigo);
+        SatTask Atualizar(SatTask SatTask);
         SatTask ObterPorCodigo(int codigo);
     }
 }

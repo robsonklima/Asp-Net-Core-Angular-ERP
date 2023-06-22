@@ -17,7 +17,7 @@ namespace SAT.INFRA.Repository
             this._context = context;
         }
 
-        public void Atualizar(SatTask SatTask)
+        public SatTask Atualizar(SatTask SatTask)
         {
             _context.ChangeTracker.Clear();
             SatTask t = _context.SatTask.FirstOrDefault(t => t.CodSatTask == SatTask.CodSatTask);
@@ -27,15 +27,18 @@ namespace SAT.INFRA.Repository
                 _context.Entry(t).CurrentValues.SetValues(SatTask);
                 _context.SaveChanges();
             }
+
+            return t;
         }
 
-        public void Criar(SatTask SatTask)
+        public SatTask Criar(SatTask SatTask)
         {
             _context.Add(SatTask);
             _context.SaveChanges();
+            return SatTask;
         }
 
-        public void Deletar(int codSatTask)
+        public SatTask Deletar(int codSatTask)
         {
             SatTask t = _context.SatTask.FirstOrDefault(t => t.CodSatTask == codSatTask);
 
@@ -44,6 +47,8 @@ namespace SAT.INFRA.Repository
                 _context.SatTask.Remove(t);
                 _context.SaveChanges();
             }
+
+            return t;
         }
 
         public SatTask ObterPorCodigo(int codigo)

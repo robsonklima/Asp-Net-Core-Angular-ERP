@@ -22,34 +22,20 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoSeniorService _integracaoSeniorService;    
 
     public Worker(
-        IPlantaoTecnicoService plantaoTecnicoService,
-        IPontoUsuarioService pontoUsuarioService,
-        IIntegracaoFinanceiroService integracaoFinanceiroService,
-        IIntegracaoBanrisulService integracaoBanrisulService,
-        IEmailService emailService,
-        IIntegracaoCorreiosService integracaoCorreiosService,
-        IIntegracaoSeniorService integracaoSeniorService,
-        IIntegracaoZaffariService integracaoZaffariService,
-        IIntegracaoSemPararService integracaoSemPararService,
-        IIntegracaoProtegeService integracaoProtegeService,
         ISatTaskService taskService,
         ISatTaskTipoService taskTipoService,
-        IIntegracaoBBService integracaoBBService
+        IEmailService emailService,
+        IIntegracaoBBService integracaoBBService,
+        IIntegracaoBanrisulService integracaoBanrisulService,
+        IIntegracaoZaffariService integracaoZaffariService
     )
     {
-        _plantaoTecnicoService = plantaoTecnicoService;
-        _pontoUsuarioService = pontoUsuarioService;
-        _integracaoFinanceiroService = integracaoFinanceiroService;
-        _integracaoBanrisulService = integracaoBanrisulService;
-        _emailService = emailService;
-        _integracaoCorreiosService = integracaoCorreiosService;
-        _integracaoSeniorService = integracaoSeniorService;
-        _integracaoSemPararService = integracaoSemPararService;
-        _integracaoZaffariService = integracaoZaffariService;
-        _integracaoProtegeService = integracaoProtegeService;
         _taskService = taskService;
         _taskTipoService = taskTipoService;
+        _emailService = emailService;
         _integracaoBBService = integracaoBBService;
+        _integracaoBanrisulService = integracaoBanrisulService;
+        _integracaoZaffariService = integracaoZaffariService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -75,7 +61,7 @@ public partial class Worker : BackgroundService
         {
             var task = ObterTask(tipo);
 
-            if (VerificarNecessidadeProcessamento(task))
+            if (podeProcessar(task))
             {
                 _taskService.Criar(new SatTask {
                     IndProcessado = (byte)Constants.PENDENTE,
@@ -96,25 +82,25 @@ public partial class Worker : BackgroundService
             {
                 await _integracaoBanrisulService.ProcessarEmailsAsync();
                 _integracaoBanrisulService.ProcessarRetornos();
-                task.DataHoraProcessamento = DateTime.Now;
-                task.IndProcessado = (byte)Constants.PROCESSADO;
-                _taskService.Atualizar(task);
+                AtualizarTask(task);
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
             {
                 await _integracaoBBService.ProcessarsAsync();
+                AtualizarTask(task);
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
             {
                 await _integracaoZaffariService.ExecutarAsync();
+                AtualizarTask(task);
             }
         }
     }
 
-    private bool VerificarNecessidadeProcessamento(SatTask task)
+    private bool podeProcessar(SatTask task)
     {
         if (task == null)
             return true;
@@ -166,5 +152,12 @@ public partial class Worker : BackgroundService
             SortDirection = "ASC"
         })
         .Items;
+    }
+
+    private void AtualizarTask(SatTask task)
+    {
+        task.DataHoraProcessamento = DateTime.Now;
+        task.IndProcessado = (byte)Constants.PROCESSADO;
+        _taskService.Atualizar(task);
     }
 }

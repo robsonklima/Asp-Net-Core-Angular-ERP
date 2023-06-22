@@ -36,6 +36,7 @@ namespace SAT.SERVICES.Services
         public SatTask Criar(SatTask SatTask)
         {
             _SatTaskRepo.Criar(SatTask);
+
             return SatTask;
         }
 
@@ -44,9 +45,11 @@ namespace SAT.SERVICES.Services
             _SatTaskRepo.Deletar(codigo);
         }
 
-        public void Atualizar(SatTask SatTask)
+        public SatTask Atualizar(SatTask SatTask)
         {
             _SatTaskRepo.Atualizar(SatTask);
+            
+            return SatTask;
         }
 
         public SatTask ObterPorCodigo(int codigo)

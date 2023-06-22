@@ -73,7 +73,7 @@ public partial class Worker : BackgroundService
         {
             var task = ObterTask(tipo);
 
-            if (task != null && VerificarNecessidadeProcessamento(task))
+            if (VerificarNecessidadeProcessamento(task))
             {
                 _taskService.Criar(new SatTask {
                     IndProcessado = (byte)Constants.PENDENTE,
@@ -93,7 +93,9 @@ public partial class Worker : BackgroundService
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
             {
                 await ProcessarIntegracaoBanrisul();
-                
+                task.DataHoraProcessamento = DateTime.Now;
+                task.IndProcessado = (byte)Constants.PROCESSADO;
+                _taskService.Atualizar(task);
                 continue;
             }
         }

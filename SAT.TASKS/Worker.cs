@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+using NLog;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;

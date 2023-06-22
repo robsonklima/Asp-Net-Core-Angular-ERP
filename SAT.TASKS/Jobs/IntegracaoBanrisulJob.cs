@@ -17,9 +17,12 @@ public class IntegracaoBanrisulJob : IJob
             var jobType = context.JobDetail.JobType;
             var job = scope.ServiceProvider.GetRequiredService(jobType) as IJob;
 
-            var integracao = scope.ServiceProvider.GetService<IIntegracaoBanrisulService>();
-            integracao.ProcessarEmailsAsync();
-            integracao.ProcessarRetornos();
+            if (job != null) 
+            {
+                var integracao = scope.ServiceProvider.GetService<IIntegracaoBanrisulService>();
+                integracao.ProcessarEmailsAsync();
+                integracao.ProcessarRetornos();
+            }
 
             await job.Execute(context);
         }

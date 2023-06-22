@@ -27,16 +27,10 @@ namespace SAT.API.Controllers
             return _integracaoClienteService.Integrar(IntegracaoCliente);
         }
 
-        [HttpGet("MeusIncidentes")]
-        public List<IntegracaoCliente> GetIncidentes([FromQuery] IntegracaoClienteParameters parameters)
+        [HttpPut("AtualizarIncidente")]
+        public IntegracaoCliente Put([FromBody] IntegracaoCliente integracaoCliente)
         {
-            return _integracaoClienteService.ObterMeusIncidentes(parameters);
-        }
-
-        [HttpGet("MeusEquipamentos")]
-        public List<EquipamentoCliente> GetEquipamentos([FromQuery] IntegracaoClienteParameters parameters)
-        {
-            return _integracaoClienteService.ObterMeusEquipamentos(parameters);
+            return _integracaoClienteService.Atualizar(integracaoCliente);
         }
     }
 }

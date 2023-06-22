@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
     public class IntegracaoZaffariService : IIntegracaoZaffariService
     {
-        public void ExecutarAsync()
+        public Task ExecutarAsync()
         {
             throw new System.NotImplementedException();
         }

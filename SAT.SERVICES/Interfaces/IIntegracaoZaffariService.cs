@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace SAT.SERVICES.Interfaces
 {
     public interface IIntegracaoZaffariService
     {
-        void ExecutarAsync();
+        Task ExecutarAsync();
     }
 }

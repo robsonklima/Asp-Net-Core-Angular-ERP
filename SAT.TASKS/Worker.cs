@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -19,6 +18,7 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoProtegeService _integracaoProtegeService;
     private readonly ISatTaskService _taskService;
     private readonly ISatTaskTipoService _taskTipoService;
+    private readonly IIntegracaoBBService _integracaoBBService;
     private readonly IIntegracaoSeniorService _integracaoSeniorService;    
 
     public Worker(
@@ -33,7 +33,8 @@ public partial class Worker : BackgroundService
         IIntegracaoSemPararService integracaoSemPararService,
         IIntegracaoProtegeService integracaoProtegeService,
         ISatTaskService taskService,
-        ISatTaskTipoService taskTipoService
+        ISatTaskTipoService taskTipoService,
+        IIntegracaoBBService integracaoBBService
     )
     {
         _plantaoTecnicoService = plantaoTecnicoService;
@@ -48,6 +49,7 @@ public partial class Worker : BackgroundService
         _integracaoProtegeService = integracaoProtegeService;
         _taskService = taskService;
         _taskTipoService = taskTipoService;
+        _integracaoBBService = integracaoBBService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -56,7 +58,7 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                GerarFila();
+                AtualizarFila();
                 await Processar();
             }
             catch (Exception) {}
@@ -65,7 +67,7 @@ public partial class Worker : BackgroundService
         }
     }
 
-    private void GerarFila() 
+    private void AtualizarFila() 
     {
         var tipos = ObterTipos();
 
@@ -92,11 +94,22 @@ public partial class Worker : BackgroundService
         {
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
             {
-                await ProcessarIntegracaoBanrisul();
+                await _integracaoBanrisulService.ProcessarEmailsAsync();
+                _integracaoBanrisulService.ProcessarRetornos();
                 task.DataHoraProcessamento = DateTime.Now;
                 task.IndProcessado = (byte)Constants.PROCESSADO;
                 _taskService.Atualizar(task);
                 continue;
+            }
+
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
+            {
+                await _integracaoBBService.ProcessarsAsync();
+            }
+
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
+            {
+                await _integracaoZaffariService.ExecutarAsync();
             }
         }
     }
@@ -114,6 +127,8 @@ public partial class Worker : BackgroundService
             case (int)SatTaskTipoEnum.INT_BANRISUL:
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_BB:
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-10);
+            case (int)SatTaskTipoEnum.INT_ZAFFARI:
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-10);
             default:
                 return false;
@@ -140,7 +155,7 @@ public partial class Worker : BackgroundService
                     SortDirection = "DESC"
                 })
                 .Items?
-                .FirstOrDefault();
+                .FirstOrDefault()!;
     }
 
     private IEnumerable<SatTask> ObterTasksPendentes()
@@ -151,11 +166,5 @@ public partial class Worker : BackgroundService
             SortDirection = "ASC"
         })
         .Items;
-    }
-
-    private async Task ProcessarIntegracaoBanrisul()
-    {
-        await _integracaoBanrisulService.ProcessarEmailsAsync();
-        _integracaoBanrisulService.ProcessarRetornos();
     }
 }

@@ -4,8 +4,6 @@ using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
-using System.Collections.Generic;
-using System.Linq;
 using System;
 
 namespace SAT.SERVICES.Services
@@ -26,6 +24,11 @@ namespace SAT.SERVICES.Services
             _localService = localService;
             _equipContratoService = equipContratoService;
             _osService = osService;
+        }
+
+        public IntegracaoCliente Atualizar(IntegracaoCliente data)
+        {
+            throw new Exception("Not Implemented");
         }
 
         public IntegracaoCliente Integrar(IntegracaoCliente data)
@@ -52,77 +55,6 @@ namespace SAT.SERVICES.Services
                 .Write();
 
             return data;
-        }
-
-        // Indisponibilizar
-        public List<EquipamentoCliente> ObterMeusEquipamentos(IntegracaoClienteParameters par)
-        {
-            int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
-
-            var equipParams = new EquipamentoContratoParameters { 
-                CodClientes = codCliente.ToString(),
-                IndAtivo = 1
-            };
-
-            var equips = (IEnumerable<EquipamentoContrato>)_equipContratoService.ObterPorParametros(equipParams).Items;
-
-            var equipamentos = equips.Select(e => new EquipamentoCliente { 
-                Codigo = e.CodEquipContrato,
-                NumSerie = e.NumSerie,
-                Local = new LocalAtendimentoCliente() {
-                    Codigo = (int)e.LocalAtendimento.CodPosto,
-                    NomeLocal = e.LocalAtendimento.NomeLocal,
-                    Agencia = e.LocalAtendimento.NumAgencia,
-                    Posto = e.LocalAtendimento.DCPosto,
-                    Endereco = e.LocalAtendimento.Endereco
-                }
-            }).ToList();
-
-            _logger.Info()
-                .Message(@"Cliente {} consultou os seus equipamentos", Constants.INTEGRACAO_ZAFFARI)
-                .Property("application", Constants.INTEGRACAO_ZAFFARI)
-                .Write();
-
-            return equipamentos;
-        }
-
-        public List<IntegracaoCliente> ObterMeusIncidentes(IntegracaoClienteParameters par)
-        {
-            int codCliente = UTILS.GenericHelper.ObterClientePorChave(par.Chave);
-
-            var osParams = new OrdemServicoParameters { 
-                CodCliente = codCliente,
-                IndIntegracao = 1,
-                DataHoraInicioInicio = new DateTime(DateTime.Now.Year-1, 1, 1),
-                DataHoraInicioFim = new DateTime(DateTime.Now.Year, 12, 31)
-            };
-
-            var oss = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(osParams).Items;
-
-            var incidentes = oss.Select(os => new IntegracaoCliente { 
-                NumIncidentePerto = os.CodOS.ToString(),
-                NumIncidenteCliente = os.NumOSCliente,
-                RelatoCliente = os.DefeitoRelatado,
-                NumSerie = os.EquipamentoContrato?.NumSerie,
-                Equipamento = new EquipamentoCliente() {
-                    NumSerie = os.EquipamentoContrato?.NumSerie,
-                    Codigo = os.EquipamentoContrato.CodEquipContrato,
-                    Local = new LocalAtendimentoCliente() {
-                        Codigo = (int)os.LocalAtendimento.CodPosto,
-                        NomeLocal = os.LocalAtendimento.NomeLocal,
-                        Agencia = os.LocalAtendimento.NumAgencia,
-                        Posto = os.LocalAtendimento.DCPosto,
-                        Endereco = os.LocalAtendimento.Endereco
-                    }
-                }
-            }).ToList();
-
-            _logger.Info()
-                .Message(@"Cliente {} consultou os seus incidentes", Constants.INTEGRACAO_ZAFFARI)
-                .Property("application", Constants.INTEGRACAO_ZAFFARI)
-                .Write();
-
-            return incidentes;
         }
     }
 }

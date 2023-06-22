@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -7,6 +8,7 @@ using SAT.SERVICES.Interfaces;
 namespace SAT.TASKS;
 public partial class Worker : BackgroundService
 {
+    private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
     private readonly IIntegracaoBanrisulService _integracaoBanrisulService;
     private readonly IEmailService _emailService;
     private readonly IIntegracaoZaffariService _integracaoZaffariService;

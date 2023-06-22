@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NLog;
 using NLog.Fluent;
 using SAT.MODELS.Entities;
@@ -29,7 +28,7 @@ namespace SAT.SERVICES.Services
             _equipamentoContratoService = equipamentoContratoService;
         }
 
-        public Task ProcessarsAsync()
+        public void Processar()
         {
             _logger.Info()
                 .Message("Iniciado o processamento da {}", Constants.INTEGRACAO_BB)
@@ -41,8 +40,6 @@ namespace SAT.SERVICES.Services
             // ordens.ForEach(os => {
             //     AbreChamado(os);
             // });
-
-            return null;
         }
 
         public List<OrdemServico> ObterChamadosArquivo()

@@ -24,7 +24,6 @@ public partial class Worker : BackgroundService
         IIntegracaoBBService integracaoBBService,
         IIntegracaoBanrisulService integracaoBanrisulService,
         IIntegracaoZaffariService integracaoZaffariService
-        
     )
     {
         _taskService = taskService;
@@ -50,9 +49,11 @@ public partial class Worker : BackgroundService
 
                 await Processar();
             }
-            catch (Exception) {}
+            catch (Exception ex) {
+                throw new Exception("Ocorreu um erro", ex);
+            }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 
@@ -69,15 +70,18 @@ public partial class Worker : BackgroundService
         {
             var task = ObterTask(tipo);
 
-            _logger.Info()
-                .Message("Iniciado o processamento da task: ", task?.Tipo?.Nome)
-                .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-                .Write();
-
             var processar = podeProcessarTask(task);
 
             if (processar)
-                CriarTask(tipo);
+            {
+                _logger.Info()
+                    .Message("Registrando a task para execução: {}", 
+                        task?.Tipo?.Nome ?? "criando registro na fila")
+                    .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+                    .Write();
+
+                    CriarTask(tipo);
+            }
         }
     }
 
@@ -92,17 +96,17 @@ public partial class Worker : BackgroundService
 
         foreach (var task in tasks)
         {
-            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
             {
-                await _integracaoBanrisulService.ProcessarEmailsAsync();
-                _integracaoBanrisulService.ProcessarRetornos();
+                _integracaoBBService.Processar();
                 AtualizarTask(task);
                 continue;
             }
 
-            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
             {
-                await _integracaoBBService.ProcessarsAsync();
+                await _integracaoBanrisulService.ProcessarEmailsAsync();
+                _integracaoBanrisulService.ProcessarRetornos();
                 AtualizarTask(task);
                 continue;
             }

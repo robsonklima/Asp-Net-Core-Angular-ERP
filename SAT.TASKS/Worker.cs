@@ -59,7 +59,7 @@ public partial class Worker : BackgroundService
     private void AtualizarFila() 
     {
         _logger.Info()
-            .Message("Iniciado o processamento da fila: ", "")
+            .Message("Iniciado o processamento da fila", "")
             .Property("application", Constants.SISTEMA_CAMADA_TASKS)
             .Write();
 

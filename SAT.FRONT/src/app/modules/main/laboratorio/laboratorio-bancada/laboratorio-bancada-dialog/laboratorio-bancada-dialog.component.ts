@@ -5,6 +5,7 @@ import { BancadaLaboratorioService } from 'app/core/services/bancada-laboratorio
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { UsuarioService } from 'app/core/services/usuario.service';
 import { BancadaLaboratorio } from 'app/core/types/bancada-laboratorio.types';
+import { SetorEnum } from 'app/core/types/setor.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Usuario, UsuarioParameters } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -69,7 +70,8 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
           const data = await this._usuarioService.obterPorParametros({
             sortActive: 'NomeUsuario',
             sortDirection: 'asc',
-            codPerfis: "61,63",
+            codPerfis: "105,107",
+            codSetor: SetorEnum.LABORATORIO_TECNICO,
             filter: query,
             pageSize: 100,
           }).toPromise();
@@ -92,7 +94,8 @@ export class LaboratorioBancadaDialogComponent implements OnInit {
   private async obterUsuarios() {
     const params: UsuarioParameters = {
       sortActive: 'nomeUsuario',
-      codPerfis: "61,63",
+      codPerfis: "105,107",
+      codSetor: SetorEnum.LABORATORIO_TECNICO,
       sortDirection: 'asc',
       indAtivo: statusConst.ATIVO,
       pageSize: 100

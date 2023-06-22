@@ -14,6 +14,7 @@ import { UserSession } from 'app/core/user/user.types';
 import { Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, takeUntil } from 'rxjs/operators';
 import { LaboratorioProcessoReparoListaComponent } from '../laboratorio-processo-reparo-lista.component';
+import { SetorEnum } from 'app/core/types/setor.types';
 
 @Component({
   selector: 'app-processo-reparo-lista-mais-opcoes',
@@ -80,7 +81,8 @@ export class ProcessoReparoListaMaisOpcoesComponent implements OnInit {
 			indAtivo: statusConst.ATIVO,
 			sortActive: 'nomeUsuario',
 			sortDirection: 'asc',
-			codPerfis: "63,61",
+			codPerfis: "105,107",
+      codSetor: SetorEnum.LABORATORIO_TECNICO,
       filter: filter
 		};
 

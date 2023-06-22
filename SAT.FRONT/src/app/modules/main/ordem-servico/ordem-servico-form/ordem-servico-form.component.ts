@@ -540,7 +540,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			RoleEnum.COORDENADOR,
 			RoleEnum.LIDER,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
-			(RoleEnum.ANALISTA && this.userSession.usuario?.codSetor === SetorEnum.HELPDESK_NOC )
+			RoleEnum.ANALISTA
 		];
 
 		var perfisPodemAlterarCorretiva = [
@@ -562,6 +562,11 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			RoleEnum.COORDENADOR
 		];
 
+		var setoresPodemApenasCriarAutorizacaoDeslocamento = [
+			SetorEnum.CENTRO_TECNICO_OPERACIONAL,
+			SetorEnum.OPERACAO_DE_CAMPO
+		];
+
 		var intervencoesDeOrcamento = [
 			TipoIntervencaoEnum.ORC_APROVADO,
 			TipoIntervencaoEnum.ORC_REPROVADO,
@@ -578,6 +583,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 
 		// filial só pode criar autorização deslocamento	
 		if (perfisPodemApenasCriarAutorizacaoDeslocamento.includes(perfilUsuarioLogado)
+			&& setoresPodemApenasCriarAutorizacaoDeslocamento.includes(setorUsuarioLogado)
 			&& novoTipoIntervencao != TipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO
 			&& this.isAddMode)
 		{
@@ -585,8 +591,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		}
 
 		// só RPV pode alterar para corretiva
-		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA && !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado) && !setoresPodemAlterarCorretiva.includes(setorUsuarioLogado))
-		{
+		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA 
+			&& !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado) 
+			&& !setoresPodemAlterarCorretiva.includes(setorUsuarioLogado))
+		{debugger
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarCorretiva': true });
 		}
 

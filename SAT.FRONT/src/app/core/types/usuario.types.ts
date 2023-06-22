@@ -95,6 +95,7 @@ export interface UsuarioParameters extends QueryStringParameters {
     codCargos?: number;
     codFilial?: number;
     codFiliais?: string;
+    codSetor?: number;
     indAtivo?: number;
     codTecnico?: number;
     codPontoPeriodo?: number;

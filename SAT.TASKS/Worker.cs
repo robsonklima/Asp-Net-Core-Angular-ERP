@@ -129,9 +129,9 @@ public partial class Worker : BackgroundService
             case (int)SatTaskTipoEnum.INT_BANRISUL:
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_BB:
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-10);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-10);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             default:
                 return false;
         }

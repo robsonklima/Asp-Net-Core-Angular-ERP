@@ -54,7 +54,7 @@ public partial class Worker : BackgroundService
         foreach (int tipo in tipos)
         {
             var task = ObterTask(tipo);
-            var processar = podeProcessar(task);
+            var processar = podeProcessarTask(task);
 
             if (processar)
                 CriarTask(tipo);
@@ -89,7 +89,7 @@ public partial class Worker : BackgroundService
         }
     }
 
-    private bool podeProcessar(SatTask task)
+    private bool podeProcessarTask(SatTask task)
     {
         if (task is null)
             return true;

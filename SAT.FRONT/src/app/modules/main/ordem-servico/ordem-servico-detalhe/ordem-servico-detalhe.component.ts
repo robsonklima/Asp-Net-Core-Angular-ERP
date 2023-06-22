@@ -254,6 +254,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 							codTecnico: null
 						}
 					};
+					console.log(obj);
+					
 
 					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 					this._ordemServicoService.atualizar(obj).subscribe(

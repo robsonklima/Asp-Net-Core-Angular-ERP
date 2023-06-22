@@ -30,11 +30,11 @@ namespace SAT.SERVICES.Services
 
         public Task ProcessarsAsync()
         {
-            var ordens = ObterChamadosArquivo();
+            // var ordens = ObterChamadosArquivo();
 
-            ordens.ForEach(os => {
-                AbreChamado(os);
-            });
+            // ordens.ForEach(os => {
+            //     AbreChamado(os);
+            // });
 
             return null;
         }

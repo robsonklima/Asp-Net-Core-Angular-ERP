@@ -165,7 +165,7 @@ public partial class Worker : BackgroundService
         return (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
             IndProcessado = (byte)Constants.NAO_PROCESSADO,
             SortActive = "CodSatTask",
-            SortDirection = "ASC"
+            SortDirection = "DESC"
         })
         .Items;
     }

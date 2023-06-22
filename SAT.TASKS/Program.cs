@@ -19,14 +19,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
                 sqlServerOptions => sqlServerOptions.CommandTimeout(180)));
 
         services.AddHttpContextAccessor();
-        services.AddMvc();
-        services.AddSession();
-
-        services.Configure<IISOptions>(o =>
-        {
-            o.ForwardClientCertificate = false;
-        });
-
         services.AddHostedService<Worker>();
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())

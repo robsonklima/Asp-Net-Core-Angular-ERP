@@ -12,9 +12,9 @@ namespace SAT.INFRA.Mapping
             builder.HasKey(i => i.CodSatTask);
             builder
                 .HasOne(i => i.Tipo)
-                .WithOne()
-                .HasForeignKey<SatTask>(i => i.codSatTaskTipo)
-                .HasPrincipalKey<SatTaskTipo>(i => i.CodSatTaskTipo);
+                .WithMany()
+                .HasForeignKey(prop => prop.CodSatTaskTipo)
+                .HasPrincipalKey(prop => prop.CodSatTaskTipo);
         }
     }
 }

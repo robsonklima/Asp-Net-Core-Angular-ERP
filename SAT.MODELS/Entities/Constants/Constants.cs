@@ -71,6 +71,14 @@ namespace SAT.MODELS.Entities.Constants
             ClientID = "4a0d5062-6188-4067-af77-e5eb261b2119"
         };
 
+        // Status
+        public static int ATIVO = 1;
+        public static int INATIVO = 0;
+
+        // Processado
+        public static int PROCESSADO = 1;
+        public static int PENDENTE = 0;
+
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;
         public static int TRANFERIDO = 8;

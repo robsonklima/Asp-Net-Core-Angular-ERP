@@ -193,7 +193,6 @@ namespace SAT.INFRA.Context
         public DbSet<DispBBBloqueioOS> DispBBBloqueioOS { get; set; }
         public DbSet<IntegracaoCobra> IntegracaoCobra { get; set; }
         public DbSet<SatTask> SatTask { get; set; }
-        public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
         public DbSet<OrcDadosBancarios> OrcDadosBancarios { get; set; }
         public DbSet<OrcFormaPagamento> OrcFormaPagamento { get; set; }
         public DbSet<PosVenda> PosVenda { get; set; }
@@ -316,6 +315,7 @@ namespace SAT.INFRA.Context
         public DbSet<MRPLogixEstoque> MRPLogixEstoque { get; set; }
         public DbSet<Setor> Setor { get; set; }
         public DbSet<PerfilSetor> PerfilSetor { get; set; }
+        public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -458,7 +458,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DispBBBloqueioOS>(new DispBBBloqueioOSMap().Configure);
             modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
             modelBuilder.Entity<SatTask>(new SatTaskMap().Configure);
-            modelBuilder.Entity<SatTaskTipo>(new SatTaskTipoMap().Configure);
             modelBuilder.Entity<OrcFormaPagamento>(new OrcFormaPagamentoMap().Configure);
             modelBuilder.Entity<OrcDadosBancarios>(new OrcDadosBancariosMap().Configure);
             modelBuilder.Entity<PosVenda>(new PosVendaMap().Configure);
@@ -552,6 +551,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<MRPLogixEstoque>(new MRPLogixEstoqueMap().Configure);
             modelBuilder.Entity<Setor>(new SetorMap().Configure);
             modelBuilder.Entity<PerfilSetor>(new PerfilSetorMap().Configure);
+            modelBuilder.Entity<SatTaskTipo>(new SatTaskTipoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

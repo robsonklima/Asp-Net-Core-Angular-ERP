@@ -226,6 +226,7 @@ public class ConfigurationIOC
         builder.RegisterType<MRPLogixEstoqueRepository>().As<IMRPLogixEstoqueRepository>();
         builder.RegisterType<SetorRepository>().As<ISetorRepository>();
         builder.RegisterType<PerfilSetorRepository>().As<IPerfilSetorRepository>();
+        builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>(); 
         
         #endregion
 
@@ -448,6 +449,8 @@ public class ConfigurationIOC
         builder.RegisterType<SetorService>().As<ISetorService>(); 
         builder.RegisterType<PerfilSetorService>().As<IPerfilSetorService>();
         builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>(); 
+        builder.RegisterType<SatTaskService>().As<ISatTaskService>(); 
+        builder.RegisterType<SatTaskTipoService>().As<ISatTaskTipoService>(); 
 
         #endregion
 

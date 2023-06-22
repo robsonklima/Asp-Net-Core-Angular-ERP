@@ -45,6 +45,7 @@ public partial class Worker : BackgroundService
             try
             {
                 AtualizarFila();
+
                 await Processar();
             }
             catch (Exception) {}
@@ -64,7 +65,7 @@ public partial class Worker : BackgroundService
             if (podeProcessar(task))
             {
                 _taskService.Criar(new SatTask {
-                    IndProcessado = (byte)Constants.PENDENTE,
+                    IndProcessado = (byte)Constants.NAO_PROCESSADO,
                     DataHoraCad = DateTime.Now,
                     CodSatTaskTipo = tipo
                 });
@@ -102,10 +103,10 @@ public partial class Worker : BackgroundService
 
     private bool podeProcessar(SatTask task)
     {
-        if (task == null)
+        if (task is null)
             return true;
 
-        if (task.IndProcessado == Constants.PENDENTE)
+        if (task.IndProcessado == Constants.NAO_PROCESSADO)
             return false;
 
         switch (task.CodSatTaskTipo)
@@ -147,7 +148,7 @@ public partial class Worker : BackgroundService
     private IEnumerable<SatTask> ObterTasksPendentes()
     {
         return (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
-            IndProcessado = (byte)Constants.PENDENTE,
+            IndProcessado = (byte)Constants.NAO_PROCESSADO,
             SortActive = "CodSatTask",
             SortDirection = "ASC"
         })

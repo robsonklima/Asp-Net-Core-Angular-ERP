@@ -1,7 +1,5 @@
 using SAT.INFRA.Context;
 using Microsoft.EntityFrameworkCore;
-using Autofac;
-using SAT.IOC;
 using Autofac.Extensions.DependencyInjection;
 using SAT.TASKS;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +28,10 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<Worker>();
     })
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-    .ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ModuleIOC()))
+    .ConfigureWebHostDefaults(webHostBuilder => {
+        webHostBuilder
+            .UseStartup<Startup>();
+    })
     .Build();
 
 await host.RunAsync();

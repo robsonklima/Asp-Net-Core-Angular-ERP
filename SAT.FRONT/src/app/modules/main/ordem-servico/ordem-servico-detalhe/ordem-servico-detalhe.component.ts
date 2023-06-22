@@ -31,6 +31,7 @@ import { ConfirmacaoDialogComponent } from 'app/shared/confirmacao-dialog/confir
 import Enumerable from 'linq';
 import moment from 'moment';
 import { mensagensConst, toastTypesConst } from 'app/core/types/generic.types';
+import { SetorEnum } from 'app/core/types/setor.types';
 
 @Component({
 	selector: 'app-ordem-servico-detalhe',
@@ -178,7 +179,9 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA && this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
-		if (this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO && this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
+		if ((this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO 
+			|| this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC)
+			&& this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
 		if (
@@ -206,7 +209,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.PV_COORDENADOR_DE_CONTRATO)
 			return true;
 
-		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.ADMIN)
+		if (this.userSession.usuario.perfil?.codPerfil === this.perfilEnum.ADM_DO_SISTEMA)
 			return true;
 
 		if (this.os?.codTipoIntervencao === this.tipoIntervencaoEnum.AUTORIZACAO_DESLOCAMENTO)

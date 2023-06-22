@@ -36,6 +36,7 @@
     "SAT.INFRA/SAT.INFRA.csproj": true,
     "SAT.API/SAT.API.sln": true,
     "SAT.API/SAT.API.csproj.user": true,
-    "SAT.API/SAT.API.csproj": true
+    "SAT.API/SAT.API.csproj": true,
+    "SAT.TASKS\\Startup.cs": true
   }
 }

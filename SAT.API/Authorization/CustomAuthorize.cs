@@ -27,6 +27,6 @@ namespace SAT.API.Authorization
             string.Join(",", allowedProfiles.Select(r => ((int)r).ToString()));
 
         private RoleEnum[] AddAdmin(RoleEnum[] allowedProfiles) =>
-            allowedProfiles.Append(RoleEnum.ADMIN).ToArray();
+            allowedProfiles.Append(RoleEnum.ADM_DO_SISTEMA).ToArray();
     }
 }

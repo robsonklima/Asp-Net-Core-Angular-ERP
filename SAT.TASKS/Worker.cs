@@ -1,4 +1,5 @@
 using NLog;
+using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -23,6 +24,7 @@ public partial class Worker : BackgroundService
         IIntegracaoBBService integracaoBBService,
         IIntegracaoBanrisulService integracaoBanrisulService,
         IIntegracaoZaffariService integracaoZaffariService
+        
     )
     {
         _taskService = taskService;
@@ -34,7 +36,12 @@ public partial class Worker : BackgroundService
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
+    {   
+        _logger.Info()
+            .Message("Iniciado o processamento das Tasks", "")
+            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+            .Write();
+
         while (!stoppingToken.IsCancellationRequested)
         {
             try
@@ -51,11 +58,25 @@ public partial class Worker : BackgroundService
 
     private void AtualizarFila() 
     {
+        _logger.Info()
+            .Message("Iniciado o processamento da fila de transações: ", "")
+            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+            .Write();
+
         var tipos = ObterCodigosTipos();
 
         foreach (int tipo in tipos)
         {
             var task = ObterTask(tipo);
+
+            if (task is null) 
+                continue;
+
+            _logger.Info()
+                .Message("Iniciado o processamento da task: ", task?.Tipo?.Nome)
+                .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+                .Write();
+
             var processar = podeProcessarTask(task);
 
             if (processar)
@@ -66,6 +87,11 @@ public partial class Worker : BackgroundService
     private async Task Processar() 
     {
         var tasks = ObterTasksPendentes();
+
+        _logger.Info()
+            .Message("Iniciado o processamento das tasks: {} registros", tasks.Count())
+            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+            .Write();
 
         foreach (var task in tasks)
         {

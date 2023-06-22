@@ -79,12 +79,14 @@ public partial class Worker : BackgroundService
             {
                 await _integracaoBBService.ProcessarsAsync();
                 AtualizarTask(task);
+                continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
             {
                 await _integracaoZaffariService.ExecutarAsync();
                 AtualizarTask(task);
+                continue;
             }
         }
     }

@@ -24,7 +24,6 @@ namespace SAT.TASKS
             string connString = Configuration.GetConnectionString(Constants.DB_PROD);
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connString));
             
-
             services.AddSingleton<IJobFactory, JobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSingleton<QuartzJobRunner>();

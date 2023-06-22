@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NLog;
+using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -30,6 +31,11 @@ namespace SAT.SERVICES.Services
 
         public Task ProcessarsAsync()
         {
+            _logger.Info()
+                .Message("Iniciado o processamento da {}", Constants.INTEGRACAO_BB)
+                .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+                .Write();
+
             // var ordens = ObterChamadosArquivo();
 
             // ordens.ForEach(os => {

@@ -268,6 +268,7 @@ namespace SAT.MODELS.Entities.Constants
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
         public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";
+        public static string INTEGRACAO_BB = "Integracao BB";
         public static string INTEGRACAO_LOGIX_MRP = "Integracao Logix MRP";
         public static string[] LOGS_URLS = {
             "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",

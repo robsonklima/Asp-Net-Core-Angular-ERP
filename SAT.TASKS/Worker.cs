@@ -50,7 +50,10 @@ public partial class Worker : BackgroundService
                 await Processar();
             }
             catch (Exception ex) {
-                throw new Exception("Ocorreu um erro", ex);
+                 _logger.Error()
+                    .Message("Ocorreu um erro: {}", ex.Message)
+                    .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+                    .Write();
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);

@@ -59,7 +59,7 @@ public partial class Worker : BackgroundService
     private void AtualizarFila() 
     {
         _logger.Info()
-            .Message("Iniciado o processamento da fila de transações: ", "")
+            .Message("Iniciado o processamento da fila: ", "")
             .Property("application", Constants.SISTEMA_CAMADA_TASKS)
             .Write();
 
@@ -68,9 +68,6 @@ public partial class Worker : BackgroundService
         foreach (int tipo in tipos)
         {
             var task = ObterTask(tipo);
-
-            if (task is null) 
-                continue;
 
             _logger.Info()
                 .Message("Iniciado o processamento da task: ", task?.Tipo?.Nome)

@@ -67,6 +67,10 @@ namespace SAT.INFRA.Repository
             if (parameters.IndProcessado == Constants.ATIVO) {
                 query = query.Where(t => t.IndProcessado == Constants.ATIVO);
             } 
+            else 
+            {
+                query = query.Where(t => t.IndProcessado == Constants.INATIVO);
+            }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

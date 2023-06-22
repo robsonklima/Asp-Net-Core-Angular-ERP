@@ -57,6 +57,7 @@ public partial class Worker : BackgroundService
             try
             {
                 GerarFila();
+                await Processar();
             }
             catch (Exception) {}
 

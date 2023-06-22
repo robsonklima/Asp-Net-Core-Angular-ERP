@@ -49,7 +49,7 @@ public partial class Worker : BackgroundService
 
     private void AtualizarFila() 
     {
-        var tipos = ObterTipos();
+        var tipos = ObterCodigosTipos();
 
         foreach (int tipo in tipos)
         {
@@ -112,7 +112,7 @@ public partial class Worker : BackgroundService
         }
     }
 
-    private List<int> ObterTipos()
+    private List<int> ObterCodigosTipos()
     {
         List<SatTaskTipo> tipos = (List<SatTaskTipo>)_taskTipoService
             .ObterPorParametros(new SatTaskTipoParameters {

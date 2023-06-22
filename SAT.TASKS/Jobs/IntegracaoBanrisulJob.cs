@@ -5,26 +5,17 @@ using SAT.SERVICES.Interfaces;
 public class IntegracaoBanrisulJob : IJob
 {
     private readonly IServiceProvider _provider;
-    public IntegracaoBanrisulJob(IServiceProvider provider)
+    private IIntegracaoBanrisulService _integracao;
+
+    public IntegracaoBanrisulJob(IIntegracaoBanrisulService integracao)
     {
-        _provider = provider;
+        _integracao = integracao;
     }
 
-    public async Task Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
-        using (var scope = _provider.CreateScope())
-        {
-            var jobType = context.JobDetail.JobType;
-            var job = scope.ServiceProvider.GetRequiredService(jobType) as IJob;
-
-            // if (job != null) 
-            // {
-            //     var integracao = scope.ServiceProvider.GetService<IIntegracaoBanrisulService>();
-            //     integracao.ProcessarEmailsAsync();
-            //     integracao.ProcessarRetornos();
-            // }
-
-            await job.Execute(context);
-        }
+        _integracao.ProcessarEmailsAsync();
+        _integracao.ProcessarRetornos();
+        return Task.CompletedTask;
     }
 }

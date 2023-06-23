@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NLog;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -16,38 +17,38 @@ namespace SAT.SERVICES.Services
         private IOrdemServicoService _ordemServicoService;
         private ILocalAtendimentoService _localAtendimentoService;
         private IEquipamentoContratoService _equipamentoContratoService;
+        private IIntegracaoBBRepository _integracaoBBRepo;
 
         public IntegracaoBBService(
             IOrdemServicoService ordemServicoService,
             ILocalAtendimentoService localAtendimentoService,
-            IEquipamentoContratoService equipamentoContratoService
+            IEquipamentoContratoService equipamentoContratoService,
+            IIntegracaoBBRepository integracaoBBRepo
         )
         {
             _ordemServicoService = ordemServicoService;
             _localAtendimentoService = localAtendimentoService;
             _equipamentoContratoService = equipamentoContratoService;
+            _integracaoBBRepo = integracaoBBRepo;
         }
 
         public void Processar()
         {
-            _logger.Info($"Iniciando o procesamento: { Constants.INTEGRACAO_BB }");
+            _logger.Info($"Iniciando o procesamento: {Constants.INTEGRACAO_BB}");
 
             List<string> files = LerDiretorio();
 
-            _logger.Info($"Encontrados: { files.Count() } para processamento");
+            _logger.Info($"Encontrados: {files.Count()} para processamento");
 
-            files.ForEach((file) => {
+            files.ForEach((file) =>
+            {
                 var chamados = ExtrairChamadosArquivo(file);
 
-                chamados.ForEach(chamado => {
-                    //var os = _ordemServicoService.Criar(chamado);
-                    //_logger.Info($"Aberto chamado: { os.CodOS }");
-                    CriarArquivoRetorno(chamado);
-                });
+                CriarArquivoRetornoAbertura(chamados);
             });
         }
 
-        public List<OrdemServico> ExtrairChamadosArquivo(string conteudo)
+        private List<OrdemServico> ExtrairChamadosArquivo(string conteudo)
         {
             List<OrdemServico> ordens = new();
 
@@ -175,20 +176,37 @@ namespace SAT.SERVICES.Services
             return ordens;
         }
 
-        public void CriarArquivoRetorno(OrdemServico chamado)
+        private void CriarArquivoRetornoAbertura(List<OrdemServico> chamados)
         {
             string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss");
             string target = Directory.GetCurrentDirectory() + "/Output";
 
             using (StreamWriter w = new StreamWriter(target))
             {
-                w.WriteLine("Teste 1");
-                w.WriteLine("Teste 2");
-                w.WriteLine("Teste 3");
+                string cabecalho = MontarCabecalhoArquivo(chamados);
+                
+                w.WriteLine(cabecalho);
+
+                chamados.ForEach(chamado =>
+                {
+                    string linha = MontarLinhaArquivo(chamado);
+
+                    w.WriteLine(linha);
+                });
             }
         }
 
-        public List<string> LerDiretorio()
+        private string MontarLinhaArquivo(OrdemServico chamado)
+        {
+            string numOSCliente = chamado.NumOSCliente;
+            string dataAbertura = chamado.DataHoraCad.Value.ToString("DDMMyyyy");
+            string horaAbertura = chamado.DataHoraCad.Value.ToString("HHMM");
+            string codOS = chamado.CodOS.ToString();
+            
+            return $"3{ numOSCliente } { dataAbertura } { horaAbertura }000{ codOS }00";
+        }
+
+        private List<string> LerDiretorio()
         {
             string target = Directory.GetCurrentDirectory() + "/Input";
             DirectoryInfo dirInfo = new DirectoryInfo(target);
@@ -214,6 +232,22 @@ namespace SAT.SERVICES.Services
             }
 
             return linhas;
+        }
+    
+        private string MontarCabecalhoArquivo(List<OrdemServico> chamados) 
+        {
+            string horaAtual = DateTime.Now.ToString("HHmms");
+            string dataGeracao = DateTime.Now.ToString("DDMMyyy");
+            string horaGeracao = DateTime.Now.ToString("HHmms");
+            string qtdChamados = String.Format("{0:00000}", chamados.Count());
+            
+            return $"2{ dataGeracao } { horaGeracao }3{ qtdChamados }crm549R       ";
+        }
+
+        private void CriarArquivoRetornoFechamento()
+        {
+            var parameters = new IntegracaoBBParameters {};
+            var integracoes = _integracaoBBRepo.ObterPorParametros(parameters);
         }
     }
 }

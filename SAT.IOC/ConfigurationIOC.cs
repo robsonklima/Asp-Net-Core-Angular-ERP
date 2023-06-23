@@ -227,6 +227,7 @@ public class ConfigurationIOC
         builder.RegisterType<SetorRepository>().As<ISetorRepository>();
         builder.RegisterType<PerfilSetorRepository>().As<IPerfilSetorRepository>();
         builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>(); 
+        builder.RegisterType<IntegracaoBBRepository>().As<IIntegracaoBBRepository>(); 
         
         #endregion
 

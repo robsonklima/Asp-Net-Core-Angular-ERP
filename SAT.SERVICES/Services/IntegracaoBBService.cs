@@ -334,6 +334,8 @@ namespace SAT.SERVICES.Services
 
         private void RegistrarChamadoClienteNoLog(OrdemServicoBB chamado) 
         {
+            string conteudo = string.Empty;
+
             foreach (PropertyInfo prop in chamado.GetType().GetProperties())
             {
                 var type = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
@@ -343,9 +345,11 @@ namespace SAT.SERVICES.Services
                     string valor = prop.GetValue(chamado, null).ToString();
 
                     if (!string.IsNullOrWhiteSpace(valor))
-                        _logger.Info($"Obtendo { type } do arquivo do cliente: { valor }");
+                        conteudo += $"{ conteudo }; { type }: { valor }";
                 }
             }
+
+            _logger.Info($"Obtendo conteudo do arquivo do cliente: { conteudo }");
         }
     }
 }

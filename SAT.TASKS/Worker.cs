@@ -42,10 +42,7 @@ public partial class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {   
-        _logger.Info()
-            .Message("Iniciado o processamento das Tasks", "")
-            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-            .Write();
+        _logger.Info($"Iniciado o processamento das Tasks");
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -56,10 +53,7 @@ public partial class Worker : BackgroundService
                 await Processar();
             }
             catch (Exception ex) {
-                 _logger.Error()
-                    .Message("Ocorreu um erro: {}", ex.Message)
-                    .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-                    .Write();
+                 _logger.Error($"Ocorreu um erro { Constants.INTEGRACAO_BB }");
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
@@ -68,10 +62,7 @@ public partial class Worker : BackgroundService
 
     private void AtualizarFila() 
     {
-        _logger.Info()
-            .Message("Iniciado o processamento da fila", "")
-            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-            .Write();
+        _logger.Info($"Iniciando o processamento da fila");
 
         var tipos = ObterCodigosTipos();
 
@@ -83,13 +74,9 @@ public partial class Worker : BackgroundService
 
             if (processar)
             {
-                _logger.Info()
-                    .Message("Registrando a task para execução: {}", 
-                        task?.Tipo?.Nome ?? "criando registro na fila")
-                    .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-                    .Write();
+                _logger.Info($"Executando a task");
 
-                    CriarTask(tipo);
+                CriarTask(tipo);
             }
         }
     }
@@ -98,10 +85,7 @@ public partial class Worker : BackgroundService
     {
         var tasks = ObterTasksPendentes();
 
-        _logger.Info()
-            .Message("Iniciado o processamento das tasks: {} registros", tasks.Count())
-            .Property("application", Constants.SISTEMA_CAMADA_TASKS)
-            .Write();
+        _logger.Info($"Iniciado o processamento das tasks: { tasks.Count() } registros");
 
         foreach (var task in tasks)
         {

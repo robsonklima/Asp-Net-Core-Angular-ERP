@@ -179,7 +179,8 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		if (this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA && this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
-		if ((this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO 
+		if ((this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS 
 			|| this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC)
 			&& this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;

@@ -42,7 +42,7 @@ public partial class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {   
-        _logger.Info($"Iniciado o processamento das Tasks");
+        _logger.Info($"Iniciando o processamento: { Constants.SISTEMA_CAMADA_TASKS }");
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -56,6 +56,8 @@ public partial class Worker : BackgroundService
                  _logger.Error($"Ocorreu um erro { Constants.INTEGRACAO_BB }: { ex.Message }");
             }
 
+            _logger.Info($"Finalizando o processamento: { Constants.SISTEMA_CAMADA_TASKS }");
+
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
@@ -68,17 +70,21 @@ public partial class Worker : BackgroundService
 
         foreach (int tipo in tipos)
         {
-            var task = ObterTask(tipo);
+            SatTask task = ObterTask(tipo);
 
             var processar = podeProcessarTask(task);
 
             if (processar)
             {
-                _logger.Info($"Executando a task");
+                _logger.Info($"Criando uma nova task");
 
-                CriarTask(tipo);
+                var novaTask = CriarTask(tipo);
+
+                _logger.Info($"Criada uma nova task: { novaTask?.CodSatTaskTipo }-{ novaTask?.Tipo?.Nome }");
             }
         }
+
+        _logger.Info($"Finalizando o processamento da fila");
     }
 
     private async Task Processar() 
@@ -91,38 +97,61 @@ public partial class Worker : BackgroundService
         {
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
             {
+                _logger.Info($"Iniciando o processamento de: { Constants.INTEGRACAO_BB }");
+
                 _integracaoBBService.Processar();
                 AtualizarTask(task);
+
+                _logger.Info($"Finalizado o processamento de: { Constants.INTEGRACAO_BB }");
+
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
             {
+                _logger.Info($"Iniciando o processamento de: { Constants.INTEGRACAO_BANRISUL_ATM }");
+
                 await _integracaoBanrisulService.ProcessarEmailsAsync();
                 _integracaoBanrisulService.ProcessarRetornos();
                 AtualizarTask(task);
+
+                _logger.Info($"Finalizado o processamento de: { Constants.INTEGRACAO_BANRISUL_ATM }");
+
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
             {
+                _logger.Info($"Iniciando o processamento de: { Constants.INTEGRACAO_BB }");
+
                 await _integracaoZaffariService.ExecutarAsync();
                 AtualizarTask(task);
+
+                _logger.Info($"Finalizado o processamento de: { Constants.INTEGRACAO_BB }");
+
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
             {
+                _logger.Info($"Iniciando o processamento de: { Constants.INTEGRACAO_LOGIX_MRP }");
+
                 _integracaoMRPService.ImportarArquivoMRPLogix();
                 _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
                 AtualizarTask(task);
+
+                _logger.Info($"Finalizado o processamento de: { Constants.INTEGRACAO_LOGIX_MRP }");
                 continue;
             }   
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
             {
+                _logger.Info($"Iniciando o processamento de: { Constants.ATUALIZACAO_PARQUE_MODELO }");
+
                 _equipamentoContratoService.AtualizarParqueModelo();
                 AtualizarTask(task);
+
+                _logger.Info($"Finalizado o processamento de: { Constants.ATUALIZACAO_PARQUE_MODELO }");
                 continue;
             }            
         }
@@ -130,23 +159,35 @@ public partial class Worker : BackgroundService
 
     private bool podeProcessarTask(SatTask task)
     {
-        if (task is null)
+        if (task is null) {
+            _logger.Info($"Nenhuma task encontrada");
+
             return true;
+        }
 
         if (task.IndProcessado == Constants.NAO_PROCESSADO)
+        {
+            _logger.Info($"Task { task.Tipo.Nome } pendente processamento");
+
             return false;
+        }
 
         switch (task.CodSatTaskTipo)
         {
             case (int)SatTaskTipoEnum.INT_BANRISUL:
+                _logger.Info($"Obtendo permissão para processar: { Constants.INTEGRACAO_BANRISUL_ATM } ");
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_BB:
+                _logger.Info($"Obtendo permissão para processar: { Constants.INTEGRACAO_BB } ");
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_ZAFFARI:
+                _logger.Info($"Obtendo permissão para processar: { Constants.INTEGRACAO_ZAFFARI } ");
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_MRP:
+                _logger.Info($"Obtendo permissão para processar: { Constants.INTEGRACAO_LOGIX_MRP } ");
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
+                _logger.Info($"Obtendo permissão para processar: { Constants.ATUALIZACAO_PARQUE_MODELO } ");
                 return task.DataHoraProcessamento <= DateTime.Now.AddDays(-1);
             default:
                 return false;
@@ -161,11 +202,17 @@ public partial class Worker : BackgroundService
             })
             .Items;
 
-        return tipos.Select(x=> x.CodSatTaskTipo).OfType<int>().ToList();
+        var codTipos = tipos.Select(x=> x.CodSatTaskTipo).OfType<int>().ToList();
+
+        _logger.Info($"Obtidos { tipos.Count() } tipos de tasks para processar");
+
+        return codTipos;
     }
 
     private SatTask ObterTask(int tipo) 
     {
+        _logger.Info($"Obtendo a ultima task do tipo { tipo }");
+
         return (SatTask)_taskService
                 .ObterPorParametros(new SatTaskParameters {
                     CodSatTaskTipo = tipo,
@@ -178,22 +225,31 @@ public partial class Worker : BackgroundService
 
     private IEnumerable<SatTask> ObterTasksPendentes()
     {
-        return (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
+        var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
             IndProcessado = (byte)Constants.NAO_PROCESSADO,
             SortActive = "CodSatTask",
             SortDirection = "DESC"
         })
         .Items;
+
+        _logger.Info($"Obtendo tasks pendentes: { tasks.Count() }");
+
+        return tasks;
     }
 
     private void AtualizarTask(SatTask task)
     {
+        _logger.Info($"Atualizando a task");
+        
         task.DataHoraProcessamento = DateTime.Now;
         task.IndProcessado = (byte)Constants.PROCESSADO;
+
         _taskService.Atualizar(task);
     }
 
     private SatTask CriarTask(int tipo) {
+        _logger.Info($"Criando a task");
+
         return _taskService.Criar(new SatTask {
             IndProcessado = (byte)Constants.NAO_PROCESSADO,
             DataHoraCad = DateTime.Now,

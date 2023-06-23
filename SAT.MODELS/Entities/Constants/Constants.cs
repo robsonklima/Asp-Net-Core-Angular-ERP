@@ -33,12 +33,6 @@ namespace SAT.MODELS.Entities.Constants
         public static string EMP_TELEFONE = "(51) 3489-8700";
         public static string EMP_SITE = "www.perto.com.br";
 
-        // CRON
-        public static string CRON_EVERY_1_MIN = "*/1 * * * * ?";
-        public static string CRON_EVERY_23_50 = "50 23 * * * ?";
-        public static string CRON_EVERY_02_00 = "00 02 * * * ?";
-        public static string CRON_EVERY_5_MIN = "*/5 * * * *";
-
         // Email
         public static Office365Config OFFICE_365_CONFIG = new Office365Config
         { // Apenas para obtencao do Token
@@ -264,12 +258,14 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tecnicos
         public static int TECNICO_SISTEMA = 2329;
-
+        public static int INT_BB_TAMANHO_ARQUIVO = 830;
+        
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
         public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";
         public static string INTEGRACAO_BB = "Integracao BB";
         public static string INTEGRACAO_LOGIX_MRP = "Integracao Logix MRP";
+        public static string ATUALIZACAO_PARQUE_MODELO = "Atualização Parque Modelo";
         public static string[] LOGS_URLS = {
             "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",
             "D:\\SAT\\Branch\\SAT.V2\\SAT.API\\Logs\\"

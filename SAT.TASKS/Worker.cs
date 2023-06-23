@@ -100,6 +100,7 @@ public partial class Worker : BackgroundService
                 _logger.Info($"Iniciando o processamento de: { Constants.INTEGRACAO_BB }");
 
                 _integracaoBBService.Processar();
+                
                 AtualizarTask(task);
 
                 _logger.Info($"Finalizado o processamento de: { Constants.INTEGRACAO_BB }");

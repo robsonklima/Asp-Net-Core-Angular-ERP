@@ -46,7 +46,7 @@ namespace SAT.SERVICES.Services
             {
                 string conteudoNormalizado = NormalizarConteudo(file);
                 OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
-                OrdemServico chamadoPerto = AbrirChamadoCliente(chamadoCliente);
+                //OrdemServico chamadoPerto = AbrirChamadoCliente(chamadoCliente);
                 RegistrarChamadoClienteNoLog(chamadoCliente);
                 //CriarArquivoRetornoAbertura(chamados);
                 //CriarArquivoRetornoFechamento(chamados);
@@ -342,7 +342,7 @@ namespace SAT.SERVICES.Services
         {
             Regex reg = new Regex("[*'\",_&#^@]");
 
-            return reg.Replace(conteudo, string.Empty);
+            return reg.Replace(conteudo, " ");
         }
 
         private void RegistrarChamadoClienteNoLog(OrdemServicoBB chamado)

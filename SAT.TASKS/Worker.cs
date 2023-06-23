@@ -53,7 +53,7 @@ public partial class Worker : BackgroundService
                 await Processar();
             }
             catch (Exception ex) {
-                 _logger.Error($"Ocorreu um erro { Constants.INTEGRACAO_BB }");
+                 _logger.Error($"Ocorreu um erro { Constants.INTEGRACAO_BB }: { ex.Message }");
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);

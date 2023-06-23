@@ -248,6 +248,11 @@ namespace SAT.SERVICES.Services
         {
             var parameters = new IntegracaoBBParameters {};
             var integracoes = _integracaoBBRepo.ObterPorParametros(parameters);
+
+            foreach (var integracao in integracoes)
+            {
+                // Monta o Arquivo
+            }
         }
     }
 }

@@ -334,6 +334,8 @@ namespace SAT.SERVICES.Services
 
         private void RegistrarChamadoClienteNoLog(OrdemServicoBB chamado) 
         {
+            _logger.Info($"Iniciando o registro de logs do conteudo do arquivo do cliente");
+
             string conteudo = string.Empty;
 
             foreach (PropertyInfo prop in chamado.GetType().GetProperties())

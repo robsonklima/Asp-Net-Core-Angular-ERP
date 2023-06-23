@@ -47,7 +47,7 @@ namespace SAT.SERVICES.Services
                 string conteudoNormalizado = NormalizarConteudo(file);
                 OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
                 //OrdemServico chamadoPerto = AbrirChamadoCliente(chamadoCliente);
-                RegistrarChamadoClienteNoLog(chamadoCliente);
+                RegistrarLogChamadoCliente(chamadoCliente);
                 //CriarArquivoRetornoAbertura(chamados);
                 //CriarArquivoRetornoFechamento(chamados);
             });
@@ -280,58 +280,73 @@ namespace SAT.SERVICES.Services
             return novaOrdemServico;
         }
 
-        private string MontarLinhaArquivo(OrdemServico chamado)
+        private string MontarLinhaArquivoFechamento(OrdemServicoBB chamado)
         {
-            _logger.Info($"Iniciando a composição de nova linha no arquivo");
+            _logger.Info($"Iniciando a composição de nova linha no arquivo de fechamento");
 
-            string numOSCliente = chamado.NumOSCliente;
-            string dataAbertura = chamado.DataHoraCad.Value.ToString("DDMMyyyy");
-            string horaAbertura = chamado.DataHoraCad.Value.ToString("HHMM");
-            string codOS = chamado.CodOS.ToString();
+            string retorno = @$"202378180005251230620230900002306202310000023062023100000   2961997WANDERLEY QUEVEDO ME00051100003012106202316070000153      00002
+                                202378180005252AAA007       00000000000000000000000000000                                                         00000      00003
+                                2023781800052530090FECHAMENTO                                                                                     00153      00004";
 
-            _logger.Info($"Finalizando a composição de nova linha no arquivo");
+            _logger.Info($"Finalizando a composição de nova linha no arquivo de fechamento");
 
-            return $"3{numOSCliente} {dataAbertura} {horaAbertura}000{codOS}00";
+            return $"";
         }
 
-        private string MontarCabecalhoArquivoFechamento(List<OrdemServico> chamados)
+        private string MontarCabecalhoArquivoFechamento()
         {
             _logger.Info($"Iniciando a composição do cabeçalho do arquivo de fechamento");
 
-            string horaAtual = DateTime.Now.ToString("HHmms");
-            string dataGeracao = DateTime.Now.ToString("DDMMyyy");
-            string horaGeracao = DateTime.Now.ToString("HHmms");
-            string qtdChamados = String.Format("{0:00000}", chamados.Count());
+            string data = DateTime.Now.ToString("DDMMyyyy");
+            string hora = DateTime.Now.ToString("HHMMs");
 
-            _logger.Info($"Iniciando a composição do cabeçalho do arquivo de fechamento");
+            string retorno = @$"000000000000000{ hora }CRM558A400306444                                                                                 { data }00001";
 
-            return $"2{dataGeracao} {horaGeracao}3{qtdChamados}crm549R       ";
+            _logger.Info($"Iniciando a composição do cabeçalho do arquivo de fechamento: { retorno }");
+
+            return retorno;
         }
 
-        private void CriarArquivoRetornoFechamento(List<OrdemServico> chamados)
+        private string MontarRodapeArquivoFechamento()
+        {
+            _logger.Info($"Iniciando a composição do rodape do arquivo de fechamento");
+
+            string hora = DateTime.Now.ToString("HHMMs");
+
+            string retorno = @$"999999999999999{ hora }                                                                                          00000000000000400000";
+
+            _logger.Info($"Iniciando a composição do rodape do arquivo de fechamento");
+
+            return retorno;
+        }
+
+        private void CriarArquivoFechamento()
         {
             _logger.Info($"Iniciando a criação dos arquivos de retorno");
 
             var parameters = new IntegracaoBBParameters { };
-            var integracoes = _integracaoBBRepo.ObterPorParametros(parameters);
+            var chamados = _integracaoBBRepo.ObterPorParametros(parameters);
 
-            foreach (var integracao in integracoes)
+            foreach (var chamado in chamados)
             {
-                string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss");
+                string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
                 string target = Directory.GetCurrentDirectory() + "/Output";
 
                 using (StreamWriter w = new StreamWriter(target))
                 {
-                    string cabecalho = MontarCabecalhoArquivoFechamento(chamados);
+                    string cabecalho = MontarCabecalhoArquivoFechamento();
+                    string rodape = MontarRodapeArquivoFechamento();
 
                     w.WriteLine(cabecalho);
 
                     chamados.ForEach(chamado =>
                     {
-                        string linha = MontarLinhaArquivo(chamado);
+                        string linha = MontarLinhaArquivoFechamento(chamado);
 
                         w.WriteLine(linha);
                     });
+
+                    w.WriteLine(rodape);
                 }
             }
 
@@ -345,7 +360,7 @@ namespace SAT.SERVICES.Services
             return reg.Replace(conteudo, " ");
         }
 
-        private void RegistrarChamadoClienteNoLog(OrdemServicoBB chamado)
+        private void RegistrarLogChamadoCliente(OrdemServicoBB chamado)
         {
             _logger.Info($"Iniciando o registro de logs do conteudo do arquivo do cliente");
 

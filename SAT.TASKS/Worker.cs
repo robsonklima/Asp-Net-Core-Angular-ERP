@@ -16,6 +16,7 @@ public partial class Worker : BackgroundService
     private readonly ISatTaskService _taskService;
     private readonly ISatTaskTipoService _taskTipoService;
     private readonly IIntegracaoBBService _integracaoBBService;
+    private readonly IIntegracaoMRPService _integracaoMRPService;
 
     public Worker(
         ISatTaskService taskService,
@@ -23,7 +24,8 @@ public partial class Worker : BackgroundService
         IEmailService emailService,
         IIntegracaoBBService integracaoBBService,
         IIntegracaoBanrisulService integracaoBanrisulService,
-        IIntegracaoZaffariService integracaoZaffariService
+        IIntegracaoZaffariService integracaoZaffariService,
+        IIntegracaoMRPService integracaoMRPService
     )
     {
         _taskService = taskService;
@@ -32,6 +34,7 @@ public partial class Worker : BackgroundService
         _integracaoBBService = integracaoBBService;
         _integracaoBanrisulService = integracaoBanrisulService;
         _integracaoZaffariService = integracaoZaffariService;
+        _integracaoMRPService = integracaoMRPService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -117,6 +120,14 @@ public partial class Worker : BackgroundService
                 AtualizarTask(task);
                 continue;
             }
+
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
+            {
+                _integracaoMRPService.ImportarArquivoMRPLogix();
+                _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
+                AtualizarTask(task);
+                continue;
+            }            
         }
     }
 

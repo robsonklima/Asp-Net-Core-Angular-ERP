@@ -340,7 +340,10 @@ namespace SAT.SERVICES.Services
 
                 if (type == typeof (DateTime))
                 { 
-                    _logger.Info($"Obtendo { type } do arquivo: { prop.GetValue(chamado, null).ToString() }");
+                    string valor = prop.GetValue(chamado, null).ToString();
+
+                    if (!string.IsNullOrWhiteSpace(valor))
+                        _logger.Info($"Obtendo { type } do arquivo do cliente: { valor }");
                 }
             }
         }

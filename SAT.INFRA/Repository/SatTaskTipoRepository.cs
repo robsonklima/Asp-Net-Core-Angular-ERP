@@ -58,6 +58,8 @@ namespace SAT.INFRA.Repository
 
             if (parameters.IndAtivo == Constants.ATIVO)
                 query = query.Where(t => t.IndAtivo == Constants.ATIVO);
+            else if (parameters.IndAtivo == Constants.INATIVO
+                query = query.Where(t => t.IndAtivo == Constants.INATIVO);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

@@ -65,11 +65,11 @@ namespace SAT.INFRA.Repository
             }
 
             if (parameters.IndProcessado == Constants.ATIVO) {
-                query = query.Where(t => t.IndProcessado == Constants.ATIVO);
+                query = query.Where(t => t.IndProcessado == Constants.PROCESSADO);
             } 
             else 
             {
-                query = query.Where(t => t.IndProcessado == Constants.INATIVO);
+                query = query.Where(t => t.IndProcessado == Constants.NAO_PROCESSADO);
             }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))

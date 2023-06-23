@@ -74,5 +74,6 @@ export interface ClienteParameters extends QueryStringParameters {
 
 export enum ClienteEnum
 {
-    RIOCARD = 256
+    RIOCARD = 256,
+    VLT = 444 
 }

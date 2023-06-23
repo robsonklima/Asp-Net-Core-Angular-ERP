@@ -17,13 +17,15 @@ namespace SAT.SERVICES.Services
         private readonly IOrdemServicoRepository _ordemServicoRepo;
         private readonly IContratoServicoRepository _contratoServicoRepo;
         private readonly ISequenciaRepository _seqRepo;
+        private readonly IContratoEquipamentoService _contratoEquipamentoService;
 
         public EquipamentoContratoService(
             IEquipamentoContratoRepository equipamentoContratoRepo,
             IEquipamentoRepository equipamentoRepo,
             IOrdemServicoRepository ordemServicoRepo,
             IContratoServicoRepository contratoServicoRepo,
-            ISequenciaRepository seqRepo
+            ISequenciaRepository seqRepo,
+            IContratoEquipamentoService contratoEquipamentoService
         )
         {
             _equipamentoContratoRepo = equipamentoContratoRepo;
@@ -31,6 +33,7 @@ namespace SAT.SERVICES.Services
             _ordemServicoRepo = ordemServicoRepo;
             _contratoServicoRepo = contratoServicoRepo;
             _seqRepo = seqRepo;
+            _contratoEquipamentoService = contratoEquipamentoService;
         }
 
         public ListViewModel ObterPorParametros(EquipamentoContratoParameters parameters)
@@ -125,6 +128,27 @@ namespace SAT.SERVICES.Services
             });
 
             return servicos.Sum(s => s.Valor);
+        }
+
+        public void AtualizarParqueModelo()
+        {
+            var contrParams = new ContratoEquipamentoParameters { };
+            var contratos = _contratoEquipamentoService.ObterPorParametros(contrParams).Items;
+
+            foreach (ContratoEquipamento contrato in contratos)
+            {
+                var equipParams = new EquipamentoContratoParameters
+                {
+                    CodEquips = contrato.CodEquip.ToString(),
+                    CodContratos = contrato.CodContrato.ToString(),
+                    IndAtivo = 1
+                };
+
+                contrato.QtdEquipamentos = _equipamentoContratoRepo
+                    .ObterPorParametros(equipParams)
+                    .Count();
+
+                _contratoEquipamentoService.Atualizar(contrato);
         }
     }
 }

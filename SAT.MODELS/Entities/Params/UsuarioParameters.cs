@@ -11,6 +11,7 @@ namespace SAT.MODELS.Entities.Params
         public string Email { get; set; }
         public int? CodFilial { get; set; }
         public string CodPerfis { get; set; }
+        public int? CodSetor { get; set; }
         public string CodCargos { get; set; }
         public int? IndAtivo { get; set; }
         public int? CodTecnico { get; set; }

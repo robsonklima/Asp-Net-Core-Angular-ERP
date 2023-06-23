@@ -16,6 +16,8 @@ public partial class Worker : BackgroundService
     private readonly ISatTaskService _taskService;
     private readonly ISatTaskTipoService _taskTipoService;
     private readonly IIntegracaoBBService _integracaoBBService;
+    private readonly IIntegracaoMRPService _integracaoMRPService;
+    private readonly IEquipamentoContratoService _equipamentoContratoService;
 
     public Worker(
         ISatTaskService taskService,
@@ -23,7 +25,9 @@ public partial class Worker : BackgroundService
         IEmailService emailService,
         IIntegracaoBBService integracaoBBService,
         IIntegracaoBanrisulService integracaoBanrisulService,
-        IIntegracaoZaffariService integracaoZaffariService
+        IIntegracaoZaffariService integracaoZaffariService,
+        IIntegracaoMRPService integracaoMRPService,
+        IEquipamentoContratoService equipamentoContratoService
     )
     {
         _taskService = taskService;
@@ -32,6 +36,8 @@ public partial class Worker : BackgroundService
         _integracaoBBService = integracaoBBService;
         _integracaoBanrisulService = integracaoBanrisulService;
         _integracaoZaffariService = integracaoZaffariService;
+        _integracaoMRPService = integracaoMRPService;
+        _equipamentoContratoService = equipamentoContratoService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -120,6 +126,21 @@ public partial class Worker : BackgroundService
                 AtualizarTask(task);
                 continue;
             }
+
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
+            {
+                _integracaoMRPService.ImportarArquivoMRPLogix();
+                _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
+                AtualizarTask(task);
+                continue;
+            }   
+
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
+            {
+                _equipamentoContratoService.AtualizarParqueModelo();
+                AtualizarTask(task);
+                continue;
+            }            
         }
     }
 
@@ -139,6 +160,10 @@ public partial class Worker : BackgroundService
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
             case (int)SatTaskTipoEnum.INT_ZAFFARI:
                 return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+            case (int)SatTaskTipoEnum.INT_MRP:
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+            case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
+                return task.DataHoraProcessamento <= DateTime.Now.AddDays(-1);
             default:
                 return false;
         }

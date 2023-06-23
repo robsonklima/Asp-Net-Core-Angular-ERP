@@ -132,6 +132,11 @@ namespace SAT.INFRA.Repository
                 query = query.Where(u => u.CodFilial == parameters.CodFilial);
             }
 
+            if (parameters.CodSetor != null)
+            {
+                query = query.Where(u => u.CodSetor == parameters.CodSetor);
+            }
+
             if (parameters.CodTecnico != null)
             {
                 query = query.Where(u => u.CodTecnico == parameters.CodTecnico);

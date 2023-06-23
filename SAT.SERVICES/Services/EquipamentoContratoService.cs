@@ -149,6 +149,7 @@ namespace SAT.SERVICES.Services
                     .Count();
 
                 _contratoEquipamentoService.Atualizar(contrato);
+            }
         }
     }
 }

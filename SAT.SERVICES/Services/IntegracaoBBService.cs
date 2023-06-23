@@ -38,20 +38,20 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info($"Iniciando o processamento: {Constants.INTEGRACAO_BB}");
 
-            List<string> files = LerDiretorio();
+            List<string> files = LerDiretorioInput();
 
             _logger.Info($"Encontrados: {files.Count()} arquivos para processamento");
 
             files.ForEach((file) =>
             {
-                var chamados = ExtrairChamadosArquivo(NormalizarConteudo(file));
-
+                string conteudoNormalizado = NormalizarConteudo(file);
+                var chamados = ExtrairChamadosArquivoAbertura(conteudoNormalizado);
                 //CriarArquivoRetornoAbertura(chamados);
                 //CriarArquivoRetornoFechamento(chamados);
             });
         }
 
-        private List<string> LerDiretorio()
+        private List<string> LerDiretorioInput()
         {
             string target = Directory.GetCurrentDirectory() + "/Input";
 
@@ -88,7 +88,7 @@ namespace SAT.SERVICES.Services
             return linhas;
         }
 
-        private List<OrdemServico> ExtrairChamadosArquivo(string conteudo)
+        private List<OrdemServico> ExtrairChamadosArquivoAbertura(string conteudo)
         {
             if (conteudo.Length < Constants.INT_BB_TAMANHO_ARQUIVO) {
                 _logger.Info($"Conteudo do arquivo menor que o especificado: { Constants.INT_BB_TAMANHO_ARQUIVO } caracteres");
@@ -253,20 +253,6 @@ namespace SAT.SERVICES.Services
             _logger.Info($"Finalizando a extração dos chamados nos arquivos");
         }
 
-        private string MontarLinhaArquivo(OrdemServico chamado)
-        {
-            _logger.Info($"Iniciando a composição de nova linha no arquivo");
-            
-            string numOSCliente = chamado.NumOSCliente;
-            string dataAbertura = chamado.DataHoraCad.Value.ToString("DDMMyyyy");
-            string horaAbertura = chamado.DataHoraCad.Value.ToString("HHMM");
-            string codOS = chamado.CodOS.ToString();
-            
-            _logger.Info($"Finalizando a composição de nova linha no arquivo");
-
-            return $"3{ numOSCliente } { dataAbertura } { horaAbertura }000{ codOS }00";
-        }
-    
         private string MontarCabecalhoArquivoAbertura(List<OrdemServico> chamados) 
         {
             _logger.Info($"Iniciando a composição do cabeçalho do arquivo de abertura");
@@ -279,6 +265,20 @@ namespace SAT.SERVICES.Services
             _logger.Info($"Finalizando a composição do cabeçalho do arquivo de abertura");
             
             return $"2{ dataGeracao } { horaGeracao }3{ qtdChamados }crm549R       ";
+        }
+
+        private string MontarLinhaArquivo(OrdemServico chamado)
+        {
+            _logger.Info($"Iniciando a composição de nova linha no arquivo");
+            
+            string numOSCliente = chamado.NumOSCliente;
+            string dataAbertura = chamado.DataHoraCad.Value.ToString("DDMMyyyy");
+            string horaAbertura = chamado.DataHoraCad.Value.ToString("HHMM");
+            string codOS = chamado.CodOS.ToString();
+            
+            _logger.Info($"Finalizando a composição de nova linha no arquivo");
+
+            return $"3{ numOSCliente } { dataAbertura } { horaAbertura }000{ codOS }00";
         }
 
         private string MontarCabecalhoArquivoFechamento(List<OrdemServico> chamados) 

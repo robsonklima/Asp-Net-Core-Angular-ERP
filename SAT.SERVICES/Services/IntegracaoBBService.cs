@@ -281,13 +281,17 @@ namespace SAT.SERVICES.Services
             return novaOrdemServico;
         }
 
-        private string MontarLinhaArquivoFechamento(ViewIntegracaoBB chamado)
+        private string MontarLinha1ArquivoFechamento(ViewIntegracaoBB chamado)
         {
             _logger.Info($"Iniciando a composição de nova linha no arquivo de fechamento");
+            string numRAT = String.Format("{0:0000000000}", chamado.NumRAT);
+            string horaGeracao = DateTime.Now.ToString("HHmms");
 
-            string retorno = @$"{ chamado.NumOSCliente }1{ chamado.DataInicioAtendimento }0900002306202310000023062023100000   2961997WANDERLEY QUEVEDO ME00051100003012106202316070000153      00002
-                                202378180005252AAA007       00000000000000000000000000000                                                         00000      00003
-                                2023781800052530090FECHAMENTO                                                                                     00153      00004";
+            string retorno = @$"{ chamado.NumOSCliente }1{ chamado.DataInicioAtendimento }{ chamado.HoraInicioAtendimento }{ chamado.DataFimAtendimento }{ chamado.HoraFimAtendimento }{ chamado.DataFinal }{ chamado.HoraFinal }{ numRAT }{ chamado.NomeTecnico }000{ chamado.DeParaCausa }0000{ chamado.SituacaoOS }01{ chamado.DataAgendamento }{ chamado.HoraAgendamento }{ horaGeracao }      00002";
+
+
+            //string retorno = @$"202378180005252AAA007       00000000000000000000000000000                                                         00000      00003
+            //                    2023781800052530090FECHAMENTO                                                                                     00153      00004";                                
 
             _logger.Info($"Finalizando a composição de nova linha no arquivo de fechamento");
 

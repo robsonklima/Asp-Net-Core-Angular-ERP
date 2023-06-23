@@ -178,7 +178,8 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 		if (this.validaCliente)
 			tiposIntervencao = `${TipoIntervencaoEnum.CORRETIVA}, ${TipoIntervencaoEnum.PREVENTIVA}`;
 
-		if (this.userSession.usuario.codCliente == ClienteEnum.RIOCARD)
+		if (this.userSession.usuario.codCliente == ClienteEnum.RIOCARD 
+			|| this.userSession.usuario.codCliente == ClienteEnum.VLT)
 			tiposIntervencao = `${TipoIntervencaoEnum.HELP_DESK}`;
 
 		this.tiposIntervencao = (await this._tipoIntervencaoService.obterPorParametros({

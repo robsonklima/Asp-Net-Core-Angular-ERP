@@ -101,7 +101,6 @@ namespace SAT.SERVICES.Services
             string TipoOS = conteudo.Substring(19, 3);
             string NumAgencia = String.Format("{0:00000}", conteudo.Substring(29, 4));
             string DCPosto = String.Format("{0:00}", conteudo.Substring(33, 2));
-            
             string NomeAgencia = conteudo.Substring(35, 20);
             string HoraInicial = conteudo.Substring(55, 17);
             string HoraFinal = conteudo.Substring(55, 17);

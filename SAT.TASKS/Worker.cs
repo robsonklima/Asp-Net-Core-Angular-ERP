@@ -19,8 +19,8 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoBBService _integracaoBBService;
     private readonly IIntegracaoMRPService _integracaoMRPService;
     private readonly IEquipamentoContratoService _equipamentoContratoService;
-    private readonly IOrdemServicoHistoricoService _histOSService;
     private readonly ISatTaskProcessoService _taskProcessoService;
+    private readonly IOrdemServicoService _osService;
 
     public Worker(
         ISatTaskService taskService,
@@ -31,8 +31,8 @@ public partial class Worker : BackgroundService
         IIntegracaoZaffariService integracaoZaffariService,
         IIntegracaoMRPService integracaoMRPService,
         IEquipamentoContratoService equipamentoContratoService,
-        IOrdemServicoHistoricoService histOSService,
-        ISatTaskProcessoService taskProcessoService
+        ISatTaskProcessoService taskProcessoService,
+        IOrdemServicoService osService
     )
     {
         _taskService = taskService;
@@ -43,8 +43,8 @@ public partial class Worker : BackgroundService
         _integracaoZaffariService = integracaoZaffariService;
         _integracaoMRPService = integracaoMRPService;
         _equipamentoContratoService = equipamentoContratoService;
-        _histOSService = histOSService;
         _taskProcessoService = taskProcessoService;
+        _osService = osService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -101,22 +101,28 @@ public partial class Worker : BackgroundService
 
         foreach (int tipo in tipos)
         {
-            var parametros = new OrdemServicoHistoricoParameters { 
-                DataHoraCadInicio = DateTime.Now.AddMinutes(-30),
-                DataHoraCadFim = DateTime.Now,
+            var parametros = new OrdemServicoParameters { 
+                DataHoraInicioInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraInicioFim = DateTime.Now,
             };
-            var histChamados = _histOSService.ObterPorParametros(parametros).Items;
+            var chamados = _osService.ObterPorParametros(parametros).Items;
 
-            foreach (OrdemServicoHistorico chamado in histChamados)
+            _logger.Info(MsgConst.QTD_CHAMADOS_ENVIO + chamados.Count());
+
+            foreach (OrdemServico chamado in chamados)
             {
+                _logger.Info(MsgConst.CRIANDO_PROCESSO);
+
                 var processo = new SatTaskProcesso
                 {
                     CodSatTaskTipo = tipo,
                     DataHoraCad = DateTime.Now,
-                    CodOS = chamado.CodOS.Value,
+                    CodOS = chamado.CodOS,
                     IndProcessado = (byte)Constants.NAO_PROCESSADO,
                     Descricao = MsgConst.DESC_PROCESSO
                 };  
+
+                _logger.Info(MsgConst.PROCESSO_CRIADO + processo.CodSatTaskProcesso);
 
                 _taskProcessoService.Criar(processo);
             }
@@ -266,7 +272,10 @@ public partial class Worker : BackgroundService
                 .Items?
                 .FirstOrDefault()!;
 
-        _logger.Info(MsgConst.ULT_TASK_OBTIDA + task.CodSatTask ?? MsgConst.REG_NAO_ENCONTRADO);
+        if (task is not null)
+            _logger.Info(MsgConst.ULT_TASK_OBTIDA + task.CodSatTask);
+        else 
+            _logger.Info(MsgConst.REG_NAO_ENCONTRADO);
 
         return task;
     }

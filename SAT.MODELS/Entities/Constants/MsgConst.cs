@@ -4,11 +4,12 @@ namespace SAT.MODELS.Constants
     {
         public static readonly string INI_PROC = "Iniciando o processamento: ";
         public static readonly string FIN_PROC = "Finalizando o processamento: ";
-        public static readonly string INI_PROC_FILA = "Iniciando o processamento da fila: ";
-        public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila: ";
+        public static readonly string INI_PROC_FILA = "Iniciando o processamento da fila";
+        public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila";
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks: ";
         public static readonly string FIN_PROC_TASKS = "Finalizando o processamento das tasks: ";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo: ";
+        public static readonly string QTD_CHAMADOS_ENVIO = "Chamados obtidos para envio: ";
         public static readonly string LENDO_LINHA = "Lendo a linha: ";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado: ";
         public static readonly string ENCONTRADOS = "Arquivos encontrados arquivos para processamento: ";
@@ -53,7 +54,7 @@ namespace SAT.MODELS.Constants
         public static readonly string FIN_TRANSMISSAO = "Finalizando a transmissao";
         public static readonly string CRIANDO_PROCESSO = "Criando o processo";
         public static readonly string PROCESSO_CRIADO = "Processo criado com sucesso: ";
-        public static readonly string CRIANDO_TASK = "Criando a task: ";
+        public static readonly string CRIANDO_TASK = "Criando a task";
         public static readonly string TASK_CRIADA = "Task criada com sucesso: ";
         public static readonly string ATUALIZANDO_PROCESSO = "Atualizando o processo";
         public static readonly string ATUALIZANDO_TASK = "Atualizando a task";

@@ -43,15 +43,19 @@ namespace SAT.SERVICES.Services
 
             _logger.Info(MsgConst.ENCONTRADOS + files.Count());
 
+            List<OrdemServico> chamadosPerto = new();
+
             files.ForEach((file) =>
             {
                 string conteudoNormalizado = NormalizarConteudo(file);
                 OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
-                //OrdemServico chamadoPerto = AbrirChamadoCliente(chamadoCliente);
+                OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
                 RegistrarLogChamadoCliente(chamadoCliente);
-                //CriarArquivoRetornoAbertura(chamados);
-                //CriarArquivoRetornoFechamento(chamados);
+                chamadosPerto.Add(chamadoPerto);
             });
+            
+            CriarArquivoRetornoAbertura(chamadosPerto);
+            CriarArquivoRetornoFechamento();
 
             _logger.Info(MsgConst.FIN_PROC + Constants.INTEGRACAO_BB);
         }
@@ -93,7 +97,6 @@ namespace SAT.SERVICES.Services
             return linhas;
         }
 
-
         private OrdemServicoBB ExtrairChamadoArquivoAbertura(string conteudo)
         {
             if (conteudo.Length < Constants.INT_BB_TAMANHO_ARQUIVO)
@@ -105,55 +108,55 @@ namespace SAT.SERVICES.Services
 
             OrdemServicoBB osCliente = new OrdemServicoBB
             {
-                NumOSCliente = conteudo.Substring(1, 14),
-                TipoOS = conteudo.Substring(18, 3),
-                NumAgencia = String.Format("{0:00000}", conteudo.Substring(28, 4)),
-                DCPosto = String.Format("{0:00}", conteudo.Substring(32, 2)),
-                NomeAgencia = conteudo.Substring(34, 20),
-                HoraInicial = conteudo.Substring(54, 17),
-                HoraFinal = conteudo.Substring(54, 17),
-                DDDDependencia = conteudo.Substring(71, 3),
-                Telefone = conteudo.Substring(75, 10),
-                CGC = conteudo.Substring(84, 15),
-                Endereco = conteudo.Substring(99, 35),
-                Bairro = conteudo.Substring(134, 25),
-                Cidade = conteudo.Substring(159, 28),
-                UF = conteudo.Substring(187, 2),
-                CEP = conteudo.Substring(189, 8),
-                Criticidade = conteudo.Substring(198, 2),
-                DescCriticidade = conteudo.Substring(200, 50),
-                NumBem = conteudo.Substring(250, 13),
-                DescricaoBem = conteudo.Substring(263, 35),
-                NumSerie = conteudo.Substring(298, 17),
-                Modelo = conteudo.Substring(315, 10),
-                BilheteOS = conteudo.Substring(325, 13),
-                GarantiaBem = conteudo.Substring(338, 4),
-                Impacto = conteudo.Substring(342,2),
-                DescricaoImpacto = conteudo.Substring(344, 10),
-                Defeito = conteudo.Substring(354, 129),
-                TipoManutencao = conteudo.Substring(484, 4),
-                DescricaoManutencao = conteudo.Substring(488, 20),
-                CodigoFornecedor = conteudo.Substring(508, 13),
-                DescricaoFornecedor = conteudo.Substring(521, 40),
-                MatriculaAberturaOS = conteudo.Substring(561, 8),
-                DataAberturaOS = conteudo.Substring(569, 8),
-                HoraAberturaOS = conteudo.Substring(577, 6),
-                NomeContato = conteudo.Substring(583, 20),
-                NumeroChamada = conteudo.Substring(643, 10),
-                DataChamadaOS = conteudo.Substring(653, 8),
-                HoraChamadaOS = conteudo.Substring(661, 6),
-                ChaveDoChamador = conteudo.Substring(667, 8),
-                NumeroDiasAtendimento = conteudo.Substring(675, 4),
-                NumeroHorasAtendimento = conteudo.Substring(679, 6),
-                NumeroContrato = conteudo.Substring(685, 12),
-                CodigoMantenedora = conteudo.Substring(697, 10),
-                IndOSGarantia = conteudo.Substring(707, 1),
-                DataAgendaOS = conteudo.Substring(708, 8),
-                HoraAgendaOS = conteudo.Substring(716, 6),
-                PrefixoDependenciaDestino = conteudo.Substring(722, 4),
-                SubordinadaDependenciaDestino = conteudo.Substring(726, 2),
-                CodigoTipoBem = conteudo.Substring(728, 2),
-                TextoMotivoManutencao = conteudo.Substring(730, 100)
+                NumOSCliente = conteudo.Substring(1, 14).Trim(),
+                TipoOS = conteudo.Substring(18, 3).Trim(),
+                NumAgencia = String.Format("{0:00000}", conteudo.Substring(28, 4)).Trim(),
+                DCPosto = String.Format("{0:00}", conteudo.Substring(32, 2)).Trim(),
+                NomeAgencia = conteudo.Substring(34, 20).Trim(),
+                HoraInicial = conteudo.Substring(54, 17).Trim(),
+                HoraFinal = conteudo.Substring(54, 17).Trim(),
+                DDDDependencia = conteudo.Substring(71, 3).Trim(),
+                Telefone = conteudo.Substring(75, 10).Trim(),
+                CGC = conteudo.Substring(84, 15).Trim(),
+                Endereco = conteudo.Substring(99, 35).Trim(),
+                Bairro = conteudo.Substring(134, 25).Trim(),
+                Cidade = conteudo.Substring(159, 28).Trim(),
+                UF = conteudo.Substring(187, 2).Trim(),
+                CEP = conteudo.Substring(189, 8).Trim(),
+                Criticidade = conteudo.Substring(198, 2).Trim(),
+                DescCriticidade = conteudo.Substring(200, 50).Trim(),
+                NumBem = conteudo.Substring(250, 13).Trim(),
+                DescricaoBem = conteudo.Substring(263, 35).Trim(),
+                NumSerie = conteudo.Substring(298, 17).Trim(),
+                Modelo = conteudo.Substring(315, 10).Trim(),
+                BilheteOS = conteudo.Substring(325, 13).Trim(),
+                GarantiaBem = conteudo.Substring(338, 4).Trim(),
+                Impacto = conteudo.Substring(342,2).Trim(),
+                DescricaoImpacto = conteudo.Substring(344, 10).Trim(),
+                Defeito = conteudo.Substring(354, 129).Trim(),
+                TipoManutencao = conteudo.Substring(484, 4).Trim(),
+                DescricaoManutencao = conteudo.Substring(488, 20).Trim(),
+                CodigoFornecedor = conteudo.Substring(508, 13).Trim(),
+                DescricaoFornecedor = conteudo.Substring(521, 40).Trim(),
+                MatriculaAberturaOS = conteudo.Substring(561, 8).Trim(),
+                DataAberturaOS = conteudo.Substring(569, 8).Trim(),
+                HoraAberturaOS = conteudo.Substring(577, 6).Trim(),
+                NomeContato = conteudo.Substring(583, 20).Trim(),
+                NumeroChamada = conteudo.Substring(643, 10).Trim(),
+                DataChamadaOS = conteudo.Substring(653, 8).Trim(),
+                HoraChamadaOS = conteudo.Substring(661, 6).Trim(),
+                ChaveDoChamador = conteudo.Substring(667, 8).Trim(),
+                NumeroDiasAtendimento = conteudo.Substring(675, 4).Trim(),
+                NumeroHorasAtendimento = conteudo.Substring(679, 6).Trim(),
+                NumeroContrato = conteudo.Substring(685, 12).Trim(),
+                CodigoMantenedora = conteudo.Substring(697, 10).Trim(),
+                IndOSGarantia = conteudo.Substring(707, 1).Trim(),
+                DataAgendaOS = conteudo.Substring(708, 8).Trim(),
+                HoraAgendaOS = conteudo.Substring(716, 6).Trim(),
+                PrefixoDependenciaDestino = conteudo.Substring(722, 4).Trim(),
+                SubordinadaDependenciaDestino = conteudo.Substring(726, 2).Trim(),
+                CodigoTipoBem = conteudo.Substring(728, 2).Trim(),
+                TextoMotivoManutencao = conteudo.Substring(730, 100).Trim()
             };
 
             return osCliente;
@@ -259,7 +262,7 @@ namespace SAT.SERVICES.Services
             return retorno;
         }
         
-        private void CriarArquivoFechamento()
+        private void CriarArquivoRetornoFechamento()
         {
             _logger.Info(MsgConst.INI_ARQ_RET);
 
@@ -323,7 +326,7 @@ namespace SAT.SERVICES.Services
         }
     
 
-        private OrdemServico AbrirChamadoCliente(OrdemServicoBB chamadoCliente)
+        private OrdemServico AbrirChamadoPerto(OrdemServicoBB chamadoCliente)
         {
             EquipamentoContrato equipamentoContrato = (EquipamentoContrato)_equipamentoContratoService
                 .ObterPorParametros(new EquipamentoContratoParameters

@@ -159,62 +159,42 @@ public partial class Worker : BackgroundService
         {
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
             {
-                _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BB }");
-
                 _integracaoBBService.Processar();
-                
                 AtualizarTask(task);
-
-                _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BB }");
 
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
             {
-                _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BANRISUL_ATM }");
-
                 await _integracaoBanrisulService.ProcessarEmailsAsync();
                 _integracaoBanrisulService.ProcessarRetornos();
                 AtualizarTask(task);
-
-                _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BANRISUL_ATM }");
 
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
             {
-                _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_ZAFFARI }");
-
                 await _integracaoZaffariService.ExecutarAsync();
                 AtualizarTask(task);
-
-                _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_ZAFFARI }");
 
                 continue;
             }
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
             {
-                _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_LOGIX_MRP }");
-
                 _integracaoMRPService.ImportarArquivoMRPLogix();
                 _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
                 AtualizarTask(task);
 
-                _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_LOGIX_MRP }");
                 continue;
             }   
 
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
             {
-                _logger.Info($"{ MsgConst.INI_PROC } { Constants.ATUALIZACAO_PARQUE_MODELO }");
-
                 _equipamentoContratoService.AtualizarParqueModelo();
                 AtualizarTask(task);
-
-                _logger.Info($"{ MsgConst.FIN_PROC } { Constants.ATUALIZACAO_PARQUE_MODELO }");
                 continue;
             }            
         }

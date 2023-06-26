@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public void Processar()
         {
-            _logger.Info(MsgConst.INI_PROC + Constants.INTEGRACAO_BB);
+            _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BB }");
 
             List<string> files = LerDiretorioInput();
 
@@ -56,7 +56,7 @@ namespace SAT.SERVICES.Services
             CriarArquivoRetornoAbertura(chamadosPerto);
             CriarArquivoRetornoFechamento();
 
-            _logger.Info(MsgConst.FIN_PROC + Constants.INTEGRACAO_BB);
+            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BB }");
         }
 
         private List<string> LerDiretorioInput()
@@ -75,7 +75,7 @@ namespace SAT.SERVICES.Services
 
             foreach (FileInfo file in files)
             {
-                using (StreamReader sr = File.OpenText(target + "/" + file.Name))
+                using (StreamReader sr = File.OpenText($"{ target } \\ { file.Name }"))
                 {
                     string linha = String.Empty;
 

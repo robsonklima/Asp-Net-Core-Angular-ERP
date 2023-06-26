@@ -167,7 +167,7 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info(MsgConst.INICIANDO_EXTR);
 
-            string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss");
+            string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss" + ".txt");
             string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
 
             _logger.Info(MsgConst.LENDO_DIR + target);
@@ -322,6 +322,7 @@ namespace SAT.SERVICES.Services
                 }
             }
 
+            _logger.Info(conteudo);
             _logger.Info(MsgConst.FIN_LOGS_CLIENTE);
         }
     
@@ -352,16 +353,16 @@ namespace SAT.SERVICES.Services
                 })
                 .Items.FirstOrDefault();
 
-            bool isOSAberta = _ordemServicoService.ObterPorParametros(new OrdemServicoParameters {
+            var osJaAberta = (OrdemServico)_ordemServicoService.ObterPorParametros(new OrdemServicoParameters {
                 CodCliente = Constants.CLIENTE_BB,
                 NumOSCliente = chamadoCliente.NumOSCliente
-            }).Items.FirstOrDefault() != null;
+            }).Items.FirstOrDefault();
 
-            if (isOSAberta)
+            if (osJaAberta is not null)
             {
                 _logger.Info(MsgConst.ORDEM_JA_ABERTA);
 
-                return null;
+                return osJaAberta;
             }
 
             if (localAtendimento is null)

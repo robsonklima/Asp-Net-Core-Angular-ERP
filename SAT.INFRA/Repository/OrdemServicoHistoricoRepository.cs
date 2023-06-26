@@ -36,6 +36,12 @@ namespace SAT.INFRA.Repository
                 hist = hist.Where(n => n.CodOS == parameters.CodOS);
             }
 
+            if (parameters.DataHoraCadInicio.HasValue && parameters.DataHoraCadFim.HasValue)
+            {
+                hist = hist.Where(os => os.DataHoraCad.Date >= parameters.DataHoraCadInicio.Value.Date
+                    && os.DataHoraCad.Date <= parameters.DataHoraCadFim.Value.Date);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 hist = hist.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

@@ -4,6 +4,10 @@ namespace SAT.MODELS.Constants
     {
         public static readonly string INI_PROC = "Iniciando o processamento: ";
         public static readonly string FIN_PROC = "Finalizando o processamento: ";
+        public static readonly string INI_PROC_FILA = "Iniciando o processamento da fila: ";
+        public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila: ";
+        public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks: ";
+        public static readonly string FIN_PROC_TASKS = "Finalizando o processamento das tasks: ";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo: ";
         public static readonly string LENDO_LINHA = "Lendo a linha: ";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado: ";
@@ -31,5 +35,33 @@ namespace SAT.MODELS.Constants
         public static readonly string INI_LOGS_CLIENTE = "Iniciando o registro de logs do conteudo do arquivo do cliente";
         public static readonly string FIN_LOGS_CLIENTE = "Finalizando o registro de logs do conteudo do arquivo do cliente";
         public static readonly string OCORREU_ERRO = "Ocorreu um erro";
+        public static readonly string DESC_PROCESSO = "Processo: ";
+        public static readonly string REG_NAO_ENCONTRADO = "Registro nao encontrado: ";
+        public static readonly string NENHUM_REG_ENCONTRADO = "Nenhum registro encontrado";
+        public static readonly string ULT_TASK_OBTIDA = "Ultima task obtida: ";
+        public static readonly string OBTENDO_ULT_TASK = "Obtendo a ultima task do tipo : ";
+        public static readonly string INIC_PROCESSO = "Iniciando: ";
+        public static readonly string FIN_PROCESSO = "Iniciando: ";
+        public static readonly string OBTENDO_TASKS = "Obtendo tasks: ";
+        public static readonly string TASKS_OBTIDAS = "Tasks obtidas: ";
+        public static readonly string ERR_API_CLIENTE = "Nao foi obtido retorno da API do cliente: ";
+        public static readonly string OBTENDO_PROCESSOS = "Obtendo processos: ";
+        public static readonly string QTD_PROCESSOS = "Processos encontrados: ";
+        public static readonly string PROC_PROCESSOS = "Processando processos: ";
+        public static readonly string OS_PERTO = "Ordem servico Perto: ";
+        public static readonly string INIC_TRANSMISSAO = "Iniciando a transmissao";
+        public static readonly string FIN_TRANSMISSAO = "Finalizando a transmissao";
+        public static readonly string CRIANDO_PROCESSO = "Criando o processo";
+        public static readonly string PROCESSO_CRIADO = "Processo criado com sucesso: ";
+        public static readonly string CRIANDO_TASK = "Criando a task: ";
+        public static readonly string TASK_CRIADA = "Task criada com sucesso: ";
+        public static readonly string ATUALIZANDO_PROCESSO = "Atualizando o processo";
+        public static readonly string ATUALIZANDO_TASK = "Atualizando a task";
+        public static readonly string TASK_ATUALIZADA = "Task atualizada com sucesso: ";
+        public static readonly string PROCESSO_ATUALIZADO = "Processo atualizado com sucesso: ";
+        public static readonly string OBTENDO_TIPOS = "Obtidos tipos de tasks";
+        public static readonly string TIPOS_OBTIDOS = "Obtidos tipos de tasks: ";
+        public static readonly string OBTENDO_PERMISSAO = "Obtendo permissão para processar: ";
+        public static readonly string TASK_PENDENTE = "Task pendente processamento: ";
     }
 }

@@ -33,5 +33,7 @@ export interface OrdemServicoHistoricoData extends Meta {
 };
 
 export interface OrdemServicoHistoricoParameters extends QueryStringParameters {
-    codOS: number;
+    codOS?: number;
+    dataHoraCadInicio?: string;
+    dataHoraCadFim?: string;
 };

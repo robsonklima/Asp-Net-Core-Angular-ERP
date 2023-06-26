@@ -11,6 +11,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using NLog;
 using SAT.MODELS.Views;
+using SAT.MODELS.Constants;
 
 namespace SAT.SERVICES.Services
 {
@@ -37,11 +38,11 @@ namespace SAT.SERVICES.Services
 
         public void Processar()
         {
-            _logger.Info($"Iniciando o processamento: {Constants.INTEGRACAO_BB}");
+            _logger.Info(MsgConst.INI_PROC + Constants.INTEGRACAO_BB);
 
             List<string> files = LerDiretorioInput();
 
-            _logger.Info($"Encontrados: {files.Count()} arquivos para processamento");
+            _logger.Info(MsgConst.ENCONTRADOS + files.Count());
 
             files.ForEach((file) =>
             {
@@ -52,19 +53,21 @@ namespace SAT.SERVICES.Services
                 //CriarArquivoRetornoAbertura(chamados);
                 //CriarArquivoRetornoFechamento(chamados);
             });
+
+            _logger.Info(MsgConst.FIN_PROC + Constants.INTEGRACAO_BB);
         }
 
         private List<string> LerDiretorioInput()
         {
-            string target = Directory.GetCurrentDirectory() + "/Input";
+            string target = Directory.GetCurrentDirectory() + Constants.INPUT;
 
-            _logger.Info($"Lendo diretorio de arquivos para processamento: {target}");
+            _logger.Info(MsgConst.LENDO_DIR + target);
 
             DirectoryInfo dirInfo = new DirectoryInfo(target);
             string nomenclatura = "crm549.*.BB";
             FileInfo[] files = dirInfo.GetFiles(nomenclatura);
 
-            _logger.Info($"Lendo arquivos do tipo: {nomenclatura}");
+            _logger.Info(MsgConst.LENDO_TIPO + nomenclatura);
 
             List<string> linhas = new();
 
@@ -82,7 +85,7 @@ namespace SAT.SERVICES.Services
                         {
                             linhas.Add(linha);
 
-                            _logger.Info($"Lendo a linha: {linha}");
+                            _logger.Info(MsgConst.LENDO_LINHA + linha);
                         }
                     }
                 }
@@ -95,7 +98,7 @@ namespace SAT.SERVICES.Services
         {
             if (conteudo.Length < Constants.INT_BB_TAMANHO_ARQUIVO)
             {
-                _logger.Info($"Conteudo do arquivo menor que o especificado: {Constants.INT_BB_TAMANHO_ARQUIVO} caracteres");
+                _logger.Info(MsgConst.MENOR_ESPECIFICADO + Constants.INT_BB_TAMANHO_ARQUIVO);
 
                 return null;
             }
@@ -158,43 +161,54 @@ namespace SAT.SERVICES.Services
 
         private void CriarArquivoRetornoAbertura(List<OrdemServico> chamados)
         {
-            _logger.Info($"Iniciando a extração dos chamados nos arquivos");
+            _logger.Info(MsgConst.INICIANDO_EXTR);
 
             string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss");
-            string target = Directory.GetCurrentDirectory() + "/Output";
+            string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
 
-            _logger.Info($"Lendo diretorio arquivos para processamento: {target}");
+            _logger.Info(MsgConst.LENDO_DIR + target);
 
             using (StreamWriter w = new StreamWriter(target))
             {
                 string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
-
                 w.WriteLine(cabecalho);
-                _logger.Info($"Adicionado o cabecalho: {cabecalho}");
+                _logger.Info(MsgConst.AD_CABECALHO);
 
                 chamados.ForEach(chamado =>
                 {
-                    //string linha = MontarLinhaArquivoAbertura(chamado);
+                    string linha = MontarLinhaArquivoAbertura(chamado);
 
-                    // w.WriteLine(linha);
+                    w.WriteLine(linha);
 
-                    // _logger.Info($"Adicionada a linha: {linha}");
+                    _logger.Info(MsgConst.AD_LINHA);
                 });
             }
 
-            _logger.Info($"Finalizando a extração dos chamados nos arquivos");
+            _logger.Info(MsgConst.FIN_EXTR);
+        }
+
+        private string MontarLinhaArquivoAbertura(OrdemServico chamado)
+        {
+            _logger.Info(MsgConst.INI_LIN_FECH);
+            string horaGeracao = DateTime.Now.ToString("HHmms");
+
+            string retorno = "";
+
+            _logger.Info(MsgConst.FIN_LIN_FECH);
+
+            return $"";
         }
 
         private string MontarCabecalhoArquivoAbertura(List<OrdemServico> chamados)
         {
-            _logger.Info($"Iniciando a composição do cabeçalho do arquivo de abertura");
+            _logger.Info(MsgConst.INIC_CAB_ABERT);
 
             string horaAtual = DateTime.Now.ToString("HHmms");
             string dataGeracao = DateTime.Now.ToString("DDMMyyy");
             string horaGeracao = DateTime.Now.ToString("HHmms");
             string qtdChamados = String.Format("{0:00000}", chamados.Count());
 
-            _logger.Info($"Finalizando a composição do cabeçalho do arquivo de abertura");
+            _logger.Info(MsgConst.FIN_CAB_ABERT);
 
             return $"2{dataGeracao} {horaGeracao}3{qtdChamados}crm549R       ";
         }
@@ -232,7 +246,7 @@ namespace SAT.SERVICES.Services
 
             if (isOSAberta)
             {
-                _logger.Info($"Esta ordem de servico ja foi aberta: Num OS Cliente { chamadoCliente.NumOSCliente }");
+                _logger.Info(MsgConst.ORDEM_JA_ABERTA);
 
                 return null;
             }

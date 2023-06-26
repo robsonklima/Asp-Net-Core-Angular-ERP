@@ -260,6 +260,10 @@ namespace SAT.MODELS.Entities.Constants
         // Tecnicos
         public static int TECNICO_SISTEMA = 2329;
         public static int INT_BB_TAMANHO_ARQUIVO = 830;
+
+        // DIR
+        public static string INPUT = "/Input";
+        public static string OUTPUT = "/Output";
         
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";

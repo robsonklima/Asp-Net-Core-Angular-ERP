@@ -10,6 +10,7 @@ using NLog;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -47,7 +48,7 @@ namespace SAT.SERVICES.Services
 
             var parametros = new SatTaskProcessoParameters
             {
-                CodSatTaskTipo = 3,
+                CodSatTaskTipo = (int)SatTaskTipoEnum.INT_ZAFFARI,
                 Status = SatTaskStatusConst.PENDENTE,
             };
 

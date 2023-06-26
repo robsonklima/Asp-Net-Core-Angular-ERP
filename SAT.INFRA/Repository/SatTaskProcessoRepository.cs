@@ -68,7 +68,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.CodSatTaskTipo == (int)parameters.CodSatTaskTipo);
             }
 
-            if (parameters.CodOS == parameters.CodOS) {
+            if (parameters.CodOS.HasValue) {
                 query = query.Where(t => t.CodOS == parameters.CodOS);
             } 
 
@@ -76,8 +76,6 @@ namespace SAT.INFRA.Repository
             {
                 query = query.Where(t => t.Status == parameters.Status);
             }
-
-            var q = query.ToQueryString();
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

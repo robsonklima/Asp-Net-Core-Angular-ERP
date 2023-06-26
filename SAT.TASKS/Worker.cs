@@ -51,9 +51,7 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                _logger.Info(MsgConst.INI_PROC + Constants.SISTEMA_CAMADA_TASKS);
-
-                //AtualizarFilaTasks();
+                AtualizarFilaTasks();
 
                 AtualizarFilaProcessos();
 
@@ -230,7 +228,7 @@ public partial class Worker : BackgroundService
             return true;
         }
 
-        if (task.IndProcessado == Constants.NAO_PROCESSADO)
+        if (task.Status == SatTaskStatusConst.PENDENTE)
         {
             _logger.Info(MsgConst.TASK_PENDENTE);
 

@@ -74,10 +74,6 @@ namespace SAT.MODELS.Entities.Constants
         public static int ATIVO = 1;
         public static int INATIVO = 0;
 
-        // Processado
-        public static int PROCESSADO = 1;
-        public static int NAO_PROCESSADO = 0;
-
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;
         public static int TRANFERIDO = 8;

@@ -12,10 +12,12 @@ namespace SAT.SERVICES.Services
     {
         public async Task ExecutarAsync()
         {
-            await Transmitir();
+            var chamado = new OrdemServico {};
+
+            await Transmitir(chamado);
         }
 
-        private async Task<OrdemServicoZaffari> Transmitir()
+        private async Task<OrdemServicoZaffari> Transmitir(OrdemServico chamado)
         {
             var ordem = new OrdemServicoZaffari();
 

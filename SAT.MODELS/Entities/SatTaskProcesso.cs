@@ -8,7 +8,7 @@ namespace SAT.MODELS.Entities
         public int CodSatTaskTipo { get; set; }
         public int CodOS { get; set; }
         public DateTime? DataHoraProcessamento { get; set; }
-        public byte? IndProcessado { get; set; }
+        public string Status { get; set; }
         public DateTime? DataHoraCad { get; set; }
         public SatTaskTipo Tipo { get; set; }
     }

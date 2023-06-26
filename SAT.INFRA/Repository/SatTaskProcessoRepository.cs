@@ -72,13 +72,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.CodOS == parameters.CodOS);
             } 
 
-            if (parameters.IndProcessado == 1)
+            if (!string.IsNullOrWhiteSpace(parameters.Status))
             {
-                query = query.Where(t => t.IndProcessado == 1);
-            }
-            else 
-            {
-                query = query.Where(t => t.IndProcessado == 0);
+                query = query.Where(t => t.Status == parameters.Status);
             }
 
             var q = query.ToQueryString();

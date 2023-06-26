@@ -1,4 +1,4 @@
-namespace SAT.MODELS.Constants
+namespace SAT.MODELS.Entities.Constants
 {
     public static class MsgConst
     {

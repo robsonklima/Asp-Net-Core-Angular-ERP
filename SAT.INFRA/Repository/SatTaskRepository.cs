@@ -69,13 +69,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.CodSatTaskTipo == (int)parameters.CodSatTaskTipo);
             }
 
-            if (parameters.IndProcessado == 1)
+            if (!string.IsNullOrWhiteSpace(parameters.Status))
             {
-                query = query.Where(t => t.IndProcessado == 1);
-            }
-            else 
-            {
-                query = query.Where(t => t.IndProcessado == 0);
+                query = query.Where(t => t.Status == parameters.Status);
             }
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))

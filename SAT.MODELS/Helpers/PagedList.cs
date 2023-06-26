@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SAT.MODELS.Constants;
 using SAT.MODELS.Entities.Constants;
 
 namespace SAT.MODELS.Helpers
@@ -32,11 +33,11 @@ namespace SAT.MODELS.Helpers
             }
             catch(InvalidCastException ex)
             {
-                throw new Exception(Constants.ERROR, ex);
+                throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }
             catch (Exception ex)
             {
-                throw new Exception(Constants.ERROR, ex);
+                throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }
         }
 
@@ -50,11 +51,11 @@ namespace SAT.MODELS.Helpers
             }
             catch(InvalidCastException ex)
             {
-                throw new Exception(Constants.ERROR, ex);
+                throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }
             catch (Exception ex)
             {
-                throw new Exception(Constants.ERROR, ex);
+                throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }
         }
     }

@@ -30,7 +30,6 @@ namespace SAT.MODELS.Constants
         public static readonly string FIN_ARQ_RET = "Finalizando a criação dos arquivos de retorno";
         public static readonly string INI_LOGS_CLIENTE = "Iniciando o registro de logs do conteudo do arquivo do cliente";
         public static readonly string FIN_LOGS_CLIENTE = "Finalizando o registro de logs do conteudo do arquivo do cliente";
-
-        
+        public static readonly string OCORREU_ERRO = "Ocorreu um erro";
     }
 }

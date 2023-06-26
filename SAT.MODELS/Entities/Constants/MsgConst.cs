@@ -60,7 +60,7 @@ namespace SAT.MODELS.Constants
         public static readonly string ATUALIZANDO_TASK = "Atualizando a task";
         public static readonly string TASK_ATUALIZADA = "Task atualizada com sucesso: ";
         public static readonly string PROCESSO_ATUALIZADO = "Processo atualizado com sucesso: ";
-        public static readonly string OBTENDO_TIPOS = "Obtidos tipos de tasks";
+        public static readonly string OBTENDO_TIPOS = "Obtendo tipos de tasks";
         public static readonly string TIPOS_OBTIDOS = "Obtidos tipos de tasks: ";
         public static readonly string OBTENDO_PERMISSAO = "Obtendo permissão para processar: ";
         public static readonly string TASK_PENDENTE = "Task pendente processamento: ";

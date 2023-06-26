@@ -267,7 +267,15 @@ namespace SAT.MODELS.Entities.Constants
         // DIR
         public static string INPUT = "/Input";
         public static string OUTPUT = "/Output";
+
+        // Tempos Processamento Tasks
+        public static int INTEGRACAO_BANRISUL_TEMPO_MIN = 5;
+        public static int INTEGRACAO_ZAFFARI_TEMPO_MIN = 5;
+        public static int INTEGRACAO_BB_TEMPO_MIN = 5;
+        public static int INTEGRACAO_LOGIX_MRP_TEMPO_MIN = 5;
+        public static int ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN = 24 * 60;
         
+
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
         public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";

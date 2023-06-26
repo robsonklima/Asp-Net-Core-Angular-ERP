@@ -213,19 +213,19 @@ public partial class Worker : BackgroundService
         {
             case (int)SatTaskTipoEnum.INT_BANRISUL:
                 _logger.Info(MsgConst.OBTENDO_PERMISSAO + Constants.INTEGRACAO_BANRISUL_ATM);
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
             case (int)SatTaskTipoEnum.INT_BB:
                 _logger.Info(MsgConst.OBTENDO_PERMISSAO + Constants.INTEGRACAO_BB);
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
             case (int)SatTaskTipoEnum.INT_ZAFFARI:
                 _logger.Info(MsgConst.OBTENDO_PERMISSAO + Constants.INTEGRACAO_ZAFFARI);
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
             case (int)SatTaskTipoEnum.INT_MRP:
                 _logger.Info(MsgConst.OBTENDO_PERMISSAO + Constants.INTEGRACAO_LOGIX_MRP);
-                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-5);
+                return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
             case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
                 _logger.Info(MsgConst.OBTENDO_PERMISSAO + Constants.ATUALIZACAO_PARQUE_MODELO);
-                return task.DataHoraProcessamento <= DateTime.Now.AddDays(-1);
+                return task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
             default:
                 return false;
         }

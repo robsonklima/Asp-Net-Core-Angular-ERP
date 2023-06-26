@@ -174,7 +174,7 @@ namespace SAT.SERVICES.Services
 
                 chamados.ForEach(chamado =>
                 {
-                    string linha = MontarLinhaArquivo(chamado);
+                    //string linha = MontarLinhaArquivoAbertura(chamado);
 
                     w.WriteLine(linha);
 
@@ -281,7 +281,7 @@ namespace SAT.SERVICES.Services
             return novaOrdemServico;
         }
 
-        private string MontarLinha1ArquivoFechamento(ViewIntegracaoBB chamado)
+        private string MontarLinhaArquivoFechamento(ViewIntegracaoBB chamado)
         {
             _logger.Info($"Iniciando a composição de nova linha no arquivo de fechamento");
             string numRAT = String.Format("{0:0000000000}", chamado.NumRAT);

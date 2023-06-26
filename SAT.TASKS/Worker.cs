@@ -18,6 +18,7 @@ public partial class Worker : BackgroundService
     private readonly IIntegracaoBBService _integracaoBBService;
     private readonly IIntegracaoMRPService _integracaoMRPService;
     private readonly IEquipamentoContratoService _equipamentoContratoService;
+    private readonly IOrdemServicoHistoricoService _histOSService;
 
     public Worker(
         ISatTaskService taskService,
@@ -27,7 +28,8 @@ public partial class Worker : BackgroundService
         IIntegracaoBanrisulService integracaoBanrisulService,
         IIntegracaoZaffariService integracaoZaffariService,
         IIntegracaoMRPService integracaoMRPService,
-        IEquipamentoContratoService equipamentoContratoService
+        IEquipamentoContratoService equipamentoContratoService,
+        IOrdemServicoHistoricoService histOSService
     )
     {
         _taskService = taskService;
@@ -38,6 +40,7 @@ public partial class Worker : BackgroundService
         _integracaoZaffariService = integracaoZaffariService;
         _integracaoMRPService = integracaoMRPService;
         _equipamentoContratoService = equipamentoContratoService;
+        _histOSService = histOSService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -48,7 +51,9 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                AtualizarFila();
+                AtualizarFilaTasks();
+
+                AtualizarFilaProcessos();
 
                 await Processar();
             }
@@ -62,7 +67,7 @@ public partial class Worker : BackgroundService
         }
     }
 
-    private void AtualizarFila() 
+    private void AtualizarFilaTasks() 
     {
         _logger.Info($"Iniciando o processamento da fila");
 
@@ -86,6 +91,11 @@ public partial class Worker : BackgroundService
 
         _logger.Info($"Finalizando o processamento da fila");
     }
+    private void AtualizarFilaProcessos()
+    {
+        var parametros = new OrdemServicoHistoricoParameters { };
+        var historicos = _histOSService.ObterPorParametros(parametros);
+    }    
 
     private async Task Processar() 
     {

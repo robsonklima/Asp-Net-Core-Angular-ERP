@@ -4,7 +4,6 @@ using Autofac;
 using SAT.IOC;
 using Autofac.Extensions.DependencyInjection;
 using SAT.TASKS;
-using Microsoft.AspNetCore.Builder;
 using SAT.MODELS.Entities.Constants;
 
 using IHost host = Host.CreateDefaultBuilder(args)
@@ -15,7 +14,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(context.Configuration.GetConnectionString(Constants.DB_PROD),
+                options => options.UseSqlServer(context.Configuration.GetConnectionString(Constants.DB_PROD)!,
                 sqlServerOptions => sqlServerOptions.CommandTimeout(30)));
 
         services.AddHttpContextAccessor();

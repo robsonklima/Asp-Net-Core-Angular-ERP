@@ -261,8 +261,8 @@ namespace SAT.MODELS.Entities.Constants
         public static int INT_BB_TAMANHO_ARQUIVO = 830;
 
         // DIR
-        public static string INPUT = "/Input";
-        public static string OUTPUT = "/Output";
+        public static string INPUT = "\\Input";
+        public static string OUTPUT = "\\Output";
 
         // Tempos Processamento Tasks
         public static int INTEGRACAO_BANRISUL_TEMPO_MIN = 5;

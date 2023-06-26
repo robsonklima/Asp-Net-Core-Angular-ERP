@@ -50,7 +50,6 @@ namespace SAT.SERVICES.Services
                 string conteudoNormalizado = NormalizarConteudo(file);
                 OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
                 OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
-                RegistrarLogChamadoCliente(chamadoCliente);
                 chamadosPerto.Add(chamadoPerto);
             });
             
@@ -88,7 +87,7 @@ namespace SAT.SERVICES.Services
                         {
                             linhas.Add(linha);
 
-                            _logger.Info(MsgConst.LENDO_LINHA + linha);
+                            _logger.Info(MsgConst.LENDO_LINHA);
                         }
                     }
                 }
@@ -302,29 +301,6 @@ namespace SAT.SERVICES.Services
             Regex reg = new Regex("[*'\",_&#^@]");
 
             return reg.Replace(conteudo, " ");
-        }
-
-        private void RegistrarLogChamadoCliente(OrdemServicoBB chamado)
-        {
-            _logger.Info(MsgConst.INI_LOGS_CLIENTE);
-
-            string conteudo = string.Empty;
-
-            foreach (PropertyInfo prop in chamado.GetType().GetProperties())
-            {
-                var type = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
-
-                if (type == typeof(DateTime))
-                {
-                    string valor = prop.GetValue(chamado, null).ToString();
-
-                    if (!string.IsNullOrWhiteSpace(valor))
-                        conteudo += $"{conteudo}; {type}: {valor}";
-                }
-            }
-
-            _logger.Info(conteudo);
-            _logger.Info(MsgConst.FIN_LOGS_CLIENTE);
         }
 
         private OrdemServico AbrirChamadoPerto(OrdemServicoBB chamadoCliente)

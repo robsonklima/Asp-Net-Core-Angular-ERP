@@ -174,15 +174,27 @@ namespace SAT.SERVICES.Services
 
                 chamados.ForEach(chamado =>
                 {
-                    //string linha = MontarLinhaArquivoAbertura(chamado);
+                    string linha = MontarLinhaArquivoAbertura(chamado);
 
-                    // w.WriteLine(linha);
+                    w.WriteLine(linha);
 
-                    // _logger.Info($"Adicionada a linha: {linha}");
+                    _logger.Info($"Adicionada a linha: {linha}");
                 });
             }
 
             _logger.Info($"Finalizando a extração dos chamados nos arquivos");
+        }
+
+        private string MontarLinhaArquivoAbertura(OrdemServico chamado)
+        {
+            _logger.Info($"Iniciando a composição de nova linha no arquivo de abertura");
+            string horaGeracao = DateTime.Now.ToString("HHmms");
+
+            string retorno = @$"320232335000027220620231606000803626800";
+
+            _logger.Info($"Finalizando a composição de nova linha no arquivo de abertura");
+
+            return $"";
         }
 
         private string MontarCabecalhoArquivoAbertura(List<OrdemServico> chamados)

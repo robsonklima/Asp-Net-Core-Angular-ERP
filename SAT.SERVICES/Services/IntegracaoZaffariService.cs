@@ -11,7 +11,6 @@ using SAT.MODELS.Constants;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -49,8 +48,8 @@ namespace SAT.SERVICES.Services
 
             var parametros = new SatTaskProcessoParameters
             {
-                CodSatTaskTipo = (int)SatTaskTipoEnum.INT_ZAFFARI,
-                IndProcessado = (byte)Constants.NAO_PROCESSADO
+                CodSatTaskTipo = 3,
+                IndProcessado = (byte)Constants.NAO_PROCESSADO,
             };
 
             var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService

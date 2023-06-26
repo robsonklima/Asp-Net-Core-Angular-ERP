@@ -49,13 +49,13 @@ public partial class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {   
-        _logger.Info(MsgConst.INI_PROC + Constants.SISTEMA_CAMADA_TASKS);
-
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                AtualizarFilaTasks();
+                _logger.Info(MsgConst.INI_PROC + Constants.SISTEMA_CAMADA_TASKS);
+
+                //AtualizarFilaTasks();
 
                 AtualizarFilaProcessos();
 
@@ -108,7 +108,13 @@ public partial class Worker : BackgroundService
         foreach (var tipo in tipos)
         {
             if (tipo.IndProcesso == 0)
+            {
+                _logger.Info(MsgConst.TASK_NAO_POSSUI_PROCESSOS + tipo.Nome);
+
                 continue;
+            }
+
+            _logger.Info(MsgConst.OBTENDO_PROCESSOS + tipo.Nome);
 
             var parametros = new OrdemServicoParameters { 
                 DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
@@ -123,7 +129,7 @@ public partial class Worker : BackgroundService
             {
                 var processo = ObterProcessoPendenteDoChamado(chamado.CodOS);
 
-                if (processo is null) 
+                if (processo is null)
                 {
                      _logger.Info(MsgConst.CRIANDO_PROCESSO);
 
@@ -133,10 +139,9 @@ public partial class Worker : BackgroundService
                         DataHoraCad = DateTime.Now,
                         CodOS = chamado.CodOS,
                         IndProcessado = (byte)Constants.NAO_PROCESSADO,
-                        Descricao = string.Empty
                     };  
 
-                    _taskProcessoService.Criar(processo);
+                    _taskProcessoService.Criar(p);
 
                     _logger.Info(MsgConst.PROCESSO_CRIADO);
                 }
@@ -317,12 +322,13 @@ public partial class Worker : BackgroundService
     {
         _logger.Info(MsgConst.OBTENDO_PROCESSOS_PENDENTES);
         
-        var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService.ObterPorParametros(new SatTaskProcessoParameters {
-            IndProcessado = (byte)Constants.NAO_PROCESSADO,
-            SortActive = "CodSatTaskProcesso",
-            SortDirection = "DESC"
-        })
-        .Items;
+        var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService
+            .ObterPorParametros(new SatTaskProcessoParameters {
+                IndProcessado = (byte)Constants.NAO_PROCESSADO,
+                SortActive = "CodSatTaskProcesso",
+                SortDirection = "DESC"
+            })
+            .Items;
 
         _logger.Info(MsgConst.QTD_PROCESSOS + processos.Count());
 

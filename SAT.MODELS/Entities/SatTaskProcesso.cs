@@ -10,7 +10,6 @@ namespace SAT.MODELS.Entities
         public DateTime? DataHoraProcessamento { get; set; }
         public byte? IndProcessado { get; set; }
         public DateTime? DataHoraCad { get; set; }
-        public String Descricao { get; set; }
         public SatTaskTipo Tipo { get; set; }
     }
 }

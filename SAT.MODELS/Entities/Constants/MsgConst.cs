@@ -8,6 +8,7 @@ namespace SAT.MODELS.Constants
         public static readonly string INI_PROC_FILA = "Iniciando o processamento da fila";
         public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila";
         public static readonly string PROCESSO_PENDENTE = "Processo pendente: ";
+        public static readonly string TASK_NAO_POSSUI_PROCESSOS = "A task nao possui processos: ";
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks: ";
         public static readonly string FIN_PROC_TASKS = "Finalizando o processamento das tasks: ";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo: ";

@@ -5,7 +5,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
-using SAT.MODELS.Entities.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace SAT.INFRA.Repository
@@ -65,17 +64,24 @@ namespace SAT.INFRA.Repository
                 .Include(t => t.Tipo)
                 .AsQueryable();
 
-            if (parameters.CodSatTaskTipo > 0) {
+            if (parameters.CodSatTaskTipo.HasValue) {
                 query = query.Where(t => t.CodSatTaskTipo == (int)parameters.CodSatTaskTipo);
             }
 
-            if (parameters.IndProcessado == Constants.PROCESSADO) {
-                query = query.Where(t => t.IndProcessado == Constants.PROCESSADO);
+            if (parameters.CodOS == parameters.CodOS) {
+                query = query.Where(t => t.CodOS == parameters.CodOS);
             } 
+
+            if (parameters.IndProcessado == 1)
+            {
+                query = query.Where(t => t.IndProcessado == 1);
+            }
             else 
             {
-                query = query.Where(t => t.IndProcessado == Constants.NAO_PROCESSADO);
+                query = query.Where(t => t.IndProcessado == 0);
             }
+
+            var q = query.ToQueryString();
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

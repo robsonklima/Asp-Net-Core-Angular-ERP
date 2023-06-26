@@ -17,17 +17,17 @@ namespace SAT.SERVICES.Services
 
         public ListViewModel ObterPorParametros(SatTaskProcessoParameters parameters)
         {
-            var perfis = _satTaskProcessoRepo.ObterPorParametros(parameters);
+            var processos = _satTaskProcessoRepo.ObterPorParametros(parameters);
 
             var lista = new ListViewModel
             {
-                Items = perfis,
-                TotalCount = perfis.TotalCount,
-                CurrentPage = perfis.CurrentPage,
-                PageSize = perfis.PageSize,
-                TotalPages = perfis.TotalPages,
-                HasNext = perfis.HasNext,
-                HasPrevious = perfis.HasPrevious
+                Items = processos,
+                TotalCount = processos.TotalCount,
+                CurrentPage = processos.CurrentPage,
+                PageSize = processos.PageSize,
+                TotalPages = processos.TotalPages,
+                HasNext = processos.HasNext,
+                HasPrevious = processos.HasPrevious
             };
 
             return lista;

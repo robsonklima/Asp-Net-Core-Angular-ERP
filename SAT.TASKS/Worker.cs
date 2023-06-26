@@ -209,6 +209,11 @@ public partial class Worker : BackgroundService
             return false;
         }
 
+        return ObterPermissaoProcessamento(task);
+    }
+
+    private bool ObterPermissaoProcessamento(SatTask task)
+    {
         switch (task.CodSatTaskTipo)
         {
             case (int)SatTaskTipoEnum.INT_BANRISUL:

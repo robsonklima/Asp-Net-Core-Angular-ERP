@@ -9,6 +9,7 @@ namespace SAT.MODELS.Constants
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks: ";
         public static readonly string FIN_PROC_TASKS = "Finalizando o processamento das tasks: ";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo: ";
+        public static readonly string NAO_POSSUI_PERMISSAO_PROCESSAR = "A task nao possui permissao para processar: ";
         public static readonly string QTD_CHAMADOS_ENVIO = "Chamados obtidos para envio: ";
         public static readonly string LENDO_LINHA = "Lendo a linha: ";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado: ";

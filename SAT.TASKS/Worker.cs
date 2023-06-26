@@ -79,7 +79,7 @@ public partial class Worker : BackgroundService
 
         foreach (var tipo in tipos)
         {
-            SatTask task = ObterTask(tipo.CodSatTaskTipo);
+            SatTask task = ObterTask(tipo);
 
             var processar = podeProcessarTask(task);
 
@@ -91,10 +91,15 @@ public partial class Worker : BackgroundService
 
                 _logger.Info(MsgConst.TASK_CRIADA + novaTask.Tipo.Nome);
             }
+            else
+            {
+                _logger.Info(MsgConst.NAO_POSSUI_PERMISSAO_PROCESSAR + task.CodSatTask);
+            }
         }
 
         _logger.Info(MsgConst.FIN_PROC_FILA);
     }
+    
     private void AtualizarFilaProcessos()
     {
         List<SatTaskTipo> tipos = ObterTipos(); 
@@ -262,13 +267,13 @@ public partial class Worker : BackgroundService
         return tipos.ToList();
     }
 
-    private SatTask ObterTask(int tipo) 
+    private SatTask ObterTask(SatTaskTipo tipo) 
     {
-        _logger.Info(MsgConst.OBTENDO_ULT_TASK + tipo);
+        _logger.Info(MsgConst.OBTENDO_ULT_TASK + tipo.Nome);
 
         var task = (SatTask)_taskService
                 .ObterPorParametros(new SatTaskParameters {
-                    CodSatTaskTipo = tipo,
+                    CodSatTaskTipo = tipo.CodSatTaskTipo,
                     SortActive = "CodSatTask",
                     SortDirection = "DESC"
                 })

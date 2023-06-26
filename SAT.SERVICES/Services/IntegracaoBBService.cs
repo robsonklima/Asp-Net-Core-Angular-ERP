@@ -325,7 +325,6 @@ namespace SAT.SERVICES.Services
             _logger.Info(conteudo);
             _logger.Info(MsgConst.FIN_LOGS_CLIENTE);
         }
-    
 
         private OrdemServico AbrirChamadoPerto(OrdemServicoBB chamadoCliente)
         {

@@ -51,9 +51,9 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                //AtualizarFilaTasks();
+                AtualizarFilaTasks();
 
-                //AtualizarFilaProcessos();
+                AtualizarFilaProcessos();
 
                 await Processar();
             }

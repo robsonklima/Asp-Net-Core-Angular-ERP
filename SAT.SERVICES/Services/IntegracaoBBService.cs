@@ -167,12 +167,13 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info(MsgConst.INICIANDO_EXTR);
 
-            string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss" + ".txt");
             string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
+            string fileName = "CRM549R.xPerto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss" + ".txt");
 
             _logger.Info(MsgConst.LENDO_DIR + target);
 
-            using (StreamWriter w = new StreamWriter(target))
+            string absolutePath = Path.GetFullPath(target + fileName);
+            using (StreamWriter w = new StreamWriter(absolutePath))
             {
                 string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
                 w.WriteLine(cabecalho);

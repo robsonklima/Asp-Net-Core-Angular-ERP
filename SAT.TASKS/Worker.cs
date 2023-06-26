@@ -58,7 +58,7 @@ public partial class Worker : BackgroundService
                 await Processar();
             }
             catch (Exception ex) {
-                 _logger.Error($"Ocorreu um erro { Constants.INTEGRACAO_BB }: { ex.Message }");
+                 _logger.Error($"Ocorreu um erro { Constants.SISTEMA_CAMADA_TASKS }: { ex.Message }");
 
                 Environment.Exit(1);
             }

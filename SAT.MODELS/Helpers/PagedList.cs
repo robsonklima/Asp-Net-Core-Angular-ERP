@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SAT.MODELS.Constants;
 using SAT.MODELS.Entities.Constants;
 
 namespace SAT.MODELS.Helpers

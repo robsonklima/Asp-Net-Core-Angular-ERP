@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NLog;
-using SAT.MODELS.Constants;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -49,7 +48,7 @@ namespace SAT.SERVICES.Services
             var parametros = new SatTaskProcessoParameters
             {
                 CodSatTaskTipo = 3,
-                IndProcessado = (byte)Constants.NAO_PROCESSADO,
+                Status = SatTaskStatusConst.PENDENTE,
             };
 
             var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService
@@ -120,7 +119,7 @@ namespace SAT.SERVICES.Services
             _logger.Info(MsgConst.CRIANDO_PROCESSO);
 
             processo.DataHoraProcessamento = DateTime.Now;
-            processo.IndProcessado = (byte)Constants.PROCESSADO;
+            processo.Status = SatTaskStatusConst.PROCESSADO;
             _taskProcessoService.Atualizar(processo);
 
             _logger.Info(MsgConst.PROCESSO_CRIADO);

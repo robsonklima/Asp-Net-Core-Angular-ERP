@@ -1,6 +1,4 @@
 using NLog;
-using NLog.Fluent;
-using SAT.MODELS.Constants;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -138,7 +136,7 @@ public partial class Worker : BackgroundService
                         CodSatTaskTipo = tipo.CodSatTaskTipo,
                         DataHoraCad = DateTime.Now,
                         CodOS = chamado.CodOS,
-                        IndProcessado = (byte)Constants.NAO_PROCESSADO,
+                        Status = SatTaskStatusConst.PENDENTE,
                     };  
 
                     _taskProcessoService.Criar(p);
@@ -307,7 +305,7 @@ public partial class Worker : BackgroundService
         _logger.Info(MsgConst.OBTENDO_TASKS_PENDENTES);
         
         var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
-            IndProcessado = (byte)Constants.NAO_PROCESSADO,
+            Status = SatTaskStatusConst.PENDENTE,
             SortActive = "CodSatTask",
             SortDirection = "DESC"
         })
@@ -324,7 +322,7 @@ public partial class Worker : BackgroundService
         
         var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService
             .ObterPorParametros(new SatTaskProcessoParameters {
-                IndProcessado = (byte)Constants.NAO_PROCESSADO,
+                Status = SatTaskStatusConst.PENDENTE,
                 SortActive = "CodSatTaskProcesso",
                 SortDirection = "DESC"
             })
@@ -340,7 +338,7 @@ public partial class Worker : BackgroundService
         _logger.Info(MsgConst.ATUALIZANDO_TASK);
         
         task.DataHoraProcessamento = DateTime.Now;
-        task.IndProcessado = (byte)Constants.PROCESSADO;
+        task.Status = SatTaskStatusConst.PROCESSADO;
 
         _taskService.Atualizar(task);
 
@@ -351,7 +349,7 @@ public partial class Worker : BackgroundService
         _logger.Info(MsgConst.CRIANDO_TASK);
 
         var task = _taskService.Criar(new SatTask {
-            IndProcessado = (byte)Constants.NAO_PROCESSADO,
+            Status = SatTaskStatusConst.PENDENTE,
             DataHoraCad = DateTime.Now,
             CodSatTaskTipo = tipo
         });

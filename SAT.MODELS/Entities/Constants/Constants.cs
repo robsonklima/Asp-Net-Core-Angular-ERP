@@ -67,6 +67,9 @@ namespace SAT.MODELS.Entities.Constants
             ClientID = "4a0d5062-6188-4067-af77-e5eb261b2119"
         };
 
+        // Application types
+        public static string APPLICATION_JSON =  "application/json";
+
         // Status
         public static int ATIVO = 1;
         public static int INATIVO = 0;

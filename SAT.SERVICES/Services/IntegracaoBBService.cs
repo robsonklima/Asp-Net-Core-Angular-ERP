@@ -180,11 +180,7 @@ namespace SAT.SERVICES.Services
 
                     w.WriteLine(linha);
 
-<<<<<<< HEAD
                     _logger.Info(MsgConst.AD_LINHA);
-=======
-                    _logger.Info($"Adicionada a linha: {linha}");
->>>>>>> aad3fb1ffd8fdd8504b9eb96c7f0f04953f7304f
                 });
             }
 
@@ -199,18 +195,6 @@ namespace SAT.SERVICES.Services
             string retorno = "";
 
             _logger.Info(MsgConst.FIN_LIN_FECH);
-
-            return $"";
-        }
-
-        private string MontarLinhaArquivoAbertura(OrdemServico chamado)
-        {
-            _logger.Info($"Iniciando a composição de nova linha no arquivo de abertura");
-            string horaGeracao = DateTime.Now.ToString("HHmms");
-
-            string retorno = @$"320232335000027220620231606000803626800";
-
-            _logger.Info($"Finalizando a composição de nova linha no arquivo de abertura");
 
             return $"";
         }

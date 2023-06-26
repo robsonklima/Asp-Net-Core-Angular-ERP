@@ -22,6 +22,7 @@ namespace SAT.MODELS.Entities.Constants
         public static string VONAGE_KEY = @"eab57cf8";
         public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
+        public static string INTEGRACAO_ZAFFARI_API_URL = "https://capgeminibrdev.service-now.com/api/now/table/u_integration_zaffari_perto";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
         public static string INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO = "D:/FTPLOGIX/pedidos_pendentes.unl";

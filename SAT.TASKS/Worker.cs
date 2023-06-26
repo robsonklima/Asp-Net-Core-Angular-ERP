@@ -244,8 +244,6 @@ public partial class Worker : BackgroundService
 
     private List<int> ObterCodigosTipos()
     {
-        _logger.Info(MsgConst.OBTENDO_TIPOS);
-        
         List<SatTaskTipo> tipos = (List<SatTaskTipo>)_taskTipoService
             .ObterPorParametros(new SatTaskTipoParameters {
                 IndAtivo = (byte)Constants.ATIVO
@@ -253,8 +251,6 @@ public partial class Worker : BackgroundService
             .Items;
 
         var codTipos = tipos.Select(x=> x.CodSatTaskTipo).OfType<int>().ToList();
-
-        _logger.Info(MsgConst.TIPOS_OBTIDOS + tipos.Count());
 
         return codTipos;
     }

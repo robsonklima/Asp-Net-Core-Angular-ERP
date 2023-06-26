@@ -176,9 +176,9 @@ namespace SAT.SERVICES.Services
                 {
                     //string linha = MontarLinhaArquivoAbertura(chamado);
 
-                    w.WriteLine(linha);
+                    // w.WriteLine(linha);
 
-                    _logger.Info($"Adicionada a linha: {linha}");
+                    // _logger.Info($"Adicionada a linha: {linha}");
                 });
             }
 

@@ -102,8 +102,8 @@ public partial class Worker : BackgroundService
         foreach (int tipo in tipos)
         {
             var parametros = new OrdemServicoParameters { 
-                DataHoraInicioInicio = DateTime.Now.AddMinutes(-5),
-                DataHoraInicioFim = DateTime.Now,
+                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraManutFim = DateTime.Now,
             };
             var chamados = _osService.ObterPorParametros(parametros).Items;
 

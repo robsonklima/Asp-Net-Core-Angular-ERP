@@ -59,6 +59,10 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.NumOSQuarteirizada))
                 query = query.Where(os => os.NumOSQuarteirizada == parameters.NumOSQuarteirizada);
 
+            if (parameters.DataHoraManutInicio.HasValue && parameters.DataHoraManutFim.HasValue)
+                query = query.Where(os => os.DataHoraManut.HasValue && os.DataHoraManut.Value.Date >= parameters.DataHoraManutInicio.Value.Date
+                    && os.DataHoraManut.Value.Date <= parameters.DataHoraManutFim.Value.Date);
+
             if (parameters.DataAberturaInicio.HasValue && parameters.DataAberturaFim.HasValue)
                 query = query.Where(os => os.DataHoraAberturaOS.HasValue && os.DataHoraAberturaOS.Value.Date >= parameters.DataAberturaInicio.Value.Date
                     && os.DataHoraAberturaOS.Value.Date <= parameters.DataAberturaFim.Value.Date);

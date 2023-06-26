@@ -46,14 +46,13 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info(MsgConst.OBTENDO_PROCESSOS + Constants.INTEGRACAO_ZAFFARI);
 
-            var parametros = new SatTaskProcessoParameters
-            {
-                CodSatTaskTipo = (int)SatTaskTipoEnum.INT_ZAFFARI,
-                Status = SatTaskStatusConst.PENDENTE,
-            };
-
             var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService
-                .ObterPorParametros(parametros).Items;
+                .ObterPorParametros(new SatTaskProcessoParameters
+                {
+                    CodSatTaskTipo = (int)SatTaskTipoEnum.INT_ZAFFARI,
+                    Status = SatTaskStatusConst.PENDENTE,
+                })
+                .Items;
 
             _logger.Info(MsgConst.QTD_PROCESSOS + processos.Count());
 

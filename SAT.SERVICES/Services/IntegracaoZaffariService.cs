@@ -23,7 +23,7 @@ namespace SAT.SERVICES.Services
 
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(ordem), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(ordem), Encoding.UTF8, Constants.APPLICATION_JSON);
 
                 using (var response = await httpClient.PostAsync(Constants.INTEGRACAO_ZAFFARI_API_URL, content))
                 {
@@ -33,5 +33,7 @@ namespace SAT.SERVICES.Services
                 }
             }
         }
+
+        
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace SAT.SERVICES.Services
             ProcessarFilaProcessos(processos);
             var chamado = new OrdemServico { };
             await Transmitir(chamado);
-            
+
             _logger.Info(MsgConst.FIN_PROCESSO + Constants.INTEGRACAO_ZAFFARI);
         }
 
@@ -86,21 +87,31 @@ namespace SAT.SERVICES.Services
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(ordem), Encoding.UTF8, Constants.APPLICATION_JSON);
 
-                using (var response = await httpClient.PostAsync(Constants.INTEGRACAO_ZAFFARI_API_URL, content))
+                try
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-
-                    if (apiResponse is not null) {
-                        _logger.Info(MsgConst.FIN_TRANSMISSAO);
-
-                        return JsonConvert.DeserializeObject<OrdemServicoZaffari>(apiResponse);
-                    } 
-                    else 
+                    using (var response = await httpClient.PostAsync(Constants.INTEGRACAO_ZAFFARI_API_URL, content))
                     {
-                        _logger.Info(MsgConst.ERR_API_CLIENTE + apiResponse);
+                        string apiResponse = await response.Content.ReadAsStringAsync();
 
-                        return null;
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            _logger.Info(MsgConst.FIN_TRANSMISSAO);
+
+                            return JsonConvert.DeserializeObject<OrdemServicoZaffari>(apiResponse);
+                        }
+                        else
+                        {
+                            _logger.Info(MsgConst.ERR_API_CLIENTE + apiResponse);
+
+                            return null;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Info(MsgConst.ERR_API_CLIENTE + ex.Message);
+
+                    return null;
                 }
             }
         }

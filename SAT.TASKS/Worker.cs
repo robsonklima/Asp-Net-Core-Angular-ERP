@@ -113,7 +113,7 @@ public partial class Worker : BackgroundService
             _logger.Info($"{ MsgConst.OBTENDO_PROCESSOS } { tipo.Nome }");
 
             var parametros = new OrdemServicoParameters { 
-                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraManutInicio = DateTime.Now.AddMinutes(-6),
                 DataHoraManutFim = DateTime.Now,
                 CodClientes = ObterClientesProcessos()
             };
@@ -127,8 +127,6 @@ public partial class Worker : BackgroundService
 
                 if (processo is null)
                 {
-                     _logger.Info(MsgConst.CRIANDO_PROCESSO);
-
                     var p = new SatTaskProcesso
                     {
                         CodSatTaskTipo = tipo.CodSatTaskTipo,
@@ -138,12 +136,6 @@ public partial class Worker : BackgroundService
                     };  
 
                     _taskProcessoService.Criar(p);
-
-                    _logger.Info(MsgConst.PROCESSO_CRIADO);
-                }
-                else
-                {
-                    _logger.Info($"{ MsgConst.PROCESSO_PENDENTE } { processo.CodSatTaskProcesso }");
                 }
             }
         }
@@ -344,8 +336,6 @@ public partial class Worker : BackgroundService
 
     private SatTaskProcesso ObterProcessoPendenteDoChamado(int codOS)
     {
-        _logger.Info($"{ MsgConst.OBTENDO_PROCESSOS_CHAMADO } { codOS }");
-
         var processos = (List<SatTaskProcesso>)_taskProcessoService
             .ObterPorParametros(new SatTaskProcessoParameters {
                 CodOS = codOS,
@@ -353,7 +343,7 @@ public partial class Worker : BackgroundService
                 SortActive = "CodSatTaskProcesso"
             }).Items;
 
-        _logger.Info($"{ MsgConst.QTD_PROCESSOS } { processos.Count() }");
+        _logger.Info($"{ MsgConst.OBTENDO_PROCESSOS_CHAMADO } { codOS }, qtd: { processos.Count() }");
 
         return processos.FirstOrDefault()!;
     }

@@ -42,7 +42,7 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string REG_NAO_ENCONTRADO = "Registro nao encontrado";
         public static readonly string NENHUM_REG_ENCONTRADO = "Nenhum registro encontrado";
         public static readonly string ULT_TASK_OBTIDA = "Ultima task obtida";
-        public static readonly string OBTENDO_ULT_TASK = "Obtendo a ultima task do tipo ";
+        public static readonly string OBTENDO_ULT_TASK = "Obtendo a ultima task do tipo";
         public static readonly string INIC_PROCESSO = "Iniciando";
         public static readonly string FIN_PROCESSO = "Iniciando";
         public static readonly string OBTENDO_TASKS = "Obtendo tasks";

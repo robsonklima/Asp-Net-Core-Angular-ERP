@@ -75,11 +75,11 @@ public partial class Worker : BackgroundService
     {
         _logger.Info(MsgConst.INI_PROC_FILA);
 
-        var tipos = ObterCodigosTipos();
+        List<SatTaskTipo> tipos = (List<SatTaskTipo>)ObterTipos();
 
-        foreach (int tipo in tipos)
+        foreach (var tipo in tipos)
         {
-            SatTask task = ObterTask(tipo);
+            SatTask task = ObterTask(tipo.CodSatTaskTipo);
 
             var processar = podeProcessarTask(task);
 
@@ -87,7 +87,7 @@ public partial class Worker : BackgroundService
             {
                 _logger.Info(MsgConst.CRIANDO_TASK);
 
-                var novaTask = CriarTask(tipo);
+                var novaTask = CriarTask(tipo.CodSatTaskTipo);
 
                 _logger.Info(MsgConst.TASK_CRIADA + novaTask.Tipo.Nome);
             }
@@ -97,13 +97,18 @@ public partial class Worker : BackgroundService
     }
     private void AtualizarFilaProcessos()
     {
-        var tipos = ObterCodigosTipos(); 
+        List<SatTaskTipo> tipos = ObterTipos(); 
+        var processosPendentes = ObterProcessosPendentes();
 
-        foreach (int tipo in tipos)
+        foreach (var tipo in tipos)
         {
+            if (tipo.IndProcesso == 0)
+                continue;
+
             var parametros = new OrdemServicoParameters { 
                 DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
                 DataHoraManutFim = DateTime.Now,
+                CodClientes = ObterClientesProcessos()
             };
             var chamados = _osService.ObterPorParametros(parametros).Items;
 
@@ -115,14 +120,14 @@ public partial class Worker : BackgroundService
 
                 var processo = new SatTaskProcesso
                 {
-                    CodSatTaskTipo = tipo,
+                    CodSatTaskTipo = tipo.CodSatTaskTipo,
                     DataHoraCad = DateTime.Now,
                     CodOS = chamado.CodOS,
                     IndProcessado = (byte)Constants.NAO_PROCESSADO,
-                    Descricao = MsgConst.DESC_PROCESSO
+                    Descricao = string.Empty
                 };  
 
-                _logger.Info(MsgConst.PROCESSO_CRIADO + processo.CodSatTaskProcesso);
+                _logger.Info(MsgConst.PROCESSO_CRIADO);
 
                 _taskProcessoService.Criar(processo);
             }
@@ -242,7 +247,7 @@ public partial class Worker : BackgroundService
         }
     }
 
-    private List<int> ObterCodigosTipos()
+    private List<SatTaskTipo> ObterTipos()
     {
         _logger.Info(MsgConst.OBTENDO_TIPOS);
         
@@ -252,11 +257,9 @@ public partial class Worker : BackgroundService
             })
             .Items;
 
-        var codTipos = tipos.Select(x=> x.CodSatTaskTipo).OfType<int>().ToList();
-
         _logger.Info(MsgConst.TIPOS_OBTIDOS + tipos.Count());
 
-        return codTipos;
+        return tipos.ToList();
     }
 
     private SatTask ObterTask(int tipo) 
@@ -282,7 +285,7 @@ public partial class Worker : BackgroundService
 
     private IEnumerable<SatTask> ObterTasksPendentes()
     {
-        _logger.Info(MsgConst.OBTENDO_TASKS);
+        _logger.Info(MsgConst.OBTENDO_TASKS_PENDENTES);
         
         var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters {
             IndProcessado = (byte)Constants.NAO_PROCESSADO,
@@ -294,6 +297,22 @@ public partial class Worker : BackgroundService
         _logger.Info(MsgConst.TASKS_OBTIDAS + tasks.Count());
 
         return tasks;
+    }
+
+    private IEnumerable<SatTask> ObterProcessosPendentes()
+    {
+        _logger.Info(MsgConst.OBTENDO_PROCESSOS_PENDENTES);
+        
+        var processos = (IEnumerable<SatTask>)_taskProcessoService.ObterPorParametros(new SatTaskProcessoParameters {
+            IndProcessado = (byte)Constants.NAO_PROCESSADO,
+            SortActive = "CodSatProcesso",
+            SortDirection = "DESC"
+        })
+        .Items;
+
+        _logger.Info(MsgConst.QTD_PROCESSOS + processos.Count());
+
+        return processos;
     }
 
     private void AtualizarTask(SatTask task)
@@ -320,5 +339,10 @@ public partial class Worker : BackgroundService
         _logger.Info(MsgConst.TASK_CRIADA + task.CodSatTask);
 
         return task;
+    }
+
+    private string ObterClientesProcessos()
+    {
+        return $"{ Constants.CLIENTE_ZAFFARI }";
     }
 }

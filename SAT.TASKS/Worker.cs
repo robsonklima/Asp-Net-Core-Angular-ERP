@@ -295,7 +295,7 @@ public partial class Worker : BackgroundService
         else 
             _logger.Info(MsgConst.REG_NAO_ENCONTRADO);
 
-        return task;
+        return task!;
     }
 
     private IEnumerable<SatTask> ObterTasksPendentes()

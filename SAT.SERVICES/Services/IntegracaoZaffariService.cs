@@ -101,7 +101,7 @@ namespace SAT.SERVICES.Services
                         }
                         else
                         {
-                            _logger.Info(MsgConst.ERR_API_CLIENTE + Constants.INTEGRACAO_ZAFFARI_API_URL);
+                            _logger.Error(MsgConst.ERR_API_CLIENTE + Constants.INTEGRACAO_ZAFFARI_API_URL + " " + apiResponse);
 
                             return null;
                         }

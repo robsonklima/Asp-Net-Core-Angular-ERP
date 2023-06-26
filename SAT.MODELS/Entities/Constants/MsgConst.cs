@@ -4,11 +4,14 @@ namespace SAT.MODELS.Constants
     {
         public static readonly string INI_PROC = "Iniciando o processamento: ";
         public static readonly string FIN_PROC = "Finalizando o processamento: ";
+        public static readonly string OBTENDO_PROCESSOS_CHAMADO = "Obtendo os processos do chamado: ";
         public static readonly string INI_PROC_FILA = "Iniciando o processamento da fila";
         public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila";
+        public static readonly string PROCESSO_PENDENTE = "Processo pendente: ";
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks: ";
         public static readonly string FIN_PROC_TASKS = "Finalizando o processamento das tasks: ";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo: ";
+        public static readonly string EXISTE_TASK_PENDENTE = "Existe uma task pendente e sera processada: ";
         public static readonly string NAO_POSSUI_PERMISSAO_PROCESSAR = "A task nao possui permissao para processar: ";
         public static readonly string QTD_CHAMADOS_ENVIO = "Chamados obtidos para envio: ";
         public static readonly string LENDO_LINHA = "Lendo a linha: ";

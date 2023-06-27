@@ -21,42 +21,17 @@ namespace SAT.TASKS
                 if (deveCriarTask(task))
                 {
                     var novaTask = _taskService.Criar(new SatTask
-                        {
-                            Status = SatTaskStatusConst.PENDENTE,
-                            DataHoraCad = DateTime.Now,
-                            CodSatTaskTipo = tipo.CodSatTaskTipo
-                        });
+                    {
+                        Status = SatTaskStatusConst.PENDENTE,
+                        DataHoraCad = DateTime.Now,
+                        CodSatTaskTipo = tipo.CodSatTaskTipo
+                    });
 
-                    _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
+                    _logger.Info($"{MsgConst.TASK_CRIADA}, {novaTask.Tipo.Nome}");
                 }
             }
 
             _logger.Info(MsgConst.FIN_PROC_FILA);
-        }
-
-        private bool deveCriarTask(SatTask task)
-        {
-            if (task is null)
-                return true;
-
-            if (task.Status == SatTaskStatusConst.PENDENTE)
-                return false;
-
-            switch (task.CodSatTaskTipo)
-            {
-                case (int)SatTaskTipoEnum.INT_BANRISUL:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_BB:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_MRP:
-                    return DateTime.Now.Hour == 2 && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                    return DateTime.Now.Hour == 23 && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
-                default:
-                    return false;
-            }
         }
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
@@ -88,7 +63,8 @@ namespace SAT.TASKS
 
                 if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
                 {
-                    var parametros = new OrdemServicoParameters { 
+                    var parametros = new OrdemServicoParameters
+                    {
                         CodCliente = Constants.CLIENTE_ZAFFARI,
                         DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
                         DataHoraManutFim = DateTime.Now,
@@ -121,9 +97,34 @@ namespace SAT.TASKS
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
-                    
+
                     continue;
                 }
+            }
+        }
+
+        private bool deveCriarTask(SatTask task)
+        {
+            if (task is null)
+                return true;
+
+            if (task.Status == SatTaskStatusConst.PENDENTE)
+                return false;
+
+            switch (task.CodSatTaskTipo)
+            {
+                case (int)SatTaskTipoEnum.INT_BANRISUL:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_BB:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_ZAFFARI:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_MRP:
+                    return DateTime.Now.Hour == 2 && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
+                    return DateTime.Now.Hour == 23 && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
+                default:
+                    return false;
             }
         }
     }

@@ -83,7 +83,8 @@ namespace SAT.SERVICES.Services
             try
             {
                 List<string> retorno = new();
-                DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_INPUT);
+                string path = System.Environment.CurrentDirectory + "\\Input";
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
                 string fileName = "crm549.*.BB";
                 FileInfo[] files = dirInfo.GetFiles(fileName);
 
@@ -193,9 +194,9 @@ namespace SAT.SERVICES.Services
             try
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
-                string fileName = $"CRM549R.xPerto01.{dataHora}.txt";
-                string path = Constants.DIR_INTEGRACAO_BB_OUTPUT + "\\" + fileName;
-
+                string fileName = $"CRM549R.xPerto01.{dataHora}.bco001";
+                string path = System.Environment.CurrentDirectory + "\\Output\\" + fileName;
+                
                 using (StreamWriter w = new StreamWriter(path))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
@@ -305,7 +306,7 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-                    string path = Constants.DIR_INTEGRACAO_BB_OUTPUT + "\\" + fileName;
+                    string path = System.Environment.CurrentDirectory + "\\Output\\" + fileName;
                     _logger.Info(path + "    <_ oooo");
 
                     using (StreamWriter w = new StreamWriter(path))
@@ -333,7 +334,6 @@ namespace SAT.SERVICES.Services
 
             _logger.Info(MsgConst.FIN_ARQ_RET);
         }
-
 
         private string NormalizarConteudo(string conteudo)
         {

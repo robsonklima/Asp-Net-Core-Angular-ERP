@@ -2,6 +2,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
+using SAT.UTILS;
 
 namespace SAT.TASKS
 {
@@ -32,6 +33,31 @@ namespace SAT.TASKS
             }
 
             _logger.Info(MsgConst.FIN_PROC_FILA);
+        }
+
+        private bool deveCriarTask(SatTask task)
+        {
+            if (task is null)
+                return true;
+
+            if (task.Status == SatTaskStatusConst.PENDENTE)
+                return false;
+
+            switch (task.CodSatTaskTipo)
+            {
+                case (int)SatTaskTipoEnum.INT_BANRISUL:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_BB:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_ZAFFARI:
+                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.INT_MRP:
+                    return DataHelper.is2Horas() && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
+                case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
+                    return DataHelper.is23Horas() && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
+                default:
+                    return false;
+            }
         }
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
@@ -100,31 +126,6 @@ namespace SAT.TASKS
 
                     continue;
                 }
-            }
-        }
-
-        private bool deveCriarTask(SatTask task)
-        {
-            if (task is null)
-                return true;
-
-            if (task.Status == SatTaskStatusConst.PENDENTE)
-                return false;
-
-            switch (task.CodSatTaskTipo)
-            {
-                case (int)SatTaskTipoEnum.INT_BANRISUL:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_BB:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.INT_MRP:
-                    return DateTime.Now.Hour == 2 && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
-                case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                    return DateTime.Now.Hour == 23 && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
-                default:
-                    return false;
             }
         }
     }

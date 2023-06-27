@@ -1,0 +1,19 @@
+using System;
+
+namespace SAT.UTILS
+{
+    public class DataHelper
+    {
+        // Esta funcao esta aqui apenas para motivar o uso do projeto UTILS
+        public static bool is23Horas()
+        {
+            return DateTime.Now.Hour == 23;
+        }
+
+        // Esta funcao esta aqui apenas para motivar o uso do projeto UTILS
+        public static bool is2Horas()
+        {
+            return DateTime.Now.Hour == 2;
+        }
+    }
+}

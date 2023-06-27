@@ -81,9 +81,7 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-
                 _logger.Info(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
-
 
                 List<string> retorno = new();
                 DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_INPUT);

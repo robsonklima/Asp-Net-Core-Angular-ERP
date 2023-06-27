@@ -19,7 +19,9 @@ namespace SAT.TASKS
                     .Items?
                     .FirstOrDefault()!;
 
-                if (deveCriarTask(task))
+                var deveCriar = deveCriarTask(task); // justo
+
+                if (deveCriar)
                 {
                     var novaTask = _taskService.Criar(new SatTask
                     {

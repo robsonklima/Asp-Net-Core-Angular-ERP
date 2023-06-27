@@ -64,7 +64,7 @@ namespace SAT.SERVICES.Services
                     }
                     else
                     {
-                        _logger.Error(MsgConst.ERR_API_CLIENTE + Constants.INTEGRACAO_ZAFFARI_API_URL + " " + apiResponse);
+                        _logger.Info($"{ MsgConst.ERR_API_CLIENTE } { Constants.INTEGRACAO_ZAFFARI_API_URL } { apiResponse }");
 
                         return null;
                     }
@@ -72,7 +72,7 @@ namespace SAT.SERVICES.Services
             }
             catch (Exception ex)
             {
-                _logger.Info(MsgConst.ERR_API_CLIENTE + Constants.INTEGRACAO_ZAFFARI_API_URL + ex.Message);
+                _logger.Error($"{ MsgConst.ERR_API_CLIENTE } { Constants.INTEGRACAO_ZAFFARI_API_URL } { ex.Message }");
 
                 return null;
             }

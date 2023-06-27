@@ -20,7 +20,7 @@ public partial class Worker : BackgroundService
                     .ObterPorParametros(tipoParams)
                     .Items;
 
-                AtualizarFilaTasks(tipos);
+                CriarFilaTasks(tipos);
 
                 var taskParams = new SatTaskParameters { 
                     Status = SatTaskStatusConst.PENDENTE

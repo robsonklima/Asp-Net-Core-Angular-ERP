@@ -8,7 +8,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void AtualizarFilaTasks(List<SatTaskTipo> tipos)
+        private void CriarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);
 
@@ -21,9 +21,9 @@ namespace SAT.TASKS
                         .Items?
                         .FirstOrDefault()!;
 
-                    var deveCriar = deveCriarProcessarTask(task, "CRIAR");
+                    var dCriar = deveCriar(task);
 
-                    if (deveCriar)
+                    if (dCriar)
                     {
                         var novaTask = _taskService.Criar(new SatTask
                         {
@@ -32,26 +32,31 @@ namespace SAT.TASKS
                             CodSatTaskTipo = tipo.CodSatTaskTipo
                         });
 
-                        _logger.Info($"{MsgConst.TASK_CRIADA}, {novaTask.Tipo.Nome}");
+                        _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
+                _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
             }
 
             _logger.Info(MsgConst.FIN_PROC_FILA);
         }
 
-        private bool deveCriarProcessarTask(SatTask task, string acao)
+        private bool deveCriar(SatTask task)
         {
             if (task is null)
                 return true;
 
-            if (task.Status == SatTaskStatusConst.PENDENTE && acao == "CRIAR")
+            if (task.Status == SatTaskStatusConst.PENDENTE)
                 return false;
 
+            return ObterPermissao(task);
+        }
+
+        private bool ObterPermissao(SatTask task)
+        {
             DateTime dtHrProc = task.DataHoraProcessamento.HasValue ? 
                 task.DataHoraProcessamento.Value : default(DateTime);
 
@@ -85,7 +90,7 @@ namespace SAT.TASKS
 
                 foreach (var task in tasks)
                 {
-                    if (!deveCriarProcessarTask(task, "PROCESSAR"))
+                    if (!deveProcessar(task))
                         continue;
 
                     int tipo = task.CodSatTaskTipo;
@@ -116,7 +121,7 @@ namespace SAT.TASKS
                     {
                         var chamadosZaffari = chamadosIntegracao
                             .Where(os => os.CodCliente == Constants.CLIENTE_ZAFFARI);
-                            
+
                         await _integracaoZaffariService.ExecutarAsync(chamadosZaffari);
                         _taskService.Atualizar(task);
 
@@ -163,6 +168,8 @@ namespace SAT.TASKS
                 _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
             }
         }
+
+        private bool deveProcessar(SatTask task) => ObterPermissao(task);
 
         private IEnumerable<OrdemServico> ObterFilaChamados()
         {

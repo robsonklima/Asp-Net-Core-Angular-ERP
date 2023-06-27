@@ -21,7 +21,7 @@ namespace SAT.TASKS
                         .Items?
                         .FirstOrDefault()!;
 
-                    var deveCriar = deveCriarTask(task); // justo
+                    var deveCriar = deveCriarProcessarTask(task, "CRIAR");
 
                     if (deveCriar)
                     {
@@ -44,15 +44,16 @@ namespace SAT.TASKS
             _logger.Info(MsgConst.FIN_PROC_FILA);
         }
 
-        private bool deveCriarTask(SatTask task)
+        private bool deveCriarProcessarTask(SatTask task, string acao)
         {
             if (task is null)
                 return true;
 
-            if (task.Status == SatTaskStatusConst.PENDENTE)
+            if (task.Status == SatTaskStatusConst.PENDENTE && acao == "CRIAR")
                 return false;
 
-            var dtHrProc = task.DataHoraProcessamento!.Value;
+            DateTime dtHrProc = task.DataHoraProcessamento.HasValue ? 
+                task.DataHoraProcessamento.Value : default(DateTime);
 
             switch (task.CodSatTaskTipo)
             {
@@ -79,6 +80,9 @@ namespace SAT.TASKS
             {
                 foreach (var task in tasks)
                 {
+                    if (!deveCriarProcessarTask(task, "PROCESSAR"))
+                        continue;
+
                     int tipo = task.CodSatTaskTipo;
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;

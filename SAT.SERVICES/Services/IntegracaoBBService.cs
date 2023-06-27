@@ -50,23 +50,24 @@ namespace SAT.SERVICES.Services
                 if (files is null)
                 {
                     _logger.Info(MsgConst.NENHUM_REGISTRO_ENCONTRADO);    
+                } 
+                else
+                {
+                    _logger.Info(MsgConst.ENCONTRADOS + files.Count());
 
-                    return;
+                    List<OrdemServico> chamadosPerto = new();
+
+                    files.ForEach((file) =>
+                    {
+                        string conteudoNormalizado = NormalizarConteudo(file);
+                        OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
+                        OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
+                        chamadosPerto.Add(chamadoPerto);
+                    });
+
+                    CriarArquivoRetornoAbertura(chamadosPerto);
                 }
 
-                _logger.Info(MsgConst.ENCONTRADOS + files.Count());
-
-                List<OrdemServico> chamadosPerto = new();
-
-                files.ForEach((file) =>
-                {
-                    string conteudoNormalizado = NormalizarConteudo(file);
-                    OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
-                    OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
-                    chamadosPerto.Add(chamadoPerto);
-                });
-
-                CriarArquivoRetornoAbertura(chamadosPerto);
                 CriarArquivoRetornoFechamento();
             }
             catch (Exception ex)

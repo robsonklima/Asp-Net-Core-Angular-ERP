@@ -13,8 +13,9 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((context, services) =>
     {
+        var connString = context.Configuration.GetConnectionString(Constants.DB_PROD)!;
         services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(context.Configuration.GetConnectionString(Constants.DB_PROD)!,
+                options => options.UseSqlServer(connString,
                 sqlServerOptions => sqlServerOptions.CommandTimeout(30)));
 
         services.AddHttpContextAccessor();

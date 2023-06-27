@@ -75,7 +75,7 @@ namespace SAT.SERVICES.Services
 
             foreach (FileInfo file in files)
             {
-                using (StreamReader sr = File.OpenText($"{ target } \\ { file.Name }"))
+                using (StreamReader sr = File.OpenText($"{ target }\\{ file.Name }"))
                 {
                     string linha = String.Empty;
 
@@ -170,10 +170,10 @@ namespace SAT.SERVICES.Services
             string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
             string fileName = $"CRM549R.xPerto01.{ dataHora }.txt";
 
-            _logger.Info(MsgConst.LENDO_DIR + target);
+            _logger.Info($"{ MsgConst.CRIANDO_FILE} {target}");
 
-            string absolutePath = Path.GetFullPath(target + fileName);
-            using (StreamWriter w = new StreamWriter(absolutePath + Constants.OUTPUT))
+            string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+            using (StreamWriter w = new StreamWriter(absolutePath))
             {
                 string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
                 w.WriteLine(cabecalho);
@@ -273,9 +273,9 @@ namespace SAT.SERVICES.Services
             foreach (var chamado in chamados)
             {
                 string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
-                string target = Directory.GetCurrentDirectory() + "/Output";
-
-                using (StreamWriter w = new StreamWriter(target))
+                string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
+                string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+                using (StreamWriter w = new StreamWriter(absolutePath))
                 {
                     string cabecalho = MontarCabecalhoArquivoFechamento();
                     string rodape = MontarRodapeArquivoFechamento();

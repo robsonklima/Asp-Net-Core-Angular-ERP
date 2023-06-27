@@ -12,6 +12,7 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado";
         public static readonly string ENCONTRADOS = "Arquivos encontrados arquivos para processamento";
         public static readonly string LENDO_DIR = "Lendo diretorio de arquivos para processamento";
+        public static readonly string CRIANDO_FILE = "Criando arquivo de fechamnto";
         public static readonly string INICIANDO_EXTR = "Iniciando a extracao dos chamados nos arquivos";
         public static readonly string AD_CABECALHO = "Adicionado o cabecalho";
         public static readonly string FIN_EXTR = "Finalizando a extracao dos chamados nos arquivos";

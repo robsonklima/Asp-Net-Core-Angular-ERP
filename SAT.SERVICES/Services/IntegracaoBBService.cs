@@ -42,61 +42,78 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info($"{MsgConst.INI_PROC} {Constants.INTEGRACAO_BB}");
 
-            List<string> files = LerDiretorioInput();
-
-            _logger.Info(MsgConst.ENCONTRADOS + files.Count());
-
-            List<OrdemServico> chamadosPerto = new();
-
-            files.ForEach((file) =>
+            try
             {
-                string conteudoNormalizado = NormalizarConteudo(file);
-                OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
-                OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
-                chamadosPerto.Add(chamadoPerto);
-            });
+                List<string> files = LerDiretorioInput();
 
-            CriarArquivoRetornoAbertura(chamadosPerto);
-            CriarArquivoRetornoFechamento();
+                if (files is null)
+                {
+                    _logger.Info(MsgConst.NENHUM_REGISTRO_ENCONTRADO);    
 
+                    return;
+                }
+
+                _logger.Info(MsgConst.ENCONTRADOS + files.Count());
+
+                List<OrdemServico> chamadosPerto = new();
+
+                files.ForEach((file) =>
+                {
+                    string conteudoNormalizado = NormalizarConteudo(file);
+                    OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
+                    OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
+                    chamadosPerto.Add(chamadoPerto);
+                });
+
+                CriarArquivoRetornoAbertura(chamadosPerto);
+                CriarArquivoRetornoFechamento();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+            }
+            
             _logger.Info($"{MsgConst.FIN_PROC} {Constants.INTEGRACAO_BB}");
         }
 
         private List<string> LerDiretorioInput()
         {
-            string target = Directory.GetCurrentDirectory() + Constants.INPUT;
-
-            _logger.Info(MsgConst.LENDO_DIR + target);
-
-            DirectoryInfo dirInfo = new DirectoryInfo(target);
-            string nomenclatura = "crm549.*.BB";
-            FileInfo[] files = dirInfo.GetFiles(nomenclatura);
-
-            _logger.Info(MsgConst.LENDO_TIPO + nomenclatura);
-
-            List<string> linhas = new();
-
-            foreach (FileInfo file in files)
+            try
             {
-                using (StreamReader sr = File.OpenText($"{target}\\{file.Name}"))
+                List<string> retorno = new();
+                DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_INPUT);
+                string fileName = "crm549.*.BB";
+                _logger.Info(MsgConst.LENDO_TIPO + fileName);
+                FileInfo[] files = dirInfo.GetFiles(fileName);
+
+                foreach (FileInfo file in files)
                 {
-                    string linha = String.Empty;
-
-                    while ((linha = sr.ReadLine()) is not null)
+                    using (StreamReader sr = File.OpenText(fileName))
                     {
-                        char primeiroCaractere = linha[0];
+                        string linha = String.Empty;
 
-                        if (primeiroCaractere == '1')
+                        while ((linha = sr.ReadLine()) is not null)
                         {
-                            linhas.Add(linha);
+                            char primeiroCaractere = linha[0];
 
-                            _logger.Info(MsgConst.LENDO_LINHA);
+                            if (primeiroCaractere == '1')
+                            {
+                                retorno.Add(linha);
+
+                                _logger.Info(MsgConst.LENDO_LINHA);
+                            }
                         }
                     }
                 }
-            }
 
-            return linhas;
+                return retorno;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+
+                return new List<string>();
+            }
         }
 
         private OrdemServicoBB ExtrairChamadoArquivoAbertura(string conteudo)
@@ -173,8 +190,8 @@ namespace SAT.SERVICES.Services
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.txt";
-                string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.INTEGRACAO_BB_OUTPUT) + fileName);
-                using (StreamWriter w = new StreamWriter(absolutePath))
+
+                using (StreamWriter w = new StreamWriter(Constants.DIR_INTEGRACAO_BB_OUTPUT))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
                     w.WriteLine(cabecalho);
@@ -283,9 +300,8 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-                    string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.INTEGRACAO_BB_OUTPUT) + fileName);
 
-                    using (StreamWriter w = new StreamWriter(absolutePath))
+                    using (StreamWriter w = new StreamWriter(Constants.DIR_INTEGRACAO_BB_OUTPUT))
                     {
                         string cabecalho = MontarCabecalhoArquivoFechamento();
                         string rodape = MontarRodapeArquivoFechamento();

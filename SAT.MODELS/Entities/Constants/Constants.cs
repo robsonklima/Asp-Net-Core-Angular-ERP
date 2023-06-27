@@ -22,8 +22,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
         public static string INTEGRACAO_ZAFFARI_API_URL = "https://capgeminibrdev.service-now.com/api/now/table/u_integration_zaffari_perto";
         public static string INTEGRACAO_ZAFFARI_USER = "userperto";
-        public static string INTEGRACAO_BB_INPUT = "INTEGRACAO_BB_INPUT";
-        public static string INTEGRACAO_BB_OUTPUT = "INTEGRACAO_BB_OUTPUT";
+        public static string DIR_INTEGRACAO_BB_INPUT = "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Input\\";
+        public static string DIR_INTEGRACAO_BB_OUTPUT = "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Output\\";
         public static string INTEGRACAO_ZAFFARI_PASSWORD = "hqP9FzOL0g_lzba-";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";

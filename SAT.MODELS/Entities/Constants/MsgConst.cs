@@ -8,11 +8,10 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila";
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo";
+        public static readonly string NENHUM_REGISTRO_ENCONTRADO = "Nenhum registro encontrado";
         public static readonly string LENDO_LINHA = "Lendo a linha";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado";
         public static readonly string ENCONTRADOS = "Arquivos encontrados arquivos para processamento";
-        public static readonly string LENDO_DIR = "Lendo diretorio de arquivos para processamento";
-        public static readonly string CRIANDO_FILE = "Criando arquivo de fechamnto";
         public static readonly string INICIANDO_EXTR = "Iniciando a extracao dos chamados nos arquivos";
         public static readonly string AD_CABECALHO = "Adicionado o cabecalho";
         public static readonly string FIN_EXTR = "Finalizando a extracao dos chamados nos arquivos";

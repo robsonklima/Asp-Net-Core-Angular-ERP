@@ -20,11 +20,18 @@ namespace SAT.SERVICES.Services
 
         public async Task ExecutarAsync(IEnumerable<OrdemServico> chamados)
         {
-            _logger.Info(MsgConst.INI_PROC + Constants.INTEGRACAO_ZAFFARI);
+            _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_ZAFFARI }");
 
-            foreach (var chamado in chamados)
+            try
             {
-                await Transmitir(chamado);
+                foreach (var chamado in chamados)
+                {
+                    //await Transmitir(chamado);
+                }    
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"{ Constants.INTEGRACAO_ZAFFARI } { ex.Message }");
             }
 
             _logger.Info(MsgConst.FIN_PROCESSO + Constants.INTEGRACAO_ZAFFARI);

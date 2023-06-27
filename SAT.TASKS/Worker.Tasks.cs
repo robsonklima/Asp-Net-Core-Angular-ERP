@@ -153,7 +153,7 @@ namespace SAT.TASKS
                         {
                             var prazo = _ansService.CalcularSLA(chamado);
 
-                            _logger.Info($"{MsgConst.SLA_CALCULADO} {chamado.CodOS}, resultado: {prazo}");
+                            _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
                         }
 
                         _taskService.Atualizar(task);

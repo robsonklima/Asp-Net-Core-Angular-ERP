@@ -8,7 +8,6 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string FIN_PROC_FILA = "Finalizando o processamento da fila";
         public static readonly string INI_PROC_TASKS = "Iniciando o processamento das tasks";
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo";
-        public static readonly string EXISTE_TASK_PENDENTE = "Existe uma task pendente e sera processada";
         public static readonly string LENDO_LINHA = "Lendo a linha";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado";
         public static readonly string ENCONTRADOS = "Arquivos encontrados arquivos para processamento";
@@ -36,8 +35,6 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string FIN_PROCESSO = "Iniciando";
         public static readonly string ERR_API_CLIENTE = "Nao foi obtido retorno da API do cliente";
         public static readonly string INIC_TRANSMISSAO = "Iniciando a transmissao";
-        public static readonly string FIN_TRANSMISSAO = "Finalizando a transmissao";
-        public static readonly string CRIANDO_TASK = "Criando a task";
         public static readonly string TASK_CRIADA = "Task criada com sucesso";
     }
 }

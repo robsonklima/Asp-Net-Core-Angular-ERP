@@ -34,32 +34,30 @@ namespace SAT.SERVICES.Services
 
         private async Task<OrdemServicoZaffari> Transmitir(OrdemServico chamado)
         {
-            _logger.Info($"{MsgConst.INIC_TRANSMISSAO}, chamado {chamado.CodOS}");
-
-            var ordem = new OrdemServicoZaffari();
-
-            var client = new HttpClient();
-            client.BaseAddress = new Uri(Constants.INTEGRACAO_ZAFFARI_API_URL);
-            var request = new HttpRequestMessage(HttpMethod.Post, "/path");
-            var formData = new List<KeyValuePair<string, string>>();
-            formData.Add(new KeyValuePair<string, string>("grant_type", "password"));
-            formData.Add(new KeyValuePair<string, string>("username", Constants.INTEGRACAO_ZAFFARI_USER));
-            formData.Add(new KeyValuePair<string, string>("password", Constants.INTEGRACAO_ZAFFARI_PASSWORD));
-            formData.Add(new KeyValuePair<string, string>("scope", "all"));
-            request.Content = new FormUrlEncodedContent(formData);
-
-            StringContent content = new StringContent(JsonConvert.SerializeObject(ordem), Encoding.UTF8, Constants.APPLICATION_JSON);
+            _logger.Info($"{ MsgConst.INIC_TRANSMISSAO }, chamado { chamado.CodOS }");
 
             try
             {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(Constants.INTEGRACAO_ZAFFARI_API_URL);
+                
+                var request = new HttpRequestMessage(HttpMethod.Post, "");
+                var formData = new List<KeyValuePair<string, string>>();
+                formData.Add(new KeyValuePair<string, string>("grant_type", "password"));
+                formData.Add(new KeyValuePair<string, string>("username", Constants.INTEGRACAO_ZAFFARI_USER));
+                formData.Add(new KeyValuePair<string, string>("password", Constants.INTEGRACAO_ZAFFARI_PASSWORD));
+                formData.Add(new KeyValuePair<string, string>("scope", "all"));
+                request.Content = new FormUrlEncodedContent(formData);
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(new OrdemServicoZaffari()),
+                    Encoding.UTF8, Constants.APPLICATION_JSON);
+
                 using (var response = await client.PostAsync(Constants.INTEGRACAO_ZAFFARI_API_URL, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        _logger.Info(MsgConst.FIN_TRANSMISSAO);
-
                         return JsonConvert.DeserializeObject<OrdemServicoZaffari>(apiResponse);
                     }
                     else

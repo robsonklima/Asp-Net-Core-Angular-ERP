@@ -164,7 +164,7 @@ namespace SAT.TASKS
             }
             catch (Exception ex)
             {
-                _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
+                _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
             }
         }
     }

@@ -84,12 +84,19 @@ namespace SAT.SERVICES.Services
                 string curr = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
                 _logger.Info(curr);
+                _logger.Info(Constants.DIR_INTEGRACAO_BB_INPUT);
+                
 
                 List<string> retorno = new();
                 DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_INPUT);
                 string fileName = "crm549.*.BB";
                 _logger.Info(MsgConst.LENDO_TIPO + fileName);
                 FileInfo[] files = dirInfo.GetFiles(fileName);
+
+                _logger.Info(dirInfo);
+
+                if (files.Count() == 0)
+                    return new List<string>();
 
                 foreach (FileInfo file in files)
                 {

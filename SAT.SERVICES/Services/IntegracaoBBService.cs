@@ -82,6 +82,12 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                _logger.Info(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                    _logger.Info(System.AppDomain.CurrentDomain.BaseDirectory);
+                    _logger.Info(System.Environment.CurrentDirectory);
+                    _logger.Info(System.IO.Directory.GetCurrentDirectory());
+                    _logger.Info(Environment.CurrentDirectory);
+
                 List<string> retorno = new();
                 string path = System.Environment.CurrentDirectory + "\\Input";
                 DirectoryInfo dirInfo = new DirectoryInfo(path);

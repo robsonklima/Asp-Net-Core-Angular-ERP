@@ -47,15 +47,16 @@ namespace SAT.SERVICES.Services
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(Constants.INTEGRACAO_ZAFFARI_API_URL);
                 
-                var request = new HttpRequestMessage(HttpMethod.Post, "");
-                var formData = new List<KeyValuePair<string, string>>();
-                formData.Add(new KeyValuePair<string, string>("grant_type", "password"));
-                formData.Add(new KeyValuePair<string, string>("username", Constants.INTEGRACAO_ZAFFARI_USER));
-                formData.Add(new KeyValuePair<string, string>("password", Constants.INTEGRACAO_ZAFFARI_PASSWORD));
-                formData.Add(new KeyValuePair<string, string>("scope", "all"));
-                request.Content = new FormUrlEncodedContent(formData);
+                var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress);
+                var encoding = System.Text.Encoding.GetEncoding("ISO-8859-1");
+                byte[] headerBytes = encoding.GetBytes(Constants.INTEGRACAO_ZAFFARI_USER + ":" + Constants.INTEGRACAO_ZAFFARI_PASSWORD);
+                string headerValue = Convert.ToBase64String(headerBytes);
+                request.Headers.Add("Authorization", "Basic " + headerValue);
 
-                StringContent content = new StringContent(JsonConvert.SerializeObject(new OrdemServicoZaffari()),
+                StringContent content = new StringContent(JsonConvert.SerializeObject(new OrdemServicoZaffari() 
+                    {
+                        
+                    }),
                     Encoding.UTF8, Constants.APPLICATION_JSON);
 
                 using (var response = await client.PostAsync(Constants.INTEGRACAO_ZAFFARI_API_URL, content))

@@ -40,7 +40,7 @@ namespace SAT.SERVICES.Services
 
         public void Processar()
         {
-            _logger.Info($"{MsgConst.INI_PROC} {Constants.INTEGRACAO_BB}");
+            _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BB }");
 
             try
             {
@@ -54,7 +54,7 @@ namespace SAT.SERVICES.Services
                 {
                     MoverArquivosProcessados();
 
-                    _logger.Info(MsgConst.ENCONTRADOS + files.Count());
+                    _logger.Info($"{ MsgConst.ENCONTRADOS }: { files.Count() } registros");
 
                     List<OrdemServico> chamadosPerto = new();
 
@@ -76,7 +76,7 @@ namespace SAT.SERVICES.Services
                 _logger.Error(ex.Message);
             }
             
-            _logger.Info($"{MsgConst.FIN_PROC} {Constants.INTEGRACAO_BB}");
+            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BB }");
         }
 
         private void MoverArquivosProcessados()
@@ -97,10 +97,11 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
+                string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/");
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
-                string fileName = "crm549.*.BB";
-                FileInfo[] files = dirInfo.GetFiles(fileName);
+                FileInfo[] files = dirInfo.GetFiles("*crm549*");
+
+                //.Where(el => el.Name.Contains("crm549."))
 
                 if (files.Count() == 0)
                     return new List<string>();
@@ -109,7 +110,7 @@ namespace SAT.SERVICES.Services
                 
                 foreach (FileInfo file in files)
                 {
-                    using (StreamReader sr = File.OpenText(fileName))
+                    using (StreamReader sr = File.OpenText(file.Name))
                     {
                         string linha = String.Empty;
 
@@ -211,7 +212,7 @@ namespace SAT.SERVICES.Services
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.bco001";
-                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "\\" + fileName;
+                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "/" + fileName;
                 
                 using (StreamWriter w = new StreamWriter(path))
                 {
@@ -322,7 +323,7 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-                    string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "\\" + fileName;
+                    string path = System.AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/") + "Output" + "/" + fileName;
 
                     using (StreamWriter w = new StreamWriter(path))
                     {

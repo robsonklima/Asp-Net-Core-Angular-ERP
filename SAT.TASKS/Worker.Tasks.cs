@@ -107,8 +107,6 @@ namespace SAT.TASKS
                             CodCliente = Constants.CLIENTE_ZAFFARI,
                             DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
                             DataHoraManutFim = DateTime.Now,
-                            IndServico = 1,
-                            IndIntegracao = 1
                         };
                         var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
                         await _integracaoZaffariService.ExecutarAsync(chamados);

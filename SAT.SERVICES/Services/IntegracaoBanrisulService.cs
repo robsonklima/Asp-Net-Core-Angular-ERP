@@ -144,7 +144,7 @@ namespace SAT.SERVICES.Services
             if (string.IsNullOrWhiteSpace(conteudo))
             {
                 _logger.Error()
-                    .Message("Não é possivel carregar o conteudo pois está vazio")
+                    .Message("Nao e possivel carregar o conteudo pois esta vazio")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
             }
@@ -160,9 +160,11 @@ namespace SAT.SERVICES.Services
             if (dados.Length != quantidadeCampos)
             {
                 _logger.Error()
-                    .Message("A quantidade de campos encontrados é diferente do permitido")
+                    .Message("A quantidade de campos encontrados e diferente do permitido")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
+
+                return null;
             }
 
             IntegracaoBanrisulAtendimento atendimento = new();

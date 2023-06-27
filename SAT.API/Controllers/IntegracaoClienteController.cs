@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
-using System.Collections.Generic;
 
 namespace SAT.API.Controllers
 {
@@ -21,7 +19,7 @@ namespace SAT.API.Controllers
             _integracaoClienteService = integracaoClienteService;
         }
 
-        [HttpGet("NovoIncidente")]
+        [HttpPost("NovoIncidente")]
         public IntegracaoCliente Integrar([FromBody] IntegracaoCliente IntegracaoCliente)
         {
             return _integracaoClienteService.Integrar(IntegracaoCliente);

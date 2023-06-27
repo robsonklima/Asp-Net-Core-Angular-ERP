@@ -49,6 +49,8 @@ namespace SAT.SERVICES.Services
                 IndIntegracao = 1
             };
 
+            data.NumIncidentePerto = "98765477";
+
             _logger.Info()
                 .Message(@"Incidente do cliente {} aberto com sucesso", Constants.INTEGRACAO_ZAFFARI)
                 .Property("application", Constants.INTEGRACAO_ZAFFARI)

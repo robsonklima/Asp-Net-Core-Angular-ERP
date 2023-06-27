@@ -13,5 +13,10 @@ namespace SAT.UTILS
         {
             return DateTime.Now.Hour == 2;
         }
+
+        public static bool passouXMinutos(DateTime start, int minutos)
+        {
+            return start <= DateTime.Now.AddMinutes(-minutos);
+        }
     }
 }

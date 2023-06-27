@@ -266,12 +266,12 @@ namespace SAT.MODELS.Entities.Constants
         public static string INPUT = "\\Input";
         public static string OUTPUT = "\\Output";
 
-        // Tempos Processamento Tasks
-        public static int INTEGRACAO_BANRISUL_TEMPO_MIN = 5;
-        public static int INTEGRACAO_ZAFFARI_TEMPO_MIN = 5;
-        public static int INTEGRACAO_BB_TEMPO_MIN = 5;
-        public static int INTEGRACAO_LOGIX_MRP_TEMPO_MIN = 5;
-        public static int ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN = 24 * 60;
+        // Tempos Processamento Tasks em Minutos
+        public static int INT_BANR_T = 5;
+        public static int INT_ZAFF_T = 5;
+        public static int INT_BB_T = 5;
+        public static int INT_LOG_MRP_T = 5;
+        public static int ATU_PAR_MOD_T = 24 * 60;
         
 
         // Tasks

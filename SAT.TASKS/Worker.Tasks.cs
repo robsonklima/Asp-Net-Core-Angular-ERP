@@ -43,18 +43,20 @@ namespace SAT.TASKS
             if (task.Status == SatTaskStatusConst.PENDENTE)
                 return false;
 
+            var dtHrProc = task.DataHoraProcessamento!.Value;
+
             switch (task.CodSatTaskTipo)
             {
                 case (int)SatTaskTipoEnum.INT_BANRISUL:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
+                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_BANR_T);
                 case (int)SatTaskTipoEnum.INT_BB:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
+                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_BB_T);
                 case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
+                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_ZAFF_T);
                 case (int)SatTaskTipoEnum.INT_MRP:
-                    return DataHelper.is2Horas() && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
+                    return DataHelper.is2Horas() && DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_LOG_MRP_T);
                 case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                    return DataHelper.is23Horas() && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
+                    return DataHelper.is23Horas() && DataHelper.passouXMinutos(dtHrProc, (int)Constants.ATU_PAR_MOD_T);
                 default:
                     return false;
             }

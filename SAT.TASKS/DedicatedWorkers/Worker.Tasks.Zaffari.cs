@@ -17,7 +17,7 @@ namespace SAT.TASKS
 
             await _integracaoZaffariService.ExecutarAsync(chamadosZaffari);
             
-            return _taskService.Atualizar(task);
+            return task;
         }
     }
 }

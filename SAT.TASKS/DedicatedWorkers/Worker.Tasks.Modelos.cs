@@ -7,8 +7,6 @@ namespace SAT.TASKS
         private void IntegrarModelos(SatTask task)
         {
             _equipamentoContratoService.AtualizarParqueModelo();
-            
-            _taskService.Atualizar(task);
         }
     }
 }

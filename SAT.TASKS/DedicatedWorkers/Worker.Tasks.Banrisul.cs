@@ -9,8 +9,6 @@ namespace SAT.TASKS
             await _integracaoBanrisulService.ProcessarEmailsAsync();
             
             _integracaoBanrisulService.ProcessarRetornos();
-            
-            _taskService.Atualizar(task);
         }
     }
 }

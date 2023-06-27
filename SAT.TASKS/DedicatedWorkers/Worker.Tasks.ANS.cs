@@ -13,8 +13,6 @@ namespace SAT.TASKS
 
                 _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
             }
-
-            _taskService.Atualizar(task);
         }
     }
 }

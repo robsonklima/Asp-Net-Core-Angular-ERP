@@ -8,8 +8,6 @@ namespace SAT.TASKS
         {
             _integracaoMRPService.ImportarArquivoMRPLogix();
             _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
-            
-            _taskService.Atualizar(task);
         }
     }
 }

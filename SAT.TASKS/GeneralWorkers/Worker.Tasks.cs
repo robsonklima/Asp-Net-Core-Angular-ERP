@@ -68,9 +68,7 @@ namespace SAT.TASKS
                     if (!deveProcessar(task))
                         continue;
 
-                    int tipo = task.CodSatTaskTipo;
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    AtualizarTask(task);
 
                     switch (task.CodSatTaskTipo)
                     {
@@ -99,8 +97,7 @@ namespace SAT.TASKS
 
                             break;
                         default:
-                            break;
-                            
+                            break; 
                     }
                 }
             }
@@ -108,6 +105,14 @@ namespace SAT.TASKS
             {
                 _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
             }
+        }
+
+        private void AtualizarTask(SatTask task)
+        {
+            task.DataHoraProcessamento = DateTime.Now;
+            task.Status = SatTaskStatusConst.PROCESSADO;
+            
+            _taskService.Atualizar(task);
         }
 
         private bool deveProcessar(SatTask task) => ObterPermissao(task);

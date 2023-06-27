@@ -7,7 +7,6 @@ namespace SAT.TASKS
         private void IntegrarBB(SatTask task)
         {
             _integracaoBBService.Processar();
-            _taskService.Atualizar(task);
         }
     }
 }

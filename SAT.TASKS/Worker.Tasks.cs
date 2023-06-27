@@ -72,18 +72,6 @@ namespace SAT.TASKS
             }
         }
 
-        private IEnumerable<OrdemServico> ObterFilaChamados()
-        {
-            var parametros = new OrdemServicoParameters
-            {
-                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                DataHoraManutFim = DateTime.Now,
-                IndIntegracao = 1,
-                IndServico = 1
-            };
-            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
-        }
-
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
@@ -91,6 +79,9 @@ namespace SAT.TASKS
             try
             {
                 var chamados = ObterFilaChamados();
+                var chamadosIntegracao = ObterFilaChamados()
+                    .Where(os => os.IndIntegracao == 1)
+                    .Where(os => os.IndServico == 1);
 
                 foreach (var task in tasks)
                 {
@@ -101,6 +92,7 @@ namespace SAT.TASKS
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
 
+                    // Integracao Banco do Brasil
                     if (tipo == (int)SatTaskTipoEnum.INT_BB)
                     {
                         _integracaoBBService.Processar();
@@ -109,6 +101,7 @@ namespace SAT.TASKS
                         continue;
                     }
 
+                    // Integracao Banrisul
                     if (tipo == (int)SatTaskTipoEnum.INT_BANRISUL)
                     {
                         await _integracaoBanrisulService.ProcessarEmailsAsync();
@@ -118,14 +111,19 @@ namespace SAT.TASKS
                         continue;
                     }
 
+                    // Integracao Zaffari
                     if (tipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
                     {
-                        await _integracaoZaffariService.ExecutarAsync(chamados);
+                        var chamadosZaffari = chamadosIntegracao
+                            .Where(os => os.CodCliente == Constants.CLIENTE_ZAFFARI);
+                            
+                        await _integracaoZaffariService.ExecutarAsync(chamadosZaffari);
                         _taskService.Atualizar(task);
 
                         continue;
                     }
 
+                    // Importacao Arquivos MRP Logix
                     if (tipo == (int)SatTaskTipoEnum.INT_MRP)
                     {
                         _integracaoMRPService.ImportarArquivoMRPLogix();
@@ -135,6 +133,7 @@ namespace SAT.TASKS
                         continue;
                     }
 
+                    // Atualizacao de equipamentos e modelos
                     if (tipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
                     {
                         _equipamentoContratoService.AtualizarParqueModelo();
@@ -143,6 +142,7 @@ namespace SAT.TASKS
                         continue;
                     }
 
+                    // Atualizacao de Acordos de niveis de servico
                     if (tipo == (int)SatTaskTipoEnum.SLA)
                     {
                         foreach (var chamado in chamados)
@@ -162,6 +162,16 @@ namespace SAT.TASKS
             {
                 _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
             }
+        }
+
+        private IEnumerable<OrdemServico> ObterFilaChamados()
+        {
+            var parametros = new OrdemServicoParameters
+            {
+                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraManutFim = DateTime.Now
+            };
+            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
         }
     }
 }

@@ -18,12 +18,8 @@ namespace SAT.TASKS
                     .Items?
                     .FirstOrDefault()!;
 
-                var criar = deveCriarTask(task);
-
-                if (criar)
+                if (deveCriarTask(task))
                 {
-                    _logger.Info(MsgConst.CRIANDO_TASK);
-
                     var novaTask = _taskService.Criar(new SatTask
                         {
                             Status = SatTaskStatusConst.PENDENTE,
@@ -32,10 +28,6 @@ namespace SAT.TASKS
                         });
 
                     _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
-                }
-                else
-                {
-                    _logger.Info($"{ MsgConst.EXISTE_TASK_PENDENTE }, { task.Tipo.Nome }");
                 }
             }
 

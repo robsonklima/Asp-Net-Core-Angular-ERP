@@ -1,3 +1,5 @@
+using NLog;
+using NLog.Fluent;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
@@ -24,12 +26,13 @@ public partial class Worker : BackgroundService
                 await ProcessarFilaTasksAsync(tasks);
             }
             catch (Exception ex) {
-                 _logger.Error($"Ocorreu um erro { Constants.SISTEMA_CAMADA_TASKS }: { ex.Message }");
+                _logger.Error()
+                    .Message(ex.Message)
+                    .Property("application", Constants.SISTEMA_CAMADA_TASKS)
+                    .Write();
 
                 Environment.Exit(1);
             }
-
-            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.SISTEMA_CAMADA_TASKS }");
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }

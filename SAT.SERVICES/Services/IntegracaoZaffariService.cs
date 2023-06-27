@@ -26,7 +26,7 @@ namespace SAT.SERVICES.Services
             {
                 foreach (var chamado in chamados)
                 {
-                    //await Transmitir(chamado);
+                    await Transmitir(chamado);
                 }    
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace SAT.SERVICES.Services
                 _logger.Error($"{ Constants.INTEGRACAO_ZAFFARI } { ex.Message }");
             }
 
-            _logger.Info(MsgConst.FIN_PROCESSO + Constants.INTEGRACAO_ZAFFARI);
+            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_ZAFFARI }");
         }
 
 

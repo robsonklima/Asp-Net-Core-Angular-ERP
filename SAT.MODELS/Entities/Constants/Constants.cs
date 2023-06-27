@@ -22,8 +22,6 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
         public static string INTEGRACAO_ZAFFARI_API_URL = "https://capgeminibrdev.service-now.com/api/now/table/u_integration_zaffari_perto";
         public static string INTEGRACAO_ZAFFARI_USER = "userperto";
-        public static string DIR_INTEGRACAO_BB_INPUT = "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Input";
-        public static string DIR_INTEGRACAO_BB_OUTPUT = "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Output";
         public static string INTEGRACAO_ZAFFARI_PASSWORD = "hqP9FzOL0g_lzba-";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
@@ -208,10 +206,7 @@ namespace SAT.MODELS.Entities.Constants
         public static int TECNICO_SISTEMA = 2329;
         public static int INT_BB_TAMANHO_ARQUIVO = 830;
 
-        // DIR
-        public static string INPUT = "\\Input";
-        public static string OUTPUT = "\\Output";
-
+        
         // Tempos Processamento Tasks em Minutos
         public static int INT_BANR_T = 5;
         public static int INT_ZAFF_T = 5;

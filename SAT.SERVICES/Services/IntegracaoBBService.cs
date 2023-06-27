@@ -11,7 +11,6 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using NLog;
 using SAT.MODELS.Views;
-using System.Reflection;
 
 namespace SAT.SERVICES.Services
 {
@@ -53,6 +52,8 @@ namespace SAT.SERVICES.Services
                 } 
                 else
                 {
+                    MoverArquivosProcessados();
+
                     _logger.Info(MsgConst.ENCONTRADOS + files.Count());
 
                     List<OrdemServico> chamadosPerto = new();
@@ -76,6 +77,20 @@ namespace SAT.SERVICES.Services
             }
             
             _logger.Info($"{MsgConst.FIN_PROC} {Constants.INTEGRACAO_BB}");
+        }
+
+        private void MoverArquivosProcessados()
+        {
+            string pathInput = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
+            string pathProcessados = System.AppDomain.CurrentDomain.BaseDirectory + "Processados";
+
+            if (Directory.Exists(pathInput))
+{
+            foreach (var file in new DirectoryInfo(pathInput).GetFiles())
+            {
+                file.MoveTo($@"{pathProcessados}\{file.Name}");
+            }
+        }
         }
 
         private List<string> LerDiretorioInput()

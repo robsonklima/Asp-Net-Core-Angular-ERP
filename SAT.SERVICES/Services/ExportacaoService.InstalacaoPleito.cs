@@ -17,6 +17,7 @@ namespace SAT.SERVICES.Services
 
             var parameters = ((JObject)exportacao.EntityParameters).ToObject<InstalacaoPleitoParameters>();
             var instalacaoPleito = _instalacaoPleitoRepo.ObterPorCodigo(parameters.CodInstalPleito.Value);
+            instalacaoPleito.Contrato.Cliente = _clienteRepo.ObterPorCodigo(instalacaoPleito.Contrato.CodCliente);
             var instalacoes = _instalacaoRepo.ObterPorParametros(new InstalacaoParameters { CodContrato = instalacaoPleito.CodContrato, CodEquips = parameters.CodEquips, CodInstalacoes = parameters.CodInstalacoes });
             var impressao = new InstalacaoPleitoPdfHelper(instalacaoPleito, instalacoes);
             var pdf = GenerateFilePath($"INSTALACAO-PLEITO-{instalacaoPleito.CodInstalPleito}.pdf");

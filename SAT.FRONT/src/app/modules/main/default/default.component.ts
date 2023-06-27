@@ -46,7 +46,9 @@ export class DefaultComponent implements OnInit, OnDestroy {
 
         switch (slide) {
             case 'SERVICOS':
-                return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+                return perfil === PerfilEnum.ADM_DO_SISTEMA 
+                    || perfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+                    || perfil === PerfilEnum.SUPERVISOR;
             case 'SERVIDORES':
                 return perfil === PerfilEnum.ADM_DO_SISTEMA;
             case 'DISPONIBILIDADE':
@@ -56,9 +58,13 @@ export class DefaultComponent implements OnInit, OnDestroy {
             case 'UTILIZACAO':
                 return perfil === PerfilEnum.ADM_DO_SISTEMA;
             case 'LOGS':
-                return perfil === PerfilEnum.ADM_DO_SISTEMA || perfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+                return perfil === PerfilEnum.ADM_DO_SISTEMA 
+                || perfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+                || perfil === PerfilEnum.SUPERVISOR;
             case 'BOAS_VINDAS':
-                return perfil !== PerfilEnum.ADM_DO_SISTEMA && perfil !== PerfilEnum.PV_COORDENADOR_DE_CONTRATO;
+                return perfil !== PerfilEnum.ADM_DO_SISTEMA 
+                && perfil !== PerfilEnum.PV_COORDENADOR_DE_CONTRATO
+                && perfil !== PerfilEnum.SUPERVISOR;
             default:
                 return false;
         }

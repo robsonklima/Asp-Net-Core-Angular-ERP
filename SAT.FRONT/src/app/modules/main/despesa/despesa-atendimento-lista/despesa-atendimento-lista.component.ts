@@ -305,5 +305,14 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 			this.userSession?.usuario?.codPerfil == RoleEnum.SUPERVISOR
 	}
 
+	isPermiteObservacoes()
+	{
+		return this.userSession?.usuario?.codPerfil == RoleEnum.ANALISTA ||
+			this.userSession?.usuario?.codPerfil == RoleEnum.LIDER ||
+			this.userSession?.usuario?.codPerfil == RoleEnum.ADM_DO_SISTEMA ||
+			this.userSession?.usuario?.codPerfil == RoleEnum.COORDENADOR ||
+			this.userSession?.usuario?.codPerfil == RoleEnum.SUPERVISOR
+	}
+
 	isLiberado(dpi: DespesaPeriodoTecnicoAtendimentoItem) { return dpi?.status != null && dpi?.status?.nomeDespesaPeriodoTecnicoStatus != 'REPROVADO'; }
 }

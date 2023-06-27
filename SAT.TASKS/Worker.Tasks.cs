@@ -23,11 +23,11 @@ namespace SAT.TASKS
 
                     var novaTask = CriarTask(tipo.CodSatTaskTipo);
 
-                    _logger.Info($"{MsgConst.TASK_CRIADA} {novaTask.CodSatTask}, {novaTask.Tipo.Nome}");
+                    _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
                 }
                 else
                 {
-                    _logger.Info($"{MsgConst.EXISTE_TASK_PENDENTE} {task.CodSatTask}, {task.Tipo.Nome}");
+                    _logger.Info($"{ MsgConst.EXISTE_TASK_PENDENTE }, { task.Tipo.Nome }");
                 }
             }
 
@@ -68,10 +68,10 @@ namespace SAT.TASKS
                     return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.INT_MRP:
                     _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.INTEGRACAO_LOGIX_MRP}");
-                    return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
+                    return DateTime.Now.Hour == 2 && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
                     _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.ATUALIZACAO_PARQUE_MODELO}");
-                    return task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
+                    return DateTime.Now.Hour == 23 && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
                 default:
                     return false;
             }

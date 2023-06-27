@@ -62,7 +62,7 @@ namespace SAT.SERVICES.Services
             foreach (var email in emails.Value)
             {
                 _logger.Info()
-                    .Message("processando e-mail { assunto }", email.Subject)
+                    .Message("Processando e-mail")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 

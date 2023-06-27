@@ -292,7 +292,7 @@ namespace SAT.SERVICES.Services
 
             string retorno = @$"000000000000000{hora}CRM558A400306444                                                                                 {data}00001";
 
-            _logger.Info(MsgConst.FIN_CAB_FECH + retorno);
+            _logger.Info($"{ MsgConst.FIN_CAB_FECH }");
 
             return retorno;
         }

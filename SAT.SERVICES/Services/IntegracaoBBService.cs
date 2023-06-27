@@ -37,7 +37,7 @@ namespace SAT.SERVICES.Services
 
         public void Processar()
         {
-            _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BB }");
+            _logger.Info($"{MsgConst.INI_PROC} {Constants.INTEGRACAO_BB}");
 
             List<string> files = LerDiretorioInput();
 
@@ -52,11 +52,11 @@ namespace SAT.SERVICES.Services
                 OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
                 chamadosPerto.Add(chamadoPerto);
             });
-            
+
             CriarArquivoRetornoAbertura(chamadosPerto);
             CriarArquivoRetornoFechamento();
 
-            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BB }");
+            _logger.Info($"{MsgConst.FIN_PROC} {Constants.INTEGRACAO_BB}");
         }
 
         private List<string> LerDiretorioInput()
@@ -75,7 +75,7 @@ namespace SAT.SERVICES.Services
 
             foreach (FileInfo file in files)
             {
-                using (StreamReader sr = File.OpenText($"{ target }\\{ file.Name }"))
+                using (StreamReader sr = File.OpenText($"{target}\\{file.Name}"))
                 {
                     string linha = String.Empty;
 
@@ -130,7 +130,7 @@ namespace SAT.SERVICES.Services
                 Modelo = conteudo.Substring(315, 10).Trim(),
                 BilheteOS = conteudo.Substring(325, 13).Trim(),
                 GarantiaBem = conteudo.Substring(338, 4).Trim(),
-                Impacto = conteudo.Substring(342,2).Trim(),
+                Impacto = conteudo.Substring(342, 2).Trim(),
                 DescricaoImpacto = conteudo.Substring(344, 10).Trim(),
                 Defeito = conteudo.Substring(354, 129).Trim(),
                 TipoManutencao = conteudo.Substring(484, 4).Trim(),
@@ -166,27 +166,35 @@ namespace SAT.SERVICES.Services
         {
             _logger.Info(MsgConst.INICIANDO_EXTR);
 
-            string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
-            string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
-            string fileName = $"CRM549R.xPerto01.{ dataHora }.txt";
-
-            _logger.Info($"{ MsgConst.CRIANDO_FILE} {target}");
-
-            string absolutePath = Path.GetFullPath(target + "\\" + fileName);
-            using (StreamWriter w = new StreamWriter(absolutePath))
+            try
             {
-                string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
-                w.WriteLine(cabecalho);
-                _logger.Info(MsgConst.AD_CABECALHO);
+                string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
+                string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
+                string fileName = $"CRM549R.xPerto01.{dataHora}.txt";
 
-                chamados.ForEach(chamado =>
+                _logger.Info($"{MsgConst.CRIANDO_FILE} {target}");
+
+                string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+                using (StreamWriter w = new StreamWriter(absolutePath))
                 {
-                    string linha = MontarLinhaArquivoAbertura(chamado);
+                    string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
+                    w.WriteLine(cabecalho);
+                    _logger.Info(MsgConst.AD_CABECALHO);
 
-                    w.WriteLine(linha);
+                    chamados.ForEach(chamado =>
+                    {
+                        string linha = MontarLinhaArquivoAbertura(chamado);
 
-                    _logger.Info(MsgConst.AD_LINHA);
-                });
+                        w.WriteLine(linha);
+
+                        _logger.Info(MsgConst.AD_LINHA);
+                    });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
             }
 
             _logger.Info(MsgConst.FIN_EXTR);
@@ -198,7 +206,7 @@ namespace SAT.SERVICES.Services
 
             string data = DateTime.Now.ToString("DDMMyyyy");
             string hora = DateTime.Now.ToString("HHMM");
-            string retorno = $"3{ chamado.NumOSCliente.PadLeft(14) } { data } { hora }{ chamado.CodOS.ToString().PadLeft(10) }00";
+            string retorno = $"3{chamado.NumOSCliente.PadLeft(14)} {data} {hora}{chamado.CodOS.ToString().PadLeft(10)}00";
 
             _logger.Info(MsgConst.FIN_LIN_FECH);
 
@@ -225,10 +233,10 @@ namespace SAT.SERVICES.Services
             _logger.Info(MsgConst.INIC_LIN_FECH);
             string numRAT = String.Format("{0:0000000000}", chamado.NumRAT);
             string horaGeracao = DateTime.Now.ToString("HHmms");
-            
-            string linha1 = @$"{ chamado.NumOSCliente.PadLeft(14) }1{ chamado.DataInicioAtendimento }{ chamado.HoraInicioAtendimento }{ chamado.DataFimAtendimento }{ chamado.HoraFimAtendimento }{ chamado.DataFinal }{ chamado.HoraFinal }{ numRAT }{ chamado.NomeTecnico }000{ chamado.DeParaCausa }0000{ chamado.SituacaoOS }01{ chamado.DataAgendamento }{ chamado.HoraAgendamento }{ horaGeracao }      00002{Environment.NewLine}";
-            string linha2 = @$"{ chamado.NumOSCliente.PadLeft(14) }2AAA007       00000000000000000000000000000                                                         00000      00003{Environment.NewLine}";
-            string linha3 = @$"{ chamado.NumOSCliente.PadLeft(14) }30090FECHAMENTO                                                                                     { horaGeracao }      00004";
+
+            string linha1 = @$"{chamado.NumOSCliente.PadLeft(14)}1{chamado.DataInicioAtendimento}{chamado.HoraInicioAtendimento}{chamado.DataFimAtendimento}{chamado.HoraFimAtendimento}{chamado.DataFinal}{chamado.HoraFinal}{numRAT}{chamado.NomeTecnico}000{chamado.DeParaCausa}0000{chamado.SituacaoOS}01{chamado.DataAgendamento}{chamado.HoraAgendamento}{horaGeracao}      00002{Environment.NewLine}";
+            string linha2 = @$"{chamado.NumOSCliente.PadLeft(14)}2AAA007       00000000000000000000000000000                                                         00000      00003{Environment.NewLine}";
+            string linha3 = @$"{chamado.NumOSCliente.PadLeft(14)}30090FECHAMENTO                                                                                     {horaGeracao}      00004";
             string retorno = linha1 + linha2 + linha3;
 
             _logger.Info(MsgConst.FIN_LIN_FECH);
@@ -243,7 +251,7 @@ namespace SAT.SERVICES.Services
             string data = DateTime.Now.ToString("DDMMyyyy");
             string hora = DateTime.Now.ToString("HHMMs");
 
-            string retorno = @$"000000000000000{ hora }CRM558A400306444                                                                                 { data }00001";
+            string retorno = @$"000000000000000{hora}CRM558A400306444                                                                                 {data}00001";
 
             _logger.Info(MsgConst.FIN_CAB_FECH + retorno);
 
@@ -256,41 +264,48 @@ namespace SAT.SERVICES.Services
 
             string hora = DateTime.Now.ToString("HHMMs");
 
-            string retorno = @$"999999999999999{ hora }                                                                                          00000000000000400000";
+            string retorno = @$"999999999999999{hora}                                                                                          00000000000000400000";
 
             _logger.Info(MsgConst.FIN_RODAPE_FECH);
 
             return retorno;
         }
-        
+
         private void CriarArquivoRetornoFechamento()
         {
             _logger.Info(MsgConst.INI_ARQ_RET);
 
-            var parameters = new IntegracaoBBParameters { };
-            var chamados = _integracaoBBRepo.ObterPorParametros(parameters);
-
-            foreach (var chamado in chamados)
+            try
             {
-                string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
-                string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
-                string absolutePath = Path.GetFullPath(target + "\\" + fileName);
-                using (StreamWriter w = new StreamWriter(absolutePath))
+                var parameters = new IntegracaoBBParameters { };
+                var chamados = _integracaoBBRepo.ObterPorParametros(parameters);
+
+                foreach (var chamado in chamados)
                 {
-                    string cabecalho = MontarCabecalhoArquivoFechamento();
-                    string rodape = MontarRodapeArquivoFechamento();
-
-                    w.WriteLine(cabecalho);
-
-                    chamados.ForEach(chamado =>
+                    string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
+                    string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
+                    string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+                    using (StreamWriter w = new StreamWriter(absolutePath))
                     {
-                        string linha = MontarLinhaArquivoFechamento(chamado);
+                        string cabecalho = MontarCabecalhoArquivoFechamento();
+                        string rodape = MontarRodapeArquivoFechamento();
 
-                        w.WriteLine(linha);
-                    });
+                        w.WriteLine(cabecalho);
 
-                    w.WriteLine(rodape);
+                        chamados.ForEach(chamado =>
+                        {
+                            string linha = MontarLinhaArquivoFechamento(chamado);
+
+                            w.WriteLine(linha);
+                        });
+
+                        w.WriteLine(rodape);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
             }
 
             _logger.Info(MsgConst.FIN_ARQ_RET);
@@ -330,7 +345,8 @@ namespace SAT.SERVICES.Services
                 })
                 .Items.FirstOrDefault();
 
-            var osJaAberta = (OrdemServico)_ordemServicoService.ObterPorParametros(new OrdemServicoParameters {
+            var osJaAberta = (OrdemServico)_ordemServicoService.ObterPorParametros(new OrdemServicoParameters
+            {
                 CodCliente = Constants.CLIENTE_BB,
                 NumOSCliente = chamadoCliente.NumOSCliente
             }).Items.FirstOrDefault();

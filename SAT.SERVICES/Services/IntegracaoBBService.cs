@@ -306,6 +306,13 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
+
+                    _logger.Info(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                    _logger.Info(System.AppDomain.CurrentDomain.BaseDirectory);
+                    _logger.Info(System.Environment.CurrentDirectory);
+                    _logger.Info(System.IO.Directory.GetCurrentDirectory());
+                    _logger.Info(Environment.CurrentDirectory);
+
                     string path = System.Environment.CurrentDirectory + "\\Output\\" + fileName;
                     _logger.Info(path + "    <_ oooo");
 

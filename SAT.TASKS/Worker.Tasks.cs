@@ -72,12 +72,26 @@ namespace SAT.TASKS
             }
         }
 
+        private IEnumerable<OrdemServico> ObterFilaChamados()
+        {
+            var parametros = new OrdemServicoParameters
+            {
+                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraManutFim = DateTime.Now,
+                IndIntegracao = 1,
+                IndServico = 1
+            };
+            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
+        }
+
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
 
             try
             {
+                var chamados = ObterFilaChamados();
+
                 foreach (var task in tasks)
                 {
                     if (!deveCriarProcessarTask(task, "PROCESSAR"))
@@ -106,13 +120,6 @@ namespace SAT.TASKS
 
                     if (tipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
                     {
-                        var parametros = new OrdemServicoParameters
-                        {
-                            CodCliente = Constants.CLIENTE_ZAFFARI,
-                            DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                            DataHoraManutFim = DateTime.Now,
-                        };
-                        var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
                         await _integracaoZaffariService.ExecutarAsync(chamados);
                         _taskService.Atualizar(task);
 
@@ -138,17 +145,6 @@ namespace SAT.TASKS
 
                     if (tipo == (int)SatTaskTipoEnum.SLA)
                     {
-                        var parametros = new OrdemServicoParameters
-                        {
-                            CodCliente = Constants.CLIENTE_ZAFFARI,
-                            DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                            DataHoraManutFim = DateTime.Now,
-                            CodTiposIntervencao = TipoIntervencaoEnum.CORRETIVA.ToString()
-                        };
-                        var chamados = (IEnumerable<OrdemServico>)_osService
-                            .ObterPorParametros(parametros)
-                            .Items;
-
                         foreach (var chamado in chamados)
                         {
                             var prazo = _ansService.CalcularSLA(chamado);

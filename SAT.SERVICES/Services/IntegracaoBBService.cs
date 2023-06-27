@@ -82,10 +82,8 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-                _logger.Info(System.AppDomain.CurrentDomain.BaseDirectory);
-
+                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
                 List<string> retorno = new();
-                string path = System.Environment.CurrentDirectory + "\\Input";
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
                 string fileName = "crm549.*.BB";
                 FileInfo[] files = dirInfo.GetFiles(fileName);
@@ -197,7 +195,7 @@ namespace SAT.SERVICES.Services
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.bco001";
-                string path = System.Environment.CurrentDirectory + "\\Output\\" + fileName;
+                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input" + "\\" + fileName;
                 
                 using (StreamWriter w = new StreamWriter(path))
                 {
@@ -308,15 +306,7 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-
-                    _logger.Info(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-                    _logger.Info(System.AppDomain.CurrentDomain.BaseDirectory);
-                    _logger.Info(System.Environment.CurrentDirectory);
-                    _logger.Info(System.IO.Directory.GetCurrentDirectory());
-                    _logger.Info(Environment.CurrentDirectory);
-
-                    string path = System.Environment.CurrentDirectory + "\\Output\\" + fileName;
-                    _logger.Info(path + "    <_ oooo");
+                    string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input" + "\\" + fileName;
 
                     using (StreamWriter w = new StreamWriter(path))
                     {

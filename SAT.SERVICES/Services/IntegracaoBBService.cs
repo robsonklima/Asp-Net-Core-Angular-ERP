@@ -194,8 +194,9 @@ namespace SAT.SERVICES.Services
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.txt";
+                string path = Constants.DIR_INTEGRACAO_BB_OUTPUT + "\\" + fileName;
 
-                using (StreamWriter w = new StreamWriter(Constants.DIR_INTEGRACAO_BB_OUTPUT))
+                using (StreamWriter w = new StreamWriter(path))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
                     w.WriteLine(cabecalho);
@@ -304,8 +305,7 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-                    DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_OUTPUT);
-                    string path = dirInfo.FullName;
+                    string path = Constants.DIR_INTEGRACAO_BB_OUTPUT + "\\" + fileName;
                     _logger.Info(path + "    <_ oooo");
 
                     using (StreamWriter w = new StreamWriter(path))

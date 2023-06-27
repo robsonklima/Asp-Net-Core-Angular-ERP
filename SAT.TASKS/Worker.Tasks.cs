@@ -7,11 +7,9 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void AtualizarFilaTasks()
+        private void AtualizarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);
-
-            List<SatTaskTipo> tipos = (List<SatTaskTipo>)ObterTipos();
 
             foreach (var tipo in tipos)
             {
@@ -144,6 +142,63 @@ namespace SAT.TASKS
                 _logger.Info(MsgConst.REG_NAO_ENCONTRADO);
 
             return task!;
+        }
+
+        private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
+        {
+            _logger.Info(MsgConst.INI_PROC_TASKS);
+
+            foreach (var task in tasks)
+            {
+                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
+                {
+                    _integracaoBBService.Processar();
+                    AtualizarTask(task);
+
+                    continue;
+                }
+
+                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
+                {
+                    await _integracaoBanrisulService.ProcessarEmailsAsync();
+                    _integracaoBanrisulService.ProcessarRetornos();
+                    AtualizarTask(task);
+
+                    continue;
+                }
+
+                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
+                {
+                    var parametros = new OrdemServicoParameters { 
+                        CodCliente = Constants.CLIENTE_ZAFFARI,
+                        DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                        DataHoraManutFim = DateTime.Now,
+                        IndServico = 1,
+                        IndIntegracao = 1
+                    };
+                    var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
+                    await _integracaoZaffariService.ExecutarAsync(chamados);
+                    AtualizarTask(task);
+
+                    continue;
+                }
+
+                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
+                {
+                    _integracaoMRPService.ImportarArquivoMRPLogix();
+                    _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
+                    AtualizarTask(task);
+
+                    continue;
+                }
+
+                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
+                {
+                    _equipamentoContratoService.AtualizarParqueModelo();
+                    AtualizarTask(task);
+                    continue;
+                }
+            }
         }
     }
 }

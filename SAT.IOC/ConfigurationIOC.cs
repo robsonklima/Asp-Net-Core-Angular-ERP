@@ -228,7 +228,6 @@ public class ConfigurationIOC
         builder.RegisterType<PerfilSetorRepository>().As<IPerfilSetorRepository>();
         builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>(); 
         builder.RegisterType<IntegracaoBBRepository>().As<IIntegracaoBBRepository>(); 
-        builder.RegisterType<SatTaskProcessoRepository>().As<ISatTaskProcessoRepository>(); 
         
         #endregion
 
@@ -453,7 +452,6 @@ public class ConfigurationIOC
         builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>(); 
         builder.RegisterType<SatTaskService>().As<ISatTaskService>(); 
         builder.RegisterType<SatTaskTipoService>().As<ISatTaskTipoService>(); 
-        builder.RegisterType<SatTaskProcessoService>().As<ISatTaskProcessoService>();         
 
         #endregion
 

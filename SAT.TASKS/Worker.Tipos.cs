@@ -17,7 +17,7 @@ namespace SAT.TASKS
                 })
                 .Items;
 
-            _logger.Info($"{MsgConst.TIPOS_OBTIDOS} {tipos.Count()}");
+            _logger.Info($"{ MsgConst.TIPOS_OBTIDOS } { tipos.Count()} ");
 
             return tipos.ToList();
         }

@@ -14,7 +14,6 @@ namespace SAT.TASKS
         private readonly IIntegracaoBBService _integracaoBBService;
         private readonly IIntegracaoMRPService _integracaoMRPService;
         private readonly IEquipamentoContratoService _equipamentoContratoService;
-        private readonly ISatTaskProcessoService _taskProcessoService;
         private readonly IOrdemServicoService _osService;
 
         public Worker(
@@ -26,7 +25,6 @@ namespace SAT.TASKS
             IIntegracaoZaffariService integracaoZaffariService,
             IIntegracaoMRPService integracaoMRPService,
             IEquipamentoContratoService equipamentoContratoService,
-            ISatTaskProcessoService taskProcessoService,
             IOrdemServicoService osService
         )
         {
@@ -38,7 +36,6 @@ namespace SAT.TASKS
             _integracaoZaffariService = integracaoZaffariService;
             _integracaoMRPService = integracaoMRPService;
             _equipamentoContratoService = equipamentoContratoService;
-            _taskProcessoService = taskProcessoService;
             _osService = osService;
         }
     }

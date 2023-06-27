@@ -9,8 +9,6 @@ using Newtonsoft.Json;
 using NLog;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
-using SAT.MODELS.Entities.Params;
-using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
@@ -18,62 +16,27 @@ namespace SAT.SERVICES.Services
     public class IntegracaoZaffariService : IIntegracaoZaffariService
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        private ISatTaskProcessoService _taskProcessoService;
         private IOrdemServicoService _osService;
 
         public IntegracaoZaffariService(
-            ISatTaskProcessoService taskProcessoService,
             IOrdemServicoService osService
         )
         {
-            _taskProcessoService = taskProcessoService;
             _osService = osService;
         }
 
-        public async Task ExecutarAsync()
+        public async Task ExecutarAsync(IEnumerable<OrdemServico> chamados)
         {
             _logger.Info(MsgConst.INI_PROC + Constants.INTEGRACAO_ZAFFARI);
 
-            var processos = ObterFilaProcessos();
-            ProcessarFilaProcessos(processos);
-            var chamado = new OrdemServico { };
-            await Transmitir(chamado);
+            foreach (var chamado in chamados)
+            {
+                await Transmitir(chamado);
+            }
 
             _logger.Info(MsgConst.FIN_PROCESSO + Constants.INTEGRACAO_ZAFFARI);
         }
 
-        private IEnumerable<SatTaskProcesso> ObterFilaProcessos()
-        {
-            _logger.Info(MsgConst.OBTENDO_PROCESSOS + Constants.INTEGRACAO_ZAFFARI);
-
-            var processos = (IEnumerable<SatTaskProcesso>)_taskProcessoService
-                .ObterPorParametros(new SatTaskProcessoParameters
-                {
-                    CodSatTaskTipo = (int)SatTaskTipoEnum.INT_ZAFFARI,
-                    Status = SatTaskStatusConst.PENDENTE,
-                })
-                .Items;
-
-            _logger.Info(MsgConst.QTD_PROCESSOS + processos.Count());
-
-            return processos;
-        }
-
-        private async void ProcessarFilaProcessos(IEnumerable<SatTaskProcesso> processos)
-        {
-            _logger.Info(MsgConst.PROC_PROCESSOS);
-
-            foreach (var processo in processos)
-            {
-                var chamadoPerto = _osService.ObterPorCodigo(processo.CodOS);
-
-                _logger.Info(MsgConst.OS_PERTO + chamadoPerto.CodOS);
-
-                await Transmitir(chamadoPerto);
-
-                AtualizarProcesso(processo);
-            }
-        }
 
         private async Task<OrdemServicoZaffari> Transmitir(OrdemServico chamado)
         {
@@ -112,17 +75,6 @@ namespace SAT.SERVICES.Services
                     return null;
                 }
             }
-        }
-
-        private void AtualizarProcesso(SatTaskProcesso processo)
-        {
-            _logger.Info(MsgConst.CRIANDO_PROCESSO);
-
-            processo.DataHoraProcessamento = DateTime.Now;
-            processo.Status = SatTaskStatusConst.PROCESSADO;
-            _taskProcessoService.Atualizar(processo);
-
-            _logger.Info(MsgConst.PROCESSO_CRIADO);
         }
     }
 }

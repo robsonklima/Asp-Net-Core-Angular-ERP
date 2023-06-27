@@ -12,20 +12,13 @@ public partial class Worker : BackgroundService
             try
             {
                 var tipos = (List<SatTaskTipo>)_taskTipoService
-                    .ObterPorParametros(new SatTaskTipoParameters
-                    {
-                        IndAtivo = (byte)Constants.ATIVO
-                    })
+                    .ObterPorParametros(new SatTaskTipoParameters { IndAtivo = (byte)Constants.ATIVO })
                     .Items;
 
                 AtualizarFilaTasks(tipos);
 
-                var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters
-                    {
-                        Status = SatTaskStatusConst.PENDENTE,
-                        SortActive = "CodSatTask",
-                        SortDirection = "DESC"
-                    })
+                var tasks = (IEnumerable<SatTask>)_taskService
+                    .ObterPorParametros(new SatTaskParameters { Status = SatTaskStatusConst.PENDENTE })
                     .Items;
 
                 await ProcessarFilaTasksAsync(tasks);

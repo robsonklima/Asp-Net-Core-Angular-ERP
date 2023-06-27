@@ -14,12 +14,7 @@ namespace SAT.TASKS
             foreach (var tipo in tipos)
             {
                 SatTask task = (SatTask)_taskService
-                    .ObterPorParametros(new SatTaskParameters
-                    {
-                        CodSatTaskTipo = tipo.CodSatTaskTipo,
-                        SortActive = "CodSatTask",
-                        SortDirection = "DESC"
-                    })
+                    .ObterPorParametros(new SatTaskParameters { CodSatTaskTipo = tipo.CodSatTaskTipo })
                     .Items?
                     .FirstOrDefault()!;
 
@@ -50,40 +45,22 @@ namespace SAT.TASKS
         private bool deveCriarTask(SatTask task)
         {
             if (task is null)
-            {
-                _logger.Info(MsgConst.NENHUM_REG_ENCONTRADO);
-
                 return true;
-            }
 
             if (task.Status == SatTaskStatusConst.PENDENTE)
-            {
-                _logger.Info(MsgConst.TASK_PENDENTE);
-
                 return false;
-            }
 
-            return ObterPermissaoProcessamento(task);
-        }
-
-        private bool ObterPermissaoProcessamento(SatTask task)
-        {
             switch (task.CodSatTaskTipo)
             {
                 case (int)SatTaskTipoEnum.INT_BANRISUL:
-                    _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.INTEGRACAO_BANRISUL_ATM}");
                     return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BANRISUL_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.INT_BB:
-                    _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.INTEGRACAO_BB}");
                     return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_BB_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                    _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.INTEGRACAO_ZAFFARI}");
                     return task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_ZAFFARI_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.INT_MRP:
-                    _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.INTEGRACAO_LOGIX_MRP}");
                     return DateTime.Now.Hour == 2 && task.DataHoraProcessamento <= DateTime.Now.AddMinutes(-(int)Constants.INTEGRACAO_LOGIX_MRP_TEMPO_MIN);
                 case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                    _logger.Info($"{MsgConst.OBTENDO_PERMISSAO} {Constants.ATUALIZACAO_PARQUE_MODELO}");
                     return DateTime.Now.Hour == 23 && task.DataHoraProcessamento <= DateTime.Now.AddDays(-(int)Constants.ATUALIZACAO_PARQUE_MODELO_TEMPO_MIN);
                 default:
                     return false;
@@ -152,6 +129,7 @@ namespace SAT.TASKS
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
+                    
                     continue;
                 }
             }

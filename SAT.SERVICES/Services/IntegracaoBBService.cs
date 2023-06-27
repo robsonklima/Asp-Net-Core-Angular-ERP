@@ -98,7 +98,6 @@ namespace SAT.SERVICES.Services
             try
             {
                 string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
-                List<string> retorno = new();
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
                 string fileName = "crm549.*.BB";
                 FileInfo[] files = dirInfo.GetFiles(fileName);
@@ -106,6 +105,8 @@ namespace SAT.SERVICES.Services
                 if (files.Count() == 0)
                     return new List<string>();
 
+                List<string> retorno = new();
+                
                 foreach (FileInfo file in files)
                 {
                     using (StreamReader sr = File.OpenText(fileName))

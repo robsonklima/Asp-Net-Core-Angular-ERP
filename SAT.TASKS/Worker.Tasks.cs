@@ -13,7 +13,15 @@ namespace SAT.TASKS
 
             foreach (var tipo in tipos)
             {
-                SatTask task = ObterTask(tipo);
+                SatTask task = (SatTask)_taskService
+                    .ObterPorParametros(new SatTaskParameters
+                    {
+                        CodSatTaskTipo = tipo.CodSatTaskTipo,
+                        SortActive = "CodSatTask",
+                        SortDirection = "DESC"
+                    })
+                    .Items?
+                    .FirstOrDefault()!;
 
                 var criar = deveCriarTask(task);
 
@@ -21,7 +29,12 @@ namespace SAT.TASKS
                 {
                     _logger.Info(MsgConst.CRIANDO_TASK);
 
-                    var novaTask = CriarTask(tipo.CodSatTaskTipo);
+                    var novaTask = _taskService.Criar(new SatTask
+                        {
+                            Status = SatTaskStatusConst.PENDENTE,
+                            DataHoraCad = DateTime.Now,
+                            CodSatTaskTipo = tipo.CodSatTaskTipo
+                        });
 
                     _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
                 }
@@ -77,73 +90,6 @@ namespace SAT.TASKS
             }
         }
 
-        private void AtualizarTask(SatTask task)
-        {
-            _logger.Info(MsgConst.ATUALIZANDO_TASK);
-
-            task.DataHoraProcessamento = DateTime.Now;
-            task.Status = SatTaskStatusConst.PROCESSADO;
-
-            _taskService.Atualizar(task);
-
-            _logger.Info($"{MsgConst.TASK_ATUALIZADA} {task.CodSatTask}");
-        }
-
-        private SatTask CriarTask(int tipo)
-        {
-            _logger.Info(MsgConst.CRIANDO_TASK);
-
-            var task = _taskService.Criar(new SatTask
-            {
-                Status = SatTaskStatusConst.PENDENTE,
-                DataHoraCad = DateTime.Now,
-                CodSatTaskTipo = tipo
-            });
-
-            _logger.Info($"{MsgConst.TASK_CRIADA} {task.CodSatTask}");
-
-            return task;
-        }
-
-        private IEnumerable<SatTask> ObterTasksPendentes()
-        {
-            _logger.Info(MsgConst.OBTENDO_TASKS_PENDENTES);
-
-            var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters
-            {
-                Status = SatTaskStatusConst.PENDENTE,
-                SortActive = "CodSatTask",
-                SortDirection = "DESC"
-            })
-            .Items;
-
-            _logger.Info($"{MsgConst.TASKS_OBTIDAS} {tasks.Count()}");
-
-            return tasks;
-        }
-
-        private SatTask ObterTask(SatTaskTipo tipo)
-        {
-            _logger.Info($"{MsgConst.OBTENDO_ULT_TASK} {tipo.Nome}");
-
-            var task = (SatTask)_taskService
-                    .ObterPorParametros(new SatTaskParameters
-                    {
-                        CodSatTaskTipo = tipo.CodSatTaskTipo,
-                        SortActive = "CodSatTask",
-                        SortDirection = "DESC"
-                    })
-                    .Items?
-                    .FirstOrDefault()!;
-
-            if (task is not null)
-                _logger.Info($"{MsgConst.ULT_TASK_OBTIDA} {task.CodSatTask}");
-            else
-                _logger.Info(MsgConst.REG_NAO_ENCONTRADO);
-
-            return task!;
-        }
-
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
@@ -153,7 +99,9 @@ namespace SAT.TASKS
                 if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
                 {
                     _integracaoBBService.Processar();
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     continue;
                 }
@@ -162,7 +110,9 @@ namespace SAT.TASKS
                 {
                     await _integracaoBanrisulService.ProcessarEmailsAsync();
                     _integracaoBanrisulService.ProcessarRetornos();
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     continue;
                 }
@@ -178,7 +128,9 @@ namespace SAT.TASKS
                     };
                     var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
                     await _integracaoZaffariService.ExecutarAsync(chamados);
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     continue;
                 }
@@ -187,7 +139,9 @@ namespace SAT.TASKS
                 {
                     _integracaoMRPService.ImportarArquivoMRPLogix();
                     _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     continue;
                 }
@@ -195,7 +149,9 @@ namespace SAT.TASKS
                 if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
                 {
                     _equipamentoContratoService.AtualizarParqueModelo();
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
                     continue;
                 }
             }

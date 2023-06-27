@@ -1,4 +1,6 @@
+using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.TASKS;
 public partial class Worker : BackgroundService
@@ -9,11 +11,22 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                var tipos = ObterTipos();
+                var tipos = (List<SatTaskTipo>)_taskTipoService
+                    .ObterPorParametros(new SatTaskTipoParameters
+                    {
+                        IndAtivo = (byte)Constants.ATIVO
+                    })
+                    .Items;
 
                 AtualizarFilaTasks(tipos);
 
-                var tasks = ObterTasksPendentes();
+                var tasks = (IEnumerable<SatTask>)_taskService.ObterPorParametros(new SatTaskParameters
+                    {
+                        Status = SatTaskStatusConst.PENDENTE,
+                        SortActive = "CodSatTask",
+                        SortDirection = "DESC"
+                    })
+                    .Items;
 
                 await ProcessarFilaTasksAsync(tasks);
             }

@@ -19,7 +19,9 @@ namespace SAT.TASKS
                     .Items?
                     .FirstOrDefault()!;
 
-                if (deveCriarTask(task))
+                var deveCriar = deveCriarTask(task); // justo
+
+                if (deveCriar)
                 {
                     var novaTask = _taskService.Criar(new SatTask
                     {
@@ -68,28 +70,28 @@ namespace SAT.TASKS
 
             foreach (var task in tasks)
             {
-                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BB)
+                int tipo = task.CodSatTaskTipo;
+                task.DataHoraProcessamento = DateTime.Now;
+                task.Status = SatTaskStatusConst.PROCESSADO;
+
+                if (tipo == (int)SatTaskTipoEnum.INT_BB)
                 {
                     _integracaoBBService.Processar();
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
 
                     continue;
                 }
 
-                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_BANRISUL)
+                if (tipo == (int)SatTaskTipoEnum.INT_BANRISUL)
                 {
                     await _integracaoBanrisulService.ProcessarEmailsAsync();
                     _integracaoBanrisulService.ProcessarRetornos();
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
 
                     continue;
                 }
 
-                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
+                if (tipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
                 {
                     var parametros = new OrdemServicoParameters
                     {
@@ -101,29 +103,48 @@ namespace SAT.TASKS
                     };
                     var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
                     await _integracaoZaffariService.ExecutarAsync(chamados);
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
 
                     continue;
                 }
 
-                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.INT_MRP)
+                if (tipo == (int)SatTaskTipoEnum.INT_MRP)
                 {
                     _integracaoMRPService.ImportarArquivoMRPLogix();
                     _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);
 
                     continue;
                 }
 
-                if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
+                if (tipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
                 {
                     _equipamentoContratoService.AtualizarParqueModelo();
-                    task.DataHoraProcessamento = DateTime.Now;
-                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
+
+                    continue;
+                }
+
+                if (tipo == (int)SatTaskTipoEnum.SLA)
+                {
+                    var parametros = new OrdemServicoParameters
+                    {
+                        CodCliente = Constants.CLIENTE_ZAFFARI,
+                        DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                        DataHoraManutFim = DateTime.Now,
+                        CodTiposIntervencao = TipoIntervencaoEnum.CORRETIVA.ToString()
+                    };
+                    var chamados = (IEnumerable<OrdemServico>)_osService
+                        .ObterPorParametros(parametros)
+                        .Items;
+
+                    foreach (var chamado in chamados)
+                    {
+                        var prazo = _ansService.CalcularSLA(chamado);
+
+                        _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
+                    }
+                    
                     _taskService.Atualizar(task);
 
                     continue;

@@ -6,7 +6,6 @@ namespace SAT.MODELS.Entities.Constants
     {
         public static string SISTEMA_NOME = "SAT 2.0";
         public static string SISTEMA_CAMADA_API = "Backend";
-        public static string SISTEMA_CAMADA_FE = "Frontend";
         public static string SISTEMA_CAMADA_TASKS = "TASKS";
         public static string AGENDADOR_NOME = "SAT_AGENDADOR";
         public static string EQUIPE_SAT_EMAIL = "equipe.sat@perto.com.br";
@@ -18,7 +17,6 @@ namespace SAT.MODELS.Entities.Constants
         public static string DB_HOMOLOG = "Homolog";
         public static int TEMPO_IISLOG_MS = 3 * 60 * 1000;
         public static string IIS_LOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\IIS\";
-        public static string NLOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\";
         public static string VONAGE_KEY = @"eab57cf8";
         public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
@@ -48,13 +46,6 @@ namespace SAT.MODELS.Entities.Constants
             ApiUri = "https://graph.microsoft.com/",
         };
 
-        public static Office365EmailConfig EMAIL_TESTE_CONFIG = new Office365EmailConfig
-        {
-            Username = "sat.teste@perto.com.br",
-            Password = "SQ!@g45lic20(v",
-            ClientID = "cdb9bb56-4d95-4ac1-81df-e01da9e3a72b"
-        };
-
         public static Office365EmailConfig EMAIL_APLICACAO_CONFIG = new Office365EmailConfig
         {
             Username = "aplicacao.sat@perto.com.br",
@@ -78,13 +69,6 @@ namespace SAT.MODELS.Entities.Constants
 
         // Status de Serviço
         public static int STATUS_SERVICO_ABERTO = 1;
-        public static int TRANFERIDO = 8;
-        public static int CANCELADO = 2;
-        public static int AGUARDANDO_CONTATO_COM_CLIENTE = 14;
-        public static int AGUARDANDO_DECLARACAO = 15;
-        public static int CANCELADO_COM_ATENDIMENTO = 16;
-        public static int FECHADO = 3;
-        public static int PECAS_PENDENTES = 7;
 
         // Alertas para OS
         public static string WARNING = "warn";
@@ -93,7 +77,6 @@ namespace SAT.MODELS.Entities.Constants
 
         public static string USUARIO_SERVICO = "SERVIÇO";
         public static int[] EQUIPAMENTOS_PINPAD = { 153, 856, 1121 };
-        public static int[] EQUIPAMENTOS_BATERIAS = { 153, 856, 1121 };
         public static int[] TIPO_INTERVENCAO_GERAL = { 2, 5, 17, 18, 19, 20 };
         public static int[] EQUIPS_TDS_TCC_TOP_TR1150 = {
             91, 101, 112, 114, 151, 263, 264, 298, 320, 329, 407, 410, 415,
@@ -107,26 +90,15 @@ namespace SAT.MODELS.Entities.Constants
         public static int TIPO_SERVICO_MONITORAMENTO_REMOTO = 60;
 
         // Tipos de Intervenção
-        public static int ALTERACAO_ENGENHARIA = 1;
         public static int CORRETIVA = 2;
-        public static int DESINSTALACAO = 3;
-        public static int INSTALACAO = 4;
-        public static int PREVENTIVA = 6;
-        public static int REINSTALACAO = 7;
-
+        
         // Mensagens
-        public static string NAO_FOI_POSSIVEL_DELETAR = "Não foi possível deletar o registro";
         public static string NAO_FOI_POSSIVEL_ATUALIZAR = "Não foi possível atualizar o registro";
-        public static string NAO_FOI_POSSIVEL_CRIAR = "Não foi possível criar o registro";
-        public static string NAO_FOI_POSSIVEL_OBTER = "Não foi possível atualizar o(s) registro(s)";
         public static string USUARIO_OU_SENHA_INVALIDOS = "Usuário ou senha inválidos";
         public static string SENHA_INVALIDA = "Senha inválida";
         public static string ERRO_ALTERAR_SENHA = "Erro ao alterar a senha";
         public static string ERRO_CONSULTAR_COORDENADAS = "Erro ao consultar as coordenadas";
         public static string ERROR = "Ocorreu um erro";
-
-        // Filiais
-        public static int FRS = 4;
 
         // Clientes
         public const int CLIENTE_BB = 1;
@@ -144,18 +116,6 @@ namespace SAT.MODELS.Entities.Constants
         public const int CLIENTE_SAQUE_PAGUE = 434;
 
         // Modelos
-        public static int POS = 85;
-        public static int POS_2020 = 107;
-        public static int POS_2024 = 134;
-        public static int POS_2025 = 147;
-        public static int POS_GPRS = 157;
-        public static int POS_ADSL = 158;
-        public static int POS_VELOH_G = 172;
-        public static int POS_VELOH_C = 204;
-        public static int POS_VELOH_W = 268;
-        public static int POS_VELOH_3 = 289;
-        public static int POS_290_20_000 = 400;
-        public static int POS_2020_290_20_012 = 401;
         public static int TMF_2100_290_01_906 = 24;
         public static int TC_3100_290_02_288 = 34;
         public static int TS_2100_290_01_908 = 51;
@@ -200,7 +160,6 @@ namespace SAT.MODELS.Entities.Constants
         public static int TMD_5100_290_02_346 = 1183;
 
         // Permissoes
-        public static string PERFIL_PONTO = "3";
         public static string NENHUM_REGISTRO = "S/N";
 
         // Clientes
@@ -211,26 +170,11 @@ namespace SAT.MODELS.Entities.Constants
         public static int PERTO_INDIA = 33;
 
         // Cores
-        public static string COR_AZUL = "#2828fa";
-        public static string COR_ROSA = "#ff4cb7";
-        public static string COR_VERDE_CLARO = "#6dbd62";
-        public static string COR_TERRA = "#964b00";
-        public static string COR_VERDE_ESCURO = "#009000";
-        public static string COR_CINZA = "#c8c8c8";
-        public static string COR_VERMELHO = "#ff4c4c";
-        public static string COR_ROXO = "#381354";
         public static string COR_PRETO = "#212121";
+        public static string COR_CINZA = "#808080";
 
         //Integracoes
         public static string INT_ZAF_KEY = "f4eb70cb197b81aae231a3ddb1203169ef2a4b300372633078303c5a09dbacb9";
-
-        //Email
-        public static string ASSINATURA_EMAIL = @"
-                                                <br><br>
-                                                Equipe SAT<br> 
-                                                Perto S.A. – Tecnologia para Bancos e Varejo<br> 
-                                                Ramal (51) 2126-6944<br> 
-                                                Whatsapp: (51) 997144990<br>";
 
         //Dicionários
         public static Dictionary<string, string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>
@@ -279,7 +223,6 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";
         public static string INTEGRACAO_BB = "Integracao BB";
         public static string INTEGRACAO_LOGIX_MRP = "Integracao Logix MRP";
-        public static string ATUALIZACAO_PARQUE_MODELO = "Atualização Parque Modelo";
         public static string[] LOGS_URLS = {
             "D:\\SAT\\Branch\\SAT.V2\\SAT.TASKS\\Logs\\",
             "D:\\SAT\\Branch\\SAT.V2\\SAT.API\\Logs\\"

@@ -171,13 +171,9 @@ namespace SAT.SERVICES.Services
 
             try
             {
-                string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.txt";
-
-                _logger.Info($"{MsgConst.CRIANDO_FILE} {target}");
-
-                string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.OUTPUT));
+                string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.INTEGRACAO_BB_OUTPUT));
                 using (StreamWriter w = new StreamWriter(absolutePath))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
@@ -286,7 +282,7 @@ namespace SAT.SERVICES.Services
                 foreach (var chamado in chamados)
                 {
                     string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
-                    string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.OUTPUT));
+                    string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.INTEGRACAO_BB_OUTPUT));
                     using (StreamWriter w = new StreamWriter(absolutePath))
                     {
                         string cabecalho = MontarCabecalhoArquivoFechamento();

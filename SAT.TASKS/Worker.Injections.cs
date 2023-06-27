@@ -15,7 +15,7 @@ namespace SAT.TASKS
         private readonly IIntegracaoMRPService _integracaoMRPService;
         private readonly IEquipamentoContratoService _equipamentoContratoService;
         private readonly IOrdemServicoService _osService;
-        private readonly IAcordoNivelServicoService _ansService;
+        private readonly IANSService _ansService;
 
         public Worker(
             ISatTaskService taskService,
@@ -27,7 +27,7 @@ namespace SAT.TASKS
             IIntegracaoMRPService integracaoMRPService,
             IEquipamentoContratoService equipamentoContratoService,
             IOrdemServicoService osService,
-            IAcordoNivelServicoService ansService
+            IANSService ansService
         )
         {
             _taskService = taskService;

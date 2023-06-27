@@ -1,12 +1,14 @@
-﻿using SAT.INFRA.Interfaces;
+﻿using System;
+using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.SERVICES.Services
 {
-    public class ANSService : IANSService
+    public partial class ANSService : IANSService
     {
         private readonly IANSRepository _ansRepo;
 
@@ -53,6 +55,29 @@ namespace SAT.SERVICES.Services
             };
 
             return lista;
+        }
+
+        public DateTime CalcularSLA(OrdemServico os)
+        {
+            if (os.EquipamentoContrato is null || !os.CodEquipContrato.HasValue)
+                throw new Exception(MsgConst.SLA_NAO_ENCONTRADO_INF_EC);
+
+            var ans = new ANS();
+
+            if (os.CodCliente == Constants.CLIENTE_BB)
+            {
+                return CalcularSLABB(os);
+            }
+
+            switch (os.CodCliente)
+            {
+                case Constants.CLIENTE_BB:
+                    return CalcularSLABB(os);
+                case Constants.CLIENTE_BANRISUL:
+                    return CalcularSLABanrisul(os);
+                default:
+                    return CalcularSLADefault();
+            }
         }
     }
 }

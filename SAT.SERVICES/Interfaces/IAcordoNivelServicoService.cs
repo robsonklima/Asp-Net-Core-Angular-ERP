@@ -12,6 +12,5 @@ namespace SAT.SERVICES.Interfaces
         void Deletar(int codigo);
         void Atualizar(AcordoNivelServico ans);
         AcordoNivelServico ObterPorCodigo(int codigo);
-        DateTime CalcularSLA(OrdemServico os);
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using System.Text.RegularExpressions;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
@@ -21,18 +21,21 @@ namespace SAT.SERVICES.Services
         private ILocalAtendimentoService _localAtendimentoService;
         private IEquipamentoContratoService _equipamentoContratoService;
         private IIntegracaoBBRepository _integracaoBBRepo;
+        private IConfiguration _configuration;
 
         public IntegracaoBBService(
             IOrdemServicoService ordemServicoService,
             ILocalAtendimentoService localAtendimentoService,
             IEquipamentoContratoService equipamentoContratoService,
-            IIntegracaoBBRepository integracaoBBRepo
+            IIntegracaoBBRepository integracaoBBRepo,
+            IConfiguration configuration
         )
         {
             _ordemServicoService = ordemServicoService;
             _localAtendimentoService = localAtendimentoService;
             _equipamentoContratoService = equipamentoContratoService;
             _integracaoBBRepo = integracaoBBRepo;
+            _configuration = configuration;
         }
 
         public void Processar()
@@ -174,7 +177,7 @@ namespace SAT.SERVICES.Services
 
                 _logger.Info($"{MsgConst.CRIANDO_FILE} {target}");
 
-                string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+                string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.OUTPUT));
                 using (StreamWriter w = new StreamWriter(absolutePath))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
@@ -283,8 +286,7 @@ namespace SAT.SERVICES.Services
                 foreach (var chamado in chamados)
                 {
                     string fileName = "crm558a.xperto01." + DateTime.Now.ToString("ddMMyyyyHHMMsss") + ".bco001";
-                    string target = Directory.GetCurrentDirectory() + Constants.OUTPUT;
-                    string absolutePath = Path.GetFullPath(target + "\\" + fileName);
+                    string absolutePath = Path.GetFullPath(_configuration.GetConnectionString(Constants.OUTPUT));
                     using (StreamWriter w = new StreamWriter(absolutePath))
                     {
                         string cabecalho = MontarCabecalhoArquivoFechamento();

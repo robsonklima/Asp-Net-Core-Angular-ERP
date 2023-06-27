@@ -195,7 +195,7 @@ namespace SAT.SERVICES.Services
             {
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.bco001";
-                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input" + "\\" + fileName;
+                string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "\\" + fileName;
                 
                 using (StreamWriter w = new StreamWriter(path))
                 {
@@ -306,7 +306,7 @@ namespace SAT.SERVICES.Services
                 {
                     string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                     string fileName = "crm558a.xperto01." + dataHora + ".bco001";
-                    string path = System.AppDomain.CurrentDomain.BaseDirectory + "Input" + "\\" + fileName;
+                    string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "\\" + fileName;
 
                     using (StreamWriter w = new StreamWriter(path))
                     {

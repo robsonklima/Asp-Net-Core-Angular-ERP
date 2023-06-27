@@ -24,6 +24,7 @@ export class InstalacaoPleitoFormComponent implements OnInit {
   form: FormGroup;
   isAddMode: boolean;
   contratos: Contrato[] = [];
+  contrato: Contrato;
   tiposPleito: InstalacaoTipoPleito[] = [];
   contratoFilterCtrl: FormControl = new FormControl();
   userSession: UsuarioSessao;
@@ -95,6 +96,7 @@ export class InstalacaoPleitoFormComponent implements OnInit {
     if (!this.isAddMode) {
       this.form.patchValue(this.instalPleito);
       this.contratos.push(this.instalPleito.contrato);
+
     } else {
       this.obterContratos();
     }

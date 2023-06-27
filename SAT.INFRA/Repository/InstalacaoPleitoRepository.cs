@@ -50,7 +50,7 @@ namespace SAT.INFRA.Repository
         public InstalacaoPleito ObterPorCodigo(int codigo)
         {
             return _context.InstalacaoPleito
-                .Include(i => i.Contrato.Cliente)   
+                .Include(i => i.Contrato)   
                 .Include(i => i.InstalacaoTipoPleito)
                 .Include(i => i.InstalacoesPleitoInstal)
                     .ThenInclude(c => c.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)

@@ -57,7 +57,6 @@ namespace SAT.INFRA.Repository
                 .Include(i => i.Instalacao.EquipamentoContrato.Contrato.ContratosEquipamento)
                 .Include(i => i.Instalacao.Filial)                  
                 .Include(i => i.Instalacao.Contrato)
-                .Include(i => i.Instalacao.EquipamentoContrato)
                 .Include(i => i.Instalacao.LocalAtendimentoSol.Cidade.UnidadeFederativa)
                 .Include(i => i.Instalacao.Equipamento)
                 .Include(i => i.Instalacao.OrdemServico.RelatoriosAtendimento)

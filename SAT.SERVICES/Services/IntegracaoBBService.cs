@@ -11,6 +11,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using NLog;
 using SAT.MODELS.Views;
+using System.Reflection;
 
 namespace SAT.SERVICES.Services
 {
@@ -80,6 +81,10 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+
+                _logger.Info(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+
+
                 List<string> retorno = new();
                 DirectoryInfo dirInfo = new DirectoryInfo(Constants.DIR_INTEGRACAO_BB_INPUT);
                 string fileName = "crm549.*.BB";

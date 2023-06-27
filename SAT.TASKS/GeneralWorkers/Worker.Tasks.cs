@@ -75,29 +75,29 @@ namespace SAT.TASKS
                         case (int)SatTaskTipoEnum.INT_BB:
                             IntegrarBB(task);
 
-                            break;
+                            continue;
                         case (int)SatTaskTipoEnum.INT_BANRISUL:
                             await IntegrarBanrisulAsync(task);
 
-                            break;
+                            continue;
                         case (int)SatTaskTipoEnum.INT_ZAFFARI:
                             await IntegrarZaffariAsync(task, chamados);
 
-                            break;
+                            continue;
                         case (int)SatTaskTipoEnum.INT_MRP:
                             IntegrarMRP(task);
 
-                            break;
+                            continue;
                         case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
                             IntegrarModelos(task);
 
-                            break;
+                            continue;
                         case (int)SatTaskTipoEnum.ANS:
                             IntegrarANS(task, chamados);
 
-                            break;
+                            continue;
                         default:
-                            break; 
+                            continue;
                     }
                 }
             }

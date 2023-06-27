@@ -36,8 +36,6 @@ public partial class Worker : BackgroundService
                     .Message(ex.Message)
                     .Property("application", Constants.SISTEMA_CAMADA_TASKS)
                     .Write();
-
-                Environment.Exit(1);
             }
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);

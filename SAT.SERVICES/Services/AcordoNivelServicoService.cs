@@ -62,31 +62,26 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        /// <summary>
-        /// Gera o modelo SLA Legado
-        /// </summary>
-        /// <param name="modelo">SLA_NEW</param>
-        /// <returns></returns>
-        private AcordoNivelServicoLegado GeraModeloSLALegado(AcordoNivelServico modelo)
+        private AcordoNivelServicoLegado GeraModeloSLALegado(AcordoNivelServico sla)
         {
             return new AcordoNivelServicoLegado
             {
-                CodSla = modelo.CodSLA,
-                NomeSla = modelo.NomeSLA,
-                DescSla = modelo.DescSLA,
-                TempoInicio = modelo.TempoInicio,
-                TempoReparo = modelo.TempoReparo,
-                TempoSolucao = modelo.TempoSolucao,
-                HorarioInicio = modelo.HorarioInicio,
-                HorarioFim = modelo.HorarioFim,
-                DataCadastro = modelo.DataCadastro,
-                CodUsuarioCadastro = modelo.CodUsuarioCad,
-                DataManutencao = modelo.DataManutencao,
-                CodUsuarioManutencao = modelo.CodUsuarioManutencao,
-                IndAgendamento = Convert.ToByte(modelo.IndAgendamento),
-                IndSabado = Convert.ToByte(modelo.IndSabado),
-                IndDomingo = Convert.ToByte(modelo.IndDomingo),
-                IndFeriado = Convert.ToByte(modelo.IndFeriado)
+                CodSla = sla.CodSLA,
+                NomeSla = sla.NomeSLA,
+                DescSla = sla.DescSLA,
+                TempoInicio = sla.TempoInicio,
+                TempoReparo = sla.TempoReparo,
+                TempoSolucao = sla.TempoSolucao,
+                HorarioInicio = sla.HorarioInicio,
+                HorarioFim = sla.HorarioFim,
+                DataCadastro = sla.DataCadastro,
+                CodUsuarioCadastro = sla.CodUsuarioCad,
+                DataManutencao = sla.DataManutencao,
+                CodUsuarioManutencao = sla.CodUsuarioManutencao,
+                IndAgendamento = Convert.ToByte(sla.IndAgendamento),
+                IndSabado = Convert.ToByte(sla.IndSabado),
+                IndDomingo = Convert.ToByte(sla.IndDomingo),
+                IndFeriado = Convert.ToByte(sla.IndFeriado)
             };
         }
     }

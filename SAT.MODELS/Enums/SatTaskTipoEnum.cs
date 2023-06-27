@@ -7,6 +7,6 @@ namespace SAT.MODELS.Enums
         INT_ZAFFARI = 3,
         INT_MRP = 4,
         ATUALIZACAO_PARQUE_MODELO = 5,
-        SLA = 6
+        ANS = 6
     }
 }

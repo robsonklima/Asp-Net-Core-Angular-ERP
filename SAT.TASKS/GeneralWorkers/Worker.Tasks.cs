@@ -72,52 +72,35 @@ namespace SAT.TASKS
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
 
-                    // Integracao Banco do Brasil
-                    if (tipo == (int)SatTaskTipoEnum.INT_BB)
+                    switch (task.CodSatTaskTipo)
                     {
-                        IntegrarBB(task);
+                        case (int)SatTaskTipoEnum.INT_BB:
+                            IntegrarBB(task);
 
-                        continue;
-                    }
+                            break;
+                        case (int)SatTaskTipoEnum.INT_BANRISUL:
+                            await IntegrarBanrisulAsync(task);
 
-                    // Integracao Banrisul
-                    if (tipo == (int)SatTaskTipoEnum.INT_BANRISUL)
-                    {
-                        await IntegrarBanrisulAsync(task);
+                            break;
+                        case (int)SatTaskTipoEnum.INT_ZAFFARI:
+                            await IntegrarZaffariAsync(task, chamados);
 
-                        continue;
-                    }
+                            break;
+                        case (int)SatTaskTipoEnum.INT_MRP:
+                            IntegrarMRP(task);
 
-                    // Integracao Zaffari
-                    if (tipo == (int)SatTaskTipoEnum.INT_ZAFFARI)
-                    {
-                        await IntegrarZaffariAsync(task, chamados);
+                            break;
+                        case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
+                            IntegrarModelos(task);
 
-                        continue;
-                    }
+                            break;
+                        case (int)SatTaskTipoEnum.ANS:
+                            IntegrarANS(task, chamados);
 
-                    // Importacao Arquivos MRP Logix
-                    if (tipo == (int)SatTaskTipoEnum.INT_MRP)
-                    {
-                        IntegrarMRP(task);
-
-                        continue;
-                    }
-
-                    // Atualizacao de equipamentos e modelos
-                    if (tipo == (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO)
-                    {
-                        IntegrarModelos(task);
-
-                        continue;
-                    }
-
-                    // Atualizacao de Acordos de niveis de servico
-                    if (tipo == (int)SatTaskTipoEnum.SLA)
-                    {
-                        IntegrarANS(task, chamados);
-
-                        continue;
+                            break;
+                        default:
+                            break;
+                            
                     }
                 }
             }

@@ -68,6 +68,7 @@ namespace SAT.SERVICES.Services
         {
             DateTime inicio = chamado.DataHoraAberturaOS.Value;
             DateTime prazo = inicio;
+
             var ans = chamado.EquipamentoContrato.ANS;
 
             if (ans is null)
@@ -91,25 +92,33 @@ namespace SAT.SERVICES.Services
                 CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
             }).Items;
 
-            int interacoes = ans.TempoMinutos;
-
-            for (int i = 0; i < interacoes;)
+            for (int i = 0; i < ans.TempoMinutos;)
             {
                 foreach (var feriado in feriados)
                     if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
-                if (inicio.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
+                if (prazo.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                     continue;
 
-                if (inicio.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
+                if (prazo.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
                     continue;
 
-                if (inicio.TimeOfDay <= ans.HoraInicio)
-                    continue;
+                if (prazo.TimeOfDay < ans.HoraInicio)
+                {
+                    var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
+                    prazo = prazo + hrInicio;
 
-                if (inicio.TimeOfDay >= ans.HoraFim)
                     continue;
+                }
+
+                if (prazo.TimeOfDay > ans.HoraFim)
+                {
+                    var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
+                    prazo = prazo.AddDays(1) + hrInicio;
+
+                    continue;
+                }
 
                 prazo = prazo.AddMinutes(1);
                 

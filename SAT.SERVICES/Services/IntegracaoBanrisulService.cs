@@ -245,10 +245,10 @@ namespace SAT.SERVICES.Services
 
                 if (ordemServico == null)
                 {
-                    EnviaEmailRecusaAbertura(atendimento, "Integração Banrisul ATM: Chamado de aprovação de orçamento encaminhado pelo cliente, porém chamado não está cadastrado no sistema Perto.", emailFilial);
+                    EnviaEmailRecusaAbertura(atendimento, "Integração Banrisul ATM: Chamado de aprovação de orçamento encaminhado pelo cliente, porem chamado nao está cadastrado no sistema Perto.", emailFilial);
 
                     _logger.Error()
-                        .Message("Chamado de aprovação de orçamento encaminhado pelo cliente, porém chamado não está cadastrado no sistema Perto")
+                        .Message("Chamado de aprovação de orçamento encaminhado pelo cliente, porem chamado nao está cadastrado no sistema Perto")
                         .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                         .Write();
                 }
@@ -348,20 +348,20 @@ namespace SAT.SERVICES.Services
                         }
                         else
                         {
-                            EnviaEmailRecusaAbertura(atendimento, "SLA não encontrado: " + equipContrato.CodSLA, emailFilial);
+                            EnviaEmailRecusaAbertura(atendimento, "SLA nao encontrado: " + equipContrato.CodSLA, emailFilial);
 
                             _logger.Error()
-                                .Message("SLA não encontrada")
+                                .Message("SLA nao encontrada")
                                 .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                                 .Write();
                         }
                     }
                     else
                     {
-                        EnviaEmailRecusaAbertura(atendimento, "Chamado não encontrado. Status do incidente: REOP:" + ordemServico.CodContrato, emailFilial);
+                        EnviaEmailRecusaAbertura(atendimento, "Chamado nao encontrado. Status do incidente: REOP:" + ordemServico.CodContrato, emailFilial);
 
                         _logger.Error()
-                            .Message("Contrato não encontrado")
+                            .Message("Contrato nao encontrado")
                             .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                             .Write();
                     }
@@ -369,10 +369,10 @@ namespace SAT.SERVICES.Services
                 }
                 else
                 {
-                    EnviaEmailRecusaAbertura(atendimento, "Chamado não encontrado. Status do incidente: REOP.", emailFilial);
+                    EnviaEmailRecusaAbertura(atendimento, "Chamado nao encontrado. Status do incidente: REOP.", emailFilial);
 
                     _logger.Error()
-                        .Message("Chamado não encontrado.Status do incidente: REOP.")
+                        .Message("Chamado nao encontrado.Status do incidente: REOP.")
                         .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                         .Write();
                 }
@@ -398,10 +398,10 @@ namespace SAT.SERVICES.Services
 
             if (string.IsNullOrWhiteSpace(atendimento.DataHoraAbertura.Valor))
             {
-                EnviaEmailRecusaAbertura(atendimento, "A data de abertura é inválida ou não foi informada.", null);
+                EnviaEmailRecusaAbertura(atendimento, "A data de abertura e invalida ou nao foi informada.", null);
 
                 _logger.Error()
-                    .Message("A data de abertura é inválida ou não foi informada")
+                    .Message("A data de abertura e invalida ou nao foi informada")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -422,10 +422,10 @@ namespace SAT.SERVICES.Services
 
             if (string.IsNullOrWhiteSpace(atendimento.NumeroSerie.Valor))
             {
-                EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento.", null);
+                EnviaEmailRecusaAbertura(atendimento, "Nao foi possivel encontrar o numero de serie do equipamento do cliente no e-mail de atendimento.", null);
 
                 _logger.Error()
-                    .Message("Não foi possível encontrar o número de série do equipamento do cliente no e-mail de atendimento.")
+                    .Message("Nao foi possivel encontrar o numero de serie do equipamento do cliente no e-mail de atendimento.")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -443,10 +443,10 @@ namespace SAT.SERVICES.Services
 
             if (equipamentos.Count() == 0)
             {
-                EnviaEmailRecusaAbertura(atendimento, "O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema.", null);
+                EnviaEmailRecusaAbertura(atendimento, "O numero de serie do equipamento do cliente encontrado no e-mail nao está cadastrado no sistema.", null);
 
                 _logger.Error()
-                    .Message("O número de série do equipamento do cliente encontrado no e-mail não está cadastrado no sistema.")
+                    .Message("O numero de serie do equipamento do cliente encontrado no e-mail nao está cadastrado no sistema.")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -455,10 +455,10 @@ namespace SAT.SERVICES.Services
 
             if (equipamentos.Count() > 1)
             {
-                EnviaEmailRecusaAbertura(atendimento, "Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento.", null);
+                EnviaEmailRecusaAbertura(atendimento, "Foram encontrados mais de um equipamento no sistema com o mesmo numero de serie e local de atendimento.", null);
                 
                 _logger.Error()
-                    .Message("Foram encontrados mais de um equipamento no sistema com o mesmo número de série e local de atendimento")
+                    .Message("Foram encontrados mais de um equipamento no sistema com o mesmo numero de serie e local de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -472,10 +472,10 @@ namespace SAT.SERVICES.Services
 
             if (string.IsNullOrWhiteSpace(atendimento.CodigoLocalEquipamento.Valor))
             {
-                EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar a agência no e-mail de atendimento.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "Nao foi possivel encontrar a agencia no e-mail de atendimento.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("Não foi possível encontrar a agência no e-mail de atendimento")
+                    .Message("Nao foi possivel encontrar a agencia no e-mail de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -484,10 +484,10 @@ namespace SAT.SERVICES.Services
 
             if (atendimento.CodigoLocalEquipamento.Valor.Length < 5)
             {
-                EnviaEmailRecusaAbertura(atendimento, "O código da agência informado no e-mail deve conter 5 posições.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "O codigo da agencia informado no e-mail deve conter 5 posições.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("O código da agência informado no e-mail deve conter 5 posições")
+                    .Message("O codigo da agencia informado no e-mail deve conter 5 posições")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -505,10 +505,10 @@ namespace SAT.SERVICES.Services
 
             if (locais.Count() == 0)
             {
-                EnviaEmailRecusaAbertura(atendimento, "A agência encontrada no e-mail não está cadastrada no sistema.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "A agencia encontrada no e-mail nao está cadastrada no sistema.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("A agência encontrada no e-mail não está cadastrada no sistema")
+                    .Message("A agencia encontrada no e-mail nao está cadastrada no sistema")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -517,10 +517,10 @@ namespace SAT.SERVICES.Services
 
             if (locais.Count() > 1)
             {
-                EnviaEmailRecusaAbertura(atendimento, "Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "Foram encontradas mais de uma agencia no sistema com o mesmo codigo de agencia e posto.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("Foram encontradas mais de uma agência no sistema com o mesmo código de agência e posto")
+                    .Message("Foram encontradas mais de uma agencia no sistema com o mesmo codigo de agencia e posto")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -534,10 +534,10 @@ namespace SAT.SERVICES.Services
 
             if (string.IsNullOrWhiteSpace(atendimento.NumeroIncidente.Valor))
             {
-                EnviaEmailRecusaAbertura(atendimento, "Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "Nao foi possivel encontrar o numero do chamado do cliente no e-mail de atendimento.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("Não foi possível encontrar o número do chamado do cliente no e-mail de atendimento")
+                    .Message("Nao foi possivel encontrar o numero do chamado do cliente no e-mail de atendimento")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -557,10 +557,10 @@ namespace SAT.SERVICES.Services
 
             if (chamados.Count() > 0)
             {
-                EnviaEmailRecusaAbertura(atendimento, "Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado.", equipamento.Filial.Email);
+                EnviaEmailRecusaAbertura(atendimento, "Ja existe um chamado do cliente cadastrado no sistema com este mesmo numero de chamado.", equipamento.Filial.Email);
                 
                 _logger.Error()
-                    .Message("Já existe um chamado do cliente cadastrado no sistema com este mesmo número de chamado")
+                    .Message("Ja existe um chamado do cliente cadastrado no sistema com este mesmo numero de chamado")
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -573,7 +573,7 @@ namespace SAT.SERVICES.Services
                     String.Format("Agendamento: {0}", DateTime.Parse(atendimento.DataHoraAgendamento.Valor, new CultureInfo("en-US")).ToString("dd/MM/yyyy HH:mm:ss"));
             }
 
-            if (atendimento.DescricaoIncidente.Valor.Contains("RECALL DOS SENSORES FIM DE CÉDULAS DO DISPENSADOR"))
+            if (atendimento.DescricaoIncidente.Valor.Contains("RECALL DOS SENSORES FIM DE CeDULAS DO DISPENSADOR"))
             {
                 ordemServico.CodTipoIntervencao = (int)TipoIntervencaoEnum.ALTERACAO_DE_ENGENHARIA;
                 ordemServico.NumOSQuarteirizada = "REC FIM DE CED";
@@ -615,7 +615,7 @@ namespace SAT.SERVICES.Services
             try
             {
                 _logger.Info()
-                    .Message("iniciando retorno de status da OS cliente {cliente}", atendimento.NumeroIncidente.Valor)
+                    .Message("Iniciando retorno de status da OS cliente {cliente}", atendimento.NumeroIncidente.Valor)
                     .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                     .Write();
 
@@ -636,20 +636,20 @@ namespace SAT.SERVICES.Services
                     }
                     else
                     {
-                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida inválida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
+                        EnviaEmailResolucao(atendimento, "DataHoraSolucaoValida invalida. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA);
 
                         _logger.Error()
-                            .Message("DataHoraSolucaoValida inválida. Status do incidente: RE.")
+                            .Message("DataHoraSolucaoValida invalida. Status do incidente: RE.")
                             .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                             .Write();
                     }
                 }
                 else
                 {
-                    EnviaEmailResolucao(atendimento, "RAT não encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
+                    EnviaEmailResolucao(atendimento, "RAT nao encontrada. Status do incidente: RE.", ordemServico.Filial.Email, IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA);
 
                     _logger.Error()
-                        .Message("Rat não encontrada")
+                        .Message("RAT nao encontrada")
                         .Property("application", Constants.INTEGRACAO_BANRISUL_ATM)
                         .Write();
                 }
@@ -696,11 +696,11 @@ namespace SAT.SERVICES.Services
             texto.Append("					</td>");
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Número Chamado:</td>");
+            texto.Append("					<td align=\"right\">numero Chamado:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroIncidente.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Agência:</td>");
+            texto.Append("					<td align=\"right\">agencia:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
@@ -708,7 +708,7 @@ namespace SAT.SERVICES.Services
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Número Série Equipamento:</td>");
+            texto.Append("					<td align=\"right\">numero Serie Equipamento:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroSerie.Valor);
             texto.Append("				</tr>");
             texto.Append("			</table>");
@@ -740,11 +740,11 @@ namespace SAT.SERVICES.Services
             texto.Append("					</td>");
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Número Chamado:</td>");
+            texto.Append("					<td align=\"right\">numero Chamado:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroIncidente.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Agência:</td>");
+            texto.Append("					<td align=\"right\">agencia:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
@@ -752,7 +752,7 @@ namespace SAT.SERVICES.Services
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.CodigoLocalEquipamento.Valor);
             texto.Append("				</tr>");
             texto.Append("				<tr>");
-            texto.Append("					<td align=\"right\">Número Série Equipamento:</td>");
+            texto.Append("					<td align=\"right\">numero Serie Equipamento:</td>");
             texto.AppendFormat("					<td align=\"left\">{0}</td>", atendimento.NumeroSerie.Valor);
             texto.Append("				</tr>");
             texto.Append("			</table>");
@@ -788,7 +788,7 @@ namespace SAT.SERVICES.Services
             string assunto = "Integração Banrisul ATM - Situação chamado cliente " +
                 atendimento.NumeroIncidente.Valor + " - Analista " + atendimento.NomeContato.Valor;
 
-            string mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " recusado pois não atendeu aos seguintes requisitos: " + "<br/><ul><li>" + motivo + "</li></ul>";
+            string mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " recusado pois nao atendeu aos seguintes requisitos: " + "<br/><ul><li>" + motivo + "</li></ul>";
 
             string texto = GetHtmlEmailAbertura(atendimento, mensagem);
 
@@ -814,10 +814,10 @@ namespace SAT.SERVICES.Services
                     mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " - Resolução acatada com sucesso.";
                     break;
                 case IntegracaoBanrisulResolucaoEnum.RESOLUCAO_DATA_INVALIDA:
-                    mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " - Resolução não acatada, Data de resolução inválida.";
+                    mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " - Resolução nao acatada, Data de resolução invalida.";
                     break;
                 case IntegracaoBanrisulResolucaoEnum.RESOLUCAO_RAT_NAO_ENCONTRADA:
-                    mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " - Resolução não acatada, RAT do chamado não encontrada.";
+                    mensagem = "Chamado " + atendimento.NumeroIncidente.Valor + " - Resolução nao acatada, RAT do chamado nao encontrada.";
                     break;
             }
 
@@ -837,7 +837,7 @@ namespace SAT.SERVICES.Services
         {
             string assunto = "Integração Banrisul - Aprovação Orçamento - OS: " + CodOS + ".";
 
-            string mensagem = "Chamado Cliente: " + atendimento.NumeroIncidente.Valor + " com orçamento aprovado de acordo com notificação via integração. " + "<br/> <h5 style='color: steelblue;'>Número OS Perto: 12365478</h5><br/>";
+            string mensagem = "Chamado Cliente: " + atendimento.NumeroIncidente.Valor + " com orçamento aprovado de acordo com notificação via integração. " + "<br/> <h5 style='color: steelblue;'>numero OS Perto: 12365478</h5><br/>";
 
             string texto = GetHtmlEmailAbertura(atendimento, mensagem);
 

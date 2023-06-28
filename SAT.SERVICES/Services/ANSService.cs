@@ -74,7 +74,7 @@ namespace SAT.SERVICES.Services
 
             var ans = new ANS
             {
-
+                
             };
 
             // primeiro agendamento

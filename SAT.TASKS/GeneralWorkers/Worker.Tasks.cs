@@ -60,14 +60,18 @@ namespace SAT.TASKS
         #endregion
 
         #region Processamento da fila
-        
+
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
 
             try
             {
-                var chamados = ObterFilaChamados();
+                var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
+                {
+                    DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                    DataHoraManutFim = DateTime.Now
+                }).Items;
 
                 foreach (var task in tasks)
                 {
@@ -75,9 +79,8 @@ namespace SAT.TASKS
                         continue;
 
                     AtualizarTask(task);
-                    int tipo = task.CodSatTaskTipo;
 
-                    switch (tipo)
+                    switch (task.CodSatTaskTipo)
                     {
                         case (int)SatTaskTipoEnum.INT_BB:
                             IntegrarBB(task);
@@ -121,7 +124,7 @@ namespace SAT.TASKS
         #endregion
 
         #region Permissao
-        
+
         private bool ObterPermissao(SatTask task)
         {
             DateTime dtHrProc = task.DataHoraProcessamento.HasValue ?
@@ -147,27 +150,13 @@ namespace SAT.TASKS
         #endregion
 
         #region Task
-        
+
         private void AtualizarTask(SatTask task)
         {
             task.DataHoraProcessamento = DateTime.Now;
             task.Status = SatTaskStatusConst.PROCESSADO;
 
             _taskService.Atualizar(task);
-        }
-
-        #endregion
-
-        #region Obtencao da fila
-        
-        private IEnumerable<OrdemServico> ObterFilaChamados()
-        {
-            var parametros = new OrdemServicoParameters
-            {
-                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                DataHoraManutFim = DateTime.Now
-            };
-            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
         }
 
         #endregion

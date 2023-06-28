@@ -8,6 +8,10 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
+        #region FilaTasks
+            
+        #endregion
+
         private void CriarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);

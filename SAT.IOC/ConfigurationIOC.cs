@@ -229,7 +229,7 @@ public class ConfigurationIOC
         builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>(); 
         builder.RegisterType<IntegracaoBBRepository>().As<IIntegracaoBBRepository>(); 
         builder.RegisterType<ANSRepository>().As<IANSRepository>(); 
-        builder.RegisterType<IOSPrazoAtendimentoRepository>().As<OSPrazoAtendimentoRepository>(); 
+        builder.RegisterType<OSPrazoAtendimentoRepository>().As<IOSPrazoAtendimentoRepository>(); 
         
         #endregion
 
@@ -456,7 +456,6 @@ public class ConfigurationIOC
         builder.RegisterType<SatTaskTipoService>().As<ISatTaskTipoService>(); 
         builder.RegisterType<ANSService>().As<IANSService>(); 
         builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>(); 
-
 
         #endregion
 

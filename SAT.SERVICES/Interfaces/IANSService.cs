@@ -9,9 +9,9 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(ANSParameters parameters);
         ANS ObterPorCodigo(int codigo);
-        void Criar(ANS ans);
-        void Deletar(int codigo);
-        void Atualizar(ANS ans);
+        ANS Criar(ANS ans);
+        ANS Deletar(int codigo);
+        ANS Atualizar(ANS ans);
         DateTime CalcularSLA(OrdemServico os);
     }
 }

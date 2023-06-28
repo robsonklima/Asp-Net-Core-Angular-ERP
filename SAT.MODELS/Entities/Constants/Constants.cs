@@ -162,6 +162,10 @@ namespace SAT.MODELS.Entities.Constants
         // Permissoes
         public static string NENHUM_REGISTRO = "S/N";
 
+        // Sim e Nao
+        public static string SIM = "SIM";
+        public static string NAO = "NAO";
+
         // Clientes
         public static int SICOOB = 68;
         public static int SICOOB_CONFEDERACAO = 246;

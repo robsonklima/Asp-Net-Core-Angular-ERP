@@ -8,8 +8,8 @@ namespace SAT.MODELS.Entities
         public int CodANS { get; set; }
         public string NomeANS { get; set; }
         public string DescANS { get; set; }
-        public string HoraInicio { get; set; }
-        public string HoraFim { get; set; }
+        public int HoraInicio { get; set; }
+        public int HoraFim { get; set; }
         public int TempoMinutos { get; set; }
         public string PermiteAgendamento { get; set; }
         public string HorasUteis { get; set; }

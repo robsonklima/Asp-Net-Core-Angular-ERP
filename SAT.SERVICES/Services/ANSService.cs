@@ -22,19 +22,19 @@ namespace SAT.SERVICES.Services
             _feriadoService = feriadoService;
         }
 
-        public void Atualizar(ANS ans)
+        public ANS Atualizar(ANS ans)
         {
-            _ansRepo.Atualizar(ans);
+            return _ansRepo.Atualizar(ans);
         }
 
-        public void Criar(ANS ans)
+        public ANS Criar(ANS ans)
         {
-            _ansRepo.Criar(ans);
+            return _ansRepo.Criar(ans);
         }
 
-        public void Deletar(int codigo)
+        public ANS Deletar(int codigo)
         {
-            _ansRepo.Deletar(codigo);
+            return _ansRepo.Deletar(codigo);
         }
 
         public ANS ObterPorCodigo(int codigo)
@@ -76,6 +76,30 @@ namespace SAT.SERVICES.Services
                 default:
                     return CalcularSLADefault();
             }
+        }
+
+        private int CalcularTempo(ANS ans, DateTime inicio, DateTime fim)
+        {
+            int horas = 0;
+
+            for (var i = inicio; i < fim; i = i.AddHours(1))
+            {
+                if (i.DayOfWeek != DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
+                    continue;
+
+                if (i.DayOfWeek != DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
+                    continue;
+
+                if (i.TimeOfDay.Hours <= ans.HoraInicio)
+                    continue;
+
+                if (i.TimeOfDay.Hours < ans.HoraFim)
+                    continue;
+
+                horas++;
+            }
+
+            return horas;
         }
     }
 }

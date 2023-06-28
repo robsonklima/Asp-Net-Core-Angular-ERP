@@ -8,32 +8,27 @@ namespace SAT.TASKS;
 public partial class Worker : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {   
+    {
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
                 IniciarPlayground();
 
-                var tipoParams = new SatTaskTipoParameters {
-                    IndAtivo = (byte)Constants.ATIVO
-                };
                 var tipos = (List<SatTaskTipo>)_taskTipoService
-                    .ObterPorParametros(tipoParams)
+                    .ObterPorParametros(new SatTaskTipoParameters { IndAtivo = (byte)Constants.ATIVO })
                     .Items;
 
                 CriarFilaTasks(tipos);
 
-                var taskParams = new SatTaskParameters { 
-                    Status = SatTaskStatusConst.PENDENTE
-                };
                 var tasks = (IEnumerable<SatTask>)_taskService
-                    .ObterPorParametros(taskParams)
+                    .ObterPorParametros(new SatTaskParameters { Status = SatTaskStatusConst.PENDENTE })
                     .Items;
 
                 await ProcessarFilaTasksAsync(tasks);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.Error()
                     .Message(ex.Message)
                     .Property("application", Constants.SISTEMA_CAMADA_TASKS)

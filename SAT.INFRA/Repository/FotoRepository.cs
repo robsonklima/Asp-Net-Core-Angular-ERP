@@ -58,6 +58,9 @@ namespace SAT.INFRA.Repository
             if (parameters.CodOS.HasValue)
                 fotos = fotos.Where(f => f.CodOS == parameters.CodOS);
 
+            if (!string.IsNullOrWhiteSpace(parameters.Modalidade))
+                fotos = fotos.Where(f => f.Modalidade.Contains(parameters.Modalidade));
+
             if (!string.IsNullOrWhiteSpace(parameters.SortActive) && !string.IsNullOrWhiteSpace(parameters.SortDirection))
                 fotos = fotos.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

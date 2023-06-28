@@ -45,12 +45,14 @@ export class SuporteStnLaudoFormFotoComponent implements OnInit {
         this.codLaudo = +this._route.snapshot.paramMap.get('codLaudo');
         this.laudo = await this._laudoService.obterPorCodigo(this.codLaudo).toPromise();
         this.relatorioAtendimento = await this._relatorioAtendimentoService.obterPorCodigo(this.laudo.codRAT).toPromise();
+        this.obterFotos();
     }
 
     private async obterFotos() {
         const data = await this._fotoSvc.obterPorParametros({
             numRAT: this.relatorioAtendimento.numRAT,
-            codOS: this.relatorioAtendimento.codOS
+            codOS: this.relatorioAtendimento.codOS,
+            modalidade: "LAUDO"
         }).toPromise();
 
         this.relatorioAtendimento.fotos = data.items;

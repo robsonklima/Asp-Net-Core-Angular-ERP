@@ -9,7 +9,7 @@ namespace SAT.TASKS
     public partial class Worker : BackgroundService
     {
         #region Criacao da fila
-        
+
         private void CriarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);
@@ -161,7 +161,7 @@ namespace SAT.TASKS
 
         #endregion
 
-        #region Obter fila
+        #region Obtencao da fila
         
         private IEnumerable<OrdemServico> ObterFilaChamados()
         {

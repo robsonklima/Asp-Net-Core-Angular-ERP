@@ -64,13 +64,17 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            int horas = 0;
+            int minutos = 0;
 
-            DateTime inicio = chamado.DataHoraCad.Value;
-            DateTime fim = chamado.RelatoriosAtendimento
-                .OrderByDescending(r => r.DataHoraSolucao)
-                .FirstOrDefault()
-                .DataHoraSolucao;
+            DateTime inicio = chamado.DataHoraAberturaOS.Value;
+            DateTime fim = DateTime.Now;
+            if (chamado.RelatoriosAtendimento is not null)
+            {
+                fim = chamado.RelatoriosAtendimento
+                    .OrderByDescending(r => r.DataHoraSolucao)
+                    .FirstOrDefault()
+                    .DataHoraSolucao;
+            }
 
             var ans = new ANS
             {
@@ -116,10 +120,10 @@ namespace SAT.SERVICES.Services
                 if (i.TimeOfDay.Hours < ans.HoraFim)
                     continue;
 
-                horas++;
+                minutos++;
             }
 
-            return inicio.AddHours(horas);
+            return inicio.AddHours(minutos);
         }
     }
 }

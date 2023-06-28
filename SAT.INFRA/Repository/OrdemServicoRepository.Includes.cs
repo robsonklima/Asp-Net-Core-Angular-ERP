@@ -415,6 +415,7 @@ namespace SAT.INFRA.Repository
                         .Include(os => os.RelatoriosAtendimento)
                             .ThenInclude(a => a.Tecnico)
                         .Include(os => os.EquipamentoContrato.Contrato)
+                        .Include(os => os.EquipamentoContrato.ANS)
                         .Include(os => os.PrazosAtendimento);
                     break;
             }

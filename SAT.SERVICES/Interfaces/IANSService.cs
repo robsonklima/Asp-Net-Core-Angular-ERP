@@ -5,13 +5,13 @@ using SAT.MODELS.ViewModels;
 
 namespace SAT.SERVICES.Interfaces
 {
-    public  interface IANSService
+    public interface IANSService
     {
         ListViewModel ObterPorParametros(ANSParameters parameters);
         ANS ObterPorCodigo(int codigo);
         ANS Criar(ANS ans);
         ANS Deletar(int codigo);
         ANS Atualizar(ANS ans);
-        DateTime CalcularSLA(OrdemServico os);
+        DateTime CalcularPrazo(OrdemServico chamado);
     }
 }

@@ -9,7 +9,7 @@ namespace SAT.TASKS
         {
             foreach (var chamado in chamados)
             {
-                var prazo = _ansService.CalcularSLA(chamado);
+                var prazo = _ansService.CalcularPrazo(chamado);
 
                 _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
             }

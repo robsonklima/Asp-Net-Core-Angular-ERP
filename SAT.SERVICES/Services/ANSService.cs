@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -60,30 +62,33 @@ namespace SAT.SERVICES.Services
             return lista;
         }
 
-        public DateTime CalcularSLA(OrdemServico os)
+        public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            if (os.EquipamentoContrato is null || !os.CodEquipContrato.HasValue)
-                throw new Exception(MsgConst.SLA_NAO_ENCONTRADO_INF_EC);
-
-            var ans = new ANS();
-
-            switch (os.CodCliente)
-            {
-                case Constants.CLIENTE_BB:
-                    return CalcularSLABB(os);
-                case Constants.CLIENTE_BANRISUL:
-                    return CalcularSLABanrisul(os);
-                default:
-                    return CalcularSLADefault();
-            }
-        }
-
-        private int CalcularTempo(ANS ans, DateTime inicio, DateTime fim)
-        {
+            DateTime inicio = chamado.DataHoraCad.Value;
+            DateTime fim = chamado.DataHoraFechamento.Value;
+            var ans = new ANS {};
+            var agendamento = chamado.Agendamentos
+                .OrderByDescending(a => a.CodAgendamento)
+                .FirstOrDefault();
+            
             int horas = 0;
+
+            if (ans.PermiteAgendamento == Constants.SIM)
+                if (agendamento.DataAgendamento.Value != default(DateTime))
+                    inicio = agendamento.DataAgendamento.Value;
+
+            var parameters = new FeriadoParameters {
+                dataInicio = inicio,
+                dataFim = fim
+            };
+            var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(parameters).Items;
 
             for (var i = inicio; i < fim; i = i.AddHours(1))
             {
+                foreach (var feriado in feriados)
+                    if (inicio.Date >= feriado.Data.Value.Date && fim.Date <= feriado.Data.Value.Date)
+                        continue;
+
                 if (i.DayOfWeek != DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                     continue;
 
@@ -99,7 +104,7 @@ namespace SAT.SERVICES.Services
                 horas++;
             }
 
-            return horas;
+            return inicio.AddHours(horas);
         }
     }
 }

@@ -11,6 +11,12 @@ namespace SAT.TASKS
             {
                 var prazo = _ansService.CalcularPrazo(chamado);
 
+                var pa = new OSPrazoAtendimento {
+                    DataHoraCad = DateTime.Now,
+                    DataHoraLimiteAtendimento = prazo,
+                    CodOS = chamado.CodOS
+                };
+
                 _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
             }
         }

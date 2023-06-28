@@ -64,30 +64,37 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            DateTime inicio = chamado.DataHoraCad.Value;
-            DateTime fim = chamado.DataHoraFechamento.Value;
-            var ans = new ANS {};
-            var primeiroAgendamento = chamado.Agendamentos
-                .OrderBy(a => a.DataAgendamento)
-                .FirstOrDefault();
-            
             int horas = 0;
 
-            if (ans.PermiteAgendamento == Constants.SIM)
-                if (primeiroAgendamento.DataAgendamento.Value != default(DateTime))
-                    inicio = primeiroAgendamento.DataAgendamento.Value;
+            DateTime inicio = chamado.DataHoraCad.Value;
+            DateTime fim = chamado.RelatoriosAtendimento
+                .OrderByDescending(r => r.DataHoraSolucao)
+                .FirstOrDefault()
+                .DataHoraSolucao;
+            
+            var ans = new ANS {
 
-            var parameters = new FeriadoParameters {
-                dataInicio = inicio,
-                dataFim = fim
             };
-            var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(parameters).Items;
+
+            // primeiro agendamento
+            DateTime agendamento = chamado.Agendamentos
+                .OrderBy(a => a.DataAgendamento)
+                .FirstOrDefault()
+                .DataAgendamento
+                .Value; 
+
+            if (ans.PermiteAgendamento == Constants.SIM && agendamento != default(DateTime))
+                inicio = agendamento;
+
+            var feriados = ObterFeriados(chamado, inicio, fim);
 
             for (var i = inicio; i < fim; i = i.AddHours(1))
             {
-                foreach (var feriado in feriados)
-                    if (inicio.Date >= feriado.Data.Value.Date && fim.Date <= feriado.Data.Value.Date)
-                        continue;
+                var isFeriado = feriados
+                    .Where(f => inicio.Date >= f.Data.Value.Date && fim.Date <= f.Data.Value.Date) is not null;
+
+                if (isFeriado)
+                    continue;
 
                 if (i.DayOfWeek != DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                     continue;
@@ -105,6 +112,17 @@ namespace SAT.SERVICES.Services
             }
 
             return inicio.AddHours(horas);
+        }
+
+        private IEnumerable<Feriado> ObterFeriados(OrdemServico chamado, DateTime inicio, DateTime fim)
+        {
+            var parameters = new FeriadoParameters {
+                dataInicio = inicio,
+                dataFim = fim,
+                CodCidades = chamado.LocalAtendimento.Cidade.CodCidade.ToString()
+            };
+
+            return (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(parameters).Items;
         }
     }
 }

@@ -29,7 +29,8 @@ namespace SAT.TASKS
             IEquipamentoContratoService equipamentoContratoService,
             IOrdemServicoService osService,
             IANSService ansService,
-            IContratoEquipamentoService contratoEquipamentoService
+            IContratoEquipamentoService contratoEquipamentoService,
+            IOSPrazoAtendimentoService
         )
         {
             _taskService = taskService;

@@ -302,7 +302,7 @@ namespace SAT.UTILS
                             grid.Item(4).Text(t =>
                             {
                                 t.Span($"CNPJ: ").FontSize(8).Bold();
-                                t.Span($"{Convert.ToUInt64(Orcamento.OrdemServico.LocalAtendimento.Cnpj).ToString(@"000\.000\.000\-00") }").FontSize(8);
+                                t.Span($"{Convert.ToUInt64(Orcamento.OrdemServico.LocalAtendimento.Cnpj).ToString(@"00\.000\.000\/0000\-00") }").FontSize(8);
                             });
 
                             grid.Item(4).Text(t =>

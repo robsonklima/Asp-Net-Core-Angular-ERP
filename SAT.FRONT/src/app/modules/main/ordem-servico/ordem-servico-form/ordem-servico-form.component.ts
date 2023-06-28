@@ -558,6 +558,10 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			SetorEnum.CLIENTE
 		];
 
+		var perfisPodemApenasPreventivaGerencial = [
+			RoleEnum.TECNICO_OPERACOES,
+		];
+
 		var perfisPodemApenasCriarAutorizacaoDeslocamento = [
 			RoleEnum.LIDER,
 			RoleEnum.COORDENADOR
@@ -591,11 +595,19 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
 		}
 
+		// tecnico operaçoes só permite Manutenção Preventica Gerencial
+		if (perfisPodemApenasPreventivaGerencial.includes(perfilUsuarioLogado)
+			&& novoTipoIntervencao != TipoIntervencaoEnum.PREVENTIVA_GERENCIAL
+			&& this.isAddMode)
+		{
+			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteCriar': true });
+		}
+
 		// só RPV pode alterar para corretiva
 		if (novoTipoIntervencao == TipoIntervencaoEnum.CORRETIVA 
 			&& !perfisPodemAlterarCorretiva.includes(perfilUsuarioLogado) 
 			&& !setoresPodemAlterarCorretiva.includes(setorUsuarioLogado))
-		{debugger
+		{
 			this.form.controls['codTipoIntervencao'].setErrors({ 'naoPermiteAlterarCorretiva': true });
 		}
 

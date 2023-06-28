@@ -18,31 +18,36 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        public void Atualizar(ANS ans)
+        public ANS Atualizar(ANS ans)
         {
             _context.ChangeTracker.Clear();
-            ANS a = _context.ANS
-                .FirstOrDefault(a => a.CodANS == ans.CodANS);
+            ANS a = _context.ANS.FirstOrDefault(a => a.CodANS == ans.CodANS);
+
             try
             {
                 if (a != null)
                 {
                     _context.Entry(a).CurrentValues.SetValues(ans);
+
                     _context.SaveChanges();
                 }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
+
+            return a;
         }
 
-        public void Criar(ANS ans)
+        public ANS Criar(ANS ans)
         {
             try
             {
                 _context.Add(ans);
                 _context.SaveChanges();
+
+                return ans;
             }
             catch (System.Exception)
             {
@@ -50,16 +55,18 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public void Deletar(int codigoAns)
+        public ANS Deletar(int codigoAns)
         {
-            ANS a = _context.ANS
+            ANS ans = _context.ANS
                 .FirstOrDefault(a => a.CodANS == codigoAns);
 
-            if (a != null)
+            if (ans != null)
             {
-                _context.ANS.Remove(a);
+                _context.ANS.Remove(ans);
                 _context.SaveChanges();
             }
+
+            return ans;
         }
 
         public ANS ObterPorCodigo(int codigoAns)
@@ -77,13 +84,11 @@ namespace SAT.INFRA.Repository
 
         public PagedList<ANS> ObterPorParametros(ANSParameters parameters)
         {
-            var anss = _context.ANS
-                .AsQueryable();
+            var anss = _context.ANS.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
             {
-                anss = anss.Where(a =>
-                    a.CodANS.ToString().Contains(parameters.Filter));
+                anss = anss.Where(a =>a.CodANS.ToString().Contains(parameters.Filter));
             }
 
             if (parameters.CodANS != null)

@@ -7,8 +7,8 @@ namespace SAT.INFRA.Interfaces {
     public interface IANSRepository {
         PagedList<ANS> ObterPorParametros(ANSParameters parameters);
         ANS ObterPorCodigo(int codigoAns);
-        void Criar(ANS ans);
-        void Deletar(int codigoAns);
-        void Atualizar(ANS ans);
+        ANS Criar(ANS ans);
+        ANS Deletar(int codigoAns);
+        ANS Atualizar(ANS ans);
     }
 }

@@ -32,13 +32,13 @@ namespace SAT.TASKS
                             CodSatTaskTipo = tipo.CodSatTaskTipo
                         });
 
-                        _logger.Info($"{ MsgConst.TASK_CRIADA }, { novaTask.Tipo.Nome }");
+                        _logger.Info($"{MsgConst.TASK_CRIADA}, {novaTask.Tipo.Nome}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
+                _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
             }
 
             _logger.Info(MsgConst.FIN_PROC_FILA);
@@ -55,6 +55,7 @@ namespace SAT.TASKS
             return ObterPermissao(task);
         }
 
+
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
@@ -62,7 +63,7 @@ namespace SAT.TASKS
             try
             {
                 var chamados = ObterFilaChamados();
-                
+
                 foreach (var task in tasks)
                 {
                     if (!deveProcessar(task))
@@ -98,7 +99,7 @@ namespace SAT.TASKS
 
                             continue;
                         default:
-                            _logger.Error($"{ task.Tipo.Nome } nao registrado");
+                            _logger.Error($"{task.Tipo.Nome} nao registrado");
 
                             continue;
                     }
@@ -106,23 +107,16 @@ namespace SAT.TASKS
             }
             catch (Exception ex)
             {
-                _logger.Error($"{ Constants.SISTEMA_CAMADA_TASKS } { ex.Message }");
+                _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
             }
-        }
-
-        private void AtualizarTask(SatTask task)
-        {
-            task.DataHoraProcessamento = DateTime.Now;
-            task.Status = SatTaskStatusConst.PROCESSADO;
-            
-            _taskService.Atualizar(task);
         }
 
         private bool deveProcessar(SatTask task) => ObterPermissao(task);
 
+
         private bool ObterPermissao(SatTask task)
         {
-            DateTime dtHrProc = task.DataHoraProcessamento.HasValue ? 
+            DateTime dtHrProc = task.DataHoraProcessamento.HasValue ?
                 task.DataHoraProcessamento.Value : default(DateTime);
 
             switch (task.CodSatTaskTipo)
@@ -142,6 +136,7 @@ namespace SAT.TASKS
             }
         }
 
+
         private IEnumerable<OrdemServico> ObterFilaChamados()
         {
             var parametros = new OrdemServicoParameters
@@ -150,6 +145,14 @@ namespace SAT.TASKS
                 DataHoraManutFim = DateTime.Now
             };
             return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
+        }
+
+        private void AtualizarTask(SatTask task)
+        {
+            task.DataHoraProcessamento = DateTime.Now;
+            task.Status = SatTaskStatusConst.PROCESSADO;
+
+            _taskService.Atualizar(task);
         }
     }
 }

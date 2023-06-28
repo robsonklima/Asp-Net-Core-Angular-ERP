@@ -13,6 +13,5 @@ namespace SAT.SERVICES.Interfaces
         void Atualizar(EquipamentoContrato equipamentoContrato);
         EquipamentoContrato ObterPorCodigo(int codigo);
         MtbfEquipamento CalcularMTBF(int codEquipContrato, DateTime? dataInicio, DateTime dataFim);
-        void AtualizarParqueModelo();
     }
 }

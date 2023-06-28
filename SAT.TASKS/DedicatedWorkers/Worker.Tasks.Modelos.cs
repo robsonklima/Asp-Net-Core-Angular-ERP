@@ -1,4 +1,6 @@
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Constants;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.TASKS
 {
@@ -6,7 +8,29 @@ namespace SAT.TASKS
     {
         private void IntegrarModelos(SatTask task)
         {
-            _equipamentoContratoService.AtualizarParqueModelo();
+            var contrParams = new ContratoEquipamentoParameters { };
+            var contratos = _contratoEquipamentoService.ObterPorParametros(contrParams).Items;
+
+            _logger.Info($"{ MsgConst.INI_PROC }, encontrados { contratos.Count() } contratos");
+
+            foreach (ContratoEquipamento contrato in contratos)
+            {
+                var equipParams = new EquipamentoContratoParameters
+                {
+                    CodEquips = contrato.CodEquip.ToString(),
+                    CodContratos = contrato.CodContrato.ToString(),
+                    IndAtivo = Constants.ATIVO
+                };
+
+                contrato.QtdEquipamentos = _equipamentoContratoService
+                    .ObterPorParametros(equipParams)
+                    .Items
+                    .Count();
+
+                _contratoEquipamentoService.Atualizar(contrato);
+            }
+
+            _logger.Info($"{ MsgConst.FIN_PROC }");
         }
     }
 }

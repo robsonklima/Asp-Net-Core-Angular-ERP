@@ -129,27 +129,5 @@ namespace SAT.SERVICES.Services
 
             return servicos.Sum(s => s.Valor);
         }
-
-        public void AtualizarParqueModelo()
-        {
-            var contrParams = new ContratoEquipamentoParameters { };
-            var contratos = _contratoEquipamentoService.ObterPorParametros(contrParams).Items;
-
-            foreach (ContratoEquipamento contrato in contratos)
-            {
-                var equipParams = new EquipamentoContratoParameters
-                {
-                    CodEquips = contrato.CodEquip.ToString(),
-                    CodContratos = contrato.CodContrato.ToString(),
-                    IndAtivo = 1
-                };
-
-                contrato.QtdEquipamentos = _equipamentoContratoRepo
-                    .ObterPorParametros(equipParams)
-                    .Count();
-
-                _contratoEquipamentoService.Atualizar(contrato);
-            }
-        }
     }
 }

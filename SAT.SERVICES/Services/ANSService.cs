@@ -76,10 +76,7 @@ namespace SAT.SERVICES.Services
                     .DataHoraSolucao;
             }
 
-            var ans = new ANS
-            {
-                
-            };
+            var ans = chamado.EquipamentoContrato.ANS;
 
             // primeiro agendamento
             var agendamento = chamado.Agendamentos

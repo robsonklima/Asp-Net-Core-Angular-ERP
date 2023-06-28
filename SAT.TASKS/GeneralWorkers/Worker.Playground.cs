@@ -6,7 +6,7 @@ namespace SAT.TASKS
     {
         private void IniciarPlayground()
         {
-            var chamado = _osService.ObterPorCodigo(8036000);
+            var chamado = _osService.ObterPorCodigo(8025712);
 
             var prazo = _ansService.CalcularPrazo(chamado);
 

@@ -17,6 +17,7 @@ namespace SAT.TASKS
         private readonly IOrdemServicoService _osService;
         private readonly IANSService _ansService;
         private readonly IContratoEquipamentoService _contratoEquipamentoService;
+        private readonly IOSPrazoAtendimentoService _prazoService;
 
         public Worker(
             ISatTaskService taskService,
@@ -30,7 +31,7 @@ namespace SAT.TASKS
             IOrdemServicoService osService,
             IANSService ansService,
             IContratoEquipamentoService contratoEquipamentoService,
-            IOSPrazoAtendimentoService
+            IOSPrazoAtendimentoService prazoService
         )
         {
             _taskService = taskService;
@@ -44,6 +45,7 @@ namespace SAT.TASKS
             _osService = osService;
             _ansService = ansService;
             _contratoEquipamentoService = contratoEquipamentoService;
+            _prazoService = prazoService;
         }
     }
 }

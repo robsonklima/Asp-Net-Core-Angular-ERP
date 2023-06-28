@@ -10,6 +10,7 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string LENDO_TIPO = "Lendo arquivos do tipo";
         public static readonly string NENHUM_REGISTRO_ENCONTRADO = "Nenhum registro encontrado";
         public static readonly string LENDO_LINHA = "Lendo a linha";
+        public static readonly string ANS_NAO_LOCALIZADA = "Nao foi possivel localizar a ANS para o chamado";
         public static readonly string MENOR_ESPECIFICADO = "Conteudo do arquivo menor que o especificado";
         public static readonly string ENCONTRADOS = "Arquivos encontrados arquivos para processamento";
         public static readonly string INICIANDO_EXTR = "Iniciando a extracao dos chamados nos arquivos";

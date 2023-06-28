@@ -457,7 +457,6 @@ public class ConfigurationIOC
         builder.RegisterType<ANSService>().As<IANSService>(); 
         builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>(); 
 
-
         #endregion
 
         #region Utils Services

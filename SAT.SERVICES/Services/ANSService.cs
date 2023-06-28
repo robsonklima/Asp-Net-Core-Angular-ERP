@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NLog;
 using SAT.INFRA.Interfaces;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
@@ -12,6 +13,7 @@ namespace SAT.SERVICES.Services
 {
     public partial class ANSService : IANSService
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IANSRepository _ansRepo;
         private readonly IFeriadoService _feriadoService;
 
@@ -64,66 +66,57 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            int minutos = 0;
-
             DateTime inicio = chamado.DataHoraAberturaOS.Value;
-            DateTime fim = DateTime.Now;
-            if (chamado.RelatoriosAtendimento is not null)
+            DateTime prazo = inicio;
+            var ans = chamado.EquipamentoContrato.ANS;
+
+            if (ans is null)
             {
-                fim = chamado.RelatoriosAtendimento
-                    .OrderByDescending(r => r.DataHoraSolucao)
-                    .FirstOrDefault()
-                    .DataHoraSolucao;
+                _logger.Error($"{ MsgConst.ANS_NAO_LOCALIZADA }: { chamado.CodOS }");
+
+                return DateTime.Now;
             }
 
-            var ans = new ANS
-            {
-                
-            };
-
-            // primeiro agendamento
-            DateTime agendamento = chamado.Agendamentos
+            var agendamento = chamado.Agendamentos
                 .OrderBy(a => a.DataAgendamento)
-                .FirstOrDefault()
-                .DataAgendamento
-                .Value;
+                .FirstOrDefault();
 
-            if (ans.PermiteAgendamento == Constants.SIM && agendamento != default(DateTime))
-                inicio = agendamento;
+            if (ans.PermiteAgendamento == Constants.SIM && agendamento is not null)
+                inicio = agendamento.DataAgendamento.Value;
 
-            // Feriados
             var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
             {
                 dataInicio = inicio,
-                dataFim = fim,
+                dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
                 CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
             }).Items;
 
-            // Loop principal, acrescenta um minuto por iteracao
-            for (var i = inicio; i < fim; i = i.AddMinutes(1))
+            int interacoes = ans.TempoMinutos;
+
+            for (int i = 0; i < interacoes;)
             {
-                var isFeriado = feriados
-                    .Where(f => inicio.Date >= f.Data.Value.Date && fim.Date <= f.Data.Value.Date) is not null;
+                foreach (var feriado in feriados)
+                    if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
+                        continue;
 
-                if (isFeriado && ans.Feriado == Constants.NAO)
+                if (inicio.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                     continue;
 
-                if (i.DayOfWeek != DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
+                if (inicio.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
                     continue;
 
-                if (i.DayOfWeek != DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
+                if (inicio.TimeOfDay <= ans.HoraInicio)
                     continue;
 
-                if (i.TimeOfDay <= ans.HoraInicio)
+                if (inicio.TimeOfDay >= ans.HoraFim)
                     continue;
 
-                if (i.TimeOfDay >= ans.HoraFim)
-                    continue;
-
-                minutos++;
+                prazo = prazo.AddMinutes(1);
+                
+                i++;
             }
 
-            return inicio.AddHours(minutos);
+            return prazo;
         }
     }
 }

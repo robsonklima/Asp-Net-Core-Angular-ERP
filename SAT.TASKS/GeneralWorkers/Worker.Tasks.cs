@@ -97,6 +97,8 @@ namespace SAT.TASKS
 
                             continue;
                         default:
+                            _logger.Error($"{ task.Tipo.Nome } nao registrado");
+
                             continue;
                     }
                 }

@@ -11,12 +11,15 @@ namespace SAT.SERVICES.Services
     public partial class ANSService : IANSService
     {
         private readonly IANSRepository _ansRepo;
+        private readonly IFeriadoService _feriadoService;
 
         public ANSService(
-            IANSRepository ansRepo
+            IANSRepository ansRepo,
+            IFeriadoService feriadoService
         )
         {
             _ansRepo = ansRepo;
+            _feriadoService = feriadoService;
         }
 
         public void Atualizar(ANS ans)
@@ -63,11 +66,6 @@ namespace SAT.SERVICES.Services
                 throw new Exception(MsgConst.SLA_NAO_ENCONTRADO_INF_EC);
 
             var ans = new ANS();
-
-            if (os.CodCliente == Constants.CLIENTE_BB)
-            {
-                return CalcularSLABB(os);
-            }
 
             switch (os.CodCliente)
             {

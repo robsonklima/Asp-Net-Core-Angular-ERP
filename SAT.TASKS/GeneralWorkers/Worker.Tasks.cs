@@ -8,10 +8,8 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        #region FilaTasks
-            
-        #endregion
-
+        #region Criacao da fila
+        
         private void CriarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);
@@ -59,7 +57,10 @@ namespace SAT.TASKS
             return ObterPermissao(task);
         }
 
+        #endregion
 
+        #region Processamento da fila
+        
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
             _logger.Info(MsgConst.INI_PROC_TASKS);
@@ -117,7 +118,10 @@ namespace SAT.TASKS
 
         private bool deveProcessar(SatTask task) => ObterPermissao(task);
 
+        #endregion
 
+        #region Permissao
+        
         private bool ObterPermissao(SatTask task)
         {
             DateTime dtHrProc = task.DataHoraProcessamento.HasValue ?
@@ -140,17 +144,10 @@ namespace SAT.TASKS
             }
         }
 
+        #endregion
 
-        private IEnumerable<OrdemServico> ObterFilaChamados()
-        {
-            var parametros = new OrdemServicoParameters
-            {
-                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                DataHoraManutFim = DateTime.Now
-            };
-            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
-        }
-
+        #region Task
+        
         private void AtualizarTask(SatTask task)
         {
             if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.TESTE)
@@ -161,5 +158,21 @@ namespace SAT.TASKS
 
             _taskService.Atualizar(task);
         }
+
+        #endregion
+
+        #region Obter fila
+        
+        private IEnumerable<OrdemServico> ObterFilaChamados()
+        {
+            var parametros = new OrdemServicoParameters
+            {
+                DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                DataHoraManutFim = DateTime.Now
+            };
+            return (IEnumerable<OrdemServico>)_osService.ObterPorParametros(parametros).Items;
+        }
+
+        #endregion
     }
 }

@@ -211,10 +211,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 					valorAdiantamentoUtilizado: totalDespesa
 				}
 				
-				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
-					.subscribe(() => {}, (e) => {
-						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
-					});
+				if(adiantamentoUtilizado.valorAdiantamentoUtilizado > 0)
+				{	
+					this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
+						.subscribe(() => {}, (e) => {
+							this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
+						});
+				}
 
 				break;
 			} else {			
@@ -228,10 +231,13 @@ export class DespesaAtendimentoListaComponent extends Filterable implements Afte
 					valorAdiantamentoUtilizado: saldo
 				}
 				
-				this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
-					.subscribe(() => {}, (e) => {
-						this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
-					});
+				if(adiantamentoUtilizado.valorAdiantamentoUtilizado > 0)
+				{
+					this._despesaAdiantamentoPeriodoSvc.criar(adiantamentoUtilizado)
+						.subscribe(() => {}, (e) => {
+							this._snack.exibirToast('Erro ao inserir valor de adiantamento utilizado', 'error');
+						});
+				}
 			}
 		}
 	}

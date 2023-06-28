@@ -198,6 +198,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(os => cods.Contains(os.EquipamentoContrato.PontoEstrategico));
             }
 
+            if (parameters.DataHoraManutNull)
+                query = query.Where(os => os.DataHoraManut == null);
+
             return query;
         }
 

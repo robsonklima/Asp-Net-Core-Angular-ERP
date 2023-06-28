@@ -64,13 +64,17 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            int horas = 0;
+            int minutos = 0;
 
-            DateTime inicio = chamado.DataHoraCad.Value;
-            DateTime fim = chamado.RelatoriosAtendimento
-                .OrderByDescending(r => r.DataHoraSolucao)
-                .FirstOrDefault()
-                .DataHoraSolucao;
+            DateTime inicio = chamado.DataHoraAberturaOS.Value;
+            DateTime fim = DateTime.Now;
+            if (chamado.RelatoriosAtendimento is not null)
+            {
+                fim = chamado.RelatoriosAtendimento
+                    .OrderByDescending(r => r.DataHoraSolucao)
+                    .FirstOrDefault()
+                    .DataHoraSolucao;
+            }
 
             var ans = new ANS
             {
@@ -95,13 +99,13 @@ namespace SAT.SERVICES.Services
                 CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
             }).Items;
 
-            // Loop principal, acrescenta uma hora por iteracao
-            for (var i = inicio; i < fim; i = i.AddHours(1))
+            // Loop principal, acrescenta um minuto por iteracao
+            for (var i = inicio; i < fim; i = i.AddMinutes(1))
             {
                 var isFeriado = feriados
                     .Where(f => inicio.Date >= f.Data.Value.Date && fim.Date <= f.Data.Value.Date) is not null;
 
-                if (isFeriado)
+                if (isFeriado && ans.Feriado == Constants.NAO)
                     continue;
 
                 if (i.DayOfWeek != DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
@@ -110,16 +114,16 @@ namespace SAT.SERVICES.Services
                 if (i.DayOfWeek != DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
                     continue;
 
-                if (i.TimeOfDay.Hours <= ans.HoraInicio)
+                if (i.TimeOfDay <= ans.HoraInicio)
                     continue;
 
-                if (i.TimeOfDay.Hours < ans.HoraFim)
+                if (i.TimeOfDay >= ans.HoraFim)
                     continue;
 
-                horas++;
+                minutos++;
             }
 
-            return inicio.AddHours(horas);
+            return inicio.AddHours(minutos);
         }
     }
 }

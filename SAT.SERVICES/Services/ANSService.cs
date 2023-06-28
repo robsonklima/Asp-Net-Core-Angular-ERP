@@ -71,8 +71,9 @@ namespace SAT.SERVICES.Services
                 .OrderByDescending(r => r.DataHoraSolucao)
                 .FirstOrDefault()
                 .DataHoraSolucao;
-            
-            var ans = new ANS {
+
+            var ans = new ANS
+            {
 
             };
 
@@ -81,13 +82,20 @@ namespace SAT.SERVICES.Services
                 .OrderBy(a => a.DataAgendamento)
                 .FirstOrDefault()
                 .DataAgendamento
-                .Value; 
+                .Value;
 
             if (ans.PermiteAgendamento == Constants.SIM && agendamento != default(DateTime))
                 inicio = agendamento;
 
-            var feriados = ObterFeriados(chamado, inicio, fim);
+            // Feriados
+            var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
+            {
+                dataInicio = inicio,
+                dataFim = fim,
+                CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
+            }).Items;
 
+            // Loop principal, acrescenta uma hora por iteracao
             for (var i = inicio; i < fim; i = i.AddHours(1))
             {
                 var isFeriado = feriados
@@ -112,17 +120,6 @@ namespace SAT.SERVICES.Services
             }
 
             return inicio.AddHours(horas);
-        }
-
-        private IEnumerable<Feriado> ObterFeriados(OrdemServico chamado, DateTime inicio, DateTime fim)
-        {
-            var parameters = new FeriadoParameters {
-                dataInicio = inicio,
-                dataFim = fim,
-                CodCidades = chamado.LocalAtendimento.Cidade.CodCidade.ToString()
-            };
-
-            return (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(parameters).Items;
         }
     }
 }

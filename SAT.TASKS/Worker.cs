@@ -13,6 +13,8 @@ public partial class Worker : BackgroundService
         {
             try
             {
+                IniciarPlayground();
+
                 var tipoParams = new SatTaskTipoParameters {
                     IndAtivo = (byte)Constants.ATIVO
                 };

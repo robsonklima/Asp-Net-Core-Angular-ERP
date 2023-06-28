@@ -67,15 +67,15 @@ namespace SAT.SERVICES.Services
             DateTime inicio = chamado.DataHoraCad.Value;
             DateTime fim = chamado.DataHoraFechamento.Value;
             var ans = new ANS {};
-            var agendamento = chamado.Agendamentos
-                .OrderByDescending(a => a.CodAgendamento)
+            var primeiroAgendamento = chamado.Agendamentos
+                .OrderBy(a => a.DataAgendamento)
                 .FirstOrDefault();
             
             int horas = 0;
 
             if (ans.PermiteAgendamento == Constants.SIM)
-                if (agendamento.DataAgendamento.Value != default(DateTime))
-                    inicio = agendamento.DataAgendamento.Value;
+                if (primeiroAgendamento.DataAgendamento.Value != default(DateTime))
+                    inicio = primeiroAgendamento.DataAgendamento.Value;
 
             var parameters = new FeriadoParameters {
                 dataInicio = inicio,

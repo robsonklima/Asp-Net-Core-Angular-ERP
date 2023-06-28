@@ -69,8 +69,9 @@ namespace SAT.TASKS
                         continue;
 
                     AtualizarTask(task);
+                    int tipo = task.CodSatTaskTipo;
 
-                    switch (task.CodSatTaskTipo)
+                    switch (tipo)
                     {
                         case (int)SatTaskTipoEnum.INT_BB:
                             IntegrarBB(task);

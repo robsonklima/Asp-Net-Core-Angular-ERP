@@ -153,6 +153,9 @@ namespace SAT.TASKS
 
         private void AtualizarTask(SatTask task)
         {
+            if (task.CodSatTaskTipo == (int)SatTaskTipoEnum.TESTE)
+                return;
+
             task.DataHoraProcessamento = DateTime.Now;
             task.Status = SatTaskStatusConst.PROCESSADO;
 

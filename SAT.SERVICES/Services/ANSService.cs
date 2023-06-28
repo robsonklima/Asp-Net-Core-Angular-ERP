@@ -82,14 +82,12 @@ namespace SAT.SERVICES.Services
             };
 
             // primeiro agendamento
-            DateTime agendamento = chamado.Agendamentos
+            var agendamento = chamado.Agendamentos
                 .OrderBy(a => a.DataAgendamento)
-                .FirstOrDefault()
-                .DataAgendamento
-                .Value;
+                .FirstOrDefault();
 
-            if (ans.PermiteAgendamento == Constants.SIM && agendamento != default(DateTime))
-                inicio = agendamento;
+            if (ans.PermiteAgendamento == Constants.SIM && agendamento?.DataAgendamento != default(DateTime))
+                inicio = agendamento.DataAgendamento.Value;
 
             // Feriados
             var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters

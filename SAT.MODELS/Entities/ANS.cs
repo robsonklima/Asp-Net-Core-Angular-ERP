@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
     public class ANS
     {
         public int CodANS { get; set; }
+        public int CodSLA { get; set; }
         public string NomeANS { get; set; }
         public string DescANS { get; set; }
         public TimeSpan HoraInicio { get; set; }

@@ -16,6 +16,7 @@ namespace SAT.MODELS.Entities
         public Equipamento Equipamento { get; set; }
         public int CodSLA { get; set; }
         public AcordoNivelServico AcordoNivelServico { get; set; }
+        public ANS ANS { get; set; }
         public string NumSerie { get; set; }
         public string NumSerieCliente { get; set; }
         public int CodCliente { get; set; }

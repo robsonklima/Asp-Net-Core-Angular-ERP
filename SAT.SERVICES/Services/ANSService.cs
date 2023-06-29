@@ -98,21 +98,28 @@ namespace SAT.SERVICES.Services
                 })
                 .Items
             );
-            
 
-            // feriados.AddRange((List<SATFeriado>)_feriadoService
-            //     .ObterPorParametros(new SATFeriadoParameters
-            //     {
-            //         Tipo = FeriadoTipoConst.MUNICIPAL,
-            //         Mes = chamado.DataHoraAberturaOS.Value.Month,
-            //         Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
-            //     })
-            //     .Items
-            // );
+            var feriadosNacionais = feriados.Where(f => f.Tipo == FeriadoTipoConst.NACIONAL);
+            var feriadosEstaduais = feriados.Where(f => f.Tipo == FeriadoTipoConst.ESTADUAL);
+            var feriadosFacultativos = feriados.Where(f => f.Tipo == FeriadoTipoConst.FACULTATIVO);
+            var feriadosMunicipais = feriados.Where(f => f.Tipo == FeriadoTipoConst.MUNICIPAL && 
+                f.Municipio == StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade));
 
             for (int i = 0; i < ans.TempoMinutos;)
             {
-                foreach (var feriado in feriados)
+                foreach (var feriado in feriadosNacionais)
+                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                        continue;
+
+                foreach (var feriado in feriadosEstaduais)
+                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                        continue;
+
+                foreach (var feriado in feriadosFacultativos)
+                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                        continue;
+
+                foreach (var feriado in feriadosMunicipais)
                     if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 

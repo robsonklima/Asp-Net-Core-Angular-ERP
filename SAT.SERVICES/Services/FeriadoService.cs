@@ -59,9 +59,6 @@ namespace SAT.SERVICES.Services
             return _feriadoRepo.ObterPorCodigo(codigo);
         }
 
-        /// <summary>
-        ///  Retorna os feriados do mês de acordo com uf/cidade (em dias)
-        /// </summary>
         public int ObterNroFeriadosDoPeriodo(DateTime dataInicial, DateTime dataFinal, int? codCidade, int? codUF, IEnumerable<Feriado> feriados)
         {
             IEnumerable<Feriado> feriadosBasePascoa, feriadosNacionais,

@@ -83,13 +83,15 @@ namespace SAT.SERVICES.Services
                 .FirstOrDefault();
 
             if (ans.PermiteAgendamento == Constants.SIM && agendamento is not null)
+            {
                 inicio = agendamento.DataAgendamento.Value;
+                prazo = inicio;
+            }
 
             var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
             {
                 dataInicio = inicio,
                 dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
-                CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
             }).Items;
 
             for (int i = 0; i < ans.TempoMinutos;)
@@ -107,7 +109,7 @@ namespace SAT.SERVICES.Services
                 if (prazo.TimeOfDay < ans.HoraInicio)
                 {
                     var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
-                    prazo = prazo + hrInicio;
+                    prazo = prazo.Date + hrInicio;
 
                     continue;
                 }
@@ -115,7 +117,7 @@ namespace SAT.SERVICES.Services
                 if (prazo.TimeOfDay > ans.HoraFim)
                 {
                     var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
-                    prazo = prazo.AddDays(1) + hrInicio;
+                    prazo = prazo.AddDays(1).Date + hrInicio;
 
                     continue;
                 }

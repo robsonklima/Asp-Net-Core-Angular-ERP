@@ -88,7 +88,9 @@ namespace SAT.INFRA.Repository
 
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
             {
-                anss = anss.Where(a =>a.CodANS.ToString().Contains(parameters.Filter));
+                anss = anss.Where(a => a.CodANS.ToString().Contains(parameters.Filter) || 
+                    a.DescANS.ToString().Contains(parameters.Filter) || 
+                    a.NomeANS.ToString().Contains(parameters.Filter));
             }
 
             if (parameters.CodANS != null)

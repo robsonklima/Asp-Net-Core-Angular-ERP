@@ -22,19 +22,7 @@ import { AcaoParameters } from 'app/core/types/acao.types';
 	styles: [
 		`
 		.list-grid-ans {
-			grid-template-columns: 142px 80px 50% 25% 42px;
-			
-			@screen sm {
-				grid-template-columns: 142px 80px 50% 25% 42px;
-			}
-		
-			@screen md {
-				grid-template-columns: 142px 80px 50% 25% 42px;
-			}
-		
-			@screen lg {
-				grid-template-columns: 142px 80px 50% 25% 42px;
-			}
+			grid-template-columns: 62px 80px auto;
 		}
     `
 	],

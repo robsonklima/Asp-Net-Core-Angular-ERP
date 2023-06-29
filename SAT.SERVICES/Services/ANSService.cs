@@ -89,24 +89,24 @@ namespace SAT.SERVICES.Services
                 prazo = inicio;
             }
 
-            var feriados = new List<SATFeriados>();
+            var feriados = new List<SATFeriado>();
 
-            feriados.AddRange(_feriadosService.ObterPorParametros(new SATFeriadosParameters{
+            feriados.AddRange(_feriadosService.ObterPorParametros(new SATFeriadoParameters{
                 Tipo = FeriadoTipoConst.NACIONAL
-            }));
+            }).Items);
 
-            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                Tipo = FeriadoTipoConst.ESTADUAL
-            });
+            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+            //     Tipo = FeriadoTipoConst.ESTADUAL
+            // });
 
-            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                Tipo = FeriadoTipoConst.FACULTATIVO
-            });            
+            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+            //     Tipo = FeriadoTipoConst.FACULTATIVO
+            // });            
 
-            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                Tipo = FeriadoTipoConst.MUNICIPAL,
-                Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
-            });
+            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+            //     Tipo = FeriadoTipoConst.MUNICIPAL,
+            //     Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
+            // });
 
             
 

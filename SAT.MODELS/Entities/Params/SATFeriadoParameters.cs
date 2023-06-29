@@ -2,9 +2,8 @@
 
 namespace SAT.MODELS.Entities.Params
 {
-    public class SATFeriadosParameters : QueryStringParameters
+    public class SATFeriadoParameters : QueryStringParameters
     {
-        public int? CodSATFeriados { get; set; }
         public string Municipio { get; set; }
         public string Tipo { get; set; }
         public string UF { get; set; }

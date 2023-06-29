@@ -319,7 +319,7 @@ namespace SAT.INFRA.Context
         public DbSet<SatTaskTipo> SatTaskTipo { get; set; }
         public DbSet<ANS> ANS { get; set; }
         public DbSet<OSPrazoAtendimento> OSPrazoAtendimento { get; set; }
-        public DbSet<SATFeriados> SATFeriados { get; set; }
+        public DbSet<SATFeriado> SATFeriado { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -559,7 +559,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewIntegracaoBB>(new ViewIntegracaoBBMap().Configure);
             modelBuilder.Entity<ANS>(new ANSMap().Configure);
             modelBuilder.Entity<OSPrazoAtendimento>(new OSPrazoAtendimentoMap().Configure);
-            modelBuilder.Entity<SATFeriados>(new SATFeriadosMap().Configure);
+            modelBuilder.Entity<SATFeriado>(new SATFeriadoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

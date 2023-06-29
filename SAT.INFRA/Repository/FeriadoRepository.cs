@@ -76,6 +76,11 @@ namespace SAT.INFRA.Repository
                 feriados = feriados.Where(f => f.CodFeriado == parameters.CodFeriado);
             }
 
+            if (parameters.FeriadosNacionais)
+            {
+                feriados = feriados.Where(f => f.CodUF == null);
+            }
+
             if (!string.IsNullOrWhiteSpace(parameters.CodCidades))
             {
                 int[] cods = parameters.CodCidades.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();

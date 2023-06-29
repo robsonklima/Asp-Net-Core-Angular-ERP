@@ -88,15 +88,27 @@ namespace SAT.SERVICES.Services
                 prazo = inicio;
             }
 
-            var feriados = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
+            var feriadosNacionais = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
             {
                 dataInicio = inicio,
                 dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
+                FeriadosNacionais = true
+            }).Items;
+
+            var feriadosCidade = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
+            {
+                dataInicio = inicio,
+                dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
+                CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
             }).Items;
 
             for (int i = 0; i < ans.TempoMinutos;)
             {
-                foreach (var feriado in feriados)
+                foreach (var feriado in feriadosNacionais)
+                    if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
+                        continue;
+
+                foreach (var feriado in feriadosCidade)
                     if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 

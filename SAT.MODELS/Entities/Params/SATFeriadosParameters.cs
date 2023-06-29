@@ -7,5 +7,7 @@ namespace SAT.MODELS.Entities.Params
         public int? CodSATFeriados { get; set; }
         public string Municipios { get; set; }
         public string Tipos { get; set; }
+        public string UFs { get; set; }
+        public int? Mes { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace SAT.MODELS.Entities
 {
-    public class SATFeriados
+    public class SATFeriado
     {
-        public int CodSATFeriados { get; set; }
+        public int CodSATFeriado { get; set; }
         public string Data { get; set; }
         public string Nome { get; set; }
         public string Tipo { get; set; }

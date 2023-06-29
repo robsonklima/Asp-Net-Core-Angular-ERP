@@ -4,12 +4,12 @@ using SAT.MODELS.Helpers;
 
 namespace SAT.INFRA.Interfaces
 {
-    public interface ISATFeriadosRepository
+    public interface ISATFeriadoRepository
     {
-        PagedList<SATFeriados> ObterPorParametros(SATFeriadosParameters parameters);
-        void Criar(SATFeriados satFeriado);
-        void Atualizar(SATFeriados satFeriado);
-        void Deletar(int codSATFeriados);
-        SATFeriados ObterPorCodigo(int codigo);
+        PagedList<SATFeriado> ObterPorParametros(SATFeriadoParameters parameters);
+        SATFeriado Criar(SATFeriado feriado);
+        SATFeriado Atualizar(SATFeriado feriado);
+        SATFeriado Deletar(int cod);
+        SATFeriado ObterPorCodigo(int cod);
     }
 }

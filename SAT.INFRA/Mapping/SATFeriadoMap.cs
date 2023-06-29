@@ -4,12 +4,12 @@ using SAT.MODELS.Entities;
 
 namespace SAT.INFRA.Mapping
 {
-    public class SATFeriadosMap : IEntityTypeConfiguration<SATFeriados>
+    public class SATFeriadoMap : IEntityTypeConfiguration<SATFeriado>
     {
-        public void Configure(EntityTypeBuilder<SATFeriados> builder)
+        public void Configure(EntityTypeBuilder<SATFeriado> builder)
         {
             builder.ToTable("SATFeriados");
-            builder.HasKey(i => i.CodSATFeriados);
+            builder.HasKey(i => i.CodSATFeriado);
         }
     }
 }

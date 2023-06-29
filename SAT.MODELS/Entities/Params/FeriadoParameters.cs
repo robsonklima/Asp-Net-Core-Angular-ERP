@@ -11,5 +11,6 @@ namespace SAT.MODELS.Entities.Params
         public DateTime? dataFim { get; set; }
         public string CodCidades { get; set; }
         public string CodUfs { get; set; }
+        public bool FeriadosNacionais { get; set; }
     }
 }

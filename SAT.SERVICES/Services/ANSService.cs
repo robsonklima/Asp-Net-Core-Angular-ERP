@@ -8,6 +8,7 @@ using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -15,15 +16,15 @@ namespace SAT.SERVICES.Services
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IANSRepository _ansRepo;
-        private readonly IFeriadoService _feriadoService;
+        private readonly ISATFeriadosService _feriadosService;
 
         public ANSService(
             IANSRepository ansRepo,
-            IFeriadoService feriadoService
+            ISATFeriadosService feriadosService
         )
         {
             _ansRepo = ansRepo;
-            _feriadoService = feriadoService;
+            _feriadosService = feriadosService;
         }
 
         public ANS Atualizar(ANS ans)
@@ -88,28 +89,28 @@ namespace SAT.SERVICES.Services
                 prazo = inicio;
             }
 
-            var feriadosNacionais = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
-            {
-                dataInicio = inicio,
-                dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
-                FeriadosNacionais = true
-            }).Items;
+            var feriados = new List<SATFeriados>();
 
-            var feriadosCidade = (IEnumerable<Feriado>)_feriadoService.ObterPorParametros(new FeriadoParameters
-            {
-                dataInicio = inicio,
-                dataFim = chamado.DataHoraFechamento ?? DateTime.Now,
-                CodCidades = chamado.LocalAtendimento.CodCidade.ToString()
-            }).Items;
+            var feriadosNacionais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+
+            });
+
+            var feriadosEstaduais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                
+            });
+
+            var feriadosMunicipais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                
+            });
+
+            var feriadosFacultativo = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                
+            });
 
             for (int i = 0; i < ans.TempoMinutos;)
             {
-                foreach (var feriado in feriadosNacionais)
-                    if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
-                        continue;
-
-                foreach (var feriado in feriadosCidade)
-                    if (feriado.Data.Value.Date == inicio.Date && ans.Feriado == Constants.NAO)
+                foreach (var feriado in feriados)
+                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
                 if (prazo.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)

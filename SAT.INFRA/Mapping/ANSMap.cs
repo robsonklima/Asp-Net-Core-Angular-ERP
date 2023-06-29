@@ -8,11 +8,8 @@ namespace SAT.INFRA.Mapping
     {
         public void Configure(EntityTypeBuilder<ANS> builder)
         {
-            builder.
-                ToTable("ANS");
-
-            builder.
-                HasKey(i => new { i.CodANS });
+            builder.ToTable("ANS");
+            builder.HasKey(i => new { i.CodANS });
         }
     }
 }

@@ -55,10 +55,10 @@ namespace SAT.INFRA.Repository
             }
         }
 
-        public ANS Deletar(int codigoAns)
+        public ANS Deletar(int cod)
         {
             ANS ans = _context.ANS
-                .FirstOrDefault(a => a.CodANS == codigoAns);
+                .FirstOrDefault(a => a.CodANS == cod);
 
             if (ans != null)
             {
@@ -69,16 +69,15 @@ namespace SAT.INFRA.Repository
             return ans;
         }
 
-        public ANS ObterPorCodigo(int codigoAns)
+        public ANS ObterPorCodigo(int cod)
         {
             try
             {
-                return _context.ANS
-                    .SingleOrDefault(a => a.CodANS == codigoAns);
+                return _context.ANS.SingleOrDefault(a => a.CodANS == cod); 
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao consultar a ANS {ex.Message}");
+                throw new Exception($"Erro ao consultar a ANS { ex.Message }");
             }
         }
 

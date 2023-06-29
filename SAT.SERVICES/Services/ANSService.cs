@@ -16,15 +16,15 @@ namespace SAT.SERVICES.Services
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IANSRepository _ansRepo;
-        private readonly ISATFeriadosService _feriadosService;
+        private readonly ISATFeriadoService _feriadoService;
 
         public ANSService(
             IANSRepository ansRepo,
-            ISATFeriadosService feriadosService
+            ISATFeriadoService feriadoService
         )
         {
             _ansRepo = ansRepo;
-            _feriadosService = feriadosService;
+            _feriadoService = feriadoService;
         }
 
         public ANS Atualizar(ANS ans)
@@ -74,7 +74,7 @@ namespace SAT.SERVICES.Services
 
             if (ans is null)
             {
-                _logger.Error($"{ MsgConst.ANS_NAO_LOCALIZADA }: { chamado.CodOS }");
+                _logger.Error($"{MsgConst.ANS_NAO_LOCALIZADA}: {chamado.CodOS}");
 
                 return DateTime.Now;
             }
@@ -89,11 +89,15 @@ namespace SAT.SERVICES.Services
                 prazo = inicio;
             }
 
-            var feriados = new List<SATFeriado>();
+            List<SATFeriado> feriados = new List<SATFeriado>();
 
-            feriados.AddRange(_feriadosService.ObterPorParametros(new SATFeriadoParameters{
-                Tipo = FeriadoTipoConst.NACIONAL
-            }).Items);
+            feriados.AddRange((List<SATFeriado>)_feriadoService
+                .ObterPorParametros(new SATFeriadoParameters
+                {
+                    Tipo = FeriadoTipoConst.NACIONAL
+                })
+                .Items
+            );
 
             // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
             //     Tipo = FeriadoTipoConst.ESTADUAL
@@ -108,7 +112,7 @@ namespace SAT.SERVICES.Services
             //     Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
             // });
 
-            
+
 
             for (int i = 0; i < ans.TempoMinutos;)
             {
@@ -139,7 +143,7 @@ namespace SAT.SERVICES.Services
                 }
 
                 prazo = prazo.AddMinutes(1);
-                
+
                 i++;
             }
 

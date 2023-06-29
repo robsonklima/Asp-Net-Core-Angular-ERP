@@ -59,34 +59,34 @@ namespace SAT.INFRA.Repository
 
         public PagedList<SATFeriado> ObterPorParametros(SATFeriadoParameters parameters)
         {
-            var SatFeriados = _context.SATFeriado
+            var query = _context.SATFeriado
                 .AsQueryable();
 
             if (parameters.Filter != null)
             {
-                SatFeriados = SatFeriados.Where(
+                query = query.Where(
                     f =>
                     f.CodSATFeriado.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.Tipo))
-                SatFeriados = SatFeriados.Where(f => f.Tipo.Contains(parameters.Tipo));
+                query = query.Where(f => f.Tipo.Contains(parameters.Tipo));
 
             if (!string.IsNullOrWhiteSpace(parameters.UF))
-                SatFeriados = SatFeriados.Where(f => f.UF.Contains(parameters.UF));       
+                query = query.Where(f => f.UF.Contains(parameters.UF));       
 
             if (parameters.Mes.HasValue)
-                SatFeriados = SatFeriados.Where(f => DataHelper.ConverterStringParaData(f.Data).Month == parameters.Mes.Value);         
+                query = query.Where(f => DataHelper.ConverterStringParaData(f.Data).Month == parameters.Mes.Value);         
             
             if (!string.IsNullOrWhiteSpace(parameters.Municipio))
-                SatFeriados = SatFeriados.Where(f => f.Municipio.Contains(parameters.Municipio));
+                query = query.Where(f => f.Municipio.Contains(parameters.Municipio));
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
-                SatFeriados = SatFeriados.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
+                query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
-            return PagedList<SATFeriado>.ToPagedList(feriados, parameters.PageNumber, parameters.PageSize);
+            return PagedList<SATFeriado>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

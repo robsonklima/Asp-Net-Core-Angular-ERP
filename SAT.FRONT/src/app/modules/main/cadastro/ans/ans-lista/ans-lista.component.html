@@ -1,1 +1,146 @@
-<p>ans-lista works!</p>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container
+        class="flex-auto h-full bg-card dark:bg-transparent"
+        (backdropClick)="onBackdropClicked()">
+
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-full sm:w-128 dark:bg-gray-900"
+            [mode]="drawerMode"
+            [opened]="false"
+            [position]="'end'"
+            [disableClose]="true"
+            #matDrawer>
+            <router-outlet></router-outlet>
+        </mat-drawer>
+
+        <mat-drawer-content class="flex flex-col">
+            <div class="flex flex-col flex-auto">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-8 px-6 md:px-8">
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">
+                            SLA
+                        </div>
+
+                        <div class="ml-0.5 font-medium text-secondary">
+                            <span>Acordos de Nível de Serviço</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 sm:mt-0">
+                        <button
+                            class="ml-3"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="createTask()"
+                            [matTooltip]="'Shortcut: Ctrl + /'">
+                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                            <span class="ml-2 mr-1">Novo SLA</span>
+                        </button>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="tasks && tasks.length > 0; else noTasks">
+                    <div
+                        class="divide-y"
+                        cdkDropList
+                        [cdkDropListData]="tasks"
+                        (cdkDropListDropped)="dropped($event)">
+
+                        <ng-container *ngFor="let task of tasks; let first = first; trackBy: trackByFn">
+                            <div
+                                [id]="'task-' + task.id"
+                                class="group w-full select-none hover:bg-gray-100 dark:hover:bg-hover"
+                                [ngClass]="{'h-12 text-lg font-semibold bg-gray-50 dark:bg-transparent': task.type === 'section',
+                                            'h-16': task.type === 'task',
+                                            'text-hint': task.completed}"
+                                [class.border-t]="first"
+                                cdkDrag
+                                [cdkDragLockAxis]="'y'">
+
+                                <div
+                                    class="flex flex-0 w-0 h-0"
+                                    *cdkDragPreview></div>
+
+                                <div class="relative flex items-center h-full pl-10">
+                                    <ng-container *ngIf="selectedTask && selectedTask.id === task.id">
+                                        <div class="z-10 absolute -top-px right-0 -bottom-px flex flex-0 w-1 bg-primary"></div>
+                                    </ng-container>
+
+                                    <div
+                                        class="md:hidden absolute flex items-center justify-center inset-y-0 left-0 w-8 cursor-move md:group-hover:flex"
+                                        cdkDragHandle>
+                                        <mat-icon
+                                            class="icon-size-5 text-hint"
+                                            [svgIcon]="'heroicons_solid:menu'"></mat-icon>
+                                    </div>
+
+                                    <button
+                                        class="mr-2 -ml-2.5 leading-none"
+                                        *ngIf="task.type === 'task'"
+                                        (click)="toggleCompleted(task)"
+                                        mat-icon-button>
+                                        <ng-container *ngIf="task.completed">
+                                            <mat-icon
+                                                class="text-primary"
+                                                [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="!task.completed">
+                                            <mat-icon
+                                                class="text-hint"
+                                                [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                                        </ng-container>
+                                    </button>
+
+                                    <a
+                                        class="flex flex-auto items-center min-w-0 h-full pr-7"
+                                        [routerLink]="'/ans/form/' + [task.id]">
+                                        <div class="flex-auto mr-2 truncate">
+                                            <ng-container *ngIf="task.title">
+                                                <span>{{task.title}}</span>
+                                            </ng-container>
+                                            <ng-container *ngIf="!task.title">
+                                                <span class="select-none text-hint">{{task.type | titlecase}} title</span>
+                                            </ng-container>
+                                        </div>
+
+                                        <ng-container *ngIf="task.type === 'task'">
+                                            <div class="w-4 h-4 mr-3">
+                                                <mat-icon
+                                                    class="icon-size-4 text-green-600 dark:text-green-400"
+                                                    *ngIf="task.priority === 0"
+                                                    [svgIcon]="'heroicons_solid:arrow-narrow-down'"
+                                                    [title]="'Low'"></mat-icon>
+
+                                                    <mat-icon
+                                                    class="icon-size-4 text-red-600 dark:text-red-400"
+                                                    *ngIf="task.priority === 2"
+                                                    [svgIcon]="'heroicons_solid:arrow-narrow-up'"
+                                                    [title]="'High'"></mat-icon>
+                                            </div>
+                                        </ng-container>
+
+                                        <div
+                                            class="text-sm whitespace-nowrap text-secondary"
+                                            *ngIf="task.type === 'task'">
+                                            {{task.dueDate | date:'LLL dd'}}
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+                <ng-template #noTasks>
+                    <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">
+                            Adicione um SLA para o seu parque de equipamentos
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

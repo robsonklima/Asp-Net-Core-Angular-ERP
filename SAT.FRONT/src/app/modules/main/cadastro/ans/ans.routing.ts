@@ -17,7 +17,7 @@ export const ansRoutes: Route[] = [
         component: AnsFormComponent,
     },
     {
-        path: 'form/:CodANS',
+        path: 'form/:codANS',
         component: AnsFormComponent,
     },
 ];

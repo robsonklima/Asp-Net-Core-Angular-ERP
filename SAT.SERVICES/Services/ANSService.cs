@@ -132,7 +132,6 @@ namespace SAT.SERVICES.Services
                 {
                     var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
                     prazo = prazo.Date + hrInicio;
-
                     continue;
                 }
 
@@ -140,7 +139,6 @@ namespace SAT.SERVICES.Services
                 {
                     var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
                     prazo = prazo.AddDays(1).Date + hrInicio;
-
                     continue;
                 }
 

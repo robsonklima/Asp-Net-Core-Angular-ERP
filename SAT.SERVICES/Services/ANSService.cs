@@ -67,15 +67,15 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
-            var ans = chamado.EquipamentoContrato.ANS;
+            var ans = chamado?.EquipamentoContrato?.ANS;
             DateTime inicio = chamado.DataHoraAberturaOS.Value;
             DateTime prazo = inicio;
 
             if (ans is null)
             {
-                _logger.Error($"{MsgConst.ANS_NAO_LOCALIZADA}: {chamado.CodOS}");
+                _logger.Error($"{ MsgConst.ANS_NAO_LOCALIZADA }: { chamado.CodOS }");
 
-                return DateTime.Now;
+                return default(DateTime);
             }
 
             var agendamento = chamado.Agendamentos
@@ -100,24 +100,28 @@ namespace SAT.SERVICES.Services
                 if (prazo.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                 {
                     prazo = AdicionarDia(prazo, ans);
+
                     continue;
                 }
 
                 if (prazo.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
                 {
                     prazo = AdicionarDia(prazo, ans);
+
                     continue;
                 }
 
                 if (prazo.TimeOfDay < ans.HoraInicio)
                 {
                     prazo = AdicionarDia(prazo, ans);
+
                     continue;
                 }
 
                 if (prazo.TimeOfDay > ans.HoraFim)
                 {
                     prazo = AdicionarDia(prazo, ans);
+
                     continue;
                 }
 
@@ -129,40 +133,39 @@ namespace SAT.SERVICES.Services
                     if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                     {
                         prazo = AdicionarDia(prazo, ans);
+
                         continue;
                     }
 
                     if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == uf && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                     {
                         prazo = AdicionarDia(prazo, ans);
+
                         continue;
                     }
 
                     if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                     {
                         prazo = AdicionarDia(prazo, ans);
+
                         continue;
                     }
 
                     if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == cidade && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                     {
                         prazo = AdicionarDia(prazo, ans);
+
                         continue;
                     }
                 }
 
                 prazo = prazo.AddHours(1);
-
                 i++;
             }
 
             if (ans.ArredondaHoraFinal == Constants.SIM)
-            {
-                var hrFimANS = new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
-
-                prazo = prazo.Date + hrFimANS;
-            }
-
+                prazo = prazo.Date + new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
+            
             return prazo;
         }
 
@@ -171,10 +174,11 @@ namespace SAT.SERVICES.Services
             var hrInicioPrazo = new TimeSpan(prazo.TimeOfDay.Hours, prazo.TimeOfDay.Minutes, prazo.TimeOfDay.Seconds);
             var hrInicioANS = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
             var hrFimANS = new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
-
-            var diferenca = prazo.Minute - hrFimANS.Minutes;
-
-            return (prazo.AddDays(1).Date + hrInicioANS).AddMinutes(diferenca);
+            var saldo = prazo.TimeOfDay - hrFimANS;
+            var novaData = (prazo.AddDays(1).Date + hrInicioANS);
+            var novoPrazo = novaData.AddMilliseconds(saldo.Milliseconds);
+            
+            return novoPrazo;
         }
     }
 }

@@ -25,11 +25,8 @@ namespace SAT.SERVICES.Services
             if (ans.PermiteAgendamento == Constants.SIM && agendamento is not null)
                 previsao = agendamento.DataAgendamento.Value;
 
-            var feriados = (IEnumerable<SATFeriado>)_feriadoService
-                .ObterPorParametros(new SATFeriadoParameters
-                {
-                    Mes = chamado.DataHoraAberturaOS.Value.Month
-                })
+            var feriados = (dynamic)_feriadoService
+                .ObterPorParametros(new SATFeriadoParameters{ Mes = previsao.Month })
                 .Items;
 
             for (int i = 0; i < ans.TempoHoras;)

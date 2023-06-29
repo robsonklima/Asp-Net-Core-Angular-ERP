@@ -14,7 +14,7 @@ namespace SAT.SERVICES.Services
         public DateTime? CalcularPrazo(OrdemServico chamado)
         {
             var ans = chamado?.EquipamentoContrato?.ANS;
-            DateTime previsao = chamado.DataHoraAberturaOS.Value;
+            var previsao = chamado.DataHoraAberturaOS.Value;
 
             if (ans is null) return null;
 
@@ -29,13 +29,12 @@ namespace SAT.SERVICES.Services
                 .ObterPorParametros(new SATFeriadoParameters{ Mes = previsao.Month })
                 .Items;
 
-            for (int i = 0; i < ans.TempoHoras;)
+            for (int i = 0; i < ans.TempoHoras; i++)
             {
                 previsao = AplicarHorarioNaoUtil(previsao, ans);
                 previsao = AplicarHorarioUtil(previsao, ans);
                 previsao = AplicarFeriados(feriados, chamado, ans, previsao);
                 previsao = previsao.AddHours(1);
-                i++;
             }
 
             if (ans.ArredondaHoraFinal == Constants.SIM)

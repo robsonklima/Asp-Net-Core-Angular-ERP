@@ -17,25 +17,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 @Component({
     selector: 'app-feriado-lista',
     templateUrl: './feriado-lista.component.html',
-    styles: [
-        /* language=SCSS */
-        `
-      .list-grid-u {
-          grid-template-columns: 25% 25% 25% auto;
-          
-          /* @screen sm {
-              grid-template-columns: 25% 25% 25% 25% ;
-          }
-      
-          @screen md {
-              grid-template-columns: 25% 25% 25% 25% ;
-          }
-      
-          @screen lg {
-              grid-template-columns: 25% 25% 25% 25% ;
-          } */
-      }
-    `
+    styles: [`
+        .list-grid-u {
+              grid-template-columns: 25% 25% 25% auto;
+        }`
     ],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations

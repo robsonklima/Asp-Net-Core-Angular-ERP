@@ -92,7 +92,7 @@ export const appRoutes: Route[] = [
             { path: 'peca', loadChildren: () => import('app/modules/main/cadastro/peca/peca.module').then(m => m.PecaModule) },
             { path: 'regiao', loadChildren: () => import('app/modules/main/cadastro/regiao/regiao.module').then(m => m.RegiaoModule) },
             { path: 'regiao-autorizada', loadChildren: () => import('app/modules/main/cadastro/regiao-autorizada/regiao-autorizada.module').then(m => m.RegiaoAutorizadaModule) },
-            { path: 'sla', loadChildren: () => import('app/modules/main/cadastro/sla/sla.module').then(m => m.SLAModule) },
+            { path: 'ans', loadChildren: () => import('app/modules/main/cadastro/ans/ans.module').then(m => m.ANSModule) },
             { path: 'tecnico', loadChildren: () => import('app/modules/main/cadastro/tecnico/tecnico.module').then(m => m.TecnicoModule) },
             { path: 'transportadora', loadChildren: () => import('app/modules/main/cadastro/usuario/usuario.module').then(m => m.UsuarioModule) },
             { path: 'usuario', loadChildren: () => import('app/modules/main/cadastro/usuario/usuario.module').then(m => m.UsuarioModule) },

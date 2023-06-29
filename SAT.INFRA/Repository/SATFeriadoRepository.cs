@@ -62,13 +62,6 @@ namespace SAT.INFRA.Repository
             var query = _context.SATFeriado
                 .AsQueryable();
 
-            if (parameters.Filter != null)
-            {
-                query = query.Where(
-                    f =>
-                    f.CodSATFeriado.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
-            }
-
             if (!string.IsNullOrWhiteSpace(parameters.Tipo))
                 query = query.Where(f => f.Tipo.Contains(parameters.Tipo));
 
@@ -76,7 +69,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(f => f.UF.Contains(parameters.UF));       
 
             if (parameters.Mes.HasValue)
-                query = query.Where(f => DataHelper.ConverterStringParaData(f.Data).Month == parameters.Mes.Value);         
+                query = query.Where(f => f.Data.Month == parameters.Mes.Value);         
             
             if (!string.IsNullOrWhiteSpace(parameters.Municipio))
                 query = query.Where(f => f.Municipio.Contains(parameters.Municipio));

@@ -12,19 +12,12 @@
     </div>
 
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
-            *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('ativo') }}</mat-label>
-                    <mat-select formControlName="IndAtivo">
-                        <mat-option [value]="1">
-                            Sim
-                        </mat-option>
-                        <mat-option [value]="0">
-                            Não
-                        </mat-option>
-                    </mat-select>
+                    <mat-label>{{ t('nome') }}</mat-label>
+
+                    <input matInput formControlName="nomeANS">
                 </mat-form-field>
             </div>
 
@@ -43,7 +36,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'defeito'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'ans'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

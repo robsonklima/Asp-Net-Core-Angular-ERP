@@ -18,43 +18,44 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { acaoRoutes } from './acao.routing';
-import { AcaoListaComponent } from './acao-lista/acao-lista.component';
-import { AcaoFormComponent } from './acao-form/acao-form.component';
-import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { AcaoFiltroComponent } from './acao-filtro/acao-filtro.component';
 import { FiltroModule } from '../../filtros/filtro.module';
+import { ANSFormComponent } from './ans-form/ans-form.component';
+import { ANSListaComponent } from './ans-lista/ans-lista.component';
+import { ansRoutes } from './ans.routing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ANSFiltroComponent } from './ans-filtro/ans-filtro.component';
 
 @NgModule({
   declarations: [
-    AcaoListaComponent,
-    AcaoFiltroComponent,
-   AcaoFormComponent
+    ANSFormComponent,
+    ANSFiltroComponent,
+    ANSListaComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(acaoRoutes),
+    RouterModule.forChild(ansRoutes),
     MatPaginatorModule,
+    MatTooltipModule,
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatSidenavModule,
-    SharedModule,
     TranslocoModule,
-    MatSortModule,
-    MatInputModule,
+    SharedModule,
     FuseHighlightModule,
     NgxMatSelectSearchModule,
+    MatInputModule,
+    MatSortModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
+    MatSnackBarModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    NgxMatSelectSearchModule,
+    MatCheckboxModule,
     MatDatepickerModule,
-    MatTooltipModule,
-    FormsModule,
-    FiltroModule,
-    MatMenuModule
+    MatSidenavModule,
+    MatMenuModule,
+    FiltroModule
   ]
 })
-export class AcaoModule { }
+export class ANSModule { }

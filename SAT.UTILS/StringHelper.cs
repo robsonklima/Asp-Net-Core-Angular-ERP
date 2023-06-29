@@ -32,7 +32,7 @@ namespace SAT.UTILS
                     sbReturn.Append(letter);
             }
 
-            return sbReturn.ToString();
+            return sbReturn.ToString().ToLower();
         }
     }
 }

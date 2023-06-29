@@ -11,7 +11,7 @@ namespace SAT.MODELS.Entities
         public string DescANS { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFim { get; set; }
-        public int TempoMinutos { get; set; }
+        public int TempoHoras { get; set; }
         public string PermiteAgendamento { get; set; }
         public string HorasUteis { get; set; }
         public string Sabado { get; set; }

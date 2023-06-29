@@ -17,7 +17,7 @@ namespace SAT.TASKS
                     CodOS = chamado.CodOS
                 };
 
-                _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }, resultado: { prazo }");
+                _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }: { prazo }");
             }
         }
     }

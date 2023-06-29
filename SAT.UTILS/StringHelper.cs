@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SAT.UTILS
@@ -19,8 +21,18 @@ namespace SAT.UTILS
             return string.Empty;
         }
 
-        public static string RemoverAcentos(string str) {
-            return Regex.Replace(str, "[^0-9a-zA-Z]+", "");
+        public static string RemoverAcentos(string str)
+        {
+            StringBuilder sbReturn = new StringBuilder();
+            var arrayText = str.Normalize(NormalizationForm.FormD).ToCharArray();
+            
+            foreach (char letter in arrayText)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
+                    sbReturn.Append(letter);
+            }
+
+            return sbReturn.ToString();
         }
     }
 }

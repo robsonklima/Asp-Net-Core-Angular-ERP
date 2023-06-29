@@ -91,21 +91,24 @@ namespace SAT.SERVICES.Services
 
             var feriados = new List<SATFeriados>();
 
-            var feriadosNacionais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+            feriados.AddRange(_feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                Tipo = FeriadoTipoConst.NACIONAL
+            }));
 
+            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                Tipo = FeriadoTipoConst.ESTADUAL
             });
 
-            var feriadosEstaduais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                
+            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                Tipo = FeriadoTipoConst.FACULTATIVO
+            });            
+
+            feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
+                Tipo = FeriadoTipoConst.MUNICIPAL,
+                Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
             });
 
-            var feriadosMunicipais = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                
-            });
-
-            var feriadosFacultativo = _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-                
-            });
+            
 
             for (int i = 0; i < ans.TempoMinutos;)
             {

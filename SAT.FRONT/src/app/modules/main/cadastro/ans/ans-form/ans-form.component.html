@@ -42,13 +42,29 @@
 
                 <div
                     class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-                    <mat-form-field class="fuse-mat-dense sm:col-span-12">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('nome') }}</mat-label>
-                        <input matInput formControlName="nomeANS">
+                        <input matInput formControlName="nomeANS" required>
                         <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
                         <mat-error>
                             {{ t('preencher campo') }}
                         </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora inicial') }}</mat-label>
+                        <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora final') }}</mat-label>
+                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
@@ -56,6 +72,11 @@
                         <textarea matInput formControlName="descANS" [placeholder]="t('descricao')" [rows]="3"
                             maxlength="1000"></textarea>
                         <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('tempo em horas') }}</mat-label>
+                        <input matInput formControlName="tempoHoras" type="number" required>
                     </mat-form-field>
                 </div>
 
@@ -69,6 +90,16 @@
                         <div><mat-checkbox formControlName="sabado">Sábado</mat-checkbox></div>
                         <div><mat-checkbox formControlName="domingo">Domingo</mat-checkbox></div>
                         <div><mat-checkbox formControlName="feriado">Feriado</mat-checkbox></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('agendamento') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
                         <div><mat-checkbox formControlName="permiteAgendamento">Permite Agendamento</mat-checkbox></div>
                     </div>
                 </div>

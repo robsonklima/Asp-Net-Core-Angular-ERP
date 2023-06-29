@@ -42,10 +42,13 @@ export class ANSFormComponent implements OnInit, OnDestroy {
     this.form = this._formBuilder.group({
       nomeANS: ['', [Validators.required, Validators.maxLength(20)]],
       descANS: ['', Validators.required],
+      horaInicio: ['', Validators.required],
+      horaFim: ['', Validators.required],
       sabado: [''],
       domingo: [''],
       feriado: [''],
       permiteAgendamento: [''],
+      tempoHoras: ['', Validators.required],
     });
 
     if (!this.isAddMode) {

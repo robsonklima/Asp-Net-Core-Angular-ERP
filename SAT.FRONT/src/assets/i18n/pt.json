@@ -157,6 +157,7 @@
     "pais": "País",
     "unidade federativa": "UF",
     "cidade": "Cidade",
+    "tempo em horas": "Tempo em Horas",
     "tipo rota": "Tipo Rota",
     "latitude": "Latitude",
     "longitude": "Longitude",

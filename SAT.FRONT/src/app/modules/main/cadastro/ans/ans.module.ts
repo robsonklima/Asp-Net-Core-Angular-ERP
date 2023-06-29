@@ -25,6 +25,13 @@ import { ANSListaComponent } from './ans-lista/ans-lista.component';
 import { ansRoutes } from './ans.routing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ANSFiltroComponent } from './ans-filtro/ans-filtro.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+  return {
+      validation: false,
+  };
+};
 
 @NgModule({
   declarations: [
@@ -35,6 +42,7 @@ import { ANSFiltroComponent } from './ans-filtro/ans-filtro.component';
   imports: [
     CommonModule,
     RouterModule.forChild(ansRoutes),
+    NgxMaskModule.forRoot(maskConfigFunction),
     MatPaginatorModule,
     MatTooltipModule,
     MatIconModule,

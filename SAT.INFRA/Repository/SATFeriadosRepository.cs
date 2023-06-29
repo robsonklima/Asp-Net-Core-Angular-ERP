@@ -79,7 +79,7 @@ namespace SAT.INFRA.Repository
                 satFeriadoss = satFeriadoss.Where(f => DataHelper.ConverterStringParaData(f.Data).Month == parameters.Mes.Value);         
             
             if (!string.IsNullOrWhiteSpace(parameters.Municipio))
-                satFeriadoss = satFeriadoss.Where(f => f.Municipio.Contains(parameters.Municipio));
+                satFeriadoss = satFeriadoss.Where(f => StringHelper.RemoverAcentos(f.Municipio).Contains(parameters.Municipio));
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

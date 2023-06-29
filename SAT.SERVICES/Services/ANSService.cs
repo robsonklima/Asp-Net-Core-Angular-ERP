@@ -89,38 +89,37 @@ namespace SAT.SERVICES.Services
                 prazo = inicio;
             }
 
-            List<SATFeriado> feriados = new List<SATFeriado>();
-
-            feriados.AddRange((List<SATFeriado>)_feriadoService
+            IEnumerable<SATFeriado> feriados = (IEnumerable<SATFeriado>)_feriadoService
                 .ObterPorParametros(new SATFeriadoParameters
                 {
                     Mes = chamado.DataHoraAberturaOS.Value.Month
                 })
-                .Items
-            );
+                .Items;
 
             var feriadosNacionais = feriados.Where(f => f.Tipo == FeriadoTipoConst.NACIONAL);
             var feriadosEstaduais = feriados.Where(f => f.Tipo == FeriadoTipoConst.ESTADUAL);
             var feriadosFacultativos = feriados.Where(f => f.Tipo == FeriadoTipoConst.FACULTATIVO);
-            var feriadosMunicipais = feriados.Where(f => f.Tipo == FeriadoTipoConst.MUNICIPAL && 
-                f.Municipio == StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade));
+            var feriadosMunicipais = feriados.Where(f =>
+                f.Tipo == FeriadoTipoConst.MUNICIPAL &&
+                f.Municipio == StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
+            );
 
             for (int i = 0; i < ans.TempoMinutos;)
             {
-                foreach (var feriado in feriadosNacionais)
-                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                foreach (var f in feriadosNacionais)
+                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
-                foreach (var feriado in feriadosEstaduais)
-                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                foreach (var f in feriadosEstaduais)
+                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
-                foreach (var feriado in feriadosFacultativos)
-                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                foreach (var f in feriadosFacultativos)
+                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
-                foreach (var feriado in feriadosMunicipais)
-                    if (DataHelper.ConverterStringParaData(feriado.Data) == inicio.Date && ans.Feriado == Constants.NAO)
+                foreach (var f in feriadosMunicipais)
+                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
                         continue;
 
                 if (prazo.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)

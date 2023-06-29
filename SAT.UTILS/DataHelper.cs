@@ -18,10 +18,5 @@ namespace SAT.UTILS
         {
             return start <= DateTime.Now.AddMinutes(-minutos);
         }
-
-        public static DateTime ConverterStringParaData(String data)
-        {
-            return DateTime.Parse(data);
-        }
     }
 }

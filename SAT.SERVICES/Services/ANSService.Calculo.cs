@@ -15,8 +15,8 @@ namespace SAT.SERVICES.Services
         {
             var ans = chamado?.EquipamentoContrato?.ANS;
             DateTime previsao = chamado.DataHoraAberturaOS.Value;
-            if (ans is null)
-                return null;
+
+            if (ans is null) return null;
 
             var agendamento = chamado.Agendamentos
                 .OrderBy(a => a.DataAgendamento)
@@ -34,8 +34,8 @@ namespace SAT.SERVICES.Services
 
             for (int i = 0; i < ans.TempoHoras;)
             {
-                previsao = AplicarHorariosNaoComercais(previsao, ans);
-                previsao = AplicarHorariosComerciais(previsao, ans);
+                previsao = AplicarHorarioNaoUtil(previsao, ans);
+                previsao = AplicarHorarioUtil(previsao, ans);
                 previsao = AplicarFeriados(feriados, chamado, ans, previsao);
                 previsao = previsao.AddHours(1);
                 i++;
@@ -47,52 +47,54 @@ namespace SAT.SERVICES.Services
             return previsao;
         }
 
-        private DateTime AplicarHorariosNaoComercais(DateTime previsao, ANS ans)
+        private DateTime AplicarHorarioNaoUtil(DateTime previsao, ANS ans)
         {
             if (previsao.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
-                return AdicionarDia(previsao, ans);
+                return PularDia(previsao, ans);
 
             if (previsao.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
-                return AdicionarDia(previsao, ans);
+                return PularDia(previsao, ans);
 
             return previsao;
         }
 
-        private DateTime AplicarHorariosComerciais(DateTime previsao, ANS ans)
+        private DateTime AplicarHorarioUtil(DateTime previsao, ANS ans)
         {
             if (previsao.TimeOfDay < ans.HoraInicio)
-                return AdicionarDia(previsao, ans);
+                return PularDia(previsao, ans);
 
             if (previsao.TimeOfDay > ans.HoraFim)
-                return AdicionarDia(previsao, ans);
+                return PularDia(previsao, ans);
 
             return previsao;
         }
 
         private DateTime AplicarFeriados(IEnumerable<SATFeriado> feriados, OrdemServico chamado, ANS ans, DateTime previsao)
         {
-            foreach (var f in feriados.Where(f => f.Data.Date == previsao.Date))
+            var feriadosDoDia = feriados.Where(f => f.Data.Date == previsao.Date);
+
+            foreach (var f in feriadosDoDia)
             {
                 string uf = chamado.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF;
                 string cidade = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade);
 
                 if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
-                    return AdicionarDia(previsao, ans);
+                    return PularDia(previsao, ans);
                 
                 if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == uf && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
-                    return AdicionarDia(previsao, ans);
+                    return PularDia(previsao, ans);
                 
                 if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
-                    return AdicionarDia(previsao, ans);
+                    return PularDia(previsao, ans);
                 
                 if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == cidade && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
-                    return AdicionarDia(previsao, ans);
+                    return PularDia(previsao, ans);
             }
 
             return previsao;
         }
 
-        private DateTime AdicionarDia(DateTime previsao, ANS ans)
+        private DateTime PularDia(DateTime previsao, ANS ans)
         {
             var hrInicioPrevisao = new TimeSpan(previsao.TimeOfDay.Hours, previsao.TimeOfDay.Minutes, previsao.TimeOfDay.Seconds);
             var hrInicioANS = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);

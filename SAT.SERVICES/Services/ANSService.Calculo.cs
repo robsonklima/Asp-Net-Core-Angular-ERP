@@ -14,7 +14,7 @@ namespace SAT.SERVICES.Services
         public DateTime? CalcularPrazo(OrdemServico chamado)
         {
             var ans = chamado?.EquipamentoContrato?.ANS;
-            var previsao = chamado.DataHoraAberturaOS.Value;
+            DateTime previsao = chamado.DataHoraAberturaOS.Value;
 
             if (ans is null) return null;
 
@@ -31,8 +31,7 @@ namespace SAT.SERVICES.Services
 
             for (int i = 0; i < ans.TempoHoras; i++)
             {
-                previsao = AplicarHorarioNaoUtil(previsao, ans);
-                previsao = AplicarHorarioUtil(previsao, ans);
+                previsao = AplicarJanelaHorarios(previsao, ans);
                 previsao = AplicarFeriados(feriados, chamado, ans, previsao);
                 previsao = previsao.AddHours(1);
             }
@@ -43,19 +42,15 @@ namespace SAT.SERVICES.Services
             return previsao;
         }
 
-        private DateTime AplicarHorarioNaoUtil(DateTime previsao, ANS ans)
+        private DateTime AplicarJanelaHorarios(DateTime previsao, ANS ans)
         {
+         
             if (previsao.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                 return PularDia(previsao, ans);
 
             if (previsao.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
                 return PularDia(previsao, ans);
 
-            return previsao;
-        }
-
-        private DateTime AplicarHorarioUtil(DateTime previsao, ANS ans)
-        {
             if (previsao.TimeOfDay < ans.HoraInicio)
                 return PularDia(previsao, ans);
 
@@ -71,19 +66,19 @@ namespace SAT.SERVICES.Services
 
             foreach (var f in feriadosDoDia)
             {
-                string uf = chamado.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF;
-                string cidade = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade);
+                string u = chamado.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF;
+                string c = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade);
 
                 if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
                 
-                if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == uf && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
+                if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == u && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
                 
                 if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
                 
-                if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == cidade && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
+                if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == c && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
             }
 

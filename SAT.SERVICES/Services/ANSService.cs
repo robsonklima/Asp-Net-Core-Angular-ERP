@@ -94,25 +94,21 @@ namespace SAT.SERVICES.Services
             feriados.AddRange((List<SATFeriado>)_feriadoService
                 .ObterPorParametros(new SATFeriadoParameters
                 {
-                    Tipo = FeriadoTipoConst.NACIONAL
+                    Mes = chamado.DataHoraAberturaOS.Value.Month
                 })
                 .Items
             );
+            
 
-            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-            //     Tipo = FeriadoTipoConst.ESTADUAL
-            // });
-
-            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-            //     Tipo = FeriadoTipoConst.FACULTATIVO
-            // });            
-
-            // feriados _feriadosService.ObterPorParametros(new SATFeriadosParameters{
-            //     Tipo = FeriadoTipoConst.MUNICIPAL,
-            //     Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
-            // });
-
-
+            // feriados.AddRange((List<SATFeriado>)_feriadoService
+            //     .ObterPorParametros(new SATFeriadoParameters
+            //     {
+            //         Tipo = FeriadoTipoConst.MUNICIPAL,
+            //         Mes = chamado.DataHoraAberturaOS.Value.Month,
+            //         Municipio = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
+            //     })
+            //     .Items
+            // );
 
             for (int i = 0; i < ans.TempoMinutos;)
             {

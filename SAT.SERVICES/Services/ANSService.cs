@@ -67,10 +67,9 @@ namespace SAT.SERVICES.Services
 
         public DateTime CalcularPrazo(OrdemServico chamado)
         {
+            var ans = chamado.EquipamentoContrato.ANS;
             DateTime inicio = chamado.DataHoraAberturaOS.Value;
             DateTime prazo = inicio;
-
-            var ans = chamado.EquipamentoContrato.ANS;
 
             if (ans is null)
             {
@@ -96,58 +95,75 @@ namespace SAT.SERVICES.Services
                 })
                 .Items;
 
-            var feriadosNacionais = feriados.Where(f => f.Tipo == FeriadoTipoConst.NACIONAL);
-            var feriadosEstaduais = feriados.Where(f => f.Tipo == FeriadoTipoConst.ESTADUAL);
-            var feriadosFacultativos = feriados.Where(f => f.Tipo == FeriadoTipoConst.FACULTATIVO);
-            var feriadosMunicipais = feriados.Where(f =>
-                f.Tipo == FeriadoTipoConst.MUNICIPAL &&
-                f.Municipio == StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade)
-            );
-
-            for (int i = 0; i < ans.TempoMinutos;)
+            for (int i = 0; i < ans.TempoHoras;)
             {
-                foreach (var f in feriadosNacionais)
-                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
-                        continue;
-
-                foreach (var f in feriadosEstaduais)
-                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
-                        continue;
-
-                foreach (var f in feriadosFacultativos)
-                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
-                        continue;
-
-                foreach (var f in feriadosMunicipais)
-                    if (f.Data == inicio.Date && ans.Feriado == Constants.NAO)
-                        continue;
-
                 if (prazo.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
+                {
+                    prazo = AdicionarDia(prazo, ans);
                     continue;
+                }
 
                 if (prazo.DayOfWeek == DayOfWeek.Sunday && ans.Domingo == Constants.NAO)
+                {
+                    prazo = AdicionarDia(prazo, ans);
                     continue;
+                }
 
                 if (prazo.TimeOfDay < ans.HoraInicio)
                 {
-                    var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
-                    prazo = prazo.Date + hrInicio;
+                    prazo = AdicionarDia(prazo, ans);
                     continue;
                 }
 
                 if (prazo.TimeOfDay > ans.HoraFim)
                 {
-                    var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
-                    prazo = prazo.AddDays(1).Date + hrInicio;
+                    prazo = AdicionarDia(prazo, ans);
                     continue;
                 }
 
-                prazo = prazo.AddMinutes(1);
+                foreach (var f in feriados.Where(f => f.Data.Date == prazo.Date)) 
+                {
+                    string uf = chamado.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF;
+                    string cidade = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade);
+                    
+                    if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
+                    {
+                        prazo = AdicionarDia(prazo, ans);
+                        continue;
+                    }
+
+                    if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == uf && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
+                    {
+                        prazo = AdicionarDia(prazo, ans);
+                        continue;
+                    }
+
+                    if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
+                    {
+                        prazo = AdicionarDia(prazo, ans);
+                        continue;
+                    }
+
+                    if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == cidade && f.Data == inicio.Date && ans.Feriado == Constants.NAO)
+                    {
+                        prazo = AdicionarDia(prazo, ans);
+                        continue;
+                    }
+                }
+
+                prazo = prazo.AddHours(1);
 
                 i++;
             }
 
             return prazo;
+        }
+
+        private DateTime AdicionarDia(DateTime prazo, ANS ans) 
+        {
+            var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
+
+            return prazo.AddDays(1).Date + hrInicio;
         }
     }
 }

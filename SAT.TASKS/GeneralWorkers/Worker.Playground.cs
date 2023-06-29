@@ -1,6 +1,4 @@
 using SAT.MODELS.Entities;
-using SAT.MODELS.Entities.Constants;
-using SAT.MODELS.Entities.Params;
 
 namespace SAT.TASKS
 {
@@ -8,7 +6,7 @@ namespace SAT.TASKS
     {
         private void IniciarPlaygroundAsync()
         {
-            var chamado = _osService.ObterPorCodigo(8036712);
+            var chamado = _osService.ObterPorCodigo(8036742);
 
             var prazo = _ansService.CalcularPrazo(chamado);
 

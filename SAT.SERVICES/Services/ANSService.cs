@@ -156,14 +156,25 @@ namespace SAT.SERVICES.Services
                 i++;
             }
 
+            if (ans.ArredondaHoraFinal == Constants.SIM)
+            {
+                var hrFimANS = new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
+
+                prazo = prazo.Date + hrFimANS;
+            }
+
             return prazo;
         }
 
         private DateTime AdicionarDia(DateTime prazo, ANS ans) 
         {
-            var hrInicio = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
+            var hrInicioPrazo = new TimeSpan(prazo.TimeOfDay.Hours, prazo.TimeOfDay.Minutes, prazo.TimeOfDay.Seconds);
+            var hrInicioANS = new TimeSpan(ans.HoraInicio.Hours, ans.HoraInicio.Minutes, ans.HoraInicio.Seconds);
+            var hrFimANS = new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
 
-            return prazo.AddDays(1).Date + hrInicio;
+            var diferenca = prazo.Minute - hrFimANS.Minutes;
+
+            return (prazo.AddDays(1).Date + hrInicioANS).AddMinutes(diferenca);
         }
     }
 }

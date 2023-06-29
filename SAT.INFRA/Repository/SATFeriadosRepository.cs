@@ -5,7 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Helpers;
 using System.Linq;
 using SAT.INFRA.Interfaces;
-using System;
+using SAT.UTILS;
 
 namespace SAT.INFRA.Repository
 {
@@ -76,7 +76,7 @@ namespace SAT.INFRA.Repository
                 satFeriadoss = satFeriadoss.Where(f => f.UF.Contains(parameters.UF));       
 
             if (parameters.Mes.HasValue)
-                satFeriadoss = satFeriadoss.Where(f => DateTime.Parse(f.Data).Month == parameters.Mes.Value);         
+                satFeriadoss = satFeriadoss.Where(f => DataHelper.ConverterStringParaData(f.Data).Month == parameters.Mes.Value);         
             
             if (!string.IsNullOrWhiteSpace(parameters.Municipio))
                 satFeriadoss = satFeriadoss.Where(f => f.Municipio.Contains(parameters.Municipio));

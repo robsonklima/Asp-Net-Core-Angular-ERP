@@ -1,74 +1,61 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { SharedModule } from '../../../../shared/shared.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { TranslocoModule } from '@ngneat/transloco';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSelectModule } from '@angular/material/select';
-import { SharedModule } from 'app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { FuseHighlightModule } from '@fuse/components/highlight';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { AnsFiltroComponent } from './ans-filtro/ans-filtro.component';
-import { AnsListaComponent } from './ans-lista/ans-lista.component';
-import { AnsFormComponent } from './ans-form/ans-form.component';
+import { FiltroModule } from '../../filtros/filtro.module';
+import { ANSFormComponent } from './ans-form/ans-form.component';
+import { ANSListaComponent } from './ans-lista/ans-lista.component';
 import { ansRoutes } from './ans.routing';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatRadioModule } from '@angular/material/radio';
-import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
-import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import moment from 'moment';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ANSFiltroComponent } from './ans-filtro/ans-filtro.component';
 
 @NgModule({
   declarations: [
-    AnsFiltroComponent,
-    AnsListaComponent,
-    AnsFormComponent
+    ANSFormComponent,
+    ANSFiltroComponent,
+    ANSListaComponent
   ],
   imports: [
+    CommonModule,
     RouterModule.forChild(ansRoutes),
-    DragDropModule,
-    MatAutocompleteModule,
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatFormFieldModule,
     MatButtonModule,
+    TranslocoModule,
+    SharedModule,
+    FuseHighlightModule,
+    NgxMatSelectSearchModule,
+    MatInputModule,
+    MatSortModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    NgxMatSelectSearchModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatMomentDateModule,
-    MatProgressBarModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
     MatSidenavModule,
-    MatTooltipModule,
-    FuseFindByKeyPipeModule,
-    SharedModule
-  ],
-  providers: [
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        parse: {
-          dateInput: moment.ISO_8601
-        },
-        display: {
-          dateInput: 'll',
-          monthYearLabel: 'MMM YYYY',
-          dateA11yLabel: 'LL',
-          monthYearA11yLabel: 'MMMM YYYY'
-        }
-      }
-    }
+    MatMenuModule,
+    FiltroModule
   ]
-
 })
-export class AnsModule { }
+export class ANSModule { }

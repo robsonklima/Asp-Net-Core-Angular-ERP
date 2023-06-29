@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { AnsListaComponent } from './ans-lista/ans-lista.component';
-import { AnsFormComponent } from './ans-form/ans-form.component';
+import { ANSListaComponent } from './ans-lista/ans-lista.component';
+import { ANSFormComponent } from './ans-form/ans-form.component';
 
 export const ansRoutes: Route[] = [
     {
@@ -10,14 +10,14 @@ export const ansRoutes: Route[] = [
     },
     {
         path: 'lista',
-        component: AnsListaComponent,
+        component: ANSListaComponent,
     },
     {
         path: 'form',
-        component: AnsFormComponent,
+        component: ANSFormComponent,
     },
     {
         path: 'form/:codANS',
-        component: AnsFormComponent,
+        component: ANSFormComponent,
     },
 ];

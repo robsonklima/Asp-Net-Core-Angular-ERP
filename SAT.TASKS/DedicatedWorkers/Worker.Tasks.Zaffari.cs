@@ -7,12 +7,7 @@ namespace SAT.TASKS
     {
         private async Task<SatTask> IntegrarZaffariAsync(SatTask task, IEnumerable<OrdemServico> chamados)
         {
-            var chamadosZaffari = chamados
-                .Where(os => os.CodCliente == Constants.CLIENTE_ZAFFARI)
-                .Where(os => os.IndIntegracao == 1)
-                .Where(os => os.IndServico == 1);
-
-            await _integracaoZaffariService.ExecutarAsync(chamadosZaffari);
+            await _integracaoZaffariService.ExecutarAsync(chamados);
             
             return task;
         }

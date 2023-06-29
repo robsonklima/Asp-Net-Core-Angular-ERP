@@ -1,146 +1,83 @@
-<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+<mat-drawer-container class="flex-auto h-full">
+    <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [position]="'end'" #sidenav>
+        <app-ans-filtro [sidenav]="sidenav"></app-ans-filtro>
+    </mat-drawer>
 
-    <mat-drawer-container
-        class="flex-auto h-full bg-card dark:bg-transparent"
-        (backdropClick)="onBackdropClicked()">
+    <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+        *transloco="let t">
+        <div
+            class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+            <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+                <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+            </div>
 
-        <!-- Drawer -->
-        <mat-drawer
-            class="w-full sm:w-128 dark:bg-gray-900"
-            [mode]="drawerMode"
-            [opened]="false"
-            [position]="'end'"
-            [disableClose]="true"
-            #matDrawer>
-            <router-outlet></router-outlet>
-        </mat-drawer>
+            <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('acoes') }}</div>
 
-        <mat-drawer-content class="flex flex-col">
-            <div class="flex flex-col flex-auto">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-8 px-6 md:px-8">
-                    <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">
-                            SLA
-                        </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
+                    <mat-icon matPrefix [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                    <input matInput #searchInputControl placeholder="Pesquisar..." [autocomplete]="'off'">
+                </mat-form-field>
 
-                        <div class="ml-0.5 font-medium text-secondary">
-                            <span>Acordos de Nível de Serviço</span>
-                        </div>
-                    </div>
+                <button class="ml-4" *transloco="let t" mat-icon-button matTooltip="{{ t('novo') }}"
+                    [routerLink]="['/ans/form']">
+                    <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+                </button>
 
-                    <div class="mt-4 sm:mt-0">
-                        <button
-                            class="ml-3"
-                            mat-flat-button
-                            [color]="'primary'"
-                            (click)="createTask()"
-                            [matTooltip]="'Shortcut: Ctrl + /'">
-                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                            <span class="ml-2 mr-1">Novo SLA</span>
-                        </button>
-                    </div>
-                </div>
+                <button (click)="exportar()" class="ml-2" *transloco="let t" mat-icon-button
+                    matTooltip="{{ t('exportar') }}">
+                    <mat-icon class="text-blue-500	" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
+                </button>
 
-                <ng-container *ngIf="tasks && tasks.length > 0; else noTasks">
-                    <div
-                        class="divide-y"
-                        cdkDropList
-                        [cdkDropListData]="tasks"
-                        (cdkDropListDropped)="dropped($event)">
+                <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+                </button>
+            </div>
+        </div>
 
-                        <ng-container *ngFor="let task of tasks; let first = first; trackBy: trackByFn">
-                            <div
-                                [id]="'task-' + task.id"
-                                class="group w-full select-none hover:bg-gray-100 dark:hover:bg-hover"
-                                [ngClass]="{'h-12 text-lg font-semibold bg-gray-50 dark:bg-transparent': task.type === 'section',
-                                            'h-16': task.type === 'task',
-                                            'text-hint': task.completed}"
-                                [class.border-t]="first"
-                                cdkDrag
-                                [cdkDragLockAxis]="'y'">
+        <div class="flex flex-auto overflow-hidden">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <ng-container>
+                        <div class="grid" *transloco="let t">
+                            <div class="list-grid-ans z-10 sticky top-0 grid gap-4 py-2 px-4 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                                matSort matSortDisableClear *transloco="let t">
+                                <div class="md:block" [mat-sort-header]="'codANS'">
+                                    {{ t('codigo') }}
+                                </div>
 
-                                <div
-                                    class="flex flex-0 w-0 h-0"
-                                    *cdkDragPreview></div>
-
-                                <div class="relative flex items-center h-full pl-10">
-                                    <ng-container *ngIf="selectedTask && selectedTask.id === task.id">
-                                        <div class="z-10 absolute -top-px right-0 -bottom-px flex flex-0 w-1 bg-primary"></div>
-                                    </ng-container>
-
-                                    <div
-                                        class="md:hidden absolute flex items-center justify-center inset-y-0 left-0 w-8 cursor-move md:group-hover:flex"
-                                        cdkDragHandle>
-                                        <mat-icon
-                                            class="icon-size-5 text-hint"
-                                            [svgIcon]="'heroicons_solid:menu'"></mat-icon>
-                                    </div>
-
-                                    <button
-                                        class="mr-2 -ml-2.5 leading-none"
-                                        *ngIf="task.type === 'task'"
-                                        (click)="toggleCompleted(task)"
-                                        mat-icon-button>
-                                        <ng-container *ngIf="task.completed">
-                                            <mat-icon
-                                                class="text-primary"
-                                                [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
-                                        </ng-container>
-                                        <ng-container *ngIf="!task.completed">
-                                            <mat-icon
-                                                class="text-hint"
-                                                [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
-                                        </ng-container>
-                                    </button>
-
-                                    <a
-                                        class="flex flex-auto items-center min-w-0 h-full pr-7"
-                                        [routerLink]="'/ans/form/' + [task.id]">
-                                        <div class="flex-auto mr-2 truncate">
-                                            <ng-container *ngIf="task.title">
-                                                <span>{{task.title}}</span>
-                                            </ng-container>
-                                            <ng-container *ngIf="!task.title">
-                                                <span class="select-none text-hint">{{task.type | titlecase}} title</span>
-                                            </ng-container>
-                                        </div>
-
-                                        <ng-container *ngIf="task.type === 'task'">
-                                            <div class="w-4 h-4 mr-3">
-                                                <mat-icon
-                                                    class="icon-size-4 text-green-600 dark:text-green-400"
-                                                    *ngIf="task.priority === 0"
-                                                    [svgIcon]="'heroicons_solid:arrow-narrow-down'"
-                                                    [title]="'Low'"></mat-icon>
-
-                                                    <mat-icon
-                                                    class="icon-size-4 text-red-600 dark:text-red-400"
-                                                    *ngIf="task.priority === 2"
-                                                    [svgIcon]="'heroicons_solid:arrow-narrow-up'"
-                                                    [title]="'High'"></mat-icon>
-                                            </div>
-                                        </ng-container>
-
-                                        <div
-                                            class="text-sm whitespace-nowrap text-secondary"
-                                            *ngIf="task.type === 'task'">
-                                            {{task.dueDate | date:'LLL dd'}}
-                                        </div>
-                                    </a>
+                                <div [mat-sort-header]="'nomeANS'">
+                                    {{ t('nome') }}
                                 </div>
                             </div>
-                        </ng-container>
-                    </div>
-                </ng-container>
 
-                <ng-template #noTasks>
-                    <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
-                        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">
-                            Adicione um SLA para o seu parque de equipamentos
+                            <ng-container>
+                                <ng-container *ngFor="let ans of dataSourceData?.items">
+                                    <a [routerLink]="['/ans/form/' + ans.codANS]">
+                                        <div class="list-grid-ans grid items-center h-8 gap-4 px-1 text-sm md:px-4 border-b hover:bg-gray-100"
+                                            *transloco="let t">
+                                            <div class="flex items-center">
+                                                {{ ans.codANS }}
+                                            </div>
+
+                                            <div class="truncate">
+                                                {{ ans.nomeANS | titlecase }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </ng-container>
+                            </ng-container>
                         </div>
-                    </div>
-                </ng-template>
+
+                        <mat-paginator [hidden]="!dataSourceData?.items?.length"
+                            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                            [ngClass]="{'pointer-events-none': isLoading}" [length]="dataSourceData?.totalCount"
+                            [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                            (page)="paginar()">
+                        </mat-paginator>
+                    </ng-container>
+                </ng-container>
             </div>
-        </mat-drawer-content>
-    </mat-drawer-container>
-</div>
+        </div>
+    </div>
+</mat-drawer-container>

@@ -22,14 +22,9 @@ import { acaoRoutes } from './acao.routing';
 import { AcaoListaComponent } from './acao-lista/acao-lista.component';
 import { AcaoFormComponent } from './acao-form/acao-form.component';
 import { FormsModule } from '@angular/forms';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { AcaoFiltroComponent } from './acao-filtro/acao-filtro.component';
 import { FiltroModule } from '../../filtros/filtro.module';
-
-
-
-
-
 
 @NgModule({
   declarations: [

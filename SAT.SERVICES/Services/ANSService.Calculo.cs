@@ -48,7 +48,7 @@ namespace SAT.SERVICES.Services
 
             if (os.EquipamentoContrato is null)
             {
-                _logger.Error($"Chamado { os.codOS } nao possui equipamento");
+                _logger.Error($"Chamado { os.codOS } nao possui Equipamento");
 
                 return null;
             }
@@ -106,7 +106,6 @@ namespace SAT.SERVICES.Services
 
         private DateTime AplicarJanelaHorarios(DateTime previsao, ANS ans)
         {
-
             if (previsao.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                 return PularDia(previsao, ans);
 

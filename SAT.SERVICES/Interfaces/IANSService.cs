@@ -12,6 +12,6 @@ namespace SAT.SERVICES.Interfaces
         ANS Criar(ANS ans);
         ANS Deletar(int codigo);
         ANS Atualizar(ANS ans);
-        DateTime? CalcularPrazo(OrdemServico chamado);
+        DateTime? CalcularPrazo(int codOS);
     }
 }

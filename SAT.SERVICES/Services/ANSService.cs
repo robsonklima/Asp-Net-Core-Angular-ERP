@@ -12,14 +12,17 @@ namespace SAT.SERVICES.Services
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly IANSRepository _ansRepo;
         private readonly ISATFeriadoService _feriadoService;
+        private readonly IOrdemServicoService _ordemServicoService;
 
         public ANSService(
             IANSRepository ansRepo,
-            ISATFeriadoService feriadoService
+            ISATFeriadoService feriadoService,
+            IOrdemServicoService ordemServicoService
         )
         {
             _ansRepo = ansRepo;
             _feriadoService = feriadoService;
+            _ordemServicoService = ordemServicoService;
         }
 
         public ANS Atualizar(ANS ans)

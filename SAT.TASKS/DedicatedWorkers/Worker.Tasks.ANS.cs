@@ -9,7 +9,7 @@ namespace SAT.TASKS
         {
             foreach (var chamado in chamados)
             {
-                var prazo = _ansService.CalcularPrazo(chamado);
+                var prazo = _ansService.CalcularPrazo(chamado.CodOS);
 
                 if (prazo is not null)
                 {

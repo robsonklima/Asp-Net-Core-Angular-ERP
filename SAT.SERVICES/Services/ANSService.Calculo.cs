@@ -11,8 +11,14 @@ namespace SAT.SERVICES.Services
 {
     public partial class ANSService : IANSService
     {
-        public DateTime? CalcularPrazo(OrdemServico chamado)
+        public DateTime? CalcularPrazo(int codOS)
         {
+            var chamadoParams = new OrdemServicoParameters { CodOS = codOS.ToString() };
+            var chamado = (dynamic)_ordemServicoService
+                .ObterPorParametros(chamadoParams)
+                .Items
+                .FirstOrDefault();
+
             var ans = chamado?.EquipamentoContrato?.ANS;
             DateTime previsao = chamado.DataHoraCad ?? chamado.DataHoraAberturaOS.Value;
 

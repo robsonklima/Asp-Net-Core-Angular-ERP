@@ -21,11 +21,64 @@ namespace SAT.UTILS
             throw new Exception("Chave não encontrada");
         }
 
-        public static void CompressDirectory(string DirectoryPath, string OutputFilePath, int CompressionLevel = 9, string pattern="*.pdf")
+        public static List<string> LerDiretorioInput(string query)
         {
             try
             {
-                string[] filenames = Directory.GetFiles(DirectoryPath, "*"+pattern);
+                string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/");
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                FileInfo[] files = dirInfo.GetFiles(query);
+
+                if (files.Count() == 0)
+                    return new List<string>();
+
+                List<string> retorno = new();
+
+                foreach (FileInfo file in files)
+                {
+                    using (StreamReader sr = File.OpenText(file.Name))
+                    {
+                        string linha = String.Empty;
+
+                        while ((linha = sr.ReadLine()) is not null)
+                        {
+                            char primeiroCaractere = linha[0];
+
+                            if (primeiroCaractere == '1')
+                            {
+                                retorno.Add(linha);
+                            }
+                        }
+                    }
+                }
+
+                return retorno;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
+
+        public static void MoverArquivosProcessados()
+        {
+            string pathInput = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
+            string pathProcessados = System.AppDomain.CurrentDomain.BaseDirectory + "Processados";
+
+            if (Directory.Exists(pathInput))
+            {
+                foreach (var file in new DirectoryInfo(pathInput).GetFiles())
+                {
+                    file.MoveTo($@"{pathProcessados}\{file.Name}");
+                }
+            }
+        }
+
+        public static void CompressDirectory(string DirectoryPath, string OutputFilePath, int CompressionLevel = 9, string pattern = "*.pdf")
+        {
+            try
+            {
+                string[] filenames = Directory.GetFiles(DirectoryPath, "*" + pattern);
 
                 using (ZipOutputStream OutputStream = new ZipOutputStream(File.Create(OutputFilePath)))
                 {

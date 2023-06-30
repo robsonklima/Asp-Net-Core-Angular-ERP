@@ -6,6 +6,7 @@ using NLog;
 using NLog.Fluent;
 using SAT.MODELS.Entities.Constants;
 using System.Globalization;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -25,17 +26,19 @@ namespace SAT.SERVICES.Services
         }
         public void ImportarArquivoMRPLogix()
         {
-            string caminhoArquivo = Constants.INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO;
-
             FileStream fs;
             StreamReader sr;
 
             try
             {
-                if (!File.Exists(caminhoArquivo))
+                string path = ""; 
+
+                var arquivos = GenericHelper.LerDiretorioInput("");
+
+                if (!File.Exists(path))
                     return;
 
-                fs = new FileStream(caminhoArquivo, FileMode.Open);
+                fs = new FileStream(path, FileMode.Open);
                 sr = new StreamReader(fs);
 
                 if (sr.ReadLine() != null)

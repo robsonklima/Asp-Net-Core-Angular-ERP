@@ -142,9 +142,6 @@ namespace SAT.SERVICES.Services
                 if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == u && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans, iteracao);
 
-                if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
-                    return PularDia(previsao, ans, iteracao);
-
                 if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == c && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans, iteracao);
             }

@@ -86,26 +86,17 @@ namespace SAT.SERVICES.Services
 
         private DateTime AplicarAgendamentos(OrdemServico os, ANS ans, DateTime previsao)
         {
-            if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.SIM)
+            if (ans.PermiteAgendamento == Constants.SIM)
             {
                 var dataAtendimento = os.RelatoriosAtendimento
-                    .OrderByDescending(r => r.DataHoraInicio)
+                    .OrderByDescending(r => r.DataHoraCad)
                     .FirstOrDefault()
                     .DataHoraInicio;
 
                 return (dynamic)os
                     .Agendamentos
-                    .Where(a => a.DataAgendamento <= dataAtendimento)
-                    .OrderByDescending(a => a.DataAgendamento)
-                    .FirstOrDefault()
-                    .DataAgendamento;
-            }
-
-            if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.NAO)
-            {
-                return (dynamic)os
-                    .Agendamentos
-                    .OrderByDescending(a => a.DataAgendamento)
+                    .Where(a => a.DataHoraUsuAgendamento <= dataAtendimento)
+                    .OrderByDescending(a => a.DataHoraUsuAgendamento)
                     .FirstOrDefault()
                     .DataAgendamento;
             }

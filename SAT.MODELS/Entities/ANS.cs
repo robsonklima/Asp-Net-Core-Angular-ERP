@@ -2,7 +2,6 @@ using System;
 
 namespace SAT.MODELS.Entities
 {
-
     public class ANS
     {
         public int CodANS { get; set; }

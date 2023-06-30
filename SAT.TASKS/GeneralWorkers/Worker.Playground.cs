@@ -4,7 +4,7 @@ namespace SAT.TASKS
     {
         private void IniciarPlaygroundAsync()
         {
-            IntegrarMRP(null);
+            var a = _ansService.CalcularPrazo(8039943);
         }
     }
 }

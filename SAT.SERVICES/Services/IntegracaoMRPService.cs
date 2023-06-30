@@ -32,6 +32,9 @@ namespace SAT.SERVICES.Services
 
             try
             {
+                if (!File.Exists(caminhoArquivo))
+                    return;
+
                 fs = new FileStream(caminhoArquivo, FileMode.Open);
                 sr = new StreamReader(fs);
 
@@ -47,12 +50,7 @@ namespace SAT.SERVICES.Services
                         string[] dados = linha.Split('|');
 
                         if (dados.Length != 24)
-                        {
-                            _logger.Error()
-                                .Message("A quantidade de campos encontrados é diferente do permitido")
-                                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
-                                .Write();
-                        }
+                            _logger.Error("A quantidade de campos encontrados é diferente do permitido");
 
                         mrpLogix.NumPedido = dados[0].ToString();
                         mrpLogix.DataPedido = DateTime.Parse(dados[1].ToString());

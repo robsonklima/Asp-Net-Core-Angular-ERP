@@ -91,7 +91,7 @@ namespace SAT.SERVICES.Services
                 var dataAtendimento = os.RelatoriosAtendimento
                     .OrderByDescending(r => r.DataHoraCad)
                     .FirstOrDefault()
-                    .DataHoraInicio;
+                    .DataHoraCad;
 
                 return (dynamic)os
                     .Agendamentos

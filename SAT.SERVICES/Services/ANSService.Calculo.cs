@@ -14,14 +14,12 @@ namespace SAT.SERVICES.Services
     {
         public DateTime? CalcularPrazo(int codOS)
         {
-            var chamadoParams = new OrdemServicoParameters 
+            var chamado = (dynamic)_ordemServicoService
+                .ObterPorParametros(new OrdemServicoParameters 
                 { 
                     CodOS = codOS.ToString(), 
                     Include = OrdemServicoIncludeEnum.SLA
-                };
-                
-            var chamado = (dynamic)_ordemServicoService
-                .ObterPorParametros(chamadoParams)
+                })
                 .Items
                 .FirstOrDefault();
 

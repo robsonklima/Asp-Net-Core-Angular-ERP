@@ -45,7 +45,10 @@ namespace SAT.SERVICES.Services
 
             try
             {
-                List<string> files = GenericHelper.LerDiretorioInput("*crm549*");
+                List<string> files = GenericHelper
+                    .LerDiretorioInput("*crm549*")
+                    .Where(f => f[0] == '1')
+                    .ToList();
 
                 if (files is null)
                 {

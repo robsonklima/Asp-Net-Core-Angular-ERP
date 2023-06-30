@@ -6,7 +6,7 @@ namespace SAT.TASKS
     {
         private void IntegrarMRP(SatTask task)
         {
-            _integracaoMRPService.ImportarArquivoMRPLogix();
+            //_integracaoMRPService.ImportarArquivoMRPLogix();
             
             _integracaoMRPService.ImportarArquivoMRPEstoqueLogix();
         }

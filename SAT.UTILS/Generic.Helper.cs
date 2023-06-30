@@ -36,18 +36,15 @@ namespace SAT.UTILS
 
                 foreach (FileInfo file in files)
                 {
-                    using (StreamReader sr = File.OpenText(file.Name))
+                    string f = file.FullName;
+
+                    using (StreamReader sr = File.OpenText(f))
                     {
                         string linha = String.Empty;
 
                         while ((linha = sr.ReadLine()) is not null)
                         {
-                            char primeiroCaractere = linha[0];
-
-                            if (primeiroCaractere == '1')
-                            {
-                                retorno.Add(linha);
-                            }
+                            retorno.Add(linha);
                         }
                     }
                 }

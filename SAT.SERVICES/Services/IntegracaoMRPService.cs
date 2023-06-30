@@ -28,6 +28,8 @@ namespace SAT.SERVICES.Services
         {
             try
             {
+                _mrpLogixService.LimparTabela();
+                
                 var arquivos = GenericHelper.LerDiretorioInput(Constants.PEDIDOS_PENDENTES);
 
                 foreach (var arquivo in arquivos)
@@ -73,28 +75,37 @@ namespace SAT.SERVICES.Services
 
         public void ImportarArquivoMRPEstoqueLogix()
         {
-            var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);
-
-            foreach (var arquivo in arquivos)
+            try
             {
-                _mrpLogixEstoqueService.LimparTabela();
+                _mrpLogixService.LimparTabela();
 
-                MRPLogixEstoque mrpLogixEstoque = new();
+                var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);
 
-                string[] dados = arquivo.Split('|');
+                foreach (var arquivo in arquivos)
+                {
+                    _mrpLogixEstoqueService.LimparTabela();
 
-                if (dados.Length != 7)
-                    _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+                    MRPLogixEstoque mrpLogixEstoque = new();
 
-                mrpLogixEstoque.CodEmpresa = dados[0].ToString();
-                mrpLogixEstoque.CodItem = dados[1].ToString();
-                mrpLogixEstoque.LocalEstoque = dados[2].ToString();
-                mrpLogixEstoque.NumLote = dados[3].ToString();
-                mrpLogixEstoque.Situacao = dados[4].ToString();
-                mrpLogixEstoque.QtdSaldo = Double.Parse(dados[5].ToString(), new CultureInfo("en-US"));
-                mrpLogixEstoque.NumTransacao = Int32.Parse(dados[6].ToString());
+                    string[] dados = arquivo.Split('|');
 
-                _mrpLogixEstoqueService.Criar(mrpLogixEstoque);
+                    if (dados.Length != 7)
+                        _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+
+                    mrpLogixEstoque.CodEmpresa = dados[0].ToString();
+                    mrpLogixEstoque.CodItem = dados[1].ToString();
+                    mrpLogixEstoque.LocalEstoque = dados[2].ToString();
+                    mrpLogixEstoque.NumLote = dados[3].ToString();
+                    mrpLogixEstoque.Situacao = dados[4].ToString();
+                    mrpLogixEstoque.QtdSaldo = Double.Parse(dados[5].ToString(), new CultureInfo("en-US"));
+                    mrpLogixEstoque.NumTransacao = Int32.Parse(dados[6].ToString());
+
+                    _mrpLogixEstoqueService.Criar(mrpLogixEstoque);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
             }
         }
     }

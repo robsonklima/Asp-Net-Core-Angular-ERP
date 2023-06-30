@@ -5,11 +5,11 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { Filterable } from 'app/core/filters/filterable';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { FeriadoService } from 'app/core/services/feriado.service';
+import { SATFeriadoService } from 'app/core/services/sat-feriado.service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
-import { FeriadoData, FeriadoParameters } from 'app/core/types/feriado.types';
 import { FileMime } from 'app/core/types/file.types';
 import { IFilterable } from 'app/core/types/filtro.types';
+import { SATFeriadoData, SATFeriadoParameters } from 'app/core/types/sat-feriado.types';
 import { UserService } from 'app/core/user/user.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -26,18 +26,17 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     animations: fuseAnimations
 })
 export class FeriadoListaComponent extends Filterable implements AfterViewInit, IFilterable {
-
     @ViewChild('sidenav') public sidenav: MatSidenav;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    dataSourceData: FeriadoData;
+    dataSourceData: SATFeriadoData;
     isLoading: boolean = false;
     @ViewChild('searchInputControl') searchInputControl: ElementRef;
 
     constructor(
         protected _userService: UserService,
         private _cdr: ChangeDetectorRef,
-        private _feriadoService: FeriadoService,
+        private _satFeriadoService: SATFeriadoService,
         private _exportacaoService: ExportacaoService
     ) {
         super(_userService, 'feriado')
@@ -83,7 +82,7 @@ this._cdr.detectChanges();
   async obterDados(filtro: string = '') {
     this.isLoading = true;
 
-    const parametros: FeriadoParameters = {
+    const parametros: SATFeriadoParameters = {
         ...{
             pageNumber: this.paginator?.pageIndex + 1,
             sortActive: this.sort?.active || 'data',
@@ -93,7 +92,7 @@ this._cdr.detectChanges();
         },
         ...this.filter?.parametros
     }
-    const data = await this._feriadoService.obterPorParametros(parametros).toPromise();
+    const data = await this._satFeriadoService.obterPorParametros(parametros).toPromise();
     this.dataSourceData = data;
     this.isLoading = false;
     this._cdr.detectChanges();

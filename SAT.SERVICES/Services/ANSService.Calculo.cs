@@ -14,30 +14,18 @@ namespace SAT.SERVICES.Services
     {
         public DateTime? CalcularPrazo(int codOS)
         {
-            var chamado = (dynamic)_ordemServicoService
-                .ObterPorParametros(new OrdemServicoParameters 
-                { 
-                    CodOS = codOS.ToString(), 
-                    Include = OrdemServicoIncludeEnum.SLA
-                })
-                .Items
-                .FirstOrDefault();
+            var os = (dynamic)ObterOS(codOS);
+            
+            if (os is null) return null;
 
-            var ans = chamado?.EquipamentoContrato?.ANS;
-            DateTime previsao = chamado.DataHoraCad ?? chamado.DataHoraAberturaOS.Value;
+            var ans = os.EquipamentoContrato.ANS;
+            DateTime previsao = os.DataHoraCad ?? os.DataHoraAberturaOS;
+            previsao = AplicarAgendamentos(os, ans, previsao);
 
-            if (ans is null) return null;
-
-            previsao = AplicarAgendamentos(chamado, ans, previsao);
-
-            var feriados = (dynamic)_feriadoService
-                .ObterPorParametros(new SATFeriadoParameters{ Mes = previsao.Month })
-                .Items;
-
-            for (int i = 0; i < ans.TempoHoras; i++)
+            for (int i = 1; i < ans.TempoHoras; i++)
             {
                 previsao = AplicarJanelaHorarios(previsao, ans);
-                previsao = AplicarFeriados(feriados, chamado, ans, previsao);
+                previsao = AplicarFeriados(os.LocalAtendimento.Cidade, ans, previsao);
                 previsao = previsao.AddHours(1);
             }
 
@@ -47,30 +35,50 @@ namespace SAT.SERVICES.Services
             return previsao;
         }
 
-        private DateTime AplicarAgendamentos(OrdemServico chamado, ANS ans, DateTime previsao)
+        private OrdemServico ObterOS(int codOS)
         {
-            var agendamentos = chamado.Agendamentos
-                .OrderByDescending(a => a.DataAgendamento);
+            var os =  (dynamic)_ordemServicoService
+                .ObterPorParametros(new OrdemServicoParameters 
+                { 
+                    CodOS = codOS.ToString(), 
+                    Include = OrdemServicoIncludeEnum.ANS
+                })
+                .Items
+                .FirstOrDefault();
 
+            if (os.EquipamentoContrato is null)
+                return null;
+
+            if (os.EquipamentoContrato.ANS is null)
+                return null;
+
+            return os;
+        }
+
+        private DateTime AplicarAgendamentos(OrdemServico os, ANS ans, DateTime previsao)
+        {
             if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.SIM)
             {
-                var dataAtendimento = chamado.RelatoriosAtendimento
+                var dataAtendimento = os.RelatoriosAtendimento
                     .OrderByDescending(r => r.DataHoraInicio)
-                    .FirstOrDefault().DataHoraInicio;
+                    .FirstOrDefault()
+                    .DataHoraInicio;
 
-                var agendamento = agendamentos
+                return (dynamic)os
+                    .Agendamentos
                     .Where(a => a.DataAgendamento <= dataAtendimento)
                     .OrderByDescending(a => a.DataAgendamento)
-                    .FirstOrDefault();
-
-                return agendamento.DataAgendamento.Value;
+                    .FirstOrDefault()
+                    .DataAgendamento;
             }
 
             if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.NAO)
             {
-                var agendamento = agendamentos
+                return (dynamic)os
+                    .Agendamentos
                     .OrderByDescending(a => a.DataAgendamento)
-                    .FirstOrDefault();
+                    .FirstOrDefault()
+                    .DataAgendamento;
             }
 
             return previsao;
@@ -94,14 +102,19 @@ namespace SAT.SERVICES.Services
             return previsao;
         }
 
-        private DateTime AplicarFeriados(IEnumerable<SATFeriado> feriados, OrdemServico chamado, ANS ans, DateTime previsao)
+        private DateTime AplicarFeriados(Cidade cidade, ANS ans, DateTime previsao)
         {
-            var feriadosDoDia = feriados.Where(f => f.Data.Date == previsao.Date);
+            var feriados = (dynamic)_feriadoService
+                .ObterPorParametros(new SATFeriadoParameters
+                {
+                    Mes = previsao.Month 
+                })
+                .Items;
 
-            foreach (var f in feriadosDoDia)
+            foreach (var f in feriados)
             {
-                string u = chamado.LocalAtendimento.Cidade.UnidadeFederativa.SiglaUF;
-                string c = StringHelper.RemoverAcentos(chamado.LocalAtendimento.Cidade.NomeCidade);
+                string u = cidade.UnidadeFederativa.SiglaUF;
+                string c = StringHelper.RemoverAcentos(cidade.NomeCidade);
 
                 if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);

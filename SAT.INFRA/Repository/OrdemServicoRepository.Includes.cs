@@ -24,9 +24,8 @@ namespace SAT.INFRA.Repository
                 case (OrdemServicoIncludeEnum.SLA):
                     query = query
                         .Include(os => os.RelatoriosAtendimento)
-                        .Include(os => os.LocalAtendimento)
                         .Include(os => os.LocalAtendimento.Cidade)
-                        .Include(os => os.EquipamentoContrato)
+                        .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
                         .Include(os => os.EquipamentoContrato.ANS);
                     break;
 

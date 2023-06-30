@@ -26,6 +26,10 @@ namespace SAT.UTILS
             try
             {
                 string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/");
+
+                if(!Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);   
+
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
                 FileInfo[] files = dirInfo.GetFiles(query);
 
@@ -57,30 +61,35 @@ namespace SAT.UTILS
             }
         }
 
-        public static void MoverArquivosProcessados()
+        public static void MoverArquivoProcessado(string fileName)
         {
-            string pathInput = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
+            string pathInput = System.AppDomain.CurrentDomain.BaseDirectory + "Input/" + fileName;
             string pathProcessados = System.AppDomain.CurrentDomain.BaseDirectory + "Processados";
 
-            if (Directory.Exists(pathInput))
+            if(!Directory.Exists(pathInput))
+                System.IO.Directory.CreateDirectory(pathInput);   
+
+            if(!Directory.Exists(pathProcessados))
+                System.IO.Directory.CreateDirectory(pathProcessados);   
+
+            foreach (var file in new DirectoryInfo(pathInput).GetFiles())
             {
-                foreach (var file in new DirectoryInfo(pathInput).GetFiles())
-                {
-                    file.MoveTo($@"{pathProcessados}\{file.Name}");
-                }
+                file.MoveTo($@"{pathProcessados}\{file.Name}");
             }
         }
 
-        public static void CompressDirectory(string DirectoryPath, string OutputFilePath, int CompressionLevel = 9, string pattern = "*.pdf")
+        public static void CompressDirectory(string directoryPath, string outputFilePath, int compressionLevel = 9, string pattern = "*.pdf")
         {
             try
             {
-                string[] filenames = Directory.GetFiles(DirectoryPath, "*" + pattern);
+                if(!Directory.Exists(directoryPath))
+                    System.IO.Directory.CreateDirectory(directoryPath);   
 
-                using (ZipOutputStream OutputStream = new ZipOutputStream(File.Create(OutputFilePath)))
+                string[] filenames = Directory.GetFiles(directoryPath, "*" + pattern);
+
+                using (ZipOutputStream OutputStream = new ZipOutputStream(File.Create(outputFilePath)))
                 {
-
-                    OutputStream.SetLevel(CompressionLevel);
+                    OutputStream.SetLevel(compressionLevel);
 
                     byte[] buffer = new byte[4096];
 

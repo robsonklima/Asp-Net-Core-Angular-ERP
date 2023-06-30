@@ -56,8 +56,6 @@ namespace SAT.SERVICES.Services
                 }
                 else
                 {
-                    GenericHelper.MoverArquivosProcessados();
-
                     _logger.Info($"{MsgConst.ENCONTRADOS}: {files.Count()} registros");
 
                     List<OrdemServico> chamadosPerto = new();
@@ -68,6 +66,7 @@ namespace SAT.SERVICES.Services
                         OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
                         OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
                         chamadosPerto.Add(chamadoPerto);
+                        GenericHelper.MoverArquivoProcessado(file);
                     });
 
                     CriarArquivoRetornoAbertura(chamadosPerto);
@@ -158,7 +157,7 @@ namespace SAT.SERVICES.Services
                 string dataHora = DateTime.Now.ToString("ddMMyyyyHHMMsss");
                 string fileName = $"CRM549R.xPerto01.{dataHora}.bco001";
                 string path = System.AppDomain.CurrentDomain.BaseDirectory + "Output" + "/" + fileName;
-
+                
                 using (StreamWriter w = new StreamWriter(path))
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
@@ -175,6 +174,7 @@ namespace SAT.SERVICES.Services
                     });
                 }
 
+                GenericHelper.MoverArquivoProcessado(path);
             }
             catch (Exception ex)
             {

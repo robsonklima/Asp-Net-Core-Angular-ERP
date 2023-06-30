@@ -77,7 +77,7 @@ namespace SAT.SERVICES.Services
         {
             try
             {
-                _mrpLogixService.LimparTabela();
+                _mrpLogixEstoqueService.LimparTabela();
 
                 var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);
 

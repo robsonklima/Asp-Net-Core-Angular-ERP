@@ -51,7 +51,7 @@ namespace SAT.UTILS
 
                 return retorno;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<string>();
             }

@@ -15,7 +15,7 @@ namespace SAT.SERVICES.Services
         public DateTime? CalcularPrazo(int codOS)
         {
             var os = (dynamic)ObterOS(codOS);
-            
+
             if (os is null) return null;
 
             var ans = os.EquipamentoContrato.ANS;
@@ -37,20 +37,49 @@ namespace SAT.SERVICES.Services
 
         private OrdemServico ObterOS(int codOS)
         {
-            var os =  (dynamic)_ordemServicoService
-                .ObterPorParametros(new OrdemServicoParameters 
-                { 
-                    CodOS = codOS.ToString(), 
+            var os = (dynamic)_ordemServicoService
+                .ObterPorParametros(new OrdemServicoParameters
+                {
+                    CodOS = codOS.ToString(),
                     Include = OrdemServicoIncludeEnum.ANS
                 })
                 .Items
                 .FirstOrDefault();
 
             if (os.EquipamentoContrato is null)
+            {
+                _logger.Error($"Chamado { os.codOS } nao possui equipamento");
+
                 return null;
+            }
 
             if (os.EquipamentoContrato.ANS is null)
+            {
+                _logger.Error($"Chamado { os.codOS } nao possui SLA");
+
                 return null;
+            }
+
+            if (os.LocalAtendimento is null)
+            {
+                _logger.Error($"Chamado { os.codOS } nao possui local");
+
+                return null;
+            }
+
+            if (os.LocalAtendimento.Cidade is null)
+            {
+                _logger.Error($"Chamado { os.codOS } nao possui cidade");
+
+                return null;
+            }
+
+            if (os.LocalAtendimento.UnidadeFederativa is null)
+            {
+                _logger.Error($"Chamado { os.codOS } nao possui UF");
+
+                return null;
+            }
 
             return os;
         }
@@ -86,7 +115,7 @@ namespace SAT.SERVICES.Services
 
         private DateTime AplicarJanelaHorarios(DateTime previsao, ANS ans)
         {
-         
+
             if (previsao.DayOfWeek == DayOfWeek.Saturday && ans.Sabado == Constants.NAO)
                 return PularDia(previsao, ans);
 
@@ -107,7 +136,7 @@ namespace SAT.SERVICES.Services
             var feriados = (dynamic)_feriadoService
                 .ObterPorParametros(new SATFeriadoParameters
                 {
-                    Mes = previsao.Month 
+                    Mes = previsao.Month
                 })
                 .Items;
 
@@ -118,13 +147,13 @@ namespace SAT.SERVICES.Services
 
                 if (f.Tipo == FeriadoTipoConst.NACIONAL && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
-                
+
                 if (f.Tipo == FeriadoTipoConst.ESTADUAL && f.UF == u && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
-                
+
                 if (f.Tipo == FeriadoTipoConst.FACULTATIVO && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
-                
+
                 if (f.Tipo == FeriadoTipoConst.MUNICIPAL && f.Municipio == c && f.Data == previsao.Date && ans.Feriado == Constants.NAO)
                     return PularDia(previsao, ans);
             }

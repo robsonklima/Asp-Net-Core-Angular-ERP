@@ -11,16 +11,19 @@ namespace SAT.TASKS
             {
                 var prazo = _ansService.CalcularPrazo(chamado);
 
-                if (prazo is null)
-                    _logger.Error($"{ MsgConst.SLA_NAO_CALCULADO } { chamado.CodOS }");    
-
-                _prazoAtendimentoService.Criar(new OSPrazoAtendimento {
-                    DataHoraCad = DateTime.Now,
-                    DataHoraLimiteAtendimento = prazo,
-                    CodOS = chamado.CodOS
-                });
-
-                _logger.Info($"{ MsgConst.SLA_CALCULADO } { chamado.CodOS }: { prazo }");
+                if (prazo is not null)
+                {
+                    _prazoAtendimentoService.Criar(new OSPrazoAtendimento
+                    {
+                        DataHoraCad = DateTime.Now,
+                        DataHoraLimiteAtendimento = prazo,
+                        CodOS = chamado.CodOS
+                    });
+                    
+                    _logger.Info($"{MsgConst.SLA_CALCULADO} {chamado.CodOS}: {prazo}");
+                }
+                else
+                    _logger.Error($"{MsgConst.SLA_NAO_CALCULADO} {chamado.CodOS}");
             }
         }
     }

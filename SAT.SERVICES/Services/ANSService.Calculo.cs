@@ -14,16 +14,11 @@ namespace SAT.SERVICES.Services
         public DateTime? CalcularPrazo(OrdemServico chamado)
         {
             var ans = chamado?.EquipamentoContrato?.ANS;
-            DateTime previsao = chamado.DataHoraAberturaOS.Value;
+            DateTime previsao = chamado.DataHoraCad ?? chamado.DataHoraAberturaOS.Value;
 
             if (ans is null) return null;
 
-            var agendamento = chamado.Agendamentos
-                .OrderBy(a => a.DataAgendamento)
-                .FirstOrDefault();
-
-            if (ans.PermiteAgendamento == Constants.SIM && agendamento is not null)
-                previsao = agendamento.DataAgendamento.Value;
+            previsao = AplicarAgendamentos(chamado, ans, previsao);
 
             var feriados = (dynamic)_feriadoService
                 .ObterPorParametros(new SATFeriadoParameters{ Mes = previsao.Month })
@@ -38,6 +33,35 @@ namespace SAT.SERVICES.Services
 
             if (ans.ArredondaHoraFinal == Constants.SIM)
                 previsao = previsao.Date + new TimeSpan(ans.HoraFim.Hours, ans.HoraFim.Minutes, ans.HoraFim.Seconds);
+
+            return previsao;
+        }
+
+        private DateTime AplicarAgendamentos(OrdemServico chamado, ANS ans, DateTime previsao)
+        {
+            var agendamentos = chamado.Agendamentos
+                .OrderByDescending(a => a.DataAgendamento);
+
+            if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.SIM)
+            {
+                var dataAtendimento = chamado.RelatoriosAtendimento
+                    .OrderByDescending(r => r.DataHoraInicio)
+                    .FirstOrDefault().DataHoraInicio;
+
+                var agendamento = agendamentos
+                    .Where(a => a.DataAgendamento <= dataAtendimento)
+                    .OrderByDescending(a => a.DataAgendamento)
+                    .FirstOrDefault();
+
+                return agendamento.DataAgendamento.Value;
+            }
+
+            if (ans.PermiteAgendamento == Constants.SIM && ans.PermiteAgendamentoAtePrimeiraRAT == Constants.NAO)
+            {
+                var agendamento = agendamentos
+                    .OrderByDescending(a => a.DataAgendamento)
+                    .FirstOrDefault();
+            }
 
             return previsao;
         }

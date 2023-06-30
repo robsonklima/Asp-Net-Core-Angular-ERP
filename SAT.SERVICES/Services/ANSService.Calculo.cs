@@ -4,6 +4,7 @@ using System.Linq;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Enums;
 using SAT.SERVICES.Interfaces;
 using SAT.UTILS;
 
@@ -13,7 +14,12 @@ namespace SAT.SERVICES.Services
     {
         public DateTime? CalcularPrazo(int codOS)
         {
-            var chamadoParams = new OrdemServicoParameters { CodOS = codOS.ToString() };
+            var chamadoParams = new OrdemServicoParameters 
+                { 
+                    CodOS = codOS.ToString(), 
+                    Include = OrdemServicoIncludeEnum.SLA
+                };
+                
             var chamado = (dynamic)_ordemServicoService
                 .ObterPorParametros(chamadoParams)
                 .Items

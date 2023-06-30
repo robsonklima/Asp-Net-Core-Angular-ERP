@@ -18,6 +18,7 @@ namespace SAT.MODELS.Entities
         public DateTime DataCadastro { get; set; }
         public string CodUsuarioCad { get; set; }
         public string ArredondaHoraFinal { get; set; }
+        public string HorasUteis { get; set; }
     }
 }
 

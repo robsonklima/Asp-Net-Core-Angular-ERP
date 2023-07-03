@@ -145,6 +145,9 @@
                                 </div>
 
                                 <div>
+                                </div>
+
+                                <div>
                                     {{ t('anexos') }}
                                 </div>
                             </div>
@@ -216,6 +219,14 @@
                                             <button class="ml-2" (click)="abrirRessalvas(data.codInstalacao)">
                                                 <mat-icon mat-icon-button matTooltip="{{ t('ressalvas') }}"
                                                     [svgIcon]="'heroicons_outline:clipboard'">
+                                                </mat-icon>
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <button class="ml-2" (click)="excluir(data.codInstalacao)">
+                                                <mat-icon mat-icon-button matTooltip="{{ t('excluir') }}"
+                                                    [svgIcon]="'heroicons_outline:trash'">
                                                 </mat-icon>
                                             </button>
                                         </div>

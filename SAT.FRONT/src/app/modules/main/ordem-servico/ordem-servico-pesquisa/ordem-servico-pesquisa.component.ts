@@ -109,8 +109,8 @@ export class OrdemServicoPesquisaComponent implements OnInit, OnDestroy {
 			this._snack.exibirToast('Favor informar sua pesquisa', 'warning');
 			return;
 		}
-
-		this.obterChamados();
+		else
+			this.obterChamados();
 	}
 
 	async obterClientes(filtro: string = '') {

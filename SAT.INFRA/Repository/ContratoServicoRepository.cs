@@ -38,15 +38,8 @@ namespace SAT.INFRA.Repository
 
         public void Criar(ContratoServico contratoServico)
         {
-            try
-            {
-                _context.Add(contratoServico);
-                _context.SaveChanges();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Add(contratoServico);
+            _context.SaveChanges();
         }
 
         public void Deletar(int codContratoServico)

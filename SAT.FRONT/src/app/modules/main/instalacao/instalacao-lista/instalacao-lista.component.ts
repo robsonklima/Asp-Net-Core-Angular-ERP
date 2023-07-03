@@ -35,7 +35,7 @@ import { InstalacaoPleitoInstalService } from 'app/core/services/instalacao-plei
   templateUrl: './instalacao-lista.component.html',
   styles: [`
     .list-grid-instalacao {
-        grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 56px 56px;
+        grid-template-columns: 36px 36px 160px 120px 64px auto 36px 120px 100px 120px 120px 72px 72px 72px 72px;
     }
   `],
   encapsulation: ViewEncapsulation.None,
@@ -324,6 +324,28 @@ export class InstalacaoListaComponent extends Filterable implements AfterViewIni
       width: '960px',
       height: '600px'
     });
+  }
+  excluir(codInstalacao: number){
+    const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
+      data: {
+          titulo: 'Confirmação',
+          message: 'Deseja excluir esta linha?',
+          buttonText: {
+              ok: 'Sim',
+              cancel: 'Não'
+          }
+        }
+      });
+  
+    dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+      if (confirmacao) {
+          this._instalacaoSvc.deletar(codInstalacao).subscribe(() =>{
+              this._snack.exibirToast("Linha excluída com sucesso!", "success");
+          });
+
+          this.ngAfterViewInit();
+        }
+      });
   }
 
   abrirPaginaAnexo(instalacao: Instalacao) {

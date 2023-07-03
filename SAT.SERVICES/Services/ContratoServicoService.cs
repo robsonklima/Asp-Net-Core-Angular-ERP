@@ -25,11 +25,11 @@ namespace SAT.SERVICES.Services
             _contratoServicoRepo.Atualizar(contratoServico);
         }
 
-        public void Criar(ContratoServico contratoServico)
+        public ContratoServico Criar(ContratoServico contratoServico)
         {
             contratoServico.CodContratoServico = _sequenciaRepo.ObterContador("ContratoServico");
-            
             _contratoServicoRepo.Criar(contratoServico);
+            return contratoServico;
         }
 
         public void Deletar(int codContratoServico)

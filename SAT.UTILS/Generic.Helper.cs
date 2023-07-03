@@ -46,7 +46,7 @@ namespace SAT.UTILS
                     {
                         string linha = String.Empty;
 
-                        while ((linha = sr.ReadLine()) is not null)
+                        while ((linha = sr.ReadLine()!) is not null)
                         {
                             retorno.Add(linha);
                         }

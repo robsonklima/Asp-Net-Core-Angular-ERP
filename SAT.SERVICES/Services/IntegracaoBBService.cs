@@ -11,6 +11,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
 using NLog;
 using SAT.MODELS.Views;
+using SAT.UTILS;
 
 namespace SAT.SERVICES.Services
 {
@@ -40,21 +41,22 @@ namespace SAT.SERVICES.Services
 
         public void Processar()
         {
-            _logger.Info($"{ MsgConst.INI_PROC } { Constants.INTEGRACAO_BB }");
+            _logger.Info($"{MsgConst.INI_PROC} {Constants.INTEGRACAO_BB}");
 
             try
             {
-                List<string> files = LerDiretorioInput();
+                List<string> files = GenericHelper
+                    .LerDiretorioInput("*crm549*")
+                    .Where(f => f[0] == '1')
+                    .ToList();
 
                 if (files is null)
                 {
-                    _logger.Info(MsgConst.NENHUM_REGISTRO_ENCONTRADO);    
-                } 
+                    _logger.Info(MsgConst.NENHUM_REGISTRO_ENCONTRADO);
+                }
                 else
                 {
-                    MoverArquivosProcessados();
-
-                    _logger.Info($"{ MsgConst.ENCONTRADOS }: { files.Count() } registros");
+                    _logger.Info($"{MsgConst.ENCONTRADOS}: {files.Count()} registros");
 
                     List<OrdemServico> chamadosPerto = new();
 
@@ -64,6 +66,7 @@ namespace SAT.SERVICES.Services
                         OrdemServicoBB chamadoCliente = ExtrairChamadoArquivoAbertura(conteudoNormalizado);
                         OrdemServico chamadoPerto = AbrirChamadoPerto(chamadoCliente);
                         chamadosPerto.Add(chamadoPerto);
+                        GenericHelper.MoverArquivoProcessado(file);
                     });
 
                     CriarArquivoRetornoAbertura(chamadosPerto);
@@ -75,67 +78,8 @@ namespace SAT.SERVICES.Services
             {
                 _logger.Error(ex.Message);
             }
-            
-            _logger.Info($"{ MsgConst.FIN_PROC } { Constants.INTEGRACAO_BB }");
-        }
 
-        private void MoverArquivosProcessados()
-        {
-            string pathInput = System.AppDomain.CurrentDomain.BaseDirectory + "Input";
-            string pathProcessados = System.AppDomain.CurrentDomain.BaseDirectory + "Processados";
-
-            if (Directory.Exists(pathInput))
-{
-            foreach (var file in new DirectoryInfo(pathInput).GetFiles())
-            {
-                file.MoveTo($@"{pathProcessados}\{file.Name}");
-            }
-        }
-        }
-
-        private List<string> LerDiretorioInput()
-        {
-            try
-            {
-                string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/");
-                DirectoryInfo dirInfo = new DirectoryInfo(path);
-                FileInfo[] files = dirInfo.GetFiles("*crm549*");
-
-                //.Where(el => el.Name.Contains("crm549."))
-
-                if (files.Count() == 0)
-                    return new List<string>();
-
-                List<string> retorno = new();
-                
-                foreach (FileInfo file in files)
-                {
-                    using (StreamReader sr = File.OpenText(file.Name))
-                    {
-                        string linha = String.Empty;
-
-                        while ((linha = sr.ReadLine()) is not null)
-                        {
-                            char primeiroCaractere = linha[0];
-
-                            if (primeiroCaractere == '1')
-                            {
-                                retorno.Add(linha);
-
-                                _logger.Info(MsgConst.LENDO_LINHA);
-                            }
-                        }
-                    }
-                }
-
-                return retorno;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-
-                return new List<string>();
-            }
+            _logger.Info($"{MsgConst.FIN_PROC} {Constants.INTEGRACAO_BB}");
         }
 
         private OrdemServicoBB ExtrairChamadoArquivoAbertura(string conteudo)
@@ -230,6 +174,7 @@ namespace SAT.SERVICES.Services
                     });
                 }
 
+                GenericHelper.MoverArquivoProcessado(path);
             }
             catch (Exception ex)
             {
@@ -292,7 +237,7 @@ namespace SAT.SERVICES.Services
 
             string retorno = @$"000000000000000{hora}CRM558A400306444                                                                                 {data}00001";
 
-            _logger.Info($"{ MsgConst.FIN_CAB_FECH }");
+            _logger.Info($"{MsgConst.FIN_CAB_FECH}");
 
             return retorno;
         }

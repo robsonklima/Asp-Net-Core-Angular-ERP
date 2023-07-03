@@ -72,7 +72,7 @@ namespace SAT.INFRA.Repository
                 query = query.Where(f => f.Data.Month == parameters.Mes.Value);         
             
             if (!string.IsNullOrWhiteSpace(parameters.Municipio))
-                query = query.Where(f => f.Municipio.Contains(parameters.Municipio));
+                query = query.Where(f => StringHelper.RemoverAcentos(f.Municipio.ToLower()) == StringHelper.RemoverAcentos((parameters.Municipio.ToLower())));
 
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {

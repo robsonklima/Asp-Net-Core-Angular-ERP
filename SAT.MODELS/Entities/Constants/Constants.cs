@@ -162,6 +162,10 @@ namespace SAT.MODELS.Entities.Constants
         // Permissoes
         public static string NENHUM_REGISTRO = "S/N";
 
+        // Arquivos Logix
+        public static string PEDIDOS_PENDENTES = "pedidos_pendentes.unl";
+        public static string ESTOQUE_LOTE = "estoque_lote.unl";
+
         // Sim e Nao
         public static string SIM = "SIM";
         public static string NAO = "NAO";

@@ -21,6 +21,14 @@ namespace SAT.INFRA.Repository
                             .ThenInclude(os => os.Fotos);
                     break;
 
+                case (OrdemServicoIncludeEnum.SLA):
+                    query = query
+                        .Include(os => os.RelatoriosAtendimento)
+                        .Include(os => os.LocalAtendimento.Cidade)
+                        .Include(os => os.LocalAtendimento.Cidade.UnidadeFederativa)
+                        .Include(os => os.EquipamentoContrato.ANS);
+                    break;
+
                 case (OrdemServicoIncludeEnum.OS_PECAS):
                     query = query
                         .Include(os => os.Filial)

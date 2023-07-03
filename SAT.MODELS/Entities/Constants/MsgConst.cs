@@ -39,5 +39,6 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string TASK_CRIADA = "Task criada com sucesso";
         public static readonly string SLA_NAO_ENCONTRADO_INF_EC = "SLA nao encontrado, informar equipamento contrato";
         public static readonly string SLA_CALCULADO = "SLA calculado com sucesso para o chamado";
+        public static readonly string SLA_NAO_CALCULADO = "Nao foi possivel calcular o SLA para o chamado";
     }
 }

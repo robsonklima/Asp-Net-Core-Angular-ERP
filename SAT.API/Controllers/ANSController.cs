@@ -28,9 +28,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet("{CodANS}")]
-        public ANS Get(int codigo)
+        public ANS Get(int CodANS)
         {
-            return _ansService.ObterPorCodigo(codigo);
+            return _ansService.ObterPorCodigo(CodANS);
         }
 
         [HttpPost]
@@ -46,9 +46,9 @@ namespace SAT.API.Controllers
         }
 
         [HttpDelete("{CodANS}")]
-        public void Delete(int codigo)
+        public void Delete(int CodANS)
         {
-            _ansService.Deletar(codigo);
+            _ansService.Deletar(CodANS);
         }
     }
 }

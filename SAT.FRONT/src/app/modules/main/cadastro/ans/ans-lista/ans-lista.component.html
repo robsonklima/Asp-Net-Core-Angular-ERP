@@ -11,7 +11,7 @@
                 <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
             </div>
 
-            <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('acoes') }}</div>
+            <div class="text-3xl font-extrabold tracking-tight" *transloco="let t">{{ t('sla') }}</div>
 
             <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                 <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript min-w-50">
@@ -49,6 +49,10 @@
                                 <div [mat-sort-header]="'nomeANS'">
                                     {{ t('nome') }}
                                 </div>
+
+                                <div [mat-sort-header]="'descANS'">
+                                    {{ t('descricao') }}
+                                </div>
                             </div>
 
                             <ng-container>
@@ -61,7 +65,11 @@
                                             </div>
 
                                             <div class="truncate">
-                                                {{ ans.nomeANS | titlecase }}
+                                                {{ ans.nomeANS }}
+                                            </div>
+
+                                            <div class="truncate">
+                                                {{ ans.descANS }}
                                             </div>
                                         </div>
                                     </a>

@@ -1,1 +1,121 @@
-<p>ans-form works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/ans">
+                        {{ t('sla') }}
+                    </a>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codANS }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('sla') }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('informacoes principais') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
+                        <mat-label>{{ t('nome') }}</mat-label>
+                        <input matInput formControlName="nomeANS" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                        <mat-error>
+                            {{ t('preencher campo') }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora inicial') }}</mat-label>
+                        <input matInput formControlName="horaInicio" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('hora final') }}</mat-label>
+                        <input matInput formControlName="horaFim" mask="00:00" [showMaskTyped]="true"
+                            [dropSpecialCharacters]="false" required>
+                        <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:clock'">
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                        <mat-label>{{ t('descricao') }}</mat-label>
+                        <textarea matInput formControlName="descANS" [placeholder]="t('descricao')" [rows]="3"
+                            maxlength="1000"></textarea>
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="fuse-mat-textarea fuse-mat-dense sm:col-span-3">
+                        <mat-label>{{ t('tempo em horas') }}</mat-label>
+                        <input matInput formControlName="tempoHoras" type="number" required>
+                    </mat-form-field>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('dias da semana') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                        <div><mat-checkbox formControlName="sabado">Sábado</mat-checkbox></div>
+                        <div><mat-checkbox formControlName="domingo">Domingo</mat-checkbox></div>
+                        <div><mat-checkbox formControlName="feriado">Feriado</mat-checkbox></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('agendamento') }}</p>
+                </div>
+
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <div class="fuse-mat-textarea fuse-mat-dense sm:col-span-12">
+                        <div><mat-checkbox formControlName="permiteAgendamento">Permite Agendamento</mat-checkbox></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+                    <button [routerLink]="['/ans']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

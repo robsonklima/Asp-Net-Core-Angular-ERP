@@ -45,33 +45,23 @@
                             <div class="md:block" [mat-sort-header]="'nomeFeriado'">
                                 {{ t('nome') }}
                             </div>
+
                             <div [mat-sort-header]="'data'">
                                 {{ t('data') }}
-                            </div>
-                            <div>
-                                {{ t('unidade federativa') }}
-                            </div>
-                            <div>
-                                {{ t('cidade') }}
                             </div>
                         </div>
 
                         <ng-container>
-                            <ng-container *ngFor="let feri of dataSourceData?.items">
-                                <a [routerLink]="['/feriado/form/' + feri.codFeriado]">
+                            <ng-container *ngFor="let f of dataSourceData?.items">
+                                <a [routerLink]="['/feriado/form/' + f.codFeriado]">
                                     <div
                                         class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
                                         <div class="flex items-center">
-                                            {{ feri.nomeFeriado || t('nao informado') | titlecase }}
+                                            {{ f.nomeFeriado || t('nao informado') | titlecase }}
                                         </div>
+
                                         <div class="truncate">
-                                            {{ feri.data | date:'dd/MM/yyyy' || t('nao informado') }}
-                                        </div>
-                                        <div class="truncate">
-                                            {{ feri.unidadeFederativa?.siglaUF || t('nao informado') }}
-                                        </div>
-                                        <div class="truncate">
-                                            {{ feri.cidade?.nomeCidade || t('nao informado') | titlecase }}
+                                            {{ f.data | date:'dd/MM/yyyy' || t('nao informado') }}
                                         </div>
                                     </div>
                                 </a>

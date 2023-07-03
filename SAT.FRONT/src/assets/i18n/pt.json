@@ -1,5 +1,6 @@
 {
     "bem vindo": "Bem vindo",
+    "dias da semana": "Dias da semana",
     "lista": "Lista",
     "projeto": "Projeto",
     "analise": "Análise",
@@ -156,6 +157,7 @@
     "pais": "País",
     "unidade federativa": "UF",
     "cidade": "Cidade",
+    "tempo em horas": "Tempo em Horas",
     "tipo rota": "Tipo Rota",
     "latitude": "Latitude",
     "longitude": "Longitude",

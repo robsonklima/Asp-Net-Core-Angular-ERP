@@ -162,15 +162,12 @@ namespace SAT.SERVICES.Services
                 {
                     string cabecalho = MontarCabecalhoArquivoAbertura(chamados);
                     w.WriteLine(cabecalho);
-                    _logger.Info(MsgConst.AD_CABECALHO);
 
                     chamados.ForEach(chamado =>
                     {
                         string linha = MontarLinhaArquivoAbertura(chamado);
 
                         w.WriteLine(linha);
-
-                        _logger.Info(MsgConst.AD_LINHA);
                     });
                 }
 

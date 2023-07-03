@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
     {
         ListViewModel ObterPorParametros(ContratoServicoParameters parameters);
         ContratoServico ObterPorCodigo(int codContratoServico);
-        void Criar(ContratoServico contratoServico);
+        ContratoServico Criar(ContratoServico contratoServico);
         void Deletar(int codigoContratoServico);
         void Atualizar(ContratoServico contratoServico);
 

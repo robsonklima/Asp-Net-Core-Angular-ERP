@@ -13,7 +13,7 @@ public partial class Worker : BackgroundService
         {
             try
             {
-                IniciarPlaygroundAsync();
+                //IniciarPlaygroundAsync();
 
                 var tipos = (List<SatTaskTipo>)_taskTipoService
                     .ObterPorParametros(new SatTaskTipoParameters { IndAtivo = (byte)Constants.ATIVO })

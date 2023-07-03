@@ -174,7 +174,7 @@ namespace SAT.SERVICES.Services
                         w.WriteLine(linha);
                     });
                 }
-
+                
                 GenericHelper.MoverArquivoProcessado(path);
             }
             catch (Exception ex)

@@ -23,7 +23,7 @@ namespace SAT.TASKS
                         .Items?
                         .FirstOrDefault()!;
 
-                    if (task.DataHoraProcessamento!.Value.AddMinutes(tipo.TempoRepeticaoMinutos) < DateTime.Now && tipo.Inicio <= DateTime.Now.TimeOfDay && tipo.Fim >= DateTime.Now.TimeOfDay)
+                    if (deveCriar(task, tipo))
                     {
                         var novaTask = _taskService.Criar(new SatTask
                         {
@@ -42,6 +42,16 @@ namespace SAT.TASKS
             }
 
             _logger.Info(MsgConst.FIN_PROC_FILA);
+        }
+
+        private bool deveCriar(SatTask task, SatTaskTipo tipo)
+        {
+            var dataHrAtual = DateTime.Now;
+            var daHrProc = task.DataHoraProcessamento!.Value;
+            var dataHrProcTipo = daHrProc.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
+            var tempoAtual = DateTime.Now.TimeOfDay;
+
+            return dataHrProcTipo < dataHrAtual && tempoAtual >= tipo.Inicio && tempoAtual <= tipo.Fim;
         }
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)

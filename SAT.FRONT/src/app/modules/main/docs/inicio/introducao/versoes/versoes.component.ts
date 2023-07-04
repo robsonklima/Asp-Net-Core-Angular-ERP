@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import versoes from './data/versions.data.json';
 
 
@@ -6,15 +6,10 @@ import versoes from './data/versions.data.json';
     selector: 'versoes',
     templateUrl: './versoes.component.html'
 })
-export class VersoesComponent implements OnInit {
+export class VersoesComponent {
     versoes: any[] = [];
     
     constructor () {
         this.versoes = versoes;
-    }
-
-    async ngOnInit()
-    {
-        
     }
 }

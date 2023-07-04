@@ -16,13 +16,19 @@ public partial class Worker : BackgroundService
                 IniciarPlaygroundAsync();
 
                 var tipos = (List<SatTaskTipo>)_taskTipoService
-                    .ObterPorParametros(new SatTaskTipoParameters { IndAtivo = (byte)Constants.ATIVO })
+                    .ObterPorParametros(new SatTaskTipoParameters
+                    { 
+                        IndAtivo = (byte)Constants.ATIVO
+                    })
                     .Items;
 
                 CriarFilaTasks(tipos);
 
                 var tasks = (IEnumerable<SatTask>)_taskService
-                    .ObterPorParametros(new SatTaskParameters { Status = SatTaskStatusConst.PENDENTE })
+                    .ObterPorParametros(new SatTaskParameters
+                    {
+                        Status = SatTaskStatusConst.PENDENTE
+                    })
                     .Items;
 
                 await ProcessarFilaTasksAsync(tasks);
@@ -30,7 +36,7 @@ public partial class Worker : BackgroundService
             catch (Exception ex)
             {
                 _logger.Error()
-                    .Message(ex.Message)
+                    .Message($"{ ex.Message }")
                     .Property("application", Constants.SISTEMA_CAMADA_TASKS)
                     .Write();
             }

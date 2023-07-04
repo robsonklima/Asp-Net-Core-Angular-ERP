@@ -1,0 +1,3957 @@
+[
+    {
+        "codSatVersao": 1,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 1,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 2,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 3,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 4,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 5,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 6,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 7,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 8,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 2,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 9,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 3,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 10,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 3,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 11,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 4,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 12,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 4,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 13,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 5,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 14,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 5,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 15,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 5,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 16,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 5,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 17,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 6,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 18,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 6,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 19,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 6,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 20,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 7,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 21,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 7,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 22,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 8,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 23,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 8,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 24,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 9,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 25,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 9,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 26,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 10,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 27,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 11,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 28,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 11,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 29,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 11,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 30,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 11,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 31,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 11,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 32,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 12,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 33,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 12,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 34,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 12,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 35,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 13,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 36,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 13,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 37,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 13,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 38,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 13,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 39,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 14,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 40,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 14,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 41,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 16,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 43,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 16,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 44,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 17,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 45,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 17,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 46,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 17,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 47,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 18,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 48,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 18,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 49,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 19,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 50,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 19,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 51,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 19,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 52,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 20,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 53,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 20,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 54,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 21,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 55,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 21,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 56,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 22,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 57,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 22,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 58,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 23,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 59,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 23,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 60,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 61,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 62,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 63,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 64,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 65,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 24,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 66,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 25,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 67,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 25,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 68,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 25,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 69,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 26,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 70,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 26,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 71,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 26,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 72,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 26,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 73,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 26,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 74,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 27,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 75,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 27,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 76,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 28,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 77,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 28,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 78,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 29,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 79,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 30,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 80,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 30,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 81,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 31,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 82,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 32,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 83,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 33,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 84,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 34,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 85,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 35,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 86,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 36,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 87,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 36,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 88,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 36,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 89,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 37,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 90,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 38,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 91,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 39,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 92,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 93,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 94,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 95,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 96,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 97,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 98,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 99,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 40,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 100,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 42,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 101,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 43,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 102,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 44,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 103,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 44,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 104,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 44,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 105,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 45,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 106,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 46,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 107,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 47,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 108,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 47,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 109,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 48,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 110,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 48,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 111,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 48,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 112,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 49,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 114,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 50,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 115,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 50,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 117,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 51,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 118,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 52,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 119,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 53,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 120,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 54,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 121,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 122,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 123,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 124,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 125,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 126,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 127,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 55,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 128,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 56,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 129,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 56,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 130,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 57,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 131,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 59,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 134,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 59,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 135,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 59,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 136,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 59,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 137,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 59,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 138,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 60,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 139,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 61,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 140,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 61,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 141,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 62,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 142,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 63,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 143,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 63,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 144,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 64,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 145,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 64,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 146,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 65,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 147,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 65,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 148,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 66,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 149,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 67,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 150,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 67,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 151,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 68,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 152,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 68,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 153,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 69,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 154,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 70,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 155,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 71,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 156,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 72,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 157,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 73,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 158,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 74,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 159,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 75,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 160,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 76,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 161,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 77,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 162,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 78,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 163,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 79,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 164,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 79,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 165,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 80,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 166,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 80,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 167,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 81,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 168,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 81,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 169,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 81,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 170,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 82,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 171,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 83,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 173,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 84,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 176,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 85,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 177,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 85,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 178,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 86,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 179,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 87,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 180,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 88,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 181,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 88,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 182,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 89,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 183,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 89,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 184,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 90,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 185,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 91,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 186,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 92,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 187,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 93,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 188,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 94,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 189,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 95,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 190,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 96,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 191,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 97,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 192,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 97,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 193,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 97,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 194,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 98,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 195,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 99,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 196,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 99,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 197,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 99,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 198,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 100,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 199,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 101,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 200,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 102,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 201,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 103,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 202,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 104,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 203,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 104,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 204,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 104,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 205,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 104,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 206,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 105,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 207,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 106,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 208,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 107,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 209,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 108,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 210,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 109,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 211,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 110,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 212,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 111,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 213,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 215,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 216,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 217,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 218,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 219,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 112,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 220,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 113,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 221,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 113,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 222,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 113,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 223,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 114,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 224,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 114,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 225,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 115,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 226,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 116,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 227,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 116,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 228,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 117,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 229,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 118,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 230,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 118,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 231,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 119,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 232,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 119,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 233,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 234,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 235,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 236,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 237,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 238,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 239,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 240,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 120,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 241,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 121,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 242,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 121,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 243,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 121,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 244,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 122,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 245,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 123,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 246,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 123,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 247,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 123,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 248,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 124,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 249,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 124,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 250,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 124,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 251,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 125,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 252,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 125,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 253,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 126,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 254,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 126,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 255,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 126,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 256,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 127,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 257,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 129,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 258,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 259,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 260,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 261,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 262,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 263,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 264,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 130,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 265,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 266,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 267,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 268,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 269,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 270,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 271,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 131,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 272,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 132,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 273,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 274,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 275,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 276,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 277,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 278,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 279,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 280,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 281,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 133,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 282,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 134,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 283,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 134,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 284,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 135,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 285,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 135,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 286,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 135,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 287,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 136,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 288,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 137,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 289,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 137,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 290,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 137,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 291,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 138,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 292,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 139,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 293,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 140,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 294,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 141,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 295,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 141,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 296,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 142,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 297,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 142,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 298,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 142,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 299,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 142,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 300,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 143,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 301,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 143,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 302,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 143,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 303,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 143,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 304,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 144,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 305,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 144,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 306,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 144,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 307,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 145,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 308,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 145,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 309,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 146,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 310,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 146,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 311,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 147,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 312,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 147,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 313,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 148,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 314,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 149,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 315,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 149,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 316,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 149,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 317,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 150,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 318,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 150,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 319,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 150,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 320,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 151,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 321,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 152,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 322,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 152,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 323,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 153,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 324,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 153,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 325,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 153,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 326,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 154,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 327,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 155,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 328,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 155,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 329,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 155,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 330,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 156,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 331,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 157,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 332,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 157,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 333,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 158,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 334,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 159,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 335,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 160,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 336,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 160,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 337,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 161,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 338,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 162,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 339,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 162,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 340,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 162,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 341,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 162,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 342,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 163,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 343,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 164,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 344,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 165,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 345,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 165,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 346,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 165,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 347,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 165,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 348,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 166,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 349,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 167,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 350,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 167,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 351,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 167,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 352,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 167,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 353,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 168,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 354,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 168,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 355,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 168,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 356,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 169,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 357,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 170,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 358,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 170,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 359,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 170,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 360,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 170,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 361,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 170,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 362,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 171,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 363,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 171,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 364,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 172,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 365,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 173,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 366,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 173,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 367,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 174,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 368,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 174,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 369,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 175,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 370,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 176,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 371,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 177,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 372,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 178,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 373,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 179,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 374,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 179,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 375,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 179,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 376,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 179,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 377,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 180,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 378,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 180,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 379,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 181,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 380,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 181,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 381,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 182,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 382,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 183,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 383,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 184,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 384,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 184,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 385,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 386,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 387,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 388,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 389,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 390,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 391,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 185,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 392,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 186,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 393,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 186,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 394,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 186,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 395,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 187,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 396,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 188,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 397,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 188,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 398,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 189,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 399,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 190,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 400,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 191,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 401,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 192,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 402,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 192,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 403,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 193,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 404,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 194,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 405,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 195,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 406,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 196,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 407,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 197,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 408,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 197,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 409,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 198,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 410,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 199,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 411,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 200,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 412,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 201,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 413,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 202,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 414,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 203,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 415,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 203,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 416,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 204,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 417,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 204,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 418,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 205,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 419,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 206,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 420,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 206,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 421,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 206,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 422,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 206,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 423,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 207,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 424,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 208,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 425,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 209,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 426,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 210,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 427,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 211,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 428,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 212,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 429,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 213,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 430,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 213,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 431,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 214,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 432,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 215,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 433,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 215,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 434,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 216,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 435,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 217,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 436,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 218,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 437,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 219,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 438,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 220,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 439,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 221,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 440,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 221,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 441,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 222,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 442,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 222,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 443,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 222,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 444,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 222,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 445,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 224,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 450,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 224,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 451,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 224,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 452,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 224,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 453,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 225,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 454,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 225,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 455,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 226,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 456,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 227,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 457,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 227,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 458,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 227,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 459,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 227,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 460,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 228,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 461,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 228,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 462,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 228,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 463,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 229,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 464,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 229,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 465,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 229,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 466,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 230,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 467,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 230,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 468,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 230,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 469,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 231,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 470,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 232,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 471,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 233,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 472,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 233,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 473,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 234,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 474,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 234,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 475,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 235,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 476,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 236,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 477,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 237,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 478,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 238,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 479,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 238,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 480,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 481,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 482,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 483,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 484,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 485,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 486,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 239,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 487,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 241,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 496,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 242,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 497,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 242,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 498,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 243,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 499,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 243,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 500,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 243,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 501,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 244,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 502,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 244,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 503,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 245,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 504,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 245,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 505,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 246,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 506,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 246,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 507,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 246,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 508,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 247,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 509,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 248,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 510,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 248,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 511,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 249,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 512,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 250,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 513,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 251,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 514,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 252,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 515,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 253,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 516,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 254,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 517,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 255,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 518,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 256,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 519,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 257,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 520,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 257,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 521,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 257,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 522,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 258,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 523,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 259,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 524,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 260,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 525,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 261,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 526,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 262,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 529,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 263,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 530,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 264,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 531,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 265,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 532,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 266,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 533,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 267,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 534,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 268,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 535,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 269,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 536,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 270,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 537,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 271,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 538,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 271,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 539,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 273,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 540,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 274,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 541,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 275,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 542,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 275,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 543,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 276,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 544,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 276,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 545,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 276,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 546,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 276,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 547,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 278,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 548,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 278,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 549,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 278,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 550,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 278,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 551,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 278,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 552,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 279,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 553,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 279,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 554,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 280,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 555,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 281,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 556,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 282,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 557,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 283,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 558,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 283,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 559,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 284,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 560,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 284,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 561,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 285,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 562,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 285,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 563,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 286,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 564,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 287,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 565,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 288,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 566,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 289,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 567,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 290,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 568,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 290,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 569,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 291,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 570,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 291,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 571,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 292,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 572,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 292,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 573,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 292,
+        "nome": "Adição",
+        "dataHoraCad": "2022-01-27 09:41:24.207",
+        "codSatVersaoAlteracao": 574,
+        "codSatVersaoAlteracaoTipo": 1
+    },
+    {
+        "codSatVersao": 293,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 575,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 294,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 576,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 295,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 577,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 296,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 578,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 297,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 579,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 297,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 580,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 297,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 581,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 297,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 582,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 299,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 583,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 300,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 584,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 301,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 585,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 302,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 586,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 303,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 587,
+        "codSatVersaoAlteracaoTipo": 2
+    },
+    {
+        "codSatVersao": 303,
+        "nome": "Correção",
+        "dataHoraCad": "2022-01-27 09:41:30.483",
+        "codSatVersaoAlteracao": 588,
+        "codSatVersaoAlteracaoTipo": 2
+    }
+]

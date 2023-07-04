@@ -8,8 +8,6 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        #region Criacao da fila
-
         private void CriarFilaTasks(List<SatTaskTipo> tipos)
         {
             _logger.Info(MsgConst.INI_PROC_FILA);
@@ -19,13 +17,13 @@ namespace SAT.TASKS
                 foreach (var tipo in tipos)
                 {
                     SatTask task = (SatTask)_taskService
-                        .ObterPorParametros(new SatTaskParameters { CodSatTaskTipo = tipo.CodSatTaskTipo })
+                        .ObterPorParametros(new SatTaskParameters { 
+                            CodSatTaskTipo = tipo.CodSatTaskTipo
+                        })
                         .Items?
                         .FirstOrDefault()!;
 
-                    var dCriar = deveCriar(task);
-
-                    if (dCriar)
+                    if (task.DataHoraProcessamento!.Value.AddMinutes(tipo.TempoRepeticaoMinutos) < DateTime.Now)
                     {
                         var novaTask = _taskService.Criar(new SatTask
                         {
@@ -56,10 +54,6 @@ namespace SAT.TASKS
 
             return ObterPermissao(task);
         }
-
-        #endregion
-
-        #region Processamento da fila
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
         {
@@ -158,10 +152,6 @@ namespace SAT.TASKS
 
         private bool deveProcessar(SatTask task) => ObterPermissao(task);
 
-        #endregion
-
-        #region Permissao
-
         private bool ObterPermissao(SatTask task)
         {
             DateTime dtHrProc = task.DataHoraProcessamento.HasValue ?
@@ -184,10 +174,6 @@ namespace SAT.TASKS
             }
         }
 
-        #endregion
-
-        #region Task
-
         private void AtualizarTask(SatTask task)
         {
             task.DataHoraProcessamento = DateTime.Now;
@@ -195,7 +181,5 @@ namespace SAT.TASKS
 
             _taskService.Atualizar(task);
         }
-
-        #endregion
     }
 }

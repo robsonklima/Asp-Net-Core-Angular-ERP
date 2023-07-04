@@ -1,32 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { VersaoService } from 'app/core/services/versao.service';
-import { Versao } from 'app/core/types/versao.types';
+import versoes from './data/versions.data.json';
+
 
 @Component({
     selector: 'versoes',
     templateUrl: './versoes.component.html'
 })
-export class VersoesComponent implements OnInit
-{
-    versoes: Versao[] = [];
-    isLoading: boolean;
-
-    constructor (
-        private _versaoService: VersaoService
-    ) { }
+export class VersoesComponent implements OnInit {
+    versoes: any[] = [];
+    
+    constructor () {
+        this.versoes = versoes;
+    }
 
     async ngOnInit()
     {
-        this.isLoading = true;
-        const data = await this._versaoService
-            .obterPorParametros({ 
-                sortDirection: 'desc',
-                sortActive: 'codSatVersao',
-                pageSize: 30
-            })
-            .toPromise();
-
-        this.versoes = data.items;
-        this.isLoading = false;
+        
     }
 }

@@ -23,38 +23,11 @@
                         <h2 class="my-0">Versão {{ versao.nome }}</h2>
 
                         <div class="font-semibold text-md text-secondary">
-                            {{ versao.dataHoraCad | date:'dd/MM/yyyy' }}
+                            
                         </div>
                     </div>
-
-                    <ng-container>
-                        <div>
-                            <ul>
-                                <ng-container>
-                                    <li *ngFor="let alteracao of versao.alteracoes">
-                                        <span
-                                            class="font-semibold"
-                                            [class.text-red-500]="alteracao.tipo.nome == 'Correção'"
-                                            [class.text-green-500]="alteracao.tipo.nome == 'Adição'">
-                                            {{ alteracao.tipo.nome }}
-                                        </span>
-
-                                        <span>
-                                            {{ alteracao.nome }}
-                                        </span>
-                                    </li>
-                                </ng-container>
-                            </ul>
-                        </div>
-                    </ng-container>
                 </div>
             </ng-container>
-
-            <div class="p-0" *ngIf="isLoading">
-                <div>
-                    <h2 class="my-0">Carregando...</h2>
-                </div>
-            </div>
         </div>
     </div>
 </div>

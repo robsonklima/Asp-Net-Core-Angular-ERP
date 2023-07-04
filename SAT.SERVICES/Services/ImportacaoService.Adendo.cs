@@ -62,17 +62,10 @@ namespace SAT.SERVICES.Services
                                 }
                             }
 
-                            if (col.Campo.Contains("IndSEMAT"))
+                            if (col.Campo.Contains("IndSemat"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndSemat = value;
-                                continue;
-                            }
-
-                            if (col.Campo.Contains("PontoEstrategico"))
-                            {
-                                value = byte.Parse(col.Valor);
-                                equip.PontoEstrategico = value;
                                 continue;
                             }
 
@@ -83,21 +76,21 @@ namespace SAT.SERVICES.Services
                                 continue;
                             }
 
-                            if (col.Campo.Contains("IndRHorario"))
+                            if (col.Campo.Contains("IndRAcesso"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndRHorario = value;
                                 continue;
                             }
 
-                            if (col.Campo.Contains("IndGarantia"))
+                            if (col.Campo.Contains("IndReceita"))
                             {
                                 value = byte.Parse(col.Valor);
-                                equip.IndGarantia = value;
+                                equip.IndReceita = value;
                                 continue;
                             }
 
-                            if (col.Campo.Contains("IndReceita"))
+                            if (col.Campo.Contains("IndAtivo"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndReceita = value;
@@ -111,7 +104,7 @@ namespace SAT.SERVICES.Services
                                 continue;
                             }
 
-                            if (col.Campo.Contains("indRHorario"))
+                            if (col.Campo.Contains("IndRHorario"))
                             {
                                 value = byte.Parse(col.Valor);
                                 equip.IndRHorario = value;
@@ -128,7 +121,7 @@ namespace SAT.SERVICES.Services
                             if (col.Campo.Equals("Horas_Racesso"))
                             {
                                 value = int.Parse(col.Valor);
-                                equip.LocalAtendimento.Cidade.HorasRAcesso = value;
+                                equip.LocalAtendimento.Cidade.Horas_RAcesso = value;
                                 _cidadeRepo.Atualizar(equip.LocalAtendimento.Cidade);
                                 continue;
                             }
@@ -159,7 +152,7 @@ namespace SAT.SERVICES.Services
                         .Property("application", Constants.SISTEMA_CAMADA_API)
                         .Write();
                     
-                    DesativarParqueNaoInformado();
+                    //DesativarParqueNaoInformado();
                 }
                 catch (Exception ex)
                 {

@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-1">
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-green-500 bg-white"
+                            <button *ngIf="!this.perfilCliente && verificarPermissaoCriacaoRAT()" class="fuse-mat-button-rounded text-green-500 bg-white"
                                 mat-flat-button
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('novo relatorio de atendimento')" matTooltipPosition="above"
@@ -41,7 +41,7 @@
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:document-add'"></mat-icon>
                             </button>
 
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-yellow-500 bg-white"
+                            <button *ngIf="!this.perfilCliente && verificarPermissaoEdicaoOS()" class="fuse-mat-button-rounded text-yellow-500 bg-white"
                                 mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('editar')" matTooltipPosition="above"
@@ -49,7 +49,7 @@
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                             </button>
 
-                            <button *ngIf="!this.perfilCliente" class="fuse-mat-button-rounded text-blue-500 bg-white"
+                            <button *ngIf="!this.perfilCliente && verificarPermissaoAgendamento()" class="fuse-mat-button-rounded text-blue-500 bg-white"
                                 mat-flat-button [color]="'primary'"
                                 [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 || isLoading"
                                 [matTooltip]="t('agendar')" (click)="agendar()" matTooltipPosition="above">
@@ -57,14 +57,14 @@
                             </button>
 
                             <button class="fuse-mat-button-rounded text-indigo-700 bg-white" mat-flat-button
-                                *ngIf="!this.perfilCliente && os?.codStatusServico != 8" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
+                                *ngIf="!this.perfilCliente && os?.codStatusServico != 8 && verificarPermissaoTransferencia()" [disabled]="os?.codStatusServico === 3 || os?.codStatusServico === 2 ||
                                 os?.codStatusServico === 7 || isLoading" [matTooltip]="t('transferir')"
                                 matTooltipPosition="above" (click)="sidenav.toggle()">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:share'"></mat-icon>
                             </button>
 
                             <button class="fuse-mat-button-rounded text-red-700 bg-white" mat-flat-button
-                                *ngIf="os?.codStatusServico == 8 && !this.perfilCliente"
+                                *ngIf="os?.codStatusServico == 8 && !this.perfilCliente && verificarPermissaoTransferencia()"
                                 [matTooltip]="t('cancelar transferencia')" [disabled]="isLoading"
                                 matTooltipPosition="above" (click)="cancelarTransferencia()">
                                 <mat-icon class="icon-size-6" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
@@ -88,7 +88,7 @@
                                     {{ t('cancelar') }}
                                 </button>
 
-                                <button *ngIf="!this.perfilCliente" mat-menu-item
+                                <button *ngIf="!this.perfilCliente && verificarPermissaoCancelamento()" mat-menu-item
                                     (click)="bloquearDesbloquearChamado()">
                                     <mat-icon class="icon-size-5" [class.text-red-600]="!os?.indBloqueioReincidencia"
                                         [class.text-green-600]="os?.indBloqueioReincidencia"
@@ -114,7 +114,8 @@
                                 </button>
 
                                 <button
-                                    *ngIf="(os?.codCliente === 197 || os?.codCliente === 220) && os?.codStatusServico === 3"
+                                    *ngIf="(os?.codCliente === 197 || os?.codCliente === 220) && os?.codStatusServico === 3
+                                    && (userSession.usuario.codPerfil == 3 ||userSession.usuario.codPerfil == 29)"
                                     mat-menu-item (click)="reprocessarIntegracaoBRB()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:refresh'"></mat-icon>
                                     Reprocessar Integração BRB

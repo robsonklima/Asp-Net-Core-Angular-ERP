@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RelatorioAtendimentoService } from 'app/core/services/relatorio-atendimento.service';
+import { PerfilEnum } from 'app/core/types/perfil.types';
 import { RelatorioAtendimento, RelatorioAtendimentoData } from 'app/core/types/relatorio-atendimento.types';
+import { SetorEnum } from 'app/core/types/setor.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import _ from 'lodash';
@@ -36,6 +38,24 @@ export class OrdemServicoRatsComponent implements OnInit {
       .obterPorParametros({ codOS: this.codOS })
       .toPromise();
   }
+
+  public verificarPermissaoEdicao(): boolean {
+		if((this.sessionData.usuario.codSetor == SetorEnum.HELPDESK_NOC
+      || (this.sessionData.usuario.codSetor == SetorEnum.COORDENACAO_DE_CONTRATOS && this.sessionData.usuario.codPerfil == PerfilEnum.PV_COORDENADOR_DE_CONTRATO)
+			|| (this.sessionData.usuario.codSetor == SetorEnum.CENTRO_TECNICO_OPERACIONAL && this.sessionData.usuario.codPerfil == PerfilEnum.FILIAL_TECNICO_DE_CAMPO)
+      || (this.sessionData.usuario.codSetor == SetorEnum.CENTRO_TECNICO_OPERACIONAL && this.sessionData.usuario.codPerfil == PerfilEnum.TECNICO_OPERACOES)
+      || (this.sessionData.usuario.codSetor == SetorEnum.CENTRO_TECNICO_OPERACIONAL && this.sessionData.usuario.codPerfil == PerfilEnum.COORDENADOR)
+      || (this.sessionData.usuario.codSetor == SetorEnum.CENTRO_TECNICO_OPERACIONAL && this.sessionData.usuario.codPerfil == PerfilEnum.SUPERVISOR)
+      || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.FILIAL_TECNICO_DE_CAMPO)
+      || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.TECNICO_OPERACOES)
+      || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.COORDENADOR)
+      || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.SUPERVISOR)
+			|| this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA))
+			return true;
+		
+		else
+			return false;
+	}
 
   getTimeFromMins(mins) {
 		var h = mins / 60 | 0, m = mins % 60 | 0;

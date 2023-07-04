@@ -7,6 +7,7 @@ import { UserService } from 'app/core/user/user.service';
 import { appConfig as c } from 'app/core/config/app.config';
 import { PerfilEnum } from 'app/core/types/perfil.types';
 import moment from 'moment';
+import { SetorEnum } from 'app/core/types/setor.types';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,11 +68,57 @@ export class DashboardComponent implements AfterViewInit {
 
   private carregarSlides() {
     const codPerfil = this.usuarioSessao.usuario.codPerfil;
+    const codSetor = this.usuarioSessao.usuario.codSetor;
 
-    switch (codPerfil) {
-      case PerfilEnum.ADM_DO_SISTEMA:
+    if(codSetor == SetorEnum.SISTEMA_DE_ASSISTENCIA_TECNICA || codSetor == SetorEnum.SUPORTE_TECNICO)
+    {
+      return [
+        'Status Filiais',
+        'Chamados Antigos',
+        'BBTS Regiões',
+        'BBTS Filiais',
+        'BBTS Multa Regiões',
+        'BBTS Multa Disponibilidade',
+        'Média Global',
+        'SPA',
+        'Desempenho Técnico',
+        'Disponibilidade Técnicos',
+        'SLA Clientes',
+        'Reincidência Filiais',
+        'Reincidência Técnicos',
+        'Reincidência Clientes',
+        'Equipamentos Reincidentes',
+        'Pendência Filiais',
+        'Pendência Técnicos',
+        'Peças Mais Faltantes',
+        'Densidade'
+      ];
+    }
+    else if(codSetor == SetorEnum.OPERACAO_DE_CAMPO || codSetor == SetorEnum.CENTRO_TECNICO_OPERACIONAL)
+    {
+      if(codPerfil == PerfilEnum.FILIAL_TECNICO_DE_CAMPO)
+      {
         return [
           'Status Filiais',
+          'Detalhado Filial',
+          'Média Global',
+          'SPA',
+          'Desempenho Técnico',
+          'Disponibilidade Técnicos',
+          'SLA Clientes',
+          'Reincidência Filiais',
+          'Reincidência Técnicos',
+          'Reincidência Clientes',
+          'Equipamentos Reincidentes',
+          'Pendência Filiais',
+          'Pendência Técnicos'
+        ];
+      }
+      else
+      {
+        return [
+          'Status Filiais',
+          'Detalhado Filial',
           'Chamados Antigos',
           'BBTS Regiões',
           'BBTS Filiais',
@@ -91,170 +138,75 @@ export class DashboardComponent implements AfterViewInit {
           'Peças Mais Faltantes',
           'Densidade'
         ];
-
-      case PerfilEnum.SUPERVISOR:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filiais',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-          'Peças Mais Faltantes',
-          'Densidade',
-        ];
-
-      case PerfilEnum.COORDENADOR:
-        return [
-          'Status Filiais',
-          'Detalhado Filial',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filial',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filial',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-          'Densidade',
-        ];
-
-        case PerfilEnum.LIDER:
-          return [
-            'Status Filiais',
-            'Detalhado Filial',
-            'Chamados Antigos',
-            'BBTS Regiões',
-            'BBTS Filiais',
-            'BBTS Multa Regiões',
-            'BBTS Multa Disponibilidade',
-            'Média Global',
-            'SPA',
-            'Desempenho Técnico',
-            'Disponibilidade Técnicos',
-            'SLA Clientes',
-            'Reincidência Filial',
-            'Reincidência Técnicos',
-            'Reincidência Clientes',
-            'Equipamentos Reincidentes',
-            'Pendência Filial',
-            'Pendência Técnicos',
-            'Peças Faltantes Filiais',
-            'Peças Mais Faltantes',
-            'Top Peças Faltantes',
-            'Densidade',
-          ];
-
-      case PerfilEnum.RASTREAMENTO:
-        return [
-          'Status Filiais',
-          'Detalhado Filial',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filial',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filial',
-          'Pendência Técnicos',
-          'Peças Faltantes Filiais',
-          'Peças Mais Faltantes',
-          'Top Peças Faltantes',
-          'Densidade',
-        ];
-
-      case PerfilEnum.FILIAL_TECNICO_DE_CAMPO:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'Disponibilidade Técnicos',
-          'Reincidência Filiais',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-        ];
-
-      case PerfilEnum.PV_COORDENADOR_DE_CONTRATO:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filiais',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-        ];
-      
-      case PerfilEnum.FILIAL_SUPORTE_TÉCNICO_CAMPO:
-        return [
-          'Status Filiais',
-          'Chamados Antigos',
-          'BBTS Regiões',
-          'BBTS Filiais',
-          'BBTS Multa Regiões',
-          'BBTS Multa Disponibilidade',
-          'Média Global',
-          'SPA',
-          'Desempenho Técnico',
-          'Disponibilidade Técnicos',
-          'SLA Clientes',
-          'Reincidência Filiais',
-          'Reincidência Técnicos',
-          'Reincidência Clientes',
-          'Equipamentos Reincidentes',
-          'Pendência Filiais',
-          'Pendência Técnicos',
-          'Peças Mais Faltantes',
-        ];        
-
-      default:
-        return [];
+      }
     }
+    else if(codSetor == SetorEnum.COORDENACAO_DE_CONTRATOS)
+    {
+      return [
+        'Status Filiais',
+        'Chamados Antigos',
+        'BBTS Regiões',
+        'BBTS Filiais',
+        'BBTS Multa Regiões',
+        'BBTS Multa Disponibilidade',
+        'Média Global',
+        'SPA',
+        'Disponibilidade Técnicos',
+        'SLA Clientes',
+        'Reincidência Filiais',
+        'Reincidência Técnicos',
+        'Reincidência Clientes',
+        'Equipamentos Reincidentes',
+        'Pendência Filiais',
+        'Peças Mais Faltantes',
+        'Densidade'
+      ];
+    }
+    else if(codSetor == SetorEnum.LOGISTICA || codSetor == SetorEnum.LABORATORIO_TECNICO)
+    {
+      return [
+        'Status Filiais',
+        'Chamados Antigos',
+        'BBTS Regiões',
+        'BBTS Filiais',
+        'BBTS Multa Regiões',
+        'BBTS Multa Disponibilidade',
+        'Média Global',
+        'SPA',
+        'Disponibilidade Técnicos',
+        'SLA Clientes',
+        'Equipamentos Reincidentes',
+        'Pendência Filiais',
+        'Peças Mais Faltantes',
+        'Densidade'
+      ];
+    }
+    else if(codSetor == SetorEnum.GERENCIA)
+    {
+      return [
+        'Status Filiais',
+        'Chamados Antigos',
+        'BBTS Regiões',
+        'BBTS Filiais',
+        'BBTS Multa Regiões',
+        'BBTS Multa Disponibilidade',
+        'Média Global',
+        'SPA',
+        'Densidade'
+      ];
+    }
+    else if(codSetor == SetorEnum.HELPDESK_NOC)
+    {
+      return [
+        'Status Filiais',
+        'Chamados Antigos',
+        'Disponibilidade Técnicos',
+        'SLA Clientes',
+        'Reincidência Clientes',
+        'Densidade'
+      ];
+    }
+    
   }
 
   ngOnDestroy() {

@@ -11,7 +11,7 @@ namespace SAT.TASKS
         {
             var task = new SatTask();
             
-            IntegrarBB(task);
+            ExecutarBB(task);
         }
     }
 }

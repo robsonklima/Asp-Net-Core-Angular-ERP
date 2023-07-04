@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarSicoob(SatTask task)
+        private void ExecutarSicoob(SatTask task)
         {
             
         }

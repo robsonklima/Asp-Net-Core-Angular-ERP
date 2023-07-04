@@ -66,64 +66,64 @@ namespace SAT.TASKS
                     switch (task.CodSatTaskTipo)
                     {
                         case (int)SatTaskTipoEnum.INT_BB:
-                            IntegrarBB(task);
+                            ExecutarBB(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_BANRISUL:
-                            await IntegrarBanrisulAsync(task);
+                            await ExecutarBanrisulAsync(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                            await IntegrarZaffariAsync(task, chamados);
+                            await ExecutarZaffariAsync(task, chamados);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_MRP:
-                            IntegrarMRP(task);
+                            ExecutarMRP(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                            IntegrarModelos(task);
+                            ExecutarModelos(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.ANS:
-                            IntegrarANS(task, chamados);
+                            ExecutarANS(task, chamados);
 
                             continue;
                         case (int)SatTaskTipoEnum.BRB:
-                            IntegrarBRB(task);
+                            ExecutarBRB(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.COBRA:
-                            IntegrarCobra(task);
+                            ExecutarCobra(task);
 
                             continue;
 
                         case (int)SatTaskTipoEnum.SICOOB:
-                            IntegrarSicoob(task);
+                            ExecutarSicoob(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.SICREDI:
-                            IntegrarSicredi(task);
+                            ExecutarSicredi(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.TROUBLESHOOTING:
-                            IntegrarTroubleShooting(task);
+                            ExecutarTroubleShooting(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.TICKET_LOG:
-                            IntegrarTicketLog(task);
+                            ExecutarTicketLog(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.SENIOR:
-                            IntegrarSenior(task);
+                            ExecutarSenior(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.PROTEGE:
-                            IntegrarProtege(task);
+                            ExecutarProtege(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.METRO_SP:
-                            IntegrarMetroSP(task);
+                            ExecutarMetroSP(task);
 
                             continue;
                         default:

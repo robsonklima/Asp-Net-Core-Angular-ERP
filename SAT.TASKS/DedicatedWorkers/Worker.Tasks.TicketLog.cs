@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarTicketLog(SatTask task)
+        private void ExecutarTicketLog(SatTask task)
         {
             
         }

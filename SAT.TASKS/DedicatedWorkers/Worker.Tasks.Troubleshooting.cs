@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarTroubleShooting(SatTask task)
+        private void ExecutarTroubleShooting(SatTask task)
         {
             
         }

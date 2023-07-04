@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarMetroSP(SatTask task)
+        private void ExecutarMetroSP(SatTask task)
         {
             
         }

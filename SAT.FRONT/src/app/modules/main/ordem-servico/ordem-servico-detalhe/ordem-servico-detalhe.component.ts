@@ -238,8 +238,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		if(this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
 			|| (this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
 			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO && this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.LIDER && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.TECNICO_OPERACOES && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.LIDER && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
+			|| (this.userSession.usuario.codPerfil === PerfilEnum.TECNICO_OPERACOES && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
+			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS
 			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
 			return true;
 		

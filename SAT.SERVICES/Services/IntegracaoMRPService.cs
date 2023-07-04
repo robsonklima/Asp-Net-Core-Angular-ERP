@@ -83,10 +83,7 @@ namespace SAT.SERVICES.Services
 
                 foreach (var arquivo in arquivos)
                 {
-                    _mrpLogixEstoqueService.LimparTabela();
-
                     MRPLogixEstoque mrpLogixEstoque = new();
-
                     string[] dados = arquivo.Split('|');
 
                     if (dados.Length != 7)

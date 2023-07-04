@@ -24,14 +24,14 @@ namespace SAT.TASKS
 
                     if (deveCriar(task, tipo))
                     {
-                        var novaTask = _taskService.Criar(new SatTask
+                        var nTask = _taskService.Criar(new SatTask
                         {
                             Status = SatTaskStatusConst.PENDENTE,
                             DataHoraCad = DateTime.Now,
                             CodSatTaskTipo = tipo.CodSatTaskTipo
                         });
 
-                        _logger.Info($"{MsgConst.TASK_CRIADA}, {novaTask.Tipo.Nome}");
+                        _logger.Info($"{ MsgConst.TASK_CRIADA }, { nTask.Tipo.Nome }");
                     }
                 }
             }

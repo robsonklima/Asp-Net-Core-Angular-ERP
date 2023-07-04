@@ -159,7 +159,6 @@ namespace SAT.INFRA.Context
         public DbSet<OrcamentoDeslocamento> OrcamentoDeslocamento { get; set; }
         public DbSet<RecuperaSenha> RecuperaSenha { get; set; }
         public DbSet<Intencao> Intencao { get; set; }
-        public DbSet<Versao> Versao { get; set; }
         public DbSet<LocalEnvioNFFaturamento> LocalEnvioNFFaturamento { get; set; }
         public DbSet<LocalEnvioNFFaturamentoVinculado> LocalEnvioNFFaturamentoVinculado { get; set; }
         public DbSet<Cargo> Cargo { get; set; }
@@ -371,9 +370,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
             modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);
-            modelBuilder.Entity<Versao>(new VersaoMap().Configure);
-            modelBuilder.Entity<VersaoAlteracao>(new VersaoAlteracaoMap().Configure);
-            modelBuilder.Entity<VersaoAlteracaoTipo>(new VersaoAlteracaoTipoMap().Configure);
             modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
             modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamento>(new LocalEnvioNFFaturamentoMap().Configure);

@@ -3,7 +3,7 @@
         <div class="text-xl font-medium">{{ agendamento?.motivoAgendamento?.descricaoMotivo }}</div>
 
         <div
-            *ngIf="userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 104 || userSession.usuario.codPerfil == 29">
+            *ngIf="userSession.usuario.codPerfil == 3 || userSession.usuario.codPerfil == 104 || userSession.usuario.codSetor == 11">
             <button mat-icon-button matTooltip="Remover" (click)="removerAgendamento(agendamento)">
                 <mat-icon class="icon-size-5 text-red-600" [svgIcon]="'heroicons_solid:trash'">
                 </mat-icon>

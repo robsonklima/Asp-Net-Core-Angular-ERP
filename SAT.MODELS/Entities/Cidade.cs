@@ -24,7 +24,7 @@ namespace SAT.MODELS.Entities
         public double? LatitudeMetros { get; set; }
         public double? LongitudeMetros { get; set; }
         public int? Regiao { get; set; }
-        public int? HorasRAcesso { get; set; }
+        public int? Horas_RAcesso { get; set; }
         public int? CodRegiaoPOS { get; set; }
     }
 }

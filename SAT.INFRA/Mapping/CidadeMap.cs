@@ -19,7 +19,7 @@ namespace SAT.INFRA.Mapping
 
             builder.Ignore(p => p.LatitudeMetros);
             builder.Ignore(p => p.LongitudeMetros);
-            builder.Ignore(p => p.HorasRAcesso);
+            builder.Ignore(p => p.Horas_RAcesso);
         }
     }
 }

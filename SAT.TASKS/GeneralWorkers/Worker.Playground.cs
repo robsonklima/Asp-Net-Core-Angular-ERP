@@ -9,9 +9,7 @@ namespace SAT.TASKS
 
         private void IniciarPlaygroundAsync()
         {
-            var task = new SatTask();
-            
-            ExecutarBB(task);
+            ExecutarBB(new SatTask());
         }
     }
 }

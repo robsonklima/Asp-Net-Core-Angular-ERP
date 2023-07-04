@@ -214,15 +214,6 @@ namespace SAT.MODELS.Entities.Constants
         public static int TECNICO_SISTEMA = 2329;
         public static int INT_BB_TAMANHO_ARQUIVO = 830;
 
-        
-        // Tempos Processamento Tasks em Minutos
-        public static int INT_BANR_T = 5;
-        public static int INT_ZAFF_T = 5;
-        public static int INT_BB_T = 5;
-        public static int INT_LOG_MRP_T = 5;
-        public static int ATU_PAR_MOD_T = 24 * 60;
-        
-
         // Tasks
         public static string INTEGRACAO_BANRISUL_ATM = "Integracao Banrisul ATM";
         public static string INTEGRACAO_ZAFFARI = "Integracao Zaffari";

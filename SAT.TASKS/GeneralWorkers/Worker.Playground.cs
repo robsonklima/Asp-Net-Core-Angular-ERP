@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using SAT.MODELS.Entities;
 
 namespace SAT.TASKS
 {
@@ -8,7 +9,9 @@ namespace SAT.TASKS
 
         private void IniciarPlaygroundAsync()
         {
-            IntegrarBB(null);
+            var task = new SatTask();
+            
+            IntegrarBB(task);
         }
     }
 }

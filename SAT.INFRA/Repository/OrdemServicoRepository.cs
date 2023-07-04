@@ -20,11 +20,6 @@ namespace SAT.INFRA.Repository
             _context = context;
         }
 
-        private int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
-        {
-            return 0;
-        }
-
         public OrdemServico Criar(OrdemServico ordemServico)
         {
             _context.Add(ordemServico);

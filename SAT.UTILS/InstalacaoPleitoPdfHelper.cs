@@ -3,7 +3,6 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SAT.MODELS.Entities;
-using SAT.MODELS.ViewModels;
 
 namespace SAT.UTILS
 {

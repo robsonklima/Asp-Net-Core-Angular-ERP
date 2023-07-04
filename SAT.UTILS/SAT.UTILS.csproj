@@ -15,5 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SAT.MODELS\SAT.MODELS.csproj" />
   </ItemGroup>
-
 </Project>

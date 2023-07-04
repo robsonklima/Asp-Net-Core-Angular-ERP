@@ -118,15 +118,21 @@ namespace SAT.SERVICES.Services
                                 continue;
                             }
 
-                            if (col.Campo.Equals("Horas_Racesso"))
+                            if (col.Campo.Contains("Horas_RAcesso"))
                             {
                                 value = int.Parse(col.Valor);
-                                equip.LocalAtendimento.Cidade.Horas_RAcesso = value;
-                                _cidadeRepo.Atualizar(equip.LocalAtendimento.Cidade);
+                                var cidade = equip?.LocalAtendimento?.Cidade!;
+                                
+                                if(cidade is not null)
+                                {
+                                    cidade.Horas_RAcesso = value!;
+                                    _cidadeRepo.Atualizar(cidade);
+                                }
+                                
                                 continue;
                             }
 
-                            if (col.Campo.Equals("DistanciaKmPAT_Res"))
+                            if (col.Campo.Contains("DistanciaKmPAT_Res"))
                             {
                                 value = decimal.Parse(col.Valor, new CultureInfo("en-US"));
                                 equip.LocalAtendimento.DistanciaKmPatRes = value;

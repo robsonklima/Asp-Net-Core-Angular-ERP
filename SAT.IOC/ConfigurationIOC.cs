@@ -129,7 +129,6 @@ public class ConfigurationIOC
         builder.RegisterType<LocalEnvioNFFaturamentoRepository>().As<ILocalEnvioNFFaturamentoRepository>();
         builder.RegisterType<LocalEnvioNFFaturamentoVinculadoRepository>().As<ILocalEnvioNFFaturamentoVinculadoRepository>();
         builder.RegisterType<IntencaoRepository>().As<IIntencaoRepository>();
-        builder.RegisterType<VersaoRepository>().As<IVersaoRepository>();
         builder.RegisterType<CargoRepository>().As<ICargoRepository>();
         builder.RegisterType<PlantaoTecnicoRepository>().As<IPlantaoTecnicoRepository>();
         builder.RegisterType<PlantaoTecnicoRegiaoRepository>().As<IPlantaoTecnicoRegiaoRepository>();
@@ -352,7 +351,6 @@ public class ConfigurationIOC
         builder.RegisterType<LocalEnvioNFFaturamentoService>().As<ILocalEnvioNFFaturamentoService>();
         builder.RegisterType<OrcamentoDeslocamentoService>().As<IOrcamentoDeslocamentoService>();
         builder.RegisterType<OrcamentoDescontoService>().As<IOrcamentoDescontoService>();
-        builder.RegisterType<VersaoService>().As<IVersaoService>();
         builder.RegisterType<CargoService>().As<ICargoService>();
         builder.RegisterType<FormaPagamentoService>().As<IFormaPagamentoService>();
         builder.RegisterType<MoedaService>().As<IMoedaService>();

@@ -37,7 +37,6 @@ namespace SAT.SERVICES.Services
         private readonly IEquipamentoRepository _equipamentoRepo;
         private readonly IGrupoEquipamentoRepository _grupoEquipamentoRepo;
         private readonly ITipoEquipamentoRepository _tipoEquipamentoRepo;
-        private readonly IFeriadoRepository _feriadoRepo;
         private readonly IFerramentaTecnicoRepository _ferramentaTecnicoRepo;
         private readonly IFormaPagamentoRepository _formaPagamentoRepo;
         private readonly ILiderTecnicoRepository _liderTecnicoRepo;
@@ -96,7 +95,6 @@ namespace SAT.SERVICES.Services
             ITipoEquipamentoRepository tipoEquipamentoRepo,
             IDefeitoComponenteRepository defeitoComponenteRepo,
             IEquipamentoModuloRepository equipamentoModuloRepo,
-            IFeriadoRepository feriadoRepo,
             IFerramentaTecnicoRepository ferramentaTecnicoRepo,
             IFormaPagamentoRepository formaPagamentoRepo,
             ILiderTecnicoRepository liderTecnicoRepo,
@@ -155,7 +153,6 @@ namespace SAT.SERVICES.Services
             _tipoEquipamentoRepo = tipoEquipamentoRepo;
             _defeitoComponenteRepo = defeitoComponenteRepo;
             _equipamentoModuloRepo = equipamentoModuloRepo;
-            _feriadoRepo = feriadoRepo;
             _ferramentaTecnicoRepo = ferramentaTecnicoRepo;
             _formaPagamentoRepo = formaPagamentoRepo;
             _liderTecnicoRepo = liderTecnicoRepo;
@@ -311,10 +308,6 @@ namespace SAT.SERVICES.Services
 
                 case ExportacaoTipoEnum.EQUIPAMENTOMODULO:
                     GerarPlanilhaEquipamentoModulo(((JObject)parameters).ToObject<EquipamentoModuloParameters>());
-                    break;
-
-                case ExportacaoTipoEnum.FERIADO:
-                    GerarPlanilhaFeriado(((JObject)parameters).ToObject<FeriadoParameters>());
                     break;
 
                 case ExportacaoTipoEnum.FERRAMENTATECNICO:

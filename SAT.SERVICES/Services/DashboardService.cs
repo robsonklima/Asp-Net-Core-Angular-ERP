@@ -10,7 +10,7 @@ namespace SAT.SERVICES.Services
     {
         private readonly IDashboardRepository _dashboardRepository;
 
-        public DashboardService(IDashboardRepository dashboardRepository, IFeriadoService feriadoService)
+        public DashboardService(IDashboardRepository dashboardRepository)
         {
             this._dashboardRepository = dashboardRepository;
         }

@@ -52,7 +52,6 @@ public class ConfigurationIOC
         builder.RegisterType<RelatorioAtendimentoDetalhePecaRepository>().As<IRelatorioAtendimentoDetalhePecaRepository>();
         builder.RegisterType<TransportadoraRepository>().As<ITransportadoraRepository>();
         builder.RegisterType<TecnicoRepository>().As<ITecnicoRepository>();
-        builder.RegisterType<FeriadoRepository>().As<IFeriadoRepository>();
         builder.RegisterType<RegiaoAutorizadaRepository>().As<IRegiaoAutorizadaRepository>();
         builder.RegisterType<CausaRepository>().As<ICausaRepository>();
         builder.RegisterType<DespesaCartaoCombustivelRepository>().As<IDespesaCartaoCombustivelRepository>();
@@ -262,7 +261,6 @@ public class ConfigurationIOC
         builder.RegisterType<DespesaCartaoCombustivelService>().As<IDespesaCartaoCombustivelService>();
         builder.RegisterType<EquipamentoContratoService>().As<IEquipamentoContratoService>();
         builder.RegisterType<EquipamentoService>().As<IEquipamentoService>();
-        builder.RegisterType<FeriadoService>().As<IFeriadoService>();
         builder.RegisterType<GrupoCausaService>().As<IGrupoCausaService>();
         builder.RegisterType<GrupoEquipamentoService>().As<IGrupoEquipamentoService>();
         builder.RegisterType<LocalAtendimentoService>().As<ILocalAtendimentoService>();

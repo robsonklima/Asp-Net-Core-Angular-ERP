@@ -25,7 +25,6 @@ namespace SAT.SERVICES.Services
         private readonly IRelatorioAtendimentoService _relatorioAtendimentoService;
         private readonly IEquipamentoContratoRepository _equipamentoContratoRepo;
         private readonly ILocalAtendimentoService _localAtendimentoService;
-        private readonly IFeriadoService _feriadoService;
         private readonly IArquivoBanrisulService _arquivoBanrisulService;
         private readonly IExportacaoService _exportacaoService;
 
@@ -35,7 +34,6 @@ namespace SAT.SERVICES.Services
             IRelatorioAtendimentoService relatorioAtendimentoService,
             IEquipamentoContratoRepository equipamentoContratoRepo,
             ILocalAtendimentoService localAtendimentoService,
-            IFeriadoService feriadoService,
             IArquivoBanrisulService arquivoBanrisulService,
             IExportacaoService exportacaoService
         )
@@ -45,7 +43,6 @@ namespace SAT.SERVICES.Services
             _relatorioAtendimentoService = relatorioAtendimentoService;
             _equipamentoContratoRepo = equipamentoContratoRepo;
             _localAtendimentoService = localAtendimentoService;
-            _feriadoService = feriadoService;
             _arquivoBanrisulService = arquivoBanrisulService;
             _exportacaoService = exportacaoService;
         }
@@ -307,22 +304,16 @@ namespace SAT.SERVICES.Services
                             int codCidade = 1;
 
                             LocalAtendimento localAtendimento = ordemServico.LocalAtendimento;
-                            List<Feriado> feriados = new();
-
+                            
                             if (localAtendimento != null)
                             {
                                 Cidade cidade = ordemServico.LocalAtendimento.Cidade;
 
                                 codCidade = localAtendimento.CodCidade;
-                                codUF = cidade != null ? cidade.CodUF : 1;
-                                feriados = (List<Feriado>)_feriadoService
-                                    .ObterPorParametros(new FeriadoParameters
-                                    {
-                                        CodCidades = codCidade.ToString()
-                                    }).Items;
+                                codUF = cidade != null ? cidade.CodUF : 1;                                
                             }
 
-                            double? horasNaoUteis = CalculaHorasNaoUteis(dataSolucao, DateTime.Now, feriados);
+                            double? horasNaoUteis = CalculaHorasNaoUteis(dataSolucao, DateTime.Now);
                             double horasUteis = (hoje - dataSolucao).TotalHours - horasNaoUteis.Value;
 
                             if (horasUteis <= 48)
@@ -872,7 +863,7 @@ namespace SAT.SERVICES.Services
                 return 2;                
         }
 
-        private double? CalculaHorasNaoUteis(DateTime inicio, DateTime fim, List<Feriado> feriados)
+        private double? CalculaHorasNaoUteis(DateTime inicio, DateTime fim)
         {
             List<DateTime> datas = new List<DateTime>();
 
@@ -881,15 +872,6 @@ namespace SAT.SERVICES.Services
                 if (fim.DayOfWeek == DayOfWeek.Sunday || fim.DayOfWeek == DayOfWeek.Saturday)
                 {
                     datas.Insert(0, fim);
-                }
-                else
-                {
-                    var eFeriado = feriados.FirstOrDefault(f => f.Data.ToString().Contains(fim.ToString()));
-
-                    if (eFeriado != null)
-                    {
-                        datas.Insert(0, fim);
-                    }
                 }
 
                 fim = fim.AddDays(-1);

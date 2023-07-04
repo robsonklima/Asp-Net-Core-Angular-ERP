@@ -16,21 +16,18 @@ namespace SAT.SERVICES.Services
         private readonly ISequenciaRepository _sequenciaRepo;
         private readonly IDispBBCalcEquipamentoContratoRepository _dispBBCalcEquipContratoRepo;
         private readonly IDispBBPercRegiaoRepository _dispBBPercRegiaoRepo;
-        private readonly IFeriadoRepository _feriadoRepo;
 
         public OrdemServicoAlertaService(
             IOrdemServicoRepository ordemServicoRepo,
             ISequenciaRepository sequenciaRepo,
             IDispBBCalcEquipamentoContratoRepository dispBBCalcEquipContratoRepo,
-            IDispBBPercRegiaoRepository dispBBPercRegiaoRepo,
-            IFeriadoRepository feriadoRepo
-            )
+            IDispBBPercRegiaoRepository dispBBPercRegiaoRepo
+        )
         {
             _ordemServicoRepo = ordemServicoRepo;
             _sequenciaRepo = sequenciaRepo;
             _dispBBCalcEquipContratoRepo = dispBBCalcEquipContratoRepo;
             _dispBBPercRegiaoRepo = dispBBPercRegiaoRepo;
-            _feriadoRepo = feriadoRepo; ;
         }
 
         public List<Alerta> ObterAlertas(OrdemServico os)
@@ -102,7 +99,7 @@ namespace SAT.SERVICES.Services
             var dataSolicitacao = os.DataHoraAberturaOS;
             var dataAtualOuFimRat = os.RelatoriosAtendimento.Any() ? os.RelatoriosAtendimento.LastOrDefault().DataHoraSolucao : DateTime.Now;
 
-            var diasNaoUteis = _feriadoRepo.CalculaDiasNaoUteis((DateTime)dataSolicitacao, dataAtualOuFimRat);
+            var diasNaoUteis = 0;
 
             int minutes = (int)(dataAtualOuFimRat - dataSolicitacao).Value.TotalMinutes;
 

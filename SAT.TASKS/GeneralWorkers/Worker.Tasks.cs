@@ -106,6 +106,43 @@ namespace SAT.TASKS
                             IntegrarANS(task, chamados);
 
                             continue;
+                        case (int)SatTaskTipoEnum.BRB:
+                            IntegrarBRB(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.COBRA:
+                            IntegrarCobra(task);
+
+                            continue;
+
+                        case (int)SatTaskTipoEnum.SICOOB:
+                            IntegrarSicoob(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.SICREDI:
+                            IntegrarSicredi(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.TROUBLESHOOTING:
+                            IntegrarTroubleShooting(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.TICKET_LOG:
+                            IntegrarTicketLog(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.SENIOR:
+                            IntegrarSenior(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.PROTEGE:
+                            IntegrarProtege(task);
+
+                            continue;
+                        case (int)SatTaskTipoEnum.METRO_SP:
+                            IntegrarMetroSP(task);
+
+                            continue;
                         default:
                             _logger.Error($"{task.Tipo.Nome} nao registrado");
 

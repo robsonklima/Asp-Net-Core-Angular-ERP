@@ -7,4 +7,5 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string ESTADUAL = "ESTADUAL";
         public static readonly string NACIONAL = "NACIONAL";
     }
+    
 }

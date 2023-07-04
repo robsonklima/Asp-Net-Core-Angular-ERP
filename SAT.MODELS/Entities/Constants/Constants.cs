@@ -25,8 +25,6 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_ZAFFARI_PASSWORD = "hqP9FzOL0g_lzba-";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
-        public static string INTEGRACAO_LOGIX_MRP_CAMINHO_ARQUIVO = "D:/FTPLOGIX/pedidos_pendentes.unl";
-        public static string INTEGRACAO_LOGIX_MRP_ESTOQUE_CAMINHO_ARQUIVO = "D:/FTPLOGIX/estoque_lote.unl";
         public static string EMP_NOME = "Perto S.A";
         public static string EMP_SLOGAN = "Tecnologia para Bancos e Varejo";
         public static string EMP_ENDERECO = "Rua Nissin Castiel, 640 Distrito Industrial";

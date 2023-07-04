@@ -556,6 +556,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ANS>(new ANSMap().Configure);
             modelBuilder.Entity<OSPrazoAtendimento>(new OSPrazoAtendimentoMap().Configure);
             modelBuilder.Entity<SATFeriado>(new SATFeriadoMap().Configure);
+            modelBuilder.Entity<Agendamento>(new AgendamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

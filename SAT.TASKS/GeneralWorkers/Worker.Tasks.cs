@@ -2,7 +2,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
-using SAT.UTILS;
 
 namespace SAT.TASKS
 {
@@ -71,7 +70,9 @@ namespace SAT.TASKS
                     if (task.Status == SatTaskStatusConst.PENDENTE)
                         continue;
 
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     switch (task.CodSatTaskTipo)
                     {
@@ -147,14 +148,6 @@ namespace SAT.TASKS
             {
                 _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
             }
-        }
-
-        private void AtualizarTask(SatTask task)
-        {
-            task.DataHoraProcessamento = DateTime.Now;
-            task.Status = SatTaskStatusConst.PROCESSADO;
-
-            _taskService.Atualizar(task);
         }
     }
 }

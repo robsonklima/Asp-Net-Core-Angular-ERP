@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private async Task IntegrarBanrisulAsync(SatTask task)
+        private async Task ExecutarBanrisulAsync(SatTask task)
         {
             await _integracaoBanrisulService.ProcessarEmailsAsync();
             

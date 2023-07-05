@@ -2,7 +2,6 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Enums;
-using SAT.UTILS;
 
 namespace SAT.TASKS
 {
@@ -23,16 +22,16 @@ namespace SAT.TASKS
                         .Items?
                         .FirstOrDefault()!;
 
-                    if (task.DataHoraProcessamento!.Value.AddMinutes(tipo.TempoRepeticaoMinutos) < DateTime.Now)
+                    if (deveCriar(task, tipo))
                     {
-                        var novaTask = _taskService.Criar(new SatTask
+                        var nTask = _taskService.Criar(new SatTask
                         {
                             Status = SatTaskStatusConst.PENDENTE,
                             DataHoraCad = DateTime.Now,
                             CodSatTaskTipo = tipo.CodSatTaskTipo
                         });
 
-                        _logger.Info($"{MsgConst.TASK_CRIADA}, {novaTask.Tipo.Nome}");
+                        _logger.Info($"{ MsgConst.TASK_CRIADA }, { nTask.Tipo.Nome }");
                     }
                 }
             }
@@ -44,15 +43,14 @@ namespace SAT.TASKS
             _logger.Info(MsgConst.FIN_PROC_FILA);
         }
 
-        private bool deveCriar(SatTask task)
+        private bool deveCriar(SatTask task, SatTaskTipo tipo)
         {
-            if (task is null)
-                return true;
+            var dataHrAtual = DateTime.Now;
+            var daHrProc = task.DataHoraProcessamento!.Value;
+            var dataHrProcTipo = daHrProc.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
+            var tempoAtual = DateTime.Now.TimeOfDay;
 
-            if (task.Status == SatTaskStatusConst.PENDENTE)
-                return false;
-
-            return ObterPermissao(task);
+            return dataHrProcTipo < dataHrAtual && tempoAtual >= tipo.Inicio && tempoAtual <= tipo.Fim;
         }
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)
@@ -69,72 +67,74 @@ namespace SAT.TASKS
 
                 foreach (var task in tasks)
                 {
-                    if (!deveProcessar(task))
+                    if (task.Status == SatTaskStatusConst.PENDENTE)
                         continue;
 
-                    AtualizarTask(task);
+                    task.DataHoraProcessamento = DateTime.Now;
+                    task.Status = SatTaskStatusConst.PROCESSADO;
+                    _taskService.Atualizar(task);
 
                     switch (task.CodSatTaskTipo)
                     {
                         case (int)SatTaskTipoEnum.INT_BB:
-                            IntegrarBB(task);
+                            ExecutarBB(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_BANRISUL:
-                            await IntegrarBanrisulAsync(task);
+                            await ExecutarBanrisulAsync(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                            await IntegrarZaffariAsync(task, chamados);
+                            await ExecutarZaffariAsync(task, chamados);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_MRP:
-                            IntegrarMRP(task);
+                            ExecutarMRP(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                            IntegrarModelos(task);
+                            ExecutarModelos(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.ANS:
-                            IntegrarANS(task, chamados);
+                            ExecutarANS(task, chamados);
 
                             continue;
                         case (int)SatTaskTipoEnum.BRB:
-                            IntegrarBRB(task);
+                            ExecutarBRB(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.COBRA:
-                            IntegrarCobra(task);
+                            ExecutarCobra(task);
 
                             continue;
 
                         case (int)SatTaskTipoEnum.SICOOB:
-                            IntegrarSicoob(task);
+                            ExecutarSicoob(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.SICREDI:
-                            IntegrarSicredi(task);
+                            ExecutarSicredi(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.TROUBLESHOOTING:
-                            IntegrarTroubleShooting(task);
+                            ExecutarTroubleShooting(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.TICKET_LOG:
-                            IntegrarTicketLog(task);
+                            ExecutarTicketLog(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.SENIOR:
-                            IntegrarSenior(task);
+                            ExecutarSenior(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.PROTEGE:
-                            IntegrarProtege(task);
+                            ExecutarProtege(task);
 
                             continue;
                         case (int)SatTaskTipoEnum.METRO_SP:
-                            IntegrarMetroSP(task);
+                            ExecutarMetroSP(task);
 
                             continue;
                         default:
@@ -148,38 +148,6 @@ namespace SAT.TASKS
             {
                 _logger.Error($"{Constants.SISTEMA_CAMADA_TASKS} {ex.Message}");
             }
-        }
-
-        private bool deveProcessar(SatTask task) => ObterPermissao(task);
-
-        private bool ObterPermissao(SatTask task)
-        {
-            DateTime dtHrProc = task.DataHoraProcessamento.HasValue ?
-                task.DataHoraProcessamento.Value : default(DateTime);
-
-            switch (task.CodSatTaskTipo)
-            {
-                case (int)SatTaskTipoEnum.INT_BANRISUL:
-                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_BANR_T);
-                case (int)SatTaskTipoEnum.INT_BB:
-                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_BB_T);
-                case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                    return DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_ZAFF_T);
-                case (int)SatTaskTipoEnum.INT_MRP:
-                    return DataHelper.is2Horas() && DataHelper.passouXMinutos(dtHrProc, (int)Constants.INT_LOG_MRP_T);
-                case (int)SatTaskTipoEnum.ATUALIZACAO_PARQUE_MODELO:
-                    return DataHelper.is23Horas() && DataHelper.passouXMinutos(dtHrProc, (int)Constants.ATU_PAR_MOD_T);
-                default:
-                    return false;
-            }
-        }
-
-        private void AtualizarTask(SatTask task)
-        {
-            task.DataHoraProcessamento = DateTime.Now;
-            task.Status = SatTaskStatusConst.PROCESSADO;
-
-            _taskService.Atualizar(task);
         }
     }
 }

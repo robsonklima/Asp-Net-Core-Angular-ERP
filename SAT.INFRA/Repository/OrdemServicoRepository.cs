@@ -14,17 +14,10 @@ namespace SAT.INFRA.Repository
     public partial class OrdemServicoRepository : IOrdemServicoRepository
     {
         private readonly AppDbContext _context;
-        private readonly IFeriadoRepository _feriadoRepository;
-
-        public OrdemServicoRepository(AppDbContext context, IFeriadoRepository feriadoRepository)
+        
+        public OrdemServicoRepository(AppDbContext context)
         {
             _context = context;
-            _feriadoRepository = feriadoRepository;
-        }
-
-        private int CalculaDiasNaoUteis(DateTime dataInicio, DateTime dataFim, bool contabilizarSabado = false, bool contabilizarDomingo = false, bool contabilizarFeriados = false, int? codCidade = null)
-        {
-            return this._feriadoRepository.CalculaDiasNaoUteis(dataInicio, dataFim, contabilizarSabado, contabilizarDomingo, contabilizarFeriados, codCidade);
         }
 
         public OrdemServico Criar(OrdemServico ordemServico)

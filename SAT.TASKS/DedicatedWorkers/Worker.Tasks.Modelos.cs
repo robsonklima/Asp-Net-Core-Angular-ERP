@@ -6,7 +6,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarModelos(SatTask task)
+        private void ExecutarModelos(SatTask task)
         {
             try
             {

@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarBB(SatTask task)
+        private void ExecutarBB(SatTask task)
         {
             _integracaoBBService.Processar();
         }

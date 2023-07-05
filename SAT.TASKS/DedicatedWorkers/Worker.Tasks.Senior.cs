@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarSenior(SatTask task)
+        private void ExecutarSenior(SatTask task)
         {
             
         }

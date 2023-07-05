@@ -164,15 +164,7 @@ namespace SAT.INFRA.Repository
             {
                 retorno = DataHoraAbertura;
             }
-
-            int i = 0;
-            while (this.CalculaDiasNaoUteis(DataHoraAbertura.AddDays(i), DataHoraAbertura.AddDays(i + 1), indSabado.Value, indDomingo.Value, indFeriado.Value) > 0)
-            {
-                i++;
-                retorno = retorno.AddDays(1).Date.Add(
-                    new TimeSpan(horarioInicio.Value.Hour, horarioInicio.Value.Minute, horarioInicio.Value.Second));
-            }
-
+            
             return retorno;
         }
 

@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarCobra(SatTask task)
+        private void ExecutarCobra(SatTask task)
         {
             
         }

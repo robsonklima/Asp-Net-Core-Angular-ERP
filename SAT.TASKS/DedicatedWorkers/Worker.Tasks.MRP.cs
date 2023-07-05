@@ -4,7 +4,7 @@ namespace SAT.TASKS
 {
     public partial class Worker : BackgroundService
     {
-        private void IntegrarMRP(SatTask task)
+        private void ExecutarMRP(SatTask task)
         {
             _integracaoMRPService.ImportarArquivoMRPLogix();
             

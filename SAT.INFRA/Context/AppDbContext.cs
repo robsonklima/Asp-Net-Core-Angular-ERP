@@ -58,7 +58,6 @@ namespace SAT.INFRA.Context
         public DbSet<Peca> Peca { get; set; }
         public DbSet<PecaStatus> PecaStatus { get; set; }
         public DbSet<Transportadora> Transportadora { get; set; }
-        public DbSet<Feriado> Feriado { get; set; }
         public DbSet<Causa> Causa { get; set; }
         public DbSet<GrupoCausa> GrupoCausa { get; set; }
         public DbSet<TipoCausa> TipoCausa { get; set; }
@@ -441,7 +440,6 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<TipoEquipamento>(new TipoEquipamentoMap().Configure);
             modelBuilder.Entity<ClienteBancada>(new ClienteBancadaMap().Configure);
             modelBuilder.Entity<FerramentaTecnico>(new FerramentaTecnicoMap().Configure);
-            modelBuilder.Entity<Feriado>(new FeriadoMap().Configure);
             modelBuilder.Entity<LiderTecnico>(new LiderTecnicoMap().Configure);
             modelBuilder.Entity<BancadaLista>(new BancadaListaMap().Configure);
             modelBuilder.Entity<AcaoComponente>(new AcaoComponenteMap().Configure);
@@ -556,6 +554,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ANS>(new ANSMap().Configure);
             modelBuilder.Entity<OSPrazoAtendimento>(new OSPrazoAtendimentoMap().Configure);
             modelBuilder.Entity<SATFeriado>(new SATFeriadoMap().Configure);
+            modelBuilder.Entity<Agendamento>(new AgendamentoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -11,12 +11,7 @@ namespace SAT.MODELS.Entities
         public int TempoRepeticaoMinutos { get; set; }
         public TimeSpan Inicio { get; set; }
         public TimeSpan Fim { get; set; }
-        public byte? IndDomingo { get; set; }
-        public byte? IndSegunda { get; set; }
-        public byte? IndTerca { get; set; }
-        public byte? IndQuarta { get; set; }
-        public byte? IndQuinta { get; set; }
-        public byte? IndSexta { get; set; }
-        public byte? IndSabado { get; set; }
+        public byte? DiaSemanaInicio { get; set; }
+        public byte? DiaSemanaFim { get; set; }
     }
 }

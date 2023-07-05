@@ -25,7 +25,8 @@ namespace SAT.SERVICES.Services
             {
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(Constants.INTEGRACAO_PROTEGE_API_URL + "Token");
-                client.DefaultRequestHeaders.Add("username", Constants.INTEGRACAO_PROTEGE_USER );
+
+                client.DefaultRequestHeaders.Add("username", Constants.INTEGRACAO_PROTEGE_USER);
                 client.DefaultRequestHeaders.Add("password", Constants.INTEGRACAO_PROTEGE_PASSWORD);
                 client.DefaultRequestHeaders.Add("client_id", Constants.INTEGRACAO_PROTEGE_CLIENT_ID);
                 client.DefaultRequestHeaders.Add("grant_type", Constants.INTEGRACAO_PROTEGE_GRANT_TYPE);

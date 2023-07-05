@@ -49,8 +49,13 @@ namespace SAT.TASKS
             var daHrProc = task.DataHoraProcessamento!.Value;
             var dataHrProcTipo = daHrProc.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
             var tempoAtual = DateTime.Now.TimeOfDay;
+            var diaSemanaInicio = tipo.DiaSemanaInicio;
+            var diaSemanaFim = tipo.DiaSemanaFim;
 
-            return dataHrProcTipo < dataHrAtual && tempoAtual >= tipo.Inicio && tempoAtual <= tipo.Fim;
+            return dataHrProcTipo < dataHrAtual && 
+                tempoAtual >= tipo.Inicio && tempoAtual <= 
+                tipo.Fim && (int)DateTime.Now.DayOfWeek >= tipo.DiaSemanaInicio && 
+                (int)DateTime.Now.DayOfWeek <= tipo.DiaSemanaFim;
         }
 
         private async Task ProcessarFilaTasksAsync(IEnumerable<SatTask> tasks)

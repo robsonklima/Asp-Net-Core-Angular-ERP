@@ -11,6 +11,15 @@ namespace SAT.TASKS
             
             var osCliente = await _integracaoProtegeService
                 .ConsultarChamadoAsync(token, "564955", "6dd53665c0c24cab86870a21cf6434ae");
+
+            var armazenados = await _integracaoProtegeService
+                .ObterPesquisaArmazenadaAsync(token);
+
+            var osClienteEnviada = await _integracaoProtegeService
+                .EnviarChamadoAsync(token);
+
+            var osClienteAtualizada = await _integracaoProtegeService
+                .AtualizarStatusChamadoAsync(token);
         }
     }
 }

@@ -36,6 +36,9 @@ namespace SAT.MODELS.Entities.Constants
         public static readonly string FIN_PROCESSO = "Iniciando";
         public static readonly string ERR_API_CLIENTE = "Nao foi obtido retorno da API do cliente";
         public static readonly string INIC_TRANSMISSAO = "Iniciando a transmissao";
+        public static readonly string INIC_AUTENTICACAO = "Iniciando a autenticacao";
+        public static readonly string AUTENTICACAO_OK = "Autenticacao realizada com sucesso";
+        public static readonly string AUTENTICACAO_NOK = "Erro ao autenticar";
         public static readonly string TASK_CRIADA = "Task criada com sucesso";
         public static readonly string SLA_NAO_ENCONTRADO_INF_EC = "SLA nao encontrado, informar equipamento contrato";
         public static readonly string SLA_CALCULADO = "SLA calculado com sucesso para o chamado";

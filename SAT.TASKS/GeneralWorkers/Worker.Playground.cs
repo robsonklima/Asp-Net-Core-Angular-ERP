@@ -7,9 +7,9 @@ namespace SAT.TASKS
     {
         [Conditional("DEBUG")]
 
-        private void IniciarPlaygroundAsync()
+        private async void IniciarPlaygroundAsync()
         {
-            ExecutarBB(new SatTask());
+            ExecutarProtegeAsync(new SatTask(), new List<OrdemServico>());
         }
     }
 }

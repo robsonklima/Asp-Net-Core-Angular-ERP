@@ -148,7 +148,7 @@ namespace SAT.TASKS
 
                             continue;
                         case (int)SatTaskTipoEnum.PROTEGE:
-                            ExecutarProtege(task);
+                            ExecutarProtegeAsync(task, chamados);
 
                             continue;
                         case (int)SatTaskTipoEnum.METRO_SP:

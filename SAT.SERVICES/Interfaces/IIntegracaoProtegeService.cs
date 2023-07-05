@@ -1,7 +1,14 @@
+using System.Threading.Tasks;
+using SAT.MODELS.Entities;
+
 namespace SAT.SERVICES.Interfaces
 {
     public interface IIntegracaoProtegeService
     {
-        string Executar();
+        Task<ProtegeToken> LoginAsync();
+        Task<OrdemServicoProtege> ConsultarChamadoAsync(ProtegeToken token, string numOSCliente, string busobId);
+        Task<OrdemServicoProtege> EnviarChamadoAsync(ProtegeToken token);
+        Task<OrdemServicoProtegeArmazenados> ObterPesquisaArmazenadaAsync(ProtegeToken token);
+        Task<OrdemServicoProtege> AtualizarStatusChamadoAsync(ProtegeToken token);
     }
 }

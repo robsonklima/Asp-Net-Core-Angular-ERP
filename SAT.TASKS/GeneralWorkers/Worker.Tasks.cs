@@ -90,7 +90,7 @@ namespace SAT.TASKS
 
                 foreach (var task in tasks)
                 {
-                    if (task.Status == SatTaskStatusConst.PENDENTE)
+                    if (task.Status != SatTaskStatusConst.PENDENTE)
                         continue;
 
                     task.DataHoraProcessamento = DateTime.Now;

@@ -35,7 +35,7 @@ namespace SAT.TASKS
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        var a = JsonConvert.DeserializeObject<ProtegeToken>(apiResponse);
+                        ProtegeToken token = JsonConvert.DeserializeObject<ProtegeToken>(File.ReadAllText(apiResponse))!;
                     }
                     else
                     {

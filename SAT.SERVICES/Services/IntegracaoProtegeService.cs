@@ -136,7 +136,7 @@ namespace SAT.SERVICES.Services
             }
         }
 
-        public async Task<OrdemServicoProtegeArmazenados> ObterPesquisaArmazenadaAsync(ProtegeToken token)
+        public async Task<OrdemServicoProtegeArmazenados> ConsultarPesquisaArmazenadaAsync(ProtegeToken token)
         {
             try
             {

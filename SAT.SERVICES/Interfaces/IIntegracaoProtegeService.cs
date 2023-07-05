@@ -8,7 +8,7 @@ namespace SAT.SERVICES.Interfaces
         Task<ProtegeToken> LoginAsync();
         Task<OrdemServicoProtege> ConsultarChamadoAsync(ProtegeToken token, string numOSCliente, string busobId);
         Task<OrdemServicoProtege> EnviarChamadoAsync(ProtegeToken token);
-        Task<OrdemServicoProtegeArmazenados> ObterPesquisaArmazenadaAsync(ProtegeToken token);
+        Task<OrdemServicoProtegeArmazenados> ConsultarPesquisaArmazenadaAsync(ProtegeToken token);
         Task<OrdemServicoProtege> AtualizarStatusChamadoAsync(ProtegeToken token);
     }
 }

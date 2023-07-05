@@ -235,17 +235,15 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	}
 
 	public verificarPermissaoEdicaoOS(): boolean {
-		if(this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.LIDER && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.TECNICO_OPERACOES && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.LIDER && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
-			|| (this.userSession.usuario.codPerfil === PerfilEnum.TECNICO_OPERACOES && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
-			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS
-			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
+		if(this.userSession.usuario.codPerfil !== PerfilEnum.FILIAL_TECNICO_DE_CAMPO
+			&& this.userSession.usuario.codSetor !== SetorEnum.CLIENTE
+			&& this.userSession.usuario.codSetor !== SetorEnum.FINANCEIRO
+			&& this.userSession.usuario.codSetor !== SetorEnum.LABORATORIO_TECNICO
+			&& this.userSession.usuario.codSetor !== SetorEnum.LOGISTICA
+			&& this.userSession.usuario.codSetor !== SetorEnum.PRESTADOR_DE_SERVICO
+			&& this.userSession.usuario.codSetor !== SetorEnum.FISCAL
+			&& this.userSession.usuario.codSetor !== SetorEnum.ENGENHARIA_GARANTIA_E_QUALIDADE
+			)
 			return true;
 		
 		else
@@ -254,6 +252,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 
 	public verificarPermissaoAgendamento(): boolean {
 		if((this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
+			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS
 			|| this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL
 			|| this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO
 			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)

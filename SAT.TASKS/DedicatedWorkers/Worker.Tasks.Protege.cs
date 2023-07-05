@@ -14,14 +14,13 @@ namespace SAT.TASKS
             await Login();
         }
 
-        private async Task Login()
+        private async Task<string> Login()
         {
-
-            _logger.Info($"{MsgConst.INIC_AUTENTICACAO}");
+            var jsonToken = new ProtegeToken();
+            _logger.Info($"{ MsgConst.INIC_AUTENTICACAO }");
 
             try
             {
-
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(Constants.INTEGRACAO_PROTEGE_API_URL + "Token");
                 client.DefaultRequestHeaders.Add("username", Constants.INTEGRACAO_PROTEGE_USER );
@@ -33,18 +32,24 @@ namespace SAT.TASKS
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    var a = JsonConvert
+                    jsonToken = JsonConvert
                         .DeserializeObject<ProtegeToken>(response.Content
-                        .ReadAsStringAsync().Result);
+                        .ReadAsStringAsync().Result)!;
+
+                    _logger.Info($"{ MsgConst.AUTENTICACAO_OK }");
                 }
                 else
                 {
                     _logger.Error($"{ MsgConst.ERR_API_CLIENTE } { Constants.INTEGRACAO_PROTEGE_API_URL } { response.StatusCode }");
                 }
+
+                return jsonToken?.Access_token!;
             }
             catch (Exception ex)
             {
                 _logger.Error($"{MsgConst.ERR_API_CLIENTE} {Constants.INTEGRACAO_PROTEGE_API_URL} {ex.Message}");
+
+                return jsonToken.Access_token;
             }
         }
     }

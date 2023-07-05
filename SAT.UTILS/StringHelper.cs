@@ -25,7 +25,7 @@ namespace SAT.UTILS
         {
             StringBuilder sbReturn = new StringBuilder();
             var arrayText = str.Normalize(NormalizationForm.FormD).ToCharArray();
-            
+
             foreach (char letter in arrayText)
             {
                 if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)

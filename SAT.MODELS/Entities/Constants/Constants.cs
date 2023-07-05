@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SAT.MODELS.Entities.Constants
 {
@@ -26,8 +27,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
         public static string INTEGRACAO_PROTEGE_API_URL = "https://servicedeskhomolog.protege.com.br/CherwellAPI/";
-        public static string INTEGRACAO_PROTEGE_PASSWORD = "CHERWELL\\integra.perto";
-        public static string INTEGRACAO_PROTEGE_USER = "integrA#23";
+        public static string INTEGRACAO_PROTEGE_USER = "CHERWELL/integra.perto";
+        public static string INTEGRACAO_PROTEGE_PASSWORD = "integrA#23";
         public static string INTEGRACAO_PROTEGE_CLIENT_ID = "fbcc8044-cb27-4651-81e9-d53ecf6f71ea";
         public static string INTEGRACAO_PROTEGE_GRANT_TYPE = "password";
         public static string INTEGRACAO_PROTEGE_AUTH_MODE = "internal";

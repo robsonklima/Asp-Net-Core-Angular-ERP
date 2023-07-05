@@ -17,7 +17,9 @@ namespace SAT.TASKS
                 {
                     SatTask task = (SatTask)_taskService
                         .ObterPorParametros(new SatTaskParameters { 
-                            CodSatTaskTipo = tipo.CodSatTaskTipo
+                            CodSatTaskTipo = tipo.CodSatTaskTipo,
+                            SortActive = "DataHoraCad",
+                            SortDirection = "DESC"
                         })
                         .Items?
                         .FirstOrDefault()!;
@@ -45,6 +47,9 @@ namespace SAT.TASKS
 
         private bool deveCriar(SatTask task, SatTaskTipo tipo)
         {
+            if (task.DataHoraProcessamento is null)
+                return false;
+
             var dataHrAtual = DateTime.Now;
             var daHrProc = task.DataHoraProcessamento!.Value;
             var dataHrProxProc = daHrProc.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
@@ -53,7 +58,7 @@ namespace SAT.TASKS
             var diaSemanaFim = tipo.DiaSemanaFim;
             var diaSemana = (int)DateTime.Now.DayOfWeek;
 
-            if (dataHrProxProc < dataHrAtual)
+            if (dataHrProxProc > dataHrAtual)
                 return false;
 
             if (tempoAtual <= tipo.Inicio)

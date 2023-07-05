@@ -41,13 +41,13 @@ namespace SAT.TASKS
                     }
                     else
                     {
-                        _logger.Info($"{MsgConst.ERR_API_CLIENTE} {Constants.INTEGRACAO_PROTEGE_API_URL} {apiResponse}");
+                        _logger.Info($"{ MsgConst.ERR_API_CLIENTE } { Constants.INTEGRACAO_PROTEGE_API_URL } { apiResponse }");
                     }
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error($"{MsgConst.ERR_API_CLIENTE} {Constants.INTEGRACAO_PROTEGE_API_URL} {ex.Message}");
+                _logger.Error($"{ MsgConst.ERR_API_CLIENTE } { Constants.INTEGRACAO_PROTEGE_API_URL } { ex.Message }");
             }
 
         }

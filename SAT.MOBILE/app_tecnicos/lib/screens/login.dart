@@ -1,37 +1,40 @@
+import 'dart:convert';
+
+import 'package:app_tecnicos/constants/constants.dart';
 import 'package:app_tecnicos/screens/home.dart';
 import 'package:app_tecnicos/services/local-storage.service.dart';
+import 'package:http/http.dart' as http;
 import 'package:app_tecnicos/types/login.types.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import '../constants/constants.dart';
 import '../main.dart';
 
 class LoginFormScreen extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final dio = Dio();
 
-  // login(String codUsuario, String senha) async {
-  //   Response<String> response = await dio.post(
-  //       '${Constants.API_URL}/Usuario/Login',
-  //       data: {'codUsuario': codUsuario, 'senha': senha});
+  void login(String codUsuario, String senha) async {
+    final response = await http.post(
+      Uri.parse('${Constants.API_URL}/Usuario/Login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+          <String, String>{'codUsuario': codUsuario, 'senha': senha}),
+    );
 
-  //   if (response.statusCode == 200) {
-  //     LocalStorageService.save('usuario', response.data!);
-  //   }
-
-  //   // ignore: use_build_context_synchronously
-  //   //Navigator.of(context)
-  //       //.push(MaterialPageRoute(builder: (context) => const HomeScreen()));
-  // }
-
-  login(String codUsuario, String senha) async {
-    Response response;
-    Dio dio = Dio();
-    LoginModel login = LoginModel(codUsuario: codUsuario, senha: senha);
-    response =
-        await dio.post('${Constants.API_URL}/Usuario/Login', data: login);
-
-    print(response.data.toString());
+    if (response.statusCode == 200) {
+      final jsonDecoded = jsonDecode(response.body);
+      final retorno = UsuarioRetornoModel.fromJSON(jsonDecoded);
+      LocalStorageService.save('usuario', retorno.usuario);
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      throw Exception('Failed to load album');
+    }
   }
 
   @override

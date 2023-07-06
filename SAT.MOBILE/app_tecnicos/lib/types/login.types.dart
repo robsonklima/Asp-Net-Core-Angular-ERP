@@ -22,7 +22,9 @@ class UsuarioRetornoModel {
   final String token;
 
   factory UsuarioRetornoModel.fromJSON(Map<String, dynamic> json) =>
-      UsuarioRetornoModel(usuario: json['usuario'], token: json['token']);
+      UsuarioRetornoModel(
+          usuario: UsuarioModel.fromJSON(json['usuario']),
+          token: json['token']);
 
   Map<String, dynamic> toJSON() => {
         "usuario": usuario,

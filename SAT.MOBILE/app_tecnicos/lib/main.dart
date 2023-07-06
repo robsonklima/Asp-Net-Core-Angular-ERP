@@ -1,81 +1,44 @@
-import 'package:app_tecnicos/constants/constants.dart';
-import 'package:dio/dio.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'constants/constants.dart';
+import 'login.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: Home());
-  }
-}
-
-class Home extends StatefulWidget {
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  late Response response;
-  Dio dio = Dio();
-
-  bool error = false;
-  bool loading = false;
-  String errmsg = "";
-  var apidata;
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
-  getData() async {
-    setState(() {
-      loading = true;
-    });
-
-    final response = await dio.post('${Constants.API_URL}/Usuario/Login',
-        data: {'codUsuario': 'ealmanca', 'senha': 'Eroa@608'});
-    apidata = response.data;
-
-    if (response.statusCode == 200) {
-    } else {}
-
-    loading = false;
-    setState(() {}); //refresh UI
-  }
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Fetch Data from REST API"),
-          backgroundColor: Colors.redAccent,
+    const appTitle = 'App Técnicos';
+
+    return MaterialApp(
+      title: appTitle,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontSize: 36),
+          bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
         ),
-        body: Container(
-            alignment: Alignment.topCenter,
-            padding: EdgeInsets.all(20),
-            child: loading
-                ? CircularProgressIndicator()
-                : //if loading == true, show progress indicator
-                Container(
-                    //if there is any error, show error message
-                    child: error
-                        ? Text("Error: $errmsg")
-                        : Column(
-                            //if everything fine, show the JSON as widget
-                            children: apidata["data"].map<Widget>((country) {
-                              return Card(
-                                child: ListTile(
-                                  title: Text(country["name"]),
-                                  subtitle: Text(country["capital"]),
-                                ),
-                              );
-                            }).toList(),
-                          ))));
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(appTitle),
+        ),
+        body: const LoginForm(),
+      ),
+    );
+  }
+}
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
+  @override
+  LoginFormScreen createState() {
+    return LoginFormScreen();
   }
 }

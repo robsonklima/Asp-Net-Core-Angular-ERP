@@ -1,5 +1,6 @@
 import 'package:app_tecnicos/screens/home.dart';
 import 'package:app_tecnicos/services/local-storage.service.dart';
+import 'package:app_tecnicos/types/login.types.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
@@ -9,18 +10,28 @@ class LoginFormScreen extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final dio = Dio();
 
+  // login(String codUsuario, String senha) async {
+  //   Response<String> response = await dio.post(
+  //       '${Constants.API_URL}/Usuario/Login',
+  //       data: {'codUsuario': codUsuario, 'senha': senha});
+
+  //   if (response.statusCode == 200) {
+  //     LocalStorageService.save('usuario', response.data!);
+  //   }
+
+  //   // ignore: use_build_context_synchronously
+  //   //Navigator.of(context)
+  //       //.push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+  // }
+
   login(String codUsuario, String senha) async {
-    Response<String> response = await dio.post(
-        '${Constants.API_URL}/Usuario/Login',
-        data: {'codUsuario': codUsuario, 'senha': senha});
+    Response response;
+    Dio dio = Dio();
+    LoginModel login = LoginModel(codUsuario: codUsuario, senha: senha);
+    response =
+        await dio.post('${Constants.API_URL}/Usuario/Login', data: login);
 
-    if (response.statusCode == 200) {
-      LocalStorageService.save('usuario', response.data!);
-    }
-
-    // ignore: use_build_context_synchronously
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+    print(response.data.toString());
   }
 
   @override

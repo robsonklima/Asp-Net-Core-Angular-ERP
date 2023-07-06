@@ -318,6 +318,7 @@ namespace SAT.INFRA.Context
         public DbSet<ANS> ANS { get; set; }
         public DbSet<OSPrazoAtendimento> OSPrazoAtendimento { get; set; }
         public DbSet<SATFeriado> SATFeriado { get; set; }
+        public DbSet<NavegacaoConfiguracaoTipo> NavegacaoConfiguracaoTipo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -555,6 +556,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OSPrazoAtendimento>(new OSPrazoAtendimentoMap().Configure);
             modelBuilder.Entity<SATFeriado>(new SATFeriadoMap().Configure);
             modelBuilder.Entity<Agendamento>(new AgendamentoMap().Configure);
+            modelBuilder.Entity<NavegacaoConfiguracaoTipo>(new NavegacaoConfiguracaoTipoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()
                             .HasKey(ra => new { ra.CodFilial, ra.CodRegiao, ra.CodAutorizada });

@@ -11,11 +11,14 @@ namespace SAT.MODELS.Entities
         public int CodNavegacao { get; set; }
         public int? CodSetor { get; set; }
         public int CodPerfil { get; set; }
+        public int CodNavegacaoConfTipo { get; set; }
         [ForeignKey("CodNavegacao")]
         public Navegacao Navegacao { get; set; }
         [ForeignKey("CodPerfil")]
         public Perfil Perfil { get; set; }
         [ForeignKey("CodSetor")]
         public Setor Setor { get; set; }
+        [ForeignKey("CodNavegacaoConfTipo")]
+        public NavegacaoConfiguracaoTipo NavegacaoConfiguracaoTipo { get; set; }
     }
 }

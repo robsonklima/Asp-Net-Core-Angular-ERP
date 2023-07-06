@@ -1,21 +1,26 @@
-import 'dart:developer';
-
-import 'package:app_tecnicos/home.dart';
+import 'package:app_tecnicos/screens/home.dart';
+import 'package:app_tecnicos/services/local-storage.service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import 'constants/constants.dart';
-import 'main.dart';
+import '../constants/constants.dart';
+import '../main.dart';
 
 class LoginFormScreen extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final dio = Dio();
 
   login(String codUsuario, String senha) async {
-    final response = await Dio().post('${Constants.API_URL}/Usuario/Login',
+    Response<String> response = await dio.post(
+        '${Constants.API_URL}/Usuario/Login',
         data: {'codUsuario': codUsuario, 'senha': senha});
 
+    if (response.statusCode == 200) {
+      LocalStorageService.save('usuario', response.data!);
+    }
+
+    // ignore: use_build_context_synchronously
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        .push(MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   @override
@@ -73,7 +78,7 @@ class LoginFormScreen extends State<LoginForm> {
                     login("ealmanca", "Eroa@608");
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Aguarde...')),
+                      const SnackBar(content: Text('Autenticando...')),
                     );
                   }
                 },

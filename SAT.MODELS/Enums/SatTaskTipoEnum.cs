@@ -17,6 +17,7 @@ namespace SAT.MODELS.Enums
         TICKET_LOG = 12,
         PROTEGE = 13,
         METRO_SP = 14,
-        BRB = 15
+        BRB = 15,
+        ADENDO = 16
     }
 }

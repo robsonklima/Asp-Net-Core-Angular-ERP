@@ -13,7 +13,7 @@ class LoginFormScreen extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final dio = Dio();
 
-  void login(String codUsuario, String senha) async {
+  Future<bool> login(String codUsuario, String senha) async {
     final response = await http.post(
       Uri.parse('${Constants.API_URL}/Usuario/Login'),
       headers: <String, String>{
@@ -26,19 +26,24 @@ class LoginFormScreen extends State<LoginForm> {
     if (response.statusCode == 200) {
       final jsonDecoded = jsonDecode(response.body);
       final retorno = UsuarioRetornoModel.fromJSON(jsonDecoded);
-      LocalStorageService.save('usuario', retorno.usuario);
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+
+      if (retorno!.usuario!.codUsuario != null) {
+        LocalStorageService.save('usuario', retorno.usuario);
+
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      throw Exception('Failed to load album');
+      return false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController codUsuarioController = TextEditingController();
+    TextEditingController senhaController = TextEditingController();
+
     return Form(
       key: _formKey,
       child: Column(
@@ -57,6 +62,7 @@ class LoginFormScreen extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 32),
             child: TextFormField(
+              controller: codUsuarioController,
               decoration: const InputDecoration(
                 icon: Icon(Icons.person),
                 hintText: 'Código de usuário',
@@ -71,6 +77,7 @@ class LoginFormScreen extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
             child: TextFormField(
+              controller: senhaController,
               decoration: const InputDecoration(
                 icon: Icon(Icons.lock),
                 hintText: 'Senha',
@@ -89,11 +96,22 @@ class LoginFormScreen extends State<LoginForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    login("ealmanca", "Eroa@608");
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Autenticando...')),
                     );
+
+                    bool isLogado =
+                        login(codUsuarioController.text, senhaController.text)
+                            as bool;
+
+                    if (isLogado) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()),
+                      );
+                    }
                   }
                 },
                 child: const Text('Entrar'),

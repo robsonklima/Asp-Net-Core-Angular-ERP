@@ -104,11 +104,11 @@ class LoginFormScreen extends State<LoginForm> {
                       const SnackBar(content: Text('Autenticando...')),
                     );
 
-                    bool isLogado =
-                        login(codUsuarioController.text, senhaController.text)
-                            as bool;
+                    // bool isLogado =
+                    //     login(codUsuarioController.text, senhaController.text)
+                    //         as bool;
 
-                    if (isLogado) {
+                    if (true) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

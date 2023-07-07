@@ -212,7 +212,7 @@
                     {{ t('voltar') }}
                 </button>
 
-                <button class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
+                <button *ngIf="this.form.value.step2.codDespesaItemAlerta == 0 || verificarObservacaoVazia(this.form.value.step3.obs)" class="px-8" mat-flat-button [disabled]="horizontalStepperStep3.stepControl.invalid"
                     [color]="'primary'" [disabled]="loading" type="button" (click)="salvar()">
                     {{ t('salvar') }}
                 </button>

@@ -14,13 +14,8 @@ class MyApp extends StatelessWidget {
       title: appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.lightBlue[800],
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 36),
-          bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
-        ),
+        useMaterial3: true,
+        colorSchemeSeed: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(

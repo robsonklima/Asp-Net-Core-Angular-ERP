@@ -15,7 +15,7 @@ class LoginFormScreen extends State<LoginForm> {
 
   Future<bool> login(String codUsuario, String senha) async {
     final response = await http.post(
-      Uri.parse('${Constants.API_URL}/Usuario/Login'),
+      Uri.parse('${Constants.apiUrl}/Usuario/Login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -28,7 +28,7 @@ class LoginFormScreen extends State<LoginForm> {
       final retorno = UsuarioRetornoModel.fromJSON(jsonDecoded);
 
       if (retorno.usuario.codUsuario.isNotEmpty) {
-        final LocalStorage storage = LocalStorage(Constants.APP_NAME);
+        final LocalStorage storage = LocalStorage(Constants.appName);
 
         storage.setItem('usuario', retorno.usuario);
         storage.setItem('token', retorno.token);
@@ -104,18 +104,16 @@ class LoginFormScreen extends State<LoginForm> {
                       const SnackBar(content: Text('Autenticando...')),
                     );
 
-                    bool isLogado = true;
-                    //login(codUsuarioController.text, senhaController.text)
-                    //as bool;
+                    bool isLogado =
+                        login(codUsuarioController.text, senhaController.text)
+                            as bool;
 
                     if (isLogado) {
-                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomeScreen()),
                       );
-                      // ignore: dead_code
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

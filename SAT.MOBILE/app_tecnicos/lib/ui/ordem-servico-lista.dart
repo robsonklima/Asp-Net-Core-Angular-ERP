@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Future<List<OrdemServicoModel>> fetchOrdensServico() async {
     final List<OrdemServicoModel> chamados;
     final response =
-        await http.get(Uri.parse('${Constants.API_URL}/OrdemServico'));
+        await http.get(Uri.parse('${Constants.apiUrl}/OrdemServico'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);

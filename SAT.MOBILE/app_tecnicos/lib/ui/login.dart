@@ -57,8 +57,9 @@ class LoginFormScreen extends State<LoginForm> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                'assets/images/logo-2.png',
-                width: 120,
+                'assets/images/logo.png',
+                width: 80,
+                height: 80,
               ),
             ),
           ),

@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:app_tecnicos/constants/constants.dart';
 import 'package:app_tecnicos/ui/home.dart';
-import 'package:app_tecnicos/services/local-storage.service.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_tecnicos/types/login.types.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import '../main.dart';
 
 class LoginFormScreen extends State<LoginForm> {
@@ -28,8 +28,10 @@ class LoginFormScreen extends State<LoginForm> {
       final retorno = UsuarioRetornoModel.fromJSON(jsonDecoded);
 
       if (retorno.usuario.codUsuario.isNotEmpty) {
-        LocalStorageService.save('usuario', retorno.usuario);
-        LocalStorageService.save('token', retorno.token);
+        final LocalStorage storage = LocalStorage(Constants.APP_NAME);
+
+        storage.setItem('usuario', retorno.usuario);
+        storage.setItem('token', retorno.token);
 
         return true;
       } else {
@@ -56,8 +58,7 @@ class LoginFormScreen extends State<LoginForm> {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 'assets/images/logo-2.png',
-                height: 80,
-                width: 80,
+                width: 120,
               ),
             ),
           ),

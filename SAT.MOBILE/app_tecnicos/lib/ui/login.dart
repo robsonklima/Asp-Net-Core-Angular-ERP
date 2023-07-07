@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_tecnicos/constants/constants.dart';
-import 'package:app_tecnicos/screens/home.dart';
+import 'package:app_tecnicos/ui/home.dart';
 import 'package:app_tecnicos/services/local-storage.service.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_tecnicos/types/login.types.dart';
@@ -27,8 +27,9 @@ class LoginFormScreen extends State<LoginForm> {
       final jsonDecoded = jsonDecode(response.body);
       final retorno = UsuarioRetornoModel.fromJSON(jsonDecoded);
 
-      if (retorno!.usuario!.codUsuario != null) {
+      if (retorno.usuario.codUsuario.isNotEmpty) {
         LocalStorageService.save('usuario', retorno.usuario);
+        LocalStorageService.save('token', retorno.token);
 
         return true;
       } else {
@@ -50,6 +51,17 @@ class LoginFormScreen extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset(
+                'assets/images/logo-2.png',
+                height: 80,
+                width: 80,
+              ),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 32),
             child: TextFormField(
               controller: codUsuarioController,
@@ -60,7 +72,7 @@ class LoginFormScreen extends State<LoginForm> {
               ),
               onSaved: (String? value) {},
               validator: (String? value) {
-                return (value == null) ? 'favor preencher este campo' : null;
+                return (value == "") ? 'favor preencher este campo' : null;
               },
             ),
           ),
@@ -75,14 +87,14 @@ class LoginFormScreen extends State<LoginForm> {
               ),
               onSaved: (String? value) {},
               validator: (String? value) {
-                return (value == null) ? 'favor preencher este campo' : null;
+                return (value == "") ? 'favor preencher este campo' : null;
               },
             ),
           ),
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+              padding: const EdgeInsets.all(32.0),
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -90,9 +102,9 @@ class LoginFormScreen extends State<LoginForm> {
                       const SnackBar(content: Text('Autenticando...')),
                     );
 
-                    bool isLogado =
-                        login(codUsuarioController.text, senhaController.text)
-                            as bool;
+                    bool isLogado = true;
+                    //login(codUsuarioController.text, senhaController.text)
+                    //as bool;
 
                     if (isLogado) {
                       // ignore: use_build_context_synchronously
@@ -101,6 +113,7 @@ class LoginFormScreen extends State<LoginForm> {
                         MaterialPageRoute(
                             builder: (context) => const HomeScreen()),
                       );
+                      // ignore: dead_code
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

@@ -5,7 +5,7 @@ class SatTask {
   late DateTime dataHoraProcessamento;
   late int codSatTaskTipo;
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJSON() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data["codSatTask"] = codSatTask;
     data["status"] = status;

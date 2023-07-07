@@ -49,16 +49,6 @@ class LoginFormScreen extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ignore: prefer_const_constructors
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-            child: const Text(
-              'Entre com seu usuário e senha do SAT Web',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 32),
             child: TextFormField(
@@ -110,6 +100,11 @@ class LoginFormScreen extends State<LoginForm> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomeScreen()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Usuário ou senha incorretos...')),
                       );
                     }
                   }

@@ -37,6 +37,7 @@
     "SAT.API/SAT.API.sln": true,
     "SAT.API/SAT.API.csproj.user": true,
     "SAT.API/SAT.API.csproj": true,
-    "SAT.TASKS\\Startup.cs": true
+    "SAT.TASKS\\Startup.cs": true,
+    ".expo": true
   }
 }

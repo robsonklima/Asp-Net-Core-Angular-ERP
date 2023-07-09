@@ -30,8 +30,9 @@ class LoginFormScreen extends State<LoginForm> {
       if (retorno.usuario.codUsuario.isNotEmpty) {
         final LocalStorage storage = LocalStorage(Constants.appName);
 
-        storage.setItem('usuario', retorno.usuario);
-        storage.setItem('token', retorno.token);
+        storage.setItem('codUsuario', retorno.usuario.codUsuario);
+        storage.setItem('nomeUsuario', retorno.usuario.nomeUsuario);
+        storage.setItem('tokenUsuario', retorno.token);
 
         return true;
       } else {
@@ -104,11 +105,11 @@ class LoginFormScreen extends State<LoginForm> {
                       const SnackBar(content: Text('Autenticando...')),
                     );
 
-                    // bool isLogado =
-                    //     login(codUsuarioController.text, senhaController.text)
-                    //         as bool;
+                    bool isLogado =
+                        login(codUsuarioController.text, senhaController.text)
+                            as bool;
 
-                    if (true) {
+                    if (isLogado) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using SAT.MODELS.Enums;
 
 namespace SAT.MODELS.Entities
 {

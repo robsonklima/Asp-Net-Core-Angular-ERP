@@ -16,9 +16,6 @@ class LoginFormScreen extends State<LoginForm> {
   Future<bool> login(String codUsuario, String senha) async {
     final response = await http.post(
       Uri.parse('${Constants.apiUrl}/Usuario/Login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
       body: jsonEncode(
           <String, String>{'codUsuario': codUsuario, 'senha': senha}),
     );
@@ -32,6 +29,11 @@ class LoginFormScreen extends State<LoginForm> {
 
         storage.setItem('codUsuario', retorno.usuario.codUsuario);
         storage.setItem('nomeUsuario', retorno.usuario.nomeUsuario);
+        storage.setItem('codPerfilUsuario', retorno.usuario.perfil.codPerfil);
+        storage.setItem('nomePerfilUsuario', retorno.usuario.perfil.nomePerfil);
+        storage.setItem(
+            'codTecnicoUsuario', retorno.usuario.tecnico.codTecnico);
+        storage.setItem('nomeTecnicoUsuario', retorno.usuario.tecnico.nome);
         storage.setItem('tokenUsuario', retorno.token);
 
         return true;

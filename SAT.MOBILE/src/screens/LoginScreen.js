@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }) {
     if (usuario) {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }],
+        routes: [{ name: 'MeusChamados' }],
       });
     }
   }
@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }) {
     if (json?.usuario?.codUsuario) {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }],
+        routes: [{ name: 'MeusChamados' }],
       });
 
       const usuario = JSON.stringify(json.usuario);

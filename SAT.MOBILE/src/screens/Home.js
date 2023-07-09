@@ -9,10 +9,13 @@ export default function Home({ navigation }) {
   return (
     <Background>
       <Logo />
+
       <Header>Olá</Header>
+
       <Paragraph>
         Bem-vindo de volta ao aplicativo do SAT.
       </Paragraph>
+
       <Button
         mode="outlined"
         onPress={() =>
@@ -22,7 +25,7 @@ export default function Home({ navigation }) {
           })
         }
       >
-        Logout
+        Sair
       </Button>
     </Background>
   )

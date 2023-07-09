@@ -1,4 +1,5 @@
-import { TouchableOpacity, StyleSheet, View, Alert } from 'react-native'
+import { TouchableOpacity, StyleSheet, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper'
 import { theme } from '../core/theme'
 import { passwordValidator } from '../helpers/passwordValidator'
@@ -41,6 +42,10 @@ export default function LoginScreen({ navigation }) {
         index: 0,
         routes: [{ name: 'Home' }],
       });
+
+      const usuario = JSON.stringify(json.usuario);
+      await AsyncStorage.setItem('usuario', usuario);
+      await AsyncStorage.setItem('token', json.token);
 
       return json.usuario;
     }

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper'
 import { theme } from '../core/theme'
 import { passwordValidator } from '../helpers/passwordValidator'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -14,6 +14,21 @@ const globals = require('../models/Globals');
 export default function LoginScreen({ navigation }) {
   const [codUsuario, setCodUsuario] = useState({ value: '', error: '' })
   const [senha, setSenha] = useState({ value: '', error: '' })
+
+  const onScreenLoad = async () => {
+    const usuario = JSON.parse(await AsyncStorage.getItem('usuario'));
+
+    if (usuario) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
+    }
+  }
+
+  useEffect(() => {
+    onScreenLoad();
+  }, [])
 
   const onLoginPressed = async () => {
     const passwordError = passwordValidator(senha.value)

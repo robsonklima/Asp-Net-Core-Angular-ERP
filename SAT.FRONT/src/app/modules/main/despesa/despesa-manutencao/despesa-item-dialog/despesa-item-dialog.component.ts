@@ -480,22 +480,34 @@ export class DespesaItemDialogComponent implements OnInit {
     return _.findIndex(this.rats, (r) => { return r.codRAT == this.rat.codRAT }) == this.rats.length - 1;
   }
 
+  verificarObservacaoVazia(str: string): boolean {
+    if(str)
+    {
+      if(str.trim().length !== 0)
+        return true;
+      
+      return false;
+    }
+    
+    return false;
+  }
+
   async salvar() {
     this.loading = true;
 
     const despesaItem: DespesaItem = this.isQuilometragem() ? await this.criaDespesaItemQuilometragem() : await this.criaDespesaItemOutros();
 
-    this._despesaItemSvc.criar(despesaItem)
-      .subscribe(() => {
-        this.dialogRef.close(true);
-        this.loading = false;
-      },
-        () => {
-          this._snack.exibirToast('Erro ao adicionar item da despesa!', 'error');
-          this.dialogRef.close(false);
+      this._despesaItemSvc.criar(despesaItem)
+        .subscribe(() => {
+          this.dialogRef.close(true);
           this.loading = false;
-        }
-      );
+        },
+          () => {
+            this._snack.exibirToast('Erro ao adicionar item da despesa!', 'error');
+            this.dialogRef.close(false);
+            this.loading = false;
+          }
+        );
   }
 
   async criaDespesaItemQuilometragem() {

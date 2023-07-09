@@ -67,10 +67,10 @@ namespace SAT.TASKS
             if (tempoAtual >= tipo.Fim)
                 return false;
 
-            if (diaSemana <= tipo.DiaSemanaInicio)
+            if (diaSemana < tipo.DiaSemanaInicio)
                 return false;
 
-            if (diaSemana >= tipo.DiaSemanaFim)
+            if (diaSemana > tipo.DiaSemanaFim)
                 return false;
 
             return true;

@@ -9,7 +9,6 @@ import {
   ResetPasswordScreen,
   Home,
 } from './src/screens'
-import MeusChamadosScreen from './src/screens/MeusChamados'
 
 const Stack = createStackNavigator()
 
@@ -30,7 +29,6 @@ export default function App() {
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
           />
-          <Stack.Screen name="MeusChamados" component={MeusChamadosScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

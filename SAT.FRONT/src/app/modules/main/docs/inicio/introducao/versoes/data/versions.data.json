@@ -3389,5 +3389,11 @@
             "descricao": "CORRECAO problemas despesas.",
             "dataHoraCad": "2023-07-04 09:25:12.420",
             "nivel": "CORRECAO"
+        },
+        {
+            "versao": "2.2.17",
+            "descricao": "Ajuste de Perfis para acesso FrontEnd.",
+            "dataHoraCad": "2023-07-04 09:25:12.420",
+            "nivel": "CORRECAO"
         }
     ]

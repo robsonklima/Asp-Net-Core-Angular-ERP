@@ -24,28 +24,29 @@ export default function HomeScreen({ navigation }) {
     const token = await AsyncStorage.getItem('token');
 
     const url = `${globals.BASE_URL}/OrdemServico?codTecnico=${usuario.codTecnico}&pageSize=10`;
-    const response = await fetch(url, {
+
+    fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    });
-
-    const data = await response.json();
-    console.log(data);
+    })
+      .then((response) => console.log(response.json()))
+      .catch((error) => console.error(error))
+      .finally();
   }
 
   useEffect(() => {
     onScreenLoad();
-  }, [])
+  }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         data={chamados}
-        renderItem={({ chamado }) => <Text style={styles.item}>{chamado.codOS}</Text>}
+        renderItem={({ chamado }) => <Text style={styles.item}>{chamado?.codOS}</Text>}
       />
     </View>
   )

@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Background from '../components/Background'
-import Header from '../components/Header'
-import Paragraph from '../components/Paragraph'
+const globals = require('../models/Globals');
 
-export default function Home({ navigation }) {
-  const [usuario, setUsuario] = useState("");
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 22,
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+});
+
+export default function HomeScreen({ navigation }) {
+  const [chamados, setChamados] = useState([]);
 
   const onScreenLoad = async () => {
-    const usuario = JSON.parse(await AsyncStorage.getItem('usuario'));
+    const usuarioJSON = await AsyncStorage.getItem('usuario');
+    const usuario = JSON.parse(usuarioJSON);
+    const token = await AsyncStorage.getItem('token');
 
-    setUsuario(usuario);
+    const url = `${globals.BASE_URL}/OrdemServico?codTecnico=${usuario.codTecnico}&pageSize=10`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    console.log(data);
   }
 
   useEffect(() => {
@@ -18,12 +42,11 @@ export default function Home({ navigation }) {
   }, [])
 
   return (
-    <Background>
-      <Header>Olá</Header>
-
-      <Paragraph>
-        Bem-vindo de volta {usuario?.nomeUsuario}.
-      </Paragraph>
-    </Background>
+    <View style={styles.container}>
+      <FlatList
+        data={chamados}
+        renderItem={({ chamado }) => <Text style={styles.item}>{chamado.codOS}</Text>}
+      />
+    </View>
   )
 }

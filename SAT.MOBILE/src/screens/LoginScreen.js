@@ -17,6 +17,7 @@ export default function LoginScreen({ navigation }) {
 
   const onScreenLoad = async () => {
     const usuario = JSON.parse(await AsyncStorage.getItem('usuario'));
+    console.log(usuario);
 
     if (usuario) {
       navigation.reset({
@@ -25,7 +26,6 @@ export default function LoginScreen({ navigation }) {
       });
     }
   }
-
   useEffect(() => {
     onScreenLoad();
   }, [])

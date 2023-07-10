@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import api from '../services/api';
 
 const styles = StyleSheet.create({
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen({ navigation }) {
   const [chamados, setChamados] = useState([]);
+  const [teste, setTeste] = useState({ value: '', error: '' })
 
   useEffect(() => {
     (async () => {
@@ -31,17 +32,13 @@ export default function HomeScreen({ navigation }) {
           }
         })
         .then((response) => {
-          const responseData = response.data.items;
-
-          responseData.forEach(chamado => {
-            setChamados(chamados.push(chamado));
-          });
+          setTeste({ value: 'TESTE 2', error: '' })
+          console.log(teste.value)
         })
         .catch(e => {
           console.log(e);
         });
     })();
-
   }, [])
 
   return (

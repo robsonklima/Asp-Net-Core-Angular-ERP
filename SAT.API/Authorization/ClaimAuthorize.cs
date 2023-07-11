@@ -37,10 +37,6 @@ public class ClaimRequirementFilter : IAuthorizationFilter
         var claim = _claim.Value;
         var type = _claim.Type;
         var codUsuario = context.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value!;
-
-        if (string.IsNullOrWhiteSpace(codUsuario))
-            context.Result = new ForbidResult();
-
         var usuario = _usuarioService.ObterPorCodigo(codUsuario);
         var url = context.HttpContext.Request.Path.ToString().Replace("api/", "");
         var recursoBloqueado = (RecursoBloqueado)_recursoBloqueadoService
@@ -54,8 +50,7 @@ public class ClaimRequirementFilter : IAuthorizationFilter
             .Items
             .FirstOrDefault()!;
 
-        var claims = recursoBloqueado.Claims.Split(',');
-        if (claims is not null)
+        if (recursoBloqueado is not null)
             context.Result = new ForbidResult();
     }
 }

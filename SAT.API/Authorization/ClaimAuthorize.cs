@@ -45,12 +45,12 @@ public class ClaimRequirementFilter : IAuthorizationFilter
                 CodPerfil = usuario.CodPerfil,
                 CodSetor = usuario.CodSetor,
                 Url = url,
-                Claims = claim
+                Claim = claim 
             })
             .Items
             .FirstOrDefault()!;
-
-        if (recursoBloqueado is not null)
+        
+        if(recursoBloqueado is not null)
             context.Result = new ForbidResult();
     }
 }

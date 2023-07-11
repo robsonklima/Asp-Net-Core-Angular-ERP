@@ -6,6 +6,7 @@ namespace SAT.MODELS.Entities
         public int CodPerfil { get; set; }
         public int CodSetor { get; set; }
         public string Claims { get; set; }
-        public byte? IndAtivo { get; set; }
+        public string Url { get; set; }
+        public byte IndAtivo { get; set; }
     }
 }

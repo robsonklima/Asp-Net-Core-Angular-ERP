@@ -61,20 +61,19 @@ namespace SAT.INFRA.Repository
             var query = _context.RecursoBloqueado
                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(parameters.Claims))
+            if (!string.IsNullOrEmpty(parameters.Claim))
             {
-                string[] claims = parameters.Claims.Split(",").Select(a => a.Trim()).Distinct().ToArray();
-                query = query.Where(t => claims.Contains(t.Claims));
+                query = query.Where(t => t.Claims.Contains(parameters.Claim));
             }
 
             if (!string.IsNullOrWhiteSpace(parameters.Url))
-                query = query.Where(r => r.Equals(parameters.Url));
+                query = query.Where(r => r.Url == parameters.Url);
 
             if (parameters.CodSetor.HasValue)
-                query = query.Where(r => r.Equals(parameters.CodSetor));
+                query = query.Where(r => r.CodSetor == parameters.CodSetor.Value);
 
             if (parameters.CodPerfil.HasValue)
-                query = query.Where(r => r.Equals(parameters.CodPerfil));
+                query = query.Where(r => r.CodPerfil == parameters.CodPerfil.Value);
 
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

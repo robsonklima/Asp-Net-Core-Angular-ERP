@@ -47,7 +47,8 @@ public class ClaimRequirementFilter : IAuthorizationFilter
             .ObterPorParametros(new RecursoBloqueadoParameters
             {
                 CodPerfil = usuario.CodPerfil,
-                CodSetor = usuario.CodSetor
+                CodSetor = usuario.CodSetor,
+                Url = url
             })
             .Items
             .FirstOrDefault()!;

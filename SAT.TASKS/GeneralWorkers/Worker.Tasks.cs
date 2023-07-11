@@ -16,7 +16,8 @@ namespace SAT.TASKS
                 foreach (var tipo in tipos)
                 {
                     SatTask task = (SatTask)_taskService
-                        .ObterPorParametros(new SatTaskParameters { 
+                        .ObterPorParametros(new SatTaskParameters
+                        {
                             CodSatTaskTipo = tipo.CodSatTaskTipo,
                             SortActive = "DataHoraCad",
                             SortDirection = "DESC"
@@ -24,16 +25,17 @@ namespace SAT.TASKS
                         .Items?
                         .FirstOrDefault()!;
 
-                    if (deveCriar(task, tipo))
+                    if (deveCriar(task))
                     {
                         var nTask = _taskService.Criar(new SatTask
                         {
                             Status = SatTaskStatusConst.PENDENTE,
                             DataHoraCad = DateTime.Now,
+                            DataHoraProcessamento = task is null ? DateTime.Now.AddDays(-1) : null,
                             CodSatTaskTipo = tipo.CodSatTaskTipo
                         });
 
-                        _logger.Info($"{ MsgConst.TASK_CRIADA }, { nTask.Tipo.Nome }");
+                        _logger.Info($"{MsgConst.TASK_CRIADA}, {nTask.Tipo.Nome}");
                     }
                 }
             }
@@ -45,32 +47,52 @@ namespace SAT.TASKS
             _logger.Info(MsgConst.FIN_PROC_FILA);
         }
 
-        private bool deveCriar(SatTask task, SatTaskTipo tipo)
+        private bool deveCriar(SatTask task)
         {
+            if (task is null)
+                return true;
+
             if (task.DataHoraProcessamento is null)
                 return false;
 
-            var dataHrAtual = DateTime.Now;
-            var daHrProc = task.DataHoraProcessamento!.Value;
-            var dataHrProxProc = daHrProc.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
-            var tempoAtual = DateTime.Now.TimeOfDay;
-            var diaSemanaInicio = tipo.DiaSemanaInicio;
-            var diaSemanaFim = tipo.DiaSemanaFim;
+            if (!isHorarioValido(task))
+                return false;
+
+            return true;
+        }
+
+        private bool deveProcessar(SatTask task)
+        {
+            if (!isHorarioValido(task))
+                return false;
+
+            return true;
+        }
+
+        private bool isHorarioValido(SatTask task)
+        {
+            var agora = DateTime.Now;
+            var agoraHora = agora.TimeOfDay;
+            var processadoEm = task.DataHoraProcessamento!.Value;
+            var proximoProcessamento = processadoEm.AddMinutes(task.Tipo.TempoRepeticaoMinutos);
+
+            var diaSemanaInicio = task.Tipo.DiaSemanaInicio;
+            var diaSemanaFim = task.Tipo.DiaSemanaFim;
             var diaSemana = (int)DateTime.Now.DayOfWeek;
 
-            if (dataHrProxProc > dataHrAtual)
+            if (proximoProcessamento > agora)
                 return false;
 
-            if (tempoAtual <= tipo.Inicio)
+            if (agoraHora <= task.Tipo.Inicio)
                 return false;
 
-            if (tempoAtual >= tipo.Fim)
+            if (agoraHora >= task.Tipo.Fim)
                 return false;
 
-            if (diaSemana < tipo.DiaSemanaInicio)
+            if (diaSemana < task.Tipo.DiaSemanaInicio)
                 return false;
 
-            if (diaSemana > tipo.DiaSemanaFim)
+            if (diaSemana > task.Tipo.DiaSemanaFim)
                 return false;
 
             return true;
@@ -91,6 +113,9 @@ namespace SAT.TASKS
                 foreach (var task in tasks)
                 {
                     if (task.Status != SatTaskStatusConst.PENDENTE)
+                        continue;
+
+                    if (!deveProcessar(task))
                         continue;
 
                     task.DataHoraProcessamento = DateTime.Now;

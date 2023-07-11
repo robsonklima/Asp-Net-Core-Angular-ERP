@@ -47,7 +47,7 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey("CodPerfil")
                 .HasPrincipalKey("CodPerfil");
-            
+
             builder
                 .HasOne(p => p.Setor)
                 .WithMany()
@@ -71,6 +71,12 @@ namespace SAT.INFRA.Mapping
                 .WithOne()
                 .HasForeignKey(i => i.CodUsuario)
                 .HasPrincipalKey(i => i.CodUsuario);
+
+            builder
+                .HasMany(p => p.RecursosBloqueados)
+                .WithOne()
+                .HasForeignKey(prop => new { prop.CodSetor, prop.CodPerfil })
+                .HasPrincipalKey(prop => new { prop.CodSetor, prop.CodPerfil });
 
             builder
                  .Property(p => p.CodUsuario)
@@ -121,12 +127,12 @@ namespace SAT.INFRA.Mapping
                 .WithMany()
                 .HasForeignKey(prop => prop.CodTransportadora)
                 .HasPrincipalKey(prop => prop.CodTransportadora);
-            
+
             builder
                 .HasMany(i => i.NavegacoesConfiguracao)
                 .WithOne()
-                .HasForeignKey(prop => new { prop.CodPerfil, prop.CodSetor})
-                .HasPrincipalKey((prop => new { prop.CodPerfil, prop.CodSetor}));
+                .HasForeignKey(prop => new { prop.CodPerfil, prop.CodSetor })
+                .HasPrincipalKey((prop => new { prop.CodPerfil, prop.CodSetor }));
 
             builder.Ignore(p => p.Foto);
         }

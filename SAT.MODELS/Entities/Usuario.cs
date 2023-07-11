@@ -62,6 +62,7 @@ namespace SAT.MODELS.Entities
         public Turno Turno { get; set; }
         public List<Localizacao> Localizacoes { get; set; }
         public List<PontoPeriodoUsuario> PontosPeriodoUsuario { get; set; }
+        public virtual List<RecursoBloqueado> RecursosBloqueados { get; set; }
         public List<PontoUsuario> PontosUsuario { get; set; }
         public Filial FilialPonto { get; set; }
         public List<FiltroUsuario> FiltroUsuario { get; set; }

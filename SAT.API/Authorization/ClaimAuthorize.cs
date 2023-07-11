@@ -1,8 +1,11 @@
+using System.Linq;
 using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using SAT.MODELS.Entities;
 
 public class ClaimRequirementAttribute : TypeFilterAttribute
 {
@@ -16,11 +19,17 @@ public class ClaimRequirementFilter : IAuthorizationFilter
 {
     private readonly Claim _claim;
     private readonly IUsuarioService _usuarioService;
+    private readonly IRecursoBloqueadoService _recursoBloqueadoService;
 
-    public ClaimRequirementFilter(Claim claim, IUsuarioService usuarioService)
+    public ClaimRequirementFilter(
+        Claim claim,
+        IUsuarioService usuarioService,
+        IRecursoBloqueadoService recursoBloqueadoService
+    )
     {
         _claim = claim;
         _usuarioService = usuarioService;
+        _recursoBloqueadoService = recursoBloqueadoService;
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
@@ -33,30 +42,18 @@ public class ClaimRequirementFilter : IAuthorizationFilter
             context.Result = new ForbidResult();
 
         var usuario = _usuarioService.ObterPorCodigo(codUsuario);
-        var url = context.HttpContext.Request.Path;
+        var url = context.HttpContext.Request.Path.ToString().Replace("api/", "");
+        var recursoBloqueado = (RecursoBloqueado)_recursoBloqueadoService
+            .ObterPorParametros(new RecursoBloqueadoParameters
+            {
+                CodPerfil = usuario.CodPerfil,
+                CodSetor = usuario.CodSetor
+            })
+            .Items
+            .FirstOrDefault()!;
 
-        switch (claim)
-        {
-            case "CanReadResource":
-                context.Result = new ForbidResult();
-
-                break;
-            case "CanAddResource":
-                context.Result = new ForbidResult();
-
-                break;
-            case "CanEditResource":
-                context.Result = new ForbidResult();
-
-                break;
-            case "CanDeleteResource":
-
-                context.Result = new ForbidResult();
-                break;
-            default:
-                context.Result = new ForbidResult();
-
-                break;
-        }
+        var claims = recursoBloqueado.Claims.Split(',');
+        if (claims is not null)
+            context.Result = new ForbidResult();
     }
 }

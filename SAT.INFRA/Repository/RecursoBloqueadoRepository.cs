@@ -61,6 +61,21 @@ namespace SAT.INFRA.Repository
             var query = _context.RecursoBloqueado
                 .AsQueryable();
 
+            if (!string.IsNullOrEmpty(parameters.Claims))
+            {
+                string[] claims = parameters.Claims.Split(",").Select(a => a.Trim()).Distinct().ToArray();
+                query = query.Where(t => claims.Contains(t.Claims));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Url))
+                query = query.Where(r => r.Equals(parameters.Url));
+
+            if (parameters.CodSetor.HasValue)
+                query = query.Where(r => r.Equals(parameters.CodSetor));
+
+            if (parameters.CodPerfil.HasValue)
+                query = query.Where(r => r.Equals(parameters.CodPerfil));
+
             if (!string.IsNullOrEmpty(parameters.SortActive) && !string.IsNullOrEmpty(parameters.SortDirection))
                 query = query.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
 

@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SAT.API.Authorization;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
-using SAT.MODELS.Enums;
 using SAT.MODELS.Views;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
@@ -42,13 +40,14 @@ namespace SAT.API.Controllers
         [HttpDelete("{codDespesaAdiantamento}")]
         public void Delete(int codDespesaAdiantamento) =>
             _despesaAdiantamentoService.Deletar(codDespesaAdiantamento);
-        
+
         [HttpGet("Media/{codTecnico}")]
         public List<ViewMediaDespesasAdiantamento> GetMedia(int codTecnico) =>
             _despesaAdiantamentoService.ObterMediaAdiantamentos(codTecnico);
 
         [HttpPost("Solicitacao")]
-        public DespesaAdiantamentoSolicitacao Post([FromBody] DespesaAdiantamentoSolicitacao solicitacao) {
+        public DespesaAdiantamentoSolicitacao Post([FromBody] DespesaAdiantamentoSolicitacao solicitacao)
+        {
             return _despesaAdiantamentoService.CriarSolicitacao(solicitacao);
         }
 

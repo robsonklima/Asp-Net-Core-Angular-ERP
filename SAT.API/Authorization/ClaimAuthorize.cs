@@ -1,7 +1,8 @@
-using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SAT.MODELS.Entities.Constants;
+using SAT.SERVICES.Interfaces;
 
 public class ClaimRequirementAttribute : TypeFilterAttribute
 {
@@ -15,11 +16,13 @@ public class ClaimRequirementAttribute : TypeFilterAttribute
 
 public class ClaimRequirementFilter : IAuthorizationFilter
 {
-    readonly Claim _claim;
+    private readonly Claim _claim;
+    private readonly IUsuarioService _usuarioService;
 
-    public ClaimRequirementFilter(Claim claim)
+    public ClaimRequirementFilter(Claim claim, IUsuarioService usuarioService)
     {
         _claim = claim;
+        _usuarioService = usuarioService;
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
@@ -27,10 +30,35 @@ public class ClaimRequirementFilter : IAuthorizationFilter
         var claim = _claim.Value;
         var type = _claim.Type;
         var codUsuario = context.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value!;
+
+        if (string.IsNullOrWhiteSpace(codUsuario))
+            context.Result = new ForbidResult();
+
+        var usuario = _usuarioService.ObterPorCodigo(codUsuario);
         var url = context.HttpContext.Request.Path;
 
-        // Aqui vc verifica na sua configuracao se o cara deve ler ou editar
+        switch (claim)
+        {
+            case "CanReadResource":
+                context.Result = new ForbidResult();
 
-        context.Result = new ForbidResult();
+                break;
+            case "CanAddResource":
+                context.Result = new ForbidResult();
+
+                break;
+            case "CanEditResource":
+                context.Result = new ForbidResult();
+
+                break;
+            case "CanDeleteResource":
+
+                context.Result = new ForbidResult();
+                break;
+            default:
+                context.Result = new ForbidResult();
+
+                break;
+        }
     }
 }

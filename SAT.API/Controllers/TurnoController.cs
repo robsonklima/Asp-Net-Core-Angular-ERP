@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,32 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] TurnoParameters parameters)
         {
             return _turnoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTurno}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public Turno Get(int codTurno)
         {
             return _turnoService.ObterPorCodigo(codTurno);
         }
 
         [HttpPost]
-        [Authorize(Roles = "44")]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] Turno turno)
         {
             _turnoService.Criar(turno);
         }
 
         [HttpPut]
-        [Authorize(Roles = "44")]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] Turno turno)
         {
             _turnoService.Atualizar(turno);
         }
 
         [HttpDelete("{codTurno}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codTurno)
         {
             _turnoService.Deletar(codTurno);

@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] TransportadoraParameters parameters)
         {
             return _transportadoraService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTransportadora}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public Transportadora Get(int codTransportadora)
         {
             return _transportadoraService.ObterPorCodigo(codTransportadora);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] Transportadora transportadora)
         {
             _transportadoraService.Criar(transportadora);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] Transportadora transportadora)
         {
             _transportadoraService.Atualizar(transportadora);
         }
 
         [HttpDelete("{codTransportadora}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codTransportadora)
         {
             _transportadoraService.Deletar(codTransportadora);

@@ -55,6 +55,7 @@ namespace SAT.INFRA.Context
         public DbSet<Pais> Pais { get; set; }
         public DbSet<UnidadeFederativa> UnidadeFederativa { get; set; }
         public DbSet<Cidade> Cidade { get; set; }
+        public DbSet<RecursoBloqueado> RecursoBloqueado { get; set; }
         public DbSet<Peca> Peca { get; set; }
         public DbSet<PecaStatus> PecaStatus { get; set; }
         public DbSet<Transportadora> Transportadora { get; set; }
@@ -129,14 +130,14 @@ namespace SAT.INFRA.Context
         public DbSet<InstalacaoRessalva> InstalacaoRessalva { get; set; }
         public DbSet<InstalacaoMotivoRes> InstalacaoMotivoRes { get; set; }
         public DbSet<InstalacaoNFVenda> InstalacaoNFVenda { get; set; }
-        public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }        
-        public DbSet<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }   
-        public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }        
+        public DbSet<InstalacaoPleito> InstalacaoPleito { get; set; }
+        public DbSet<InstalacaoPleitoInstal> InstalacaoPleitoInstal { get; set; }
+        public DbSet<InstalacaoTipoPleito> InstalacaoTipoPleito { get; set; }
         public DbSet<InstalacaoAnexo> InstalacaoAnexo { get; set; }
-        public DbSet<InstalacaoPagto> InstalacaoPagto { get; set; }        
-        public DbSet<InstalacaoPagtoInstal> InstalacaoPagtoInstal { get; set; }                
-        public DbSet<InstalacaoMotivoMulta> InstalacaoMotivoMulta { get; set; }                
-        public DbSet<InstalacaoTipoParcela> InstalacaoTipoParcela { get; set; }                
+        public DbSet<InstalacaoPagto> InstalacaoPagto { get; set; }
+        public DbSet<InstalacaoPagtoInstal> InstalacaoPagtoInstal { get; set; }
+        public DbSet<InstalacaoMotivoMulta> InstalacaoMotivoMulta { get; set; }
+        public DbSet<InstalacaoTipoParcela> InstalacaoTipoParcela { get; set; }
         public DbSet<Laudo> Laudo { get; set; }
         public DbSet<LaudoStatus> LaudoStatus { get; set; }
         public DbSet<LaudoSituacao> LaudoSituacao { get; set; }
@@ -176,10 +177,10 @@ namespace SAT.INFRA.Context
         public DbSet<EquipamentoModulo> EquipamentoModulo { get; set; }
         public DbSet<ClientePeca> ClientePeca { get; set; }
         public DbSet<ClientePecaGenerica> ClientePecaGenerica { get; set; }
-        public DbSet<ViewOrcamentoLista> ViewOrcamentoLista{ get; set; }
+        public DbSet<ViewOrcamentoLista> ViewOrcamentoLista { get; set; }
         public DbSet<ViewAgendaTecnicoEvento> ViewAgendaTecnicoEvento { get; set; }
         public DbSet<ViewTecnicoTempoAtendimento> ViewTecnicoTempoAtendimento { get; set; }
-		public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
+        public DbSet<ImportacaoConfiguracao> ImportacaoConfiguracao { get; set; }
         public DbSet<ImportacaoTipo> ImportacaoTipo { get; set; }
         public DbSet<CheckinCheckout> CheckinCheckout { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
@@ -215,8 +216,8 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDespesaImpressaoItem> ViewDespesaImpressaoItem { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosSPACliente> ViewDashboardIndicadoresDetalhadosSPACliente { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosSPATecnico> ViewDashboardIndicadoresDetalhadosSPATecnico { get; set; }
-        public DbSet<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; } 
-        public DbSet<ViewDashboardIndicadoresDetalhadosProdutividade> ViewDashboardIndicadoresDetalhadosProdutividade { get; set; } 
+        public DbSet<ViewDashboardIndicadoresDetalhadosSPARegiao> ViewDashboardIndicadoresDetalhadosSPARegiao { get; set; }
+        public DbSet<ViewDashboardIndicadoresDetalhadosProdutividade> ViewDashboardIndicadoresDetalhadosProdutividade { get; set; }
         public DbSet<ViewDashboardIndicadoresFiliais> ViewDashboardIndicadoresFiliais { get; set; }
         public DbSet<ViewDashboardChamadosMaisAntigosCorretivas> ViewDashboardChamadosMaisAntigosCorretivas { get; set; }
         public DbSet<ViewDashboardChamadosMaisAntigosOrcamentos> ViewDashboardChamadosMaisAntigosOrcamentos { get; set; }
@@ -261,7 +262,7 @@ namespace SAT.INFRA.Context
         public DbSet<ViewDashboardIndicadoresDetalhadosPerformance> ViewDashboardIndicadoresDetalhadosPerformance { get; set; }
         public DbSet<ViewDashboardIndicadoresDetalhadosChamadosAntigos> ViewDashboardIndicadoresDetalhadosChamadosAntigos { get; set; }
         public DbSet<ViewExportacaoChamadosUnificado> ViewExportacaoChamadosUnificado { get; set; }
-        public DbSet<ViewExportacaoInstalacao> ViewExportacaoInstalacao { get; set; }        
+        public DbSet<ViewExportacaoInstalacao> ViewExportacaoInstalacao { get; set; }
         public DbSet<ViewIntegracaoFinanceiroOrcamento> ViewIntegracaoFinanceiroOrcamento { get; set; }
         public DbSet<ViewIntegracaoFinanceiroOrcamentoItem> ViewIntegracaoFinanceiroOrcamentoItem { get; set; }
         public DbSet<MensagemTecnico> MensagemTecnico { get; set; }
@@ -280,7 +281,7 @@ namespace SAT.INFRA.Context
         public DbSet<ItemSolucao> ItemSolucao { get; set; }
         public DbSet<TicketAnexo> TicketAnexo { get; set; }
         public DbSet<TicketBacklogView> TicketBacklogView { get; set; }
-        public DbSet<AdiantamentoRDsPendentesView> AdiantamentoRDsPendentesView { get; set; }        
+        public DbSet<AdiantamentoRDsPendentesView> AdiantamentoRDsPendentesView { get; set; }
         public DbSet<ProtocoloChamadoSTN> ProtocoloChamadoSTN { get; set; }
         public DbSet<TipoChamadoSTN> TipoChamadoSTN { get; set; }
         public DbSet<Improdutividade> Improdutividade { get; set; }
@@ -310,7 +311,7 @@ namespace SAT.INFRA.Context
         public DbSet<TipoComunicacao> TipoComunicacao { get; set; }
         public DbSet<EquipamentoPOS> EquipamentoPOS { get; set; }
         public DbSet<StatusEquipamentoPOS> StatusEquipamentoPOS { get; set; }
-        public DbSet<MRPLogix> MRPLogix { get; set; }        
+        public DbSet<MRPLogix> MRPLogix { get; set; }
         public DbSet<MRPLogixEstoque> MRPLogixEstoque { get; set; }
         public DbSet<Setor> Setor { get; set; }
         public DbSet<PerfilSetor> PerfilSetor { get; set; }
@@ -319,7 +320,7 @@ namespace SAT.INFRA.Context
         public DbSet<OSPrazoAtendimento> OSPrazoAtendimento { get; set; }
         public DbSet<SATFeriado> SATFeriado { get; set; }
         public DbSet<NavegacaoConfiguracaoTipo> NavegacaoConfiguracaoTipo { get; set; }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -419,8 +420,8 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosChamadosAntigos>(new ViewDashboardIndicadoresDetalhadosChamadosAntigosMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPACliente>(new ViewDashboardIndicadoresDetalhadosSPAClienteMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPARegiao>(new ViewDashboardIndicadoresDetalhadosSPARegiaoMap().Configure);
-            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPATecnico>(new ViewDashboardIndicadoresDetalhadosSPATecnicoMap().Configure);    
-            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosProdutividade>(new ViewDashboardIndicadoresDetalhadosProdutividadeMap().Configure);                            
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosSPATecnico>(new ViewDashboardIndicadoresDetalhadosSPATecnicoMap().Configure);
+            modelBuilder.Entity<ViewDashboardIndicadoresDetalhadosProdutividade>(new ViewDashboardIndicadoresDetalhadosProdutividadeMap().Configure);
             modelBuilder.Entity<ViewExportacaoChamadosUnificado>(new ViewExportacaoChamadosUnificadoMap().Configure);
             modelBuilder.Entity<ViewExportacaoInstalacao>(new ViewExportacaoInstalacaoMap().Configure);
             modelBuilder.Entity<ViewIntegracaoFinanceiroOrcamento>(new ViewIntegracaoFinanceiroOrcamentoMap().Configure);
@@ -473,7 +474,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Conferencia>(new ConferenciaMap().Configure);
             modelBuilder.Entity<ConferenciaParticipante>(new ConferenciaParticipanteMap().Configure);
             modelBuilder.Entity<MensagemTecnico>(new MensagemTecnicoMap().Configure);
-            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);   
+            modelBuilder.Entity<Cidade>(new CidadeMap().Configure);
             modelBuilder.Entity<ArquivoBanrisul>(new ArquivoBanrisulMap().Configure);
             modelBuilder.Entity<OrdemServicoSTN>(new OrdemServicoSTNMap().Configure);
             modelBuilder.Entity<StatusServicoSTN>(new StatusServicoSTNMap().Configure);
@@ -511,7 +512,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<InstalacaoPagto>(new InstalacaoPagtoMap().Configure);
             modelBuilder.Entity<InstalacaoPagtoInstal>(new InstalacaoPagtoInstalMap().Configure);
             modelBuilder.Entity<InstalacaoMotivoMulta>(new InstalacaoMotivoMultaMap().Configure);
-            modelBuilder.Entity<InstalacaoTipoParcela>(new InstalacaoTipoParcelaMap().Configure);           
+            modelBuilder.Entity<InstalacaoTipoParcela>(new InstalacaoTipoParcelaMap().Configure);
             modelBuilder.Entity<ProtocoloChamadoSTN>(new ProtocoloChamadoSTNMap().Configure);
             modelBuilder.Entity<TipoChamadoSTN>(new TipoChamadoSTNMap().Configure);
             modelBuilder.Entity<Improdutividade>(new ImprodutividadeMap().Configure);
@@ -556,6 +557,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<OSPrazoAtendimento>(new OSPrazoAtendimentoMap().Configure);
             modelBuilder.Entity<SATFeriado>(new SATFeriadoMap().Configure);
             modelBuilder.Entity<Agendamento>(new AgendamentoMap().Configure);
+            modelBuilder.Entity<RecursoBloqueado>(new RecursoBloqueadoMap().Configure);
             modelBuilder.Entity<NavegacaoConfiguracaoTipo>(new NavegacaoConfiguracaoTipoMap().Configure);
 
             modelBuilder.Entity<RegiaoAutorizada>()

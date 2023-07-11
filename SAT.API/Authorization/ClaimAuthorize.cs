@@ -48,7 +48,8 @@ public class ClaimRequirementFilter : IAuthorizationFilter
             {
                 CodPerfil = usuario.CodPerfil,
                 CodSetor = usuario.CodSetor,
-                Url = url
+                Url = url,
+                Claims = claim
             })
             .Items
             .FirstOrDefault()!;

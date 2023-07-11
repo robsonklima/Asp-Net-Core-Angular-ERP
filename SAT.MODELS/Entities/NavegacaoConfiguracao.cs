@@ -18,7 +18,5 @@ namespace SAT.MODELS.Entities
         public Perfil Perfil { get; set; }
         [ForeignKey("CodSetor")]
         public Setor Setor { get; set; }
-        [ForeignKey("CodNavegacaoConfTipo")]
-        public NavegacaoConfiguracaoTipo NavegacaoConfiguracaoTipo { get; set; }
     }
 }

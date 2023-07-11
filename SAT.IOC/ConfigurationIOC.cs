@@ -230,7 +230,6 @@ public class ConfigurationIOC
         builder.RegisterType<ANSRepository>().As<IANSRepository>();
         builder.RegisterType<OSPrazoAtendimentoRepository>().As<IOSPrazoAtendimentoRepository>();
         builder.RegisterType<SATFeriadoRepository>().As<ISATFeriadoRepository>();
-        builder.RegisterType<NavegacaoConfiguracaoTipoRepository>().As<INavegacaoConfiguracaoTipoRepository>();
 
         #endregion
 
@@ -457,7 +456,6 @@ public class ConfigurationIOC
         builder.RegisterType<ANSService>().As<IANSService>();
         builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>();
         builder.RegisterType<SATFeriadoService>().As<ISATFeriadoService>();
-        builder.RegisterType<NavegacaoConfiguracaoTipoService>().As<INavegacaoConfiguracaoTipoService>();
 
         #endregion
 

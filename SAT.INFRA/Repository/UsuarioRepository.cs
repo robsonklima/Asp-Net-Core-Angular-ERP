@@ -229,6 +229,7 @@ namespace SAT.INFRA.Repository
             return _context.Usuario
                 .Include(u => u.Perfil)
                 .Include(u => u.Setor)
+                .Include(u => u.RecursosBloqueados)
                 .Include(u => u.Cargo)
                 .Include(u => u.Tecnico)
                 .Include(u => u.Filial)

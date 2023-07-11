@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] LiderTecnicoParameters parameters)
         {
             return _LiderTecnicoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codLiderTecnico}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public LiderTecnico Get(int codLiderTecnico)
         {
             return _LiderTecnicoService.ObterPorCodigo(codLiderTecnico);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public LiderTecnico Post([FromBody] LiderTecnico LiderTecnico)
         {
             return _LiderTecnicoService.Criar(LiderTecnico);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] LiderTecnico LiderTecnico)
         {
             _LiderTecnicoService.Atualizar(LiderTecnico);
         }
 
         [HttpDelete("{codLiderTecnico}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codLiderTecnico)
         {
             _LiderTecnicoService.Deletar(codLiderTecnico);

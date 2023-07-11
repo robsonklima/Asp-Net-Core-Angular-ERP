@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,6 +23,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] UsuarioParameters parameters)
         {
             return _usuarioService.ObterPorParametros(parameters);
@@ -36,6 +38,7 @@ namespace SAT.API.Controllers
 
         [HttpPost]
         [Route("Criar")]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Criar([FromBody] Usuario usuario)
         {
             _usuarioService.Criar(usuario);
@@ -49,6 +52,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] Usuario usuario)
         {
             _usuarioService.Atualizar(usuario);
@@ -56,6 +60,7 @@ namespace SAT.API.Controllers
 
         [HttpPut]
         [Route("AlterarSenha")]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void AlterarSenha([FromBody] SegurancaUsuarioModel segurancaUsuarioModel)
         {
             _usuarioService.AlterarSenha(segurancaUsuarioModel);
@@ -72,6 +77,7 @@ namespace SAT.API.Controllers
 
         [HttpPost]
         [Route("DesbloquearAcesso/{codUsuario}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void DesbloquearAcesso([FromRoute] string codUsuario)
         {
             _usuarioService.DesbloquearAcesso(codUsuario);

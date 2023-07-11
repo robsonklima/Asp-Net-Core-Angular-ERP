@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] UnidadeFederativaParameters parameteres)
         {
             return _unidadeFederativaService.ObterPorParametros(parameteres);
         }
 
         [HttpGet("{codUF}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public UnidadeFederativa Get(int codUF)
         {
             return _unidadeFederativaService.ObterPorCodigo(codUF);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] UnidadeFederativa uf)
         {
             _unidadeFederativaService.Criar(uf);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] UnidadeFederativa uf)
         {
             _unidadeFederativaService.Atualizar(uf);
         }
 
         [HttpDelete("{codUF}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codUF)
         {
             _unidadeFederativaService.Deletar(codUF);

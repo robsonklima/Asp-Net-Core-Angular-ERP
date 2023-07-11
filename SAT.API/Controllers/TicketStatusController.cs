@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -24,18 +25,21 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] TicketStatusParameters parameters)
         {
             return _ticketStatusService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codStatus}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public TicketStatus Get(int codStatus)
         {
             return _ticketStatusService.ObterPorCodigo(codStatus);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] TicketStatus ticketStatus)
         {
             _ticketStatusService.Atualizar(ticketStatus);

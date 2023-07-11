@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -24,33 +25,24 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] TicketClassificacaoParameters parameters)
         {
             return _ticketClassificacaoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codClassificacao}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public TicketClassificacao Get(int codClassificacao)
         {
             return _ticketClassificacaoService.ObterPorCodigo(codClassificacao);
         }
 
-        // [HttpPost]
-        // public EquipamentoContrato Post([FromBody] EquipamentoContrato equipamentoContrato)
-        // {
-        //     return _equipamentoContratoService.Criar(equipamentoContrato);
-        // }
-
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] TicketClassificacao ticketClassificacao)
         {
             _ticketClassificacaoService.Atualizar(ticketClassificacao);
         }
-
-        // [HttpDelete("{codEquipContrato}")]
-        // public void Delete(int codEquipContrato)
-        // {
-        //     _equipamentoContratoService.Deletar(codEquipContrato);
-        // }
     }
 }

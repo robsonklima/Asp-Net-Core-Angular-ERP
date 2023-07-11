@@ -29,30 +29,29 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet("{codOS}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public OrdemServico ObterPorCodigo(int codOS)
         {
             return _osService.ObterPorCodigo(codOS);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public OrdemServico Post([FromBody] OrdemServico ordemServico)
         {
             return _osService.Criar(ordemServico);
         }
 
-        [HttpPost("{Clonar}")]
-        public OrdemServico Clonar([FromBody] OrdemServico ordemServico)
-        {
-            return _osService.Clonar(ordemServico);
-        }
-
         [HttpPut]
+
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public OrdemServico Put([FromBody] OrdemServico ordemServico)
         {
             return _osService.Atualizar(ordemServico);
         }
 
         [HttpDelete("{codOS}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Deletar(int codOS)
         {
             _osService.Deletar(codOS);

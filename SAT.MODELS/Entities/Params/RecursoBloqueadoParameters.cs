@@ -8,5 +8,6 @@ namespace SAT.MODELS.Entities.Params
         public int? CodPerfil { get; set; }
         public string Claim { get; set; }
         public string Url { get; set; }
+        public byte? IndAtivo { get; set; }
     }
 }

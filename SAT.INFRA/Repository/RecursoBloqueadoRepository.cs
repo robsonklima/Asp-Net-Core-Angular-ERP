@@ -66,6 +66,9 @@ namespace SAT.INFRA.Repository
                 query = query.Where(t => t.Claims.Contains(parameters.Claim));
             }
 
+            if (parameters.IndAtivo.HasValue)
+                query = query.Where(r => r.Equals(parameters.IndAtivo));
+
             if (!string.IsNullOrWhiteSpace(parameters.Url))
                 query = query.Where(r => r.Url == parameters.Url);
 

@@ -39,11 +39,11 @@ namespace SAT.SERVICES.Services
 												PA = eq.RegiaoAutorizada?.PA ?? 0,
 												EquipamentoEmGarantia= eq.IndGarantia == 1 ? "SIM" : "NÃO",	
 												Ativo = eq.IndAtivo == 1 ? "SIM" : "NÃO",
-												ReceitaValor = eq.ValorReceita,
-												SoftwareEmbarcado = string.Format("{0:C}", eq.ValorSoftwareEmbarcado),
-												MonitoramentoRemoto = string.Format("{0:C}", eq.ValorMonitoramentoRemoto),
+												//ReceitaValor = eq.ValorReceita,
+												//SoftwareEmbarcado = string.Format("{0:C}", eq.ValorSoftwareEmbarcado),
+												//MonitoramentoRemoto = string.Format("{0:C}", eq.ValorMonitoramentoRemoto),
 												Receita = eq.IndReceita == 1 ? "SIM" : "NÃO",
-												RepasseValor = eq.ValorRepasse ?? 0,
+												//RepasseValor = eq.ValorRepasse ?? 0,
 												Repasse = eq.IndRepasse == 1 ? "SIM" : "NÃO",
 												Instalada = eq.IndInstalacao == 1 ? "SIM" : "NÃO",
 												DataAtivação = eq.DataAtivacao?.ToString("dd/MM/yy HH:mm"),
@@ -54,8 +54,8 @@ namespace SAT.SERVICES.Services
 												Sequencia = eq.Sequencia ?? Constants.NENHUM_REGISTRO,
 												Semat = eq.IndSemat == 1 ? "SIM" : "NÃO",
 												CNPJFaturamento = eq.LocalAtendimento?.CnpjFaturamento ?? Constants.NENHUM_REGISTRO,
-												RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
-												ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0
+												//RegraEquivalencia = eq.Equipamento?.Equivalencia?.Regra ?? Constants.NENHUM_REGISTRO,
+												//ValorEquivalencia = eq.Equipamento?.Equivalencia?.ValorCalculado ?? 0
 											});
 
             var wsEq = Workbook.Worksheets.Add("Equipamentos");

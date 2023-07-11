@@ -532,6 +532,7 @@ export class OrdemServicoFormComponent implements OnInit, OnDestroy {
 			RoleEnum.COORDENADOR,
 			RoleEnum.LIDER,
 			RoleEnum.ANALISTA,
+			RoleEnum.ASSISTENTE,
 			RoleEnum.PV_COORDENADOR_DE_CONTRATO,
 		];
 

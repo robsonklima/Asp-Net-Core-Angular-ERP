@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] AcaoComponenteParameters parameters)
         {
             return _acaoComponenteService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAcaoComponente}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public AcaoComponente Get(int codAcaoComponente)
         {
             return _acaoComponenteService.ObterPorCodigo(codAcaoComponente);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] AcaoComponente acao)
         {
             _acaoComponenteService.Criar(acao);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] AcaoComponente acao)
         {
             _acaoComponenteService.Atualizar(acao);
         }
 
         [HttpDelete("{codAcaoComponente}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codAcao)
         {
             _acaoComponenteService.Deletar(codAcao);

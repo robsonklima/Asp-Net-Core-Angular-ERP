@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -23,18 +24,21 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet("View")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public List<ViewAgendaTecnicoRecurso> GetView([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterViewPorParametros(parameters);
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public List<AgendaTecnico> Get([FromQuery] AgendaTecnicoParameters parameters)
         {
             return _agendaServ.ObterPorParametros(parameters);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public AgendaTecnico Post([FromBody] AgendaTecnico agenda)
         {
             _agendaServ.Criar(agenda);
@@ -43,6 +47,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public AgendaTecnico Put([FromBody] AgendaTecnico evento)
         {
             return _agendaServ.Atualizar(evento);

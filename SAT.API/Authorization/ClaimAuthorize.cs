@@ -1,14 +1,12 @@
+using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SAT.MODELS.Entities.Constants;
 using SAT.SERVICES.Interfaces;
 
 public class ClaimRequirementAttribute : TypeFilterAttribute
 {
-    public ClaimRequirementAttribute(
-        string claimType, string claimValue
-    ) : base(typeof(ClaimRequirementFilter))
+    public ClaimRequirementAttribute(string claimType, string claimValue) : base(typeof(ClaimRequirementFilter))
     {
         Arguments = new object[] { new Claim(claimType, claimValue) };
     }

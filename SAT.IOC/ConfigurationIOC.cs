@@ -12,7 +12,8 @@ public class ConfigurationIOC
     {
         #region Repositories
 
-        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();      
+        builder.RegisterType<RecursoBloqueadoRepository>().As<IRecursoBloqueadoRepository>();
+        builder.RegisterType<OrdemServicoRepository>().As<IOrdemServicoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<RelatorioAtendimentoRepository>().As<IRelatorioAtendimentoRepository>();
         builder.RegisterType<StatusServicoRepository>().As<IStatusServicoRepository>();
@@ -96,15 +97,15 @@ public class ConfigurationIOC
         builder.RegisterType<TurnoRepository>().As<ITurnoRepository>();
         builder.RegisterType<InstalacaoRepository>().As<IInstalacaoRepository>();
         builder.RegisterType<InstalacaoLoteRepository>().As<IInstalacaoLoteRepository>();
-        builder.RegisterType<InstalacaoRessalvaRepository>().As<IInstalacaoRessalvaRepository>();      
+        builder.RegisterType<InstalacaoRessalvaRepository>().As<IInstalacaoRessalvaRepository>();
         builder.RegisterType<InstalacaoPleitoRepository>().As<IInstalacaoPleitoRepository>();
         builder.RegisterType<InstalacaoPleitoInstalRepository>().As<IInstalacaoPleitoInstalRepository>();
         builder.RegisterType<InstalacaoTipoPleitoRepository>().As<IInstalacaoTipoPleitoRepository>();
         builder.RegisterType<InstalacaoPagtoRepository>().As<IInstalacaoPagtoRepository>();
-        builder.RegisterType<InstalacaoPagtoInstalRepository>().As<IInstalacaoPagtoInstalRepository>();                
+        builder.RegisterType<InstalacaoPagtoInstalRepository>().As<IInstalacaoPagtoInstalRepository>();
         builder.RegisterType<InstalacaoTipoParcelaRepository>().As<IInstalacaoTipoParcelaRepository>();
-        builder.RegisterType<InstalacaoMotivoMultaRepository>().As<IInstalacaoMotivoMultaRepository>();                
-        builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();                
+        builder.RegisterType<InstalacaoMotivoMultaRepository>().As<IInstalacaoMotivoMultaRepository>();
+        builder.RegisterType<InstalacaoMotivoResRepository>().As<IInstalacaoMotivoResRepository>();
         builder.RegisterType<FiltroRepository>().As<IFiltroRepository>();
         builder.RegisterType<NotificacaoRepository>().As<INotificacaoRepository>();
         builder.RegisterType<DispBBCalcEquipamentoContratoRepository>().As<IDispBBCalcEquipamentoContratoRepository>();
@@ -169,7 +170,7 @@ public class ConfigurationIOC
         builder.RegisterType<ArquivoBanrisulRepository>().As<IArquivoBanrisulRepository>().SingleInstance();
         builder.RegisterType<OrdemServicoSTNRepository>().As<IOrdemServicoSTNRepository>();
         builder.RegisterType<OrdemServicoSTNOrigemRepository>().As<IOrdemServicoSTNOrigemRepository>();
-        builder.RegisterType<StatusServicoSTNRepository>().As<IStatusServicoSTNRepository>();        
+        builder.RegisterType<StatusServicoSTNRepository>().As<IStatusServicoSTNRepository>();
         builder.RegisterType<ProtocoloSTNRepository>().As<IProtocoloSTNRepository>();
         builder.RegisterType<IntegracaoRepository>().As<IIntegracaoRepository>();
         builder.RegisterType<ORItemRepository>().As<IORItemRepository>();
@@ -224,17 +225,18 @@ public class ConfigurationIOC
         builder.RegisterType<MRPLogixEstoqueRepository>().As<IMRPLogixEstoqueRepository>();
         builder.RegisterType<SetorRepository>().As<ISetorRepository>();
         builder.RegisterType<PerfilSetorRepository>().As<IPerfilSetorRepository>();
-        builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>(); 
-        builder.RegisterType<IntegracaoBBRepository>().As<IIntegracaoBBRepository>(); 
-        builder.RegisterType<ANSRepository>().As<IANSRepository>(); 
-        builder.RegisterType<OSPrazoAtendimentoRepository>().As<IOSPrazoAtendimentoRepository>(); 
-        builder.RegisterType<SATFeriadoRepository>().As<ISATFeriadoRepository>(); 
-        builder.RegisterType<NavegacaoConfiguracaoTipoRepository>().As<INavegacaoConfiguracaoTipoRepository>(); 
-        
+        builder.RegisterType<SatTaskTipoRepository>().As<ISatTaskTipoRepository>();
+        builder.RegisterType<IntegracaoBBRepository>().As<IIntegracaoBBRepository>();
+        builder.RegisterType<ANSRepository>().As<IANSRepository>();
+        builder.RegisterType<OSPrazoAtendimentoRepository>().As<IOSPrazoAtendimentoRepository>();
+        builder.RegisterType<SATFeriadoRepository>().As<ISATFeriadoRepository>();
+        builder.RegisterType<NavegacaoConfiguracaoTipoRepository>().As<INavegacaoConfiguracaoTipoRepository>();
+
         #endregion
 
         #region Services
 
+        builder.RegisterType<RecursoBloqueadoService>().As<IRecursoBloqueadoService>();
         builder.RegisterType<ImportacaoService>().As<IImportacaoService>();
         builder.RegisterType<ImportacaoConfiguracaoService>().As<IImportacaoConfiguracaoService>();
         builder.RegisterType<ImportacaoTipoService>().As<IImportacaoTipoService>();
@@ -330,12 +332,12 @@ public class ConfigurationIOC
         builder.RegisterType<InstalacaoRessalvaService>().As<IInstalacaoRessalvaService>();
         builder.RegisterType<InstalacaoPleitoService>().As<IInstalacaoPleitoService>();
         builder.RegisterType<InstalacaoPleitoInstalService>().As<IInstalacaoPleitoInstalService>();
-        builder.RegisterType<InstalacaoMotivoResService>().As<IInstalacaoMotivoResService>();        
-        builder.RegisterType<InstalacaoTipoPleitoService>().As<IInstalacaoTipoPleitoService>();        
-        builder.RegisterType<InstalacaoPagtoService>().As<IInstalacaoPagtoService>();     
-        builder.RegisterType<InstalacaoPagtoInstalService>().As<IInstalacaoPagtoInstalService>();     
-        builder.RegisterType<InstalacaoTipoParcelaService>().As<IInstalacaoTipoParcelaService>();     
-        builder.RegisterType<InstalacaoMotivoMultaService>().As<IInstalacaoMotivoMultaService>();                             
+        builder.RegisterType<InstalacaoMotivoResService>().As<IInstalacaoMotivoResService>();
+        builder.RegisterType<InstalacaoTipoPleitoService>().As<IInstalacaoTipoPleitoService>();
+        builder.RegisterType<InstalacaoPagtoService>().As<IInstalacaoPagtoService>();
+        builder.RegisterType<InstalacaoPagtoInstalService>().As<IInstalacaoPagtoInstalService>();
+        builder.RegisterType<InstalacaoTipoParcelaService>().As<IInstalacaoTipoParcelaService>();
+        builder.RegisterType<InstalacaoMotivoMultaService>().As<IInstalacaoMotivoMultaService>();
         builder.RegisterType<NotificacaoService>().As<INotificacaoService>();
         builder.RegisterType<PontoPeriodoUsuarioService>().As<IPontoPeriodoUsuarioService>();
         builder.RegisterType<OrcamentoService>().As<IOrcamentoService>();
@@ -364,7 +366,7 @@ public class ConfigurationIOC
         builder.RegisterType<EquipamentoModuloService>().As<IEquipamentoModuloService>();
         builder.RegisterType<ClientePecaService>().As<IClientePecaService>();
         builder.RegisterType<ClientePecaGenericaService>().As<IClientePecaGenericaService>();
-        builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();            
+        builder.RegisterType<CheckinCheckoutService>().As<ICheckinCheckoutService>();
         builder.RegisterType<SmsService>().As<ISmsService>();
         builder.RegisterType<TicketService>().As<ITicketService>();
         builder.RegisterType<TicketAtendimentoService>().As<ITicketAtendimentoService>();
@@ -441,21 +443,21 @@ public class ConfigurationIOC
         builder.RegisterType<EquipamentoPOSService>().As<IEquipamentoPOSService>();
         builder.RegisterType<MRPLogixService>().As<IMRPLogixService>();
         builder.RegisterType<IntegracaoMRPService>().As<IIntegracaoMRPService>();
-        builder.RegisterType<MRPLogixEstoqueService>().As<IMRPLogixEstoqueService>(); 
-        builder.RegisterType<IntegracaoClienteService>().As<IIntegracaoClienteService>();        
-        builder.RegisterType<IntegracaoClienteService>().As<IIntegracaoClienteService>();  
+        builder.RegisterType<MRPLogixEstoqueService>().As<IMRPLogixEstoqueService>();
+        builder.RegisterType<IntegracaoClienteService>().As<IIntegracaoClienteService>();
+        builder.RegisterType<IntegracaoClienteService>().As<IIntegracaoClienteService>();
         builder.RegisterType<PlantaoTecnicoService>().As<IPlantaoTecnicoService>();
         builder.RegisterType<PlantaoTecnicoRegiaoService>().As<IPlantaoTecnicoRegiaoService>();
-        builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>(); 
-        builder.RegisterType<SetorService>().As<ISetorService>(); 
+        builder.RegisterType<PlantaoTecnicoClienteService>().As<IPlantaoTecnicoClienteService>();
+        builder.RegisterType<SetorService>().As<ISetorService>();
         builder.RegisterType<PerfilSetorService>().As<IPerfilSetorService>();
-        builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>(); 
-        builder.RegisterType<SatTaskService>().As<ISatTaskService>(); 
-        builder.RegisterType<SatTaskTipoService>().As<ISatTaskTipoService>(); 
-        builder.RegisterType<ANSService>().As<IANSService>(); 
-        builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>(); 
-        builder.RegisterType<SATFeriadoService>().As<ISATFeriadoService>(); 
-        builder.RegisterType<NavegacaoConfiguracaoTipoService>().As<INavegacaoConfiguracaoTipoService>(); 
+        builder.RegisterType<IntegracaoBBService>().As<IIntegracaoBBService>();
+        builder.RegisterType<SatTaskService>().As<ISatTaskService>();
+        builder.RegisterType<SatTaskTipoService>().As<ISatTaskTipoService>();
+        builder.RegisterType<ANSService>().As<IANSService>();
+        builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>();
+        builder.RegisterType<SATFeriadoService>().As<ISATFeriadoService>();
+        builder.RegisterType<NavegacaoConfiguracaoTipoService>().As<INavegacaoConfiguracaoTipoService>();
 
         #endregion
 

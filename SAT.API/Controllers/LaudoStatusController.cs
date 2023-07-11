@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -21,12 +22,14 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] LaudoStatusParameters parameters)
         {
             return _laudoStatusService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codLaudoStatus}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public LaudoStatus ObterPorCodigo(int codLaudoStatus) =>
             _laudoStatusService.ObterPorCodigo(codLaudoStatus);
 

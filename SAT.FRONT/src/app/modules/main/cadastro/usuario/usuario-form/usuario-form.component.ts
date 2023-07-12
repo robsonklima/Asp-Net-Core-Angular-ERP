@@ -57,6 +57,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
   public codUsuarioExiste: boolean = false;
   public codUsuarioValidado: boolean = false;
+  public usuariocaracteres: boolean = false;
   public verificandoUsuarioExiste: boolean = false;
   public loading: boolean = true;
   public usuarioBloqueado: boolean = false;
@@ -195,6 +196,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       debounceTime(700),
       map(async text => {
         this.validaCodUsuario();
+        this.validarNumeroCaracteres();
       }),
       delay(500),
       takeUntil(this._onDestroy)
@@ -358,7 +360,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     }
 
     this.perfis = (await this._perfilSetorService.obterPorParametros(params).toPromise()).items; 
-    //this.validaPerfis();
+    this.validaPerfis();
     
     return this.perfis;
   }
@@ -564,6 +566,17 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
         this._location.back();
       });
     }
+  }
+
+  validarNumeroCaracteres(){
+    const codUsuario = this.form.controls['codUsuario'].value;
+
+    if (!codUsuario)
+      return this.usuariocaracteres = false;
+
+    if(codUsuario.length > 20)
+      return this.usuariocaracteres = true;
+
   }
 
   ngOnDestroy() {

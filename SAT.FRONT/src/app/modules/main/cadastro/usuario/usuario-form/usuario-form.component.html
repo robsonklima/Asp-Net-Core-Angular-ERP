@@ -48,6 +48,15 @@
                     </div>
                 </fuse-alert>
             </div>
+            <div class="flex flex-col flex-auto pt-px w-full" *ngIf="usuariocaracteres">
+                <fuse-alert class="mb-6" type="error" appearance="border">
+                    <span fuseAlertTitle>Atenção</span>
+                    
+                    <div class="rounded mt-2 text-justify">
+                        Login excede o número de 20 caracteres!
+                    </div>
+                </fuse-alert>
+            </div>
             
             <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
@@ -75,6 +84,10 @@
                             </mat-icon>
                             <mat-icon class="icon-size-5 text-green-500" *ngIf="!codUsuarioExiste && codUsuarioValidado"
                                 matTooltip="{{t('login disponivel')}}" [svgIcon]="'heroicons_solid:badge-check'">
+                            </mat-icon>
+                           <mat-icon class="icon-size-5 text-red-500" *ngIf="usuariocaracteres"
+                                matTooltip="{{t('login excede o número de 20 caracteres')}}"
+                                [svgIcon]="'heroicons_solid:exclamation-circle'">
                             </mat-icon>
                         </mat-icon>
                         <mat-error>

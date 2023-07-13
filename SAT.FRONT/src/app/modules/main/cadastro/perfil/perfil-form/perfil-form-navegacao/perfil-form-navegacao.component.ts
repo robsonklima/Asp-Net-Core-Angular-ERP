@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { NavegacaoConfiguracao } from 'app/core/types/navegacao-configuracao.types';
+import { Navegacao } from 'app/core/types/navegacao.types';
 import { PerfilSetor } from 'app/core/types/perfil-setor.types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -8,16 +10,17 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-perfil-form-navegacao',
-  templateUrl: './perfil-form-navegacao.component.html'
+  templateUrl: './perfil-form-navegacao.component.html',
 })
 export class PerfilFormNavegacaoComponent implements OnInit {
   @Input() perfilSetor: PerfilSetor;
 
   userSession: UsuarioSessao;
+  navegacao: Navegacao[] = [];
+  navegacaoConfiguracao: NavegacaoConfiguracao;
   form: FormGroup;
   isAddMode: boolean;
   searching: boolean;
-  tipoCausaFiltro: FormControl = new FormControl();
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -29,46 +32,20 @@ export class PerfilFormNavegacaoComponent implements OnInit {
   async ngOnInit() {
     this.inicializarForm();
     this.registrarEmitters();
+    console.log(this.perfilSetor);
 
     this.obterDados();
   }
 
-  async obterDados() {
-
-  }
+  async obterDados() { }
 
 
   inicializarForm() {
     this.form = this._formBuilder.group({
-      // codAtendimento: [undefined],
-      // dataHoraAberturaSTN: [undefined],
-      // codOrigemChamadoSTN: [undefined],
-      // codStatusSTN: [undefined],
-      // codTipoChamadoSTN: [undefined],
-      // nomeUsuario: [undefined],
-      // codTecnicos: [undefined],
-      // codTipoCausa: [undefined],
-      // acaoSTN: [undefined],
-      // codDefeito: [undefined]
     });
   }
 
   registrarEmitters() {  }
-
-  criarProtocolo() {
-    // let obj: ProtocoloChamadoSTN = {
-    //   ...{
-    //     codAtendimento: this.atendimento.codAtendimento,
-    //     dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
-    //     codUsuarioCad: this.userSession.usuario?.codUsuario,
-    //     indAtivo: statusConst.ATIVO
-    //   }
-    // };
-
-    // this._protocoloChamadoSTNService.criar(obj).subscribe((atendimento) => {
-    //   this.ngOnInit();
-    // });
-  }
 
   salvar() {     }
 

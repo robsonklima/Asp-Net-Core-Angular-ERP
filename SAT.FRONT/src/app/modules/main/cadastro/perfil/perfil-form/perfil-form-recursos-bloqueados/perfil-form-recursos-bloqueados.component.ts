@@ -37,16 +37,6 @@ export class PerfilFormRecursosBloqueadosComponent implements OnInit {
 
   inicializarForm() {
     this.form = this._formBuilder.group({
-      // codAtendimento: [undefined],
-      // dataHoraAberturaSTN: [undefined],
-      // codOrigemChamadoSTN: [undefined],
-      // codStatusSTN: [undefined],
-      // codTipoChamadoSTN: [undefined],
-      // nomeUsuario: [undefined],
-      // codTecnicos: [undefined],
-      // codTipoCausa: [undefined],
-      // acaoSTN: [undefined],
-      // codDefeito: [undefined]
     });
   }
 

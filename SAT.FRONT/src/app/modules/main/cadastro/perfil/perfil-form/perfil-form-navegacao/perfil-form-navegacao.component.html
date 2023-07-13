@@ -2,14 +2,39 @@
     <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden" *transloco="let t">
         <div class="flex flex-col border-b font-medium">
             <div class="flex flex-col bg-card rounded overflow-hidden">
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('Atendimento Tratativa STN') }}</p>
-                </div>
-
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
 
-                </div>
+                    <!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                          <button mat-icon-button disabled></button>
+                          <mat-checkbox class="checklist-leaf-node"
+                                        [checked]="checklistSelection.isSelected(node)"
+                                        (change)="todoLeafItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+                        </mat-tree-node>
+                      
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+                          <button mat-icon-button disabled></button>
+                          <mat-form-field>
+                            <mat-label>New item...</mat-label>
+                            <input matInput #itemValue placeholder="Ex. Lettuce">
+                          </mat-form-field>
+                          <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+                        </mat-tree-node>
+                      
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                          <button mat-icon-button matTreeNodeToggle
+                                  [attr.aria-label]="'Toggle ' + node.item">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                          </button>
+                          <mat-checkbox [checked]="descendantsAllSelected(node)"
+                                        [indeterminate]="descendantsPartiallySelected(node)"
+                                        (change)="todoItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+                        </mat-tree-node>
+                      </mat-tree> -->
 
+                </div>
             </div>
 
             <div class="flex items-center justify-end px-4 py-2" *transloco="let t">

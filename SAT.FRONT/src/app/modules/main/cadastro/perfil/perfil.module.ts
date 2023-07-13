@@ -23,12 +23,18 @@ import { FiltroModule } from '../../filtros/filtro.module';
 import { PerfilFiltroComponent } from './perfil-filtro/perfil-filtro.component';
 import { PerfilFormComponent } from './perfil-form/perfil-form.component';
 import { PerfilListaComponent } from './perfil-lista/perfil-lista.component';
+import { PerfilFormNavegacaoComponent } from './perfil-form/perfil-form-navegacao/perfil-form-navegacao.component';
+import { FuseCardModule } from '@fuse/components/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PerfilFormRecursosBloqueadosComponent } from './perfil-form/perfil-form-recursos-bloqueados/perfil-form-recursos-bloqueados.component';
 
 @NgModule({
   declarations: [
     PerfilListaComponent,
     PerfilFormComponent,
-    PerfilFiltroComponent
+    PerfilFiltroComponent,
+    PerfilFormNavegacaoComponent,
+    PerfilFormRecursosBloqueadosComponent
   ],
   imports: [
     ListFormModule.configureRoutes(perfilRoutes),
@@ -50,7 +56,9 @@ import { PerfilListaComponent } from './perfil-lista/perfil-lista.component';
     MatTooltipModule,
     MatMenuModule,
     FiltroModule,
-    MatSidenavModule
+    MatSidenavModule,
+    FuseCardModule,
+    MatTabsModule
   ]
 })
 

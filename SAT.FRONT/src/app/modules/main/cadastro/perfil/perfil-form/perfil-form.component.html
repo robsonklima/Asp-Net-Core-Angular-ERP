@@ -1,185 +1,102 @@
 <div class="flex flex-col flex-auto min-w-0" *transloco="let t">
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center font-medium">
                 <div>
-                    <a class="whitespace-nowrap text-primary-500" routerLink="/peca">
-                        {{ t('perfis') }}
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/perfil">
+                        Perfil
                     </a>
                 </div>
+
                 <div class="flex items-center ml-1 whitespace-nowrap">
                     <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
                     </mat-icon>
                     <span class="ml-1 text-secondary">
-                        {{ isAddMode ? t('novo') : t('atualizando') }}
-                    </span>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
-                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
-                    </mat-icon>
-                    <span class="ml-1 text-secondary">
-                        #{{ codPeca }}
+                        {{ !isAddMode ? t('atualizando') : t('criando') }}
                     </span>
                 </div>
             </div>
+
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    {{ t('perfil') }}
+                    Perfil
                 </h2>
             </div>
         </div>
     </div>
 
-    <div class="flex-auto p-6 sm:p-10">
-        <div class="max-w-3xl">
-            <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
-
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('identificacao') }}</p>
-                </div>
-
-                <div
-                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
-
-                    <!-- <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('cod magnus') }}</mat-label>
-                        <input matInput formControlName="codMagnus">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
+    <div class="grid grid-cols-6 sm:grid-cols-1 md: p-4 gap-1 min-w-0">
+        <div class="flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden"
+            *transloco="let t">
+            <form autocomplete="off" class="flex flex-col" [formGroup]="form">
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
+                    
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('nome') }}</mat-label>
-                        <input matInput formControlName="nomePeca">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
+                        <mat-label>{{ t('setor') }}</mat-label>
 
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('custo brl') }}</mat-label>
-                        <input matInput formControlName="valCusto" mask="separator.2" thousandSeparator="."
-                            decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('venda brl') }}</mat-label>
-                        <mat-label 
-                            [class.text-green-500]="peca?.isValorAtualizado === 1"
-                            [class.text-red-500]="peca?.isValorAtualizado === 0">
-                            {{peca?.isValorAtualizado ? "  Peça Atualizada": "  Peça Desatualizada" }}
-                        </mat-label>
-                        <input matInput formControlName="valPeca" mask="separator.2" prefix="R$" thousandSeparator="."
-                            decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('valor peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valPecaAssistencia" mask="separator.2" thousandSeparator="."
-                            decimalMarker="," prefix="R$" [showMaskTyped]="false" [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('ipi peca assistencia') }}</mat-label>
-                        <input matInput formControlName="valIpiassistencia" mask="percent" suffix="%">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('ipi') }}</mat-label>
-                        <input matInput formControlName="valIPI" mask="percentage" suffix="%" [showMaskTyped]="false"
-                            [dropSpecialCharacters]="true">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('quantidade min venda') }}</mat-label>
-                        <input type="number" matInput formControlName="qtdMinimaVenda">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>{{ t('ncm') }}</mat-label>
-                        <input matInput formControlName="ncm">
-                        <mat-error>
-                            {{ t('preencher campo') }}
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>Status</mat-label>
-                        <mat-select formControlName="codPecaStatus" [disabled]="!pecaStatus.length">
-                            <mat-option *ngFor="let st of pecaStatus" [value]="st.codPecaStatus">
-                                {{ st.label }}
+                        <mat-select class="min-h-10" formControlName="codSetor">
+                            <mat-option *ngFor="let setor of setores" [value]="setor.codSetor">
+                                {{ setor.nomeSetor }}
                             </mat-option>
                         </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
-                        <mat-label>Código Substituição</mat-label>
-                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:puzzle'"></mat-icon>
-                        <mat-select formControlName="codPecaSubstituicao" [disabled]="!pecasSubstituicao.length">
-                            <mat-option>
-                                <ngx-mat-select-search placeholderLabel="Pesquisa..."
-                                    noEntriesFoundLabel="'Nenhum registro encontrado'"
-                                    [formControl]="pecasSubstituicaoFiltro">
-                                </ngx-mat-select-search>
-                            </mat-option>
-                            <mat-option value='0' selected></mat-option>
-                            <mat-option *ngFor="let peca of pecasSubstituicao" [value]="peca.codPeca">
-                                <span class="opacity-60 text-sm">{{ peca.codPeca }}</span>
-                                <span> - </span>
-                                <span class="text-md"> {{ peca.nomePeca }}</span>
+                        <mat-label>{{ t('perfil') }}</mat-label>
+
+                        <mat-select class="min-h-10" formControlName="codPerfil">
+                            <mat-option *ngFor="let perfil of perfis" [value]="perfil.codPerfil">
+                                {{ perfil.nomePerfil }}
                             </mat-option>
                         </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
 
-                    <div class="fuse-mat-dense sm:col-span-6">
-                        <div class="text-secondary">Atualizar valor de venda apartir de: </div>
-                        <div>{{ peca?.dataHoraAtualizacaoValor | date:'dd/MM/yyyy HH:mm' }}</div>
-                    </div> -->
-
-                </div>
-
-                <div *ngIf="!form.valid">
-                    <app-formulario-erros [form]="form"></app-formulario-erros>
-                </div>
-
-                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
-                    <button [routerLink]="['/peca']" mat-button>
-                        {{ t('cancelar') }}
-                    </button>
-
-                    <a class="px-6" mat-button [color]="'warn'" (click)="remover()" *ngIf="!isAddMode">
-                        {{ t('remover') }}
-                    </a>
-
-                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
-                        <span *ngIf="!form.disabled">
-                            {{ t('salvar') }}
-                        </span>
-                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
-                        </mat-progress-spinner>
-                    </button>
                 </div>
             </form>
+
+            <div *ngIf="isAddMode" class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                <button (click)="_location.back()" mat-button>
+                    {{ t('cancelar') }}
+                </button>
+
+                <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                    <span *ngIf="!form.disabled">
+                        {{ t('salvar') }}
+                    </span>
+                    <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t" [hidden]="!perfilSetor">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
+                <mat-tab [label]="t('menus liberados')">
+                    <ng-template matTabContent>
+                        <app-perfil-form-navegacao
+                            [perfilSetor]="perfilSetor" *ngIf="perfilSetor"></app-perfil-form-navegacao>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab [label]="t('recursos bloqueados')">
+                    <ng-template matTabContent>
+                        <app-perfil-form-recursos-bloqueados
+                            [perfilSetor]="perfilSetor" *ngIf="perfilSetor"></app-perfil-form-recursos-bloqueados>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
         </div>
     </div>
 </div>

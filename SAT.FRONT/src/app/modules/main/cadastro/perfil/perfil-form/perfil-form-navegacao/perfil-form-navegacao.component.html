@@ -1,0 +1,23 @@
+<form autocomplete="off" [formGroup]="form">
+    <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden" *transloco="let t">
+        <div class="flex flex-col border-b font-medium">
+            <div class="flex flex-col bg-card rounded overflow-hidden">
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('Atendimento Tratativa STN') }}</p>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
+
+                </div>
+
+            </div>
+
+            <div class="flex items-center justify-end px-4 py-2" *transloco="let t">
+                <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
+                    {{ t('salvar') }}
+                </button>
+            </div>
+            
+        </div>
+    </fuse-card>
+</form>

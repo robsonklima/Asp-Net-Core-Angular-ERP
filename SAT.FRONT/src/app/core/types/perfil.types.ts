@@ -19,6 +19,7 @@ export interface PerfilData extends Meta
 export interface PerfilParameters extends QueryStringParameters
 {
     codPerfil?: number;
+    indAtivo?: number;
 };
 
 export enum PerfilEnum {

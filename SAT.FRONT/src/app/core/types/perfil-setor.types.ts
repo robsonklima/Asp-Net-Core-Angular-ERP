@@ -22,5 +22,6 @@ export interface PerfilSetorParameters extends QueryStringParameters
     codPerfilSetor?: number;
     codPerfil?: number;
     codSetor?: number;
+    codSetores?: string;
 };
 

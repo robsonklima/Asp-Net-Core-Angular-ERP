@@ -106,6 +106,12 @@ namespace SAT.INFRA.Repository
                 perfis = perfis.Where(p => p.CodPerfil == parameters.CodPerfil);
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.CodSetores))
+            {
+                int[] setores = parameters.CodSetores.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                perfis = perfis.Where(p => setores.Contains(p.CodSetor));
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 perfis = perfis.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

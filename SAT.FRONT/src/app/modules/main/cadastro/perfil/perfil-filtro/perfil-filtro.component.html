@@ -1,0 +1,95 @@
+<div class="flex-auto" *transloco="let t">
+    <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-6 px-6 md:px-8 border-b">
+        <div class="flex justify-between">
+            <div class="text-4xl font-extrabold tracking-tight leading-none mt-2">
+                {{ t('filtros') }}
+            </div>
+
+            <button mat-icon-button color="primary" [matTooltip]="t('fechar')" (click)="sidenav.toggle()">
+                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <ng-container>
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
+            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('setores') }}</mat-label>
+                    <mat-select formControlName="codSetor" multiple="true">
+
+                        <mat-option>
+                            <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                                noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="setoresFilterCtrl">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option class="mat-primary fill" (click)="selectAll(form.controls.codSetores, setores,
+                            'codSetor')" [value]="0">
+                            TODAS
+                        </mat-option>
+
+                        <mat-option *ngFor="let setor of setores" [value]="setor.codSetor">
+                            {{ setor.nomeSetor }}
+                        </mat-option>
+                    </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-label>{{ t('perfis') }}</mat-label>
+                <mat-select formControlName="codPerfil" multiple="true">
+
+                    <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Pesquisa..."
+                            noEntriesFoundLabel="'nenhum registro encontrado'" [formControl]="perfisFilterCtrl">
+                        </ngx-mat-select-search>
+                    </mat-option>
+
+                    <mat-option class="mat-primary fill" (click)="selectAll(form.controls.CodPerfil, perfis,
+                        'codPerfil')" [value]="0">
+                        TODAS
+                    </mat-option>
+
+                    <mat-option *ngFor="let perfilSetor of perfis" [value]="perfilSetor.codPerfil">
+                        {{ perfilSetor.perfil.nomePerfil }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                <mat-label>{{ t('ativo') }}</mat-label>
+                <mat-select formControlName="indAtivo">
+                    <mat-option [value]="1">
+                        Sim
+                    </mat-option>
+                    <mat-option [value]="0">
+                        Não
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            </div>
+
+            <div class="mt-6 border-t"></div>
+
+            <div class="flex items-center justify-start px-8 py-3 relative">
+                <button (click)="aplicar()" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('salvar') }}
+                </button>
+
+                <button (click)="aplicar(false)" [disabled]="!form.valid" mat-button [color]="'primary'">
+                    {{ t('aplicar') }}
+                </button>
+
+                <button side (click)="limpar()" color="warn" mat-button>
+                    {{ t('limpar') }}
+                </button>
+
+                <salvar-filtro-usuario [filterName]="'perfil'" [filterBase]="this">
+                </salvar-filtro-usuario>
+            </div>
+        </form>
+    </ng-container>
+</div>

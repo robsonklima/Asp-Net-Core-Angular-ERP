@@ -96,6 +96,11 @@ namespace SAT.INFRA.Repository
                 perfis = perfis.Where(p => p.CodPerfil == parameters.CodPerfil);
             }
 
+            if (parameters.IndAtivo != null)
+            {
+                perfis = perfis.Where(p => p.IndAtivo == parameters.IndAtivo);
+            }
+
             if (parameters.SortActive != null && parameters.SortDirection != null)
             {
                 perfis = perfis.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");

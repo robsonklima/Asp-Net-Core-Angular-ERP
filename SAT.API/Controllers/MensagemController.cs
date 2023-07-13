@@ -21,35 +21,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
-        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] MensagemParameters parameters)
         {
             return _mensagemService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codMsg}")]
-        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public Mensagem Get(int codMsg)
         {
             return _mensagemService.ObterPorCodigo(codMsg);
         }
 
         [HttpPost]
-        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] Mensagem mensagem)
         {
             _mensagemService.Criar(mensagem);
         }
 
         [HttpPut]
-        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] Mensagem mensagem)
         {
             _mensagemService.Atualizar(mensagem);
         }
 
         [HttpDelete("{codMsg}")]
-        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codMsg)
         {
             _mensagemService.Deletar(codMsg);

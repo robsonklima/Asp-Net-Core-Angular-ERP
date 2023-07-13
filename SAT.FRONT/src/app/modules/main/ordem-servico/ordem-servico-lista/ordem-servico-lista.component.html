@@ -34,7 +34,7 @@
                         <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
                     </button>
 
-                    <button class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
+                    <button *ngIf="!validaCliente" class="ml-3 -mr-2 fuse-mat-button-rounded text-gray-700 bg-white" mat-flat-button
                         [matMenuTriggerFor]="menu" [disabled]="isLoading">
                         <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:document-download'"></mat-icon>
 
@@ -62,8 +62,8 @@
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:clipboard'"></mat-icon>
                                 {{ t('exportar laudos') }}
                             </button>
+                       </mat-menu>
 
-                        </mat-menu>
                     </button>
 
                     <button class="ml-2" mat-icon-button matTooltip="{{ t('filtros') }}" (click)="sidenav.toggle()">

@@ -21,6 +21,4 @@ export interface DocumentoSistemaParameters extends QueryStringParameters {
 
 };
 
-export const documentoCategoriasConst = [
-    'MANUAL', 'SISTEMA'
-]
+export const documentoCategoriasConst = ['MANUAL', 'SISTEMA', 'PROJETO'];

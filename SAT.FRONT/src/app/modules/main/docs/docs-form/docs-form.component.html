@@ -7,7 +7,7 @@
                 <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
             </button>
 
-            <button mat-icon-button>
+            <button mat-icon-button (click)="salvar()" [disabled]="!form.valid">
                 <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
             </button>
         </div>
@@ -39,7 +39,8 @@
                         {{ t('conteudo') }}
                     </div>
 
-                    <quill-editor [formControlName]="'conteudo'" [placeholder]="'Descreva o documento'"
+                    <quill-editor [formControlName]="'conteudo'"
+                        [placeholder]="'Descreva o documento, você pode adicionar imagens, tabelas, listas etc.'"
                         [modules]="quillModules"></quill-editor>
                 </div>
 

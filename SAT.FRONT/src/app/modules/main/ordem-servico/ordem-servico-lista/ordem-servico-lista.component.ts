@@ -126,7 +126,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			.subscribe((data) => {
 				this.dataSourceData = data;
 				this.isLoading = false;
-			},  () => {
+			}, () => {
 				this.isLoading = false;
 			});
 	}
@@ -147,7 +147,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 			this.filter.parametros.codContratos = this.userSession?.usuario?.codContrato;
 		}
 	}
-	
+
 
 	public async exportarExcel() {
 		this.isLoading = true;
@@ -169,8 +169,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	public async exportarRAT() {
 		this.isLoading = true;
 
-		if(this.dataSourceData.totalCount <= 100)
-		{
+		if (this.dataSourceData.totalCount <= 100) {
 			let exportacaoParam: Exportacao = {
 				formatoArquivo: ExportacaoFormatoEnum.ZIP,
 				tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
@@ -183,8 +182,7 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 
 			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
 		}
-		else
-		{
+		else {
 			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
 		}
 		this.isLoading = false;
@@ -193,22 +191,20 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	public async exportarLaudos() {
 		this.isLoading = true;
 
-		if(this.dataSourceData.totalCount <= 100)
-		{
+		if (this.dataSourceData.totalCount <= 100) {
 			let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.ZIP,
-			tipoArquivo: ExportacaoTipoEnum.LAUDO,
-			entityParameters: {
-				...this.filter?.parametros,
-				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+				formatoArquivo: ExportacaoFormatoEnum.ZIP,
+				tipoArquivo: ExportacaoTipoEnum.LAUDO,
+				entityParameters: {
+					...this.filter?.parametros,
+					pageSize: 10000,
+					include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
 				}
 			}
-		
+
 			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
 		}
-		else
-		{
+		else {
 			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
 		}
 		this.isLoading = false;
@@ -217,22 +213,20 @@ export class OrdemServicoListaComponent extends Filterable implements AfterViewI
 	public async exportarTermos() {
 		this.isLoading = true;
 
-		if(this.dataSourceData.totalCount <= 100)
-		{
+		if (this.dataSourceData.totalCount <= 100) {
 			let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.ZIP,
-			tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
-			entityParameters: {
-				...this.filter?.parametros,
-				pageSize: 10000,
-				include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
+				formatoArquivo: ExportacaoFormatoEnum.ZIP,
+				tipoArquivo: ExportacaoTipoEnum.INSTALACAO,
+				entityParameters: {
+					...this.filter?.parametros,
+					pageSize: 10000,
+					include: OrdemServicoIncludeEnum.OS_EXPORTAR_ZIP,
 				}
 			}
-		
+
 			await this._exportacaoService.exportar(FileMime.ZIP, exportacaoParam);
 		}
-		else
-		{
+		else {
 			this._snack.exibirToast("Seleção do filtro excede o limite de 100 items para exportação", "error");
 		}
 		this.isLoading = false;

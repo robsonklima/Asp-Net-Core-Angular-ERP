@@ -27,6 +27,10 @@ import { PerfilFormNavegacaoComponent } from './perfil-form/perfil-form-navegaca
 import { FuseCardModule } from '@fuse/components/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PerfilFormRecursosBloqueadosComponent } from './perfil-form/perfil-form-recursos-bloqueados/perfil-form-recursos-bloqueados.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PerfilFormRecursosBloqueadosDialogComponent } from './perfil-form/perfil-form-recursos-bloqueados/perfil-form-recursos-bloqueados-dialog/perfil-form-recursos-bloqueados-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,8 @@ import { PerfilFormRecursosBloqueadosComponent } from './perfil-form/perfil-form
     PerfilFormComponent,
     PerfilFiltroComponent,
     PerfilFormNavegacaoComponent,
-    PerfilFormRecursosBloqueadosComponent
+    PerfilFormRecursosBloqueadosComponent,
+    PerfilFormRecursosBloqueadosDialogComponent
   ],
   imports: [
     ListFormModule.configureRoutes(perfilRoutes),
@@ -58,7 +63,10 @@ import { PerfilFormRecursosBloqueadosComponent } from './perfil-form/perfil-form
     FiltroModule,
     MatSidenavModule,
     FuseCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTreeModule,
+    MatSlideToggleModule,
+    MatDialogModule
   ]
 })
 

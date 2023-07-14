@@ -70,7 +70,8 @@ export class DashboardComponent implements AfterViewInit {
     const codPerfil = this.usuarioSessao.usuario.codPerfil;
     const codSetor = this.usuarioSessao.usuario.codSetor;
 
-    if(codSetor == SetorEnum.SISTEMA_DE_ASSISTENCIA_TECNICA || codSetor == SetorEnum.SUPORTE_TECNICO)
+    if(codSetor == SetorEnum.SISTEMA_DE_ASSISTENCIA_TECNICA || codSetor == SetorEnum.SUPORTE_TECNICO
+       || codPerfil == PerfilEnum.SUPERVISOR )
     {
       return [
         'Status Filiais',

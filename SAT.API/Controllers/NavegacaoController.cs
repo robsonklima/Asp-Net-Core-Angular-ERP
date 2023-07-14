@@ -36,13 +36,13 @@ namespace SAT.API.Controllers
         [HttpPost]
         public void Post([FromBody] Navegacao navegacao)
         {
-            _navegacaoService.Criar(navegacao: navegacao);
+            _navegacaoService.Criar(navegacao);
         }
 
         [HttpPut]
         public void Put([FromBody] Navegacao navegacao)
         {
-            _navegacaoService.Atualizar(navegacao: navegacao);
+            _navegacaoService.Atualizar(navegacao);
         }
 
         [HttpDelete("{codNavegacao}")]

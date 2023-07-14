@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>Inclusão de Bloqueio ao Perfil</h2>
+<form autocomplete="off" class="flex flex-col bg-card overflow-hidden" [formGroup]="form" *transloco="let t">
+    <div class="grid sm:grid-cols-12 gap-x-12 flex-col flex-auto p-8 pb-6 " *transloco="let t">
+
+        <mat-form-field class="fuse-mat-dense sm:col-span-12">
+            <mat-label>{{ t('modulo') }}</mat-label>
+            <input matInput formControlName="url">
+            <mat-error>
+                {{ t('preencher campo') }}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="fuse-mat-dense sm:col-span-6">
+            <div class="md:block">
+                {{ t('bloquear consulta') }}
+            </div>
+            <div class="flex items-center">
+                <mat-slide-toggle [color]="'primary'" [checked]="flagConsultar" (change)="onChange($event,'consultar')">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="md:block">
+                {{ t('bloquear criacao') }}
+            </div>
+            <div class="flex items-center">
+                <mat-slide-toggle [color]="'primary'" [checked]="flagCriar" (change)="onChange($event,'criar')">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="md:block">
+                {{ t('bloquear edicao') }}
+            </div>
+            <div class="flex items-center">
+                <mat-slide-toggle [color]="'primary'" [checked]="flagEditar" (change)="onChange($event,'editar')">
+                </mat-slide-toggle>
+            </div>
+
+            <div class="md:block">
+                {{ t('bloquear exclusao') }}
+            </div>
+            <div class="flex items-center">
+                <mat-slide-toggle [color]="'primary'" [checked]="flagExcluir" (change)="onChange($event,'excluir')">
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="flex justify-center items-center min-h-36" *ngIf="loading">
+    <div class="text-center">
+        <mat-progress-spinner [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
+    </div>
+</div>
+
+<mat-dialog-actions align="end">
+    <button class="px-6 mr-2" mat-button (click)="cancelar()">
+        Cancelar
+    </button>
+
+    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()">
+        Salvar
+    </button>
+</mat-dialog-actions>

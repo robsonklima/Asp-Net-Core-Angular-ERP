@@ -1,24 +1,70 @@
-<form autocomplete="off" [formGroup]="form">
-    <fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden" *transloco="let t">
-        <div class="flex flex-col border-b font-medium">
-            <div class="flex flex-col bg-card rounded overflow-hidden">
-                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
-                    <p class="text-lg font-medium">{{ t('Atendimento Tratativa STN') }}</p>
+<ng-container>
+    <ng-container>
+        <div class="grid" *transloco="let t">
+            <div class="list-grid-u z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-sm font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                matSort matSortDisableClear *transloco="let t">
+                <div class="md:block">
+                    {{ t('modulo') }}
                 </div>
-
-                <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
-
-
+                <div class="md:block">
+                    {{ t('bloquear consulta') }}
                 </div>
-
+                <div class="md:block">
+                    {{ t('bloquear criacao') }}
+                </div>
+                <div class="md:block">
+                    {{ t('bloquear edicao') }}
+                </div>
+                <div class="md:block">
+                    {{ t('bloquear exclusao') }}
+                </div>
+                <div class="md:block">
+                    {{ t('acao') }}
+                </div>
             </div>
 
-            <div class="flex items-center justify-end px-4 py-2" *transloco="let t">
-                <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
-                    {{ t('salvar') }}
-                </button>
-            </div>
-            
+            <ng-container >
+                <ng-container *ngFor="let recurso of recursosBloqueados?.items" class = "sm:overflow-auto">
+                    <div
+                        class="list-grid-u grid items-center h-10 pt-3 gap-4 py-3 px-6 text-sm md:px-8 border-b hover:bg-gray-100">
+                        <div class="flex items-center">
+                            {{ recurso.url }}
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="flagConsultar">
+                                {{ validarAcao(recurso,'consulta') ? 'Bloqueado' : 'Liberado' }}
+                            </mat-slide-toggle>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="flagCriar">
+                                {{ validarAcao(recurso,'criar') ? 'Bloqueado' : 'Liberado' }}
+                            </mat-slide-toggle>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="flagEditar">
+                                {{ validarAcao(recurso,'editar') ? 'Bloqueado' : 'Liberado' }}
+                            </mat-slide-toggle>
+                        </div>
+                        <div class="flex items-center">
+                            <mat-slide-toggle [color]="'primary'" [checked]="flagExcluir">
+                                {{ validarAcao(recurso,'excluir') ? 'Bloqueado' : 'Liberado' }}
+                            </mat-slide-toggle>
+                        </div>
+                        <div class="flex items-center">
+                            <button mat-button matTooltip="Excluir" (click)="remover(recurso)">
+                                <mat-icon class="icon-size-5 text-orange-600"
+                                    [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                            </button>
+                        </div>
+                        
+                    </div>
+                </ng-container>
+            </ng-container>
         </div>
-    </fuse-card>
-</form>
+        <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700" *transloco="let t">
+            <button class="ml-5" mat-icon-button matTooltip="{{ t('novo') }}" (click)="adicionar()">
+                <mat-icon class="text-green-500	" [svgIcon]="'heroicons_outline:plus-circle'"></mat-icon>
+            </button>
+        </div>
+    </ng-container>
+</ng-container>

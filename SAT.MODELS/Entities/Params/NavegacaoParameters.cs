@@ -6,5 +6,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodNavegacao { get; set; }
         public int? CodNavegacaoPai { get; set; }
+        public int? IndAtivo { get; set; }
     }
 }

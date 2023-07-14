@@ -902,5 +902,9 @@
     "perfis": "Perfis",
     "setores": "Setores",
     "menus liberados": "Menus Liberados",
-    "recursos bloqueados": "Recursos Bloqueados"
+    "recursos bloqueados": "Recursos Bloqueados",
+    "bloquear consulta": "Bloquear Consultar",
+    "bloquear criacao": "Bloquear Criação",
+    "bloquear edicao": "Bloquear Edição",
+    "bloquear exclusao": "Bloquear Exclusão"
 }

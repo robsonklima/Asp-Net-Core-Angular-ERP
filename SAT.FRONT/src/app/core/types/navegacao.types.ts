@@ -19,4 +19,8 @@ export interface NavegacaoData extends Meta {
     items: Navegacao[];
 };
 
-export interface NavegacaoParameters extends QueryStringParameters { };
+export interface NavegacaoParameters extends QueryStringParameters { 
+    indAtivo?: number;
+    codNavegacao?: number;
+    codNavegacaoPai?: number;
+};

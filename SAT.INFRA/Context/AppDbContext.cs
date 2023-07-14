@@ -11,6 +11,7 @@ namespace SAT.INFRA.Context
         { }
 
         public DbSet<OrdemServico> OrdemServico { get; set; }
+        public DbSet<DocumentoSistema> DocumentoSistema { get; set; }
         public DbSet<Chamado> Chamado { get; set; }
         public DbSet<OperadoraTelefonia> OperadoraTelefonia { get; set; }
         public DbSet<DefeitoPOS> DefeitoPOS { get; set; }
@@ -457,6 +458,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<DispBBBloqueioOS>(new DispBBBloqueioOSMap().Configure);
             modelBuilder.Entity<IntegracaoCobra>(new IntegracaoCobraMap().Configure);
             modelBuilder.Entity<SatTask>(new SatTaskMap().Configure);
+            modelBuilder.Entity<DocumentoSistema>(new DocumentoSistemaMap().Configure);
             modelBuilder.Entity<OrcFormaPagamento>(new OrcFormaPagamentoMap().Configure);
             modelBuilder.Entity<OrcDadosBancarios>(new OrcDadosBancariosMap().Configure);
             modelBuilder.Entity<PosVenda>(new PosVendaMap().Configure);

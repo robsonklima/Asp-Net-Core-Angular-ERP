@@ -1,5 +1,17 @@
 {
   "files.exclude": {
-    "SAT.FRONT\\src\\app\\modules\\main\\cadastro\\cidade copy\\cidade-form\\*cidade-form.component": true
+    "SAT.FRONT\\src\\app\\modules\\main\\cadastro\\cidade copy\\cidade-form\\*cidade-form.component": true,
+    ".vscode": true,
+    "SAT.V2.sln": true,
+    "SAT.ASSETS": true,
+    "SAT.SERVICES\\obj": true,
+    "SAT.SERVICES\\bin": true,
+    "SAT.INFRA\\bin": true,
+    "SAT.INFRA\\obj": true,
+    "SAT.FRONT\\node_modules": true,
+    "SAT.FRONT\\dist": true,
+    "SAT.FRONT\\.npmrc": true,
+    "SAT.API\\bin": true,
+    "SAT.API\\obj": true
   }
 }

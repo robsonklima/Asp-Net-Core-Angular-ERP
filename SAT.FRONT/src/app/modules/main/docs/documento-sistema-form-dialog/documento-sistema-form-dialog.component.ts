@@ -28,6 +28,7 @@ export class DocumentoSistemaFormDialogComponent implements OnInit {
       ['link', 'image']
     ]
   };
+  categorias: string[] = ['MANUAL', 'SISTEMA']
   protected _onDestroy = new Subject<void>();
 
   constructor(

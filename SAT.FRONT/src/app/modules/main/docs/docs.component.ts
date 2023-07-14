@@ -60,7 +60,7 @@ export class DocsComponent implements OnInit, OnDestroy {
                 this.dataSource = data;
                 this.loading = false;
             }, e => {
-                this._snack.exibirToast(e, toastTypesConst.ERROR)
+                this._snack.exibirToast(e.message, toastTypesConst.ERROR)
                 this.loading = false;
             });
     }

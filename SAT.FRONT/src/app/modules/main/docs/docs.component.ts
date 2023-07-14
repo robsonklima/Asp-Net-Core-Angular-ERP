@@ -13,7 +13,7 @@ import { toastTypesConst } from 'app/core/types/generic.types';
     encapsulation: ViewEncapsulation.None,
 })
 export class DocsComponent implements OnInit, OnDestroy {
-    documentos: DocumentoSistemaData;
+    dataSource: DocumentoSistemaData;
     categorias: string[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     loading: boolean = true;
@@ -53,13 +53,11 @@ export class DocsComponent implements OnInit, OnDestroy {
                 pageSize: 12
             })
             .subscribe((data) => {
-                this.documentos = data;
-                console.log(this.documentos);
+                this.dataSource = data;
                 this.loading = false;
             }, e => {
                 this._snack.exibirToast(e, toastTypesConst.ERROR)
                 this.loading = false;
-                this._cdr.detectChanges();
             });
     }
 

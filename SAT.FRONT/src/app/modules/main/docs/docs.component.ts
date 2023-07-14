@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +6,7 @@ import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-di
 import { DocumentoSistema, DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-docs',
@@ -13,6 +14,7 @@ import { toastTypesConst } from 'app/core/types/generic.types';
     encapsulation: ViewEncapsulation.None,
 })
 export class DocsComponent implements OnInit, OnDestroy {
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     dataSource: DocumentoSistemaData;
     categorias: string[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -50,7 +52,10 @@ export class DocsComponent implements OnInit, OnDestroy {
         this._docSistemaService
             .obterPorParametros({
                 filter: query,
-                pageSize: 12
+                pageNumber: this.paginator?.pageIndex + 1,
+                sortActive: 'codDocumentoSistema',
+                sortDirection: 'desc',
+                pageSize: this.paginator?.pageSize,
             })
             .subscribe((data) => {
                 this.dataSource = data;

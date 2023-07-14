@@ -44,6 +44,10 @@ export class DocsComponent implements OnInit, OnDestroy {
         });
     }
 
+    paginar() {
+
+    }
+
     obterDocumentos(query: string = '') {
         this._docSistemaService
             .obterPorParametros({

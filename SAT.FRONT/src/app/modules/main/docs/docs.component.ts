@@ -46,7 +46,10 @@ export class DocsComponent implements OnInit, OnDestroy {
 
     obterDocumentos(query: string = '') {
         this._docSistemaService
-            .obterPorParametros({ filter: query, })
+            .obterPorParametros({
+                filter: query,
+                pageSize: 12
+            })
             .subscribe((data) => {
                 this.documentos = data.items;
                 console.log(this.documentos);

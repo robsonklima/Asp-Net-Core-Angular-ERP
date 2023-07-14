@@ -28,7 +28,7 @@ export class DocumentoSistemaFormDialogComponent implements OnInit {
       ['link', 'image']
     ]
   };
-  categorias: string[] = ['MANUAL', 'SISTEMA']
+  categorias: string[] = ['MANUAL', 'SISTEMA'];
   protected _onDestroy = new Subject<void>();
 
   constructor(
@@ -40,6 +40,8 @@ export class DocumentoSistemaFormDialogComponent implements OnInit {
 
   async ngOnInit() {
     this.inicializarForm();
+
+
   }
 
   private inicializarForm() {

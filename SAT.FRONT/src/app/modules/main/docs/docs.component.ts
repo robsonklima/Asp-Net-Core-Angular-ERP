@@ -58,6 +58,9 @@ export class DocsComponent implements OnInit, OnDestroy {
                 pageSize: this.paginator?.pageSize || 10,
             })
             .subscribe((data) => {
+                console.log(data);
+
+
                 this.dataSource = data;
                 this.loading = false;
             }, e => {

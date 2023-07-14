@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
+import { DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-dialog/documento-sistema-form-dialog.component';
-import { DocumentoSistema, DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-docs',
@@ -22,7 +20,6 @@ export class DocsComponent implements OnInit, OnDestroy {
 
     constructor(
         private _docSistemaService: DocumentoSistemaService,
-        private _dialog: MatDialog,
         private _snack: CustomSnackbarService,
         private _cdr: ChangeDetectorRef
     ) { }
@@ -30,20 +27,6 @@ export class DocsComponent implements OnInit, OnDestroy {
     async ngOnInit() {
         this.obterDados();
         this.categorias = documentoCategoriasConst;
-    }
-
-    onDocumentoSistema(documento: DocumentoSistema = null) {
-        const dialogRef = this._dialog.open(DocumentoSistemaFormDialogComponent, {
-            data: {
-                documento: documento
-            }
-        });
-
-        dialogRef.afterClosed().subscribe(async (data: any) => {
-            if (data) {
-
-            }
-        });
     }
 
     public paginar() { this.obterDados(); }
@@ -58,9 +41,7 @@ export class DocsComponent implements OnInit, OnDestroy {
                 pageSize: this.paginator?.pageSize || 10,
             })
             .subscribe((data) => {
-                console.log(data);
-
-
+                this._cdr.detectChanges();
                 this.dataSource = data;
                 this.loading = false;
             }, e => {

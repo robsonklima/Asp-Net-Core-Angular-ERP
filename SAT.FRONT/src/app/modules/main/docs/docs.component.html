@@ -35,8 +35,7 @@
                 <mat-form-field class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                     [floatLabel]="'always'">
                     <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                    <input (input)="obterDocumentos(query.value)" placeholder="Pesquise pelo título ou conteúdo"
-                        matInput #query>
+                    <input placeholder="Pesquise pelo título ou conteúdo" matInput #query>
                 </mat-form-field>
 
                 <button mat-stroked-button class="mt-8 sm:mt-0 sm:ml-auto" [color]="'primary'"

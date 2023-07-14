@@ -3,6 +3,8 @@ import { UserService } from 'app/core/user/user.service';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
+import { AppConfig } from 'app/core/config/app.config'
 
 @Component({
   selector: 'app-documento-sistema-form-dialog',
@@ -14,22 +16,10 @@ export class DocumentoSistemaFormDialogComponent implements OnInit {
   isAddMode: boolean;
   codDocumentoSistema: number;
   form: FormGroup;
-  quillModules: any = {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote', 'code-block'],
-      [{ 'header': 1 }, { 'header': 2 }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],
-      [{ 'indent': '-1' }, { 'indent': '+1' }],
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      [{ 'align': [] }],
-      ['clean'],
-      ['link', 'image']
-    ]
-  };
-  categorias: string[] = ['MANUAL', 'SISTEMA'];
+  quillModules: any = {};
+  categorias: string[] = [];
   protected _onDestroy = new Subject<void>();
+  AppConfig: any;
 
   constructor(
     private _userService: UserService,
@@ -41,7 +31,8 @@ export class DocumentoSistemaFormDialogComponent implements OnInit {
   async ngOnInit() {
     this.inicializarForm();
 
-
+    this.categorias = documentoCategoriasConst;
+    this.quillModules = this.AppConfig.quillModules;
   }
 
   private inicializarForm() {

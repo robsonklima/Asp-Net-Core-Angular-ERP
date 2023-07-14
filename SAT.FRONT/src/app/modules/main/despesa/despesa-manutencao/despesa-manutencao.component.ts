@@ -226,16 +226,27 @@ export class DespesaManutencaoComponent implements OnInit {
   public async obterConfiguracaoCombustivel() {
     let codUF: number;
 
-    if (this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS)
+    // Autorizada RS considera sempre a UF do usuario
+    if (this.ordemServico.autorizada.codAutorizada == AutorizadaEnum.PERTO_HD_RS) {
       codUF = this.userSession?.usuario?.cidade?.codUF;
-    else
-      if (!this.ordemServico?.localAtendimento?.cidade?.codUF)
-        this._snack.exibirToast(`O local de atendimento não possui cidade informada. Entre em contato com sua filial.`, 'error');
-      else
+    } else {
+      // Tenta obter a UF da cidade do usuario
+      if (!this.ordemServico?.localAtendimento?.cidade?.codUF) {
+        // Nao encontrou UF cadastrada para o usuario
+        this._snack.exibirToast(`O local de atendimento não possui cidade informada.
+          Entre em contato com sua filial.`, 'error');
+      } else {
+        // Tenta obter a UF do chamado
         codUF = this.ordemServico?.localAtendimento?.cidade?.codUF;
+      }
+    }
 
-    const data = await this._despesaConfCombustivelSvc.obterPorParametros({ codUf: codUF }).toPromise();
-    this.despesaConfiguracaoCombustivel = Enumerable.from(data.items).firstOrDefault();
+    const data = await this._despesaConfCombustivelSvc
+      .obterPorParametros({ codUf: codUF }).toPromise();
+
+    this.despesaConfiguracaoCombustivel = Enumerable
+      .from(data.items)
+      .firstOrDefault();
   }
 
   async obterDespesaConfiguracao() {

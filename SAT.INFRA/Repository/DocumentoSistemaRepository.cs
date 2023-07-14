@@ -65,16 +65,16 @@ namespace SAT.INFRA.Repository
         public DocumentoSistema ObterPorCodigo(int codigo)
         {
             return _context.DocumentoSistema
-                .Include(d => d.UsuarioCad)
-                .Include(d => d.UsuarioManut)
+                .Include(d => d.UsuarioCad)!
+                .Include(d => d.UsuarioManut)!
                 .FirstOrDefault(f => f.CodDocumentoSistema == codigo);
         }
 
         public PagedList<DocumentoSistema> ObterPorParametros(DocumentoSistemaParameters parameters)
         {
             var query = _context.DocumentoSistema
-                .Include(d => d.UsuarioCad)
-                .Include(d => d.UsuarioManut)
+                .Include(d => d.UsuarioCad)!
+                .Include(d => d.UsuarioManut)!
                .AsQueryable();
 
             return PagedList<DocumentoSistema>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);

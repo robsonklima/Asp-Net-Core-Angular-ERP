@@ -4,7 +4,7 @@ import { Setor } from "./setor.types";
 
 export class PerfilSetor
 {
-    codPerfilSetor: number;
+    codPerfilSetor?: number;
     codPerfil: number;
     codSetor: number;
     indAtivo: number;

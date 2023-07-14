@@ -7,11 +7,8 @@ import { FilterBase } from '../../../../../core/filters/filter-base';
 import { IFilterBase } from '../../../../../core/types/filtro.types';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PerfilSetor, PerfilSetorParameters } from 'app/core/types/perfil-setor.types';
-import { PerfilService } from 'app/core/services/perfil.service';
 import { SetorService } from 'app/core/services/setor.service';
-import { Perfil, PerfilParameters } from 'app/core/types/perfil.types';
 import { Setor, SetorParameters } from 'app/core/types/setor.types';
-import { statusConst } from 'app/core/types/status-types';
 import { PerfilSetorService } from 'app/core/services/perfil-setor.service';
 
 

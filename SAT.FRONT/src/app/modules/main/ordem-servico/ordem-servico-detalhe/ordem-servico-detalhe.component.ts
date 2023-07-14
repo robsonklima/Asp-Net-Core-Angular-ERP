@@ -180,14 +180,14 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			return false;
 
 		if ((this.userSession.usuario.codPerfil === PerfilEnum.PV_COORDENADOR_DE_CONTRATO
-			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS 
+			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS
 			|| this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC)
 			&& this.os?.codStatusServico !== StatusServicoEnum.FECHADO)
 			return false;
 
 		if (
 			(
-				this.userSession.usuario.codPerfil === PerfilEnum.LIDER||
+				this.userSession.usuario.codPerfil === PerfilEnum.LIDER ||
 				this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR ||
 				this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR
 			) &&
@@ -220,7 +220,7 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 	}
 
 	public verificarPermissaoCriacaoRAT(): boolean {
-		if(this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO
+		if (this.userSession.usuario.codPerfil === PerfilEnum.FILIAL_TECNICO_DE_CAMPO
 			|| this.userSession.usuario.codPerfil === PerfilEnum.TECNICO_OPERACOES
 			|| this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
 			|| (this.userSession.usuario.codPerfil === PerfilEnum.COORDENADOR && this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL)
@@ -229,13 +229,13 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			|| (this.userSession.usuario.codPerfil === PerfilEnum.SUPERVISOR && this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO)
 			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
 			return true;
-		
+
 		else
 			return false;
 	}
 
 	public verificarPermissaoEdicaoOS(): boolean {
-		if(this.userSession.usuario.codPerfil !== PerfilEnum.FILIAL_TECNICO_DE_CAMPO
+		if (this.userSession.usuario.codPerfil !== PerfilEnum.FILIAL_TECNICO_DE_CAMPO
 			&& this.userSession.usuario.codSetor !== SetorEnum.CLIENTE
 			&& this.userSession.usuario.codSetor !== SetorEnum.FINANCEIRO
 			&& this.userSession.usuario.codSetor !== SetorEnum.LABORATORIO_TECNICO
@@ -243,34 +243,34 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 			&& this.userSession.usuario.codSetor !== SetorEnum.PRESTADOR_DE_SERVICO
 			&& this.userSession.usuario.codSetor !== SetorEnum.FISCAL
 			&& this.userSession.usuario.codSetor !== SetorEnum.ENGENHARIA_GARANTIA_E_QUALIDADE
-			)
+		)
 			return true;
-		
+
 		else
 			return false;
 	}
 
 	public verificarPermissaoAgendamento(): boolean {
-		if((this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
+		if ((this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
 			|| this.userSession.usuario.codSetor === SetorEnum.COORDENACAO_DE_CONTRATOS
 			|| this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL
 			|| this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO
 			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
 			&& (this.userSession.usuario.codPerfil !== PerfilEnum.FILIAL_TECNICO_DE_CAMPO))
 			return true;
-		
+
 		else
 			return false;
 	}
 
 	public verificarPermissaoTransferencia(): boolean {
-		if((this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
+		if ((this.userSession.usuario.codSetor === SetorEnum.HELPDESK_NOC
 			|| this.userSession.usuario.codSetor === SetorEnum.CENTRO_TECNICO_OPERACIONAL
 			|| this.userSession.usuario.codSetor === SetorEnum.OPERACAO_DE_CAMPO
 			|| this.userSession.usuario.codPerfil === PerfilEnum.ADM_DO_SISTEMA)
 			&& (this.userSession.usuario.codPerfil !== PerfilEnum.FILIAL_TECNICO_DE_CAMPO))
 			return true;
-		
+
 		else
 			return false;
 	}
@@ -311,8 +311,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 							codTecnico: null
 						}
 					};
-					console.log(obj);
-					
 
 					Object.keys(obj).forEach((key) => typeof obj[key] == "boolean" ? obj[key] = +obj[key] : obj[key] = obj[key]);
 					this._ordemServicoService.atualizar(obj).subscribe(

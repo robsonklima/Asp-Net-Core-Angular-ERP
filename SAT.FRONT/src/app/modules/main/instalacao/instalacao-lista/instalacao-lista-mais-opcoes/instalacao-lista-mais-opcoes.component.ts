@@ -144,12 +144,12 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     formInst.dataHoraManut = moment().format('YYYY-MM-DD HH:mm:ss');
     formInst.codUsuarioManut = this.userSession.usuario?.codUsuario;
 
-    if(formInst.codPostoIns){
+    if (formInst.codPostoIns) {
       var posto = await this._localAtendimentoService.obterPorCodigo(formInst.codPostoIns).toPromise();
       formInst.codPosto = formInst.codPostoIns;
       formInst.codFilial = posto.codFilial;
       formInst.codRegiao = posto.codRegiao;
-      formInst.codAutorizada = posto.codAutorizada; 
+      formInst.codAutorizada = posto.codAutorizada;
     }
 
     let erro: boolean = false;
@@ -157,15 +157,15 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
     for (const item of this.itens) {
       if ((formInst.codInstalStatus == 3) && (item.codEquipContrato != null) && (item.codOS != null)) {
         if (item.equipamentoContrato.indAtivo != statusConst.ATIVO) {
-          
-          var qtdDiaGarantia = (await this._contratoEquipamentoService.obterPorCodigo( item.codContrato, item.codEquip).toPromise()).qtdDiaGarantia;
+
+          var qtdDiaGarantia = (await this._contratoEquipamentoService.obterPorCodigo(item.codContrato, item.codEquip).toPromise()).qtdDiaGarantia;
 
           let objEqp: EquipamentoContrato = {
             ...item.equipamentoContrato,
             ...{
               dataAtivacao: item.ordemServico.dataHoraFechamento,
               dataInicGarantia: item.ordemServico.dataHoraFechamento,
-              dataFimGarantia: moment().add( qtdDiaGarantia, 'days').format('YYYY-MM-DD HH:mm:ss'),
+              dataFimGarantia: moment().add(qtdDiaGarantia, 'days').format('YYYY-MM-DD HH:mm:ss'),
               indAtivo: statusConst.ATIVO,
               indReceita: statusConst.ATIVO,
               indInstalacao: statusConst.ATIVO,
@@ -185,11 +185,11 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
           this._equipamentoContratoService.atualizar(objEqp).subscribe(() => {
             this._snack.exibirToast("Equipamento ativado com sucesso!", "success");
           });
-                  
+
         }
-        var rat = (await this._relatorioAtendimentoSvc.obterPorParametros({ codOS: item.codOS, sortDirection: 'desc', sortActive:'codRAT' }).toPromise()).items.shift();
+        var rat = (await this._relatorioAtendimentoSvc.obterPorParametros({ codOS: item.codOS, sortDirection: 'desc', sortActive: 'codRAT' }).toPromise()).items.shift();
         item.codRAT = rat.codRAT;
-        item.dataBI = rat.dataHoraSolucao;        
+        item.dataBI = rat.dataHoraSolucao;
       }
 
       let inst: any = {}
@@ -197,7 +197,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
         inst[key] = formInst[key] || item[key];
       });
 
-      this._instalacaoService.atualizar(inst).subscribe(err => console.log(err));
+      this._instalacaoService.atualizar(inst).subscribe(err => alert(err));
     }
 
     if (erro)

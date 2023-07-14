@@ -3,8 +3,7 @@ import { environment } from 'environments/environment';
 export type Scheme = 'auto' | 'dark' | 'light';
 export type Theme = 'default' | string;
 
-export interface AppConfig
-{
+export interface AppConfig {
     layout: Layout;
     scheme: Scheme;
     theme: Theme;
@@ -31,5 +30,5 @@ export const appConfig: AppConfig = {
     rd_centro_de_custo: "5001",
     system_user: 'SAT',
     email_equipe: 'equipe.sat@perto.com.br',
-    parametroReajusteValorOrcamento: 0.81
+    parametroReajusteValorOrcamento: 0.81,
 };

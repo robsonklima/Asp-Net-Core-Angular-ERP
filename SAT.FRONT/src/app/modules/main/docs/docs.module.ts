@@ -21,40 +21,10 @@ import { docsRoutes } from './docs.routing';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
-import { IntroducaoComponent } from './inicio/introducao/introducao.component';
-import { VersoesComponent } from './inicio/introducao/versoes/versoes.component';
-import { OrdemServicoComponent } from './ordem-servico/ordem-servico.component';
-import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
-import { AppTecnicosComponent } from './app-tecnicos/app-tecnicos.component';
-import { BuildComponent } from './build/build.component';
-import { EscopoComponent } from './documentacao/escopo/escopo.component';
-import { TempoComponent } from './documentacao/tempo/tempo.component';
-import { TermoAberturaComponent } from './documentacao/termo-abertura/termo-abertura.component';
-import { CustoComponent } from './documentacao/custo/custo.component';
-import { DocsIntroComponent } from './documentacao/docs-intro/docs-intro.component';
-import { QualidadeComponent } from './documentacao/qualidade/qualidade.component';
-import { RecursosHumanosComponent } from './documentacao/recursos-humanos/recursos-humanos.component';
-import { ComunicacoesComponent } from './documentacao/comunicacoes/comunicacoes.component';
-import { RiscosComponent } from './documentacao/riscos/riscos.component';
 
 @NgModule({
   declarations: [
-    DocsComponent,
-    IntroducaoComponent,
-    VersoesComponent,
-    OrdemServicoComponent,
-    AutenticacaoComponent,
-    AppTecnicosComponent,
-    BuildComponent,
-    EscopoComponent,
-    TempoComponent,
-    TermoAberturaComponent,
-    CustoComponent,
-    DocsIntroComponent,
-    QualidadeComponent,
-    RecursosHumanosComponent,
-    ComunicacoesComponent,
-    RiscosComponent
+    DocsComponent
   ],
   imports: [
     CommonModule,

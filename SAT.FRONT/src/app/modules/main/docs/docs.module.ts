@@ -21,14 +21,23 @@ import { docsRoutes } from './docs.routing';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { DocsComponent } from './docs.component';
 import { FuseNavigationModule } from '@fuse/components/navigation';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-dialog/documento-sistema-form-dialog.component';
+import { QuillModule } from 'ngx-quill';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
-    DocsComponent
+    DocsComponent,
+    DocumentoSistemaFormDialogComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(docsRoutes),
+    QuillModule.forRoot(),
     SharedModule,
     MbscModule,
     FormsModule,
@@ -50,6 +59,13 @@ import { FuseNavigationModule } from '@fuse/components/navigation';
     FuseAlertModule,
     MatExpansionModule,
     FuseNavigationModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+    FuseFindByKeyPipeModule,
+    MatTabsModule,
+    MatCheckboxModule,
   ]
 })
 export class DocsModule { }

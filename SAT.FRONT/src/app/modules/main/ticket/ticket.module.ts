@@ -46,7 +46,7 @@ registerLocaleData(localeBr, 'pt')
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
-      validation: false,
+    validation: false,
   };
 };
 

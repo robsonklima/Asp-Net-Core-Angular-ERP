@@ -30,7 +30,7 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize, comparer);
             }
-            catch(InvalidCastException ex)
+            catch (InvalidCastException ex)
             {
                 throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }
@@ -48,7 +48,7 @@ namespace SAT.MODELS.Helpers
                 var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
-            catch(InvalidCastException ex)
+            catch (InvalidCastException ex)
             {
                 throw new Exception(MsgConst.OCORREU_ERRO, ex);
             }

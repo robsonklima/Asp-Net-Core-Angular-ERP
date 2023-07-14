@@ -9,9 +9,8 @@ namespace SAT.SERVICES.Services
     public class NavegacaoConfiguracaoService : INavegacaoConfiguracaoService
     {
         private readonly INavegacaoConfiguracaoRepository _navegacaoConfiguracaoRepo;
-        private readonly ISequenciaRepository _seqRepo;
 
-        public NavegacaoConfiguracaoService(INavegacaoConfiguracaoRepository navegacaoConfiguracaoRepo, ISequenciaRepository seqRepo)
+        public NavegacaoConfiguracaoService(INavegacaoConfiguracaoRepository navegacaoConfiguracaoRepo)
         {
             _navegacaoConfiguracaoRepo = navegacaoConfiguracaoRepo;
         }

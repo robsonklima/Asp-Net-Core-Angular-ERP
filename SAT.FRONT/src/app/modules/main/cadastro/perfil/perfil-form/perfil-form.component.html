@@ -1,6 +1,6 @@
-<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+<div class="flex flex-col flex-auto min-w-full" *transloco="let t">
     <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card">
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
@@ -9,7 +9,7 @@
             <div class="flex flex-wrap items-center font-medium">
                 <div>
                     <a class="whitespace-nowrap text-primary-500" routerLink="/perfil">
-                        Perfil
+                        {{ t('perfis') }}
                     </a>
                 </div>
 
@@ -24,18 +24,16 @@
 
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Perfil
+                    {{ t('perfil de acesso') }}
                 </h2>
             </div>
         </div>
     </div>
 
     <div class="grid grid-cols-6 sm:grid-cols-1 md: p-4 gap-1 min-w-0">
-        <div class="flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden"
-            *transloco="let t">
+        <div class="flex flex-col flex-auto p-2 bg-card shadow rounded-2xl overflow-hidden" *transloco="let t">
             <form autocomplete="off" class="flex flex-col" [formGroup]="form">
                 <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 overflow-hidden">
-                    
                     <mat-form-field class="fuse-mat-dense sm:col-span-6">
                         <mat-label>{{ t('setor') }}</mat-label>
 
@@ -59,12 +57,30 @@
 
                         <mat-error>{{ t('preencher campo') }}</mat-error>
                     </mat-form-field>
-
                 </div>
             </form>
 
-            <div *ngIf="isAddMode" class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+            <div class="flex-auto" *transloco="let t" [hidden]="!perfilSetor">
+                <div class="w-full max-w-screen-xl mx-auto">
+                    <mat-tab-group [animationDuration]="'0'">
+                        <mat-tab [label]="t('menus liberados')">
+                            <ng-template matTabContent>
+                                <app-perfil-form-navegacao [perfilSetor]="perfilSetor"
+                                    *ngIf="perfilSetor"></app-perfil-form-navegacao>
+                            </ng-template>
+                        </mat-tab>
 
+                        <mat-tab [label]="t('recursos bloqueados')">
+                            <ng-template matTabContent>
+                                <app-perfil-form-recursos-bloqueados [perfilSetor]="perfilSetor"
+                                    *ngIf="perfilSetor"></app-perfil-form-recursos-bloqueados>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+
+            <div *ngIf="isAddMode" class="flex items-center justify-end border-t px-8 py-5 bg-gray-50">
                 <button (click)="_location.back()" mat-button>
                     {{ t('cancelar') }}
                 </button>
@@ -77,26 +93,6 @@
                     </mat-progress-spinner>
                 </button>
             </div>
-        </div>
-    </div>
-
-    <div class="flex-auto mt-4 sm:mt-6" *transloco="let t" [hidden]="!perfilSetor">
-        <div class="w-full max-w-screen-xl mx-auto">
-            <mat-tab-group class="sm:px-2" [animationDuration]="'0'">
-                <mat-tab [label]="t('menus liberados')">
-                    <ng-template matTabContent>
-                        <app-perfil-form-navegacao
-                            [perfilSetor]="perfilSetor" *ngIf="perfilSetor"></app-perfil-form-navegacao>
-                    </ng-template>
-                </mat-tab>
-
-                <mat-tab [label]="t('recursos bloqueados')">
-                    <ng-template matTabContent>
-                        <app-perfil-form-recursos-bloqueados
-                            [perfilSetor]="perfilSetor" *ngIf="perfilSetor"></app-perfil-form-recursos-bloqueados>
-                    </ng-template>
-                </mat-tab>
-            </mat-tab-group>
         </div>
     </div>
 </div>

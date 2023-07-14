@@ -459,6 +459,9 @@ public class ConfigurationIOC
         builder.RegisterType<ANSService>().As<IANSService>();
         builder.RegisterType<OSPrazoAtendimentoService>().As<IOSPrazoAtendimentoService>();
         builder.RegisterType<SATFeriadoService>().As<ISATFeriadoService>();
+        builder.RegisterType<NavegacaoService>().As<INavegacaoService>();
+        builder.RegisterType<NavegacaoConfiguracaoService>().As<INavegacaoConfiguracaoService>();
+        builder.RegisterType<DocumentoSistemaService>().As<IDocumentoSistemaService>();
 
         #endregion
 

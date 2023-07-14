@@ -1,41 +1,42 @@
-<fuse-card class="flex flex-col col-span-6 flex-auto bg-card rounded-2xl overflow-hidden" *transloco="let t">
-  <div class="flex flex-col border-b font-medium">
-    <div class="flex flex-col bg-card rounded overflow-hidden">
-      <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card rounded overflow-hidden">
+<div class="flex flex-col col-span-6 flex-auto overflow-y-auto p-6 min-h-120 max-h-120" *transloco="let t">
+  <ul class="w-full">
+    <li *ngFor="let n of nav">
+      <section>
+        <mat-checkbox [(ngModel)]="n.checked" [color]="n.color">
+          <span class="font-bold">
+            {{ n.title }}
+          </span>
+        </mat-checkbox>
 
-        <mat-tree [dataSource]="treeData" [treeControl]="treeControl">
-          <mat-tree-node *matTreeNodeDef="let node; let index" matTreeNodeToggle>
-            <li class="mat-tree-node">
-              <button mat-icon-button [disableRipple]="true" class="mr-2">
-                <mat-checkbox [(ngModel)]="node.checked"></mat-checkbox>
-              </button>
-              {{node.name}}
-            </li>
-          </mat-tree-node>
+        <ul class="ml-4">
+          <li *ngFor="let sn of n.children">
+            <mat-checkbox [(ngModel)]="sn.checked" [color]="sn.color">
+              <span>
+                {{ sn.title }}
+              </span>
+            </mat-checkbox>
 
-          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-            <li>
-              <div class="mat-tree-node">
-                <button mat-icon-button [disableRipple]="true" class="mr-2">
-                  <mat-checkbox [(ngModel)]="node.checked"></mat-checkbox>
-                </button>
-                {{node.name}}
-              </div>
-              <ul [class.mat-tree-invisible]="!node.expanded">
-                <ng-container matTreeNodeOutlet></ng-container>
-              </ul>
-            </li>
-          </mat-nested-tree-node>
-        </mat-tree>
+            <ul class="ml-4">
+              <li *ngFor="let ssn of sn.children">
+                <mat-checkbox [(ngModel)]="ssn.checked" [color]="ssn.color">
+                  <span class="text-secondary">
+                    {{ ssn.title }}
+                  </span>
+                </mat-checkbox>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </li>
+  </ul>
 
+  <ng-template *ngIf="loading">
+    <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+      <mat-icon class="icon-size-20" [svgIcon]="'iconsmind:file_search'"></mat-icon>
+      <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">
+        Carregando...
       </div>
     </div>
-
-    <div class="flex items-center justify-end px-4 py-2" *transloco="let t">
-      <button class="px-2" mat-button [color]="'primary'" (click)="salvar()">
-        {{ t('salvar') }}
-      </button>
-    </div>
-
-  </div>
-</fuse-card>
+  </ng-template>
+</div>

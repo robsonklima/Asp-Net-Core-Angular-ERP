@@ -8,7 +8,6 @@ export interface NavegacaoConfiguracao {
     codNavegacaoConfiguracao: number;
     codSetor: number;
     codPerfil: number;
-    codNavegacaoConfTipo: number;
     navegacao: Navegacao;
     setor: Setor;
     perfil: Perfil;
@@ -18,4 +17,8 @@ export interface NavegacaoConfiguracaoData extends Meta {
     items: NavegacaoConfiguracao[];
 };
 
-export interface NavegacaoConfiguracaoParameters extends QueryStringParameters { };
+export interface NavegacaoConfiguracaoParameters extends QueryStringParameters {
+    codPerfil?: number;
+    codSetor?: number;
+    codNavegacao?: number;
+};

@@ -1,83 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatTreeFlatDataSource,MatTreeFlattener } from '@angular/material/tree';
-import { FlatTreeControl } from '@angular/cdk/tree';
+import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { NavegacaoConfiguracaoService } from 'app/core/services/navegacao-configuracao.service';
 import { NavegacaoService } from 'app/core/services/navegacao.service';
+import { toastTypesConst } from 'app/core/types/generic.types';
 import { NavegacaoConfiguracaoData } from 'app/core/types/navegacao-configuracao.types';
-import { NavegacaoData, NavegacaoParameters } from 'app/core/types/navegacao.types';
+import { Navegacao, NavegacaoData } from 'app/core/types/navegacao.types';
 import { PerfilSetor } from 'app/core/types/perfil-setor.types';
-import { statusConst } from 'app/core/types/status-types';
 import { UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
 import { Subject } from 'rxjs';
-
-interface NavigationNode {
-  name: string;
-  children?: NavigationNode[];
-  expanded?: boolean;
-  checked?: boolean;
-}
-
-interface ExampleFlatNode{
-  expandable: boolean;
-  name: string;
-  level: number;
-}
 
 @Component({
   selector: 'app-perfil-form-navegacao',
   templateUrl: './perfil-form-navegacao.component.html',
 })
 export class PerfilFormNavegacaoComponent implements OnInit {
-
   @Input() perfilSetor: PerfilSetor;
-
   userSession: UsuarioSessao;
   navegacao: NavegacaoData;
-  navegacaoConfiguracao: NavegacaoConfiguracaoData;
+  navegacaoConf: NavegacaoConfiguracaoData;
   form: FormGroup;
-  isAddMode: boolean;
-  searching: boolean;
+  loading: boolean = true;
+  nav: any = [];
   protected _onDestroy = new Subject<void>();
 
-  treeData: NavigationNode[] = [
-    {
-      name: 'Home',
-      children: [
-        {
-          name: 'About Us',
-          children: [
-            { name: 'Mission', checked: false },
-            { name: 'Vision', checked: false },
-            { name: 'Values', checked: false }
-          ]
-        },
-        { name: 'Contact', checked: false }
-      ],
-      checked: false
-    }
-  ];
-
-  // const menus = navegacoes.map((menu) => {
-  //   name: menu.nome,
-  //   children: menu.children.map((cd) => {
-  //       name: menu.nome,
-  //       children: cd.children.map((cd2) => {
-  //           name: cd2.nome
-  //       })
-  //   })
-//})
-
-  treeControl: FlatTreeControl<NavigationNode> = new FlatTreeControl<ExampleFlatNode>(
-    node=> node.level,
-    node=> node.expandable
-  );
-
   constructor(
-    private _navegacaoSrv: NavegacaoService,
-    private _navegacaoConfSrv: NavegacaoConfiguracaoService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _navService: NavegacaoService,
+    private _navCfService: NavegacaoConfiguracaoService,
+    private _snack: CustomSnackbarService
   ) {
     this.userSession = JSON.parse(this._userService.userSession);
   }
@@ -87,33 +39,51 @@ export class PerfilFormNavegacaoComponent implements OnInit {
   }
 
   async obterDados() {
-    await this.obterNavegacao();
-  }
-
-  async obterNavegacao() {
-    let params: NavegacaoParameters = {
-      sortActive: 'title',
-      indAtivo: statusConst.ATIVO,
-      sortDirection: 'asc',
-      pageSize: 1000
-    };
-    const data = await this._navegacaoSrv
-      .obterPorParametros(params)
-      .toPromise();
-    this.navegacao = data;
-
-    console.log(this.navegacao);
-  }
-
-  toggleNode(node: NavigationNode): void {
-    node.expanded = !node.expanded;
-  }
-
-  hasChild(_: number, node: NavigationNode): boolean {
-    return !!node.children && node.children.length > 0;
+    this.navegacaoConf = await this.obterNavConfiguracao();
+    this.nav = await this.obterNavegacoes();
+    this.loading = false;
   }
 
   salvar() {
-    // Lógica de salvamento
+
+  }
+
+  private isChecked(n: Navegacao): boolean {
+    return this.navegacaoConf.items
+      .filter(c => c.codNavegacao == n.codNavegacao)
+      .shift() != null;
+  }
+
+  private async obterNavConfiguracao(): Promise<any> {
+    return await this._navCfService
+      .obterPorParametros({
+        codPerfil: this.perfilSetor.codPerfil,
+        codSetor: this.perfilSetor.codSetor
+      })
+      .toPromise();
+  }
+
+  private async obterNavegacoes(): Promise<any> {
+    return (await this._navService
+      .obterPorParametros({})
+      .toPromise()
+    ).items
+      .filter(f => !f.codNavegacaoPai)
+      .map(n => ({
+        title: n.title,
+        checked: this.isChecked(n),
+        color: 'primary',
+        children:
+          n.children?.map(c => ({
+            title: c.title,
+            checked: this.isChecked(c),
+            color: 'primary',
+            children: c.children?.map(cc => ({
+              title: cc.title,
+              checked: this.isChecked(cc),
+              color: 'primary',
+            }))
+          }))
+      }));;
   }
 }

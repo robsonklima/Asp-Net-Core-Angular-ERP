@@ -10,8 +10,7 @@ namespace SAT.MODELS.Entities
         public int CodNavegacaoConfiguracao { get; set; }
         public int CodNavegacao { get; set; }
         public int? CodSetor { get; set; }
-        public int CodPerfil { get; set; }
-        public int CodNavegacaoConfTipo { get; set; }
+        public int? CodPerfil { get; set; }
         [ForeignKey("CodNavegacao")]
         public Navegacao Navegacao { get; set; }
         [ForeignKey("CodPerfil")]

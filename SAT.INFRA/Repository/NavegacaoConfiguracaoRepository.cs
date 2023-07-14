@@ -31,9 +31,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -63,9 +63,9 @@ namespace SAT.INFRA.Repository
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
-            {
-                throw new Exception($"", ex);
-            }
+                {
+                    throw new Exception($"", ex);
+                }
             }
         }
 
@@ -84,13 +84,22 @@ namespace SAT.INFRA.Repository
                 perfis = perfis.Where(
                     p =>
                     p.CodNavegacaoConfiguracao.ToString().Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty)
-
                 );
             }
 
-            if (parameters.CodNavegacao != null)
+            if (parameters.CodNavegacao.HasValue)
             {
                 perfis = perfis.Where(p => p.CodNavegacao == parameters.CodNavegacao);
+            }
+
+            if (parameters.CodPerfil.HasValue)
+            {
+                perfis = perfis.Where(p => p.CodPerfil == parameters.CodPerfil);
+            }
+
+            if (parameters.CodSetor.HasValue)
+            {
+                perfis = perfis.Where(p => p.CodSetor == parameters.CodSetor);
             }
 
             if (parameters.SortActive != null && parameters.SortDirection != null)

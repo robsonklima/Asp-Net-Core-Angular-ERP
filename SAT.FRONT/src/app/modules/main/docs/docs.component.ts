@@ -55,7 +55,7 @@ export class DocsComponent implements OnInit, OnDestroy {
                 pageNumber: this.paginator?.pageIndex || 0 + 1,
                 sortActive: 'codDocumentoSistema',
                 sortDirection: 'desc',
-                pageSize: this.paginator?.pageSize || 0,
+                pageSize: this.paginator?.pageSize || 10,
             })
             .subscribe((data) => {
                 this.dataSource = data;

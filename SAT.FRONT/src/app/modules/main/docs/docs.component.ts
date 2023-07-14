@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,10 +11,9 @@ import { toastTypesConst } from 'app/core/types/generic.types';
     selector: 'app-docs',
     templateUrl: './docs.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocsComponent implements OnInit, OnDestroy {
-    documentos: DocumentoSistema[];
+    documentos: DocumentoSistema[] = [];
     categorias: string[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     loading: boolean = true;
@@ -22,34 +21,41 @@ export class DocsComponent implements OnInit, OnDestroy {
     constructor(
         private _docSistemaService: DocumentoSistemaService,
         private _dialog: MatDialog,
-        private _snack: CustomSnackbarService
+        private _snack: CustomSnackbarService,
+        private _cdr: ChangeDetectorRef
     ) { }
 
     async ngOnInit() {
         this.obterDocumentos();
-
         this.categorias = documentoCategoriasConst;
     }
 
-    onDocumentoSistema() {
-        this._dialog.open(DocumentoSistemaFormDialogComponent);
+    onDocumentoSistema(documento: DocumentoSistema = null) {
+        const dialogRef = this._dialog.open(DocumentoSistemaFormDialogComponent, {
+            data: {
+                documento: documento
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(async (data: any) => {
+            if (data) {
+
+            }
+        });
     }
 
-    async obterDocumentos(query: string = '') {
-        await this._docSistemaService
+    obterDocumentos(query: string = '') {
+        this._docSistemaService
             .obterPorParametros({ filter: query, })
             .subscribe((data) => {
-                this.documentos = data?.items;
-
+                this.documentos = data.items;
+                console.log(this.documentos);
                 this.loading = false;
             }, e => {
                 this._snack.exibirToast(e, toastTypesConst.ERROR)
-
                 this.loading = false;
+                this._cdr.detectChanges();
             });
-
-        console.log(this.documentos);
-
     }
 
     ngOnDestroy(): void {

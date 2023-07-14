@@ -40,7 +40,7 @@ export class AuditoriaLayoutComponent implements OnInit {
 		private _formBuilder: FormBuilder,
 	) {
 		this.userSession = JSON.parse(this._userSvc.userSession);
-	 }
+	}
 
 	async ngOnInit(): Promise<void> {
 		this.codAuditoria = +this._route.snapshot.paramMap.get('codAuditoria');
@@ -50,42 +50,42 @@ export class AuditoriaLayoutComponent implements OnInit {
 
 	private inicializarForm() {
 		this.form = this._formBuilder.group({
-		  codAuditoria: [
-			{
-			  value: undefined,
-			  disabled: true
-			}
-		  ],
+			codAuditoria: [
+				{
+					value: undefined,
+					disabled: true
+				}
+			],
 		});
-	  }
+	}
 
 	reciverFeedback(codFilho) {
 		this.nroAuditoria = codFilho;
 	}
 
-	obterAuditoria(){
+	obterAuditoria() {
 		this._auditoriaService.obterPorCodigo(this.codAuditoria)
-		  .pipe(first())
-		  .subscribe(data => {
-			this.form.patchValue(data);
-			this.auditoria = data;
-		  });
-	  }
-
-	editarAuditoria(){    
-		const dialogRef = this._dialog.open(AuditoriaUtilizacaoDialogComponent, {
-		data: {
-		  codAuditoria: this.codAuditoria,
-		}
-	  });
-	
-	  dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
-		if (confirmacao)
-		  this.obterAuditoria();
-	  });
+			.pipe(first())
+			.subscribe(data => {
+				this.form.patchValue(data);
+				this.auditoria = data;
+			});
 	}
 
-	finalizar(){  
+	editarAuditoria() {
+		const dialogRef = this._dialog.open(AuditoriaUtilizacaoDialogComponent, {
+			data: {
+				codAuditoria: this.codAuditoria,
+			}
+		});
+
+		dialogRef.afterClosed().subscribe((confirmacao: boolean) => {
+			if (confirmacao)
+				this.obterAuditoria();
+		});
+	}
+
+	finalizar() {
 		const form: any = this.form.getRawValue();
 
 		let obj = {
@@ -97,15 +97,15 @@ export class AuditoriaLayoutComponent implements OnInit {
 				codAuditoriaStatus: 3,
 			}
 		};
-	
+
 		this._auditoriaService.atualizar(obj).subscribe(() => {
-		this._snack.exibirToast("Auditoria finalizada com sucesso!", "success");
+			this._snack.exibirToast("Auditoria finalizada com sucesso!", "success");
 		}, e => {
 			this.form.enable();
 		});
 	}
 
-	reabrir(){
+	reabrir() {
 		const form: any = this.form.getRawValue();
 
 		let obj = {
@@ -117,31 +117,31 @@ export class AuditoriaLayoutComponent implements OnInit {
 				codAuditoriaStatus: 2,
 			}
 		};
-	
+
 		this._auditoriaService.atualizar(obj).subscribe(() => {
-		this._snack.exibirToast("Auditoria reaberta com sucesso!", "success");
+			this._snack.exibirToast("Auditoria reaberta com sucesso!", "success");
 		}, e => {
 			this.form.enable();
 		});
 	}
-	
-	excluir(){
-		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent,{
+
+	excluir() {
+		const dialogRef = this._dialog.open(ConfirmacaoDialogComponent, {
 			data:
 			{
-				titulo:'Confirmação',
+				titulo: 'Confirmação',
 				mensagem: 'Deseja confirmar a exclusão desta auditoria?',
-				buttonText:{
+				buttonText: {
 					ok: 'Sim',
 					cancel: 'Não'
 				}
 			}
 		});
 
-		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) =>{
-			if(confirmacao){
+		dialogRef.afterClosed().subscribe(async (confirmacao: boolean) => {
+			if (confirmacao) {
 				this._auditoriaService.deletar(this.codAuditoria).subscribe(() => {
-					this._snack.exibirToast('Auditoria Excluída','sucess');
+					this._snack.exibirToast('Auditoria Excluída', 'sucess');
 					this._router.navigate(['/frota-tecnico/']);
 				})
 
@@ -149,28 +149,22 @@ export class AuditoriaLayoutComponent implements OnInit {
 		});
 	}
 
-	async inserirNivelCombustivel(){
+	async inserirNivelCombustivel() {
 		const audVeiculo = await this._auditoriaVeiculoSrv.obterPorCodigo(this.auditoria.codAuditoriaVeiculo).toPromise();
-		console.log(this.auditoria.codAuditoriaVeiculo);
-		
 		audVeiculo.codAuditoriaVeiculoTanque = 1;
-		
-		console.log(audVeiculo);
-		
+
 
 		this._auditoriaVeiculoSrv.atualizar(audVeiculo).subscribe(() => {
-			this._snack.exibirToast('Tanque atualizado!','sucess');
+			this._snack.exibirToast('Tanque atualizado!', 'sucess');
 		});
 
 	}
 
-	validarPermissao(){
-		if(this.userSession.usuario.codSetor == +SetorEnum.GERENCIA || this.userSession.usuario.codPerfil == +PerfilEnum.ADM_DO_SISTEMA)
-		{
+	validarPermissao() {
+		if (this.userSession.usuario.codSetor == +SetorEnum.GERENCIA || this.userSession.usuario.codPerfil == +PerfilEnum.ADM_DO_SISTEMA) {
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}

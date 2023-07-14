@@ -16,7 +16,6 @@ export interface AppConfig {
     system_user: string;
     email_equipe: string;
     parametroReajusteValorOrcamento: number;
-    quillModules: any
 }
 
 export const appConfig: AppConfig = {
@@ -32,18 +31,4 @@ export const appConfig: AppConfig = {
     system_user: 'SAT',
     email_equipe: 'equipe.sat@perto.com.br',
     parametroReajusteValorOrcamento: 0.81,
-    quillModules: {
-        toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'align': [] }],
-            ['clean'],
-            ['link', 'image']
-        ]
-    }
 };

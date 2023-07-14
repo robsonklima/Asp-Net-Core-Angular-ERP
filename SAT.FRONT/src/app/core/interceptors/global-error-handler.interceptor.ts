@@ -20,7 +20,6 @@
 //     }
 
 //     handleError(error: Error) {
-//         console.log(error, this.userSession.usuario.codUsuario);
 //         this._snack.exibirToast(mensagensConst.OCORREU_UM_ERRO, toastTypesConst.ERROR);
 
 //         this._nLogService.criar({

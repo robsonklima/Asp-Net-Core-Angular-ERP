@@ -18,7 +18,5 @@ export class VersionComponent implements OnInit {
 
     async ngOnInit() {
         const data = await this._docSistemaService.obterPorParametros({}).toPromise();
-
-        console.log(data);
     }
 }

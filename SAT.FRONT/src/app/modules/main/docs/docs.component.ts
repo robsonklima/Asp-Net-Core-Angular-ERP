@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-dialog/documento-sistema-form-dialog.component';
-import { DocumentoSistema, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
+import { DocumentoSistema, DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
 
@@ -13,7 +13,7 @@ import { toastTypesConst } from 'app/core/types/generic.types';
     encapsulation: ViewEncapsulation.None,
 })
 export class DocsComponent implements OnInit, OnDestroy {
-    documentos: DocumentoSistema[] = [];
+    dataSource: DocumentoSistemaData;
     categorias: string[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     loading: boolean = true;
@@ -26,7 +26,7 @@ export class DocsComponent implements OnInit, OnDestroy {
     ) { }
 
     async ngOnInit() {
-        this.obterDocumentos();
+        this.obterDados();
         this.categorias = documentoCategoriasConst;
     }
 
@@ -44,24 +44,20 @@ export class DocsComponent implements OnInit, OnDestroy {
         });
     }
 
-    paginar() {
+    public paginar() { this.obterDados(); }
 
-    }
-
-    obterDocumentos(query: string = '') {
+    obterDados(query: string = '') {
         this._docSistemaService
             .obterPorParametros({
                 filter: query,
                 pageSize: 12
             })
             .subscribe((data) => {
-                this.documentos = data.items;
-                console.log(this.documentos);
+                this.dataSource = data;
                 this.loading = false;
             }, e => {
                 this._snack.exibirToast(e, toastTypesConst.ERROR)
                 this.loading = false;
-                this._cdr.detectChanges();
             });
     }
 

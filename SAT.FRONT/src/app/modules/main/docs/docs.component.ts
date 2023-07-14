@@ -52,10 +52,10 @@ export class DocsComponent implements OnInit, OnDestroy {
         this._docSistemaService
             .obterPorParametros({
                 filter: query,
-                pageNumber: this.paginator?.pageIndex + 1,
+                pageNumber: this.paginator?.pageIndex || 0 + 1,
                 sortActive: 'codDocumentoSistema',
                 sortDirection: 'desc',
-                pageSize: this.paginator?.pageSize,
+                pageSize: this.paginator?.pageSize || 0,
             })
             .subscribe((data) => {
                 this.dataSource = data;

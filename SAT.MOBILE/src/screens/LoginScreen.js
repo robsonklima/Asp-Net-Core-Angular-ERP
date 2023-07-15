@@ -1,111 +1,74 @@
+import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper'
-import { theme } from '../core/theme'
-import { passwordValidator } from '../helpers/passwordValidator'
-import React, { useState, useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
-const globals = require('../models/Globals');
+import BackButton from '../components/BackButton'
+import { theme } from '../core/theme'
+import { emailValidator } from '../helpers/emailValidator'
+import { passwordValidator } from '../helpers/passwordValidator'
 
 export default function LoginScreen({ navigation }) {
-  const [codUsuario, setCodUsuario] = useState({ value: '', error: '' })
-  const [senha, setSenha] = useState({ value: '', error: '' })
+  const [email, setEmail] = useState({ value: '', error: '' })
+  const [password, setPassword] = useState({ value: '', error: '' })
 
-  const onScreenLoad = async () => {
-    const usuario = JSON.parse(await AsyncStorage.getItem('usuario'));
-    console.log(usuario);
-
-    if (usuario) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'HomeScreen' }],
-      });
-    }
-  }
-  useEffect(() => {
-    onScreenLoad();
-  }, [])
-
-  const onLoginPressed = async () => {
-    const passwordError = passwordValidator(senha.value)
-
-    if (passwordError) {
-      setSenha({ ...senha, error: passwordError })
+  const onLoginPressed = () => {
+    const emailError = emailValidator(email.value)
+    const passwordError = passwordValidator(password.value)
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError })
+      setPassword({ ...password, error: passwordError })
       return
     }
-
-    const response = await fetch(`${globals.BASE_URL}/Usuario/Login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        codUsuario: codUsuario.value,
-        senha: senha.value,
-      }),
-    });
-
-    const json = await response.json();
-
-    if (json?.usuario?.codUsuario) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Screen' }],
-      });
-
-      const usuario = JSON.stringify(json.usuario);
-      await AsyncStorage.setItem('usuario', usuario);
-      await AsyncStorage.setItem('token', json.token);
-
-      return json.usuario;
-    }
-
-    alert('Usuário ou senha inválidos');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'HomeScreen' }],
+    })
   }
 
   return (
     <Background>
+      <BackButton goBack={navigation.goBack} />
       <Logo />
-
-      <Header>Bem-vindo de volta ao SAT</Header>
-
+      <Header>bem vindo de volta.</Header>
       <TextInput
-        label="Usuário"
+        label="Email"
         returnKeyType="next"
-        value={codUsuario.value}
-        onChangeText={(text) => setCodUsuario({ value: text, error: '' })}
+        value={email.value}
+        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        error={!!email.error}
+        errorText={email.error}
         autoCapitalize="none"
+        autoCompleteType="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
       />
-
       <TextInput
         label="Senha"
         returnKeyType="done"
-        value={senha.value}
-        onChangeText={(text) => setSenha({ value: text, error: '' })}
-        error={!!senha.error}
-        errorText={senha.error}
+        value={password.value}
+        onChangeText={(text) => setPassword({ value: text, error: '' })}
+        error={!!password.error}
+        errorText={password.error}
         secureTextEntry
       />
-
       <View style={styles.forgotPassword}>
-        <TouchableOpacity onPress={() => navigation.navigate('ResetPasswordScreen')}>
-          <Text style={styles.forgot}>Esqueci minha senha</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ResetPasswordScreen')}
+        >
+          <Text style={styles.forgot}>Esqueceu sua senha?</Text>
         </TouchableOpacity>
       </View>
-
       <Button mode="contained" onPress={onLoginPressed}>
-        Login
+        Entrar
       </Button>
-
       <View style={styles.row}>
-        <Text>Ainda não tem conta? </Text>
+        <Text>Ainda não possui conta? </Text>
         <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
-          <Text style={styles.link}>Criar Conta</Text>
+          <Text style={styles.link}>Criar conta</Text>
         </TouchableOpacity>
       </View>
     </Background>

@@ -9,6 +9,7 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   HomeScreen,
+  ChamadoScreen,
   ChamadosScreen
 } from './src/screens'
 
@@ -19,7 +20,7 @@ export default function App() {
     <Provider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="StartScreen"
+          initialRouteName="ChamadosScreen"
           screenOptions={{
             headerShown: false,
           }}
@@ -29,6 +30,7 @@ export default function App() {
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="ChamadosScreen" component={ChamadosScreen} />
+          <Stack.Screen name="ChamadoScreen" component={ChamadoScreen} />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

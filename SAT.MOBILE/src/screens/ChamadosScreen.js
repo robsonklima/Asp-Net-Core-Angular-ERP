@@ -6,7 +6,7 @@ export default function ChamadosScreen({ navigation }) {
     const onChamadoPressed = () => {
         navigation.reset({
             index: 0,
-            routes: [{ name: 'HomeScreen' }],
+            routes: [{ name: 'ChamadoScreen' }],
         })
     }
 
@@ -23,7 +23,7 @@ export default function ChamadosScreen({ navigation }) {
                     title="7896131"
                     description="Agência Sicredi, Rua Dorival Cândido Silva 511, Porto Alegre"
                     left={() => <List.Icon icon="ticket" />}
-                    onPress={(data) => { onChamadoPressed }}
+                    onPress={onChamadoPressed}
                 />
                 <List.Item
                     title="7899563"

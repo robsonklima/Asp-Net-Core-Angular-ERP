@@ -1,6 +1,5 @@
 import React from 'react'
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
 import { List } from 'react-native-paper'
 
 export default function ChamadosScreen({ navigation }) {

@@ -9,6 +9,7 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
+import Paragraph from '../components/Paragraph'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -32,6 +33,9 @@ export default function LoginScreen({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
+      <Paragraph>
+        Entre com seu usuário se senha do SAT 2.0
+      </Paragraph>
       <TextInput
         label="Email"
         returnKeyType="next"

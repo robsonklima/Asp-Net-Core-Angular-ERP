@@ -6,9 +6,9 @@ import { DocumentoSistema, documentoCategoriasConst } from 'app/core/types/docum
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { mensagensConst, toastTypesConst } from 'app/core/types/generic.types';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import moment from 'moment';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-docs-form',

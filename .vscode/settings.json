@@ -12,6 +12,27 @@
     "SAT.FRONT\\dist": true,
     "SAT.FRONT\\.npmrc": true,
     "SAT.API\\bin": true,
-    "SAT.API\\obj": true
+    "SAT.API\\obj": true,
+    "SAT.FRONT/node_modules": true,
+    "SAT.UTILS/bin": true,
+    "SAT.UTILS/obj": true,
+    "SAT.UTILS/SAT.UTILS.csproj": true,
+    "SAT.TASKS/SAT.TASKS.csproj": true,
+    "SAT.TASKS/obj": true,
+    "SAT.TASKS/bin": true,
+    "SAT.INFRA/bin": true,
+    "SAT.INFRA/obj": true,
+    "SAT.IOC/bin": true,
+    "SAT.IOC/obj": true,
+    "SAT.IOC/SAT.IOC.csproj": true,
+    "SAT.MOBILE/node_modules": true,
+    "SAT.MOBILE/.expo": true,
+    "SAT.MODELS/bin": true,
+    "SAT.MODELS/obj": true,
+    "SAT.SERVICES/bin": true,
+    "SAT.SERVICES/obj": true,
+    "SAT.SERVICES/SAT.SERVICES.csproj": true,
+    "SAT.API/bin": true,
+    "SAT.API/obj": true
   }
 }

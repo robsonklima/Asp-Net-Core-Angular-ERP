@@ -6,6 +6,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <>
       <Header />
+
       <Menu />
     </>
   )

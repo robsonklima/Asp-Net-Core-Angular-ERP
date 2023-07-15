@@ -4,7 +4,7 @@ import Header from '../components/Header';
 export default function ChamadoScreen({ navigation }) {
     return (
         <>
-            <Header />
+            <Header title="Chamado" />
         </>
     )
 }

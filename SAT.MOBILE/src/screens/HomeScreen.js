@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
-      <Header />
+      <Header title="SAT Mobile" />
 
       <List.Section>
         <List.Subheader>Menu Principal</List.Subheader>

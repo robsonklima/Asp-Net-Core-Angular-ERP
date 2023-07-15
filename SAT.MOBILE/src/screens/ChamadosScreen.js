@@ -12,7 +12,7 @@ export default function ChamadosScreen({ navigation }) {
 
     return (
         <>
-            <Header />
+            <Header title="Chamados" />
 
             <List.Section>
                 <List.Subheader>

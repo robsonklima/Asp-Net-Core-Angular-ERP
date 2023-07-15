@@ -119,7 +119,7 @@
                         <mat-paginator [hidden]="!dataSource?.items?.length"
                             class="absolute inset-x-0 bottom-0 border-b border-t z-10 bg-gray-50"
                             [ngClass]="{'pointer-events-none': loading}" [length]="dataSource?.items?.totalCount"
-                            [pageSize]="10" [pageSizeOptions]="[10, 25]" [showFirstLastButtons]="true"
+                            [showFirstLastButtons]="true" [pageSize]="10" [pageSizeOptions]="[10, 25]"
                             (page)="paginar()">
                         </mat-paginator>
                     </ng-container>

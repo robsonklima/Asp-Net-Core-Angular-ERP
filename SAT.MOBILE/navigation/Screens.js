@@ -2,10 +2,11 @@ import { Dimensions } from 'react-native';
 import { Header } from '../components';
 import { nowTheme } from '../constants';
 import Articles from '../screens/Articles';
+import Login from '../screens/Login';
 import Components from '../screens/Components';
 import CustomDrawerContent from './Menu';
 import Home from '../screens/Home';
-import Default from '../screens/Default';
+import Onboarding from '../screens/Onboarding';
 import Pro from '../screens/Pro';
 import Profile from '../screens/Profile';
 import React from 'react';
@@ -81,6 +82,23 @@ function AccountStack(props) {
           ),
           headerTransparent: true,
         }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack(props) {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        mode: 'card',
+        headerShown: 'screen',
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
       />
     </Stack.Navigator>
   );
@@ -212,6 +230,13 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
+        name="Login"
+        component={LoginStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
         name="Account"
         component={AccountStack}
         options={{
@@ -222,7 +247,7 @@ function AppStack(props) {
   );
 }
 
-export default function DefaultStack(props) {
+export default function OnboardingStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -231,8 +256,8 @@ export default function DefaultStack(props) {
       }}
     >
       <Stack.Screen
-        name="Default"
-        component={Default}
+        name="Onboarding"
+        component={Onboarding}
         option={{
           headerTransparent: true,
         }}

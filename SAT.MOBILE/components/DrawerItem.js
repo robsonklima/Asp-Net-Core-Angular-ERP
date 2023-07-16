@@ -50,7 +50,7 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Account':
+      case 'Login':
         return (
           <Icon
             name="badge2x"
@@ -120,7 +120,7 @@ class DrawerItem extends React.Component {
             ? Linking.openURL('https://sat.perto.com.br/SAT.V2.FRONTEND/').catch(
               (err) => console.error('An error occurred', err)
             )
-            : navigation.navigate(title == 'Sair' ? 'Default' : title)
+            : navigation.navigate(title == 'Sair' ? 'Onboarding' : title)
         }
       >
         <Block flex row style={containerStyles}>

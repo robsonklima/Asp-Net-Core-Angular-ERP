@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
-import { Block, Checkbox, Text, Button as GaButton, theme } from 'galio-framework';
+import { Block, Text, theme } from 'galio-framework';
 
 import { Button, Icon, Input } from '../components';
 import { Images, nowTheme } from '../constants';
@@ -19,11 +19,13 @@ const DismissKeyboard = ({ children }) => (
 
 class Login extends React.Component {
   render() {
+    const { navigation } = this.props;
+
     return (
       <DismissKeyboard>
         <Block flex middle>
           <ImageBackground
-            source={Images.RegisterBackground}
+            source={Images.Fabrica}
             style={styles.imageBackgroundContainer}
             imageStyle={styles.imageBackground}
           >
@@ -40,58 +42,9 @@ class Login extends React.Component {
                         color="#333"
                         size={24}
                       >
-                        Register
+                        Login
                       </Text>
                     </Block>
-
-                    <Block flex={0.5} row middle space="between" style={{ marginBottom: 18 }}>
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="twitter"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.TWITTER}
-                        style={[styles.social, styles.shadow]}
-                      />
-
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="dribbble"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.DRIBBBLE}
-                        style={[styles.social, styles.shadow]}
-                      />
-                      <GaButton
-                        round
-                        onlyIcon
-                        shadowless
-                        icon="facebook"
-                        iconFamily="Font-Awesome"
-                        iconColor={theme.COLORS.WHITE}
-                        iconSize={theme.SIZES.BASE * 1.625}
-                        color={nowTheme.COLORS.FACEBOOK}
-                        style={[styles.social, styles.shadow]}
-                      />
-                    </Block>
-                  </Block>
-                  <Block flex={0.1} middle>
-                    <Text
-                      style={{
-                        fontFamily: 'montserrat-regular',
-                        textAlign: 'center'
-                      }}
-                      muted
-                      size={16}
-                    >
-                      or be classical
-                    </Text>
                   </Block>
                   <Block flex={1} middle space="between">
                     <Block center flex={0.9}>
@@ -99,7 +52,7 @@ class Login extends React.Component {
                         <Block>
                           <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                             <Input
-                              placeholder="First Name"
+                              placeholder="Usuário"
                               style={styles.inputs}
                               iconContent={
                                 <Icon
@@ -114,7 +67,7 @@ class Login extends React.Component {
                           </Block>
                           <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                             <Input
-                              placeholder="Last Name"
+                              placeholder="Senha"
                               style={styles.inputs}
                               iconContent={
                                 <Icon
@@ -127,43 +80,10 @@ class Login extends React.Component {
                               }
                             />
                           </Block>
-                          <Block width={width * 0.8}>
-                            <Input
-                              placeholder="Email"
-                              style={styles.inputs}
-                              iconContent={
-                                <Icon
-                                  size={16}
-                                  color="#ADB5BD"
-                                  name="email-852x"
-                                  family="NowExtra"
-                                  style={styles.inputIcons}
-                                />
-                              }
-                            />
-                          </Block>
-                          <Block
-                            style={{ marginVertical: theme.SIZES.BASE, marginLeft: 15 }}
-                            row
-                            width={width * 0.75}
-                          >
-                            <Checkbox
-                              checkboxStyle={{
-                                borderWidth: 1,
-                                borderRadius: 2,
-                                borderColor: '#E3E3E3'
-                              }}
-                              color={nowTheme.COLORS.PRIMARY}
-                              labelStyle={{
-                                color: nowTheme.COLORS.HEADER,
-                                fontFamily: 'montserrat-regular'
-                              }}
-                              label="I agree to the terms and conditions."
-                            />
-                          </Block>
                         </Block>
                         <Block center>
-                          <Button color="primary" round style={styles.createButton}>
+                          <Button color="primary" round style={styles.createButton}
+                            onPress={() => navigation.navigate('App')}>
                             <Text
                               style={{ fontFamily: 'montserrat-bold' }}
                               size={14}

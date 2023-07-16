@@ -1,39 +1,29 @@
 export default [
   {
-    title: 'Society has put up so many boundaries',
+    title: '8799628',
     image: require("../assets/imgs/project13.jpg"),
-    cta: 'View article',
+    cta: 'Detalhes',
     horizontal: true
   },
   {
-    title: 'Many limitations on what’s right',
+    title: '8799778',
     image: require("../assets/imgs/bg40.jpg"),
-    cta: 'View article'
+    cta: 'Detalhes'
   },
-  {
-    title: 'Why would anyone pick blue over?',
-    image: require("../assets/imgs/bg28.jpg"),
-    cta: 'View article'
-  },
-  {
-    title: 'Pink is obviously a better color',
-    image: require("../assets/imgs/project21.jpg"),
-    cta: 'View article'
-  },
-
   {
     title: 'The time is now for it to be okay to be',
     image: require("../assets/imgs/project15.jpg"),
-    cta: 'View article',
+    cta: 'Detalhes',
     horizontal: true
   },
   {
-    title: '$377',
+    title: '$8799628',
     image: require("../assets/imgs/saint-laurent.jpg"),
-    subtitle: 'Black Jacket',
+    subtitle: 'Banco do Brasil',
     description:
       'The structured shoulders and sleek detailing ensure a sharp silhouette. Team it with a silk pocket.',
-    horizontal: true
+    horizontal: true,
+    cta: 'Detalhes'
   },
   {
     title: '$299',

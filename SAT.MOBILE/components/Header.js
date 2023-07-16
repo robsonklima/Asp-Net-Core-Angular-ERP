@@ -57,7 +57,7 @@ class Header extends React.Component {
       ...props
     } = this.props;
 
-    const noShadow = ['Search', 'Categories', 'Deals', 'Pro', 'Profile'].includes(title);
+    const noShadow = ['Search', 'Categories', 'Deals', 'Profile'].includes(title);
     const headerStyles = [
       !noShadow ? styles.shadow : null,
       transparent ? { backgroundColor: 'rgba(0,0,0,0)' } : null

@@ -1,16 +1,15 @@
 import { Dimensions } from 'react-native';
 import { Header } from '../components';
 import { nowTheme } from '../constants';
-import Articles from '../screens/Articles';
+import Chamados from '../screens/Chamados';
+import Chamado from '../screens/Chamado';
 import Login from '../screens/Login';
 import Components from '../screens/Components';
 import CustomDrawerContent from './Menu';
 import Home from '../screens/Home';
 import Onboarding from '../screens/Onboarding';
-import Pro from '../screens/Pro';
 import Profile from '../screens/Profile';
 import React from 'react';
-import Register from '../screens/Register';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -41,21 +40,21 @@ function ComponentsStack(props) {
   );
 }
 
-function ArticlesStack(props) {
+function ChamadosStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Articles"
+      initialRouteName="Chamados"
       screenOptions={{
         mode: 'card',
         headerShown: 'screen',
       }}
     >
       <Stack.Screen
-        name="Articles"
-        component={Articles}
+        name="Chamados"
+        component={Chamados}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Articles" navigation={navigation} scene={scene} />
+            <Header title="Chamados" navigation={navigation} scene={scene} />
           ),
           backgroundColor: '#FFFFFF',
         }}
@@ -64,24 +63,18 @@ function ArticlesStack(props) {
   );
 }
 
-function AccountStack(props) {
+function ChamadoStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Account"
+      initialRouteName="Chamado"
       screenOptions={{
         mode: 'card',
         headerShown: 'screen',
       }}
     >
       <Stack.Screen
-        name="Account"
-        component={Register}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header transparent title="Create Account" navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
-        }}
+        name="Chamado"
+        component={Chamado}
       />
     </Stack.Navigator>
   );
@@ -124,16 +117,6 @@ function ProfileStack(props) {
           headerTransparent: true,
         }}
       />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="" back white transparent navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
-        }}
-      />
     </Stack.Navigator>
   );
 }
@@ -154,16 +137,6 @@ function HomeStack(props) {
             <Header title="Home" search options navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: '#FFFFFF' },
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="" back white transparent navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true,
         }}
       />
     </Stack.Navigator>
@@ -216,8 +189,8 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
-        name="Articles"
-        component={ArticlesStack}
+        name="Chamados"
+        component={ChamadosStack}
         options={{
           headerShown: false,
         }}
@@ -232,13 +205,6 @@ function AppStack(props) {
       <Drawer.Screen
         name="Login"
         component={LoginStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Drawer.Screen
-        name="Account"
-        component={AccountStack}
         options={{
           headerShown: false,
         }}

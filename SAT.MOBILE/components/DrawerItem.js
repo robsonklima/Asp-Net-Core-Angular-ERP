@@ -30,7 +30,7 @@ class DrawerItem extends React.Component {
             style={{ opacity: 0.5 }}
           />
         );
-      case 'Articles':
+      case 'Chamados':
         return (
           <Icon
             name="paper"

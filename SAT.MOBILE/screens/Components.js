@@ -9,7 +9,7 @@ import {
   ImageBackground
 } from 'react-native';
 
-import Articles from '../screens/Articles';
+import Chamados from '../screens/Chamados';
 // Galio components
 import { Block, Text, Button as GaButton, theme } from 'galio-framework';
 
@@ -359,7 +359,7 @@ class Components extends React.Component {
         </Text>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
           <Block style={styles.rows}>
-            <TouchableOpacity onPress={() => navigation.navigate('Pro')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Onboarding')}>
               <Block row middle space="between" style={{ paddingTop: 7 }}>
                 <Text
                   style={{ fontFamily: 'montserrat-regular' }}
@@ -485,7 +485,7 @@ class Components extends React.Component {
     return (
       <Block flex style={styles.group}>
 
-        <Articles />
+        <Chamados />
         <Block flex card center shadow style={styles.category}>
           <ImageBackground
             source={Images.Products['path']}

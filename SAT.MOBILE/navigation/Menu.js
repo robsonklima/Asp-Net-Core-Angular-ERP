@@ -5,7 +5,7 @@ import Images from '../constants/Images';
 import React from 'react';
 
 function CustomDrawerContent({ drawerPosition, navigation, profile, focused, state, ...rest }) {
-  const screens = ['Home'];
+  const screens = ['Home', 'Components'];
   return (
     <Block style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
       <Block style={styles.header}>

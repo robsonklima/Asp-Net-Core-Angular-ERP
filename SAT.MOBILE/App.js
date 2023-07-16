@@ -9,7 +9,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import Screens from './navigation/Screens';
 import { Images, articles, nowTheme } from './constants';
 
-// cache app images
 const assetImages = [
   Images.Onboarding,
   Images.Logo,
@@ -24,7 +23,6 @@ const assetImages = [
   Images.ProfileBackground
 ];
 
-// cache product images
 articles.map(article => assetImages.push(article.image));
 
 function cacheImages(images) {

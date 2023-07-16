@@ -5,7 +5,7 @@ import Articles from '../screens/Articles';
 import Components from '../screens/Components';
 import CustomDrawerContent from './Menu';
 import Home from '../screens/Home';
-import Onboarding from '../screens/Onboarding';
+import Default from '../screens/Default';
 import Pro from '../screens/Pro';
 import Profile from '../screens/Profile';
 import React from 'react';
@@ -222,7 +222,7 @@ function AppStack(props) {
   );
 }
 
-export default function OnboardingStack(props) {
+export default function DefaultStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -231,8 +231,8 @@ export default function OnboardingStack(props) {
       }}
     >
       <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
+        name="Default"
+        component={Default}
         option={{
           headerTransparent: true,
         }}

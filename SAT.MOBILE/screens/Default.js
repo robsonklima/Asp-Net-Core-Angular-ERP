@@ -3,10 +3,10 @@ import { ImageBackground, Image, StyleSheet, StatusBar, Dimensions, Platform } f
 import { Block, Button, Text, theme } from 'galio-framework';
 
 const { height, width } = Dimensions.get('screen');
-import { Images, nowTheme } from '../constants/';
+import { Images, nowTheme } from '../constants';
 import { HeaderHeight } from '../constants/utils';
 
-export default class Onboarding extends React.Component {
+export default class Default extends React.Component {
   render() {
     const { navigation } = this.props;
 

@@ -52,6 +52,10 @@ export class DocsComponent implements AfterViewInit, OnDestroy {
         this.obterDados();
     }
 
+    obterDocumentosPorCategoria(categoria: string) {
+        return this.dataSource.items.filter(d => d.categoria == categoria);
+    }
+
     obterDados(query: string = '') {
         this.loading = true;
 

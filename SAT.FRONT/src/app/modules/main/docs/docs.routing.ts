@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import { DocsComponent } from './docs.component';
 import { DocsFormComponent } from './docs-form/docs-form.component';
-import { DocsDetalheComponent } from './docs-detalhe/docs-detalhe.component';
 
 export const docsRoutes: Route[] = [
     {
@@ -19,9 +18,5 @@ export const docsRoutes: Route[] = [
     {
         path: 'form/:codDocumentoSistema',
         component: DocsFormComponent,
-    },
-    {
-        path: 'detalhe/:codDocumentoSistema',
-        component: DocsDetalheComponent,
-    },
+    }
 ];

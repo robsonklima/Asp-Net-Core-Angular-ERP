@@ -18,7 +18,7 @@ export interface DocumentoSistemaData extends Meta {
 };
 
 export interface DocumentoSistemaParameters extends QueryStringParameters {
-
+    categoria?: string;
 };
 
 export const documentoCategoriasConst = ['MANUAL', 'SISTEMA', 'PROJETO'];

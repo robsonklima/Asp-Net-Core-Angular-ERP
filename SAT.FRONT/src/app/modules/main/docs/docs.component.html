@@ -1,5 +1,9 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" *transloco="let t">
     <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
             preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
@@ -27,8 +31,8 @@
         <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
                 <mat-form-field class="fuse-mat-no-subscript w-28">
-                    <mat-select [value]="'all'">
-                        <mat-option [value]="'all'">{{ t('todos') }}</mat-option>
+                    <mat-select [value]="'TODOS'" (selectionChange)="aplicarFiltroCategoria($event)">
+                        <mat-option [value]="'TODOS'">{{ t('todos') }}</mat-option>
                         <ng-container *ngFor="let categoria of categorias">
                             <mat-option [value]="categoria">{{categoria }}</mat-option>
                         </ng-container>

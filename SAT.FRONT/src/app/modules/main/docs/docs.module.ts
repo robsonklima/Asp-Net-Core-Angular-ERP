@@ -25,14 +25,17 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { MatTabsModule } from '@angular/material/tabs';
-import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-dialog/documento-sistema-form-dialog.component';
 import { QuillModule } from 'ngx-quill';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { DocsFormComponent } from './docs-form/docs-form.component';
+import { DocsDetalheComponent } from './docs-detalhe/docs-detalhe.component';
 
 @NgModule({
   declarations: [
     DocsComponent,
-    DocumentoSistemaFormDialogComponent
+    DocsFormComponent,
+    DocsDetalheComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatDialogModule,
     MatOptionModule,
+    MatPaginatorModule,
     MatIconModule,
     FuseAlertModule,
     MatExpansionModule,

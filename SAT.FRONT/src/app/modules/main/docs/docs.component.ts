@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
-import { MatDialog } from '@angular/material/dialog';
-import { DocumentoSistemaFormDialogComponent } from './documento-sistema-form-dialog/documento-sistema-form-dialog.component';
-import { DocumentoSistema, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
+import { MatPaginator } from '@angular/material/paginator';
+import { Subject, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-docs',
@@ -13,48 +13,55 @@ import { toastTypesConst } from 'app/core/types/generic.types';
     encapsulation: ViewEncapsulation.None,
 })
 export class DocsComponent implements OnInit, OnDestroy {
-    documentos: DocumentoSistema[] = [];
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    dataSource: DocumentoSistemaData;
     categorias: string[] = [];
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
     loading: boolean = true;
+    @ViewChild('query') query: ElementRef;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _docSistemaService: DocumentoSistemaService,
-        private _dialog: MatDialog,
         private _snack: CustomSnackbarService,
         private _cdr: ChangeDetectorRef
-    ) { }
-
-    async ngOnInit() {
-        this.obterDocumentos();
+    ) {
         this.categorias = documentoCategoriasConst;
     }
 
-    onDocumentoSistema(documento: DocumentoSistema = null) {
-        const dialogRef = this._dialog.open(DocumentoSistemaFormDialogComponent, {
-            data: {
-                documento: documento
-            }
-        });
+    async ngOnInit() {
+        this.obterDados();
 
-        dialogRef.afterClosed().subscribe(async (data: any) => {
-            if (data) {
-
-            }
+        fromEvent(this.query.nativeElement, 'keyup').pipe(
+            map((event: any) => {
+                return event.target.value;
+            })
+            , debounceTime(1000)
+            , distinctUntilChanged()
+            , takeUntil(this._unsubscribeAll)
+        ).subscribe((query: string) => {
+            this.paginator.pageIndex = 0;
+            this.obterDados(query);
         });
     }
 
-    obterDocumentos(query: string = '') {
+    public paginar() { this.obterDados(); }
+
+    obterDados(query: string = '') {
         this._docSistemaService
-            .obterPorParametros({ filter: query, })
+            .obterPorParametros({
+                filter: query,
+                pageNumber: this.paginator?.pageIndex || 0 + 1,
+                sortActive: 'codDocumentoSistema',
+                sortDirection: 'desc',
+                pageSize: this.paginator?.pageSize || 10,
+            })
             .subscribe((data) => {
-                this.documentos = data.items;
-                console.log(this.documentos);
+                this._cdr.detectChanges();
+                this.dataSource = data;
                 this.loading = false;
             }, e => {
-                this._snack.exibirToast(e, toastTypesConst.ERROR)
+                this._snack.exibirToast(e.message, toastTypesConst.ERROR)
                 this.loading = false;
-                this._cdr.detectChanges();
             });
     }
 

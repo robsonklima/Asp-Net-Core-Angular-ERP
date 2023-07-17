@@ -72,8 +72,8 @@ namespace SAT.TASKS
         private bool isHorarioValido(SatTask task)
         {
             var agora = DateTime.Now;
-            var agoraHora = agora.TimeOfDay;            
-            var processadoEm = (DateTime)task.DataHoraCad;            
+            var agoraHora = agora.TimeOfDay;
+            var processadoEm = (DateTime)task.DataHoraCad;
 
             if (task.DataHoraProcessamento is not null)
                 processadoEm = task.DataHoraProcessamento!.Value;

@@ -63,10 +63,15 @@ export class DocsFormComponent implements OnInit {
     });
 
     if (!this.isAddMode) {
+      this.loading = true;
+
       this._docSistemaService.obterPorCodigo(this.codDocumentoSistema)
         .subscribe(data => {
           this.documento = data;
           this.form.patchValue(this.documento);
+          this.loading = false;
+        }, () => {
+          this.loading = false;
         });
     }
 
@@ -75,6 +80,7 @@ export class DocsFormComponent implements OnInit {
 
   public salvar(): void {
     const form = this.form.getRawValue();
+    this.loading = true;
 
     let data = {
       ...this.documento,
@@ -92,6 +98,7 @@ export class DocsFormComponent implements OnInit {
         .criar(data)
         .subscribe(() => {
           this._snack.exibirToast(mensagensConst.SUCESSO_AO_CRIAR, toastTypesConst.SUCCESS);
+          this.loading = false;
           this._location.back();
         }, e => {
           this._snack.exibirToast(e.message, toastTypesConst.ERROR);
@@ -104,6 +111,7 @@ export class DocsFormComponent implements OnInit {
         .atualizar(data)
         .subscribe(() => {
           this._snack.exibirToast(mensagensConst.SUCESSO_AO_ATUALIZAR, toastTypesConst.SUCCESS);
+          this.loading = false;
           this._location.back();
         }, e => {
           this._snack.exibirToast(e.message, toastTypesConst.ERROR);

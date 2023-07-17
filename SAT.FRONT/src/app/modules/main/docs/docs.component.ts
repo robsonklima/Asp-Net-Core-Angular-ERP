@@ -1,9 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
-import { MatPaginator } from '@angular/material/paginator';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -13,7 +12,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
 })
 export class DocsComponent implements AfterViewInit, OnDestroy {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('query') query: ElementRef;
     dataSource: DocumentoSistemaData;
     categorias: string[] = [];
@@ -61,10 +59,9 @@ export class DocsComponent implements AfterViewInit, OnDestroy {
             .obterPorParametros({
                 filter: query,
                 categoria: this.categoriaSelecionada,
-                pageNumber: this.paginator?.pageIndex || 0 + 1,
                 sortActive: 'codDocumentoSistema',
                 sortDirection: 'desc',
-                pageSize: this.paginator?.pageSize || 10,
+                pageSize: 24,
             })
             .subscribe((data) => {
                 this._cdr.detectChanges();

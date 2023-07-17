@@ -21,6 +21,12 @@
                 </h2>
             </div>
         </div>
+
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="documento">
+            <button class="ml-2" mat-icon-button [routerLink]="'/docs/form/'+documento.codDocumentoSistema">
+                <mat-icon [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+            </button>
+        </div>
     </div>
 
     <div class="flex-auto p-6 sm:p-10" *ngIf="documento">
@@ -30,14 +36,12 @@
                 em: {{ documento.dataHoraCad | date:'dd/MM HH:mm' }}
             </div>
 
-            <div class="mt-4" [innerHTML]="documento.conteudo"></div>
-
-            <div class="flex items-start justify-start py-5">
-                <button mat-stroked-button [color]="'primary'"
-                    [routerLink]="'/docs/form/'+documento.codDocumentoSistema">
-                    {{ t('editar') }}
-                </button>
+            <div class="text-secondary" *ngIf="documento.usuarioManut">
+                Editado por: {{ documento.usuarioManut.nomeUsuario }},
+                em: {{ documento.dataHoraManut | date:'dd/MM HH:mm' }}
             </div>
+
+            <div class="mt-4" [innerHTML]="documento.conteudo"></div>
         </div>
     </div>
 </div>

@@ -75,6 +75,12 @@ function ChamadoStack(props) {
       <Stack.Screen
         name="Chamado"
         component={Chamado}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Chamados" navigation={navigation} scene={scene} />
+          ),
+          backgroundColor: '#FFFFFF',
+        }}
       />
     </Stack.Navigator>
   );
@@ -205,6 +211,13 @@ function AppStack(props) {
       <Drawer.Screen
         name="Login"
         component={LoginStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Chamado"
+        component={ChamadoStack}
         options={{
           headerShown: false,
         }}

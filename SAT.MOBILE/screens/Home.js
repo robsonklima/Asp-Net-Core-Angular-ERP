@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, StyleSheet, Dimensions } from "react-native";
 import { Block } from "galio-framework";
+
 const { width } = Dimensions.get("screen");
 
 class Home extends React.Component {
   renderPage = () => {
     return (
-      <Text>
+      <Text style={styles.title}>
         Home Page
       </Text>
     );
@@ -24,6 +25,11 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   home: {
     width: width
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 60
   }
 });
 

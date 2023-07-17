@@ -1,7 +1,7 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
 import { nowTheme } from '../constants';
@@ -12,30 +12,17 @@ class Card extends React.Component {
       navigation,
       item,
       horizontal,
-      full,
       style,
       ctaColor,
-      imageStyle,
       ctaRight,
       titleStyle
     } = this.props;
 
-    const imageStyles = [full ? styles.fullImage : styles.horizontalImage, imageStyle];
     const titleStyles = [styles.cardTitle, titleStyle];
     const cardContainer = [styles.card, styles.shadow, style];
-    const imgContainer = [
-      styles.imageContainer,
-      horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow
-    ];
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Chamado')}>
-          <Block flex style={imgContainer}>
-            <Image resizeMode="cover" source={item.image} style={imageStyles} />
-          </Block>
-        </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Chamado')}>
           <Block flex space="between" style={styles.cardDescription}>
             <Block flex>

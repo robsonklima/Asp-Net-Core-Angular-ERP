@@ -10,19 +10,15 @@ import {
 } from 'react-native';
 
 import Chamados from '../screens/Chamados';
-// Galio components
-import { Block, Text, Button as GaButton, theme } from 'galio-framework';
 
-// Now UI themed components
+import { Block, Text, Button as GaButton, theme } from 'galio-framework';
 import { Images, nowTheme, articles, tabs } from '../constants';
 import { Button, Select, Icon, Input, Header, Switch } from '../components';
 
 import Img from '../components/Img';
 import { Card } from '../components';
 
-
 const { width } = Dimensions.get('screen');
-
 const thumbMeasure = (width - 48 - 32) / 3;
 
 class Components extends React.Component {
@@ -34,8 +30,6 @@ class Components extends React.Component {
       'switch-2': false,
     };
   }
-
-
 
   toggleSwitch = switchId => this.setState({ [switchId]: !this.state[switchId] });
 
@@ -214,6 +208,7 @@ class Components extends React.Component {
       </Block>
     );
   };
+
   renderImages = () => {
     return (
       <Block flex style={styles.group}>
@@ -231,8 +226,6 @@ class Components extends React.Component {
       </Block>
     );
   };
-
-
 
   renderInputs = () => {
     return (
@@ -424,7 +417,6 @@ class Components extends React.Component {
     );
   };
 
-
   renderSocial = () => {
     return (
       <Block flex style={styles.group}>
@@ -478,7 +470,6 @@ class Components extends React.Component {
     );
   };
 
-
   renderCards = () => {
     scrollX = new Animated.Value(0);
     cards = [articles[5], articles[6]]
@@ -523,6 +514,7 @@ class Components extends React.Component {
 
     );
   };
+
   renderAlbums = () => {
     const { navigation } = this.props;
 

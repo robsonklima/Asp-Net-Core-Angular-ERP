@@ -5,12 +5,12 @@ import { Setor } from "./setor.types";
 
 export interface NavegacaoConfiguracao {
     codNavegacao: number;
-    codNavegacaoConfiguracao: number;
+    codNavegacaoConfiguracao?: number;
     codSetor: number;
     codPerfil: number;
-    navegacao: Navegacao;
-    setor: Setor;
-    perfil: Perfil;
+    navegacao?: Navegacao;
+    setor?: Setor;
+    perfil?: Perfil;
 }
 
 export interface NavegacaoConfiguracaoData extends Meta {

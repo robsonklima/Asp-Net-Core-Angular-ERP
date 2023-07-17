@@ -2,7 +2,7 @@
   <ul class="w-full">
     <li *ngFor="let n of nav">
       <section>
-        <mat-checkbox [(ngModel)]="n.checked" [color]="n.color">
+        <mat-checkbox [(ngModel)]="n.checked" [color]="n.color" (change)="onChange($event,n.codigo)">
           <span class="font-bold">
             {{ n.title }}
           </span>
@@ -10,7 +10,7 @@
 
         <ul class="ml-4">
           <li *ngFor="let sn of n.children">
-            <mat-checkbox [(ngModel)]="sn.checked" [color]="sn.color">
+            <mat-checkbox [(ngModel)]="sn.checked" [color]="sn.color" (change)="onChange($event,sn.codigo)">
               <span>
                 {{ sn.title }}
               </span>
@@ -18,7 +18,7 @@
 
             <ul class="ml-4">
               <li *ngFor="let ssn of sn.children">
-                <mat-checkbox [(ngModel)]="ssn.checked" [color]="ssn.color">
+                <mat-checkbox [(ngModel)]="ssn.checked" [color]="ssn.color" (change)="onChange($event,ssn.codigo)">
                   <span class="text-secondary">
                     {{ ssn.title }}
                   </span>

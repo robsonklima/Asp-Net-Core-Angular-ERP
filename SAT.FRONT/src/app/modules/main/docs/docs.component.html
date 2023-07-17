@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="flex flex-auto p-6 sm:p-10">
+    <div class="flex p-6 flex-auto">
         <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
                 <mat-form-field class="fuse-mat-no-subscript w-28">
@@ -61,11 +61,26 @@
                         <mat-expansion-panel>
                             <mat-expansion-panel-header [collapsedHeight]="'56px'">
                                 <mat-panel-title class="font-medium leading-tight">
-                                    {{ doc.titulo }}
+                                    <div>{{ doc.titulo }}</div>
+
+                                    <div class="text-secondary pt-0.5 ml-2 text-sm" *ngIf="doc.usuarioCad">
+                                        {{ doc.usuarioCad.nomeUsuario | titlecase }}
+                                    </div>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
 
-                            <div [innerHTML]="doc.conteudo"></div>
+                            <div class="mb-2" [innerHTML]="doc.conteudo"></div>
+
+                            <div class="flex items-center justify-end border-t mt-6 px-6 py-2">
+                                <button mat-button [color]="'error'">
+                                    {{ t('remover') }}
+                                </button>
+
+                                <button class="px-6" mat-button [color]="'primary'"
+                                    [routerLink]="['/docs/form/'+doc.codDocumentoSistema]">
+                                    {{ t('editar') }}
+                                </button>
+                            </div>
                         </mat-expansion-panel>
                     </ng-container>
                 </mat-accordion>

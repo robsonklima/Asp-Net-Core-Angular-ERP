@@ -80,8 +80,8 @@ namespace SAT.INFRA.Repository
             if (!string.IsNullOrWhiteSpace(parameters.Filter))
             {
                 query = query.Where(e =>
-                    e.Titulo.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty) ||
-                    e.Conteudo.Contains(!string.IsNullOrWhiteSpace(parameters.Filter) ? parameters.Filter : string.Empty));
+                    e.Titulo.Contains(parameters.Filter) ||
+                    e.Conteudo.Contains(parameters.Filter));
             }
 
             if (parameters.Categoria is not null)

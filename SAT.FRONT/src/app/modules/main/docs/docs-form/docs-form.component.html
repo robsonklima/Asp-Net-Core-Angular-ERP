@@ -1,55 +1,100 @@
-<div class="flex flex-col max-w-240 md:min-w-160 -m-6" *transloco="let t">
-    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg font-medium">{{ t('documento') }}</div>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col relative sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
 
-        <div>
-            <button mat-icon-button mat-dialog-close>
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
-            </button>
-
-            <button mat-icon-button (click)="salvar()" [disabled]="!form.valid">
-                <mat-icon class="text-current" [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
-            </button>
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" routerLink="/docs">
+                        {{ t('documentos') }}
+                    </a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ isAddMode ? t('novo') : t('atualizando') }}
+                    </span>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="!isAddMode">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                    </mat-icon>
+                    <span class="ml-1 text-secondary">
+                        #{{ codDocumentoSistema }}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ t('documento') }}
+                </h2>
+            </div>
         </div>
     </div>
 
-    <div class="flex flex-col flex-auto p-8 sm:p-8 overflow-y-auto">
-        <form autocomplete="off" class="flex flex-col overflow-hidden" [formGroup]="form">
-            <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto bg-card overflow-hidden">
-                <mat-form-field class="fuse-mat-dense sm:col-span-8">
-                    <mat-label>{{ t('titulo') }}</mat-label>
-                    <input matInput formControlName="titulo" maxlength="50">
-                    <mat-error>{{ t('preencher campo') }}</mat-error>
-                </mat-form-field>
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="max-w-3xl">
+            <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form">
 
-                <mat-form-field class="fuse-mat-dense sm:col-span-4">
-                    <mat-label>{{ t('categoria') }}</mat-label>
+                <div class="bg-gray-50 dark:bg-gray-700 p-8 border-b">
+                    <p class="text-lg font-medium">{{ t('documento') }}</p>
+                </div>
 
-                    <mat-select class="min-h-10" formControlName="categoria">
-                        <mat-option *ngFor="let categoria of categorias" [value]="categoria">
-                            {{ categoria }}
-                        </mat-option>
-                    </mat-select>
+                <div
+                    class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+                    <mat-form-field class="fuse-mat-dense sm:col-span-8">
+                        <mat-label>{{ t('titulo') }}</mat-label>
+                        <input matInput formControlName="titulo" maxlength="50">
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
 
-                    <mat-error>{{ t('preencher campo') }}</mat-error>
-                </mat-form-field>
+                    <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                        <mat-label>{{ t('categoria') }}</mat-label>
 
-                <div class="sm:col-span-12 pb-0">
-                    <div class="pb-1.5 font-semibold text-secondary">
-                        {{ t('conteudo') }}
+                        <mat-select class="min-h-10" formControlName="categoria">
+                            <mat-option *ngFor="let categoria of categorias" [value]="categoria">
+                                {{ categoria }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error>{{ t('preencher campo') }}</mat-error>
+                    </mat-form-field>
+
+                    <div class="sm:col-span-12 pb-0">
+                        <div class="pb-1.5 font-semibold text-secondary">
+                            {{ t('conteudo') }}
+                        </div>
+
+                        <quill-editor [formControlName]="'conteudo'"
+                            [placeholder]="'Descreva o documento, você pode adicionar imagens, tabelas, listas etc.'"
+                            [modules]="quillModules"></quill-editor>
                     </div>
 
-                    <quill-editor [formControlName]="'conteudo'"
-                        [placeholder]="'Descreva o documento, você pode adicionar imagens, tabelas, listas etc.'"
-                        [modules]="quillModules"></quill-editor>
+                    <div class="fuse-mat-dense sm:col-span-2 pl-1 py-4">
+                        <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
+                            {{ t('ativo') }}
+                        </mat-checkbox>
+                    </div>
                 </div>
 
-                <div class="fuse-mat-dense sm:col-span-2 pl-1 py-4">
-                    <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'indAtivo'">
-                        {{ t('ativo') }}
-                    </mat-checkbox>
+                <div class="flex items-center justify-end border-t px-8 py-5 bg-gray-50 dark:bg-gray-700">
+
+                    <button [routerLink]="['/docs']" mat-button>
+                        {{ t('cancelar') }}
+                    </button>
+
+                    <button class="px-6" mat-button [color]="'primary'" (click)="salvar()" [disabled]="!form.valid">
+                        <span *ngIf="!form.disabled">
+                            {{ t('salvar') }}
+                        </span>
+                        <mat-progress-spinner *ngIf="form.disabled" [diameter]="24" [mode]="'indeterminate'">
+                        </mat-progress-spinner>
+                    </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

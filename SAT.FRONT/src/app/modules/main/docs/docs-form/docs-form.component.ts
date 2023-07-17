@@ -9,6 +9,7 @@ import { mensagensConst, toastTypesConst } from 'app/core/types/generic.types';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import moment from 'moment';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-docs-form',
@@ -42,6 +43,7 @@ export class DocsFormComponent implements OnInit {
   constructor(
     private _userService: UserService,
     private _formBuilder: FormBuilder,
+    private _location: Location,
     private _route: ActivatedRoute,
     private _docSistemaService: DocumentoSistemaService,
     private _snack: CustomSnackbarService
@@ -90,6 +92,7 @@ export class DocsFormComponent implements OnInit {
         .criar(data)
         .subscribe(() => {
           this._snack.exibirToast(mensagensConst.SUCESSO_AO_CRIAR, toastTypesConst.SUCCESS);
+          this._location.back();
         }, e => {
           this._snack.exibirToast(e.message, toastTypesConst.ERROR);
         });
@@ -101,6 +104,7 @@ export class DocsFormComponent implements OnInit {
         .atualizar(data)
         .subscribe(() => {
           this._snack.exibirToast(mensagensConst.SUCESSO_AO_ATUALIZAR, toastTypesConst.SUCCESS);
+          this._location.back();
         }, e => {
           this._snack.exibirToast(e.message, toastTypesConst.ERROR);
         });

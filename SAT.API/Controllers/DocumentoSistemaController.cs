@@ -29,11 +29,11 @@ namespace SAT.API.Controllers
             return _documentosistemaService.ObterPorParametros(parameters);
         }
 
-        [HttpGet("{codDocumentoSistema}")]
+        [HttpGet("{CodDocumentoSistema}")]
         [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
-        public DocumentoSistema Get(int cod)
+        public DocumentoSistema Get(int CodDocumentoSistema)
         {
-            return _documentosistemaService.ObterPorCodigo(cod);
+            return _documentosistemaService.ObterPorCodigo(CodDocumentoSistema);
         }
 
         [HttpPost]
@@ -50,11 +50,11 @@ namespace SAT.API.Controllers
             return this._documentosistemaService.Atualizar(documentosistema);
         }
 
-        [HttpDelete("{codDocumentoSistema}")]
+        [HttpDelete("{CodDocumentoSistema}")]
         [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
-        public DocumentoSistema Delete(int cod)
+        public DocumentoSistema Delete(int CodDocumentoSistema)
         {
-            return this._documentosistemaService.Deletar(cod);
+            return this._documentosistemaService.Deletar(CodDocumentoSistema);
         }
     }
 }

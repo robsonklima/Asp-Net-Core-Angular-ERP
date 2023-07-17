@@ -19,8 +19,9 @@ export class DocsDetalheComponent implements OnInit {
   ngOnInit(): void {
     this.codDocumentoSistema = +this._route.snapshot.paramMap.get('codDocumentoSistema');
 
-    if (!this.codDocumentoSistema) {
-      this._docSistemaService.obterPorCodigo(this.codDocumentoSistema)
+    if (this.codDocumentoSistema) {
+      this._docSistemaService
+        .obterPorCodigo(this.codDocumentoSistema)
         .subscribe(data => {
           this.documento = data;
         });

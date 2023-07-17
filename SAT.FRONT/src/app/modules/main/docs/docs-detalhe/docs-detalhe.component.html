@@ -1,1 +1,43 @@
-<p>docs-detalhe works!</p>
+<div class="flex flex-col flex-auto min-w-0" *transloco="let t">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center font-medium">
+                <a class="whitespace-nowrap text-primary-500" routerLink="/docs">
+                    {{ t('documentos') }}
+                </a>
+
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">
+                        {{ t('documento') }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    {{ documento?.titulo }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-auto p-6 sm:p-10" *ngIf="documento">
+        <div class="prose prose-sm max-w-3xl">
+            <div class="text-secondary">
+                Criado por: {{ documento.usuarioCad.nomeUsuario }},
+                em: {{ documento.dataHoraCad | date:'dd/MM HH:mm' }}
+            </div>
+
+            <div class="mt-4" [innerHTML]="documento.conteudo"></div>
+
+            <div class="flex items-start justify-start py-5">
+                <button mat-stroked-button [color]="'primary'"
+                    [routerLink]="'/docs/form/'+documento.codDocumentoSistema">
+                    {{ t('editar') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

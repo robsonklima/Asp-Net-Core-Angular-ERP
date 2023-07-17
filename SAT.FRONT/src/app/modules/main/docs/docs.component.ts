@@ -4,8 +4,7 @@ import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.se
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subject, fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-docs',
@@ -30,18 +29,6 @@ export class DocsComponent implements OnInit, OnDestroy {
 
     async ngOnInit() {
         this.obterDados();
-
-        fromEvent(this.query.nativeElement, 'keyup').pipe(
-            map((event: any) => {
-                return event.target.value;
-            })
-            , debounceTime(1000)
-            , distinctUntilChanged()
-            , takeUntil(this._unsubscribeAll)
-        ).subscribe((query: string) => {
-            this.paginator.pageIndex = 0;
-            this.obterDados(query);
-        });
     }
 
     public paginar() { this.obterDados(); }

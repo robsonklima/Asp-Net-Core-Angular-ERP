@@ -12,7 +12,6 @@ import { FilialService } from 'app/core/services/filial.service';
 import { GeolocalizacaoService } from 'app/core/services/geolocalizacao.service';
 import { PaisService } from 'app/core/services/pais.service';
 import { PerfilSetorService } from 'app/core/services/perfil-setor.service';
-import { PerfilService } from 'app/core/services/perfil.service';
 import { SetorService } from 'app/core/services/setor.service';
 import { TecnicoService } from 'app/core/services/tecnico.service';
 import { TransportadoraService } from 'app/core/services/transportadora.service';
@@ -26,12 +25,11 @@ import { Filial } from 'app/core/types/filial.types';
 import { Geolocalizacao, GeolocalizacaoServiceEnum } from 'app/core/types/geolocalizacao.types';
 import { Pais, PaisEnum } from 'app/core/types/pais.types';
 import { PerfilSetor, PerfilSetorParameters } from 'app/core/types/perfil-setor.types';
-import { Perfil, PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
+import { PerfilEnum, PerfilParameters } from 'app/core/types/perfil.types';
 import { Setor, SetorParameters } from 'app/core/types/setor.types';
 import { statusConst } from 'app/core/types/status-types';
 import { Tecnico } from 'app/core/types/tecnico.types';
 import { Transportadora } from 'app/core/types/transportadora.types';
-import { Turno } from 'app/core/types/turno.types';
 import { UnidadeFederativa, UnidadeFederativaParameters } from 'app/core/types/unidade-federativa.types';
 import { Usuario, UsuarioSessao } from 'app/core/types/usuario.types';
 import { UserService } from 'app/core/user/user.service';
@@ -114,7 +112,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     this.inicializarForm();
     this.registrarEmitters();
     this.aoSelecionarSetor();
-        
+
     if (!this.isAddMode) {
       this.carregarDadosUsuario();
     } else {
@@ -274,12 +272,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       .subscribe(async usuario => {
         if (usuario.codTecnico) {
           this._tecnicoService.obterPorParametros({ indAtivo: 1 }).subscribe(tecData => {
-            if (tecData) { 
+            if (tecData) {
               this.tecnicos = tecData.items;
             }
           });
         }
-        
+
         this.form.controls['codPais'].setValue(PaisEnum.BRASIL);
         this.paises = [await this._paisService.obterPorCodigo(1).toPromise()];
         this.unidadesFederativas = await this.obterUFs(usuario?.cidade?.unidadeFederativa?.nomeUF);
@@ -329,16 +327,16 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     const codUsuario = this.form.controls['codUsuario'].value;
 
     if (!codUsuario) {
-        this.codUsuarioValidado = false;
-        return;
-      }
+      this.codUsuarioValidado = false;
+      return;
+    }
 
-      let validaCodigo = await this._usuarioService.obterPorCodigo(codUsuario).toPromise();
-      this.codUsuarioExiste = validaCodigo != null;
-      this.codUsuarioValidado = true;
+    let validaCodigo = await this._usuarioService.obterPorCodigo(codUsuario).toPromise();
+    this.codUsuarioExiste = validaCodigo != null;
+    this.codUsuarioValidado = true;
   }
 
-  private async obterCargos(filtro: string=''): Promise<Cargo[]> {
+  private async obterCargos(filtro: string = ''): Promise<Cargo[]> {
     const params: CargoParameters = {
       sortActive: 'nomeCargo',
       sortDirection: 'asc',
@@ -350,7 +348,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     return (await this._cargoService.obterPorParametros(params).toPromise()).items;
   }
 
-  private async obterPerfisSetores(filtro: string=''): Promise<PerfilSetor[]> {
+  private async obterPerfisSetores(filtro: string = ''): Promise<PerfilSetor[]> {
     const params: PerfilSetorParameters = {
       sortActive: 'codPerfil',
       sortDirection: 'asc',
@@ -359,13 +357,13 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       filter: filtro
     }
 
-    this.perfis = (await this._perfilSetorService.obterPorParametros(params).toPromise()).items; 
+    this.perfis = (await this._perfilSetorService.obterPorParametros(params).toPromise()).items;
     this.validaPerfis();
-    
+
     return this.perfis;
   }
 
-  private async obterSetores(filtro: string=''): Promise<Setor[]> {
+  private async obterSetores(filtro: string = ''): Promise<Setor[]> {
     const params: SetorParameters = {
       sortActive: 'nomeSetor',
       sortDirection: 'asc',
@@ -373,48 +371,48 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       filter: filtro
     }
 
-    this.setores = (await this._setorService.obterPorParametros(params).toPromise()).items; 
-    
+    this.setores = (await this._setorService.obterPorParametros(params).toPromise()).items;
+
     return this.setores;
   }
 
   aoSelecionarSetor() {
-		if (
-			this.form.controls['codSetor'].value &&
-			this.form.controls['codSetor'].value != ''
-		) {
-			this.obterPerfisSetores();
-			this.form.controls['codPerfil'].enable();
-		}
-		else {
-			this.form.controls['codPerfil'].disable();
-		}
+    if (
+      this.form.controls['codSetor'].value &&
+      this.form.controls['codSetor'].value != ''
+    ) {
+      this.obterPerfisSetores();
+      this.form.controls['codPerfil'].enable();
+    }
+    else {
+      this.form.controls['codPerfil'].disable();
+    }
 
-		this.form.controls['codSetor']
-			.valueChanges
-			.subscribe(() => {
-				if (this.form.controls['codSetor'].value && this.form.controls['codSetor'].value != '') {
-					this.obterPerfisSetores();
-					this.form.controls['codPerfil'].enable();
-				}
-				else {
-					this.form.controls['codPerfil'].setValue(null);
-					this.form.controls['codPerfil'].disable();
-				}
-			});
-	}
+    this.form.controls['codSetor']
+      .valueChanges
+      .subscribe(() => {
+        if (this.form.controls['codSetor'].value && this.form.controls['codSetor'].value != '') {
+          this.obterPerfisSetores();
+          this.form.controls['codPerfil'].enable();
+        }
+        else {
+          this.form.controls['codPerfil'].setValue(null);
+          this.form.controls['codPerfil'].disable();
+        }
+      });
+  }
 
-  private async obterTranspotadoras(filtro: string=''): Promise<Transportadora[]> {
-    const params: any  = {
+  private async obterTranspotadoras(filtro: string = ''): Promise<Transportadora[]> {
+    const params: any = {
       sortActive: 'nomeTransportadora',
       sortDirection: 'asc',
       filter: filtro
     }
-    
+
     return (await this._transportadoraService.obterPorParametros(params).toPromise()).items;
   }
 
-  private async obterFiliais(filtro: string=''): Promise<Filial[]> {
+  private async obterFiliais(filtro: string = ''): Promise<Filial[]> {
     const params: PerfilParameters = {
       sortActive: 'nomeFilial',
       sortDirection: 'asc',
@@ -424,11 +422,11 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     return (await this._filialService.obterPorParametros(params).toPromise()).items;
   }
 
-  private async obterTecnicos(filtro: string=''): Promise<Tecnico[]> {
-    return (await this._tecnicoService.obterPorParametros({ 
-      indAtivo: 1, 
+  private async obterTecnicos(filtro: string = ''): Promise<Tecnico[]> {
+    return (await this._tecnicoService.obterPorParametros({
+      indAtivo: 1,
       naoVinculados: 1,
-      codFiliais: this.userSession.usuario.codFilial, 
+      codFiliais: this.userSession.usuario.codFilial,
       filter: filtro
     }).toPromise()).items;
   }
@@ -501,8 +499,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   async buscaCEP(cepCmp: any) {
     const cep: string = cepCmp.target.value.replace(/\D+/g, '');
 
-    if (cep)
-    {
+    if (cep) {
       this.form.disable();
 
       this._googleGeolocationService
@@ -553,14 +550,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       }
     };
 
-    if (this.isAddMode)
-    {
+    if (this.isAddMode) {
       this._userService.criar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} adicionado com sucesso!`, "success");
         this._location.back();
       });
-    } else
-    {
+    } else {
       this._userService.atualizar(obj).subscribe(() => {
         this._snack.exibirToast(`Usuário ${obj.nomeUsuario} atualizado com sucesso!`, "success");
         this._location.back();
@@ -568,13 +563,13 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  validarNumeroCaracteres(){
+  validarNumeroCaracteres() {
     const codUsuario = this.form.controls['codUsuario'].value;
 
     if (!codUsuario)
       return this.usuariocaracteres = false;
 
-    if(codUsuario.length > 20)
+    if (codUsuario.length > 20)
       return this.usuariocaracteres = true;
 
   }

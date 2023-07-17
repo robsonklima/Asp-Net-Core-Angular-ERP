@@ -1,5 +1,9 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" *transloco="let t">
-    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden">
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <div class="absolute inset-x-0 bottom-0" *ngIf="loading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+
         <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
             preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
@@ -23,19 +27,19 @@
         </div>
     </div>
 
-    <div class="flex flex-auto p-6 sm:p-10">
+    <div class="flex p-6 flex-auto">
         <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
                 <mat-form-field class="fuse-mat-no-subscript w-28">
-                    <mat-select [value]="'all'">
-                        <mat-option [value]="'all'">{{ t('todos') }}</mat-option>
+                    <mat-select [value]="'TODOS'" (selectionChange)="aplicarFiltroCategoria($event)">
+                        <mat-option [value]="'TODOS'">{{ t('todos') }}</mat-option>
                         <ng-container *ngFor="let categoria of categorias">
                             <mat-option [value]="categoria">{{categoria }}</mat-option>
                         </ng-container>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                <mat-form-field class="fuse-mat-no-subscript w-full sm:w-80 mt-4 sm:mt-0 sm:ml-4"
                     [floatLabel]="'always'">
                     <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                     <input placeholder="Pesquise por título ou palavras chave" matInput #query>
@@ -51,89 +55,36 @@
                 </button>
             </div>
 
-            <ng-container *ngIf="this.dataSource?.items?.length; else noDocs">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:mt-10">
-                    <ng-container *ngFor="let documento of dataSource.items">
-                        <div class="flex flex-col h-96 shadow rounded-2xl overflow-hidden bg-card">
-                            <div class="flex flex-col p-6">
-                                <div class="flex items-center justify-between">
-                                    <ng-container *ngIf="documento.categoria as categoria">
-                                        <div class="pb-0.5 pt-1 px-2 rounded-full text-sm font-semibold"
-                                            [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': categoria === 'MANUAL',
-                                                        'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': categoria === 'SISTEMA'}">
-                                            {{ categoria }}
-                                        </div>
-                                    </ng-container>
+            <ng-container class="mt-6" *ngIf="dataSource?.items?.length">
+                <mat-accordion class="max-w-full mt-8">
+                    <ng-container *ngFor="let doc of this?.dataSource?.items;">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header [collapsedHeight]="'56px'">
+                                <mat-panel-title class="font-medium leading-tight">
+                                    <div>{{ doc.titulo }}</div>
 
-                                    <div class="flex items-center">
-                                        <ng-container>
-                                            <mat-icon class="icon-size-5 text-green-600"
-                                                [svgIcon]="'heroicons_solid:badge-check'"
-                                                [matTooltip]="'You completed this course at least once'"></mat-icon>
-                                        </ng-container>
+                                    <div class="text-secondary pt-0.5 ml-2 text-sm" *ngIf="doc.usuarioCad">
+                                        {{ doc.usuarioCad.nomeUsuario | titlecase }}
                                     </div>
-                                </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
 
-                                <div class="mt-4 text-lg font-medium">
-                                    {{ documento.titulo }}
-                                </div>
+                            <div class="mb-2" [innerHTML]="doc.conteudo"></div>
 
-                                <div class="mt-0.5 line-clamp-2 text-secondary">
-                                    {{ documento.dataHoraCad | date:'dd/MM HH:mm' }}
-                                </div>
+                            <div class="flex items-center justify-end border-t mt-6 px-6 py-2">
+                                <button mat-button [color]="'error'">
+                                    {{ t('remover') }}
+                                </button>
 
-                                <div class="w-12 h-1 my-6 border-t-2"></div>
-
-                                <div class="flex items-center leading-5 text-md text-secondary">
-                                    <mat-icon class="icon-size-5 text-hint"
-                                        [svgIcon]="'heroicons_solid:user'"></mat-icon>
-
-                                    <div class="ml-1.5">
-                                        {{ documento.usuarioCad.nomeUsuario }}
-                                    </div>
-                                </div>
+                                <button class="px-6" mat-button [color]="'primary'"
+                                    [routerLink]="['/docs/form/'+doc.codDocumentoSistema]">
+                                    {{ t('editar') }}
+                                </button>
                             </div>
-
-                            <div class="flex flex-col w-full mt-auto">
-                                <div class="relative h-0.5">
-                                    <div class="z-10 absolute inset-x-0 h-6 -mt-3"></div>
-                                    <mat-progress-bar class="h-0.5" [value]="100"></mat-progress-bar>
-                                </div>
-
-                                <div class="px-6 py-4 text-right bg-gray-50 dark:bg-transparent">
-                                    <button mat-stroked-button
-                                        [routerLink]="['/docs/detalhe/'+documento.codDocumentoSistema]">
-                                        <span class="inline-flex items-center">
-                                            <ng-container>
-                                                <span>{{ t('continue') }}</span>
-                                            </ng-container>
-
-                                            <mat-icon class="ml-1.5 icon-size-5"
-                                                [svgIcon]="'heroicons_solid:arrow-sm-right'"></mat-icon>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <mat-paginator [hidden]="!dataSource?.items?.length"
-                            class="absolute inset-x-0 bottom-0 border-b border-t z-10 bg-gray-50"
-                            [ngClass]="{'pointer-events-none': loading}" [length]="dataSource?.items?.totalCount"
-                            [showFirstLastButtons]="true" [pageSize]="10" [pageSizeOptions]="[10, 25]"
-                            (page)="paginar()">
-                        </mat-paginator>
+                        </mat-expansion-panel>
                     </ng-container>
-                </div>
+                </mat-accordion>
             </ng-container>
-
-            <ng-template #noDocs>
-                <div class="flex flex-auto flex-col items-center justify-center bg-gray-100">
-                    <mat-icon class="icon-size-20" [svgIcon]="'iconsmind:file_search'"></mat-icon>
-                    <div class="mt-6 text-2xl font-semibold tracking-tight text-secondary">
-                        {{ t('nenhum registro encontrado') }}
-                    </div>
-                </div>
-            </ng-template>
         </div>
     </div>
 </div>

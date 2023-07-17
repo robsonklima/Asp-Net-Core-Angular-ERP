@@ -1,23 +1,22 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DocumentoSistemaData, documentoCategoriasConst } from 'app/core/types/documento-sistema.types';
 import { DocumentoSistemaService } from 'app/core/services/documentos-sistema.service';
 import { CustomSnackbarService } from 'app/core/services/custom-snackbar.service';
 import { toastTypesConst } from 'app/core/types/generic.types';
-import { MatPaginator } from '@angular/material/paginator';
 import { Subject, fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-docs',
     templateUrl: './docs.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class DocsComponent implements OnInit, OnDestroy {
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+export class DocsComponent implements AfterViewInit, OnDestroy {
+    @ViewChild('query') query: ElementRef;
     dataSource: DocumentoSistemaData;
     categorias: string[] = [];
+    categoriaSelecionada: string;
     loading: boolean = true;
-    @ViewChild('query') query: ElementRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -28,7 +27,7 @@ export class DocsComponent implements OnInit, OnDestroy {
         this.categorias = documentoCategoriasConst;
     }
 
-    async ngOnInit() {
+    async ngAfterViewInit() {
         this.obterDados();
 
         fromEvent(this.query.nativeElement, 'keyup').pipe(
@@ -37,23 +36,36 @@ export class DocsComponent implements OnInit, OnDestroy {
             })
             , debounceTime(1000)
             , distinctUntilChanged()
-            , takeUntil(this._unsubscribeAll)
         ).subscribe((query: string) => {
-            this.paginator.pageIndex = 0;
             this.obterDados(query);
         });
     }
 
     public paginar() { this.obterDados(); }
 
+    aplicarFiltroCategoria(e: any) {
+        if (e.value == 'TODOS')
+            this.categoriaSelecionada = null;
+        else
+            this.categoriaSelecionada = e.value;
+
+        this.obterDados();
+    }
+
+    obterDocumentosPorCategoria(categoria: string) {
+        return this.dataSource.items.filter(d => d.categoria == categoria);
+    }
+
     obterDados(query: string = '') {
+        this.loading = true;
+
         this._docSistemaService
             .obterPorParametros({
                 filter: query,
-                pageNumber: this.paginator?.pageIndex || 0 + 1,
+                categoria: this.categoriaSelecionada,
                 sortActive: 'codDocumentoSistema',
                 sortDirection: 'desc',
-                pageSize: this.paginator?.pageSize || 10,
+                pageSize: 24,
             })
             .subscribe((data) => {
                 this._cdr.detectChanges();

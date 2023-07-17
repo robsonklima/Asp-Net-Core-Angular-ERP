@@ -77,6 +77,16 @@ namespace SAT.INFRA.Repository
                 .Include(d => d.UsuarioManut)!
                .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(parameters.Filter))
+            {
+                query = query.Where(e =>
+                    e.Titulo.Contains(parameters.Filter) ||
+                    e.Conteudo.Contains(parameters.Filter));
+            }
+
+            if (parameters.Categoria is not null)
+                query = query.Where(d => d.Categoria == parameters.Categoria);
+
             return PagedList<DocumentoSistema>.ToPagedList(query, parameters.PageNumber, parameters.PageSize);
         }
     }

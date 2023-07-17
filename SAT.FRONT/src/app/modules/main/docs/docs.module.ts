@@ -29,13 +29,11 @@ import { QuillModule } from 'ngx-quill';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DocsFormComponent } from './docs-form/docs-form.component';
-import { DocsDetalheComponent } from './docs-detalhe/docs-detalhe.component';
 
 @NgModule({
   declarations: [
     DocsComponent,
     DocsFormComponent,
-    DocsDetalheComponent
   ],
   imports: [
     CommonModule,

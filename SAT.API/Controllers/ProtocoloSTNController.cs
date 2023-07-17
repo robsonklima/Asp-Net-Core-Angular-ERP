@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -23,30 +24,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ProtocoloSTNParameters parameters)
         {
             return _protocoloSTNService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codProtocoloSTN}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ProtocoloSTN Get(int codProtocoloSTN)
         {
             return _protocoloSTNService.ObterPorCodigo(codProtocoloSTN);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public ProtocoloSTN Post([FromBody] ProtocoloSTN protocolo)
         {
             return _protocoloSTNService.Criar(protocolo);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] ProtocoloSTN protocolo)
         {
             _protocoloSTNService.Atualizar(protocolo);
         }
 
         [HttpDelete("{codProtocoloSTN}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codProtocoloSTN)
         {
             _protocoloSTNService.Deletar(codProtocoloSTN);

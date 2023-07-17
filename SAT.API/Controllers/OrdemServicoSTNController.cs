@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel ObterPorParametros([FromQuery] OrdemServicoSTNParameters parameters)
         {
             return _ordemServicoSTNService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codAtendimento}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public OrdemServicoSTN Get(int codAtendimento)
         {
             return _ordemServicoSTNService.ObterPorCodigo(codAtendimento);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public OrdemServicoSTN Post([FromBody] OrdemServicoSTN ordem)
         {
             return _ordemServicoSTNService.Criar(ordem);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public OrdemServicoSTN Put([FromBody] OrdemServicoSTN ordem)
         {
             return _ordemServicoSTNService.Atualizar(ordem);
         }
 
         [HttpDelete("{codAtendimento}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codAtendimento)
         {
             _ordemServicoSTNService.Deletar(codAtendimento);

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,24 +23,28 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet("{codConferencia}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public Conferencia Get(int codConferencia)
         {
             return _conferenciaService.ObterPorCodigo(codConferencia);
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ConferenciaParameters parameters)
         {
             return _conferenciaService.ObterPorParametros(parameters);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public Conferencia Post([FromBody] Conferencia Conferencia)
         {
             return _conferenciaService.Criar(Conferencia);
         }
 
         [HttpDelete("{codConferencia}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codConferencia)
         {
             _conferenciaService.Deletar(codConferencia);

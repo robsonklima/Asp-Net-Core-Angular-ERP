@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] PlantaoTecnicoParameters parameters)
         {
             return _plantaoTecnicoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPlantaoTecnico}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public PlantaoTecnico Get(int codPlantaoTecnico)
         {
             return _plantaoTecnicoService.ObterPorCodigo(codPlantaoTecnico);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public PlantaoTecnico Post([FromBody] PlantaoTecnico plantaoTecnico)
         {
             return _plantaoTecnicoService.Criar(plantaoTecnico);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] PlantaoTecnico plantaoTecnico)
         {
             _plantaoTecnicoService.Atualizar(plantaoTecnico);
         }
 
         [HttpDelete("{codPlantaoTecnico}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codPlantaoTecnico)
         {
             _plantaoTecnicoService.Deletar(codPlantaoTecnico);

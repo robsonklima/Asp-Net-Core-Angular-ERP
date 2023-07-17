@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ItemXORCheckListParameters parameters)
         {
             return _ItemXORCheckListService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codItemXORCheckList}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ItemXORCheckList Get(int codItemXORCheckList)
         {
             return _ItemXORCheckListService.ObterPorCodigo(codItemXORCheckList);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] ItemXORCheckList item)
         {
             _ItemXORCheckListService.Criar(item);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] ItemXORCheckList item)
         {
             _ItemXORCheckListService.Atualizar(item);
         }
 
         [HttpDelete("{codItemXORCheckList}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codItemXORCheckList)
         {
             _ItemXORCheckListService.Deletar(codItemXORCheckList);

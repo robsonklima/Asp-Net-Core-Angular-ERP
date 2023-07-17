@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -24,12 +25,14 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] PosVendaParameters parameters)
         {
             return _posVendaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPosVenda}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public PosVenda Get(int codPosVenda)
         {
             return _posVendaService.ObterPorCodigo(codPosVenda);

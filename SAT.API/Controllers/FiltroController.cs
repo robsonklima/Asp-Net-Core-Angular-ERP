@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -20,18 +21,21 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] FiltroUsuario filtroUsuario)
         {
             _filtroService.Criar(filtroUsuario);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] FiltroUsuario filtroUsuario)
         {
             _filtroService.Atualizar(filtroUsuario);
         }
 
         [HttpDelete("{codFiltroUsuario}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codFiltroUsuario)
         {
             _filtroService.Deletar(codFiltroUsuario);

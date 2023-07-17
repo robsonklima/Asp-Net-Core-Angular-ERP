@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
@@ -18,6 +19,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public void Post([FromBody] Email email)
         {
             _emailService.Enviar(email);

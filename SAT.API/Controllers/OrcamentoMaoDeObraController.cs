@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,22 +23,27 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] OrcamentoMaoDeObraParameters parameters) =>
             _orcamentoMaoDeObraService.ObterPorParametros(parameters);
 
         [HttpGet("{codOrcamentoMaoDeObra}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public OrcamentoMaoDeObra Get(int codOrcamentoMaoDeObra) =>
             _orcamentoMaoDeObraService.ObterPorCodigo(codOrcamentoMaoDeObra);
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public OrcamentoMaoDeObra Post([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra) =>
             _orcamentoMaoDeObraService.Criar(orcamentoMaoDeObra);
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public OrcamentoMaoDeObra Put([FromBody] OrcamentoMaoDeObra orcamentoMaoDeObra) =>
             _orcamentoMaoDeObraService.Atualizar(orcamentoMaoDeObra);
 
         [HttpDelete("{codOrcamentoMaoDeObra}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codOrcamentoMaoDeObra) =>
             _orcamentoMaoDeObraService.Deletar(codOrcamentoMaoDeObra);
     }

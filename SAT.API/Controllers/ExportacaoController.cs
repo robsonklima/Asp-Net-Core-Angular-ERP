@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
 
 namespace SAT.API.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	[Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -18,6 +20,7 @@ namespace SAT.API.Controllers
         }
 		
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public IActionResult Exportar([FromBody] Exportacao exportacao)
         {
 			return _exService.Exportar(exportacao);

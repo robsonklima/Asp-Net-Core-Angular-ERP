@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -24,30 +25,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] InstalacaoTipoPleitoParameters parameters)
         {
             return _instalacaoTipoPleitoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{CodInstalTipoPleito}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public InstalacaoTipoPleito Get(int codInstalTipoPleito)
         {
             return _instalacaoTipoPleitoService.ObterPorCodigo(codInstalTipoPleito);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public InstalacaoTipoPleito Post([FromBody] InstalacaoTipoPleito instalacaoTipoPleito)
         {
             return _instalacaoTipoPleitoService.Criar(instalacaoTipoPleito);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] InstalacaoTipoPleito instalacaoTipoPleito)
         {
             _instalacaoTipoPleitoService.Atualizar(instalacaoTipoPleito);
         }
 
         [HttpDelete("{CodInstalTipoPleito}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codInstalTipoPleito)
         {
             _instalacaoTipoPleitoService.Deletar(codInstalTipoPleito);

@@ -5,6 +5,7 @@ using SAT.MODELS.Entities.Params;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] PontoPeriodoModoAprovacaoParameters parameters)
         {
             return _pontoPeriodoModoAprovacaoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPontoPeriodoModoAprovacao}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public PontoPeriodoModoAprovacao Get(int codPontoPeriodoModoAprovacao)
         {
             return _pontoPeriodoModoAprovacaoService.ObterPorCodigo(codPontoPeriodoModoAprovacao);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] PontoPeriodoModoAprovacao pontoPeriodoModoAprovacao)
         {
             _pontoPeriodoModoAprovacaoService.Criar(pontoPeriodoModoAprovacao: pontoPeriodoModoAprovacao);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] PontoPeriodoModoAprovacao pontoPeriodoModoAprovacao)
         {
             _pontoPeriodoModoAprovacaoService.Atualizar(pontoPeriodoModoAprovacao: pontoPeriodoModoAprovacao);
         }
 
         [HttpDelete("{codPontoPeriodoModoAprovacao}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codPontoPeriodoModoAprovacao)
         {
             _pontoPeriodoModoAprovacaoService.Deletar(codPontoPeriodoModoAprovacao);

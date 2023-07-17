@@ -6,6 +6,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -22,6 +23,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public List<NLogRegistro> Get([FromQuery] NLogParameters parameters)
         {
             return _nLogService.Obter(parameters);

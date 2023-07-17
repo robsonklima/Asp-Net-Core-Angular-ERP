@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] PontoUsuarioDataParameters parameters)
         {
             return _pontoUsuarioDataService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPontoUsuarioData}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public PontoUsuarioData Get(int codPontoUsuarioData)
         {
             return _pontoUsuarioDataService.ObterPorCodigo(codPontoUsuarioData);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] PontoUsuarioData pontoUsuarioData)
         {
             _pontoUsuarioDataService.Criar(pontoUsuarioData: pontoUsuarioData);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] PontoUsuarioData pontoUsuarioData)
         {
             _pontoUsuarioDataService.Atualizar(pontoUsuarioData: pontoUsuarioData);
         }
 
         [HttpDelete("{codPontoUsuarioData}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codPontoUsuarioData)
         {
             _pontoUsuarioDataService.Deletar(codPontoUsuarioData);

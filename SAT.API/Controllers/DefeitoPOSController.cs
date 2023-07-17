@@ -5,6 +5,7 @@ using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.MODELS.Entities.Params;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -24,30 +25,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] DefeitoPOSParameters parameters)
         {
             return _DefeitoPOSService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codDefeitoPOS}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public DefeitoPOS Get(int codDefeitoPOS)
         {
             return _DefeitoPOSService.ObterPorCodigo(codDefeitoPOS);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public DefeitoPOS Post([FromBody] DefeitoPOS d)
         {
             return _DefeitoPOSService.Criar(d);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public DefeitoPOS Put([FromBody] DefeitoPOS d)
         {
             return _DefeitoPOSService.Atualizar(d);
         }
 
         [HttpDelete("{codDefeitoPOS}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public DefeitoPOS Delete(int codDefeitoPOS)
         {
             return _DefeitoPOSService.Deletar(codDefeitoPOS);

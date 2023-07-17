@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,18 +23,22 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] DespesaCartaoCombustivelParameters parameters) =>
             _despesaCartaoCombustivelService.ObterPorParametros(parameters);
 
         [HttpGet("{codDespesaCartaoCombustivel}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public DespesaCartaoCombustivel Get(int codDespesaCartaoCombustivel) =>
              _despesaCartaoCombustivelService.ObterPorCodigo(codDespesaCartaoCombustivel);
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] DespesaCartaoCombustivel despesa) =>
            _despesaCartaoCombustivelService.Criar(despesa);
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] DespesaCartaoCombustivel despesa) =>
             _despesaCartaoCombustivelService.Atualizar(despesa);
 

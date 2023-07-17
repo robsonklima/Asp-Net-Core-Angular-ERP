@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,6 +23,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public RelatorioAtendimentoDetalhePeca Post([FromBody] RelatorioAtendimentoDetalhePeca detalhePeca)
         {
             _rdpService.Criar(detalhePeca);
@@ -30,12 +32,14 @@ namespace SAT.API.Controllers
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] RelatorioAtendimentoDetalhePeca detalhePeca)
         {
             _rdpService.Atualizar(detalhePeca);
         }
 
         [HttpDelete("{codRATDetalhePeca}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codRATDetalhePeca)
         {
             _rdpService.Deletar(codRATDetalhePeca);

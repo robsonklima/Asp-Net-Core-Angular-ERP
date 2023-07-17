@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Params;
@@ -20,6 +21,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ViewDadosDashboard ObterViewPorParametros([FromQuery] DashboardParameters parameters)
         {
             return _dashboardService.ObterViewPorParametros(parameters);

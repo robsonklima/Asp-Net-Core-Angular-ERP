@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] FormaPagamentoParameters parameters)
         {
             return _formaPagamentoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codFormaPagamento}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public FormaPagamento Get(int codFormaPagamento)
         {
             return _formaPagamentoService.ObterPorCodigo(codFormaPagamento);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public FormaPagamento Post([FromBody] FormaPagamento FormaPagamento)
         {
             return _formaPagamentoService.Criar(FormaPagamento);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] FormaPagamento FormaPagamento)
         {
             _formaPagamentoService.Atualizar(FormaPagamento);
         }
 
         [HttpDelete("{codFormaPagamento}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codFormaPagamento)
         {
             _formaPagamentoService.Deletar(codFormaPagamento);

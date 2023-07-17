@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ORTransporteParameters parameters)
         {
             return _ORTransporteService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codTransportadora}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ORTransporte Get(int codTransportadora)
         {
             return _ORTransporteService.ObterPorCodigo(codTransportadora);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] ORTransporte ORTransporte)
         {
             _ORTransporteService.Criar(ORTransporte);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] ORTransporte ORTransporte)
         {
             _ORTransporteService.Atualizar(ORTransporte);
         }
 
         [HttpDelete("{codTransportadora}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codTransportadora)
         {
             _ORTransporteService.Deletar(codTransportadora);

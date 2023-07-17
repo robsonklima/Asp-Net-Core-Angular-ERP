@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.MODELS.ViewModels;
 using SAT.SERVICES.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [EnableCors("CorsApi")]
     [ApiController]
@@ -21,6 +23,7 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ContratoEquipamentoDataParameters parameters)
         {
             return _contratoEquipamentoDataInterface.ObterPorParametros(parameters);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] CausaParameters parameters)
         {
             return _causaService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codCausa}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public Causa Get(int codCausa)
         {
             return _causaService.ObterPorCodigo(codCausa);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] Causa causa)
         {
             _causaService.Criar(causa);
         }
 
         [HttpPut("{codCausa}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] Causa causa)
         {
             _causaService.Atualizar(causa);
         }
 
         [HttpDelete("{codCausa}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codCausa)
         {
             _causaService.Deletar(codCausa);

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ORSolucaoParameters parameters)
         {
             return _orSolucaoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codSolucao}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ORSolucao Get(int codSolucao)
         {
             return _orSolucaoService.ObterPorCodigo(codSolucao);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] ORSolucao orSolucao)
         {
             _orSolucaoService.Criar(orSolucao);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] ORSolucao orSolucao)
         {
             _orSolucaoService.Atualizar(orSolucao);
         }
 
         [HttpDelete("{codSolucao}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codSolucao)
         {
             _orSolucaoService.Deletar(codSolucao);

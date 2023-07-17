@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -21,35 +22,36 @@ namespace SAT.API.Controllers
             _pontoPeriodoService = pontoPeriodoService;
         }
 
-        [Authorize(Roles = "3,5,35,44,75,82")]
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] PontoPeriodoParameters parameters)
         {
             return _pontoPeriodoService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{codPontoPeriodo}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public PontoPeriodo Get(int codPontoPeriodo)
         {
             return _pontoPeriodoService.ObterPorCodigo(codPontoPeriodo);
         }
 
         [HttpPost]
-        [Authorize(Roles = "44")]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] PontoPeriodo pontoPeriodo)
         {
             _pontoPeriodoService.Criar(pontoPeriodo: pontoPeriodo);
         }
 
         [HttpPut]
-        [Authorize(Roles = "44")]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] PontoPeriodo pontoPeriodo)
         {
             _pontoPeriodoService.Atualizar(pontoPeriodo: pontoPeriodo);
         }
 
         [HttpDelete("{codPontoPeriodo}")]
-        [Authorize(Roles = "44")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int codPontoPeriodo)
         {
             _pontoPeriodoService.Deletar(codPontoPeriodo);

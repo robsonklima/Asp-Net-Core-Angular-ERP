@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,35 @@ namespace SAT.API.Controllers
         }
 
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ListViewModel Get([FromQuery] ORCheckListItemParameters parameters)
         {
             return _orCheckListItemService.ObterPorParametros(parameters);
         }
 
         [HttpGet("{cod}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public ORCheckListItem Get(int cod)
         {
             return _orCheckListItemService.ObterPorCodigo(cod);
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public void Post([FromBody] ORCheckListItem item)
         {
             _orCheckListItemService.Criar(item);
         }
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public void Put([FromBody] ORCheckListItem item)
         {
             _orCheckListItemService.Atualizar(item);
         }
 
         [HttpDelete("{cod}")]
+        [ClaimRequirement(ClaimTypes.Role, "CanDeleteResource")]
         public void Delete(int cod)
         {
             _orCheckListItemService.Deletar(cod);

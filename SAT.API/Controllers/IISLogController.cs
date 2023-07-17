@@ -6,6 +6,7 @@ using SAT.MODELS.Entities.Params;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
 using SAT.SERVICES.Interfaces;
+using System.Security.Claims;
 
 namespace SAT.API.Controllers
 {
@@ -24,6 +25,7 @@ namespace SAT.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [ClaimRequirement(ClaimTypes.Role, "CanReadResource")]
         public List<IISLogEvent> Get([FromQuery] IISLogParameters parameters)
         {
             return _iisLogService.Get(parameters);

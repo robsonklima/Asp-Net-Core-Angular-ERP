@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -19,10 +20,12 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(ClaimTypes.Role, "CanAddResource")]
         public OrcamentoDeslocamento Post([FromBody] OrcamentoDeslocamento deslocamento) =>
             _orcDeslocamentoService.Criar(deslocamento);
 
         [HttpPut]
+        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public OrcamentoDeslocamento Put([FromBody] OrcamentoDeslocamento deslocamento) =>
             _orcDeslocamentoService.Atualizar(deslocamento);
     }

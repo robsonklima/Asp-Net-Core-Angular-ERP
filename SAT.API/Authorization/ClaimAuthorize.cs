@@ -34,24 +34,24 @@ public class ClaimRequirementFilter : IAuthorizationFilter
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var claim = _claim.Value;
-        var type = _claim.Type;
-        var codUsuario = context.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value!;
-        var usuario = _usuarioService.ObterPorCodigo(codUsuario);
-        var url = context.HttpContext.Request.Path.ToString().Replace("api/", "");
-        var recursoBloqueado = (RecursoBloqueado)_recursoBloqueadoService
-            .ObterPorParametros(new RecursoBloqueadoParameters
-            {
-                CodPerfil = usuario.CodPerfil,
-                CodSetor = usuario.CodSetor,
-                Url = url,
-                Claim = claim,
-                IndAtivo = 1 
-            })
-            .Items
-            .FirstOrDefault()!;
+    //     var claim = _claim.Value;
+    //     var type = _claim.Type;
+    //     var codUsuario = context.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value!;
+    //     var usuario = _usuarioService.ObterPorCodigo(codUsuario);
+    //     var url = context.HttpContext.Request.Path.ToString().Replace("api/", "");
+    //     var recursoBloqueado = (RecursoBloqueado)_recursoBloqueadoService
+    //         .ObterPorParametros(new RecursoBloqueadoParameters
+    //         {
+    //             CodPerfil = usuario.CodPerfil,
+    //             CodSetor = usuario.CodSetor,
+    //             Url = url,
+    //             Claim = claim,
+    //             IndAtivo = 1 
+    //         })
+    //         .Items
+    //         .FirstOrDefault()!;
         
-        if(recursoBloqueado is not null)
-            context.Result = new ForbidResult();
-    }
+    //     if(recursoBloqueado is not null)
+    //         context.Result = new ForbidResult();
+     }
 }

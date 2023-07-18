@@ -400,41 +400,30 @@ namespace SAT.UTILS
                                     grid.Spacing(7);
                                     grid.Columns(2);
 
-                                    rel.Fotos.ForEach(async f =>
+                                    rel.Fotos.ForEach(f =>
                                         {
                                             if (f.Modalidade.Contains("RAT") && f.NumRAT == rel.NumRAT && f.CodOS == rel.CodOS)
                                             {
                                                 using var client = new HttpClient();
-
-                                                string url = $"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}";
-
-                                                try
-                                                {
-                                                    var result = await client.GetAsync(url);
-
-                                                    grid.Item().Row(gr =>
+                                                var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                                grid.Item().Row(gr =>
                                                 {
                                                     gr.RelativeItem(6).Column(gc =>
                                                     {
                                                         switch (f.Modalidade)
                                                         {
                                                             case "RAT_ASSINATURA_TECNICO":
-                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Content.ReadAsStream());
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream());
                                                                 gc.Item().AlignCenter().Text("Assinatura Técnico\n" + rel.Tecnico.Nome).FontSize(8).SemiBold();
                                                                 return;
 
                                                             case "RAT_ASSINATURA_CLIENTE":
-                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Content.ReadAsStream());
+                                                                gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignRight().Image(result.Result.Content.ReadAsStream());
                                                                 gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
                                                                 return;
                                                         }
                                                     });
                                                 });
-                                                }
-                                                catch (System.Exception)
-                                                {
-                                                    
-                                                }
                                             }
                                         });
                                 });

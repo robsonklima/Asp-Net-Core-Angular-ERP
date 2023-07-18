@@ -7,6 +7,7 @@ import { Usuario, UsuarioData, UsuarioParameters, UsuariosLogados } from '../typ
 import { Navegacao } from '../types/navegacao.types';
 import { map } from 'rxjs/operators';
 import { PerfilEnum } from '../types/perfil.types';
+import { SetorEnum } from '../types/setor.types';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,8 @@ export class UserService {
   get isOpenOS(): boolean {
     var session = JSON.parse(localStorage.getItem('userSession'));
     var user = session.usuario.perfil;
-    if (user.indAbreChamado == 1) {
+    var setor = session.usuario.setor;
+    if (user.indAbreChamado == 1 || setor.codSetor == SetorEnum.COORDENACAO_DE_CONTRATOS) {
       return true;
     }
 

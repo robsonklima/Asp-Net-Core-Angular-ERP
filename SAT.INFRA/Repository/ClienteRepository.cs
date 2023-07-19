@@ -104,6 +104,9 @@ namespace SAT.INFRA.Repository
                 clientes = clientes.OrderBy($"{parameters.SortActive} {parameters.SortDirection}");
             }
 
+            if (!string.IsNullOrWhiteSpace(parameters.NomeFantasia))
+                clientes = clientes.Where(c => c.NomeFantasia == parameters.NomeFantasia);
+
             return PagedList<Cliente>.ToPagedList(clientes, parameters.PageNumber, parameters.PageSize);
         }
 

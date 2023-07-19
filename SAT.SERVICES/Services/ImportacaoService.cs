@@ -134,7 +134,7 @@ namespace SAT.SERVICES.Services
                 case "NomeAutorizada":
                     return _autorizadaRepo.ObterPorParametros(new AutorizadaParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodAutorizada;
                 case "NomeCliente":
-                    return _clienteRepo.ObterPorParametros(new ClienteParameters { Filter = coluna.Valor })?.FirstOrDefault()?.CodCliente;
+                    return _clienteRepo.ObterPorParametros(new ClienteParameters { NomeFantasia = coluna.Valor })?.FirstOrDefault()?.CodCliente;
                 case "NomeInstalStatus":
                     return _instalStatusRepo.ObterPorParametros(new InstalacaoStatusParameters { NomeInstalStatus = coluna.Valor })?.FirstOrDefault()?.CodInstalStatus;
                 case "NomeFilial":

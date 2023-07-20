@@ -12,6 +12,7 @@ namespace SAT.INFRA.Context
 
         public DbSet<OrdemServico> OrdemServico { get; set; }
         public DbSet<DocumentoSistema> DocumentoSistema { get; set; }
+        public DbSet<Adendo> Adendo { get; set; }
         public DbSet<Chamado> Chamado { get; set; }
         public DbSet<OperadoraTelefonia> OperadoraTelefonia { get; set; }
         public DbSet<DefeitoPOS> DefeitoPOS { get; set; }
@@ -368,6 +369,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Filial>(new FilialMap().Configure);
             modelBuilder.Entity<Contrato>(new ContratoMap().Configure);
             modelBuilder.Entity<Peca>(new PecaMap().Configure);
+            modelBuilder.Entity<Adendo>(new AdendoMap().Configure);
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
             modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);

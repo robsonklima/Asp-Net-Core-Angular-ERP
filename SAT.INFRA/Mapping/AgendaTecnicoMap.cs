@@ -13,11 +13,10 @@ namespace SAT.INFRA.Mapping
             builder.Ignore(prop => prop.Data);
 
             builder
-            .HasOne(prop => prop.OrdemServico)
-            .WithMany()
-            .HasForeignKey(prop => prop.CodOS)
-            .HasPrincipalKey(prop => prop.CodOS);
-
+                .HasOne(prop => prop.OrdemServico)
+                .WithMany()
+                .HasForeignKey(prop => prop.CodOS)
+                .HasPrincipalKey(prop => prop.CodOS);
         }
     }
 }

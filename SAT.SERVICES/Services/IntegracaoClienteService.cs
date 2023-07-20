@@ -35,7 +35,8 @@ namespace SAT.SERVICES.Services
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
 
-            var equipamento = _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters {
+            var equipamento = _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters
+            {
                 NumSerie = data.NumSerie,
                 CodClientes = codCliente.ToString(),
                 IndAtivo = 1
@@ -49,7 +50,7 @@ namespace SAT.SERVICES.Services
                 IndIntegracao = 1
             };
 
-            data.NumIncidentePerto = "98765477";
+            data.NumIncidentePerto = "8765477";
 
             _logger.Info()
                 .Message(@"Incidente do cliente {} aberto com sucesso", Constants.INTEGRACAO_ZAFFARI)

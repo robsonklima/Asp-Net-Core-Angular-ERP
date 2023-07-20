@@ -233,6 +233,8 @@ public class ConfigurationIOC
         builder.RegisterType<NavegacaoRepository>().As<INavegacaoRepository>();
         builder.RegisterType<NavegacaoConfiguracaoRepository>().As<INavegacaoConfiguracaoRepository>();
         builder.RegisterType<DocumentoSistemaRepository>().As<IDocumentoSistemaRepository>();
+        builder.RegisterType<AdendoRepository>().As<IAdendoRepository>();
+        builder.RegisterType<AdendoItemRepository>().As<IAdendoItemRepository>();
 
         #endregion
 
@@ -462,6 +464,8 @@ public class ConfigurationIOC
         builder.RegisterType<NavegacaoService>().As<INavegacaoService>();
         builder.RegisterType<NavegacaoConfiguracaoService>().As<INavegacaoConfiguracaoService>();
         builder.RegisterType<DocumentoSistemaService>().As<IDocumentoSistemaService>();
+        builder.RegisterType<AdendoService>().As<IAdendoService>();
+        builder.RegisterType<AdendoItemService>().As<IAdendoItemService>();
 
         #endregion
 

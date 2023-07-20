@@ -12,6 +12,7 @@ namespace SAT.INFRA.Context
 
         public DbSet<OrdemServico> OrdemServico { get; set; }
         public DbSet<DocumentoSistema> DocumentoSistema { get; set; }
+        public DbSet<Adendo> Adendo { get; set; }
         public DbSet<Chamado> Chamado { get; set; }
         public DbSet<OperadoraTelefonia> OperadoraTelefonia { get; set; }
         public DbSet<DefeitoPOS> DefeitoPOS { get; set; }
@@ -288,6 +289,7 @@ namespace SAT.INFRA.Context
         public DbSet<Improdutividade> Improdutividade { get; set; }
         public DbSet<CausaImprodutividade> CausaImprodutividade { get; set; }
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
+        public DbSet<AdendoItem> AdendoItem { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
         public DbSet<ViewDashboardLabProdutividadeTecnica> ViewDashboardLabProdutividadeTecnica { get; set; }
@@ -368,11 +370,13 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<Filial>(new FilialMap().Configure);
             modelBuilder.Entity<Contrato>(new ContratoMap().Configure);
             modelBuilder.Entity<Peca>(new PecaMap().Configure);
+            modelBuilder.Entity<Adendo>(new AdendoMap().Configure);
             modelBuilder.Entity<ClientePeca>(new ClientePecaMap().Configure);
             modelBuilder.Entity<ClientePecaGenerica>(new ClientePecaGenericaMap().Configure);
             modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);
             modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
             modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
+            modelBuilder.Entity<AdendoItem>(new AdendoItemMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamento>(new LocalEnvioNFFaturamentoMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamentoVinculado>(new LocalEnvioNFFaturamentoVinculadoMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresFiliais>(new ViewDashboardIndicadoresFiliaisMap().Configure);

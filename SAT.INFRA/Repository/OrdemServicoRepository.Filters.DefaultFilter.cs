@@ -201,6 +201,10 @@ namespace SAT.INFRA.Repository
             if (parameters.DataHoraManutNull)
                 query = query.Where(os => os.DataHoraManut == null);
 
+            
+            if (string.IsNullOrEmpty(parameters.CodEquipIsNull))
+                query = query.Where(os => os.CodEquip == null);
+
             return query;
         }
 

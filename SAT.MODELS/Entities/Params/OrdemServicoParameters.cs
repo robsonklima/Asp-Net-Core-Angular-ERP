@@ -58,5 +58,6 @@ namespace SAT.MODELS.Entities.Params
         public string CodUsuariosSTN { get; set; }
         public string NumRAT { get; set; }
         public bool DataHoraManutNull { get; set; }
+        public bool CodEquipIsNull { get; set; }
     }
 }

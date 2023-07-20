@@ -10,11 +10,15 @@ namespace SAT.TASKS
         {
             try
             {
-                var osParams = new OrdemServicoParameters {};
-                osParams.CodEquipIsNull = true;
+                var osParams = new OrdemServicoParameters { 
+                    CodEquipIsNull = true,
+                    CodTipoIntervencaoNotIn = "10,14",
+                    CodEquipContratoIsNotNull = true
+                };
+                
                 var chamados = _osService.ObterPorParametros(osParams).Items;
 
-                _logger.Info($"{ MsgConst.INI_PROC }, encontrados { contratos.Count() } contratos");
+                _logger.Info($"{ MsgConst.INI_PROC }, encontrados { chamados.Count() } chamados");
 
                 foreach (OrdemServico chamado in chamados)
                 {

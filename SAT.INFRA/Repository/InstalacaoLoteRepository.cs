@@ -71,6 +71,11 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodInstalLote != null)
+            {
+                query = query.Where(l => l.CodInstalLote == parameters.CodInstalLote);
+            }
+
             if (parameters.CodContrato != null)
             {
                 query = query.Where(l => l.CodContrato == parameters.CodContrato);

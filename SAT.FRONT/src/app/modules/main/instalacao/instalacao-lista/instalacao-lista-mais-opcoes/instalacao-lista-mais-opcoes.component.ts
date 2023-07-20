@@ -165,7 +165,7 @@ export class InstalacaoListaMaisOpcoesComponent implements OnInit {
             ...{
               dataAtivacao: item.ordemServico.dataHoraFechamento,
               dataInicGarantia: item.ordemServico.dataHoraFechamento,
-              dataFimGarantia: moment().add(qtdDiaGarantia, 'days').format('YYYY-MM-DD HH:mm:ss'),
+              dataFimGarantia: moment(item.ordemServico.dataHoraFechamento).add(qtdDiaGarantia, 'days').format('YYYY-MM-DD HH:mm:ss'),
               indAtivo: statusConst.ATIVO,
               indReceita: statusConst.ATIVO,
               indInstalacao: statusConst.ATIVO,

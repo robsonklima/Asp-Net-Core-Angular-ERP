@@ -52,6 +52,7 @@ export class OrdemServicoRatsComponent implements OnInit {
       || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.LIDER)
       || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.COORDENADOR)
       || (this.sessionData.usuario.codSetor == SetorEnum.OPERACAO_DE_CAMPO && this.sessionData.usuario.codPerfil == PerfilEnum.SUPERVISOR)
+      || (this.sessionData.usuario.codSetor == SetorEnum.SUPORTE_TECNICO && this.sessionData.usuario.codPerfil == PerfilEnum.FILIAL_SUPORTE_TÉCNICO_CAMPO)
 			|| this.sessionData.usuario.codPerfil == PerfilEnum.ADM_DO_SISTEMA))
 			return true;
 		

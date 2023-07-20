@@ -6,4 +6,9 @@ namespace SAT.MODELS.Entities.Params
     {
         public int? CodEquipContrato { get; set; }
     }
+
+    public class AdendoItemParameters : QueryStringParameters
+    {
+        public int? CodEquipContrato { get; set; }
+    }
 }

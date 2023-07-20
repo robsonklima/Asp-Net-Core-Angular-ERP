@@ -289,6 +289,7 @@ namespace SAT.INFRA.Context
         public DbSet<Improdutividade> Improdutividade { get; set; }
         public DbSet<CausaImprodutividade> CausaImprodutividade { get; set; }
         public DbSet<CheckListPOS> CheckListPOS { get; set; }
+        public DbSet<AdendoItem> AdendoItem { get; set; }
         public DbSet<CheckListPOSItens> CheckListPOSItens { get; set; }
         public DbSet<PecasLaboratorio> PecasLaboratorio { get; set; }
         public DbSet<ViewDashboardLabProdutividadeTecnica> ViewDashboardLabProdutividadeTecnica { get; set; }
@@ -375,6 +376,7 @@ namespace SAT.INFRA.Context
             modelBuilder.Entity<TecnicoCliente>(new TecnicoClienteMap().Configure);
             modelBuilder.Entity<PontoPeriodoUsuario>(new PontoPeriodoUsuarioMap().Configure);
             modelBuilder.Entity<Intencao>(new IntencaoMap().Configure);
+            modelBuilder.Entity<AdendoItem>(new AdendoItemMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamento>(new LocalEnvioNFFaturamentoMap().Configure);
             modelBuilder.Entity<LocalEnvioNFFaturamentoVinculado>(new LocalEnvioNFFaturamentoVinculadoMap().Configure);
             modelBuilder.Entity<ViewDashboardIndicadoresFiliais>(new ViewDashboardIndicadoresFiliaisMap().Configure);

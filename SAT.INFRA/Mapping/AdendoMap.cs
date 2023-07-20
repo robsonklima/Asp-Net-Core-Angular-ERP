@@ -18,4 +18,13 @@ namespace SAT.INFRA.Mapping
                 .HasPrincipalKey(prop => prop.CodAdendo);
         }
     }
+
+    public class AdendoItemMap : IEntityTypeConfiguration<AdendoItem>
+    {
+        public void Configure(EntityTypeBuilder<AdendoItem> builder)
+        {
+            builder.ToTable("AdendoItem");
+            builder.HasKey(i => i.CodAdendoItem);
+        }
+    }
 }

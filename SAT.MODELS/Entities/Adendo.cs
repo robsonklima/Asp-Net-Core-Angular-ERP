@@ -10,6 +10,7 @@ namespace SAT.MODELS.Entities
 
     public class AdendoItem
     {
+        public int CodAdendoItem { get; set; }
         public int CodAdendo { get; set; }
         public int CodEquipContrato { get; set; }
     }

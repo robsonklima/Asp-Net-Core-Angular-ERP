@@ -52,8 +52,9 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
   }
 
   ngAfterViewInit(): void {
-    this.obterDados();    
     this.registerEmitters();
+    this.obterDados();    
+    
 
     if (this.sort && this.paginator) {
       fromEvent(this.searchInputControl.nativeElement, 'keyup').pipe(
@@ -101,7 +102,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
     this.isLoading = true;    
     const parametros: InstalacaoPagtoParameters = {
       pageNumber: this.paginator?.pageIndex + 1,
-      sortActive: 'CodInstalPagto',
+      sortActive: 'codInstalPagto',
       sortDirection: 'desc',
       pageSize: this.paginator?.pageSize,
       filter: filtro
@@ -116,6 +117,7 @@ export class InstalacaoPagtoListaComponent extends Filterable implements AfterVi
 
     this.isLoading = false;
     this._cdr.detectChanges();
+
   }
 
   excluir(codInstalPagto: number) {

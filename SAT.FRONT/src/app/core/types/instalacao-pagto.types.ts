@@ -23,4 +23,9 @@ export interface InstalacaoPagtoData extends Meta {
 export interface InstalacaoPagtoParameters extends QueryStringParameters {
     codInstalPagto?: number;
     codContrato?: number;
+    codContratos?: string;
+    codCliente?: number;
+    codTipoContratos?: string;
+    dataPagto?: string;
+    vlrPagto?: number;
 };

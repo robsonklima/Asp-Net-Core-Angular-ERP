@@ -12,7 +12,8 @@
     </div>
 
     <ng-container>
-        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form" *transloco="let t">
+        <form autocomplete="off" class="flex flex-col bg-card shadow rounded overflow-hidden" [formGroup]="form"
+            *transloco="let t">
             <div class="grid sm:grid-cols-12 gap-x-6 flex-col flex-auto p-8 pb-0 overflow-hidden">
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
@@ -45,7 +46,7 @@
                             {{ contrato.nomeContrato }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>                
+                </mat-form-field>
 
                 <mat-form-field class="fuse-mat-dense sm:col-span-4">
                     <mat-label>{{ t('tipo') }}</mat-label>
@@ -65,6 +66,20 @@
                     </mat-select>
                 </mat-form-field>
 
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('Data Pagamento') }}</mat-label>
+                    <input matInput (click)="contratoData.open()" (keydown)="false" [matDatepicker]="contratoData"
+                        formControlName="dataPagto">
+                    <mat-datepicker-toggle matSuffix [for]="contratoData"></mat-datepicker-toggle>
+                    <mat-datepicker #contratoData></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense sm:col-span-4">
+                    <mat-label>{{ t('Valor Pagamento') }}</mat-label>
+                    <input matInput formControlName="vlrPagto" mask="separator.2" prefix="R$ " thousandSeparator="."
+                        decimalMarker="," [showMaskTyped]="false" [dropSpecialCharacters]="true">
+                </mat-form-field>
+
             </div>
 
             <div class="mt-6 border-t"></div>
@@ -82,7 +97,7 @@
                     {{ t('limpar') }}
                 </button>
 
-                <salvar-filtro-usuario [filterName]="'instalacao-contrato'" [filterBase]="this">
+                <salvar-filtro-usuario [filterName]="'instalacao-pagto'" [filterBase]="this">
                 </salvar-filtro-usuario>
             </div>
         </form>

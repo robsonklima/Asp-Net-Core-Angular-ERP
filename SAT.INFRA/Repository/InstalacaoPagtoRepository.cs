@@ -83,9 +83,36 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.DataPagto.HasValue)
+            {
+                query = query.Where(i => i.DataPagto.Equals(parameters.DataPagto));
+            }
+
+            if (parameters.VlrPagto.HasValue)
+            {
+                query = query.Where(i => i.VlrPagto == parameters.VlrPagto);
+            }            
+
             if (parameters.CodContrato.HasValue)
             {
                 query = query.Where(i => i.CodContrato == parameters.CodContrato);
+            }
+
+            if (parameters.CodCliente.HasValue)
+            {
+                query = query.Where(i => i.Contrato.CodCliente == parameters.CodCliente);
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodContratos))
+            {
+                int[] cods = parameters.CodContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(i => cods.Contains(i.CodContrato.Value));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.CodTipoContratos))
+            {
+                int[] cods = parameters.CodTipoContratos.Split(",").Select(a => int.Parse(a.Trim())).Distinct().ToArray();
+                query = query.Where(i => cods.Contains(i.Contrato.CodTipoContrato.Value));
             }
 
             if (parameters.CodInstalPagto.HasValue)

@@ -35,7 +35,7 @@
       protected _userService: UserService,
       protected _formBuilder: FormBuilder
     ) {
-      super(_userService, _formBuilder, 'instalacao-contrato');
+      super(_userService, _formBuilder, 'instalacao-pagto');
     }
   
     ngOnInit(): void {
@@ -56,6 +56,8 @@
         codTipoContratos: [undefined],
         codCliente: [undefined],
         codContratos: [undefined],
+        dataPagto: [undefined],
+        vlrPagto: [undefined],
         indAtivo: [undefined],
       });
       this.form.patchValue(this.filter?.parametros);

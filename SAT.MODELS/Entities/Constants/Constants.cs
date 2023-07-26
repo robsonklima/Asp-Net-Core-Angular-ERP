@@ -20,10 +20,14 @@ namespace SAT.MODELS.Entities.Constants
         public static string IIS_LOG_PATH = @"D:\SAT\Branch\SAT.V2\SAT.API\Logs\IIS\";
         public static string VONAGE_KEY = @"eab57cf8";
         public static string VONAGE_SECRET = @"NX7ZdN7nNDrxoNyC";
+        public static string INTEGRACAO_SENIOR = "Integração Senior";
+        public static string INTEGRACAO_SENIOR_API_URL = "http://??";
         public static string INTEGRACAO_FINANCEIRO_API_URL = "http://perto31.perto.com.br";
         public static string INTEGRACAO_ZAFFARI_API_URL = "https://capgeminibrdev.service-now.com/api/now/table/u_integration_zaffari_perto";
         public static string INTEGRACAO_ZAFFARI_USER = "userperto";
         public static string INTEGRACAO_ZAFFARI_PASSWORD = "hqP9FzOL0g_lzba-";
+        public static string INTEGRACAO_SENIOR_USER = "??";
+        public static string INTEGRACAO_SENIOR_PASSWORD = "??";
         public static string INTEGRACAO_FINANCEIRO_USER = "sistemasat";
         public static string INTEGRACAO_FINANCEIRO_PASSWORD = "e62076f38d1d367931e00a4c6785f67e";
         public static string INTEGRACAO_PROTEGE_API_URL = "https://servicedeskhomolog.protege.com.br/CherwellAPI/";
@@ -66,7 +70,7 @@ namespace SAT.MODELS.Entities.Constants
         };
 
         // Application types
-        public static string APPLICATION_JSON =  "application/json";
+        public static string APPLICATION_JSON = "application/json";
 
         // Status
         public static int ATIVO = 1;
@@ -96,7 +100,7 @@ namespace SAT.MODELS.Entities.Constants
 
         // Tipos de Intervenção
         public static int CORRETIVA = 2;
-        
+
         // Mensagens
         public static string NAO_FOI_POSSIVEL_ATUALIZAR = "Não foi possível atualizar o registro";
         public static string USUARIO_OU_SENHA_INVALIDOS = "Usuário ou senha inválidos";

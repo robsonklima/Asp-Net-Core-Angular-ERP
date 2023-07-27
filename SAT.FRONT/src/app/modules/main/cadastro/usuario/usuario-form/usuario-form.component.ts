@@ -290,7 +290,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
           this.form.controls['codContrato'].setValue(codContratos);
         }
 
-        //this.form.get('dataAdmissao').setValue(new Date(usuario.dataAdmissao).toISOString().split('T')[0]);
         this.form.controls['dataAdmissao'].setValue(usuario.dataAdmissao);
         this.form.controls['confirmarSenha'].clearValidators();
         this.form.controls['confirmarSenha'].updateValueAndValidity();

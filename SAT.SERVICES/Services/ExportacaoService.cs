@@ -401,6 +401,10 @@ namespace SAT.SERVICES.Services
                 case ExportacaoTipoEnum.INSTALACAO_PLEITO:
                     GerarPlanilhaInstalacaoPleito(((JObject)parameters).ToObject<InstalacaoPleitoParameters>());
                     break;                    
+                
+                case ExportacaoTipoEnum.INSTALACAO_PAGTO:
+                    GerarPlanilhaInstalacaoPagtoInstal(((JObject)parameters).ToObject<InstalacaoPagtoInstalParameters>());
+                    break;
 
                 default:
                     break;

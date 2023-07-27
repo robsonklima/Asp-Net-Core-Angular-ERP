@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoEquipamentoService } from 'app/core/services/contrato-equipamento.service';
 import { ExportacaoService } from 'app/core/services/exportacao.service';
-import { InstalacaoPagtoInstalService } from 'app/core/services/instalacao-Pagto-instal.service';
+import { InstalacaoPagtoInstalService } from 'app/core/services/instalacao-pagto-instal.service';
+
 import { InstalacaoPagtoService } from 'app/core/services/instalacao-pagto-service';
 import { Exportacao, ExportacaoFormatoEnum, ExportacaoTipoEnum } from 'app/core/types/exportacao.types';
 import { FileMime } from 'app/core/types/file.types';
@@ -50,20 +51,15 @@ export class InstalacaoPagtoDetalheComponent implements OnInit {
   async exportar() {
     this.isLoading = true;
 
-    const codEquips = await this.obterEquipamentosContrato();
-    const codInstalacoes = await this.obterInstalacoesPagto();
-
     const exportacaoParam: Exportacao = {
-      formatoArquivo: ExportacaoFormatoEnum.PDF,
+      formatoArquivo: ExportacaoFormatoEnum.EXCEL,
       tipoArquivo: ExportacaoTipoEnum.INSTALACAO_PAGTO,
       entityParameters: {
-        codinstalPagto: this.codInstalPagto,
-        codEquips: codEquips,
-        codInstalacoes: codInstalacoes
+        codInstalPagto: this.codInstalPagto
       }
     }
 
-    this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
+    await this._exportacaoService.exportar(FileMime.Excel, exportacaoParam);
     this.isLoading = false;
   }
 

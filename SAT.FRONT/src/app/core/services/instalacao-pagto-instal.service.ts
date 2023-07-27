@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { appConfig as c } from 'app/core/config/app.config'
-import { InstalacaoPagtoInstal, InstalacaoPagtoInstalData, InstalacaoPagtoInstalParameters } from '../types/instalacao-pagto-instal.types';
+import { InstalacaoPagtoInstalParameters, InstalacaoPagtoInstalData, InstalacaoPagtoInstal } from '../types/instalacao-pagto-instal.types';
+
 
 @Injectable({
   providedIn: 'root'

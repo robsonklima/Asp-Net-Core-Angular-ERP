@@ -76,11 +76,6 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between py-1" *ngIf="os?.codStatusServico === 3">
-                <div class="text-secondary">{{ t('fechamento') }}</div>
-                <div>{{ os?.dataHoraFechamento | date:'dd/MM/yyyy HH:mm' }}</div>
-            </div>
-
             <div class="flex items-center justify-between py-1">
                 <div class="text-secondary">{{ t('os cliente') }}</div>
                 <div>{{ os?.numOSCliente || 'Não Informado' }}</div>

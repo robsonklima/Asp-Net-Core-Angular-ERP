@@ -9,6 +9,7 @@ namespace SAT.SERVICES.Interfaces
         UsuarioLoginViewModel Login(Usuario usuario);
         ListViewModel ObterPorParametros(UsuarioParameters parameters);
         Usuario ObterPorCodigo(string codigo);
+        Usuario ObterLoginController(string codigo);
         void Atualizar(Usuario usuario);
         void Criar(Usuario usuario);
         void AlterarSenha(SegurancaUsuarioModel segurancaUsuarioModel, bool forcaTrocarSenha = false);
@@ -17,5 +18,6 @@ namespace SAT.SERVICES.Interfaces
         RecuperaSenha ObterRecuperaSenha(int codRecuperaSenha);
         void AtualizarRecuperaSenha(RecuperaSenha recuperaSenha);
         void DesbloquearAcesso(string codUsuario);
+        
     }
 }

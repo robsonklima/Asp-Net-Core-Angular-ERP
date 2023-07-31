@@ -7,5 +7,6 @@ namespace SAT.MODELS.Entities.Params
     {
         public DateTime? DataHoraCadInicio { get; set; }
         public DateTime? DataHoraCadFim { get; set; }
+        public string CodUsuario { get; set; }
     }
 }

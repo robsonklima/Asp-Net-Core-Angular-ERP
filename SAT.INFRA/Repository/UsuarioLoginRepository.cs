@@ -37,6 +37,9 @@ namespace SAT.INFRA.Repository
                 );
             }
 
+            if (parameters.CodUsuario != null)
+                query = query.Where(u => u.CodUsuario == parameters.CodUsuario);
+
             if (parameters.DataHoraCadInicio.HasValue)
                 query = query.Where(r => r.DataHoraCad.Date >= parameters.DataHoraCadInicio.Value.Date);
 

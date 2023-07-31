@@ -240,6 +240,13 @@ namespace SAT.INFRA.Repository
                 .FirstOrDefault(us => us.CodUsuario == codigo);
         }
 
+        public Usuario ObterLoginController(string codigo)
+        {
+            return _context.Usuario
+                .FirstOrDefault(us => us.CodUsuario == codigo);
+        }
+
+
         public void Criar(Usuario usuario)
         {
             try

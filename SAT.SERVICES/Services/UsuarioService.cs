@@ -64,6 +64,13 @@ namespace SAT.SERVICES.Services
             return usuario;
         }
 
+        public Usuario ObterLoginController(string codigo)
+        {
+            var usuario = _usuarioRepo.ObterLoginController(codigo);
+            
+            return usuario;
+        }
+
         public ListViewModel ObterPorParametros(UsuarioParameters parameters)
         {
             var usuarios = _usuarioRepo.ObterPorParametros(parameters);

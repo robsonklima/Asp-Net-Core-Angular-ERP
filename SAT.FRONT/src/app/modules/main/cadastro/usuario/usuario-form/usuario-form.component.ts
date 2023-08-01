@@ -539,6 +539,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       ...{
         dataHoraCad: moment().format('YYYY-MM-DD HH:mm:ss'),
         codUsuarioCad: this.userSession.usuario.codUsuario,
+        dataAdmissao: form.dataAdmissao,
         indAtivo: +form.indAtivo,
         codContrato: Enumerable.from(this.form.controls['codContrato'].value).count() > 0 ?
           Enumerable.from(this.form.controls['codContrato'].value).select(t => t).distinct().toArray()?.join(',')

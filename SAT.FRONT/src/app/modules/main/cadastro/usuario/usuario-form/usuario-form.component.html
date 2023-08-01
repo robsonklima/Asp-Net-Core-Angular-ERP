@@ -208,7 +208,7 @@
                     <div class="fuse-mat-dense sm:col-span-4">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-label>Data de admissão</mat-label>
-                            <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataAdmissao" [(ngModel)]="usuario.dataAdmissao">
+                            <input matInput (click)="cadastroData.open()" [matDatepicker]="cadastroData" formControlName="dataAdmissao" [value]="usuario?.dataAdmissao">
                             <mat-datepicker-toggle matSuffix [for]="cadastroData"></mat-datepicker-toggle>
                             <mat-datepicker #cadastroData></mat-datepicker>
                         </mat-form-field>

@@ -9,10 +9,12 @@ namespace SAT.TASKS
 
         private async void IniciarPlaygroundAsync()
         {
-            IEnumerable<OrdemServico> os = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new MODELS.Entities.Params.OrdemServicoParameters { CodOS = "8066747" }).Items;
-            var task = new SatTask();
+            // IEnumerable<OrdemServico> os = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new MODELS.Entities.Params.OrdemServicoParameters { CodOS = "8066747" }).Items;
+            // var task = new SatTask();
 
-             await ExecutarZaffariAsync(task, os);
+            //  await ExecutarZaffariAsync(task, os);
+
+            ExecutarMRP(new SatTask());
         }
     }
 }

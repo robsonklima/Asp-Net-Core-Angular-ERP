@@ -108,19 +108,16 @@ namespace SAT.TASKS
 
             try
             {
-                // var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
-                // {
-                //     DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                //     DataHoraManutFim = DateTime.Now
-                // }).Items;
+                var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
+                {
+                    DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
+                    DataHoraManutFim = DateTime.Now
+                }).Items;
 
                 foreach (var task in tasks)
                 {
                     if (task.Status != SatTaskStatusConst.PENDENTE)
                         continue;
-
-                    // if (!deveProcessar(task))
-                    //     continue;
 
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
@@ -136,10 +133,10 @@ namespace SAT.TASKS
                             await ExecutarBanrisulAsync(task);
 
                             continue;
-                        // case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                        //     await ExecutarZaffariAsync(task, chamados);
+                        case (int)SatTaskTipoEnum.INT_ZAFFARI:
+                            await ExecutarZaffariAsync(task, chamados);
 
-                        //     continue;
+                            continue;
                         case (int)SatTaskTipoEnum.INT_MRP:
                             ExecutarMRP(task);
 
@@ -148,10 +145,10 @@ namespace SAT.TASKS
                             ExecutarModelos(task);
 
                             continue;
-                        // case (int)SatTaskTipoEnum.ANS:
-                        //     ExecutarANS(task, chamados);
+                        case (int)SatTaskTipoEnum.ANS:
+                            ExecutarANS(task, chamados);
 
-                        //     continue;
+                            continue;
                         case (int)SatTaskTipoEnum.BRB:
                             ExecutarBRB(task);
 
@@ -181,10 +178,10 @@ namespace SAT.TASKS
                             ExecutarSenior(task);
 
                             continue;
-                        // case (int)SatTaskTipoEnum.PROTEGE:
-                        //     ExecutarProtegeAsync(task, chamados);
+                        case (int)SatTaskTipoEnum.PROTEGE:
+                            ExecutarProtegeAsync(task, chamados);
 
-                        //     continue;
+                            continue;
                         case (int)SatTaskTipoEnum.METRO_SP:
                             ExecutarMetroSP(task);
 

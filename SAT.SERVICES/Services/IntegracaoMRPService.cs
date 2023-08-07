@@ -40,7 +40,6 @@ namespace SAT.SERVICES.Services
                     if (dados.Length != 24)
                         {
                             _logger.Error("A quantidade de campos encontrados é diferente do permitido");
-                            _logger.Error(@$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/"));
                             _logger.Error(Constants.PEDIDOS_PENDENTES);                            
                         }
 
@@ -90,10 +89,9 @@ namespace SAT.SERVICES.Services
                     MRPLogixEstoque mrpLogixEstoque = new();
                     string[] dados = arquivo.Split('|');
 
-                    if (dados.Length != 7)
+                    if (dados.Length != 8)
                         {
                             _logger.Error("A quantidade de campos encontrados é diferente do permitido");
-                            _logger.Error(@$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/"));
                             _logger.Error(Constants.ESTOQUE_LOTE);
                         }
 

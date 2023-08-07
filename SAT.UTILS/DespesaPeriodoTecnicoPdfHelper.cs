@@ -78,6 +78,7 @@ namespace SAT.UTILS
                 row.RelativeItem().Column(column =>
                 {
                     column.Item().Text($"Relatório de Despesas").Style(titleStyle);
+                    column.Item().Text($"N° {_impressao.Despesa?.CodDespesaPeriodoTecnico} ").Style(titleStyle);
                     column.Item().Text($"De {_impressao.Despesa?.DespesaPeriodo?.DataInicio.ToString("dd/MM/yyyy")} até {_impressao.Despesa?.DespesaPeriodo?.DataFim.ToString("dd/MM/yyyy")}");
                 });
 

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SAT.MODELS.Entities;
@@ -21,14 +20,14 @@ namespace SAT.API.Controllers
         }
 
         [HttpPost("NovoIncidente")]
-        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public IntegracaoCliente Integrar([FromBody] IntegracaoCliente IntegracaoCliente)
         {
             return _integracaoClienteService.Integrar(IntegracaoCliente);
         }
 
         [HttpPut("AtualizarIncidente")]
-        [ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
+        //[ClaimRequirement(ClaimTypes.Role, "CanEditResource")]
         public IntegracaoCliente Put([FromBody] IntegracaoCliente integracaoCliente)
         {
             return _integracaoClienteService.Atualizar(integracaoCliente);

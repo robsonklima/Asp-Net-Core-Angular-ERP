@@ -56,7 +56,7 @@ namespace SAT.SERVICES.Services
                                 FaturaTranspReEntrega = v.FaturaTranspReEntrega,
                                 DtReEntrega = v.DtReEntrega.HasValue ? v.DtReEntrega.Value.ToString("dd/MM/yy") : " ",
                                 ResponsavelRecebReEntrega = v.ResponsavelRecebReEntrega,
-                                ResponsavelRecebimento = v.ResponsavelRecebReEntrega,
+                                ResponsavelRecebimento = v.ResponsavelRecebimento,
                                 MatResponsavelRecebimento = v.MatResponsavelRecebimento,
                                 BorderoTranspRecebido = v.BorderoTranspRecebido,
                                 BorderoTranspConferido = v.BorderoTranspConferido,

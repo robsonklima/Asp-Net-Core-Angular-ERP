@@ -38,7 +38,10 @@ namespace SAT.SERVICES.Services
                     string[] dados = arquivo.Split('|');
 
                     if (dados.Length != 24)
-                        _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+                        {
+                            _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+                            _logger.Error(Constants.PEDIDOS_PENDENTES);                            
+                        }
 
                     mrpLogix.NumPedido = dados[0].ToString();
                     mrpLogix.DataPedido = DateTime.Parse(dados[1].ToString());
@@ -79,15 +82,18 @@ namespace SAT.SERVICES.Services
             {
                 _mrpLogixEstoqueService.LimparTabela();
 
-                var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);
+                var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);            
 
                 foreach (var arquivo in arquivos)
                 {
                     MRPLogixEstoque mrpLogixEstoque = new();
                     string[] dados = arquivo.Split('|');
 
-                    if (dados.Length != 7)
-                        _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+                    if (dados.Length != 8)
+                        {
+                            _logger.Error("A quantidade de campos encontrados é diferente do permitido");
+                            _logger.Error(Constants.ESTOQUE_LOTE);
+                        }
 
                     mrpLogixEstoque.CodEmpresa = dados[0].ToString();
                     mrpLogixEstoque.CodItem = dados[1].ToString();

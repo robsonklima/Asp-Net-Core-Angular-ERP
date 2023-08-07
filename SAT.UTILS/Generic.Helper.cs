@@ -25,8 +25,8 @@ namespace SAT.UTILS
         {
             try
             {
-                string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input".Replace("\\", "/");
-
+                string path = @$"{System.AppDomain.CurrentDomain.BaseDirectory}Input";
+                
                 if(!Directory.Exists(path))
                     System.IO.Directory.CreateDirectory(path);   
 

@@ -119,9 +119,6 @@ namespace SAT.TASKS
                     if (task.Status != SatTaskStatusConst.PENDENTE)
                         continue;
 
-                    // if (!deveProcessar(task))
-                    //     continue;
-
                     task.DataHoraProcessamento = DateTime.Now;
                     task.Status = SatTaskStatusConst.PROCESSADO;
                     _taskService.Atualizar(task);

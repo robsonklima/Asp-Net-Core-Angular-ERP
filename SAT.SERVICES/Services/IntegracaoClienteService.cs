@@ -31,51 +31,35 @@ namespace SAT.SERVICES.Services
             throw new Exception("Not Implemented");
         }
 
-        public async IntegracaoCliente Integrar(IntegracaoCliente data)
+        public IntegracaoCliente Integrar(IntegracaoCliente data)
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
 
-            try
-            {
-                var equipamento = await _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters
+                 var equipamento = _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters
                 {
                     NumSerie = data.NumSerie,
                     CodClientes = codCliente.ToString(),
                     IndAtivo = 1
                 });
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"{ Constants.INTEGRACAO_ZAFFARI } { "EQUIPAMENTO INVALIDO" }");
-            }
 
-            try
-            {
-                var agenciaDc = data.NumAgencia("/");
-                    if (agenciaDc.Count() < 2)
-                        return null;
+                var agenciaDc = data.NumAgencia.Split("/");
 
                     string agencia = agenciaDc[0];
                     string dc = agenciaDc[1];
 
-                var local = await _localService.ObterPorParametros(new LocalAtendimentoParameters
+                var local = _localService.ObterPorParametros(new LocalAtendimentoParameters
                 {
                     NumAgencia = agencia,
                     DCPosto = dc,
                     CodClientes = codCliente.ToString(),
                     IndAtivo = 1
                 });
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"{ Constants.INTEGRACAO_ZAFFARI } { " AGENCIA INVALIDA" }");
-            }
 
             OrdemServico os = new OrdemServico
             {
                 DefeitoRelatado = data.RelatoCliente,
                 NumOSQuarteirizada = data.Chave,
-                Observacao = data.Observacao,
+                ObservacaoCliente = data.Observacao,
                 CodCliente = codCliente,
 				CodStatusServico = 1,
                 CodTipoIntervencao = 2,
@@ -87,20 +71,20 @@ namespace SAT.SERVICES.Services
                 CodAutorizada = equipamento.CodAutorizada,
                 CodRegiao = equipamento.CodRegiao,
                 CodPosto = local.CodPosto,
-                IndIntegracao = 1
-                IndServico = 1
+                IndIntegracao = 1,
+                IndServico = 1,
                 DataHoraSolicitacao = DateTime.Now,
 				DataHoraCad = DateTime.Now,
 				DataHoraAberturaOS = DateTime.Now,
-				CodUsuarioCad = 'INTEGRACAO_ZAFFARI',
+				CodUsuarioCad = "INTEGRACAO_ZAFFARI",
 				IndStatusEnvioReincidencia = -1,
 				IndRevisaoReincidencia = 1,
 				IndRevOK = null
             };
 
-            OrdemServico retornoOs = await _osService.Criar(os);
+            OrdemServico retornoOs = _osService.Criar(os);
 
-            data.NumIncidentePerto = retornoOs.CodOS;
+            data.NumIncidentePerto = retornoOs.CodOS.ToString();
             data.DataHoraAberturaPerto =  DateTime.Now;
 
             _logger.Info()

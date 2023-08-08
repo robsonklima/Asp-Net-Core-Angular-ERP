@@ -26,7 +26,7 @@ namespace SAT.SERVICES.Services
             {
                 foreach (var chamado in chamados)
                 {
-                    if(chamado.CodCliente == ClienteEnum.ZAFFARI)
+                    if(chamado.CodCliente == 16)
                         await Transmitir(chamado);
                 }    
             }
@@ -56,7 +56,7 @@ namespace SAT.SERVICES.Services
 
                 StringContent content = new StringContent(JsonConvert.SerializeObject(new OrdemServicoZaffari() 
                     {
-                        Number = chamado.CodOS,
+                        Number = chamado.CodOS.ToString(),
                         Opened_at = " ",
                         Opened_by = " ",
                         Caller_id = " ",

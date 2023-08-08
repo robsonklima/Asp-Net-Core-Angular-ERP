@@ -5,6 +5,7 @@ using SAT.SERVICES.Interfaces;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
 using System;
+using System.Linq;
 
 namespace SAT.SERVICES.Services
 {
@@ -35,30 +36,34 @@ namespace SAT.SERVICES.Services
         {
             int codCliente = UTILS.GenericHelper.ObterClientePorChave(data.Chave);
 
-                 var equipamento = _equipContratoService.ObterPorParametros(new EquipamentoContratoParameters
-                {
-                    NumSerie = data.NumSerie,
-                    CodClientes = codCliente.ToString(),
-                    IndAtivo = 1
-                });
+                EquipamentoContrato equipamento = (EquipamentoContrato)_equipContratoService
+                    .ObterPorParametros(new EquipamentoContratoParameters
+                    {
+                        NumSerie = data.NumSerie,
+                        CodClientes = codCliente.ToString(),
+                        IndAtivo = 1
+                    })
+                    .Items.FirstOrDefault();                
 
                 var agenciaDc = data.NumAgencia.Split("/");
 
                     string agencia = agenciaDc[0];
                     string dc = agenciaDc[1];
 
-                var local = _localService.ObterPorParametros(new LocalAtendimentoParameters
+                LocalAtendimento local = (LocalAtendimento)_localService
+                .ObterPorParametros(new LocalAtendimentoParameters
                 {
                     NumAgencia = agencia,
                     DCPosto = dc,
                     CodClientes = codCliente.ToString(),
                     IndAtivo = 1
-                });
+                })
+                .Items.FirstOrDefault();           
 
             OrdemServico os = new OrdemServico
             {
                 DefeitoRelatado = data.RelatoCliente,
-                NumOSQuarteirizada = data.Chave,
+                NumOSCliente = data.NumIncidenteCliente,
                 ObservacaoCliente = data.Observacao,
                 CodCliente = codCliente,
 				CodStatusServico = 1,

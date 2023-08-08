@@ -7,7 +7,7 @@ namespace SAT.MODELS.Entities
 {
     public class LocalAtendimento
     {
-        public int? CodPosto { get; set; }
+        public int CodPosto { get; set; }
         public int CodCliente { get; set; }
         public Cliente Cliente { get; set; }
         public string NomeLocal { get; set; }

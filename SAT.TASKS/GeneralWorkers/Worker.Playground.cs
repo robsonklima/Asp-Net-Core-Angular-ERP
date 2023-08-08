@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using SAT.MODELS.Entities;
+using SAT.MODELS.Entities.Params;
 
 namespace SAT.TASKS
 {
@@ -9,12 +10,16 @@ namespace SAT.TASKS
 
         private async void IniciarPlaygroundAsync()
         {
-            // IEnumerable<OrdemServico> os = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new MODELS.Entities.Params.OrdemServicoParameters { CodOS = "8066747" }).Items;
-            // var task = new SatTask();
 
-            //  await ExecutarZaffariAsync(task, os);
+            var chamadosFechados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
+            {
+                DataFechamentoInicio = DateTime.Now.AddMinutes(-5),
+                DataFechamentoFim = DateTime.Now
+            }).Items;
 
-            ExecutarMRP(new SatTask());
+             await ExecutarZaffariAsync(new SatTask(), chamadosFechados);
+
+            //ExecutarMRP(new SatTask());
         }
     }
 }

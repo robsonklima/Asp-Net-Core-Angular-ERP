@@ -167,7 +167,7 @@ namespace SAT.UTILS
                         t.Span($"{_ordemServico.NumOSCliente}").FontSize(8);
                     });
 
-                    grid.Item(6).Text(t =>
+                    grid.Item(12).Text(t =>
                     {
                         t.Span($"Defeito: ").FontSize(8).Bold();
                         t.Span($"{_ordemServico.DefeitoRelatado}").FontSize(8);
@@ -389,32 +389,35 @@ namespace SAT.UTILS
 
                             foreach (var item in _laudo.Or.RelatoriosAtendimento)
                             {
-                                item?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
+                                if(item.CodRAT == _laudo.CodRAT)
                                 {
-                                    if (f.NomeFoto.Contains("LAUDO") && f.NomeFoto.Contains("ASSINATURA"))
+                                    item?.Fotos.OrderByDescending(f => f.DataHoraCad).ToList().ForEach(f =>
                                     {
-                                        using var client = new HttpClient();
-                                        var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
-                                        grid.Item().Row(gr =>
+                                        if (f.NomeFoto.Contains("LAUDO") && f.NomeFoto.Contains("ASSINATURA"))
                                         {
-                                            gr.RelativeItem(6).Column(gc =>
+                                            using var client = new HttpClient();
+                                            var result = client.GetAsync($"https://sat.perto.com.br/DiretorioE/AppTecnicos/Fotos/{f.NomeFoto}");
+                                            grid.Item().Row(gr =>
                                             {
-                                                switch (f.Modalidade)
+                                                gr.RelativeItem(6).Column(gc =>
                                                 {
-                                                    case "ASSINATURATECNICOLAUDO":
-                                                        gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Técnico\n" + _laudo.Tecnico.Nome).FontSize(8).SemiBold();
-                                                        return;
+                                                    switch (f.Modalidade)
+                                                    {
+                                                        case "ASSINATURATECNICOLAUDO":
+                                                            gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                            gc.Item().AlignCenter().Text("Assinatura Técnico\n" + item.Tecnico.Nome).FontSize(8).SemiBold();
+                                                            return;
 
-                                                    case "ASSINATURACLIENTELAUDO":
-                                                        gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
-                                                        gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
-                                                        return;
-                                                }
+                                                        case "ASSINATURACLIENTELAUDO":
+                                                            gc.Item().Border(0.5f).MaxHeight(150).MaxWidth(150).AlignLeft().Image(result.Result.Content.ReadAsStream(), ImageScaling.FitWidth);
+                                                            gc.Item().AlignCenter().Text("Assinatura Cliente").FontSize(8).SemiBold();
+                                                            return;
+                                                    }
+                                                });
                                             });
-                                        });
-                                    }
-                                });
+                                        }
+                                    });
+                                }
                             }
                         });
                     });

@@ -26,7 +26,8 @@ namespace SAT.SERVICES.Services
             {
                 foreach (var chamado in chamados)
                 {
-                    await Transmitir(chamado);
+                    if(chamado.CodCliente == ClienteEnum.ZAFFARI)
+                        await Transmitir(chamado);
                 }    
             }
             catch (Exception ex)
@@ -55,7 +56,21 @@ namespace SAT.SERVICES.Services
 
                 StringContent content = new StringContent(JsonConvert.SerializeObject(new OrdemServicoZaffari() 
                     {
-                        
+                        Number = chamado.CodOS,
+                        Opened_at = " ",
+                        Opened_by = " ",
+                        Caller_id = " ",
+                        Location = " ",
+                        Priority = " ",
+                        Impact = " ",
+                        Urgency = " ",
+                        Category = " ",
+                        Subcategory = " ",
+                        U_item = " ",
+                        State = " ",
+                        Short_description = " ",
+                        Description = " ",
+                        Comments = "TESTE",
                     }),
                     Encoding.UTF8, Constants.APPLICATION_JSON);
 

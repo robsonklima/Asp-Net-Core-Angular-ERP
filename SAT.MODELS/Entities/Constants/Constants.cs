@@ -191,7 +191,8 @@ namespace SAT.MODELS.Entities.Constants
         public static string COR_CINZA = "#808080";
 
         //Integracoes
-        public static string INT_ZAF_KEY = "f4eb70cb197b81aae231a3ddb1203169ef2a4b300372633078303c5a09dbacb9";
+        //public static string INT_ZAF_KEY = "f4eb70cb197b81aae231a3ddb1203169ef2a4b300372633078303c5a09dbacb9";
+        public static string INT_ZAF_KEY = "12";
 
         //Dicionários
         public static Dictionary<string, string> DICIONARIO_CAMPOS_PLANILHA = new Dictionary<string, string>

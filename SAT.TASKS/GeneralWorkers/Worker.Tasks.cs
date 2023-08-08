@@ -111,7 +111,8 @@ namespace SAT.TASKS
                 var chamados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
                 {
                     DataHoraManutInicio = DateTime.Now.AddMinutes(-5),
-                    DataHoraManutFim = DateTime.Now
+                    DataHoraManutFim = DateTime.Now,
+                    Include = OrdemServicoIncludeEnum.SLA
                 }).Items;
 
                 var chamadosFechados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters

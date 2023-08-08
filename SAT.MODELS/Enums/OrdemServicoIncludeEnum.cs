@@ -18,6 +18,7 @@ namespace SAT.MODELS.Enums
         OS_EXPORTAR = 14,
         OS_EXPORTAR_ZIP = 15,
         ANS = 16,
-        SLA = 17
+        SLA = 17,
+        OS_INTEGRACAO = 18
     }
 }

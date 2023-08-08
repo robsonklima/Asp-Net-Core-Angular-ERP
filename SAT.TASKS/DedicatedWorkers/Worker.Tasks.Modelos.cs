@@ -29,8 +29,11 @@ namespace SAT.TASKS
                         .Items
                         .Count();
                     
-                    _contratoEquipamentoService.Atualizar(contrato);
-                    _logger.Info($"Atualizado contrato { contrato.CodContrato }, { contrato.QtdEquipamentos } equipamentos");
+                    if(contrato.QtdEquipamentos != null)
+                    {
+                        _contratoEquipamentoService.Atualizar(contrato);
+                        _logger.Info($"Atualizado contrato { contrato.CodContrato }, { contrato.QtdEquipamentos } equipamentos");
+                    }
                 }
             }
             catch (Exception ex)

@@ -75,6 +75,7 @@ namespace SAT.SERVICES.Services
             {
                 DefeitoRelatado = data.RelatoCliente,
                 NumOSQuarteirizada = data.Chave,
+                Observacao = data.Observacao,
                 CodCliente = codCliente,
 				CodStatusServico = 1,
                 CodTipoIntervencao = 2,

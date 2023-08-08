@@ -390,7 +390,7 @@ namespace SAT.INFRA.Repository
                                          .ThenInclude(os => os.Peca);
                     break;
 
-                case (OrdemServicoIncludeEnum.INTEGRACAO):
+                case (OrdemServicoIncludeEnum.OS_INTEGRACAO):
                     query = query
                     .Include(os => os.StatusServico);
                     break;

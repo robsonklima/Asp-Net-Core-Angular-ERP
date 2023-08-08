@@ -167,7 +167,7 @@ namespace SAT.UTILS
                         t.Span($"{_ordemServico.NumOSCliente}").FontSize(8);
                     });
 
-                    grid.Item(6).Text(t =>
+                    grid.Item(12).Text(t =>
                     {
                         t.Span($"Defeito: ").FontSize(8).Bold();
                         t.Span($"{_ordemServico.DefeitoRelatado}").FontSize(8);

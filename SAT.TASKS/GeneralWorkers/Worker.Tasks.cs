@@ -114,6 +114,12 @@ namespace SAT.TASKS
                     DataHoraManutFim = DateTime.Now
                 }).Items;
 
+                var chamadosFechados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
+                {
+                    DataFechamentoInicio = DateTime.Now.AddMinutes(-5),
+                    DataFechamentoFim = DateTime.Now
+                }).Items;
+
                 foreach (var task in tasks)
                 {
                     if (task.Status != SatTaskStatusConst.PENDENTE)
@@ -134,7 +140,7 @@ namespace SAT.TASKS
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_ZAFFARI:
-                            await ExecutarZaffariAsync(task, chamados);
+                            await ExecutarZaffariAsync(task, chamadosFechados);
 
                             continue;
                         case (int)SatTaskTipoEnum.INT_MRP:

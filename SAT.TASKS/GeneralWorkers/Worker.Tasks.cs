@@ -195,7 +195,7 @@ namespace SAT.TASKS
 
                             continue;
                         case (int)SatTaskTipoEnum.ATUALIZACAO_OS_CODEQUIP_NULO:
-                            ExecutarMetroSP(task);
+                            ExecutarEquipamentoNulo(task);
 
                             continue;
                         default:

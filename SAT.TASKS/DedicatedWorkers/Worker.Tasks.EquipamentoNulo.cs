@@ -22,7 +22,7 @@ namespace SAT.TASKS
 
                 foreach (OrdemServico chamado in chamados)
                 {
-                    //chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.CodEquipContrato).CodEquip.Value;
+                    chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.CodEquipContrato).CodEquip.Value;
                     
                     _osService.Atualizar(chamado);
                     _logger.Info($"Atualizado chamado { chamado.CodOS }");

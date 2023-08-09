@@ -8,7 +8,7 @@ namespace SAT.MODELS.Enums
         INT_ZAFFARI = 3,
         INT_MRP = 4,
         ATUALIZACAO_PARQUE_MODELO = 5,
-        ANS = 6,
+        ATUALIZACAO_OS_CODEQUIP_NULO = 6,
         COBRA = 7,
         SICOOB = 8,
         SICREDI = 9,
@@ -18,6 +18,8 @@ namespace SAT.MODELS.Enums
         PROTEGE = 13,
         METRO_SP = 14,
         BRB = 15,
-        ADENDO = 16
+        ADENDO = 16,
+        ANS = 17
+
     }
 }

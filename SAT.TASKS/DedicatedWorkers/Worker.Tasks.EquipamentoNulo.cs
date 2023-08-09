@@ -1,6 +1,7 @@
 using SAT.MODELS.Entities;
 using SAT.MODELS.Entities.Constants;
 using SAT.MODELS.Entities.Params;
+using SAT.MODELS.Enums;
 
 namespace SAT.TASKS
 {
@@ -13,7 +14,8 @@ namespace SAT.TASKS
                 var osParams = new OrdemServicoParameters { 
                     CodEquipIsNull = true,
                     CodTipoIntervencaoNotIn = "10,14",
-                    CodEquipContratoIsNotNull = true
+                    CodEquipContratoIsNotNull = true,
+                    Include = OrdemServicoIncludeEnum.OS_INTEGRACAO
                 };
                 
                 var chamados = _osService.ObterPorParametros(osParams).Items;
@@ -22,7 +24,7 @@ namespace SAT.TASKS
 
                 foreach (OrdemServico chamado in chamados)
                 {
-                    chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.CodEquipContrato).CodEquip.Value;
+                    chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.EquipamentoContrato.CodEquipContrato).CodEquip.Value;
                     
                     _osService.Atualizar(chamado);
                     _logger.Info($"Atualizado chamado { chamado.CodOS }");

@@ -21,7 +21,7 @@ namespace SAT.TASKS
 
             //  await ExecutarZaffariAsync(new SatTask(), chamadosFechados);
             
-            ExecutarEquipamentoNulo(new SatTask());
+            ExecutarMRP(new SatTask());
         }
     }
 }

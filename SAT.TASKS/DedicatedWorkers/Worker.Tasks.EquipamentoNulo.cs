@@ -24,10 +24,14 @@ namespace SAT.TASKS
 
                 foreach (OrdemServico chamado in chamados)
                 {
-                    chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.EquipamentoContrato.CodEquipContrato).CodEquip.Value;
                     
-                    _osService.Atualizar(chamado);
-                    _logger.Info($"Atualizado chamado { chamado.CodOS }");
+                    if (chamado.EquipamentoContrato is not null)
+                    {
+                        chamado.CodEquip = _equipamentoContratoService.ObterPorCodigo(chamado.EquipamentoContrato.CodEquipContrato).CodEquip.Value;
+                        
+                        _osService.Atualizar(chamado);
+                        _logger.Info($"{ MsgConst.INI_PROC }, Atualizado chamado { chamado.CodOS }");
+                    }
                 }
             }
             catch (Exception ex)

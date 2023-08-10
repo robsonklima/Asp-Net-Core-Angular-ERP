@@ -32,6 +32,11 @@ namespace SAT.SERVICES.Services
                 
                 var arquivos = GenericHelper.LerDiretorioInput(Constants.PEDIDOS_PENDENTES);
 
+                _logger.Info()
+                .Message("iniciando integração MRP - Pedidos")
+                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
+                .Write();
+
                 foreach (var arquivo in arquivos)
                 {
                     MRPLogix mrpLogix = new();
@@ -67,12 +72,17 @@ namespace SAT.SERVICES.Services
                     mrpLogix.NumSequenciaPed = Double.Parse(dados[21].ToString(), new CultureInfo("en-US"));
                     mrpLogix.Saldo = Double.Parse(dados[22].ToString(), new CultureInfo("en-US"));
 
-                    _mrpLogixService.Criar(mrpLogix);
+                    _mrpLogixService.Criar(mrpLogix);                
                 }
+
+                _loggerlogger.Info()
+                .Message("finalizando integração MRP - Pedidos")
+                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
+                .Write();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ocorreu um erro ao ler o arquivo: " + ex.Message);
+                _logger.Error($"{ ex.Message }");
             }
         }
 
@@ -82,7 +92,12 @@ namespace SAT.SERVICES.Services
             {
                 _mrpLogixEstoqueService.LimparTabela();
 
-                var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);            
+                var arquivos = GenericHelper.LerDiretorioInput(Constants.ESTOQUE_LOTE);       
+
+                _logger.Info()
+                .Message("iniciando integração MRP - Estoque")
+                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
+                .Write();                     
 
                 foreach (var arquivo in arquivos)
                 {
@@ -105,6 +120,11 @@ namespace SAT.SERVICES.Services
 
                     _mrpLogixEstoqueService.Criar(mrpLogixEstoque);
                 }
+
+                _loggerlogger.Info()
+                .Message("finalizando integração MRP - Estoque")
+                .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
+                .Write();                
             }
             catch (Exception ex)
             {

@@ -35,10 +35,12 @@ import { FuseCardModule } from '@fuse/components/card';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ImportacaoArquivoAdendoComponent } from './importacao-arquivo-adendo/importacao-arquivo-adendo.component';
 
 @NgModule({
   declarations: [
     ImportacaoComponent,
+    ImportacaoArquivoAdendoComponent
   ],
   imports: [
     PlanilhaModule,

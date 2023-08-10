@@ -15,7 +15,6 @@ namespace SAT.SERVICES.Services
     public partial class ImportacaoService : IImportacaoService
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
         private Importacao ImportacaoAdendo(Importacao importacao)
         {            
             var usuario = _usuarioService.ObterPorCodigo(_contextAcecssor.HttpContext.User.Identity.Name);

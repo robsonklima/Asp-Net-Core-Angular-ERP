@@ -392,7 +392,8 @@ namespace SAT.INFRA.Repository
 
                 case (OrdemServicoIncludeEnum.OS_INTEGRACAO):
                     query = query
-                    .Include(os => os.StatusServico);
+                    .Include(os => os.StatusServico)
+                    .Include(os => os.EquipamentoContrato);
                     break;
 
                 default:

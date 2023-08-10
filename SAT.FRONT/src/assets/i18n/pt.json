@@ -914,5 +914,7 @@
     "bloquear consulta": "Bloquear Consultar",
     "bloquear criacao": "Bloquear Criação",
     "bloquear edicao": "Bloquear Edição",
-    "bloquear exclusao": "Bloquear Exclusão"
+    "bloquear exclusao": "Bloquear Exclusão",
+    "importação de arquivo": "Importação de Arquivo",
+    "importar de arquivo": "Importar de Arquivo"
 }

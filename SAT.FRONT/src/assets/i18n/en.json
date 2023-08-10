@@ -838,5 +838,7 @@
     "numero serie retirada": "Pending",
     "exportar rats": "Export RATs",
     "exportar implantacoes": "Export Deployments",
-    "exportar laudos": "Export Reports"
+    "exportar laudos": "Export Reports",
+    "importação de arquivo": "File Import",
+    "importar de arquivo": "File Import"
 }

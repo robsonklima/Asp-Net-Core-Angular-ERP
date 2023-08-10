@@ -75,7 +75,7 @@ namespace SAT.SERVICES.Services
                     _mrpLogixService.Criar(mrpLogix);                
                 }
 
-                _loggerlogger.Info()
+                _logger.Info()
                 .Message("finalizando integração MRP - Pedidos")
                 .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
                 .Write();
@@ -121,7 +121,7 @@ namespace SAT.SERVICES.Services
                     _mrpLogixEstoqueService.Criar(mrpLogixEstoque);
                 }
 
-                _loggerlogger.Info()
+                _logger.Info()
                 .Message("finalizando integração MRP - Estoque")
                 .Property("application", Constants.INTEGRACAO_LOGIX_MRP)
                 .Write();                

@@ -198,6 +198,10 @@ namespace SAT.TASKS
                             ExecutarEquipamentoNulo(task);
 
                             continue;
+                        case (int)SatTaskTipoEnum.INT_FALHA_ABERTURA:
+                            ExecutarFalhaAbertura(task);
+                            
+                            continue;                            
                         default:
                             _logger.Error($"{task.Tipo.Nome} nao registrado");
 

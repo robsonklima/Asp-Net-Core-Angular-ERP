@@ -12,16 +12,17 @@ namespace SAT.TASKS
         private async void IniciarPlaygroundAsync()
         {
 
-            // var chamadosFechados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
-            // {
-            //     DataFechamentoInicio = DateTime.Now.AddMinutes(-5),
-            //     DataFechamentoFim = DateTime.Now,
-            //     Include = OrdemServicoIncludeEnum.OS_INTEGRACAO
-            // }).Items;
+            var chamadosFechados = (IEnumerable<OrdemServico>)_osService.ObterPorParametros(new OrdemServicoParameters
+            {
+                DataFechamentoInicio = DateTime.Now.AddMinutes(-1440),
+                DataFechamentoFim = DateTime.Now,
+                CodClientes = "16",
+                Include = OrdemServicoIncludeEnum.OS_INTEGRACAO
+            }).Items;
 
-            //  await ExecutarZaffariAsync(new SatTask(), chamadosFechados);
+             await ExecutarZaffariAsync(new SatTask(), chamadosFechados);
             
-            ExecutarMRP(new SatTask());
+            //ExecutarMRP(new SatTask());
         }
     }
 }

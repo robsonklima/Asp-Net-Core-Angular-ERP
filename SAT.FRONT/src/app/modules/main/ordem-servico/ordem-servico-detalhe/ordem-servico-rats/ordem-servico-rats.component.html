@@ -1,11 +1,16 @@
 <fuse-card class="flex flex-col flex-auto p-6 pt-px w-2/3 mb-2" *ngFor="let r of rats; let i=index;">
-    <div class="flex items-center justify-between mt-5">
+    <div class="flex items-center justify-between mt-5" *transloco="let t">
         <div class="text-xl font-medium">RAT {{ r?.numRAT }}</div>
 
         <div>
             <button mat-icon-button [routerLink]="['/relatorio-atendimento/detalhe/'+ codOS + '/' + r.codRAT]"
             *ngIf="!this.perfilCliente && verificarPermissaoEdicao()" matTooltip="Editar RAT">
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil'">
+                </mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="exportar()" *ngIf="!this.perfilCliente" matTooltip="Imprimir">
+                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'">
                 </mat-icon>
             </button>
         </div>
@@ -139,7 +144,8 @@
                 <div class="col-span-1">{{ peca?.peca?.codMagnus }}</div>
                 <div class="col-span-4">{{ peca?.peca?.nomePeca | uppercase }}</div>
                 <div class="col-span-1 text-center"> {{ peca?.qtdePecas }} </div>
-                <div class="col-span-2 text-right"> {{ peca?.descStatus }}</div>
+                <div *ngIf="detalhe.acao?.codEAcao == '076'" class="col-span-2 text-right"> {{ 'PEÇA TROCADA' }}</div>
+                <div *ngIf="detalhe.acao?.codEAcao != '076'" class="col-span-2 text-right"> {{ peca?.descStatus }}</div>
             </div>
         </div>
     </div>

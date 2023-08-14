@@ -235,6 +235,7 @@ public class ConfigurationIOC
         builder.RegisterType<DocumentoSistemaRepository>().As<IDocumentoSistemaRepository>();
         builder.RegisterType<AdendoRepository>().As<IAdendoRepository>();
         builder.RegisterType<AdendoItemRepository>().As<IAdendoItemRepository>();
+        builder.RegisterType<ImportacaoAdendoRepository>().As<IImportacaoAdendoRepository>();
 
         #endregion
 
@@ -467,6 +468,7 @@ public class ConfigurationIOC
         builder.RegisterType<AdendoService>().As<IAdendoService>();
         builder.RegisterType<AdendoItemService>().As<IAdendoItemService>();
         builder.RegisterType<ImportacaoArquivoService>().As<IImportacaoArquivoService>();
+        builder.RegisterType<ImportacaoAdendoService>().As<IImportacaoAdendoService>();
 
         #endregion
 

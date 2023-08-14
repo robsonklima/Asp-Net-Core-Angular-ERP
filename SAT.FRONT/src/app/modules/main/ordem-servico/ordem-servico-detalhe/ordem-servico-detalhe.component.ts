@@ -81,7 +81,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		private _agendaTecnicoService: AgendaTecnicoService,
 		private _dispBBBloqueioOSService: DispBBBloqueioOSService,
 		private _integracaoCobraService: IntegracaoCobraService,
-		private _exportacaoService: ExportacaoService
 	) {
 		this.userSession = JSON.parse(this._userService.userSession);
 	}
@@ -97,17 +96,6 @@ export class OrdemServicoDetalheComponent implements AfterViewInit {
 		}
 
 		this._cdr.detectChanges();
-	}
-
-	public exportar() {
-		let exportacaoParam: Exportacao = {
-			formatoArquivo: ExportacaoFormatoEnum.PDF,
-			tipoArquivo: ExportacaoTipoEnum.ORDEM_SERVICO,
-			entityParameters: {
-				codOS: this.codOS
-			}
-		}
-		this._exportacaoService.exportar(FileMime.PDF, exportacaoParam);
 	}
 
 	private async obterDados() {

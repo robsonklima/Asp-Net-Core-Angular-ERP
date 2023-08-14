@@ -77,11 +77,6 @@
                             <mat-icon class="icon-size-6" [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
 
                             <mat-menu #menu>
-                                <button *ngIf="!this.perfilCliente" mat-menu-item (click)="exportar()">
-                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:printer'"></mat-icon>
-                                    {{ t('imprimir') }}
-                                </button>
-
                                 <button *ngIf="!this.perfilCliente" mat-menu-item (click)="cancelar()"
                                     [disabled]="verificarPermissaoCancelamento()">
                                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ban'"></mat-icon>
